@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">Wawamko</string>
+
+   <string name="facebookAppId">767199690693917</string>
+
+    <string name="fbLoginProtocolScheme">fb767199690693917</string>
+
+    <string name="keyGoogle">AIzaSyCBCHxCQrkJ-E7IVDenbevK0rQnjR7XLFE</string> <!--PRODUCCION-->
+
+</resources>
