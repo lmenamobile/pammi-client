@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:location/location.dart';
+import 'package:wawamko/src/Models/User.dart';
+import 'package:wawamko/src/Providers/Onboarding.dart';
 
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/TourPage.dart';
@@ -9,6 +13,7 @@ import 'package:wawamko/src/UI/login.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 
 
 class SplashPage extends StatefulWidget {
@@ -61,7 +66,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
-
+      _serviceAccesToken();
       getPermissionGps();
     });
 
@@ -117,6 +122,39 @@ class _SplashPageState extends State<SplashPage> {
 
       // }
     }
+  }
+
+  _serviceAccesToken() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        //utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.generateAccesToken(context);
+        await callUser.then((user) {
+
+          var decodeJSON = jsonDecode(user);
+
+          ResponseAccessToken data = ResponseAccessToken.fromJsonMap(decodeJSON);
+
+          if(data.code.toString() == "100") {
+            // Navigator.pop(context);
+            prefs.accessToken = data.data.accessToken;
+
+
+
+            // Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: HomePage(), duration: Duration(milliseconds: 700)));
+            //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
+          } else {
+            //  Navigator.pop(context);
+          }
+        }, onError: (error) {
+          // Navigator.pop(context);
+
+        });
+      } else {
+        print("you has not internet");
+
+      }
+    });
   }
 
 

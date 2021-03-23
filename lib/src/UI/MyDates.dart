@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
@@ -26,10 +28,12 @@ class _MyDatesPageState extends State<MyDatesPage> {
   final typeDocumentController = TextEditingController();
   final numberIdentityController = TextEditingController();
   final countryController = TextEditingController();
+  var maskFormatter = new MaskTextInputFormatter(mask: '###############', filter: { "#": RegExp(r'[0-9]') });
+
   NotifyVariablesBloc notifyVariables;
 
  // var edit = false;
-GlobalVariables globalVariables = GlobalVariables();
+  GlobalVariables globalVariables = GlobalVariables();
 
 
 @override
@@ -215,18 +219,18 @@ GlobalVariables globalVariables = GlobalVariables();
                     ),
                   ),
                   SizedBox(height: 20),
-                  customTextField("Assets/images/ic_data.png","Nombre", nameController),
+                  customTextField("Assets/images/ic_data.png","Nombre", nameController,TextInputType.text,[]),
                   SizedBox(height: 21),
-                  customTextField("Assets/images/ic_data.png","Apellido", lastNameController),
+                  customTextField("Assets/images/ic_data.png","Apellido", lastNameController,TextInputType.text,[]),
                   SizedBox(height: 21),
-                  customTextField("Assets/images/ic_identity.png","Número de identificación", numberIdentityController),
+                  customTextField("Assets/images/ic_identity.png","Número de identificación", numberIdentityController,TextInputType.number,[]),
                   SizedBox(height: 21),
                    customTextFieldAction("Assets/images/ic_country.png", "País", countryController, (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCountryPage(), duration: Duration(milliseconds: 700)));
                   }),
                   SizedBox(height: 21),
-                  customTextField("Assets/images/ic_telephone.png","Número de telefono", numberIdentityController),
+                  customTextField("Assets/images/ic_telephone.png","Número de telefono", numberIdentityController,TextInputType.number,[maskFormatter]),
                   SizedBox(height: 21),
-                  customTextField("Assets/images/ic_email_blue.png","Email", numberIdentityController),
+                  customTextField("Assets/images/ic_email_blue.png","Email", numberIdentityController,TextInputType.emailAddress,[]),
                   SizedBox(height: 18),
                   !notifyVariables.edit2 ? GestureDetector(
                     child: Row(
@@ -247,7 +251,7 @@ GlobalVariables globalVariables = GlobalVariables();
                         )
                       ],
                     ),
-                    onTap: (){utils.startCustomAlertMessage(context, "¡Espera!", "Assets/images/ic_error2.png", "¿Estas seguro deseas eliminar tu cuenta Wawamko?", (){Navigator.pop(context);});},
+                    onTap: (){utils.startCustomAlertMessage(context, "¡Espera!", "Assets/images/ic_error2.png", "¿Estas seguro deseas eliminar tu cuenta Wawamko?", (){Navigator.pop(context);},(){Navigator.pop(context);});},
                   ) : Container(),
                   // customTextFieldAction("Assets/images/ic_country.png", "País", countryController, (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCountryPage(), duration: Duration(milliseconds: 700)));
                   //}),

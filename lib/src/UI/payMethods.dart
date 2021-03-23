@@ -4,6 +4,7 @@ import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:wawamko/src/UI/addTarjet.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -23,10 +24,12 @@ class _PayMethodsPageState extends State<PayMethodsPage> {
       ),
     );
   }
+
+
   Widget _body(BuildContext context){
     return SingleChildScrollView(
       child: Container(
-        height: MediaQuery.of(context).size.height,
+       // height: MediaQuery.of(context).size.height,
 
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -76,68 +79,118 @@ class _PayMethodsPageState extends State<PayMethodsPage> {
                 ],
               ),
             ),
-            Expanded(
-              child: emptyMethods(),
+            Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 20,left: 20,top: 20),
+                  width: double.infinity,
+                  child: ListView.builder(
+                  padding: EdgeInsets.only(top: 0),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 24,
+                  itemBuilder: (BuildContext context, int index) {
+                    return itemPayMethod();
+
+                  }
+                 )
+                ),
+                SizedBox(height: 30),
+                Padding( padding: EdgeInsets.only(left: 52,right: 52), child: btnCustomRounded(CustomColors.orange, CustomColors.white, Strings.addTarjet,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AddTargetPage(), duration: Duration(milliseconds: 700)));}, context)),
+                SizedBox(height: 30),
+              ],
             )
+          /*  Expanded(
+              child: emptyAdd("Assets/images/ic_payment.png",Strings.dontMethodsPay,Strings.beginShop,Strings.addTarjet,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AddTargetPage(), duration: Duration(milliseconds: 700)));},context),
+            )*/
           ],
         ),
       ),
     );
   }
 
+  Widget itemPayMethod(){
+    return GestureDetector(
+      child: Container(
 
-  Widget emptyMethods(){
-    return Container(
+        margin: EdgeInsets.only(bottom: 10),
+        height: 71,
+        decoration: BoxDecoration(
 
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-       // mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Image(
-            fit: BoxFit.fill,
-            height: 200,
-            width:200,
-            image: AssetImage("Assets/images/ic_payment.png"),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 60,right: 60),
-            child: Column(
+          borderRadius: BorderRadius.all(Radius.circular(21)),
+          border: Border.all(color: CustomColors.gray.withOpacity(.1),width: 1.3),
+          color: CustomColors.white
+
+        ),
+        child: Center(
+          child: Container(
+            margin: EdgeInsets.only(left: 20,right: 20),
+
+            width: double.infinity,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(
-                  Strings.dontMethodsPay,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
+                Image(
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.fill,
+                    image:AssetImage("Assets/images/ic_express.png")
+                ),
+                SizedBox(width: 17),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                          "**** **** **** 3655",
+                        style: TextStyle(
+                          fontFamily: Strings.fontArialBold,
+                          fontSize: 17,
+                          color: CustomColors.blackLetter
+                        ),
+                      ),
+                       Text(
+                          Strings.masterCard,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: CustomColors.purpleOpacity,
+                            fontFamily: Strings.fontArial
+                          ),
 
-                      fontFamily: Strings.fontArialBold,
-                      fontSize: 22,
-                      color: CustomColors.blueGray
 
+                      ),
+                      
+                    ],
                   ),
                 ),
+               GestureDetector(
+                      child: Container(
 
-                SizedBox(height: 5),
-                Text(
-                  Strings.beginShop,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
 
-                      fontFamily: Strings.fontArial,
-                      fontSize: 15,
-                      color: CustomColors.blueGray
+                        child: Image(
 
+                          width:20,
+                          height: 20,
+                          image: AssetImage("Assets/images/ic_garbage.png"),
+                        ),
+                      ),
+                 onTap: (){
+                        utils.startCustomAlertMessage(context, "Eliminar tarjeta", "Assets/images/ic_trash_big.png", "¿Seguro que deseas eliminar este medio de pago?", (){Navigator.pop(context);},(){Navigator.pop(context);});
+                 },
                   ),
-                ),
-                SizedBox(height: 23),
-                btnCustomRounded(CustomColors.orange, CustomColors.white, Strings.addTarjet,(){ Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AddTargetPage(), duration: Duration(milliseconds: 700)));}, context),
-                SizedBox(height: 25),
+                
               ],
             ),
-
-          )
-        ],
+          ),
+        ),
       ),
     );
-
   }
+
+
+
+
 
 }

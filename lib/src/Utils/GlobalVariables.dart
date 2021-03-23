@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'package:event/event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:nacional_licores/src/models/OnboardongModels.dart';
@@ -13,7 +14,7 @@ class GlobalVariables {
   GlobalVariables._internal()  {
 
   }
-
+  String countrySelected = "";
   bool bandLoadingAutocomplete = false;
   double latitude = 0.0;
   double longitude = 0.0;
@@ -27,6 +28,8 @@ class GlobalVariables {
   String tokenVerify = "";
   Map<String,dynamic> userModel;
   String emailRecoverPass = "";
+  var eventRefreshRegister = Event();
+  int cityId;
 
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();

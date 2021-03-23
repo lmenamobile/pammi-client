@@ -10,24 +10,24 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
-class SelectCityPage extends StatefulWidget {
-
-  final States state;
-  SelectCityPage({Key key,this.state}) : super(key: key);
+class StatesPage extends StatefulWidget {
+  final Country country;
+  StatesPage({Key key,this.country}) : super(key: key);
 
   @override
-  _SelectCityPageState createState() => _SelectCityPageState();
+  _StatesPageState createState() => _StatesPageState();
 }
 
-class _SelectCityPageState extends State<SelectCityPage> {
-  final countryController = TextEditingController();
-  bool selected = false;
-  List<City>cities = List();
+class _StatesPageState extends State<StatesPage> {
+
+
+  final searchStateController = TextEditingController();
+  List<States> states = List();
   bool loading = true;
 
   @override
   void initState() {
-    _serviceGetCities("");
+    _sertviceGetStates("");
     super.initState();
   }
 
@@ -44,6 +44,8 @@ class _SelectCityPageState extends State<SelectCityPage> {
       ),
     );
   }
+
+
   Widget _body(BuildContext context){
     return SingleChildScrollView(
       child: Stack(
@@ -75,7 +77,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    Strings.selectCity,
+                    Strings.selectState,
                     style: TextStyle(
                         fontSize: 24,
                         color: CustomColors.blackLetter,
@@ -85,13 +87,13 @@ class _SelectCityPageState extends State<SelectCityPage> {
                   SizedBox(height: 21),
                   boxSearch(context),
                   SizedBox(height: 21),
-                   !this.loading ? this.cities.isEmpty ? Container(  child: Center(child: notifyUser("Assets/images/ic_from_empty.png", Strings.titleAmSorry, Strings.cobertCity),)) : Container(
+                  !this.loading  ?    this.states.isEmpty  ? Container(  child: Center(child: notifyUser("Assets/images/ic_from_empty.png", Strings.titleAmSorry, Strings.cobertCountry),)) : Container(
                     // margin: EdgeInsets.only(left: 23,right: 15),
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.only(top: 0),
-                      itemCount: cities?.length ?? 0,//productsInShopCar.length ?? 0,//this.productsZones?.length ?? 0,
+                      itemCount: states?.length ?? 0,//productsInShopCar.length ?? 0,//this.productsZones?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
 
                         return  AnimationConfiguration.staggeredList(
@@ -100,15 +102,15 @@ class _SelectCityPageState extends State<SelectCityPage> {
                             child: SlideAnimation(
                               verticalOffset: 50.0,
                               child: FadeInAnimation(
-                                  child: itemCity(context, index,this.cities[index])//itemBookings(context, data, _openBookingDetail),
+                                  child: itemState(context, index,this.states[index])//itemBookings(context, data, _openBookingDetail),
                               ),
                             )
                         );
                       },
                     ),
-                  ):Container(),
+                  ) : Container(),
                   SizedBox(height: 37),
-                //  Padding(padding: EdgeInsets.only(left: 50,right: 50), child: btnCustomRounded(CustomColors.blueActiveDots,CustomColors.white,"Continuar",(){Navigator.pop(context);},context)),
+                  //Padding(padding: EdgeInsets.only(left: 50,right: 50), child: btnCustomRounded(CustomColors.blueActiveDots,CustomColors.white,"Continuar",(){Navigator.pop(context);},context)),
                   //SizedBox(height: 73),
                 ],
               ),
@@ -118,124 +120,10 @@ class _SelectCityPageState extends State<SelectCityPage> {
     );
   }
 
-  _serviceGetCities(String search) async {
-
-    utils.checkInternet().then((value) async {
-      if (value) {
-        utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.getCities(context, search, 0, widget.state);
-        await callUser.then((cityResponse) {
-
-          var decodeJSON = jsonDecode(cityResponse);
-          CitiesResponse data = CitiesResponse.fromJsonMap(decodeJSON);
-
-
-          if(data.code.toString() == "100") {
-
-            this.cities = [];
-
-            if (data.data != null){
-              for (var city in data.data.cities){
-                this.cities.add(city);
-              }
-            }
-
-
-
-            Navigator.pop(context);
-            this.loading = false;
-            setState(() {
-
-            });
-
-
-          } else {
-            Navigator.pop(context);
-            this.loading = false;
-
-
-            utils.showSnackBar(context, data.message);
-            setState(() {
-
-            });
-
-          }
-        }, onError: (error) {
-          Navigator.pop(context);
-          this.loading = false;
-
-          utils.showSnackBar(context, Strings.serviceError);
-          setState(() {
-
-          });
-
-
-        });
-      } else {
-        Navigator.pop(context);
-        this.loading = false;
-        utils.showSnackBar(context, Strings.internetError);
-        setState(() {
-
-        });
-
-
-      }
-    });
-  }
-
-
-  _serviceGetCities2(String search) async {
-
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callUser = OnboardingProvider.instance.getCities(context, search, 0, widget.state);
-        await callUser.then((cityResponse) {
-
-          var decodeJSON = jsonDecode(cityResponse);
-          CitiesResponse data = CitiesResponse.fromJsonMap(decodeJSON);
-
-
-          if(data.code.toString() == "100") {
-
-            this.cities = [];
-
-            if (data.data != null){
-              for (var city in data.data.cities){
-                this.cities.add(city);
-              }
-            }
-
-
-            setState(() {
-
-            });
-
-
-          } else {
-
-
-            //utils.showSnackBar(context, data.message);
-
-          }
-        }, onError: (error) {
-
-
-          utils.showSnackBar(context, Strings.serviceError);
-
-
-        });
-      } else {
-
-        utils.showSnackBar(context, Strings.internetError);
-
-
-      }
-    });
-  }
 
   Widget boxSearch(BuildContext context){
     return Container(
+      padding: EdgeInsets.only(left: 10,right: 10),
       height: 47,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -246,16 +134,17 @@ class _SelectCityPageState extends State<SelectCityPage> {
         child: Row(
           children: <Widget>[
             Image(
-              width: 40,
-              height: 40,
-              image: AssetImage(""),
+              width: 20,
+              height: 20,
+              image: AssetImage("Assets/images/ic_seeker.png"),
             ),
+            SizedBox(width: 10,),
             Expanded(
               child: TextField(
                 onChanged: (value){
-                  _serviceGetCities2(value);
+                  _sertviceGetStates2(value);
                 },
-                controller: countryController,
+                controller: searchStateController,
                 style: TextStyle(
                     fontFamily: Strings.fontArial,
                     fontSize: 15,
@@ -279,4 +168,125 @@ class _SelectCityPageState extends State<SelectCityPage> {
     );
 
   }
+
+
+
+
+  _sertviceGetStates(String search) async {
+
+
+
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.getStates(context, search ?? "", 0,widget.country);
+        await callUser.then((countryResponse) {
+
+          var decodeJSON = jsonDecode(countryResponse);
+          StatesResponse data = StatesResponse.fromJsonMap(decodeJSON);
+
+
+          if(data.code.toString() == "100") {
+            this.loading = false;
+
+            this.states = [];
+            if (data.data != null){
+              for (var state in data.data.states){
+                this.states.add(state);
+              }
+            }
+
+
+            setState(() {
+
+            });
+
+            Navigator.pop(context);
+          } else {
+            this.loading = false;
+
+            Navigator.pop(context);
+            setState(() {
+
+            });
+            utils.showSnackBar(context, data.message);
+
+          }
+        }, onError: (error) {
+          this.loading = false;
+          Navigator.pop(context);
+          setState(() {
+
+          });
+          utils.showSnackBar(context, Strings.serviceError);
+
+
+        });
+      } else {
+        this.loading = false;
+        Navigator.pop(context);
+        setState(() {
+
+        });
+        utils.showSnackBar(context, Strings.internetError);
+
+
+      }
+    });
+  }
+
+
+  _sertviceGetStates2(String search) async {
+
+
+
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        //utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.getStates(context, search ?? "", 0,widget.country);
+        await callUser.then((countryResponse) {
+
+          var decodeJSON = jsonDecode(countryResponse);
+         StatesResponse data = StatesResponse.fromJsonMap(decodeJSON);
+
+
+          if(data.code.toString() == "100") {
+
+            this.states = [];
+            for (var state in data.data.states){
+              this.states.add(state);
+            }
+
+            setState(() {
+
+            });
+
+            //Navigator.pop(context);
+          } else {
+
+            //Navigator.pop(context);
+           // utils.showSnackBar(context, data.message);
+
+          }
+        }, onError: (error) {
+
+          //Navigator.pop(context);
+          utils.showSnackBar(context, Strings.serviceError);
+
+
+        });
+      } else {
+        //Navigator.pop(context);
+        utils.showSnackBar(context, Strings.internetError);
+
+
+      }
+    });
+  }
+
+
+
+
 }

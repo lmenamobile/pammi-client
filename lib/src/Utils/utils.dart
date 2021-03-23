@@ -1,21 +1,46 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:credit_card/credit_card_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:wawamko/src/Models/User.dart';
+import 'package:wawamko/src/Utils/ConstansApi.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Widgets/DialogLoading.dart';
+import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
 class _Utils {
 
   final prefs = SharePreference();
+
+
+  Map encryptPwdIv(String value) {
+    var key = cript.Key.fromUtf8(ConstantsApi.key_encrypt);
+    var iv = cript.IV.fromSecureRandom(16);
+    var encrypter = cript.Encrypter(cript.AES(key, mode: cript.AESMode.ctr, padding: null));
+    var iv16 = iv.base16;
+    var encrypted = encrypter.encrypt(value, iv: iv);
+    var encrypted16 = encrypted.base16;
+    Map jsonEncrypted = {
+      'iv': iv16,
+      'encrypted': encrypted16,
+    };
+    print(iv16);
+    print(encrypted16);
+    return jsonEncrypted;
+  }
+
+
+
 
   Future<bool> checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -35,10 +60,6 @@ class _Utils {
     }
     return "a";
   }
-
-
-
-
 
   double getLatitude() {
     var singleton = GlobalVariables();
@@ -75,6 +96,25 @@ class _Utils {
     )..show(context);
   }
 
+
+  Widget showSnackBarGood(BuildContext context,String message){
+    return Flushbar(
+      animationDuration: Duration(milliseconds: 500),
+      margin: EdgeInsets.only(left: 60,right: 60,bottom: 60),
+      borderRadius: 15.0,
+      backgroundColor: CustomColors.greenValid,
+      icon: Padding(
+        padding: const EdgeInsets.only(left: 15),
+        child: Image(
+          width: 40,
+          height: 40,
+          image: AssetImage("Assets/images/ic_correct.png"),
+        ),
+      ),
+      message:  message,
+      duration:  Duration(seconds: 3),
+    )..show(context);
+  }
 
   Widget showSnackBarError(BuildContext context,String message){
     return IgnorePointer(
@@ -213,18 +253,36 @@ class _Utils {
     return price2;
   }
 
-  startCustomAlertMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action){
+  startCustomAlertMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action,Function actionNegative){
     showDialog(
 
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => alertCustomMessage(context,titleAlert,image,textAlert, action)
+        builder: (BuildContext context) => alertCustomMessage(context,titleAlert,image,textAlert, action, actionNegative)
+    );
+  }
+
+  startProgress(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => DialogLoadingAnimated()
+    );
+  }
+
+  startOpenSlideUp(BuildContext context,UserModel userModel) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => ConfirmationSlidePage(userModel: userModel,)
     );
   }
 
 
 
-  Widget alertCustomMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action){
+
+
+  Widget alertCustomMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action,Function actionNegative){
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -279,7 +337,7 @@ class _Utils {
                         children: <Widget>[
                           Container( child: btnCustomRounded(CustomColors.blueProfile, CustomColors.white, "Si", action, context),width: 88,),
                           SizedBox(width: 5),
-                          Container(child: btnCustomRounded(CustomColors.gray2, CustomColors.blackLetter, "No", action, context),width: 88,)
+                          Container(child: btnCustomRounded(CustomColors.gray2, CustomColors.blackLetter, "No", actionNegative, context),width: 88,)
                         ],
                       ),
                     ),

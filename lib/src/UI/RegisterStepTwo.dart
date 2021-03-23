@@ -1,16 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Models/User.dart';
+import 'package:wawamko/src/Providers/Onboarding.dart';
+import 'package:wawamko/src/UI/HomePage.dart';
 
 
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class RegiterStepTwoPage extends StatefulWidget {
+
+  final UserModel user;
+  RegiterStepTwoPage({Key key,this.user}) : super(key: key);
+
   @override
   _RegiterStepTwoPageState createState() => _RegiterStepTwoPageState();
 }
@@ -21,6 +37,10 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPassController = TextEditingController();
+  var maskFormatter = new MaskTextInputFormatter(mask: '###############', filter: { "#": RegExp(r'[0-9]') });
+  NotifyVariablesBloc notifyVariables;
+
+
   bool checkTerms = false;
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
@@ -30,17 +50,19 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        color: CustomColors.blueActiveDots,
-        child: _body(context),
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          color: CustomColors.blueActiveDots,
+          child: _body(context),
+        ),
       ),
     );
   }
 
   Widget _body(BuildContext context){
-  //  final bloc = Provider.ofRegister(context);
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -132,9 +154,11 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                               ),
 
                               children: <Widget>[
-                                customTextField("Assets/images/ic_telephone.png","Número telefónico", phoneController),
+                                customTextField("Assets/images/ic_telephone.png","Número telefónico", phoneController,TextInputType.number,[maskFormatter]),
                                 SizedBox(height: 21),
-                                customBoxEmailRegister(emailController),
+                                customBoxEmailRegister(emailController,notifyVariables,(){setState(() {
+
+                                });}),
                                 SizedBox(height: 21),
                                 customBoxPassword(passwordController),
                                 SizedBox(height: 21),
@@ -281,12 +305,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                   ),
                 ),
                 onTap: (){
-                  Navigator.of(context).push(
-                      PageRouteBuilder(
-                          opaque: false, // set to false
-                          pageBuilder: (_, __, ___) => ConfirmationSlidePage()
-                      ));
-                  print("Registrarme");
+                  _serviceRegister();
                 },
               ),
             ),
@@ -299,6 +318,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
   }
 
   Widget customBoxPassword(TextEditingController passwordController){
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return StreamBuilder(
 
         builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -309,7 +329,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                 //  width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                    border: Border.all(color:  CustomColors.gray.withOpacity(.3) ,width: 1.3),
+                    border: Border.all(color: !notifyVariables.intRegister.validPass ? CustomColors.gray.withOpacity(.3) : CustomColors.blueProfile,width: 1.3),
                     color: CustomColors.white
                 ),
                 child: Center(
@@ -321,7 +341,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                         Image(
                           width: 35,
                           height: 35,
-                          image:AssetImage("Assets/images/ic_padlock_blue.png") ,
+                          image: notifyVariables.intRegister.validPass ? AssetImage("Assets/images/ic_padlock_blue.png") : AssetImage("Assets/images/ic_padlock.png"),
 
                         ),
                         SizedBox(width: 6,),
@@ -349,7 +369,17 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                 hintText: Strings.password,
                               ),
                               onChanged: (value){
-                               // bloc.changePassword(value);
+                              if(validatePwd(value)){
+                                notifyVariables.intRegister.validPass = true;
+                                setState(() {
+
+                                });
+                              }else{
+                                notifyVariables.intRegister.validPass = false;
+                                setState(() {
+
+                                });
+                              }
                               },
                             ),
                           ),
@@ -358,7 +388,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                           child: Image(
                             width: 35,
                             height: 35,
-                            image:obscureTextPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png"),
+                            image: !notifyVariables.intRegister.validPass ? obscureTextPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png") : obscureTextPass ? AssetImage("Assets/images/ic_no_show_blue.png") : AssetImage("Assets/images/ic_show_blue.png"),
                           ),
                           onTap: (){
                             this.obscureTextPass ? this.obscureTextPass = false : this.obscureTextPass = true;
@@ -389,6 +419,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
 
 
   Widget customBoxConfirmPassword(TextEditingController passwordController){
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return StreamBuilder(
 
         builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -399,7 +430,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                 //  width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                    border: Border.all(color:  CustomColors.gray.withOpacity(.3) ,width: 1.3),
+                    border: Border.all(color:notifyVariables.intRegister.validConfirmPass ? CustomColors.blueProfile :  CustomColors.gray.withOpacity(.3) ,width: 1.3),
                     color: CustomColors.white
                 ),
                 child: Center(
@@ -411,7 +442,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                         Image(
                           width: 35,
                           height: 35,
-                          image:AssetImage("Assets/images/ic_padlock_blue.png") ,
+                          image: notifyVariables.intRegister.validConfirmPass  ? AssetImage("Assets/images/ic_padlock_blue.png") : AssetImage("Assets/images/ic_padlock.png"),
 
                         ),
                         SizedBox(width: 6,),
@@ -439,7 +470,17 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                 hintText: Strings.confirmPassword,
                               ),
                               onChanged: (value){
-                               // bloc.changeConfirmPassword(value);
+                               if(validatePwd(value)){
+                                 notifyVariables.intRegister.validConfirmPass = true;
+                                 setState(() {
+
+                                 });
+                               }else{
+                                 notifyVariables.intRegister.validConfirmPass = false;
+                                 setState(() {
+
+                                 });
+                               }
                               },
                             ),
                           ),
@@ -448,7 +489,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                           child: Image(
                             width: 35,
                             height: 35,
-                            image:obscureTextConfirmPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png"),
+                            image:  !notifyVariables.intRegister.validConfirmPass ? obscureTextConfirmPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png")  : obscureTextConfirmPass ? AssetImage("Assets/images/ic_no_show_blue.png") : AssetImage("Assets/images/ic_show_blue.png"),
                           ),
                           onTap: (){
                             this.obscureTextConfirmPass ? this.obscureTextConfirmPass = false : this.obscureTextConfirmPass = true;
@@ -475,6 +516,109 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
         }
     );
 
+  }
+
+  bool _validateEmptyFields(){
+
+
+
+    if(phoneController.text == "" ){
+      utils.showSnackBar(context, Strings.emptyPhone);
+      return true;
+    }
+
+    if(emailController.text == "" ){
+      utils.showSnackBar(context, Strings.emptyEmail);
+      return true;
+    }
+
+    if(passwordController.text == "" ){
+      utils.showSnackBar(context, Strings.passwordEmpty);
+      return true;
+    }
+
+    if(confirmPassController.text == "" ){
+      utils.showSnackBar(context, Strings.emptyConfirmPassword);
+      return true;
+    }
+
+    if(!validateEmail(emailController.text)){
+      utils.showSnackBar(context,Strings.emailInvalid);
+      return true;
+    }
+
+    if(!validatePwd(passwordController.text)){
+      utils.showSnackBar(context,Strings.passwordChallenge);
+      return true;
+    }
+
+    if(confirmPassController.text != passwordController.text){
+      utils.showSnackBar(context, Strings.dontSamePass);
+      return true;
+    }
+
+    if(!checkTerms){
+      utils.showSnackBar(context, Strings.dontCheckTerms);
+      return true;
+    }
+
+
+
+    widget.user.numPhone = phoneController.text;
+    widget.user.email = emailController.text;
+    widget.user.passWord = passwordController.text;
+
+    return false;
+
+  }
+
+  _serviceRegister() async {
+    FocusScope.of(context).unfocus();
+
+    if (_validateEmptyFields()) {
+
+      return;
+    }
+
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.createAccount(context, widget.user);
+        await callUser.then((user) {
+
+          var decodeJSON = jsonDecode(user);
+          ResponseUserinfo data = ResponseUserinfo.fromJsonMap(decodeJSON);
+
+          if(data.code.toString() == "100") {
+
+            var dataUser = data.data.user;
+
+
+           //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
+            Navigator.pop(context);
+            utils.startOpenSlideUp(context,widget.user);
+            //Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
+
+          } else {
+
+            Navigator.pop(context);
+            utils.showSnackBar(context, data.message);
+
+          }
+        }, onError: (error) {
+
+          Navigator.pop(context);
+          utils.showSnackBar(context, Strings.serviceError);
+
+
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+        print("you has not internet");
+
+      }
+    });
   }
 
 

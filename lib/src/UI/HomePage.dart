@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wawamko/src/UI/allCategories.dart';
+import 'package:wawamko/src/UI/listShopCar.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/drawerMenu.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import 'coupons.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -101,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           onTap: (){
-                            print("Shop car");
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ShopCarPage(), duration: Duration(milliseconds: 700)));
                           },
                         ),
                       ],
@@ -141,15 +147,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
 
                         Expanded(
-                          child: Text(
+                          child: GestureDetector(
+                            child: Text(
 
-                            Strings.moreAll,
-                            textAlign:TextAlign.end,
-                            style: TextStyle(
-                                color: CustomColors.orange,
-                                fontSize: 16,
-                                fontFamily: Strings.fontArialBold
+                              Strings.moreAll,
+                              textAlign:TextAlign.end,
+                              style: TextStyle(
+                                  color: CustomColors.orange,
+                                  fontSize: 16,
+                                  fontFamily: Strings.fontArialBold
+                              ),
                             ),
+                            onTap: (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AllCategoriesPage(), duration: Duration(milliseconds: 700)));},
                           ),
                         ),
                       ],
@@ -264,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 physics: BouncingScrollPhysics(),
                 itemCount: 5,
                 itemBuilder: (BuildContext context, int index) {
-                  return itemProduct(false);
+                  return itemProduct(false,context);
                 },
               ),
             ),
@@ -314,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemCount: 3,
 
                       itemBuilder: (BuildContext context, int index) =>
-                      index == 0 ? itemFirsOfertas(context) : itemProduct(true),
+                      index == 0 ? itemFirsOfertas(context) : itemProduct(true,context),
                       staggeredTileBuilder: (int index) =>
                       new StaggeredTile.count(index == 0 ? 3 : 1, index == 0 ? 1.2:1.1),
                       mainAxisSpacing: 34,

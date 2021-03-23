@@ -6,10 +6,14 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/MyOrders.dart';
 import 'package:wawamko/src/UI/dayOferts.dart';
+import 'package:wawamko/src/UI/login.dart';
 import 'package:wawamko/src/UI/profile.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -27,6 +31,7 @@ class DraweMenuPage extends StatefulWidget {
 class _DraweMenuPageState extends State<DraweMenuPage> {
 
  var hideMenu = false;
+ SharePreference _prefs = SharePreference();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +101,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
 
                        itemMenu(context,"Assets/images/ic_featured.png", (){widget.rollOverActive != "featured" ?  pushToPage(FeaturedPage()) :Navigator.pop(context);},Strings.destacados ),
 
-                       itemMenu(context,"Assets/images/ic_news.png", (){},Strings.myOrders ),
+                       itemMenu(context,"Assets/images/ic_news.png", (){widget.rollOverActive != "myOrders" ?  pushToPage(MyOrdersPage()) :Navigator.pop(context);},Strings.myOrders ),
 
                        itemMenu(context,"Assets/images/ic_wishes.png", (){},Strings.wishes ),
 
@@ -106,7 +111,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                        SizedBox(height: 17),
                        Padding(
                          padding: const EdgeInsets.only(left: 39,right: 39),
-                         child: btnCustomRounded(CustomColors.orange, CustomColors.white,Strings.closeSesion, (){},context),
+                         child: btnCustomRounded(CustomColors.orange, CustomColors.white,Strings.closeSesion, (){utils.startCustomAlertMessage(context, Strings.closeSesion, "Assets/images/ic_exit.png", Strings.closeSesionText, (){_prefs.dataUser = "0"; Navigator.pop(context);  Navigator.pop(context); Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInUp, child:LoginPage(), duration: Duration(milliseconds: 700))); }, (){Navigator.pop(context);});},context),
                        ),
                         SizedBox(height: 16),
 
@@ -223,7 +228,9 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                 ),
               ),
             ),
+
             SizedBox(width: 12),
+
             Text(
               titleAction,
               style: TextStyle(

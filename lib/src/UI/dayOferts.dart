@@ -106,7 +106,7 @@ class _DayOferstPageState extends State<DayOferstPage> {
                   itemCount: 20,
 
                   itemBuilder: (BuildContext context, int index) =>
-                      itemProduct(false),
+                      itemProduct(false,context),
                   staggeredTileBuilder: (int index) =>
                   new StaggeredTile.count( 1, index == 0 ? 1.2:1.2),
                   mainAxisSpacing: 28,

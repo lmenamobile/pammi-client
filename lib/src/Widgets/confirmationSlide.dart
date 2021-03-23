@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/VerificationCode.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -9,6 +11,9 @@ import 'package:wawamko/src/Widgets/widgets.dart';
 
 
 class ConfirmationSlidePage extends StatefulWidget {
+
+  final UserModel userModel;
+  ConfirmationSlidePage({Key key,this.userModel}) : super(key: key);
   @override
   _ConfirmationSlidePageState createState() => _ConfirmationSlidePageState();
 }
@@ -72,7 +77,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       ),
                     ),
                     Text(
-                      "¡Katerin!",
+                      "¡"+widget.userModel.name+"!",
                       style: TextStyle(
                           fontSize: 25,
                           fontFamily: Strings.fontArialBold,
@@ -99,8 +104,11 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50,right: 50),
-                      child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.login, (){prefs.dataUser = "1";             Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:MyHomePage(), duration: Duration(milliseconds: 700)));
-                      },context),
+                      child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.verifyCode, (){
+                        Navigator.pop(context);
+                        Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:VerificationCodePage(userModel: widget.userModel,flag: "r",), duration: Duration(milliseconds: 700)));
+
+                        },context),
                     ),
                     SizedBox(height: 20),
                   ],

@@ -1,12 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Models/User.dart';
+import 'package:wawamko/src/Providers/Onboarding.dart';
+import 'package:wawamko/src/UI/ForgotPassWordEmail.dart';
 
 
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/Register.dart';
+import 'package:wawamko/src/UI/VerificationCode.dart';
+import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -20,8 +31,20 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  SharePreference prefs = SharePreference();
+  NotifyVariablesBloc notifyVariables;
 
   var obscureTextPass = true;
+
+  @override
+  void initState() {
+
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +58,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _body(BuildContext context){
 
+  Widget _body(BuildContext context){
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return SingleChildScrollView(
       child: Stack(
         children: <Widget>[
@@ -92,32 +116,47 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                customBoxEmailLogin(emailController),
+                customBoxEmailLogin(emailController,notifyVariables,(){setState(() {
+
+                });}),
                 SizedBox(height: 28),
                 customBoxPassword( passwordController),
                 SizedBox(height: 13),
-                GestureDetector(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    padding: EdgeInsets.only(right: 30,top: 5),
-
-                    child: Text(
-                        Strings.forgotPass,
-                        style: TextStyle(
-                          fontFamily: Strings.fontArial,
-                          fontSize: 12,
-                          color: CustomColors.blackLetter
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(),
                     ),
-                  ),
-                  onTap: (){
-                    print("Forgot Pass");
-                  },
+                    GestureDetector(
+                      child: Container(
+
+
+
+                        alignment: Alignment.topRight,
+                        padding: EdgeInsets.only(right: 30,top: 5),
+
+                        child: Text(
+                            Strings.forgotPass,
+                            style: TextStyle(
+                              fontFamily: Strings.fontArial,
+                              fontSize: 12,
+                              color: CustomColors.blackLetter
+                            ),
+                        ),
+                      ),
+                      onTap: (){
+                        Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ForgotPasswordEmailPage(), duration: Duration(milliseconds: 700)));
+                        print("Forgot Pass");
+
+                      },
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.only(left: 50,right: 50),
-                  child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.login,(){ validateFields(context);},context),
+                  child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.login,(){ _serviceLoginUser();},context),
                 ),
                 SizedBox(height: 22),
                 Text(
@@ -176,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onTap: (){
-                    print("Ref¡gister");
+                    print("Register");
                     Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: RegisterPage(), duration: Duration(milliseconds: 700)));
 
                   },
@@ -192,25 +231,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-  validateFields(BuildContext context){
-    if(this.emailController.text == ""){
-      utils.showSnackBar(context, "Debes ingresar un correo electronico");
-      return;
 
-    }
-
-    if(this.passwordController.text == ""){
-      utils.showSnackBar(context, "Debes ingresar una contraseña");
-      return;
-
-    }
-
-    Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:MyHomePage(), duration: Duration(milliseconds: 700)));
-
-
-  }
 
   Widget customBoxPassword(TextEditingController passwordController){
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -218,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                 //  width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                    border: Border.all(color: CustomColors.gray.withOpacity(.3) ,width: 1.3),
+                    border: Border.all(color: notifyVariables.intLogin.validatePassword ? CustomColors.blueProfile : CustomColors.gray.withOpacity(.3),width: 1.3),
                     color: CustomColors.white
                 ),
                 child: Center(
@@ -230,7 +254,8 @@ class _LoginPageState extends State<LoginPage> {
                         Image(
                           width: 35,
                           height: 35,
-                          image: AssetImage("Assets/images/ic_padlock.png") ,
+                          fit: BoxFit.fill,
+                          image: notifyVariables.intLogin.validatePassword ? AssetImage("Assets/images/ic_padlock_blue.png") : AssetImage("Assets/images/ic_padlock.png"),
 
                         ),
                         SizedBox(width: 6,),
@@ -238,6 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Container(
                             width: 200,
                             child: TextField(
+
                               obscureText:obscureTextPass,
                               controller: passwordController,
                               style: TextStyle(
@@ -255,9 +281,21 @@ class _LoginPageState extends State<LoginPage> {
                                   fontFamily: Strings.fontArial,
 
                                 ),
-                                hintText: Strings.email,
+                                hintText: Strings.password,
                               ),
                               onChanged: (value){
+                                if(validatePwd(value)){
+                                  print("true");
+                                  notifyVariables.intLogin.validatePassword = true;
+                                  setState(() {
+
+                                  });
+                                }else{
+                                  notifyVariables.intLogin.validatePassword = false;
+                                  setState(() {
+
+                                  });
+                                }
                                // bloc.changePassword(value);
                               },
                             ),
@@ -267,7 +305,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Image(
                             width: 35,
                             height: 35,
-                            image:obscureTextPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png"),
+                            image:!notifyVariables.intLogin.validatePassword ?  obscureTextPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png") :  obscureTextPass ? AssetImage("Assets/images/ic_no_show_blue.png") : AssetImage("Assets/images/ic_show_blue.png"),
                           ),
                           onTap: (){
                             this.obscureTextPass ? this.obscureTextPass = false : this.obscureTextPass = true;
@@ -288,6 +326,91 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
+  }
+
+  bool _validateEmptyFields(){
+
+    if(emailController.text == "" || emailController.text == null){
+      utils.showSnackBar(context, Strings.emptyFields);
+      return true;
+    }
+
+    if(passwordController.text == "" || passwordController.text == null){
+      utils.showSnackBar(context, Strings.emptyFields);
+      return true;
+    }
+
+    if(!validateEmail(emailController.text)){
+      utils.showSnackBar(context,Strings.emailInvalid);
+      return true;
+    }
+
+    if(!validatePwd(passwordController.text)){
+      utils.showSnackBar(context,Strings.passwordChallenge);
+      return true;
+    }
+
+    return false;
+
+  }
+
+  _serviceLoginUser() async {
+
+    FocusScope.of(context).unfocus();
+
+    if (_validateEmptyFields()) {
+
+      return;
+    }
+
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.loginUser(context, emailController.text, passwordController.text);
+        await callUser.then((user) {
+
+          var decodeJSON = jsonDecode(user);
+          ResponseUserinfo data = ResponseUserinfo.fromJsonMap(decodeJSON);
+
+          if(data.code.toString() == "100") {
+            Navigator.pop(context);
+
+
+            var dataUser = data.data.user;
+            UserModel userModel = UserModel();
+            userModel.email = data.data.user.email;
+
+            prefs.dataUser = jsonEncode(dataUser);
+            //globalVariables.dataUser = dataUser;
+            prefs.authToken = data.data.authToken;
+
+            if(data.data.user.verifyedAccount){
+              Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
+            }else{
+              Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: VerificationCodePage(userModel: userModel,), duration: Duration(milliseconds: 700)));
+             }
+
+           //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
+          } else {
+
+            Navigator.pop(context);
+            utils.showSnackBar(context, data.message);
+
+          }
+        }, onError: (error) {
+
+          Navigator.pop(context);
+          utils.showSnackBar(context, Strings.serviceError);
+
+
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+        print("you has not internet");
+
+      }
+    });
   }
 
 

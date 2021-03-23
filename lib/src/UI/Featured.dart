@@ -22,7 +22,7 @@ class _FeaturedPageState extends State<FeaturedPage> {
   @override
   void initState() {
    controller.addListener(() {
-      _listener();
+      //_listener();
     });
     // TODO: implement initState
     super.initState();
@@ -150,10 +150,9 @@ class _FeaturedPageState extends State<FeaturedPage> {
                               "Campañas",
 
                               style: TextStyle(
+                                color:this.enableFeature ? CustomColors.blackLetter: CustomColors.blackLetter.withOpacity(.3),
                                 fontSize: 14,
                                 fontFamily: Strings.fontArialBold,
-                                color: !this.enableFeature ? CustomColors.blackLetter: CustomColors.blackLetter.withOpacity(.3),
-
 
                               ),
 
@@ -170,21 +169,60 @@ class _FeaturedPageState extends State<FeaturedPage> {
               ),
             ),
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 0,),
 
           Container(
-
-           height: 400,
-            //width: double.infinity,
-            child: TabbarContent(
+              width: double.infinity,
+              child: TabbarContent(
 
               controller: controller,
 
               children: <Widget>[
 
-                //Container(child: Center(child: Text( position.toString())),),
+                Container(
 
-                //Container(color: Colors.red),
+
+                  margin: EdgeInsets.only(left: 12,right: 12),
+                  padding: EdgeInsets.only(top: 10),
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                    child: StaggeredGridView.countBuilder(
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: 0),
+                      scrollDirection: Axis.vertical,
+                      crossAxisCount: 2,
+                      itemCount: 20,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) =>itemDestacado(context),
+                      staggeredTileBuilder: (int index) =>
+                      new StaggeredTile.count(1,1.2),
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 11,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 20,right: 20),
+                  width: double.infinity,
+
+                  child:  SingleChildScrollView(
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 0),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics:NeverScrollableScrollPhysics(),
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+
+                        return itemBannerCampaign(context);
+
+                      },
+
+
+                    ),
+                  ),
+                )
 
 
               ],
@@ -197,4 +235,8 @@ class _FeaturedPageState extends State<FeaturedPage> {
 
 
   }
+
+
+
+
 }

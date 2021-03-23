@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
+import 'package:wawamko/src/UI/MyAddress.dart';
 import 'package:wawamko/src/UI/MyDates.dart';
+import 'package:wawamko/src/UI/coupons.dart';
 import 'package:wawamko/src/UI/payMethods.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -212,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                              itemProfile(context, "Assets/images/ic_user_Profile.png",Strings.myDates,false,true,false,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:MyDatesPage(), duration: Duration(milliseconds: 700)));}),
                             // SizedBox(height: 32),
 
-                             itemProfile(context, "Assets/images/ic_place.png",Strings.myAddress,true,true,true,(){ Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:MyDatesPage(), duration: Duration(milliseconds: 700)));}),
+                             itemProfile(context, "Assets/images/ic_place.png",Strings.myAddress,true,true,true,(){ Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:MyAddressPage(), duration: Duration(milliseconds: 700)));}),
 
                            ],
                          ),
@@ -223,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                            children: <Widget>[
                              itemProfile(context, "Assets/images/ic_target.png",Strings.methodsPay,false,false,false,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:PayMethodsPage(), duration: Duration(milliseconds: 700)));}),
                          //    SizedBox(height: 32),
-                             itemProfile(context, "Assets/images/discount_big.png",Strings.coupons,true,false,true,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:MyDatesPage(), duration: Duration(milliseconds: 700)));}),
+                             itemProfile(context, "Assets/images/discount_big.png",Strings.coupons,true,false,true,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:CoupondsPage(), duration: Duration(milliseconds: 700)));}),
 
                            ],
                          )

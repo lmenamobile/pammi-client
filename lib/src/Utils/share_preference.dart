@@ -65,6 +65,21 @@ class SharePreference {
     _prefs.setBool('enableTour', value);
   }
 
+  get authToken {
+    return _prefs.getString('authToken') ?? "0";
+  }
+
+  set authToken(String value) {
+    _prefs.setString('authToken', value);
+  }
+
+  get accessToken {
+    return _prefs.getString('accessToken') ?? "0";
+  }
+
+  set accessToken(String value) {
+    _prefs.setString('accessToken', value);
+  }
 
 
 }

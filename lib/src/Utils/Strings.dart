@@ -2,12 +2,19 @@ class Strings {
 
   //Tour
   static const String omitir = 'Omitir';
+  static const String verifyCode = 'Verificar codigo';
   static const String welcome = '¡Bienvenido!';
   static const String welcome2 = 'Bienvenid@';
   static const String welcomeDescription = 'Hemos creado un app donde puedes encontrar los productos de tus marcas favoritas.';
 
   //loGIN
   static const String login = 'Iniciar sesión';
+  static const String titleAmSorry = '¡Lo sentimos!';
+  static const String cobertCountry = 'En este momento no tenemos cobertura en este país';
+  static const String cobertCity = 'En este momento no tenemos cobertura en este estado';
+
+
+  static const String send = 'Enviar';
   static const String textLogin = 'Ingresa tu correo electrónico y \n contraseña';
   static const String email = 'Correo electrónico';
   static const String password= 'Contraseña';
@@ -16,9 +23,17 @@ class Strings {
   static const String connectTo = 'Conéctate con';
   static const String nonCount = '¿No tienes cuenta?';
   static const String register = 'Regístrate';
+  static const String dontCheckTerms = 'Debes aceptar los terminos y condiciones';
+  static const String verification = 'Verificación';
+  static const String sendAgain = 'Volver a enviar';
+
+  static const String verificationMsg = 'Enviamos un código a tu correo,por favor escribe en los siguientes campos';
+
+
 
   //Register
   static const String inputDates = 'Ingresa tus datos personales';
+  static const String selectState = 'Selecciona tu estado';
   static const String textResgister = '¡Disfruta de un acceso rápido a tu historial y un pedido más rápido!';
   static const String AuthorizeDates = 'Autorizo el tratamiento de mis datos personales y declaro que conozco mis derechos';
   static const String sendCode = ' Te hemos enviado un correo electrónico para la verificación del mismo.';
@@ -32,8 +47,22 @@ class Strings {
   static const String vendidos = 'Productos más vendidos';
   static const String findHere = 'Encuentra aquí';
   static const String ofertas = 'Ofertas del día';
+  static const String suggest = 'Sugerencias';
+  static const String infoProd = 'Información del producto';
+  static const String needHelp = '¿Necesitas ayuda?';
+  static const String payNow = 'Pagar ahora';
+  static const String gonnaBuy= 'Seguir comprando';
 
-
+  static const String filter = 'Filtro';
+  static const String marca = 'Marca';
+  static const String price = 'Precio';
+  static const String min = 'Mínimo';
+  static const String max = 'Máximo';
+  static const String type = 'Tipo';
+  static const String addCurrent = 'Agregados recientemente';
+  static const String moreSpend = 'Más vendidos';
+  static const String apply = 'Aplicar';
+  static const String campaigns = 'Campañas';
 
 
 
@@ -86,11 +115,24 @@ class Strings {
   static const String save = 'Guardar';
   static const String infoCard = 'Información de tarjeta';
 
+  static const String questionAddress = '¿Dónde quieres recibir tus productos?';
+  static const String beginAddAddress = 'Empieza a agregar tus direcciones de envío';
+  static const String addAddres = 'Agregar dirección';
+
+  static const String address = 'Dirección';
+  static const String complement = 'Complemento';
+  static const String helpMap = 'Mantén presionado el pin para ajustar tu dirección en el mapa';
+  static const String confirm = 'Confirmar';
+
+  static const String ups = '¡Upps!';
+  static const String masterCard = 'Master Card';
+  static const String emptyCupons = 'En este momento no tienes registro de cupones';
+
+//MyOrders
 
 
-
-
-
+  static const String myOrdersTitle = 'Mis ordenes';
+  static const String ordersComplete = 'Ordenes completadas';
 
 
 
@@ -111,9 +153,37 @@ class Strings {
   static const String notifications = 'Notificaciones';
   static const String supportservices = 'Soporte y servicios';
   static const String closeSesion = 'Cerrar sesión';
+  static const String closeSesionText = '¿Estás seguro de cerrar sesión?';
+
+  static const String shopCar = 'Carrito de compras';
 
 
 
+  static const String  serviceError = 'Ocurrio un error intentalo mas tarde.';
+
+  static const String  internetError = 'No tienes conexion a internet.';
+  static const String  emptyPassword = 'Debes ingresar una contraseña';
+  static const String  emptyConfirmPassword = 'Debes confirmar la contraseña';
+  static const String  passwordNotEquals = 'Las contraseñas no coinciden';
+
+  static const String  emptyEmail = 'Debes ingresar el correo electronico';
+  static const String  passwordEmpty  = 'Debes ingresar la contraseña';
+  static const String  addressEmpty  = 'Debes ingresar una dirección';
+  static const String  emptyFields  = 'Campos incompletos';
+  static const String  emailInvalid = 'El correo electronico no es valido';
+
+  static const String  change  = 'Cambiar';
+
+
+ // validation
+  static const String  emptyName = 'Debes ingresar el nombre';
+  static const String  emptyLastName = 'Debes ingresar el apellido';
+  static const String  emptyTypeDoc = 'Debes ingresar tipo de documento';
+  static const String  emptyNumDoc = 'Debes ingresar el número de documento';
+  static const String  emptyCountry = 'Debes ingresar el país';
+  static const String  emptyPhone = 'Debes ingresar el telefono';
+  static const String  emptyConfirmPass = 'Debes confirmar la contraseña';
+  static const String  dontSamePass = 'Las contraseñas no coinciden';
 
 
 

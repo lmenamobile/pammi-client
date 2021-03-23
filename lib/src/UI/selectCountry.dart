@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:wawamko/src/Models/Country.dart';
+import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/RegisterStepTwo.dart';
 import 'package:wawamko/src/UI/selectCity.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -17,15 +22,26 @@ class SelectCountryPage extends StatefulWidget {
 class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
   bool selected = false;
+  List<Country> countries = List();
+
+
+  @override
+  void initState() {
+    _sertviceGetCountries("");
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height,
-        color: CustomColors.white,
-        child: _body(context),
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          color: CustomColors.white,
+          child: _body(context),
+        ),
       ),
     );
   }
@@ -71,12 +87,14 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                   boxSearch(context),
                   SizedBox(height: 21),
                   Container(
+
                     // margin: EdgeInsets.only(left: 23,right: 15),
                     child: ListView.builder(
+
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.only(top: 0),
-                      itemCount: 9,//productsInShopCar.length ?? 0,//this.productsZones?.length ?? 0,
+                      itemCount: this.countries.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
 
                         return  AnimationConfiguration.staggeredList(
@@ -85,7 +103,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                             child: SlideAnimation(
                               verticalOffset: 50.0,
                               child: FadeInAnimation(
-                                  child: itemCountry(context, index,(){selectItemCountry();})//itemBookings(context, data, _openBookingDetail),
+                                  child: itemCountry(context, index,this.countries[index])//itemBookings(context, data, _openBookingDetail),
                               ),
                             )
                         );
@@ -103,11 +121,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       );
   }
 
-  selectItemCountry(){
-   print("Select Item");
-   Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCityPage(), duration: Duration(milliseconds: 700)));
 
-  }
 
   Widget boxSearch(BuildContext context){
     return Container(
@@ -130,6 +144,9 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             ),
             Expanded(
               child: TextField(
+                onChanged: (value){
+                  _sertviceGetCountries2(value);
+                },
                 controller: countryController,
                 style: TextStyle(
                   fontFamily: Strings.fontArial,
@@ -145,6 +162,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                       fontSize: 15,
                       color: CustomColors.grayLetter
                   )
+
                 ),
               ),
             )
@@ -154,4 +172,109 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
 
   }
+
+
+
+
+
+  _sertviceGetCountries(String search) async {
+
+
+
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.getCountries(context, search ?? "", 0);
+        await callUser.then((countryResponse) {
+
+          var decodeJSON = jsonDecode(countryResponse);
+          CountriesResponse data = CountriesResponse.fromJsonMap(decodeJSON);
+
+
+          if(data.code.toString() == "100") {
+
+          this.countries = [];
+           for (var country in data.data.countries){
+             this.countries.add(country);
+           }
+
+           setState(() {
+
+           });
+
+            Navigator.pop(context);
+          } else {
+
+            Navigator.pop(context);
+            utils.showSnackBar(context, data.message);
+
+          }
+        }, onError: (error) {
+
+          Navigator.pop(context);
+          utils.showSnackBar(context, Strings.serviceError);
+
+
+        });
+      } else {
+        Navigator.pop(context);
+        utils.showSnackBar(context, Strings.internetError);
+
+
+      }
+    });
+  }
+
+
+  _sertviceGetCountries2(String search) async {
+
+
+
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        //utils.startProgress(context);
+        Future callUser = OnboardingProvider.instance.getCountries(context, search ?? "", 0);
+        await callUser.then((countryResponse) {
+
+          var decodeJSON = jsonDecode(countryResponse);
+          CountriesResponse data = CountriesResponse.fromJsonMap(decodeJSON);
+
+
+          if(data.code.toString() == "100") {
+
+            this.countries = [];
+            for (var country in data.data.countries){
+              this.countries.add(country);
+            }
+
+            setState(() {
+
+            });
+
+            //Navigator.pop(context);
+          } else {
+
+            //Navigator.pop(context);
+            utils.showSnackBar(context, data.message);
+
+          }
+        }, onError: (error) {
+
+          //Navigator.pop(context);
+          utils.showSnackBar(context, Strings.serviceError);
+
+
+        });
+      } else {
+        //Navigator.pop(context);
+        utils.showSnackBar(context, Strings.internetError);
+
+
+      }
+    });
+  }
+
+
 }
