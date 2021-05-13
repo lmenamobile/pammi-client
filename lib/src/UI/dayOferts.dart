@@ -12,9 +12,14 @@ class DayOferstPage extends StatefulWidget {
 }
 
 class _DayOferstPageState extends State<DayOferstPage> {
+
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
+      drawer: DraweMenuPage(rollOverActive:"ofertsDay",),
       backgroundColor: CustomColors.grayBackground,
       body: Container(
         width: double.infinity,
@@ -58,11 +63,7 @@ class _DayOferstPageState extends State<DayOferstPage> {
       ),
       ),
       onTap: (){
-      Navigator.of(context).push(
-      PageRouteBuilder(
-      opaque: false, // set to false
-      pageBuilder: (_, __, ___) => DraweMenuPage(rollOverActive: "ofertsDay",)
-      ));
+    _drawerKey.currentState.openDrawer();
       },
       ),
       Expanded(

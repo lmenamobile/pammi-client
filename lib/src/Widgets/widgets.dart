@@ -1,4 +1,5 @@
 
+import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Country.dart';
+import 'package:wawamko/src/Models/Product/CategoryModel.dart';
 import 'package:wawamko/src/UI/ListStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 import 'package:wawamko/src/UI/Register.dart';
+import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/UI/detailProduct.dart';
 import 'package:wawamko/src/UI/selectCity.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -35,7 +39,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,NotifyVariables
     //  width: double.infinity,
       height: 52,
       decoration: BoxDecoration(
-       border: Border.all(color:!notifyVariables.intLogin.validateEmail ? CustomColors.gray.withOpacity(.3) : CustomColors.blueActiveDots ,width: 1.3),
+       border: Border.all(color:!notifyVariables.intLogin.validateEmail ? CustomColors.gray.withOpacity(.3) : CustomColors.blueSplash ,width: 1.3),
        color: CustomColors.white
       ),
       child: Center(
@@ -104,7 +108,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,NotifyVari
           //  width: double.infinity,
           height: 52,
           decoration: BoxDecoration(
-              border: Border.all(color:!notifyVariables.intForPass.validateEmail ? CustomColors.gray.withOpacity(.3) : CustomColors.blueActiveDots ,width: 1.3),
+              border: Border.all(color:!notifyVariables.intForPass.validateEmail ? CustomColors.gray.withOpacity(.3) : CustomColors.blueSplash ,width: 1.3),
               color: CustomColors.white
           ),
           child: Center(
@@ -177,7 +181,7 @@ Widget customBoxEmailRegister(TextEditingController emailController,NotifyVariab
               //  width: double.infinity,
               height: 52,
               decoration: BoxDecoration(
-                  border: Border.all(color: notifyVariables.intRegister.validateEmail ? CustomColors.blueProfile : CustomColors.gray.withOpacity(.3),width: 1.3),
+                  border: Border.all(color: notifyVariables.intRegister.validateEmail ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3),width: 1.3),
                   color: CustomColors.white
               ),
               child: Center(
@@ -247,6 +251,47 @@ Widget customBoxEmailRegister(TextEditingController emailController,NotifyVariab
 
 }
 
+Widget btnCustomRoundedImage(Color backgroungButton,Color textColor, String textButton,Function action,BuildContext context,String image){
+
+  return SpringButton(
+    SpringButtonType.OnlyScale,
+
+    Container(
+      height: 40,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(100)),
+          color: backgroungButton
+      ),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              textButton,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: Strings.fontArial,
+                  color: textColor
+              ),
+            ),
+            SizedBox(width: 8),
+            Image(
+              width: 20,
+              height: 20,
+              image: AssetImage(image),
+            )
+          ],
+        )
+      ),
+    ),
+    onTapUp: (_){
+      action();
+    },
+  );
+}
+
+
 Widget btnCustomRounded(Color backgroungButton,Color textColor, String textButton,Function action,BuildContext context){
 
   return SpringButton(
@@ -275,6 +320,34 @@ Widget btnCustomRounded(Color backgroungButton,Color textColor, String textButto
   );
 }
 
+Widget btnCustomRoundedBorder(Color backgroungButton,Color textColor, String textButton,Function action,BuildContext context,Color colorBorder){
+
+  return SpringButton(
+    SpringButtonType.OnlyScale,
+
+    Container(
+      height: 40,
+      decoration: BoxDecoration(
+          border: Border.all(color:  colorBorder ,width: 1.3),
+          borderRadius: BorderRadius.all(Radius.circular(100)),
+          color: backgroungButton
+      ),
+      child: Center(
+        child: Text(
+          textButton,
+          style: TextStyle(
+              fontSize: 14,
+              fontFamily: Strings.fontArial,
+              color: textColor
+          ),
+        ),
+      ),
+    ),
+    onTapUp: (_){
+      action();
+    },
+  );
+}
 
 
 
@@ -302,6 +375,94 @@ Widget btnCustomSemiRounded(Color backgroungButton,Color textColor, String textB
     ),
     onTapUp: (_){
       action();
+    },
+  );
+}
+
+Widget itemAddress(Address address,Function action,BuildContext context,Function updateAddress){
+  return GestureDetector(
+    child: Container(
+
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(left: 16,right: 16,top: 12,bottom: 12),
+      decoration: BoxDecoration(
+        color: CustomColors.whiteBackGround,
+        border: Border.all(color:  CustomColors.greyBorder ,width: 1.3),
+        borderRadius: BorderRadius.all(Radius.circular(21))
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+
+
+        children: <Widget>[
+          Container(
+            height: 47,
+            width: 49,
+            decoration: BoxDecoration(
+              color: CustomColors.blueProfile.withOpacity(.2),
+              shape: BoxShape.circle
+            ),
+            child: Center(
+              child: Image(
+                width: 25,
+                height: 25,
+                image: AssetImage("Assets/images/ic_location_blue.png"),
+              ),
+            ),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  address.address,
+                  style: TextStyle(
+                    fontFamily: Strings.fontArialBold,
+                    fontSize: 16,
+                    color: CustomColors.darkLetter
+                  ),
+                ),
+                Text(
+                  address.complement,
+                  style: TextStyle(
+                      fontFamily: Strings.fontArial,
+                      fontSize: 16,
+                      color: CustomColors.grayLetter
+                  ),
+                ),
+                Text(
+                  address.name ?? "",
+                  style: TextStyle(
+                      fontFamily: Strings.fontArial,
+                      fontSize: 16,
+                      color: CustomColors.grayLetter
+                  ),
+                )
+              ],
+            ),
+          ),
+          GestureDetector(
+            child: Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("Assets/images/ic_remove.png")
+                )
+              ),
+            ),
+            onTap: (){
+              action();
+            },
+          )
+        ],
+      ),
+    ),
+    onTap: (){
+     updateAddress();
     },
   );
 }
@@ -1093,6 +1254,7 @@ Widget itemHelpCenter(String question,Function action){
        ),
      ),
    ),
+   onTap: (){action();},
  );
 }
 
@@ -1102,7 +1264,8 @@ Widget emptyAdd(String image,String title,String text,String titleButton,Functio
 
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      // mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+
       children: <Widget>[
         Image(
           fit: BoxFit.fill,
@@ -1139,7 +1302,7 @@ Widget emptyAdd(String image,String title,String text,String titleButton,Functio
                 ),
               ),
               SizedBox(height: 23),
-              btnCustomRounded(CustomColors.orange, CustomColors.white, titleButton,(){ action();}, context),
+              btnCustomRounded(CustomColors.blueSplash, CustomColors.white, titleButton,(){ action();}, context),
               SizedBox(height: 25),
             ],
           ),
@@ -1491,7 +1654,7 @@ Widget itemBannerCampaign(BuildContext context){
   );
 }
 
-Widget headerMenu(BuildContext context,String title,String goToPageMenu){
+Widget headerMenu(BuildContext context,String title,GlobalKey<ScaffoldState> _drawerKey){
   return  Container(
     padding: EdgeInsets.only(left: 21,right: 21),
     width: double.infinity,
@@ -1523,11 +1686,7 @@ Widget headerMenu(BuildContext context,String title,String goToPageMenu){
                 ),
               ),
               onTap: (){
-                Navigator.of(context).push(
-                    PageRouteBuilder(
-                        opaque: false, // set to false
-                        pageBuilder: (_, __, ___) => DraweMenuPage(rollOverActive: goToPageMenu,)
-                    ));
+              _drawerKey.currentState.openDrawer();
               },
             ),
           ),
@@ -1642,4 +1801,209 @@ Widget notifyUser(String image,String title,String text){
     ),
   );
 
+}
+Widget textFieldAddress(String hint,String icon,TextEditingController controller,Function action){
+  return Container(
+    width: double.infinity,
+    height: 42.7,
+    padding: EdgeInsets.only(left: 10,right: 10),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(2)),
+        color: CustomColors.grayBackground,
+        border: Border.all(color: CustomColors.greyBorder,width: 1)
+    ),
+    child: Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Image(
+            width: 30,
+            height: 30,
+            image: AssetImage(icon),
+          ),
+          SizedBox(width: 6,),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: TextField(
+                onTap: (){action();},
+                style: TextStyle(
+                    fontFamily: Strings.fontArial,
+                    fontSize: 15,
+                    color: CustomColors.blackLetter
+                ),
+                controller: controller,
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      fontFamily: Strings.fontArial,
+                      fontSize: 15,
+                      color: CustomColors.grayLetter2
+                  ),
+                  hintText: hint,
+                  border: InputBorder.none,
+
+
+                ),
+                cursorColor: CustomColors.blueSplash,
+              ),
+            ),
+          ),
+          SizedBox(width: 6,),
+
+        ],
+      ),
+    ),
+  );
+}
+
+Widget itemInterestCategoryLeft(Category category,Function refreshSelected){
+  return GestureDetector(
+    child: Container(
+      height: 140,
+      width: 140,
+      decoration: BoxDecoration(
+        border: Border(
+
+
+            right: BorderSide(
+              color: Colors.white.withOpacity(.2),
+              width: 1,
+            ),
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(.2),
+              width: 1,
+            ),
+        ),
+
+
+      ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 20),
+            width: double.infinity,
+            child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: category.selected ? HexColor(category.color) : CustomColors.white.withOpacity(.3)
+                ),
+
+            ),
+          ),
+          Positioned(
+            top: 25,
+            left: 50,
+            child: FadeInImage(
+              width: 70,
+              height: 70,
+              image: NetworkImage(category.image),
+              placeholder: AssetImage(""),
+              fit: BoxFit.contain,
+            )
+          ),
+          Container(
+            width: double.infinity,
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(bottom: 10),
+            child: Text(
+              category.category,
+              style: TextStyle(
+                fontFamily: Strings.fontArialBold,
+                fontSize: 16,
+                color: CustomColors.white
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+    onTap: (){
+      print("select category");
+      refreshSelected();
+    },
+  );
+}
+
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}
+
+Widget itemInterestCategoryRight(Category category,Function refreshSelected){
+  //category.color.replaceAll("#", "");
+  //var colorCat = Color(0xff);
+
+  return GestureDetector(
+    child: Container(
+      height: 140,
+      width: 140,
+      decoration: BoxDecoration(
+        border: Border(
+
+          bottom: BorderSide(
+            color: Colors.white.withOpacity(.2),
+            width: 1,
+          ),
+        ),
+
+
+      ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 20),
+            width: double.infinity,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: category.selected ? HexColor(category.color) : CustomColors.white.withOpacity(.3)
+              ),
+
+            ),
+          ),
+          Positioned(
+              top: 25,
+              left: 50,
+              child: FadeInImage(
+                width: 70,
+                height: 70,
+                image: NetworkImage(category.image),
+                placeholder: AssetImage(""),
+                fit: BoxFit.contain,
+              )
+          ),
+          Container(
+            width: double.infinity,
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(bottom: 10),
+            child: Text(
+              category.category,
+              style: TextStyle(
+                  fontFamily: Strings.fontArialBold,
+                  fontSize: 16,
+                  color: CustomColors.white
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+    onTap: (){
+      print("selected");
+      refreshSelected();
+
+    },
+  );
 }

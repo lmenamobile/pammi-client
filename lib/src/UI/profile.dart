@@ -16,9 +16,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
+      drawer: DraweMenuPage(rollOverActive: "profile",),
       backgroundColor: CustomColors.blueProfile,
       body: Container(
         width: double.infinity,
@@ -61,14 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       onTap: (){
-                        Navigator.of(context).push(
-
-
-
-                            PageRouteBuilder(
-                                opaque: false, // set to false
-                                pageBuilder: (_, __, ___) => DraweMenuPage(rollOverActive: "profile")
-                            ));
+                        _drawerKey.currentState.openDrawer();
                       },
                     ),
                     Expanded(

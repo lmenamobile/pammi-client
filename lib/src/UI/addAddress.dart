@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
-
+import 'package:location/location.dart' as loc;
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,32 +9,55 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Models/Address/AddresModel.dart' ;
+import 'package:wawamko/src/Models/Address/GetAddress.dart' as model;
+import 'package:wawamko/src/Models/Address/GetAddress.dart';
+import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/google_place_util.dart';
+import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 
 class AddAddressPage extends StatefulWidget {
+  final flagAddress;
+  model.Address address;
+  AddAddressPage({Key key,this.flagAddress,this.address}) : super(key: key);
   @override
   _AddAddressPageState createState() => _AddAddressPageState();
 }
 
-class _AddAddressPageState extends State<AddAddressPage> {
-  final addresController = TextEditingController();
+class _AddAddressPageState extends State<AddAddressPage> implements GooglePlacesListener {
+
+
   final complementContrroller = TextEditingController();
+  final nameAddressContrroller = TextEditingController();
+  final addressController = TextEditingController();
+
+
   GlobalVariables singleton = GlobalVariables();
   NotifyVariablesBloc notifyVariables;
 
+  GooglePlaces googlePlaces;
+  var location2 = loc.Location();
   LocationData location;
+  var focusNode = FocusNode();
+  var editAddress = false;
+  bool enableGeoCode = false;
+  bool bandLoadingText = false;
   var locationAddress = "";
+  var namePlace = "";
   var lat = 0.0;
   var lon = -0.0;
-
   var latLocation = 0.0;
   var lonLocation = -0.0;
 
+  var cityPlace = "";
 
   var city = '';
+
   GoogleMapController mapController;
   CameraPosition _initialPosition;
 
@@ -76,12 +100,99 @@ class _AddAddressPageState extends State<AddAddressPage> {
     });
   }
 
+
+
+  getPermissionGps() async {
+    loc.Location location = new loc.Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        //openApp();
+        print("OpenApp");
+        return;
+      }
+    }
+
+    if(widget.flagAddress != "update"){
+      _locationData = await location.getLocation();
+      getLocation(_locationData);
+    }
+
+
+
+  }
+
+  void getLocation(LocationData locationData) async {
+    latLocation = locationData.latitude;
+    lonLocation = locationData.longitude;
+
+    singleton.latitude = locationData.latitude;
+    singleton.longitude = locationData.longitude;
+    CameraPosition updateCamera = CameraPosition(
+      //bearing: 192.8334901395799,
+        target: LatLng(latLocation, lonLocation),
+        //tilt: 59.440717697143555,
+        zoom: 16.5);
+
+
+    mapController.moveCamera(CameraUpdate.newCameraPosition(updateCamera));
+
+    setState(() {
+
+    });
+    _geocodeFirstFromCorToAddress();
+
+  }
+
+  loadFieldsAddress(){
+    addressController.text = widget.address.address;
+    complementContrroller.text = widget.address.complement;
+    nameAddressContrroller.text = widget.address.name;
+    latLocation =double.parse(widget.address.latitude);
+    lonLocation =double.parse(widget.address.longitude);
+
+  }
+
   @override
   void initState() {
-    latLocation = singleton.latitude;
-    lonLocation = singleton.longitude;
+    //
+    getPermissionGps();
+    googlePlaces = new GooglePlaces(this);
+    if(widget.flagAddress == "update"){
+
+      loadFieldsAddress();
+    }else{
+
+      latLocation = singleton.latitude;
+      lonLocation = singleton.longitude;
+      _geocodeFirstFromCorToAddress();
+
+    }
+
+
+
+
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 
 
@@ -101,21 +212,188 @@ class _AddAddressPageState extends State<AddAddressPage> {
     );
   }
 
+  openSuggestAddress(){
+    FocusScope.of(context).unfocus();
+    googlePlaces.findPlace(context);
+  }
+
+  Widget boxAddress(){
+    return Container(
+      width: double.infinity,
+      height: 42.7,
+      padding: EdgeInsets.only(left: 10,right: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(2)),
+        color: CustomColors.grayBackground,
+        border: Border.all(color: CustomColors.greyBorder,width: 1)
+      ),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image(
+              width: 25,
+              height: 25,
+              image: AssetImage("Assets/images/ic_location_blue.png"),
+            ),
+            SizedBox(width: 6,),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: TextField(
+                  focusNode: focusNode,
+                  style: TextStyle(
+                    fontFamily: Strings.fontArial,
+                    fontSize: 15,
+                    color: CustomColors.blackLetter
+                  ),
+                  onTap: () {
+                    !editAddress ? openSuggestAddress(): print("is editing");
+                  },
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(
+                        fontFamily: Strings.fontArial,
+                        fontSize: 15,
+                        color: CustomColors.grayLetter2
+                    ),
+                    hintText: Strings.address,
+                    border: InputBorder.none,
+
+
+                  ),
+                  cursorColor: CustomColors.blueSplash,
+                ),
+              ),
+            ),
+            SizedBox(width: 6,),
+            GestureDetector(
+              child: Container(
+                height: 20,
+                child: Text(
+                  Strings.change,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: CustomColors.blackLetter.withOpacity(.6),
+                    fontFamily: Strings.fontArial
+                  ),
+                ),
+              ),
+              onTap: (){
+                FocusScope.of(context).requestFocus(focusNode);
+                editAddress = true;
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  serviceUpdateAddressUser() async {
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+
+
+        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
+        Future callResponse = UserProvider.instance.updateAddress(context, addressController.text ?? "", latLocation.toString(), lonLocation.toString(), complementContrroller.text ?? "", nameAddressContrroller.text,widget.address);
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          ChangeStatusAddressResponse data = ChangeStatusAddressResponse.fromJson(decodeJSON);
+
+          if(data.status) {
+            Navigator.pop(context);
+            Navigator.pop(context,true);
+
+
+          }else{
+            Navigator.pop(context);
+            setState(() {
+
+            });
+            utils.showSnackBarError(context,data.message);
+          }
+
+
+        }, onError: (error) {
+          print("Ocurrio un error: ${error}");
+
+          Navigator.pop(context);
+        });
+      }else{
+
+        utils.showSnackBarError(context,Strings.loseInternet);
+      }
+    });
+  }
 
 
   Widget _body(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return SingleChildScrollView(
-      child: Container(
-        width: double.infinity,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        child: Stack(
+    return  Stack(
           children: <Widget>[
             Positioned(
-              bottom: 0,
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                width: double.infinity,
+                height: 85,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fitWidth,
+                    image: AssetImage("Assets/images/ic_header.png"),
+                  )
+                ),
+                child: Stack(
+                  children: <Widget>[
+
+
+                    Container(
+                      alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(left: 15,top: 5),
+                        child:GestureDetector(
+                          child: Image(
+                            width: 35,
+                            height: 35,
+                            fit: BoxFit.contain,
+                            image: AssetImage("Assets/images/ic_back_w.png"),
+                          ),
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+
+
+                     Container(
+                        alignment: Alignment.topCenter,
+                        margin: EdgeInsets.only(top: 35),
+                        child: Text(
+                          Strings.addAddres,
+                          style: TextStyle(
+                          fontSize: 15,
+                            fontFamily: Strings.fontArialBold,
+                            color: CustomColors.white
+                        ),
+                      ),
+
+                    ),
+
+
+
+
+
+                  ],
+                ),
+              ),
+            ),
+
+            Positioned(
+              top: 85,
               left: 0,
               right: 0,
               child: Container(
@@ -123,7 +401,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                 height: MediaQuery
                     .of(context)
                     .size
-                    .height * 0.6,
+                    .height * 0.5,
                 child: Stack(
                   children: <Widget>[
                     _map(context),
@@ -146,23 +424,54 @@ class _AddAddressPageState extends State<AddAddressPage> {
                       ),
                     ),
                     notifyVariables.showHelpMap ? Positioned(
-                      bottom: 94,
+                      top: 50,
                       right: 50,
                       left: 50,
                       child: helperMap(),
                     ) : Container(),
-                    Positioned(
+                    /*Positioned(
                       bottom: 22,
                       left: 60,
                       right: 60,
                       child: btnConfirmAddress(
                           CustomColors.blueProfile, CustomColors.white,
                           Strings.confirm, () {_searchLocationByCoordinates(); }, context),
-                    )
+                    )*/
                   ],
                 ),
               ),
             ),
+           Positioned(
+             left: 0,
+             right: 0,
+             bottom: 0,
+             child: Container(
+               width: double.infinity,
+               padding: EdgeInsets.only(left: 21,right: 21,top: 24,bottom: 24),
+               decoration: BoxDecoration(
+                 color: CustomColors.white,
+                 borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20))
+               ),
+               child: Column(
+                  children: <Widget>[
+                    boxAddress(),
+                    SizedBox(height: 18.5),
+                    textFieldAddress(Strings.complement,"Assets/images/ic_complement.png" ,complementContrroller,(){ editAddress= false;}),
+                    SizedBox(height: 18.5),
+                    textFieldAddress(Strings.nameAddress,"Assets/images/ic_name_address.png" ,nameAddressContrroller,(){ editAddress= false;}),
+                    SizedBox(height: 18.5),
+                    Padding(
+                      padding: EdgeInsets.only(left: 70,right: 70),
+                      child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white,widget.flagAddress == "update" ? Strings.updateAddressButton : Strings.addAddres, (){widget.flagAddress == "update" ? serviceUpdateAddressUser() : serviceAddAddressUser();}, context),
+                    ),
+                    SizedBox(height: 12),
+                  ],
+               ),
+             ),
+           )
+
+
+           /*
             Column(
               children: <Widget>[
                 SizedBox(height: 30),
@@ -176,51 +485,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      Container(
 
-                        height: 74,
-                        width: double.infinity,
 
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                              left: 20,
-                              top: 20,
-                              child: GestureDetector(
-                                child: Image(
-                                  width: 30,
-                                  height: 30,
-                                  image: AssetImage(
-                                      "Assets/images/ic_blue_arrow.png"),
-
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-
-                            Center(
-                              child: Container(
-                                //alignment: Alignment.center,
-
-                                child: Text(
-                                  Strings.myAddress,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-
-                                      fontSize: 15,
-                                      fontFamily: Strings.fontArialBold,
-                                      color: CustomColors.blackLetter
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 31),
                       Container(
                         width: double.infinity,
 
@@ -255,13 +521,14 @@ class _AddAddressPageState extends State<AddAddressPage> {
 
               ],
             ),
+            */
 
 
           ],
-        ),
 
 
-      ),
+
+
     );
   }
 
@@ -429,12 +696,32 @@ class _AddAddressPageState extends State<AddAddressPage> {
     return GoogleMap(
       mapType: MapType.normal,
       onCameraMove: (CameraPosition camerapos) {
+        print("Move Camera");
+        FocusScope.of(context).unfocus();
+        this.editAddress = false;
+        //this.showHelpMap = false;
         lat = camerapos.target.latitude;
         lon = camerapos.target.longitude;
+        latLocation = camerapos.target.latitude;
+        lonLocation = camerapos.target.longitude;
+
+        print("Lat ${latLocation})");
+        print("Lng ${lonLocation}");
+
+        // _geocodeFromCorToAddress();
+
       },
       onCameraIdle: () {
+        print("Iddle camera");
+        setState(() {
+          if(enableGeoCode){
+            bandLoadingText = true;
+          }
+        });
         _geocodeFromCorToAddress();
+        enableGeoCode = true;
       },
+
       initialCameraPosition: CameraPosition(target: LatLng(latLocation, lonLocation),zoom: 16.5),
       compassEnabled: true,
       rotateGesturesEnabled: false,
@@ -444,16 +731,18 @@ class _AddAddressPageState extends State<AddAddressPage> {
       myLocationEnabled: false,
       onMapCreated: (controller) {
         setState(() {
+
           mapController = controller;
+
         });
       },
     );
   }
 
   _searchLocationByCoordinates() async {
-    print("Query"+addresController.text);
+    print("Query"+addressController.text);
     //final coordinates = new Coordinates(lat, lon);
-    var addresses = await Geocoder.local.findAddressesFromQuery(addresController.text);
+    var addresses = await Geocoder.local.findAddressesFromQuery(addressController.text);
 
     var result = addresses.first;
     latLocation = result.coordinates.latitude;
@@ -468,25 +757,165 @@ class _AddAddressPageState extends State<AddAddressPage> {
 
   }
 
+  bool _validateFields(){
+    if(this.addressController.text == ""){
+      utils.showSnackBar(context,Strings.emptyAddress);
+      return false;
+    }
+    if(this.complementContrroller.text == ""){
+      utils.showSnackBar(context,Strings.emptyComplement);
+      return false;
+    }
+
+    if(this.nameAddressContrroller.text == ""){
+      utils.showSnackBar(context,Strings.emptyNameAddress);
+      return false;
+    }
+
+    return true;
+  }
+
+  serviceAddAddressUser() async {
+
+    if(!_validateFields()){
+      return;
+    }
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+
+
+        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
+        Future callResponse = UserProvider.instance.addAddress(context,this.addressController.text, this.latLocation.toString(), this.lonLocation.toString(),complementContrroller.text ?? "",nameAddressContrroller.text ?? "");
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          AddressResponse data = AddressResponse.fromJson(decodeJSON);
+          if(data.status) {
+            Navigator.pop(context);
+            Navigator.pop(context,true);
+
+
+          }else{
+            Navigator.pop(context);
+            utils.showSnackBarError(context,data.message);
+          }
+
+
+        }, onError: (error) {
+          print("Ocurrio un error: ${error}");
+          Navigator.pop(context);
+        });
+      }else{
+        utils.showSnackBarError(context,Strings.loseInternet);
+      }
+    });
+  }
+
   //Geocode the coordinates to address
-  void _geocodeFromCorToAddress() async {
-    final coordinates = new Coordinates(lat, lon);
+  void _geocodeFromCorToAddress() async{
+    if(enableGeoCode){
+      final coordinates = new Coordinates(lat, lon);
+      var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      var result = addresses.first;
+      locationAddress = result.addressLine;
+      var pos = locationAddress.indexOf(',');
+      locationAddress = locationAddress.substring(0,pos);
 
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(
-        coordinates);
+      city = result.locality;
+      //var arrayName = result.
+      namePlace = result.thoroughfare;
+      latLocation = result.coordinates.latitude;
+      lonLocation = result.coordinates.longitude;
+      print("Result: ${result.addressLine} ");
 
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        setState(() {
+          addressController.text = locationAddress;
+
+          bandLoadingText = false;
+        });
+      });
+      setState(() {
+      });
+    }
+  }
+
+  void _geocodeFirstFromCorToAddress() async{
+    // if(enableGeoCode){
+    final coordinates = new Coordinates(latLocation, lonLocation);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var result = addresses.first;
     locationAddress = result.addressLine;
     var pos = locationAddress.indexOf(',');
-    locationAddress = locationAddress.substring(0, pos);
+    locationAddress = locationAddress.substring(0,pos);
+
     city = result.locality;
+    //var arrayName = result.
+    namePlace = result.thoroughfare;
+    latLocation = result.coordinates.latitude;
+    lonLocation = result.coordinates.longitude;
+    print("Result: ${result.addressLine} ");
+
     Future.delayed(const Duration(milliseconds: 1500), () {
       setState(() {
-       // addresController.text = city;
-        addresController.text = locationAddress;
+        addressController.text = locationAddress;
+
         //bandLoadingText = false;
       });
     });
-    setState(() {});
+
+    setState(() {
+    });
+
   }
+
+  @override
+  selectedLocation(double lat, double lng, String address, String name, String photoReference) {
+    setState(() {
+      print("____________________!!!!");
+
+      locationAddress = address;
+      if(lat != 0.0 && lng != 0.0 && address!=''){
+
+
+        //  allMarkers.clear();
+        //Se adiciona marcador de destino que se selecciono en autocomplete
+        // _addMarkerPositionGps(LatLng(lat, lng));
+        int indexChar = address.indexOf(",");
+        //var addressTitle = address.replaceRange(indexChar, address.length, "");
+        var addressSubtitle = address.replaceRange(0, indexChar + 2, "");
+        //photoPlace = photo;
+        addressController.text = name+" "+cityPlace;
+        namePlace = name;
+        cityPlace = addressSubtitle;
+        city = cityPlace;
+
+
+
+
+        print(namePlace+"city"+cityPlace);
+
+
+
+        latLocation=lat;
+        lonLocation=lng;
+
+        print("Lat ${latLocation})");
+        print("Lng ${lonLocation}");
+        enableGeoCode = false;
+        FocusScope.of(context).unfocus();
+        mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(latLocation, lonLocation),
+          //bearing: location.heading,
+          zoom: 16.5,
+          tilt: 37.0,
+        )));
+        //photoReferencePlace = photoReference;
+        //visibilityItemMap=true;
+      }
+    });
+  }
+
+
 }

@@ -174,7 +174,7 @@ class OnboardingProvider {
 
     print("Parameters createAccount ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"onboarding/create-account",headers: header,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(ConstantsApi.baseURL+"onboarding/create-account",headers: header,body: body).timeout(Duration(seconds: 10))
         .catchError((value){
 
       throw Exception(value);

@@ -6,6 +6,7 @@ import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/Register.dart';
 import 'package:wawamko/src/UI/UpdatePassword.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -51,11 +52,12 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
         children: <Widget>[
           GestureDetector(
             child: Container(
-              alignment: Alignment.topRight,
+              margin: EdgeInsets.only(left: 20,top: 10),
+              alignment: Alignment.topLeft,
               child: Image(
-                width: 80,
-                height: 80,
-                image: AssetImage("Assets/images/ic_arrow_menu.png"),
+                width: 50,
+                height: 50,
+                image: AssetImage("Assets/images/ic_back.png"),
               ),
             ),
             onTap: (){
@@ -67,21 +69,21 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
             margin: EdgeInsets.only(top: 185),
             child: Image(
 
-              image: AssetImage("Assets/images/ic_curves.png"),
+              image: AssetImage("Assets/images/ic_shape.png"),
               //fit: BoxFit.fill,
 
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 29,top: 50),
+            margin: EdgeInsets.only(left: 29,top: 40),
             child: Image(
-              width: 80,
-              height: 80,
-              image: AssetImage("Assets/images/ic_logo_l.png"),
+              width: 110,
+              height: 110,
+              image: AssetImage("Assets/images/ic_logo_login.png"),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 140,left: 29,right: 90),
+            padding: const EdgeInsets.only(top: 130,left: 29,right: 90),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -111,7 +113,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(top: 340),
+            padding: const EdgeInsets.only(top: 350),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -151,7 +153,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                       style: TextStyle(
                         fontSize: 18,
                         fontFamily: Strings.fontArial,
-                        color: CustomColors.blueProfile,
+                        color: CustomColors.redTour,
                         decoration: TextDecoration.underline
                       ),
                     ),
@@ -163,7 +165,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                 SizedBox(height: 24),
                 Padding(
                   padding: EdgeInsets.only(left: 85,right: 85),
-                  child: btnCustomRounded(CustomColors.blueProfile, CustomColors.white, Strings.send,(){_serviceVerifyCode();}, context),
+                  child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.send,(){_serviceVerifyCode();}, context),
                 ),
                 SizedBox(height: 24),
               ],
@@ -213,7 +215,8 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
             Navigator.pop(context);
             switch (widget.flag){
               case 'r':
-                Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
+                Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:InterestCategoriesUser(), duration: Duration(milliseconds: 700)));
+                //Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
                 break;
               case 'p':
                 Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: UpdatePasswordPage(), duration: Duration(milliseconds: 700)));

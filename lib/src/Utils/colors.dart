@@ -15,6 +15,11 @@ class CustomColors {
   static final gray = const Color(0xff888888);
   static final gray2 = const Color(0xffEDEDED);
   static final greenValid = const Color(0xff64D38C);
+  static final blueSplash = const Color(0xff07213E);
+  static final blueDarkSplash = const Color(0xff0D0D0D);
+  static final redTour = const Color(0xffE73638);
+
+  static final grayLetter2 = const Color(0xffA0A0A0);
 
 
 
@@ -27,6 +32,8 @@ class CustomColors {
   static final blueGray = const Color(0xff525252);
   static final blueCian = const Color(0xff274A5D);
   static final purpleLetter = const Color(0xff787994);
+
+
 
   //____
   static final blueActiveDots = const Color(0xff168DD8);
@@ -52,6 +59,8 @@ class CustomColors {
   static final des1 = const Color(0xffF4F7FF);
   static final des2 = const Color(0xffFEF7E4);
   static final des3 = const Color(0xffFBEFEF);
+  static final greyBorder = const Color(0xffE6E6E6);
+  static final greyBackground = const Color(0xffFCFCFC);
 
 
 

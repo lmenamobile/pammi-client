@@ -42,6 +42,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
 
 
   bool checkTerms = false;
+  bool checkDates = false;
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
 
@@ -54,7 +55,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
-          color: CustomColors.blueActiveDots,
+          color: CustomColors.white,
           child: _body(context),
         ),
       ),
@@ -63,56 +64,78 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
 
   Widget _body(BuildContext context){
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 107,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                left:0,
+                right: 0,
+                top: 0,
+                child: Image(
 
-            decoration: BoxDecoration(
-                color: CustomColors.white,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50),bottomRight: Radius.circular(50))
-            ),
-            child: Stack(
-              children: <Widget>[
-                GestureDetector(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Image(
-                      width: 80,
-                      height: 80,
-                      image: AssetImage("Assets/images/ic_arrow_menu.png"),
-                    ),
+                  fit: BoxFit.fitWidth,
+                  image: AssetImage("Assets/images/ic_header_signup.png"),
+                ),
+
+
+              ),
+              Positioned(
+                top: 15,
+                left: 15,
+
+                child:  GestureDetector(
+                  child: Image(
+                    image: AssetImage("Assets/images/ic_back_w.png"),
+                    width: 40,
+                    height: 40,
                   ),
                   onTap: (){
                     Navigator.pop(context);
                   },
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 29,top: 50),
-                  child: Image(
-                    width: 80,
-                    height: 80,
-                    image: AssetImage("Assets/images/ic_logo_l.png"),
+
+
+              ),
+              Container(
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.only(top: 25),
+                child: Text(
+                  Strings.register,
+                  style: TextStyle(
+                      fontFamily: Strings.fontArial,
+                      fontSize: 18,
+                      color: CustomColors.white
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 140,left: 29),
+              ),
+
+            ],
+          ),
+        ),
+        Positioned(
+          top: 110,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(top: 10),
+            child: Column(
+              children: <Widget>[
+                  Padding(
+                  padding: const EdgeInsets.only(top: 17,left: 29),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: <Widget>[
-                      Text(
-                        Strings.welcome,
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontFamily: Strings.fontArial,
-                            fontSize: 15,
-                            color: CustomColors.blackLetter
-                        ),
-                      ),
+
                       SizedBox(height: 6,),
                       Text(
-                        Strings.register,
+                        Strings.createAccount,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: Strings.fontArialBold,
@@ -122,7 +145,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                       ),
                       SizedBox(height: 6,),
                       Text(
-                        Strings.inputDates  ,
+                        Strings.registerMsg,
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontFamily: Strings.fontArial,
@@ -131,16 +154,6 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                         ),
                       ),
                       SizedBox(height: 10,),
-                      Text(
-                        Strings.textResgister,
-                        style: TextStyle(
-                            fontFamily: Strings.fontArial,
-                            fontSize:14,
-                            color: CustomColors.blackLetter
-                        ),
-                      ),
-                      SizedBox(height: 38),
-
                       Padding(
                         padding: const EdgeInsets.only(left: 6,right: 35),
                         child: Column(
@@ -176,16 +189,81 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                             )
                         ),
                       ),
-                      SizedBox(height: 17),
+                      SizedBox(height: 5),
                       Padding(
                         padding: EdgeInsets.only(left: 6,right: 18),
                         child: Text(
-                          Strings.AuthorizeDates,
+                          Strings.challengePassword,
                           style: TextStyle(
-                            fontFamily: Strings.fontArial,
-                            fontSize: 14,
-                            color: CustomColors.blackLetter
+                              fontFamily: Strings.fontArial,
+                              fontSize: 10,
+                              color: CustomColors.grayLetter2
                           ),
+                        ),
+                      ),
+
+
+                      Padding(
+                        padding: const EdgeInsets.only(right: 17,top: 30),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            checkDates ? GestureDetector(
+                              child: Container(
+                                width:30,
+                                height: 30,
+
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage("Assets/images/ic_check2.png")
+                                    )
+                                  //border: Border.all(color:  CustomColors.blueActiveDots ,width: 1),
+
+                                ),
+                              ),
+                              onTap: (){
+                                this.checkDates = false;
+                                print("true");
+                                setState(() {
+
+                                });
+                              },
+                            ) : GestureDetector(
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage("Assets/images/ic_check.png")
+                                    )
+                                  //border: Border.all(color:  CustomColors.blueActiveDots ,width: 1),
+
+                                ),
+                              ),
+                              onTap: (){
+                                this.checkDates = true;
+                                print("False");
+                                setState(() {
+
+                                });
+                              },
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                                child:  Text(
+                                  Strings.AuthorizeDates,
+                                  style: TextStyle(
+                                      fontFamily: Strings.fontArial,
+                                      fontSize: 14,
+                                      color: CustomColors.blackLetter
+                                  ),
+                                ),
+                            )
+                          ],
                         ),
                       ),
                       SizedBox(height: 21),
@@ -196,18 +274,18 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                           children: <Widget>[
                             checkTerms ? GestureDetector(
                               child: Container(
-                                width: 18,
-                                height: 18,
+                                  width:30,
+                                  height: 30,
 
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage("Assets/images/ic_approved_blue.png")
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage("Assets/images/ic_check2.png")
+                                      )
+                                    //border: Border.all(color:  CustomColors.blueActiveDots ,width: 1),
+
                                   )
-                                  //border: Border.all(color:  CustomColors.blueActiveDots ,width: 1),
-
-                                ),
                               ),
                               onTap: (){
                                 this.checkTerms = false;
@@ -218,13 +296,18 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                               },
                             ) : GestureDetector(
                               child: Container(
-                                width: 18,
-                                height: 18,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                  border: Border.all(color:  CustomColors.blueActiveDots ,width: 1),
+                                  width:30,
+                                  height: 30,
 
-                                ),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage("Assets/images/ic_check.png")
+                                      )
+                                    //border: Border.all(color:  CustomColors.blueActiveDots ,width: 1),
+
+                                  )
                               ),
                               onTap: (){
                                 this.checkTerms = true;
@@ -255,7 +338,9 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
 
                                           text: "Terminos y condiciones",
                                           style: TextStyle(
-                                              fontFamily: Strings.fontArial, color: CustomColors.blueActiveDots, decoration: TextDecoration.underline)
+                                              fontFamily: Strings.fontArial, color: CustomColors.blueActiveDots, decoration: TextDecoration.underline),
+                                        recognizer: TapGestureRecognizer() ..onTap = () => launch("https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Clientes_Terminos+y+condiciones.pdf"),
+
                                       ),
 
                                       TextSpan(
@@ -269,7 +354,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                         text: " Política de privacidad",
                                         style: TextStyle(
                                             fontFamily: Strings.fontArial,color: CustomColors.blueActiveDots, decoration: TextDecoration.underline),
-                                        recognizer: TapGestureRecognizer() ..onTap = () => launch("URL"),
+                                        recognizer: TapGestureRecognizer() ..onTap = () => launch("https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Cliente_Politica_De_Tratamiento_De_Datos_Personales.pdf"),
                                       ),
 
                                     ],
@@ -288,31 +373,19 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                   ),
                 ),
 
+                SizedBox(height: 12),
 
+
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20,left: 80,right: 80),
+                  child: btnCustomRoundedImage(CustomColors.blueSplash, CustomColors.white, Strings.next, (){ _serviceRegister();}, context,"Assets/images/ic_next.png"),
+                )
               ],
             ),
           ),
-          SizedBox(height: 12),
-          Center(
-            child: Container(
-              child: GestureDetector(
-                child: Text(
-                  "Registrarme",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: Strings.fontArial,
-                      color: CustomColors.white
-                  ),
-                ),
-                onTap: (){
-                  _serviceRegister();
-                },
-              ),
-            ),
-          ),
-          SizedBox(height: 12),
-        ],
-      ),
+        ),
+      ],
+
     );
 
   }
@@ -329,7 +402,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                 //  width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                    border: Border.all(color: !notifyVariables.intRegister.validPass ? CustomColors.gray.withOpacity(.3) : CustomColors.blueProfile,width: 1.3),
+                    border: Border.all(color: !notifyVariables.intRegister.validPass ? CustomColors.gray.withOpacity(.3) : CustomColors.blueSplash,width: 1.3),
                     color: CustomColors.white
                 ),
                 child: Center(
@@ -430,7 +503,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                 //  width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                    border: Border.all(color:notifyVariables.intRegister.validConfirmPass ? CustomColors.blueProfile :  CustomColors.gray.withOpacity(.3) ,width: 1.3),
+                    border: Border.all(color:notifyVariables.intRegister.validConfirmPass ? CustomColors.blueSplash :  CustomColors.gray.withOpacity(.3) ,width: 1.3),
                     color: CustomColors.white
                 ),
                 child: Center(
@@ -554,6 +627,11 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
 
     if(confirmPassController.text != passwordController.text){
       utils.showSnackBar(context, Strings.dontSamePass);
+      return true;
+    }
+
+    if(!checkDates){
+      utils.showSnackBar(context, Strings.dontCheckDates);
       return true;
     }
 

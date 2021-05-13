@@ -48,11 +48,13 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
         children: <Widget>[
           GestureDetector(
             child: Container(
-              alignment: Alignment.topRight,
+              margin: EdgeInsets.only(left: 20,top: 10,),
+              alignment: Alignment.topLeft,
               child: Image(
-                width: 80,
-                height: 80,
-                image: AssetImage("Assets/images/ic_arrow_menu.png"),
+
+                width: 50,
+                height: 50,
+                image: AssetImage("Assets/images/ic_back.png"),
               ),
             ),
             onTap: (){
@@ -62,29 +64,29 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
             },
           ),
           Container(
-            margin: EdgeInsets.only(top: 185),
+            margin: EdgeInsets.only(top: 165),
             child: Image(
 
-              image: AssetImage("Assets/images/ic_curves.png"),
+              image: AssetImage("Assets/images/ic_shape.png"),
               //fit: BoxFit.fill,
 
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 29,top: 50),
+            margin: EdgeInsets.only(left: 29,top: 40),
             child: Image(
-              width: 80,
-              height: 80,
-              image: AssetImage("Assets/images/ic_logo_l.png"),
+              width: 110,
+              height: 110,
+              image: AssetImage("Assets/images/ic_logo_login.png"),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 140,left: 29,right: 90),
+            padding: const EdgeInsets.only(top: 120,left: 29,right: 90),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  Strings.verification,
+                  Strings.recoverPass,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: Strings.fontArialBold,
@@ -94,7 +96,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                 ),
                 SizedBox(height: 10,),
                 Text(
-                  Strings.verificationMsg,
+                  Strings.textRecoverPass,
                   style: TextStyle(
                       fontFamily: Strings.fontArial,
                       fontSize:14,
@@ -109,7 +111,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(top: 340,left: 35,right: 35),
+            padding: const EdgeInsets.only(top: 320,left: 35,right: 35),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -119,7 +121,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                 SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.only(left: 75,right: 75),
-                  child: btnCustomRounded(CustomColors.blueProfile, CustomColors.white,Strings.send,(){
+                  child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white,Strings.send,(){
                     _servicePasswordRecovery();
                   }, context),
                 ),

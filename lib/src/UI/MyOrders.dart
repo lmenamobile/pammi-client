@@ -11,9 +11,13 @@ class MyOrdersPage extends StatefulWidget {
 }
 
 class _MyOrdersPageState extends State<MyOrdersPage> {
+
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
+      drawer: DraweMenuPage(rollOverActive: "myOrders",),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
@@ -26,9 +30,9 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
   Widget _body(BuildContext context){
     return Stack(
       children: <Widget>[
-        headerMenu(context,Strings.myOrders,"myOrders"),
+        headerMenu(context,Strings.myOrders,_drawerKey),
         Container(
-            margin: EdgeInsets.only(right: 20,left: 20),
+            margin: EdgeInsets.only(right: 20,left: 20,top: 120),
             width: double.infinity,
             child: ListView.builder(
                 padding: EdgeInsets.only(top: 0),

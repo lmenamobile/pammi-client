@@ -4,6 +4,32 @@ class Strings {
   static const String omitir = 'Omitir';
   static const String verifyCode = 'Verificar codigo';
   static const String welcome = '¡Bienvenido!';
+  static const String next = 'Continuar';
+  static const String selectYouAddress = 'Selecciona tu dirección';
+  static const String inputAddress = 'Ingresar una nueva dirección';
+  static const String loseInternet = 'Parece que has perdido tu conexión a internet.';
+  static const String emptyAddress = 'Debes agregar una dirección.';
+  static const String emptyComplement = 'Debes agregar un complemento.';
+  static const String emptyNameAddress = 'Debes agregar un nombre para tu dirección';
+  static const String updateAddress = 'Dirección actualizada';
+  static const String updateAddressButton = 'Actualizar dirección';
+  static const String supportAndService = 'Soporte y servicios';
+  static const String selectInterest = 'Elige tus intereses';
+  static const String selectCategory = 'Selecciona una o más categorías que te interesen.';
+  static const String emptySelectCategory = 'Debes escoger almenos una categoria';
+
+
+
+
+
+
+
+
+
+
+
+  static const String textWelcome = 'Servicio 24/7 para todo tipo de productos y servicios de carácter internacional.';
+
   static const String welcome2 = 'Bienvenid@';
   static const String welcomeDescription = 'Hemos creado un app donde puedes encontrar los productos de tus marcas favoritas.';
 
@@ -12,6 +38,10 @@ class Strings {
   static const String titleAmSorry = '¡Lo sentimos!';
   static const String cobertCountry = 'En este momento no tenemos cobertura en este país';
   static const String cobertCity = 'En este momento no tenemos cobertura en este estado';
+  static const String createAccount = 'Crea tu cuenta';
+  static const String registerMsg = '¡Completa siguiente información de tu perfil!';
+
+
 
 
   static const String send = 'Enviar';
@@ -24,10 +54,19 @@ class Strings {
   static const String nonCount = '¿No tienes cuenta?';
   static const String register = 'Regístrate';
   static const String dontCheckTerms = 'Debes aceptar los terminos y condiciones';
+  static const String dontCheckDates = 'Debes autorizar el tratamiento de tus datos personales';
   static const String verification = 'Verificación';
+  static const String recoverPass = 'Recuperar contraseña';
+  static const String textRecoverPass = 'Escribe tu dirección de correo, nosotros te enviaremos un código para cambiar tu contraseña.';
+
+
+
+
+
   static const String sendAgain = 'Volver a enviar';
 
   static const String verificationMsg = 'Enviamos un código a tu correo,por favor escribe en los siguientes campos';
+  static const String begin = '¡Empezar!';
 
 
 
@@ -37,6 +76,10 @@ class Strings {
   static const String textResgister = '¡Disfruta de un acceso rápido a tu historial y un pedido más rápido!';
   static const String AuthorizeDates = 'Autorizo el tratamiento de mis datos personales y declaro que conozco mis derechos';
   static const String sendCode = ' Te hemos enviado un correo electrónico para la verificación del mismo.';
+  static const String challengePassword= 'Debe ser mínimo de 6 caracteres, contener al menos un Número, una mayúscula y una minúscula.';
+
+
+
 
   //Home
   static const String ourCategories = 'Nuestras categorías';
@@ -118,10 +161,13 @@ class Strings {
   static const String questionAddress = '¿Dónde quieres recibir tus productos?';
   static const String beginAddAddress = 'Empieza a agregar tus direcciones de envío';
   static const String addAddres = 'Agregar dirección';
+  static const String nameAddress = ' Nombre de la dirección';
+
+
 
   static const String address = 'Dirección';
   static const String complement = 'Complemento';
-  static const String helpMap = 'Mantén presionado el pin para ajustar tu dirección en el mapa';
+  static const String helpMap = 'Arrastra el mapa para ajustar tu dirección';
   static const String confirm = 'Confirmar';
 
   static const String ups = '¡Upps!';

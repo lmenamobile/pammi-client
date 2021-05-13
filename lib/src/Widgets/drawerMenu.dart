@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -36,94 +37,100 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white.withOpacity(.7),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: _body(context),
-      ),
+        backgroundColor: CustomColors.white.withOpacity(.5),
+        body: Container(
+
+          width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            child: _body(context)
+        ),
+
     );
   }
 
   Widget _body(BuildContext context){
-    return FadeInLeft(
-      child: Container(
+    return  FadeInLeft(
 
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 33,
-              left: 21,
-              child: GestureDetector(
-                child: Container(
-                  width: 31,
-                  height: 31,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: CustomColors.blueActiveDots
-                  ),
-                  child: Center(
-                    child: Image(
-                      image: AssetImage("Assets/images/ic_menu_x.png"),
+            child: Container(
+
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    top: 33,
+                    left: 21,
+                    child: GestureDetector(
+                      child: Container(
+                        width: 31,
+                        height: 31,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: CustomColors.blueActiveDots
+                        ),
+                        child: Center(
+                          child: Image(
+                            image: AssetImage("Assets/images/ic_menu_x.png"),
+                          ),
+                        ),
+                      ),
+                      onTap: (){
+
+                        Navigator.pop(context);
+
+
+
+                        // Navigator.pop(context);
+                      },
+
                     ),
                   ),
-                ),
-                onTap: (){
 
-                  Navigator.pop(context);
+                  Container(
+                        width: 286,
+                        margin: EdgeInsets.only(left: 23,top: 68,right: 52),
+                        padding: EdgeInsets.only(top: 12,bottom: 12),
+                        decoration: BoxDecoration(
+                          color: CustomColors.grayMenu,
+                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),topRight: Radius.circular(30))
+                        ),
+                        child: SingleChildScrollView(
+
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                             itemProfile(context),
+
+                             SizedBox(height: 23),
+                             itemMenu(context,"Assets/images/ic_start.png", (){widget.rollOverActive != "start" ?  pushToPage(MyHomePage()) :Navigator.pop(context);},Strings.start),
+
+                             itemMenu(context,"Assets/images/ic_ offers_day.png", (){widget.rollOverActive != "ofertsDay" ? pushToPage(DayOferstPage()) : Navigator.pop(context);}, Strings.dayOferts),
+
+                             itemMenu(context,"Assets/images/ic_featured.png", (){widget.rollOverActive != "featured" ?  pushToPage(FeaturedPage()) :Navigator.pop(context);},Strings.destacados ),
+
+                             itemMenu(context,"Assets/images/ic_news.png", (){widget.rollOverActive != "myOrders" ?  pushToPage(MyOrdersPage()) :Navigator.pop(context);},Strings.myOrders ),
+
+                             itemMenu(context,"Assets/images/ic_wishes.png", (){},Strings.wishes ),
+
+                             itemMenu(context,"Assets/images/ic_ notification.png", (){},Strings.notifications ),
+                             SizedBox(height: 25),
+                             itemMenu(context,"Assets/images/ic_support.png", (){widget.rollOverActive != "support" ?  pushToPage(SupportHelpPage()) :Navigator.pop(context);},Strings.supportservices ),
+                             SizedBox(height: 17),
+                             Padding(
+                               padding: const EdgeInsets.only(left: 39,right: 39),
+                               child: btnCustomRounded(CustomColors.orange, CustomColors.white,Strings.closeSesion, (){utils.startCustomAlertMessage(context, Strings.closeSesion, "Assets/images/ic_exit.png", Strings.closeSesionText, (){_prefs.dataUser = "0"; Navigator.pop(context);  Navigator.pop(context); Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInUp, child:LoginPage(), duration: Duration(milliseconds: 700))); }, (){Navigator.pop(context);});},context),
+                             ),
+                              SizedBox(height: 16),
 
 
 
-                  // Navigator.pop(context);
-                },
-
+                            ],
+                          ),
+                        ),
+                      ),
+                ],
               ),
             ),
 
-            Container(
-                  width: 286,
-                  margin: EdgeInsets.only(left: 23,top: 68,right: 52),
-                  decoration: BoxDecoration(
-                    color: CustomColors.grayMenu,
-                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),topRight: Radius.circular(30))
-                  ),
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                       itemProfile(context),
-
-                       SizedBox(height: 23),
-                       itemMenu(context,"Assets/images/ic_start.png", (){widget.rollOverActive != "start" ?  pushToPage(MyHomePage()) :Navigator.pop(context);},Strings.start),
-
-                       itemMenu(context,"Assets/images/ic_ offers_day.png", (){widget.rollOverActive != "ofertsDay" ? pushToPage(DayOferstPage()) : Navigator.pop(context);}, Strings.dayOferts),
-
-                       itemMenu(context,"Assets/images/ic_featured.png", (){widget.rollOverActive != "featured" ?  pushToPage(FeaturedPage()) :Navigator.pop(context);},Strings.destacados ),
-
-                       itemMenu(context,"Assets/images/ic_news.png", (){widget.rollOverActive != "myOrders" ?  pushToPage(MyOrdersPage()) :Navigator.pop(context);},Strings.myOrders ),
-
-                       itemMenu(context,"Assets/images/ic_wishes.png", (){},Strings.wishes ),
-
-                       itemMenu(context,"Assets/images/ic_ notification.png", (){},Strings.notifications ),
-                       SizedBox(height: 60),
-                       itemMenu(context,"Assets/images/ic_support.png", (){widget.rollOverActive != "support" ?  pushToPage(SupportHelpPage()) :Navigator.pop(context);},Strings.supportservices ),
-                       SizedBox(height: 17),
-                       Padding(
-                         padding: const EdgeInsets.only(left: 39,right: 39),
-                         child: btnCustomRounded(CustomColors.orange, CustomColors.white,Strings.closeSesion, (){utils.startCustomAlertMessage(context, Strings.closeSesion, "Assets/images/ic_exit.png", Strings.closeSesionText, (){_prefs.dataUser = "0"; Navigator.pop(context);  Navigator.pop(context); Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInUp, child:LoginPage(), duration: Duration(milliseconds: 700))); }, (){Navigator.pop(context);});},context),
-                       ),
-                        SizedBox(height: 16),
-
-
-
-                      ],
-                    ),
-                  ),
-                ),
-          ],
-        ),
-      ),
 
     );
 

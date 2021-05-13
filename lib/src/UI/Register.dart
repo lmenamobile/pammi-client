@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
-          color: CustomColors.blueActiveDots,
+          color: CustomColors.white,
           child: _body(context),
         ),
       ),
@@ -66,57 +66,79 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _body(BuildContext context){
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 107,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                left:0,
+                right: 0,
+                top: 0,
+                child: Image(
 
-            decoration: BoxDecoration(
-                color: CustomColors.white,
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50),bottomRight: Radius.circular(50))
-            ),
-            child: Stack(
-              children: <Widget>[
-                GestureDetector(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Image(
-                      width: 80,
-                      height: 80,
-                      image: AssetImage("Assets/images/ic_arrow_menu.png"),
-                    ),
+                  fit: BoxFit.fitWidth,
+                  image: AssetImage("Assets/images/ic_header_signup.png"),
+                ),
+
+
+              ),
+              Positioned(
+                top: 15,
+                left: 15,
+
+                child:  GestureDetector(
+                  child: Image(
+                    image: AssetImage("Assets/images/ic_back_w.png"),
+                    width: 40,
+                    height: 40,
                   ),
                   onTap: (){
-                   var vc = Navigator.pop(context);
-
+                    Navigator.pop(context);
                   },
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 29,top: 50),
-                  child: Image(
-                    width: 80,
-                    height: 80,
-                    image: AssetImage("Assets/images/ic_logo_l.png"),
+
+
+              ),
+              Container(
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.only(top: 25),
+                child: Text(
+                  Strings.register,
+                  style: TextStyle(
+                      fontFamily: Strings.fontArial,
+                      fontSize: 18,
+                      color: CustomColors.white
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 140,left: 29),
+              ),
+
+            ],
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          top: 110,
+          child: SingleChildScrollView(
+
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(top: 20),
+            child: Column(
+              children: <Widget>[
+                  Padding(
+                  padding: const EdgeInsets.only(top: 17,left: 29),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: <Widget>[
-                      Text(
-                        Strings.welcome,
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontFamily: Strings.fontArial,
-                            fontSize: 15,
-                            color: CustomColors.blackLetter
-                        ),
-                      ),
+
                       SizedBox(height: 6,),
                       Text(
-                        Strings.register,
+                        Strings.createAccount,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: Strings.fontArialBold,
@@ -126,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       SizedBox(height: 6,),
                       Text(
-                        Strings.inputDates  ,
+                        Strings.registerMsg,
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontFamily: Strings.fontArial,
@@ -134,16 +156,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: CustomColors.blackLetter
                         ),
                       ),
-                      SizedBox(height: 10,),
-                      Text(
-                        Strings.textResgister,
-                        style: TextStyle(
-                            fontFamily: Strings.fontArial,
-                            fontSize:14,
-                            color: CustomColors.blackLetter
-                        ),
-                      ),
-                      SizedBox(height: 38),
+
+                      SizedBox(height: 13),
 
                       Padding(
                         padding: const EdgeInsets.only(left: 6,right: 35),
@@ -158,21 +172,25 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
 
                               children: <Widget>[
-                            customTextField("Assets/images/ic_data.png","Nombre", nameController,TextInputType.text,[]),
-                            SizedBox(height: 21),
-                            customTextField("Assets/images/ic_data.png","Apellido", lastNameController,TextInputType.text,[]),
-                            SizedBox(height: 21),
-                            customTextFieldAction("Assets/images/ic_identity.png", "Tipo de documento", typeDocumentController, (){pushToSelectDocument();}),
-                            SizedBox(height: 21),
-                            customTextField("Assets/images/ic_identity.png","Número de identificación", numberIdentityController,TextInputType.number,[]),
-                            SizedBox(height: 21),
-                            customTextFieldAction("Assets/images/ic_country.png",   "País" , countryController, (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCountryPage(), duration: Duration(milliseconds: 700)));
-                            }),
-                            SizedBox(height: 46),
+                                customTextField("Assets/images/ic_data.png","Nombre", nameController,TextInputType.text,[]),
+                                SizedBox(height: 21),
+                                customTextField("Assets/images/ic_data.png","Apellido", lastNameController,TextInputType.text,[]),
+                                SizedBox(height: 21),
+                                customTextFieldAction("Assets/images/ic_identity.png", "Tipo de documento", typeDocumentController, (){pushToSelectDocument();}),
+                                SizedBox(height: 21),
+                                customTextField("Assets/images/ic_identity.png","Número de identificación", numberIdentityController,TextInputType.number,[]),
+                                SizedBox(height: 21),
+                                customTextFieldAction("Assets/images/ic_country.png",   "País" , countryController, (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCountryPage(), duration: Duration(milliseconds: 700)));
+                                }),
+                                SizedBox(height: 36),
 
-                          ],
-                        )
+                              ],
+                            )
+                        ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 20,left: 80,right: 80),
+                        child: btnCustomRoundedImage(CustomColors.blueSplash, CustomColors.white, Strings.next, (){ _validateEmptyFields();}, context,"Assets/images/ic_next.png"),
                       )
 
 
@@ -183,31 +201,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
 
+                SizedBox(height: 12),
               ],
             ),
           ),
-          SizedBox(height: 12),
-          Center(
-            child: GestureDetector(
-              child: Container(
-                child: Text(
-                    "Siguiente",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: Strings.fontArial,
-                    color: CustomColors.white
-                  ),
-                ),
-              ),
-              onTap: (){
-                print("Next");
-                _validateEmptyFields();
-              },
-            ),
-          ),
-          SizedBox(height: 12),
-        ],
-      ),
+        )
+      ],
+
     );
 
   }

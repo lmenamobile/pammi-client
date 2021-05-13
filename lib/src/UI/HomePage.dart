@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
@@ -33,312 +35,333 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final searchController = TextEditingController();
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   var position = 0;
+
+
 
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+     key: _drawerKey,
+     drawer: DraweMenuPage(rollOverActive: "start",),
+
      body: Container(
        width: double.infinity,
        height: MediaQuery.of(context).size.height,
        color: CustomColors.grayBackground,
-       child: _body(context),
+       child:  _body(context)
+
      ),
        // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
+
   Widget _body(BuildContext context){
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 21,right: 21),
-              width: double.infinity,
-              //height: 139,
-              decoration: BoxDecoration(
-                color: CustomColors.white,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight:Radius.circular(30)),
+    return Stack(
+      children: <Widget>[
 
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                          GestureDetector(
-                            child: Container(
-                              width: 31,
-                              height: 31,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(5)),
-                                color: CustomColors.blueActiveDots
-                              ),
-                              child: Center(
-                                child: Image(
-                                  image: AssetImage("Assets/images/ic_menu.png"),
-                                ),
-                              ),
-                            ),
-                            onTap: (){
-                              Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                      opaque: false, // set to false
-                                      pageBuilder: (_, __, ___) => DraweMenuPage(rollOverActive: "start",)
-                                  ));
-                            },
-                          ),
-                        Expanded(
-                          child: Image(
-                            width: 120,
-                            height: 35,
-                            image: AssetImage("Assets/images/ic_logo_black.png"),
-                          ),
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            width: 31,
-                            height: 31,
-                            child:Image(
-                              image: AssetImage("Assets/images/ic_shopping_blue-1.png"),
-                            ),
-                          ),
-                          onTap: (){
-                            Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ShopCarPage(), duration: Duration(milliseconds: 700)));
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 23.5),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16,right: 16),
-                      child: boxSearch(context),
-                    ),
-                    SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 15),
-            Container(
-              padding: EdgeInsets.only(top: 23,left: 17,right: 17),
-             // height: 300,
-              width: double.infinity,
-              color: CustomColors.white,
+        Positioned(
+          top: 130,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(top: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+
+                  SizedBox(height: 15),
                   Container(
-                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-
+                    padding: EdgeInsets.only(top: 23,left: 17,right: 17),
+                   // height: 300,
+                    width: double.infinity,
+                    color: CustomColors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          Strings.ourCategories,
-                          style: TextStyle(
-                            color: CustomColors.letterDarkBlue,
-                            fontSize: 16,
-                            fontFamily: Strings.fontArialBold
-                          ),
-                        ),
+                        Container(
+                         child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
 
-                        Expanded(
-                          child: GestureDetector(
-                            child: Text(
-
-                              Strings.moreAll,
-                              textAlign:TextAlign.end,
-                              style: TextStyle(
-                                  color: CustomColors.orange,
+                            children: <Widget>[
+                              Text(
+                                Strings.ourCategories,
+                                style: TextStyle(
+                                  color: CustomColors.letterDarkBlue,
                                   fontSize: 16,
                                   fontFamily: Strings.fontArialBold
+                                ),
                               ),
-                            ),
-                            onTap: (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AllCategoriesPage(), duration: Duration(milliseconds: 700)));},
+
+                              Expanded(
+                                child: GestureDetector(
+                                  child: Text(
+
+                                    Strings.moreAll,
+                                    textAlign:TextAlign.end,
+                                    style: TextStyle(
+                                        color: CustomColors.orange,
+                                        fontSize: 16,
+                                        fontFamily: Strings.fontArialBold
+                                    ),
+                                  ),
+                                  onTap: (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AllCategoriesPage(), duration: Duration(milliseconds: 700)));},
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 18,left: 10,right: 10),
+                            //margin: EdgeInsets.only(left: 7),
+                            height: 270,
+                            child:GridView.count(
+                                  physics:  new NeverScrollableScrollPhysics(),
+
+                                  childAspectRatio: 1.1,
+                                  scrollDirection:Axis.horizontal,
+                                  crossAxisSpacing: 14,
+                                  crossAxisCount: 2,
+                                  // Generate 100 widgets that display their index in the List.
+                                  children: List.generate(6, (index) {
+                                    return Center(
+                                      child: itemCategorie()
+                                    );
+                                  }),
+                                )
+                        ),
+                       // SizedBox(height: 5),
+                        Container(
+                          height: 1,
+                          width: double.infinity,
+                          color: CustomColors.grayBackground,
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          Strings.aprovecha,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: Strings.fontArialBold,
+                            color: CustomColors.blue
                           ),
                         ),
+                        Text(
+                          Strings.detacados,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: Strings.fontArialBold,
+                              color: CustomColors.splashColor
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          //height: 400,
+                          width: double.infinity,
+                          child: StaggeredGridView.countBuilder(
+
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(bottom: 0),
+                            shrinkWrap: true,
+                            crossAxisCount: 2,
+
+
+                            itemCount: 3,
+
+                            itemBuilder: (BuildContext context, int index) =>
+                            index == 0 ? itemProductFirstDestacado(): itemProductDestacado(),
+                            staggeredTileBuilder: (int index) =>
+                            new StaggeredTile.count(1, index == 0 ? 2:1),
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 8,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+
                       ],
                     ),
-
                   ),
+                  SizedBox(height: 21),
                   Container(
-                    padding: EdgeInsets.only(top: 18,left: 10,right: 10),
-                      //margin: EdgeInsets.only(left: 7),
-                      height: 270,
-                      child:GridView.count(
-                            physics:  new NeverScrollableScrollPhysics(),
+                    margin: EdgeInsets.only(left: 21),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          Strings.top,
+                          style: TextStyle(
+                            fontFamily: Strings.fontArialBold,
+                            fontSize: 12,
+                            color: CustomColors.blue
+                          ),
+                        ),
+                        Text(
+                          Strings.vendidos,
+                          style: TextStyle(
+                              fontFamily: Strings.fontArialBold,
+                              fontSize: 16,
+                              color: CustomColors.splashColor
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 23),
+                  Container(
+                    margin: EdgeInsets.only(left: 23),
+                    width: double.infinity,
+                    height:190,
+                    child: ListView.builder(
+                      //padding: EdgeInsets.only(left: 25),
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        return itemProduct(false,context);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 22),
+                  Container(
+                    width: double.infinity,
+                    color: CustomColors.white,
+                    padding: EdgeInsets.only(top: 11,left: 21,right: 21),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              Strings.findHere,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: Strings.fontArialBold,
+                                color: CustomColors.blue,
 
-                            childAspectRatio: 1.1,
-                            scrollDirection:Axis.horizontal,
-                            crossAxisSpacing: 14,
+                              ),
+                            ),
+                            Text(
+                              Strings.ofertas,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: Strings.fontArialBold,
+                                color: CustomColors.splashColor,
+
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 23),
+                        Container(
+                          //height: 400,
+                          width: double.infinity,
+                          child: StaggeredGridView.countBuilder(
+
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(bottom: 0),
+                            shrinkWrap: true,
                             crossAxisCount: 2,
-                            // Generate 100 widgets that display their index in the List.
-                            children: List.generate(6, (index) {
-                              return Center(
-                                child: itemCategorie()
-                              );
-                            }),
-                          )
-                  ),
-                 // SizedBox(height: 5),
-                  Container(
-                    height: 1,
-                    width: double.infinity,
-                    color: CustomColors.grayBackground,
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    Strings.aprovecha,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: Strings.fontArialBold,
-                      color: CustomColors.blue
+
+
+                            itemCount: 3,
+
+                            itemBuilder: (BuildContext context, int index) =>
+                            index == 0 ? itemFirsOfertas(context) : itemProduct(true,context),
+                            staggeredTileBuilder: (int index) =>
+                            new StaggeredTile.count(index == 0 ? 3 : 1, index == 0 ? 1.2:1.1),
+                            mainAxisSpacing: 34,
+                            crossAxisSpacing: 8,
+                          ),
+                        ),
+                        SizedBox(height: 23),
+                      ],
                     ),
                   ),
-                  Text(
-                    Strings.detacados,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: Strings.fontArialBold,
-                        color: CustomColors.splashColor
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    //height: 400,
-                    width: double.infinity,
-                    child: StaggeredGridView.countBuilder(
-
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: 0),
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-
-
-                      itemCount: 3,
-
-                      itemBuilder: (BuildContext context, int index) =>
-                      index == 0 ? itemProductFirstDestacado(): itemProductDestacado(),
-                      staggeredTileBuilder: (int index) =>
-                      new StaggeredTile.count(1, index == 0 ? 2:1),
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 8,
-                    ),
-                  ),
-                  SizedBox(height: 20),
 
                 ],
               ),
             ),
-            SizedBox(height: 21),
-            Container(
-              margin: EdgeInsets.only(left: 21),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    Strings.top,
-                    style: TextStyle(
-                      fontFamily: Strings.fontArialBold,
-                      fontSize: 12,
-                      color: CustomColors.blue
-                    ),
-                  ),
-                  Text(
-                    Strings.vendidos,
-                    style: TextStyle(
-                        fontFamily: Strings.fontArialBold,
-                        fontSize: 16,
-                        color: CustomColors.splashColor
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 23),
-            Container(
-              margin: EdgeInsets.only(left: 23),
-              width: double.infinity,
-              height:190,
-              child: ListView.builder(
-                //padding: EdgeInsets.only(left: 25),
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return itemProduct(false,context);
-                },
-              ),
-            ),
-            SizedBox(height: 22),
-            Container(
-              width: double.infinity,
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            padding: EdgeInsets.only(left: 21,right: 21),
+            width: double.infinity,
+            //height: 139,
+            decoration: BoxDecoration(
               color: CustomColors.white,
-              padding: EdgeInsets.only(top: 11,left: 21,right: 21),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        Strings.findHere,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: Strings.fontArialBold,
-                          color: CustomColors.blue,
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight:Radius.circular(30)),
 
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Container(
+                          width: 31,
+                          height: 31,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              color: CustomColors.blueActiveDots
+                          ),
+                          child: Center(
+                            child: Image(
+                              image: AssetImage("Assets/images/ic_menu.png"),
+                            ),
+                          ),
+                        ),
+                        onTap: (){
+                          _drawerKey.currentState.openDrawer();
+                        },
+                      ),
+                      Expanded(
+                        child: Image(
+                          width: 120,
+                          height: 35,
+                          image: AssetImage("Assets/images/ic_logo_black.png"),
                         ),
                       ),
-                      Text(
-                        Strings.ofertas,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: Strings.fontArialBold,
-                          color: CustomColors.splashColor,
-
+                      GestureDetector(
+                        child: Container(
+                          width: 31,
+                          height: 31,
+                          child:Image(
+                            image: AssetImage("Assets/images/ic_shopping_blue-1.png"),
+                          ),
                         ),
-                      )
+                        onTap: (){
+                          Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ShopCarPage(), duration: Duration(milliseconds: 700)));
+                        },
+                      ),
                     ],
                   ),
-                  SizedBox(height: 23),
-                  Container(
-                    //height: 400,
-                    width: double.infinity,
-                    child: StaggeredGridView.countBuilder(
-
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: 0),
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-
-
-                      itemCount: 3,
-
-                      itemBuilder: (BuildContext context, int index) =>
-                      index == 0 ? itemFirsOfertas(context) : itemProduct(true,context),
-                      staggeredTileBuilder: (int index) =>
-                      new StaggeredTile.count(index == 0 ? 3 : 1, index == 0 ? 1.2:1.1),
-                      mainAxisSpacing: 34,
-                      crossAxisSpacing: 8,
-                    ),
+                  SizedBox(height: 23.5),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16,right: 16),
+                    child: boxSearch(context),
                   ),
-                  SizedBox(height: 23),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
-
-          ],
+          ),
         ),
-      ),
+      ],
     );
+
   }
 
 

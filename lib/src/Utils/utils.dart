@@ -278,8 +278,26 @@ class _Utils {
     );
   }
 
+  Future<bool> check() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
+  }
 
-
+  dynamic checkInternet2(Function func, BuildContext context) {
+    check().then((internet) {
+      if (internet != null && internet) {
+        func(true, context);
+      }
+      else{
+        func(false, context);
+      }
+    });
+  }
 
 
   Widget alertCustomMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action,Function actionNegative){

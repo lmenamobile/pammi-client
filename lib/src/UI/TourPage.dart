@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wawamko/src/UI/WelcomePage.dart';
 import 'package:wawamko/src/UI/login.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -55,36 +56,33 @@ class _FirstPageTourState extends State<TourPage> {
 
 
 
-        Positioned(
-
-          bottom: 70,
-          left: 147,
+        Container(
+          alignment: Alignment.bottomCenter,
+          margin: EdgeInsets.only(bottom: 60),
           child: _dotsIndicator(),
         ),
 
-        Positioned(
-
-          bottom: 25,
-          left: 150,
-          child: Center(
-            child: GestureDetector(
-              child: Text(
-                Strings.omitir,
-                style: TextStyle(
-                  fontFamily: Strings.fontArial,
-                  color: CustomColors.blueActiveDots,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold
+       Container(
+         alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(bottom: 20),
+              child: GestureDetector(
+                child: Text(
+                  Strings.omitir,
+                  style: TextStyle(
+                    fontFamily: Strings.fontArial,
+                    color: CustomColors.redTour,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
-              ),
-              onTap: (){
-                prefs.enableTour = false;
-                Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: LoginPage(), duration: Duration(milliseconds: 700)));
+                onTap: (){
+                  prefs.enableTour = false;
+                  Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: WelcomePage(), duration: Duration(milliseconds: 700)));
 
-              },
+                },
+              ),
             ),
-          ),
-        ),
+
       ],
     );
   }
@@ -94,9 +92,10 @@ class _FirstPageTourState extends State<TourPage> {
       dotsCount: 3,
       position: position.toDouble(),
       decorator: DotsDecorator(
-        color: CustomColors.blueActiveDots.withOpacity(.4),
-        activeColor: CustomColors.blueActiveDots,
+        color: CustomColors.blueSplash.withOpacity(.4),
+        activeColor: CustomColors.blueSplash,
         size: const Size.square(9.0),
+        spacing: EdgeInsets.all(4),
         //shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.0)),
         activeSize: const Size(9.0, 9.0),
         activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
@@ -116,7 +115,8 @@ class _FirstPageTourState extends State<TourPage> {
               height: 331,//MediaQuery.of(context).size.height,
               width: 331,//MediaQuery.of(context).size.width,
               child: Image(
-                image: AssetImage("Assets/images/ic_photo_1.png"),
+
+                image: AssetImage("Assets/images/ic_tour1.png"),
                 fit: BoxFit.fill,
               ),
             ),

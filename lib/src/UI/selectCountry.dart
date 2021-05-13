@@ -46,78 +46,83 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
   }
   Widget _body(BuildContext context){
-      return SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-        GestureDetector(
-          child: Container(
-            alignment: Alignment.topRight,
+      return Stack(
+        children: <Widget>[
+          Positioned(
+            top: 20,
+            left: 20,
+            child: GestureDetector(
               child: Image(
-                width: 80,
-                height: 80,
-                image: AssetImage("Assets/images/ic_arrow_menu.png"),
-          ),
-        ),
-          onTap: (){
-              Navigator.pop(context);
-          },
-    ),
-    Container(
-            margin: EdgeInsets.only(left: 29,top: 50),
-              child: Image(
-              width: 60,
-              height: 60,
-              image: AssetImage("Assets/images/ic_logo_l.png"),
-    ),
-    ),
-            Padding(
-              padding: EdgeInsets.only(top: 130,left: 39,right: 35),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    Strings.selectCountry,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: CustomColors.blackLetter,
-                      fontFamily: Strings.fontArialBold
-                    ),
-                  ),
-                  SizedBox(height: 21),
-                  boxSearch(context),
-                  SizedBox(height: 21),
-                  Container(
-
-                    // margin: EdgeInsets.only(left: 23,right: 15),
-                    child: ListView.builder(
-
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(top: 0),
-                      itemCount: this.countries.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-
-                        return  AnimationConfiguration.staggeredList(
-                            position: index,
-                            duration: const Duration(milliseconds: 800),
-                            child: SlideAnimation(
-                              verticalOffset: 50.0,
-                              child: FadeInAnimation(
-                                  child: itemCountry(context, index,this.countries[index])//itemBookings(context, data, _openBookingDetail),
-                              ),
-                            )
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
-
-
-                ],
+                width: 40,
+                height: 40,
+                image: AssetImage("Assets/images/ic_back.png"),
               ),
-            )
-    ]
-    ),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 70,
+            child: SingleChildScrollView(
+              child: Stack(
+                  children: <Widget>[
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 8,left: 39,right: 35),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            Strings.selectCountry,
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: CustomColors.blackLetter,
+                                fontFamily: Strings.fontArialBold
+                            ),
+                          ),
+                          SizedBox(height: 21),
+                          boxSearch(context),
+                          SizedBox(height: 21),
+                          Container(
+
+                            // margin: EdgeInsets.only(left: 23,right: 15),
+                            child: ListView.builder(
+
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.only(top: 0),
+                              itemCount: this.countries.length ?? 0,
+                              itemBuilder: (BuildContext context, int index) {
+
+                                return  AnimationConfiguration.staggeredList(
+                                    position: index,
+                                    duration: const Duration(milliseconds: 800),
+                                    child: SlideAnimation(
+                                      verticalOffset: 50.0,
+                                      child: FadeInAnimation(
+                                          child: itemCountry(context, index,this.countries[index])//itemBookings(context, data, _openBookingDetail),
+                                      ),
+                                    )
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 20),
+
+
+                        ],
+                      ),
+                    )
+                  ]
+              ),
+            ),
+          ),
+
+        ],
       );
   }
 

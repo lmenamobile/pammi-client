@@ -63,170 +63,190 @@ class _LoginPageState extends State<LoginPage> {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return SingleChildScrollView(
       child: Stack(
-        children: <Widget>[
+            children: <Widget>[
 
-          Container(
-            margin: EdgeInsets.only(top: 185),
-            child: Image(
 
-              image: AssetImage("Assets/images/ic_curves.png"),
-              //fit: BoxFit.fill,
 
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 29,top: 50),
-            child: Image(
-              width: 80,
-              height: 80,
-              image: AssetImage("Assets/images/ic_logo_l.png"),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 140,left: 29),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  Strings.login,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: Strings.fontArialBold,
-                    fontSize: 22,
-                    color: CustomColors.blackLetter
-                  ),
+              Container(
+                margin: EdgeInsets.only(top: 170),
+                child: Image(
+
+                  image: AssetImage("Assets/images/ic_shape.png"),
+                  //fit: BoxFit.fill,
+
                 ),
-                SizedBox(height: 10,),
-                Text(
-                  Strings.textLogin,
-                  style: TextStyle(
-                      fontFamily: Strings.fontArial,
-                      fontSize:14,
-                      color: CustomColors.blackLetter
-                  ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 29,top: 50),
+                child: Image(
+                  width: 110,
+                  height: 110,
+                  image: AssetImage("Assets/images/ic_logo_login.png"),
                 ),
-
-
-
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 35,right: 35,top: 330),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                customBoxEmailLogin(emailController,notifyVariables,(){setState(() {
-
-                });}),
-                SizedBox(height: 28),
-                customBoxPassword( passwordController),
-                SizedBox(height: 13),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 140,left: 29),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(
-                      child: Container(),
-                    ),
-                    GestureDetector(
-                      child: Container(
-
-
-
-                        alignment: Alignment.topRight,
-                        padding: EdgeInsets.only(right: 30,top: 5),
-
-                        child: Text(
-                            Strings.forgotPass,
-                            style: TextStyle(
-                              fontFamily: Strings.fontArial,
-                              fontSize: 12,
-                              color: CustomColors.blackLetter
-                            ),
-                        ),
+                    Text(
+                      Strings.login,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Strings.fontArialBold,
+                        fontSize: 22,
+                        color: CustomColors.blackLetter
                       ),
-                      onTap: (){
-                        Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ForgotPasswordEmailPage(), duration: Duration(milliseconds: 700)));
-                        print("Forgot Pass");
-
-                      },
                     ),
+                    SizedBox(height: 10,),
+                    Text(
+                      Strings.textLogin,
+                      style: TextStyle(
+                          fontFamily: Strings.fontArial,
+                          fontSize:14,
+                          color: CustomColors.blackLetter
+                      ),
+                    ),
+
+
+
                   ],
                 ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.only(left: 50,right: 50),
-                  child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.login,(){ _serviceLoginUser();},context),
-                ),
-                SizedBox(height: 22),
-                Text(
-                  Strings.connectTo,
-                  style: TextStyle(
-                    fontFamily: Strings.fontArial,
-                    fontSize: 14,
-                    color: CustomColors.grayLetter
-                  ),
-                ),
-                SizedBox(height: 7),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 35,right: 35,top: 330,bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    itemConnectTo("Assets/images/ic_google.png",(){}),
-                    SizedBox(width: 13),
-                    itemConnectTo("Assets/images/ic_facebook.png",(){}),
-                    SizedBox(width: 13),
-                    itemConnectTo("Assets/images/ic_mac.png",(){}),
+                    customBoxEmailLogin(emailController,notifyVariables,(){setState(() {
 
-                    
-                  ],
-                ),
-                SizedBox(height: 30),
+                    });}),
+                    SizedBox(height: 28),
+                    customBoxPassword( passwordController),
+                    SizedBox(height: 13),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(),
+                        ),
+                        GestureDetector(
+                          child: Container(
 
 
-              ],
-            ),
-          ),
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.only(top: 670),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  Strings.nonCount,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: Strings.fontArial,
-                    color: CustomColors.blueActiveDots,
 
-                  ),
-                ),
-                SizedBox(width: 16),
-                GestureDetector(
-                  child: Container(
-                    child: Text(
-                      Strings.register,
+                            alignment: Alignment.topRight,
+                            padding: EdgeInsets.only(right: 30,top: 5),
+
+                            child: Text(
+                                Strings.forgotPass,
+                                style: TextStyle(
+                                  fontFamily: Strings.fontArial,
+                                  fontSize: 12,
+                                  color: CustomColors.blackLetter
+                                ),
+                            ),
+                          ),
+                          onTap: (){
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ForgotPasswordEmailPage(), duration: Duration(milliseconds: 700)));
+                            print("Forgot Pass");
+
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 50,right: 50),
+                      child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.login,(){ _serviceLoginUser();},context),
+                    ),
+                    SizedBox(height: 22),
+                    Text(
+                      Strings.connectTo,
                       style: TextStyle(
                         fontFamily: Strings.fontArial,
                         fontSize: 14,
-                        color: CustomColors.blueActiveDots,
-                        decoration: TextDecoration.underline
+                        color: CustomColors.grayLetter
                       ),
                     ),
+                    SizedBox(height: 7),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        itemConnectTo("Assets/images/ic_google.png",(){}),
+                        SizedBox(width: 13),
+                        itemConnectTo("Assets/images/ic_facebook.png",(){}),
+                        SizedBox(width: 13),
+                        itemConnectTo("Assets/images/ic_mac.png",(){}),
+
+
+                      ],
+                    ),
+                    SizedBox(height: 30),
+
+
+                  ],
+                ),
+              ),
+
+
+
+              Positioned(
+                bottom: -750,
+                left: -350,
+                right: -350,
+                child: Container(
+                    padding: EdgeInsets.only(top: 20),
+                    height: 800,
+                    decoration: BoxDecoration(
+                        color: CustomColors.blueSplash,
+                        shape: BoxShape.circle
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          Strings.nonCount,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: Strings.fontArial,
+                            color: CustomColors.white,
+
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        GestureDetector(
+                          child: Container(
+                            child: Text(
+                              Strings.register,
+                              style: TextStyle(
+                                  fontFamily: Strings.fontArial,
+                                  fontSize: 14,
+                                  color: CustomColors.white,
+                                  decoration: TextDecoration.underline
+                              ),
+                            ),
+                          ),
+                          onTap: (){
+                            print("Register");
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: RegisterPage(), duration: Duration(milliseconds: 700)));
+
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                  onTap: (){
-                    print("Register");
-                    Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: RegisterPage(), duration: Duration(milliseconds: 700)));
 
-                  },
-                )
-              ],
-            ),
-          )
+              ),
 
 
-        ],
-      ),
+
+            ],
+          ),
+
+         // SizedBox(height: 25,)
+
     );
   }
 
@@ -242,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                 //  width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                    border: Border.all(color: notifyVariables.intLogin.validatePassword ? CustomColors.blueProfile : CustomColors.gray.withOpacity(.3),width: 1.3),
+                    border: Border.all(color: notifyVariables.intLogin.validatePassword ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3),width: 1.3),
                     color: CustomColors.white
                 ),
                 child: Center(
@@ -305,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Image(
                             width: 35,
                             height: 35,
-                            image:!notifyVariables.intLogin.validatePassword ?  obscureTextPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png") :  obscureTextPass ? AssetImage("Assets/images/ic_no_show_blue.png") : AssetImage("Assets/images/ic_show_blue.png"),
+                            image: obscureTextPass ? AssetImage("Assets/images/ic_showed.png") : AssetImage("Assets/images/ic_show.png"),
                           ),
                           onTap: (){
                             this.obscureTextPass ? this.obscureTextPass = false : this.obscureTextPass = true;
@@ -386,7 +406,9 @@ class _LoginPageState extends State<LoginPage> {
             prefs.authToken = data.data.authToken;
 
             if(data.data.user.verifyedAccount){
-              Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  MyHomePage()), (Route<dynamic> route) => false);
+             // Navigator.of(context).pushAndRemoveUntil(PageTransition(type: PageTransitionType.slideInLeft, child:  duration: Duration(milliseconds: 700)));
             }else{
               Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: VerificationCodePage(userModel: userModel,), duration: Duration(milliseconds: 700)));
              }
