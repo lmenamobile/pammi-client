@@ -46,11 +46,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
 
             GestureDetector(
               child: Container(
-                alignment: Alignment.topRight,
+                margin: EdgeInsets.only(top: 8,left: 8),
+                alignment: Alignment.topLeft,
                 child: Image(
-                  width: 80,
-                  height: 80,
-                  image: AssetImage("Assets/images/ic_arrow_menu.png"),
+                  width: 50,
+                  height: 50,
+                  image: AssetImage("Assets/images/ic_back.png"),
                 ),
               ),
               onTap: (){
@@ -60,10 +61,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             ),
 
       Container(
-      margin: EdgeInsets.only(top: 185),
+      margin: EdgeInsets.only(top: 175),
       child: Image(
 
-        image: AssetImage("Assets/images/ic_curves.png"),
+        image: AssetImage("Assets/images/ic_shape.png"),
         //fit: BoxFit.fill,
 
       ),
@@ -71,9 +72,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
     Container(
     margin: EdgeInsets.only(left: 29,top: 50),
     child: Image(
-    width: 80,
-    height: 80,
-    image: AssetImage("Assets/images/ic_logo_l.png"),
+    width: 110,
+    height: 110,
+    image: AssetImage("Assets/images/ic_logo_login.png"),
     ),
     ),
     Padding(
@@ -114,8 +115,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               SizedBox(height: 31),
               customBoxConfirmPass(confirmPasswordController),
               Padding(
-                padding: const EdgeInsets.only(left: 75,right: 75,top: 35),
-                child: btnCustomRounded(CustomColors.blueProfile, CustomColors.white,Strings.send,(){
+                padding: const EdgeInsets.only(left: 70,right: 70,top: 35),
+                child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white,Strings.send,(){
                   _serviceUpdatePass();
                 }, context),
               ),
@@ -140,7 +141,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           //  width: double.infinity,
           height: 52,
           decoration: BoxDecoration(
-              border: Border.all(color:notifyVariables.intUpdatePass.validPass ? CustomColors.blueProfile : CustomColors.gray.withOpacity(.3) ,width: 1.3),
+              border: Border.all(color:notifyVariables.intUpdatePass.validPass ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3) ,width: 1.3),
               color: CustomColors.white
           ),
           child: Center(
@@ -199,7 +200,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     child: Image(
                       width: 35,
                       height: 35,
-                      image: !notifyVariables.intUpdatePass.validPass ? obscureTextPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png") : obscureTextPass ? AssetImage("Assets/images/ic_no_show_blue.png") : AssetImage("Assets/images/ic_show_blue.png"),
+                      image:  obscureTextPass ? AssetImage("Assets/images/ic_showed.png") : AssetImage("Assets/images/ic_show.png"),
                     ),
                     onTap: (){
                       this.obscureTextPass ? this.obscureTextPass = false : this.obscureTextPass = true;
@@ -231,7 +232,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           //  width: double.infinity,
           height: 52,
           decoration: BoxDecoration(
-              border: Border.all(color: notifyVariables.intUpdatePass.validConfirmPass ? CustomColors.blueProfile : CustomColors.gray.withOpacity(.3) ,width: 1.3),
+              border: Border.all(color: notifyVariables.intUpdatePass.validConfirmPass ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3) ,width: 1.3),
               color: CustomColors.white
           ),
           child: Center(
@@ -290,7 +291,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     child: Image(
                       width: 35,
                       height: 35,
-                      image:!notifyVariables.intUpdatePass.validConfirmPass ? obscureTextConfirmPass ? AssetImage("Assets/images/ic_no_show_grey.png") : AssetImage("Assets/images/ic_show_grey.png") : obscureTextConfirmPass ? AssetImage("Assets/images/ic_no_show_blue.png") : AssetImage("Assets/images/ic_show_blue.png"),
+                      image: obscureTextConfirmPass ? AssetImage("Assets/images/ic_showed.png") : AssetImage("Assets/images/ic_show.png") ,
                     ),
                     onTap: (){
                       this.obscureTextConfirmPass ? this.obscureTextConfirmPass = false : this.obscureTextConfirmPass = true;

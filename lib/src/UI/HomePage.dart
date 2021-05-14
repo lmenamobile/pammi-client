@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -5,10 +6,13 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wawamko/src/Models/Product/CategoryModel.dart';
+import 'package:wawamko/src/Providers/ProductsProvider.dart';
 import 'package:wawamko/src/UI/allCategories.dart';
 import 'package:wawamko/src/UI/listShopCar.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/drawerMenu.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -37,8 +41,14 @@ class _MyHomePageState extends State<MyHomePage> {
   final searchController = TextEditingController();
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   var position = 0;
+  List<Category> categories = List();
+  bool hasInternet = true;
 
-
+  @override
+  void initState() {
+    serviceGetCategories("");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Stack(
       children: <Widget>[
 
-        Positioned(
+      hasInternet ?  Positioned(
           top: 130,
           left: 0,
           right: 0,
@@ -122,15 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 270,
                             child:GridView.count(
                                   physics:  new NeverScrollableScrollPhysics(),
-
                                   childAspectRatio: 1.1,
                                   scrollDirection:Axis.horizontal,
                                   crossAxisSpacing: 14,
                                   crossAxisCount: 2,
                                   // Generate 100 widgets that display their index in the List.
-                                  children: List.generate(6, (index) {
+                                  children: List.generate(categories.length ?? 0, (index) {
                                     return Center(
-                                      child: itemCategorie()
+                                      child: itemCategorie(this.categories[index])
                                     );
                                   }),
                                 )
@@ -289,7 +298,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-        ),
+        ) : Container(alignment: Alignment.center, color: CustomColors.white, child: notifyInternet("Assets/images/ic_img_internet.png", Strings.titleAmSorry, Strings.loseInternet,context,(){
+        serviceGetCategories("");})),
         Positioned(
           top: 0,
           left: 0,
@@ -299,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: double.infinity,
             //height: 139,
             decoration: BoxDecoration(
-              color: CustomColors.white,
+              color: CustomColors.redTour,
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight:Radius.circular(30)),
 
             ),
@@ -315,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: 31,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
-                              color: CustomColors.blueActiveDots
+                              color: CustomColors.redTour
                           ),
                           child: Center(
                             child: Image(
@@ -330,8 +340,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Expanded(
                         child: Image(
                           width: 120,
-                          height: 35,
-                          image: AssetImage("Assets/images/ic_logo_black.png"),
+                          height: 30,
+                          image: AssetImage("Assets/images/ic_logo_email.png"),
                         ),
                       ),
                       GestureDetector(
@@ -339,7 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           width: 31,
                           height: 31,
                           child:Image(
-                            image: AssetImage("Assets/images/ic_shopping_blue-1.png"),
+                            image: AssetImage("Assets/images/ic_car.png"),
                           ),
                         ),
                         onTap: (){
@@ -371,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: CustomColors.grayBackground
+          color: CustomColors.graySearch
       ),
       child: Center(
         child: Row(
@@ -398,7 +408,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     border: InputBorder.none,
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontArial,
-                        fontSize: 15,
+                        fontSize: 16,
                         color: CustomColors.grayLetter
                     )
                 ),
@@ -409,6 +419,59 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
+  }
+
+  serviceGetCategories(String filter) async {
+    this.categories = [];
+    utils.checkInternet().then((value) async {
+      if (value) {
+        hasInternet = true;
+        utils.startProgress(context);
+
+
+        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
+        Future callResponse = ProductsProvider.instance.getCategories(context,filter,0);
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          CategoriesResponse data = CategoriesResponse.fromJson(decodeJSON);
+
+          if(data.status) {
+
+            var contCat = 0;
+            for(var category in data.data.categories ){
+              if(contCat <=6){
+                this.categories.add(category);
+                contCat +=1;
+              }
+
+            }
+            setState(() {
+
+            });
+            Navigator.pop(context);
+          }else{
+            Navigator.pop(context);
+            setState(() {
+
+            });
+            // utils.showSnackBarError(context,data.message);
+          }
+
+          //loading = false;
+        }, onError: (error) {
+          print("Ocurrio un error: ${error}");
+          //loading = false;
+          Navigator.pop(context);
+        });
+      }else{
+        hasInternet = false;
+        setState(() {
+
+        });
+        // loading = false;
+        //utils.showSnackBarError(context,Strings.loseInternet);
+      }
+    });
   }
 
 

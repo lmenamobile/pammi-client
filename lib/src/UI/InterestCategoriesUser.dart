@@ -22,7 +22,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
 
   @override
   void initState() {
-    serviceGetCategories();
+    serviceGetCategories("");
     super.initState();
   }
 
@@ -166,7 +166,9 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
     );
   }
 
-  serviceGetCategories() async {
+
+
+  serviceGetCategories(String filter) async {
     this.categories = [];
     utils.checkInternet().then((value) async {
       if (value) {
@@ -174,7 +176,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
 
 
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = ProductsProvider.instance.getCategories(context);
+        Future callResponse = ProductsProvider.instance.getCategories(context,filter,0);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           CategoriesResponse data = CategoriesResponse.fromJson(decodeJSON);

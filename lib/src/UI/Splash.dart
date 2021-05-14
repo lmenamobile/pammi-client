@@ -42,7 +42,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: CustomColors.blueSplash,
+        color: CustomColors.redTour,
         child: _body(context),
 
       ),
@@ -66,7 +66,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 // borderRadius: BorderRadius.all(Radius.circular(100)),
-                color: CustomColors.blueTitle
+                color: CustomColors.redSplash2
             ),
           ),
         ),
@@ -81,7 +81,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
               padding: const EdgeInsets.only(left: 70,right: 70),
               child: Image(
                 height: 60,
-                image: AssetImage("Assets/images/ic_logo.png"),
+                image: AssetImage("Assets/images/ic_logo_email.png"),
                 fit: BoxFit.contain,
               ),
             ),
@@ -97,7 +97,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
              // borderRadius: BorderRadius.all(Radius.circular(100)),
-              color: CustomColors.blueTitle
+              color: CustomColors.redSplash2
             ),
           ),
         ),

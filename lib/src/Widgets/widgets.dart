@@ -14,6 +14,7 @@ import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/Product/CategoryModel.dart';
+import 'package:wawamko/src/Models/Support/QuestionsModel.dart' as questionModel;
 import 'package:wawamko/src/UI/ListStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 import 'package:wawamko/src/UI/Register.dart';
@@ -27,6 +28,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/drawerMenu.dart';
+import 'package:wawamko/src/Widgets/expancion_widget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
 NotifyVariablesBloc notifyVariables;
@@ -760,30 +762,44 @@ Widget itemCity(BuildContext context,int pos,City city){
   );
 }
 
-Widget itemCategorie(){
+Widget itemCategorie(Category category){
   return Container(
     width: 50,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          width: 45,
-          height: 45,
+          width: 60,
+          height: 60,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(100)),
-            color: CustomColors.blueActiveDots
+            shape: BoxShape.circle,
+            color: HexColor(category.color),
+            boxShadow: [
+              BoxShadow(color:HexColor(category.color).withOpacity(.2),blurRadius: 2,offset: Offset.fromDirection(2,6))
+            ]
           ),
-          child: Image(
-            image: AssetImage("Assets/images/"),
+          child: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(100)),
+
+              child: FadeInImage(
+                fit: BoxFit.contain,
+                width: 40,
+                height: 40,
+                image: NetworkImage(category.image),
+                placeholder: AssetImage(""),
+
+              ),
+            ),
           ),
         ),
-        SizedBox(height: 15),
+        SizedBox(height: 8),
         Text(
-          "Tecnología",
+          category.category,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: Strings.fontArial,
-            fontSize: 12,
+            fontSize: 13,
             color: CustomColors.blackLetter,
           ),
         )
@@ -1215,9 +1231,10 @@ Widget itemHelpCenter(String question,Function action){
  return GestureDetector(
    child: Container(
      margin: EdgeInsets.only(top: 19),
-     padding: EdgeInsets.only(left: 24,right: 10),
-     height: 58,
+     padding: EdgeInsets.only(left: 24,right: 10,top: 12,bottom: 12),
+
      decoration: BoxDecoration(
+       color: CustomColors.white,
        borderRadius: BorderRadius.all(Radius.circular(5)),
        border: Border.all(color: CustomColors.gray.withOpacity(.2) ,width: 1.5),
 
@@ -1256,6 +1273,129 @@ Widget itemHelpCenter(String question,Function action){
    ),
    onTap: (){action();},
  );
+}
+
+Widget itemHelpCenterExpanded(questionModel.Question question,BuildContext context){
+  return ExpansionWidget(
+
+
+      tilePadding: EdgeInsets.zero,
+      initiallyExpanded: true,
+
+      iconColor: CustomColors.gray,
+
+      title: Container(
+
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage("dataOrder.brand.banner")
+              )
+          ),
+          child: Container(
+
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+
+              border: Border.all(color: CustomColors.greyBorder,width: 1),
+              color: CustomColors.white,
+            ),
+            padding: EdgeInsets.only(left: 15, right: 15, top: 18, bottom:18),
+            child: Row(
+              children: [
+                Expanded(
+                  child:   Container(
+                      width: double.infinity,
+                      child: Text(
+                        question.question,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: Strings.fontArialBold,
+                            fontSize: 15,
+                            color: CustomColors.blackLetter
+                        ),
+                      )
+                  ),
+                ),
+
+                SizedBox(
+                  width: 12,
+                  height: 1,
+                ),
+
+              ],
+            ),
+          )
+      ),
+      children: [
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              border: Border.all(color: CustomColors.greyBorder,width: 1),
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8),bottomRight: Radius.circular(8)),
+            color: CustomColors.white
+          ),
+          child: Text(
+            question.answer ?? "",
+            style: TextStyle(
+              fontSize: 15,
+              fontFamily: Strings.fontArial,
+              color: CustomColors.darkLetter
+            ),
+          ),
+        ),
+      ]
+  );
+}
+
+Widget notifyInternet(String image,String title,String text,BuildContext context,Function action){
+  return  Center(
+    child: Container(
+      padding: EdgeInsets.only(left: 30,right: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Image(
+            width: 182,
+            height: 182,
+            image: AssetImage(image),
+          ),
+          SizedBox(height:5),
+          Text(
+            title,
+            style: TextStyle(
+              fontFamily: Strings.fontArialBold,
+              fontSize: 22,
+              color: CustomColors.blueGray,
+
+            ),
+          ),
+          SizedBox(height:3),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: Strings.fontArial,
+              fontSize: 15,
+              color: CustomColors.blueGray,
+            ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.only(left: 60,right: 60,bottom: 20),
+            child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white,Strings.retry, action, context)
+          )
+
+
+        ],
+      ),
+    ),
+  );
+
 }
 
 

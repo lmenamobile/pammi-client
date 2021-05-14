@@ -8,6 +8,8 @@ import 'package:wawamko/src/Models/Support/QuestionsModel.dart';
 import 'package:wawamko/src/Models/Support/TermsConditionsModel.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
+import 'package:wawamko/src/UI/UpdatePassword.dart';
+import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -182,8 +184,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                                   shrinkWrap: true,
                                   itemBuilder: (BuildContext context, int index){
 
-                                      return itemHelpCenter(this.questions[index].question, (){
-                                      });
+                                      return itemHelpCenterExpanded(this.questions[index], context);
                                     }
                                 ),
                               ),

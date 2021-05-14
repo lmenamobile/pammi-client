@@ -7,7 +7,7 @@ class Strings {
   static const String next = 'Continuar';
   static const String selectYouAddress = 'Selecciona tu dirección';
   static const String inputAddress = 'Ingresar una nueva dirección';
-  static const String loseInternet = 'Parece que has perdido tu conexión a internet.';
+  static const String loseInternet = 'Parece que has perdido la conexión a internet';
   static const String emptyAddress = 'Debes agregar una dirección.';
   static const String emptyComplement = 'Debes agregar un complemento.';
   static const String emptyNameAddress = 'Debes agregar un nombre para tu dirección';
@@ -36,6 +36,7 @@ class Strings {
   //loGIN
   static const String login = 'Iniciar sesión';
   static const String titleAmSorry = '¡Lo sentimos!';
+
   static const String cobertCountry = 'En este momento no tenemos cobertura en este país';
   static const String cobertCity = 'En este momento no tenemos cobertura en este estado';
   static const String createAccount = 'Crea tu cuenta';
@@ -64,6 +65,7 @@ class Strings {
 
 
   static const String sendAgain = 'Volver a enviar';
+  static const String retry = 'Reintentar';
 
   static const String verificationMsg = 'Enviamos un código a tu correo,por favor escribe en los siguientes campos';
   static const String begin = '¡Empezar!';

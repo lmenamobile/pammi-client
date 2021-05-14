@@ -21,6 +21,7 @@ class MyAddressPage extends StatefulWidget {
 class _MyAddressPageState extends State<MyAddressPage> {
   List<Address>addresses = List();
   bool loading = true;
+  bool hasInternet = true;
 
   @override
   void initState() {
@@ -39,7 +40,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
     );
   }
   Widget _body(BuildContext context){
-    return Stack(
+    return   Stack(
       children: <Widget>[
         Positioned(
           top: 0,
@@ -129,7 +130,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
 
-                  !this.loading ? this.addresses.isEmpty ? Container(
+                  hasInternet ?  !this.loading ? this.addresses.isEmpty ? Container(
 
                       child: emptyAdd("Assets/images/ic_receive.png", Strings.questionAddress, Strings.beginAddAddress, Strings.addAddres,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:pushToAddAddress(), duration: Duration(milliseconds: 700)));}, context),
                     width: double.infinity,
@@ -157,8 +158,9 @@ class _MyAddressPageState extends State<MyAddressPage> {
                       ),
                       SizedBox(height: 25),
                     ],
-                  ):Container()
-                ],
+                  ):Container():Container(child: Container(width: double.infinity,height: MediaQuery.of(context).size.height - 90, child: notifyInternet("Assets/images/ic_img_internet.png", Strings.titleAmSorry, Strings.loseInternet,context,(){
+                    serviceGetAddAddressUser();})))
+                ]
               ),
             ),
           ),
@@ -173,6 +175,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
     this.addresses = [];
     utils.checkInternet().then((value) async {
       if (value) {
+        hasInternet = true;
         utils.startProgress(context);
 
 
@@ -208,8 +211,11 @@ class _MyAddressPageState extends State<MyAddressPage> {
           Navigator.pop(context);
         });
       }else{
-        loading = false;
-        utils.showSnackBarError(context,Strings.loseInternet);
+        hasInternet = false;
+        setState(() {
+
+        });
+        //utils.showSnackBarError(context,Strings.loseInternet);
       }
     });
   }
