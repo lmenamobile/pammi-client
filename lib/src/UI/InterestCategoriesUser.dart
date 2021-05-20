@@ -78,7 +78,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                       color: CustomColors.white
                     ),
                   ),
-                  SizedBox(height: 11.32),
+                  SizedBox(height: 11),
                   Text(
                     Strings.selectCategory,
                     style: TextStyle(
@@ -88,65 +88,17 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                     ),
                   ),
                   Container(
-
                     width: double.infinity,
                     margin: EdgeInsets.only(top: 20,bottom: 30),
                     child: StaggeredGridView.countBuilder(
-
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(bottom: 0),
                       shrinkWrap: true,
                       crossAxisCount: 2,
                       itemCount:this.categories.length ?? 0,
-
-                      itemBuilder: (BuildContext context, int index) =>  !index.isEven ? itemInterestCategoryRight(this.categories[index],(){
-                       var numSelected = 0;
-
-                       for(var cat in this.categories){
-                         if(cat.selected){
-                           numSelected += 1;
-                         }
-                       }
-
-                       if(numSelected == 5){
-                         utils.showSnackBar(context, "Solo puedes escoger cinco categorias");
-                       }else{
-                         if(this.categories[index].selected){
-                           this.categories[index].selected = false;
-                         }else{
-                           this.categories[index].selected = true;
-                         }
-                       }
-
-
-
-                        setState(() {
-
-                        });
-                      }) : itemInterestCategoryLeft(this.categories[index],(){
-                        var numSelected = 0;
-
-                        for(var cat in this.categories){
-                          if(cat.selected){
-                            numSelected += 1;
-                          }
-                        }
-
-                        if(numSelected ==5){
-                          utils.showSnackBar(context, "Solo puedes escoger cinco categorias");
-                        }else{
-                          if(this.categories[index].selected){
-                            this.categories[index].selected = false;
-                          }else{
-                            this.categories[index].selected = true;
-                          }
-                        }
-
-
-
-                        setState(() {
-
-                        }); }),
+                      itemBuilder: (BuildContext context, int index) {
+                        return itemCategoryInteresting(this.categories[index]);
+                      },
                       staggeredTileBuilder: (int index) =>
                       new StaggeredTile.count( 1,1.1),
                       mainAxisSpacing: 0,

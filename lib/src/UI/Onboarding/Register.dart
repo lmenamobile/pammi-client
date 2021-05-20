@@ -125,10 +125,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         Text(
                           Strings.registerMsg,
                           style: TextStyle(
-                              fontWeight: FontWeight.normal,
                               fontFamily: Strings.fontRegular,
-                              fontSize: 15,
-                              color: CustomColors.blackLetter),
+                              color: CustomColors.grayLetter),
                         ),
                         SizedBox(height: 13),
                         Padding(

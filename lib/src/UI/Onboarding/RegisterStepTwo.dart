@@ -100,15 +100,17 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
             ],
           ),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Expanded(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 17, left: 29),
-                  child: Column(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: <Widget>[
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
@@ -128,47 +130,42 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       Text(
                         Strings.registerMsg,
                         style: TextStyle(
-                            fontWeight: FontWeight.normal,
                             fontFamily: Strings.fontRegular,
-                            fontSize: 15,
-                            color: CustomColors.blackLetter),
+                            color: CustomColors.grayLetter),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6, right: 35),
-                        child: Column(
-                            children: AnimationConfiguration.toStaggeredList(
-                          duration: const Duration(milliseconds: 600),
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                            verticalOffset: 50.0,
-                            child: FadeInAnimation(
-                              child: widget,
-                            ),
+                      Column(
+                          children: AnimationConfiguration.toStaggeredList(
+                        duration: const Duration(milliseconds: 600),
+                        childAnimationBuilder: (widget) => SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: widget,
                           ),
-                          children: <Widget>[
-                            customTextField(
-                                "Assets/images/ic_telephone.png",
-                                "Número telefónico",
-                                phoneController,
-                                TextInputType.number,
-                                [maskFormatter]),
-                            SizedBox(height: 21),
-                            customBoxEmailRegister(
-                                emailController, notifyVariables, () {
-                              setState(() {});
-                            }),
-                            SizedBox(height: 21),
-                            customBoxPassword(passwordController),
-                            SizedBox(height: 21),
-                            customBoxConfirmPassword(confirmPassController)
-                          ],
-                        )),
-                      ),
+                        ),
+                        children: <Widget>[
+                          customTextField(
+                              "Assets/images/ic_telephone.png",
+                              "Número telefónico",
+                              phoneController,
+                              TextInputType.number,
+                              [maskFormatter]),
+                          SizedBox(height: 21),
+                          customBoxEmailRegister(
+                              emailController, notifyVariables, () {
+                            setState(() {});
+                          }),
+                          SizedBox(height: 21),
+                          customBoxPassword(passwordController),
+                          SizedBox(height: 21),
+                          customBoxConfirmPassword(confirmPassController)
+                        ],
+                      )),
                       SizedBox(height: 5),
                       Padding(
-                        padding: EdgeInsets.only(left: 6, right: 20),
+                        padding: EdgeInsets.only(left: 6, right: 6),
                         child: Text(
                           Strings.challengePassword,
                           style: TextStyle(
@@ -178,7 +175,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 17, top: 30),
+                        padding: const EdgeInsets.only(top: 30),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -193,9 +190,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: AssetImage(
-                                                  "Assets/images/ic_check2.png"))
-
-                                          ),
+                                                  "Assets/images/ic_check2.png"))),
                                     ),
                                     onTap: () {
                                       this.checkDates = false;
@@ -213,9 +208,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: AssetImage(
-                                                  "Assets/images/ic_check.png"))
-
-                                          ),
+                                                  "Assets/images/ic_check.png"))),
                                     ),
                                     onTap: () {
                                       this.checkDates = true;
@@ -225,126 +218,115 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                                   ),
                             SizedBox(width: 10),
                             Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Text(
+                              child:  Text(
                                   Strings.AuthorizeDates,
                                   style: TextStyle(
                                       fontFamily: Strings.fontRegular,
                                       fontSize: 12,
                                       color: CustomColors.blackLetter),
                                 ),
-                              ),
                             )
                           ],
                         ),
                       ),
                       SizedBox(height: 14),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 17),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            checkTerms
-                                ? GestureDetector(
-                                    child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    "Assets/images/ic_check2.png"))
-
-                                            )),
-                                    onTap: () {
-                                      this.checkTerms = false;
-                                      print("true");
-                                      setState(() {});
-                                    },
-                                  )
-                                : GestureDetector(
-                                    child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    "Assets/images/ic_check.png"))
-
-                                            )),
-                                    onTap: () {
-                                      this.checkTerms = true;
-                                      print("False");
-                                      setState(() {});
-                                    },
-                                  ),
-                            SizedBox(width: 10),
-                            Expanded(
-                                child: RichText(
-                              textAlign: TextAlign.left,
-                              text: TextSpan(
-                                style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 12,
-                                  color: CustomColors.blackLetter,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          checkTerms
+                              ? GestureDetector(
+                                  child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "Assets/images/ic_check2.png")))),
+                                  onTap: () {
+                                    this.checkTerms = false;
+                                    print("true");
+                                    setState(() {});
+                                  },
+                                )
+                              : GestureDetector(
+                                  child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "Assets/images/ic_check.png")))),
+                                  onTap: () {
+                                    this.checkTerms = true;
+                                    print("False");
+                                    setState(() {});
+                                  },
                                 ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: "He leido y acepto los ",
-                                      style: TextStyle(
-                                          fontFamily: Strings.fontRegular,
-                                          )),
-                                  TextSpan(
-                                    text: "Terminos y condiciones",
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontRegular,
-                                        color: CustomColors.blueActiveDots,
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => launch(
-                                          "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Clientes_Terminos+y+condiciones.pdf"),
-                                  ),
-                                  TextSpan(
-                                      text: " y la",
-                                      style: TextStyle(
-                                          fontFamily: Strings.fontRegular,
-                                      )),
-                                  TextSpan(
-                                    text: " Política de privacidad",
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontRegular,
-                                        color: CustomColors.blueActiveDots,
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => launch(
-                                          "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Cliente_Politica_De_Tratamiento_De_Datos_Personales.pdf"),
-                                  ),
-                                ],
+                          SizedBox(width: 10),
+                          Expanded(
+                              child: RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 12,
+                                color: CustomColors.blackLetter,
                               ),
-                            ))
-                          ],
-                        ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: "He leido y acepto los ",
+                                    style: TextStyle(
+                                      fontFamily: Strings.fontRegular,
+                                    )),
+                                TextSpan(
+                                  text: "Terminos y condiciones",
+                                  style: TextStyle(
+                                      fontFamily: Strings.fontRegular,
+                                      color: CustomColors.blueActiveDots,
+                                      decoration: TextDecoration.underline),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => launch(
+                                        "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Clientes_Terminos+y+condiciones.pdf"),
+                                ),
+                                TextSpan(
+                                    text: " y la",
+                                    style: TextStyle(
+                                      fontFamily: Strings.fontRegular,
+                                    )),
+                                TextSpan(
+                                  text: " Política de privacidad",
+                                  style: TextStyle(
+                                      fontFamily: Strings.fontRegular,
+                                      color: CustomColors.blueActiveDots,
+                                      decoration: TextDecoration.underline),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => launch(
+                                        "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Cliente_Politica_De_Tratamiento_De_Datos_Personales.pdf"),
+                                ),
+                              ],
+                            ),
+                          ))
+                        ],
                       ),
                       SizedBox(height: 32),
                     ],
                   ),
-                ),
-                SizedBox(height: 12),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20, left: 80, right: 80),
-                  child: btnCustomRoundedImage(
-                      CustomColors.blueSplash, CustomColors.white, Strings.next,
-                      () {
-                    _serviceRegister();
-                  }, context, "Assets/images/ic_next.png"),
-                )
-              ],
+                  SizedBox(height: 12),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20, left: 50, right: 50),
+                    child: btnCustomRoundedImage(CustomColors.blueSplash,
+                        CustomColors.white, Strings.next, () {
+                      _serviceRegister();
+                    }, context, "Assets/images/ic_next.png"),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -364,9 +346,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 border: Border.all(
-                    color: CustomColors.gray.withOpacity(.3)
-                         ,
-                    width: 1),
+                    color: CustomColors.gray.withOpacity(.3), width: 1),
                 color: CustomColors.white),
             child: Center(
               child: Padding(
@@ -377,7 +357,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                     Image(
                       width: 35,
                       height: 35,
-                      image:  AssetImage("Assets/images/ic_padlock_blue.png"),
+                      image: AssetImage("Assets/images/ic_padlock_blue.png"),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 5),
@@ -385,7 +365,9 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       height: 25,
                       color: CustomColors.grayLetter.withOpacity(.4),
                     ),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Expanded(
                       child: Container(
                         width: 200,
@@ -421,7 +403,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       child: Image(
                         width: 35,
                         height: 35,
-                        image: obscureTextPass? AssetImage("Assets/images/ic_showed.png")
+                        image: obscureTextPass
+                            ? AssetImage("Assets/images/ic_showed.png")
                             : AssetImage("Assets/images/ic_show.png"),
                       ),
                       onTap: () {
@@ -466,8 +449,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 border: Border.all(
-                    color: CustomColors.gray.withOpacity(.3),
-                    width: 1),
+                    color: CustomColors.gray.withOpacity(.3), width: 1),
                 color: CustomColors.white),
             child: Center(
               child: Padding(
@@ -478,8 +460,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                     Image(
                       width: 35,
                       height: 35,
-                      image: AssetImage("Assets/images/ic_padlock_blue.png")
-                          ,
+                      image: AssetImage("Assets/images/ic_padlock_blue.png"),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 5),
@@ -487,7 +468,9 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       height: 25,
                       color: CustomColors.grayLetter.withOpacity(.4),
                     ),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Expanded(
                       child: Container(
                         child: TextField(
@@ -523,7 +506,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       child: Image(
                         width: 35,
                         height: 35,
-                        image:  obscureTextConfirmPass? AssetImage("Assets/images/ic_showed.png")
+                        image: obscureTextConfirmPass
+                            ? AssetImage("Assets/images/ic_showed.png")
                             : AssetImage("Assets/images/ic_show.png"),
                       ),
                       onTap: () {
@@ -565,7 +549,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
     if (emailController.text == "") {
       utils.showSnackBar(context, Strings.emptyEmail);
       return true;
-    }else if(!validateEmail(emailController.text)){
+    } else if (!validateEmail(emailController.text)) {
       utils.showSnackBar(context, Strings.emailInvalidate);
       return true;
     }
@@ -633,7 +617,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
 
             //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
             Navigator.pop(context);
-            utils.startOpenSlideUp(context, dataUser.email,dataUser.fullname);
+            utils.startOpenSlideUp(context, dataUser.email, dataUser.fullname);
             //Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
 
           } else {

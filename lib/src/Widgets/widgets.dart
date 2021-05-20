@@ -16,6 +16,7 @@ import 'package:wawamko/src/UI/ListStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 import 'package:wawamko/src/UI/detailProduct.dart';
 import 'package:wawamko/src/UI/selectCity.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -2016,5 +2017,44 @@ Widget itemInterestCategoryRight(Category category, Function refreshSelected) {
       print("selected");
       refreshSelected();
     },
+  );
+}
+
+Widget itemCategoryInteresting(Category category){
+  return Container(
+  child: Column(
+    children: [
+      Container(
+        height: 100,
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: category.selected?convertColor(category.color):Colors.white.withOpacity(.3)
+                ),
+              ),
+            ),
+            FadeInImage(
+              height: 50,
+              image: NetworkImage(category.image),
+              placeholder: AssetImage(""),
+              fit: BoxFit.fill,
+            )
+          ],
+        ),
+      ),
+      SizedBox(height: 10,),
+      Text(
+        category?.category??'',
+        style: TextStyle(
+            fontFamily: Strings.fontBold,
+            fontSize: 16,
+            color: CustomColors.white),
+      )
+    ],
+  ),
   );
 }

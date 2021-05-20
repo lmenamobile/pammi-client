@@ -31,7 +31,7 @@ class Strings {
   static const String cobertCountry = 'En este momento no tenemos cobertura en este país';
   static const String cobertCity = 'En este momento no tenemos cobertura en este estado';
   static const String createAccount = 'Crear cuenta';
-  static const String registerMsg = '¡Completa siguiente información de tu perfil!';
+  static const String registerMsg = '¡Completa la siguiente información de tu perfil!';
 
   static const String send = 'Enviar';
   static const String textLogin = 'Ingresa tu correo electrónico y \ncontraseña';
