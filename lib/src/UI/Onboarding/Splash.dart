@@ -9,13 +9,13 @@ import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 
 import 'package:wawamko/src/UI/HomePage.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/TourPage.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/WelcomePage.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/login.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+
+import 'TourPage.dart';
+import 'WelcomePage.dart';
 
 class SplashPage extends StatefulWidget {
   @override

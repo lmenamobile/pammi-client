@@ -12,8 +12,8 @@ import 'package:wawamko/src/Widgets/widgets.dart';
 
 class ConfirmationSlidePage extends StatefulWidget {
 
-  final String email;
-  ConfirmationSlidePage({Key key,this.email}) : super(key: key);
+  final String email,name;
+  ConfirmationSlidePage({Key key,@required this.email,@required this.name}) : super(key: key);
   @override
   _ConfirmationSlidePageState createState() => _ConfirmationSlidePageState();
 }
@@ -65,6 +65,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                     Image(
                       width: 60,
                       height: 60,
+                      color: CustomColors.blueSplash,
                       image: AssetImage("Assets/images/ic_accep_big.png"),
                     ),
                     SizedBox(height: 11),
@@ -77,7 +78,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       ),
                     ),
                     Text(
-                      "¡"+"aca falta algo"+"!",
+                      "¡"+widget.name+"!",
                       style: TextStyle(
                           fontSize: 25,
                           fontFamily: Strings.fontBold,
@@ -104,7 +105,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50,right: 50),
-                      child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.verifyCode, (){
+                      child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
                         Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:VerificationCodePage(email: widget.email,flag: "r",), duration: Duration(milliseconds: 700)));
 

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/RegisterStepTwo.dart';
 import 'package:wawamko/src/UI/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -15,6 +13,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key}) : super(key: key);
@@ -51,20 +50,23 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _body(BuildContext context) {
-    return Stack(
+    return Column(
       children: <Widget>[
         Container(
           width: double.infinity,
+          height: 100,
           child: Stack(
             children: <Widget>[
               Positioned(
                 left: 0,
                 right: 0,
                 top: 0,
-                child: Image(
-                  fit: BoxFit.fill,
-                  height: 100,
-                  image: AssetImage("Assets/images/ic_header_signup.png"),
+                child: Container(
+                  child: Image(
+                    fit: BoxFit.fill,
+                    height: 100,
+                    image: AssetImage("Assets/images/ic_header_signup.png"),
+                  ),
                 ),
               ),
               Positioned(
@@ -95,110 +97,101 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          top: 80,
+        SizedBox(height: 15,),
+        Expanded(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.only(top: 20),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 17, left: 29),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        Strings.createAccount,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: Strings.fontBold,
-                            fontSize: 24,
-                            color: CustomColors.blackLetter),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        Strings.registerMsg,
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 15,
-                            color: CustomColors.blackLetter),
-                      ),
-                      SizedBox(height: 13),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6, right: 35),
-                        child: Column(
-                            children: AnimationConfiguration.toStaggeredList(
-                          duration: const Duration(milliseconds: 600),
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                            verticalOffset: 50.0,
-                            child: FadeInAnimation(
-                              child: widget,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: <Widget>[
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          Strings.createAccount,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: Strings.fontBold,
+                              fontSize: 24,
+                              color: CustomColors.blackLetter),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          Strings.registerMsg,
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: Strings.fontRegular,
+                              fontSize: 15,
+                              color: CustomColors.blackLetter),
+                        ),
+                        SizedBox(height: 13),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 0),
+                          child: Column(
+                              children: AnimationConfiguration.toStaggeredList(
+                            duration: const Duration(milliseconds: 600),
+                            childAnimationBuilder: (widget) => SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: FadeInAnimation(
+                                child: widget,
+                              ),
                             ),
-                          ),
-                          children: <Widget>[
-                            customTextField(
-                                "Assets/images/ic_data.png",
-                                "Nombre",
-                                nameController,
-                                TextInputType.text, []),
-                            SizedBox(height: 21),
-                            customTextField(
-                                "Assets/images/ic_data.png",
-                                "Apellido",
-                                lastNameController,
-                                TextInputType.text, []),
-                            SizedBox(height: 21),
-                            customTextFieldAction(
-                                "Assets/images/ic_identity.png",
-                                "Tipo de documento",
-                                typeDocumentController, () {
-                              pushToSelectDocument();
-                            }),
-                            SizedBox(height: 21),
-                            customTextField(
-                                "Assets/images/ic_identity.png",
-                                "Número de identificación",
-                                numberIdentityController,
-                                TextInputType.number, []),
-                            SizedBox(height: 21),
-                            customTextFieldAction(
-                                "Assets/images/ic_country.png",
-                                "País",
-                                countryController, () {
-                              Navigator.of(context).push(PageTransition(
-                                  type: PageTransitionType.slideInLeft,
-                                  child: SelectCountryPage(),
-                                  duration: Duration(milliseconds: 700)));
-                            }),
-                            SizedBox(height: 36),
-                          ],
-                        )),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(bottom: 20, left: 50, right: 50),
-                        child: btnCustomRoundedImage(CustomColors.blueSplash,
-                            CustomColors.white, Strings.next, () {
-                          _validateEmptyFields();
-                        }, context, "Assets/images/ic_next.png"),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12),
-              ],
+                            children: <Widget>[
+                              customTextField("Assets/images/ic_data.png", "Nombre",
+                                  nameController, TextInputType.text, []),
+                              SizedBox(height: 21),
+                              customTextField(
+                                  "Assets/images/ic_data.png",
+                                  "Apellido",
+                                  lastNameController,
+                                  TextInputType.text, []),
+                              SizedBox(height: 21),
+                              customTextFieldAction("Assets/images/ic_identity.png",
+                                  "Tipo de documento", typeDocumentController, () {
+                                pushToSelectDocument();
+                              }),
+                              SizedBox(height: 21),
+                              customTextField(
+                                  "Assets/images/ic_identity.png",
+                                  "Número de identificación",
+                                  numberIdentityController,
+                                  TextInputType.number, [
+                                LengthLimitingTextInputFormatter(15),
+                                FilteringTextInputFormatter.digitsOnly
+                              ]),
+                              SizedBox(height: 21),
+                              customTextFieldAction("Assets/images/ic_country.png",
+                                  "País", countryController, () {
+                                Navigator.of(context).push(PageTransition(
+                                    type: PageTransitionType.slideInLeft,
+                                    child: SelectCountryPage(),
+                                    duration: Duration(milliseconds: 700)));
+                              }),
+                              SizedBox(height: 36),
+                            ],
+                          )),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 20, left: 50, right: 50),
+                          child: btnCustomRoundedImage(CustomColors.blueSplash,
+                              CustomColors.white, Strings.next, () {
+                            _validateEmptyFields();
+                          }, context, "Assets/images/ic_next.png"),
+                        )
+                      ],
+                    ),
+                  SizedBox(height: 12),
+                ],
+              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -237,10 +230,11 @@ class _RegisterPageState extends State<RegisterPage> {
       return true;
     }
 
-    /* if(countryController.text == ""  || globalVariables.cityId == null){
-      utils.showSnackBar(context, Strings.emptyCountry);
+    if (countryController.text == "") {
+      utils.showSnackBar(context, Strings.countryEmpty);
       return true;
-    }*/
+    }
+
 
     switch (typeDocumentController.text) {
       case 'Cédula de Ciudadanía':

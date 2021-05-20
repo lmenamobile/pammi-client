@@ -279,11 +279,11 @@ class _Utils {
     );
   }
 
-  startOpenSlideUp(BuildContext context,UserModel userModel) {
+   startOpenSlideUp(BuildContext context,String email,String name) {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => ConfirmationSlidePage(email: "",)
+        builder: (BuildContext context) => ConfirmationSlidePage(email: email,name: name,)
     );
   }
 

@@ -9,13 +9,14 @@ import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/MyOrders.dart';
 import 'package:wawamko/src/UI/dayOferts.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/login.dart';
 import 'package:wawamko/src/UI/profile.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import '../UI/Onboarding/login.dart';
 
 
 

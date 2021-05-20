@@ -147,8 +147,6 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                 SizedBox(height: 24),
                 GestureDetector(
                   child: Container(
-                    height: 30,
-                    width: 100,
                     child: Text(
                       Strings.sendAgain,
                       style: TextStyle(

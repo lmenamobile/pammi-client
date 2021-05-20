@@ -4,11 +4,10 @@ import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/Splash.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 import 'src/Providers/Onboarding.dart';
+import 'src/UI/Onboarding/Splash.dart';
 import 'src/Utils/Strings.dart';
 
 void main() async{

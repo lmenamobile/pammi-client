@@ -263,8 +263,8 @@ class _LoginPageState extends State<LoginPage> {
       validateForm = false;
       msgError = Strings.emailEmpty;
     }else  if (!validateEmail(emailController.text)) {
-      utils.showSnackBar(context, Strings.emailInvalid);
-      return true;
+      validateForm = false;
+      msgError = Strings.emailInvalidate;
     } else if (passwordController.text.isEmpty) {
       validateForm = false;
       msgError = Strings.pwdEmpty;
@@ -292,7 +292,6 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                   (Route<dynamic> route) => false);
-              // Navigator.of(context).pushAndRemoveUntil(PageTransition(type: PageTransitionType.slideInLeft, child:  duration: Duration(milliseconds: 700)));
             } else {
               Navigator.of(context).push(customPageTransition(VerificationCodePage(email: user.email,)));
             }

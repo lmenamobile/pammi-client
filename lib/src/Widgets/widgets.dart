@@ -1,11 +1,8 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
@@ -17,8 +14,6 @@ import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
 import 'package:wawamko/src/UI/ListStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
-import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/Register.dart';
-import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/UI/detailProduct.dart';
 import 'package:wawamko/src/UI/selectCity.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -26,7 +21,6 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/drawerMenu.dart';
 import 'package:wawamko/src/Widgets/expancion_widget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
@@ -191,14 +185,12 @@ Widget customBoxEmailRegister(TextEditingController emailController,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          //  width: double.infinity,
           height: 52,
           decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: notifyVariables.intRegister.validateEmail
-                      ? CustomColors.blueSplash
-                      : CustomColors.gray.withOpacity(.3),
-                  width: 1.3),
+                  color:  CustomColors.gray.withOpacity(.3),
+                  width: 1),
               color: CustomColors.white),
           child: Center(
             child: Padding(
@@ -209,21 +201,21 @@ Widget customBoxEmailRegister(TextEditingController emailController,
                   Image(
                     width: 35,
                     height: 35,
-                    image: notifyVariables.intRegister.validateEmail
-                        ? AssetImage("Assets/images/ic_email_blue.png")
-                        : AssetImage("Assets/images/ic_email.png"),
+                    image:AssetImage("Assets/images/ic_email_blue.png"),
                   ),
-                  SizedBox(
-                    width: 6,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    width: 1,
+                    height: 25,
+                    color: CustomColors.grayLetter.withOpacity(.4),
                   ),
+                  SizedBox(width: 5,),
                   Expanded(
                     child: Container(
-                      width: 200,
                       child: TextField(
                         keyboardType: TextInputType.emailAddress,
                         controller: emailController,
                         style: TextStyle(
-                            fontSize: 16,
                             fontFamily: Strings.fontRegular,
                             color: CustomColors.blackLetter),
                         decoration: InputDecoration(
@@ -231,7 +223,6 @@ Widget customBoxEmailRegister(TextEditingController emailController,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                             color: CustomColors.grayLetter.withOpacity(.4),
-                            fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.email,
@@ -494,8 +485,8 @@ Widget customTextField(
     padding: EdgeInsets.only(left: 10),
     height: 52,
     decoration: BoxDecoration(
-        border:
-            Border.all(color: CustomColors.gray.withOpacity(.3), width: 1.3),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
         color: CustomColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -506,7 +497,13 @@ Widget customTextField(
           fit: BoxFit.fill,
           image: AssetImage(icon),
         ),
-        SizedBox(width: 6),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          width: 1,
+          height: 25,
+          color: CustomColors.grayLetter.withOpacity(.4),
+        ),
+        SizedBox(width: 5,),
         Expanded(
           child: Container(
             width: 200,
@@ -515,7 +512,6 @@ Widget customTextField(
               keyboardType: inputType,
               controller: controller,
               style: TextStyle(
-                  fontSize: 16,
                   fontFamily: Strings.fontRegular,
                   color: CustomColors.blackLetter),
               decoration: InputDecoration(
@@ -523,7 +519,6 @@ Widget customTextField(
                 border: InputBorder.none,
                 hintStyle: TextStyle(
                   color: CustomColors.grayLetter.withOpacity(.4),
-                  fontSize: 16,
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -543,8 +538,8 @@ Widget customTextFieldAction(String icon, String hintText,
       padding: EdgeInsets.only(left: 10),
       height: 52,
       decoration: BoxDecoration(
-          border:
-              Border.all(color: CustomColors.gray.withOpacity(.3), width: 1.3),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
           color: CustomColors.white),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -555,7 +550,13 @@ Widget customTextFieldAction(String icon, String hintText,
             fit: BoxFit.fill,
             image: AssetImage(icon),
           ),
-          SizedBox(width: 6),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 5),
+            width: 1,
+            height: 25,
+            color: CustomColors.grayLetter.withOpacity(.4),
+          ),
+          SizedBox(width: 5,),
           Expanded(
             child: Container(
               width: 200,
@@ -563,7 +564,6 @@ Widget customTextFieldAction(String icon, String hintText,
                 enabled: false,
                 controller: controller,
                 style: TextStyle(
-                    fontSize: 16,
                     fontFamily: Strings.fontRegular,
                     color: CustomColors.blackLetter),
                 decoration: InputDecoration(
@@ -571,7 +571,6 @@ Widget customTextFieldAction(String icon, String hintText,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
                     color: CustomColors.grayLetter.withOpacity(.4),
-                    fontSize: 16,
                     fontFamily: Strings.fontRegular,
                   ),
                   hintText: hintText,

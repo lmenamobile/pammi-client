@@ -63,7 +63,7 @@ class Strings {
   static const String textResgister = '¡Disfruta de un acceso rápido a tu historial y un pedido más rápido!';
   static const String AuthorizeDates = 'Autorizo el tratamiento de mis datos personales y declaro que conozco mis derechos';
   static const String sendCode = ' Te hemos enviado un correo electrónico para la verificación del mismo.';
-  static const String challengePassword= 'Debe ser mínimo de 6 caracteres, contener al menos un Número, una mayúscula y una minúscula.';
+  static const String challengePassword= 'Debe ser mínimo de 6 caracteres, contener al menos un número, una mayúscula y una minúscula.';
 
 
 
@@ -225,6 +225,7 @@ class Strings {
   static const String phoneInvalidate                       = "El teléfono no es valido, debe tener 10 digitos.";
   static const String numberEmpty                           = "El número de identificación es requerido.";
   static const String cityEmpty                             = "La ciudad es requerida.";
+  static const String countryEmpty                           = "El país es requerido.";
   static const String documentTypeEmpty                     = "El tipo de documento es requerido.";
   static const String termsAndConditionsEmpty               = "Debes aceptar los terminos y condiciones";
   static const String pwdEmpty                              = "La contraseña es requerida.";
