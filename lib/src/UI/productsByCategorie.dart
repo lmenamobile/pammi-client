@@ -136,7 +136,7 @@ class _ProductsByCategoryPageState extends State<ProductsByCategoryPage> {
                 style: TextStyle(
 
                     fontSize: 15,
-                    fontFamily: Strings.fontArialBold,
+                    fontFamily: Strings.fontBold,
                     color: CustomColors.white
 
               ),
@@ -168,7 +168,7 @@ class _ProductsByCategoryPageState extends State<ProductsByCategoryPage> {
                 subcategory.subcategory,
                 style: TextStyle(
                   fontSize: 14,
-                  fontFamily: Strings.fontArial,
+                  fontFamily: Strings.fontRegular,
                   color: CustomColors.blackLetter
                 ),
               ),

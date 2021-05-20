@@ -59,7 +59,7 @@ class _ProductsCampaignsPageState extends State<ProductsCampaignsPage> {
                     style: TextStyle(
 
                         fontSize: 15,
-                        fontFamily: Strings.fontArialBold,
+                        fontFamily: Strings.fontBold,
                         color: CustomColors.blackLetter
                     ),
                   ),
@@ -78,7 +78,7 @@ class _ProductsCampaignsPageState extends State<ProductsCampaignsPage> {
                     style: TextStyle(
                         fontSize: 18,
                         color: CustomColors.blackLetter,
-                        fontFamily: Strings.fontArialBold
+                        fontFamily: Strings.fontBold
                     ),
                   ),
                 ),

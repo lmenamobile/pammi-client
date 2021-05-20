@@ -41,8 +41,7 @@ dependencies:
   animated_background: ^1.0.5
   flutter_html: ^1.0.0
   xlive_switch: ^1.0.5
-  connectivity: ^0.4.2
-  map_launcher: ^0.7.1
+  connectivity: ^2.0.2
   intl: ^0.15.8
   flutter_rating_bar: ^3.0.1+1
   liquid_progress_indicator: ^0.3.2
@@ -54,7 +53,7 @@ dependencies:
   mime_type: ^0.2.4
   flutter_open_whatsapp: ^0.1.2
   event: ^1.1.4
-  url_launcher: ^5.4.2
+  url_launcher: ^5.7.10
   flutter_slidable: ^0.5.4
   webview_flutter: ^0.3.22+1
   flutter_swiper: ^1.1.6
@@ -72,7 +71,7 @@ dependencies:
   provider: ^4.3.2+2
   mask_text_input_formatter: ^1.2.1
   encrypt: ^4.0.1
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
   flutter_spinkit: ^4.1.2+1
 
 
@@ -113,12 +112,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: ArialRegular
+    - family: FontRegular
       fonts:
-        - asset: fonts/arialn.ttf
-    - family: ArialBold
+        - asset: fonts/Roboto-Regular.ttf
+    - family: FontMedium
       fonts:
-        - asset: fonts/ARIALNB.ttf
+        - asset: fonts/Roboto-Medium.ttf
+    - family: FontBold
+      fonts:
+        - asset: fonts/Roboto-Bold.ttf
 
   #
   # For details regarding fonts from package dependencies,

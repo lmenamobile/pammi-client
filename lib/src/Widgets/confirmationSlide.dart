@@ -12,8 +12,8 @@ import 'package:wawamko/src/Widgets/widgets.dart';
 
 class ConfirmationSlidePage extends StatefulWidget {
 
-  final UserModel userModel;
-  ConfirmationSlidePage({Key key,this.userModel}) : super(key: key);
+  final String email;
+  ConfirmationSlidePage({Key key,this.email}) : super(key: key);
   @override
   _ConfirmationSlidePageState createState() => _ConfirmationSlidePageState();
 }
@@ -72,15 +72,15 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       Strings.welcome2,
                       style: TextStyle(
                         fontSize: 22,
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         color: CustomColors.blackLetter
                       ),
                     ),
                     Text(
-                      "¡"+widget.userModel.name+"!",
+                      "¡"+"aca falta algo"+"!",
                       style: TextStyle(
                           fontSize: 25,
-                          fontFamily: Strings.fontArialBold,
+                          fontFamily: Strings.fontBold,
                           color: CustomColors.blackLetter
                       ),
                     ),
@@ -96,7 +96,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                         Strings.sendCode,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 17,
                         color: CustomColors.letterGray
                       ),
@@ -106,7 +106,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       padding: const EdgeInsets.only(left: 50,right: 50),
                       child: btnCustomRounded(CustomColors.blueActiveDots, CustomColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
-                        Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:VerificationCodePage(userModel: widget.userModel,flag: "r",), duration: Duration(milliseconds: 700)));
+                        Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:VerificationCodePage(email: widget.email,flag: "r",), duration: Duration(milliseconds: 700)));
 
                         },context),
                     ),

@@ -111,7 +111,7 @@ class _MyDatesPageState extends State<MyDatesPage> {
                                   style: TextStyle(
 
                                       fontSize: 15,
-                                      fontFamily: Strings.fontArialBold,
+                                      fontFamily: Strings.fontBold,
                                       color: CustomColors.white
                                   ),
                                 ),
@@ -164,7 +164,7 @@ class _MyDatesPageState extends State<MyDatesPage> {
                           Text(
                               Strings.changePhoto,
                               style: TextStyle(
-                                fontFamily: Strings.fontArial,
+                                fontFamily: Strings.fontRegular,
                                 fontSize: 14,
                                 color: CustomColors.white.withOpacity(.8),
                                 decoration: TextDecoration.underline
@@ -215,7 +215,7 @@ class _MyDatesPageState extends State<MyDatesPage> {
                     style: TextStyle(
                         fontSize: 15,
                         color: CustomColors.blackLetter,
-                        fontFamily: Strings.fontArialBold
+                        fontFamily: Strings.fontBold
                     ),
                   ),
                   SizedBox(height: 20),
@@ -244,7 +244,7 @@ class _MyDatesPageState extends State<MyDatesPage> {
                         Text(
                           Strings.deleteAccount,
                           style: TextStyle(
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
                             fontSize: 16,
                             color: CustomColors.red
                           ),

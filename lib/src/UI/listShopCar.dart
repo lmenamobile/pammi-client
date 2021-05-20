@@ -79,7 +79,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
                                 style: TextStyle(
 
                                     fontSize: 15,
-                                    fontFamily: Strings.fontArialBold,
+                                    fontFamily: Strings.fontBold,
                                     color: CustomColors.blackLetter
                                 ),
                               ),
@@ -114,7 +114,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
                             style: TextStyle(
                               fontSize:15,
                               color: CustomColors.blackLetter,
-                              fontFamily:  Strings.fontArialBold
+                              fontFamily:  Strings.fontBold
 
                             ),
                           ),

@@ -74,7 +74,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                     Strings.selectInterest,
                     style: TextStyle(
                       fontSize: 35,
-                      fontFamily: Strings.fontArialBold,
+                      fontFamily: Strings.fontBold,
                       color: CustomColors.white
                     ),
                   ),
@@ -83,7 +83,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                     Strings.selectCategory,
                     style: TextStyle(
                         fontSize: 12,
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         color: CustomColors.white
                     ),
                   ),

@@ -103,7 +103,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                   child: Text(
                     Strings.myAddress,
                     style: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 17,
                         color: CustomColors.white
 

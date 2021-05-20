@@ -25,11 +25,10 @@ class DialogLoadingAnimatedState extends State<DialogLoadingAnimated>{
             child: Center(
               child: Image(
                 height: 300,
-                width: 300,
                 image: AssetImage(
                     'Assets/images/Loading.gif'
                 ),
-                fit: BoxFit.contain,
+                fit: BoxFit.fill,
               ),
             ),
           ),

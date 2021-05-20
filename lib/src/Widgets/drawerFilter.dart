@@ -64,7 +64,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: CustomColors.blueTitle,
-                                    fontFamily: Strings.fontArialBold
+                                    fontFamily: Strings.fontBold
                                   ),
                                 ),
                                 GestureDetector(
@@ -100,7 +100,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                     Text(
                                      Strings.marca,
                                       style: TextStyle(
-                                        fontFamily: Strings.fontArialBold,
+                                        fontFamily: Strings.fontBold,
                                         fontSize: 11,
                                         color: CustomColors.blackLetter
                                       ),
@@ -129,7 +129,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                               style: TextStyle(
                                 fontSize: 12,
                                 color: CustomColors.blackLetter,
-                                fontFamily: Strings.fontArialBold
+                                fontFamily: Strings.fontBold
                               ),
                             ),
 
@@ -149,7 +149,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                 return Text(
                                       r"$100.000 a $300.000",
                                       style: TextStyle(
-                                        fontFamily: Strings.fontArial,
+                                        fontFamily: Strings.fontRegular,
                                         color: CustomColors.grayLetter,
                                         fontSize:10
                                       ),
@@ -179,7 +179,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: CustomColors.letterGray,
-                                        fontFamily: Strings.fontArial
+                                        fontFamily: Strings.fontRegular
                                       ),
                                     ),
                                   ),
@@ -188,7 +188,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                 Text(
                                   "-",
                                   style: TextStyle(
-                                    fontFamily: Strings.fontArial,
+                                    fontFamily: Strings.fontRegular,
                                     color: CustomColors.gray,
                                     fontSize: 14
                                   ),
@@ -207,7 +207,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       style: TextStyle(
                                           fontSize: 10,
                                           color: CustomColors.letterGray,
-                                          fontFamily: Strings.fontArial
+                                          fontFamily: Strings.fontRegular
                                       ),
                                     ),
                                   ),
@@ -226,7 +226,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   Strings.type,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    fontFamily: Strings.fontArialBold,
+                                    fontFamily: Strings.fontBold,
                                     color: CustomColors.blackLetter,
                                   ),
                                 ),
@@ -247,7 +247,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       Text(
                                         "Agregados recientemente",
                                         style: TextStyle(
-                                          fontFamily: Strings.fontArial,
+                                          fontFamily: Strings.fontRegular,
                                           fontSize: 12,
                                           color: CustomColors.grayLetter
                                         ),
@@ -276,7 +276,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       Text(
                                         "Más vendidos",
                                         style: TextStyle(
-                                            fontFamily: Strings.fontArial,
+                                            fontFamily: Strings.fontRegular,
                                             fontSize: 12,
                                             color: CustomColors.grayLetter
                                         ),
@@ -324,7 +324,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                     style: TextStyle(
                                         fontSize: 18,
                                         color: CustomColors.blueTitle,
-                                        fontFamily: Strings.fontArialBold
+                                        fontFamily: Strings.fontBold
                                     ),
                                   ),
                                 ),
@@ -348,7 +348,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                 Strings.marca,
                                 style: TextStyle(
                                   fontSize: 12,
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   color: CustomColors.blackLetter
                                 ),
                               ),
@@ -444,7 +444,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
     Text(
       nameMarca,
     style: TextStyle(
-    fontFamily: Strings.fontArial,
+    fontFamily: Strings.fontRegular,
     fontSize: 14,
     color: CustomColors.grayLetter
     ),

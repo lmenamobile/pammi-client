@@ -7,34 +7,22 @@ import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Utils/ConstansApi.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-
+import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:http/http.dart' as http;
 import 'package:wawamko/src/Utils/utils.dart';
 
 
-class OnboardingProvider {
+class OnboardingProvider with ChangeNotifier {
 
   final _prefs = SharePreference();
-  static final instance = OnboardingProvider._internal();
-  bool connected;
 
-  factory OnboardingProvider() {
-    return instance;
-  }
-
-  OnboardingProvider._internal();
-
-  Future<dynamic> loginUser(BuildContext context,String email,String password) async {
+  Future<UserResponse> loginUser(String email,String password) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var jsonIV = utils.encryptPwdIv(password);
-
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":_prefs.accessToken.toString(),
     };
-
-
-
     Map jsonData = {
       'email':email,
       'password':jsonIV['encrypted'],
@@ -43,24 +31,25 @@ class OnboardingProvider {
       'pushToken':"",
       'version':packageInfo.version,
       'platform':Platform.isIOS ? "i" : "a",
-
-
     };
-
-
     var body = jsonEncode(jsonData);
-
-    print("Parameters LOGIN ${jsonData}");
-
     final response = await http.post(ConstantsApi.baseURL+"onboarding/login",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
-      print("Ocurrio un errorTimeout"+value);
-      throw Exception(value);
+      throw Strings.errorServeTimeOut;
     });
-
-    print("Json Login: ${response.body}");
-
-    return response.body;
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        var response = DataUser.fromJsonMap(decodeJson['data']);
+        _prefs.authToken = response.authToken;
+        _prefs.dataUser = jsonEncode(response.user);
+        return response.user;
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      throw decodeJson['message'];
+    }
   }
 
   Future<dynamic> recoveryPassword(BuildContext context,String email) async {
@@ -295,7 +284,7 @@ class OnboardingProvider {
     return response.body;
   }
 
-  Future<dynamic> verificationCode(BuildContext context,String code,UserModel user) async {
+  Future<dynamic> verificationCode(BuildContext context,String code,String email) async {
 
 
     final header = {
@@ -309,7 +298,7 @@ class OnboardingProvider {
 
 
     Map jsonData = {
-      'user':user.email,
+      'user':email,
       'code':code,
 
 
@@ -330,37 +319,29 @@ class OnboardingProvider {
     return response.body;
   }
 
-  Future<dynamic> passwordRecovery(BuildContext context,String email) async {
-
-
+  Future<dynamic> passwordRecovery(String email) async {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":_prefs.accessToken.toString(),
-      //"X-WA-Auth-Token":_prefs.authToken.toString()
-
     };
-
-    print("Headers ${header}");
-
-
     Map jsonData = {
       'user':email,
-
     };
-
     var body = jsonEncode(jsonData);
-
-    print("Parameters VPasswordRecovery ${jsonData}");
-
     final response = await http.post(ConstantsApi.baseURL+"onboarding/password-recovery",headers: header,body: body).timeout(Duration(seconds: 15))
         .catchError((value){
-
-      throw Exception(value);
+      throw Strings.errorServeTimeOut;
     });
-
-    print("Json PasswordRecovery: ${response.body}");
-
-    return response.body;
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        throw decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      throw decodeJson['message'];
+    }
   }
 
   Future<dynamic> sendAgainCode(BuildContext context,String email) async {

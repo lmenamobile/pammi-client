@@ -64,7 +64,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                         style: TextStyle(
 
                             fontSize: 15,
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             color: CustomColors.blackLetter
                         ),
                       ),
@@ -115,7 +115,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                   Text(
                     "Wawamko_1",
                     style: TextStyle(
-                      fontFamily: Strings.fontArialBold,
+                      fontFamily: Strings.fontBold,
                       fontSize: 18,
                       color: CustomColors.blackLetter
                     ),
@@ -124,7 +124,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                   Text(
                     "12/07/2020",
                     style: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 14,
                         color: CustomColors.blueGray
                     ),
@@ -132,7 +132,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                   Text(
                     "Lorem Ipsum is simply dummy text of the printing and",
                     style: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 13,
                         color: CustomColors.blueGray
                     ),
@@ -156,7 +156,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                     "Canjeado",
                     style: TextStyle(
                       fontSize: 12,
-                      fontFamily: Strings.fontArial,
+                      fontFamily: Strings.fontRegular,
                       color: CustomColors.white
                     ),
                   )

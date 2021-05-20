@@ -4,9 +4,12 @@ import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
-import 'package:wawamko/src/UI/Splash.dart';
+import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/Splash.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+
+import 'src/Providers/Onboarding.dart';
+import 'src/Utils/Strings.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,17 +32,14 @@ class MyApp extends StatelessWidget {
     return  MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_)=> NotifyVariablesBloc()),
-       // ChangeNotifierProvider(create: (_)=> ),
-
+        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: Strings.appName,
         debugShowCheckedModeBanner: false,
         initialRoute: 'splash',
-
         routes: <String,WidgetBuilder>{
           'splash': (BuildContext context) => SplashPage(),
-
         },
         theme: ThemeData(
           primarySwatch: Colors.blue,

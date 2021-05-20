@@ -225,15 +225,6 @@ class UserResponse {
     "phone":phone,
     "email":email,
     "fullname":fullname,
-
-
-
-
-
-
-
-
-    //"type": List<dynamic>.from(aditional.map((x) => x)),
   };
 
 }

@@ -158,7 +158,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
               child: TextField(
                 controller: searchController,
                 style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                 ),
@@ -167,7 +167,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
                     isDense: true,
                     border: InputBorder.none,
                     hintStyle: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 15,
                         color: CustomColors.grayLetter
                     )
@@ -228,7 +228,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
                child: Text(
                  category.category,
                  style: TextStyle(
-                   fontFamily: Strings.fontArial,
+                   fontFamily: Strings.fontRegular,
                    fontSize: 14,
                    color: CustomColors.blackLetter
                  ),

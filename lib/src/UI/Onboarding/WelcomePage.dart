@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
-import 'package:wawamko/src/UI/login.dart';
+import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/Onboarding/login.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -25,7 +24,8 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
-  Widget _body(BuildContext context){
+
+  Widget _body(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           SizedBox(height: 5),
           Padding(
-            padding: const EdgeInsets.only(left: 42,right: 27),
+            padding: const EdgeInsets.only(left: 42, right: 27),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -46,34 +46,37 @@ class _WelcomePageState extends State<WelcomePage> {
                   Strings.welcome,
                   style: TextStyle(
                     fontSize: 30,
-                    fontFamily: Strings.fontArialBold,
+                    fontFamily: Strings.fontBold,
                     color: CustomColors.white,
-
                   ),
                 ),
                 Text(
                   Strings.textWelcome,
                   style: TextStyle(
                     fontSize: 15,
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     color: CustomColors.white,
-
                   ),
                 ),
                 SizedBox(height: 34),
                 Padding(
-                  padding: const EdgeInsets.only(left: 35,right: 35),
-                  child: btnCustomRoundedBorder(CustomColors.blueSplash,CustomColors.white, Strings.login, (){
-                    Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: LoginPage(), duration: Duration(milliseconds: 700)));
-
-                  }, context,CustomColors.white),
+                  padding: const EdgeInsets.only(left: 35, right: 35),
+                  child: btnCustomRoundedBorder(CustomColors.blueSplash,
+                      CustomColors.white, Strings.login, () {
+                    Navigator.of(context).push(PageTransition(
+                        type: PageTransitionType.slideInLeft,
+                        child: LoginPage(),
+                        duration: Duration(milliseconds: 700)));
+                  }, context, CustomColors.white),
                 ),
                 SizedBox(height: 11),
                 Padding(
-                  padding: const EdgeInsets.only(left: 35,right: 35),
-                  child: btnCustomRounded(CustomColors.white,CustomColors.grayLetter , Strings.begin, (){
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                        MyHomePage()), (Route<dynamic> route) => false);
+                  padding: const EdgeInsets.only(left: 35, right: 35),
+                  child: btnCustomRounded(CustomColors.white,
+                      CustomColors.grayLetter, Strings.begin, () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                        (Route<dynamic> route) => false);
                   }, context),
                 ),
                 SizedBox(height: 20),

@@ -180,7 +180,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                         child: TextField(
                           controller: searchController,
                           style: TextStyle(
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               fontSize: 15,
                               color: CustomColors.blackLetter
                           ),
@@ -189,7 +189,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                               isDense: true,
                               border: InputBorder.none,
                               hintStyle: TextStyle(
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   fontSize: 15,
                                   color: CustomColors.grayLetter
                               )
@@ -247,7 +247,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                         Text(
                           "LENOVO",
                           style: TextStyle(
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               fontSize: 10,
                               color: CustomColors.grayLetter
                           ),
@@ -256,7 +256,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                         Text(
                           "Portátil ideapad s145-14api amd r3",
                           style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 13,
                               color: CustomColors.blackLetter
                           ),
@@ -265,7 +265,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                         Text(
                           r"$ 1.899.900 COP",
                           style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 15,
                               color: CustomColors.orange
                           ),

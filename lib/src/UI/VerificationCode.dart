@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
+import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
-import 'package:wawamko/src/UI/Register.dart';
 import 'package:wawamko/src/UI/UpdatePassword.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -18,9 +17,9 @@ import 'package:wawamko/src/Widgets/widgets.dart';
 
 class VerificationCodePage extends StatefulWidget {
 
-  final UserModel userModel;
+  final String email;
   String flag;
-  VerificationCodePage({Key key,this.userModel,this.flag}) : super(key: key);
+  VerificationCodePage({Key key,this.email,this.flag}) : super(key: key);
   @override
   _VerificationCodePageState createState() => _VerificationCodePageState();
 }
@@ -32,9 +31,11 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
   final codeController3  = TextEditingController();
   final codeController4 = TextEditingController();
   SharePreference prefs = SharePreference();
+  OnboardingProvider providerOnboarding;
 
   @override
   Widget build(BuildContext context) {
+    providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -91,7 +92,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                   Strings.verification,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontFamily: Strings.fontArialBold,
+                      fontFamily: Strings.fontBold,
                       fontSize: 22,
                       color: CustomColors.blackLetter
                   ),
@@ -100,7 +101,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                 Text(
                   Strings.verificationMsg,
                   style: TextStyle(
-                      fontFamily: Strings.fontArial,
+                      fontFamily: Strings.fontRegular,
                       fontSize:14,
                       color: CustomColors.blackLetter
                   ),
@@ -152,7 +153,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                       Strings.sendAgain,
                       style: TextStyle(
                         fontSize: 18,
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         color: CustomColors.redTour,
                         decoration: TextDecoration.underline
                       ),
@@ -203,7 +204,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.verificationCode(context, code, widget.userModel);
+        Future callUser = providerOnboarding.verificationCode(context, code, widget.email);
         await callUser.then((value) {
 
           var decodeJSON = jsonDecode(value);
@@ -257,7 +258,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.sendAgainCode(context, widget.userModel.email);
+        Future callUser = providerOnboarding.sendAgainCode(context, widget.email);
         await callUser.then((value) {
 
           var decodeJSON = jsonDecode(value);

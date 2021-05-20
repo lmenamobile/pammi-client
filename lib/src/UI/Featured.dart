@@ -104,7 +104,7 @@ class _FeaturedPageState extends State<FeaturedPage> {
                             child: Text(
                               "Destacados",
                               style: TextStyle(
-                                  fontFamily: Strings.fontArialBold,
+                                  fontFamily: Strings.fontBold,
                                   fontSize: 16,
                                   color: CustomColors.blackLetter
 
@@ -138,7 +138,7 @@ class _FeaturedPageState extends State<FeaturedPage> {
                               style: TextStyle(
                                 color:this.enableFeature ? CustomColors.blackLetter: CustomColors.blackLetter.withOpacity(.3),
                                 fontSize: 14,
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
 
                               ),
 
@@ -152,7 +152,7 @@ class _FeaturedPageState extends State<FeaturedPage> {
                               style: TextStyle(
                                 color:this.enableFeature ? CustomColors.blackLetter: CustomColors.blackLetter.withOpacity(.3),
                                 fontSize: 14,
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
 
                               ),
 

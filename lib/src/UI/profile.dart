@@ -75,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Text(
                              "Mi perfil",
                             style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 15,
                               color: CustomColors.white
 
@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text(
                             "Jhonathan Blemonte",
                             style: TextStyle(
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             fontSize: 15,
                             color: CustomColors.white
                           ),
@@ -136,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text(
                           "Jhonathan@kubo.co",
                           style: TextStyle(
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               fontSize: 15,
                               color: CustomColors.white
                           ),
@@ -185,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Strings.historyOrders,
                       style: TextStyle(
                           fontSize: 16,
-                          fontFamily: Strings.fontArialBold,
+                          fontFamily: Strings.fontBold,
                           color: CustomColors.white
                       ),
                     )
@@ -278,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Text(
                 title,
               style: TextStyle(
-                fontFamily: Strings.fontArial,
+                fontFamily: Strings.fontRegular,
                 fontSize: 13,
                 color: CustomColors.blackLetter
               ),

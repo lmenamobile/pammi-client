@@ -68,7 +68,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       style: TextStyle(
 
                           fontSize: 15,
-                          fontFamily: Strings.fontArialBold,
+                          fontFamily: Strings.fontRegular,
                           color: CustomColors.blackLetter
                       ),
                     ),
@@ -100,7 +100,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                      Strings.changePass,
                      style: TextStyle(
                        fontSize: 18,
-                       fontFamily: Strings.fontArialBold,
+                       fontFamily: Strings.fontRegular,
                        color: CustomColors.blackLetter
                      ),
                    ),
@@ -108,7 +108,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       Strings.inputPass,
                       style: TextStyle(
                           fontSize: 15,
-                          fontFamily: Strings.fontArial,
+                          fontFamily: Strings.fontRegular,
                           color: CustomColors.blueGray
                       ),
                     ),
@@ -167,7 +167,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontSize: 16,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
                             color:CustomColors.blackLetter
                         ),
 
@@ -177,7 +177,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           hintStyle: TextStyle(
                             color:  CustomColors.grayLetter.withOpacity(.4),
                             fontSize: 16,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
 
                           ),
                           hintText: hintText,
@@ -250,7 +250,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontSize: 16,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
                             color:CustomColors.blackLetter
                         ),
 
@@ -260,7 +260,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           hintStyle: TextStyle(
                             color:  CustomColors.grayLetter.withOpacity(.4),
                             fontSize: 16,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
 
                           ),
                           hintText: hintText,
@@ -332,7 +332,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontSize: 16,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
                             color:CustomColors.blackLetter
                         ),
 
@@ -342,7 +342,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           hintStyle: TextStyle(
                             color:  CustomColors.grayLetter.withOpacity(.4),
                             fontSize: 16,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
 
                           ),
                           hintText: hintText,

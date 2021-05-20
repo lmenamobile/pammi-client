@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/UI/RegisterStepTwo.dart';
-import 'package:wawamko/src/UI/selectCity.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -23,7 +20,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
   bool selected = false;
   List<Country> countries = List();
-
+  OnboardingProvider providerOnboarding;
 
   @override
   void initState() {
@@ -34,6 +31,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -81,7 +79,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                             style: TextStyle(
                                 fontSize: 24,
                                 color: CustomColors.blackLetter,
-                                fontFamily: Strings.fontArialBold
+                                fontFamily: Strings.fontBold
                             ),
                           ),
                           SizedBox(height: 21),
@@ -154,7 +152,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 },
                 controller: countryController,
                 style: TextStyle(
-                  fontFamily: Strings.fontArial,
+                  fontFamily: Strings.fontRegular,
                   fontSize: 15,
                   color: CustomColors.blackLetter
                 ),
@@ -163,7 +161,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                   isDense: true,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                      fontFamily: Strings.fontArial,
+                      fontFamily: Strings.fontRegular,
                       fontSize: 15,
                       color: CustomColors.grayLetter
                   )
@@ -190,7 +188,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.getCountries(context, search ?? "", 0);
+        Future callUser = providerOnboarding.getCountries(context, search ?? "", 0);
         await callUser.then((countryResponse) {
 
           var decodeJSON = jsonDecode(countryResponse);
@@ -240,7 +238,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         //utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.getCountries(context, search ?? "", 0);
+        Future callUser =providerOnboarding.getCountries(context, search ?? "", 0);
         await callUser.then((countryResponse) {
 
           var decodeJSON = jsonDecode(countryResponse);

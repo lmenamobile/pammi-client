@@ -71,7 +71,7 @@ class _DayOferstPageState extends State<DayOferstPage> {
       child: Text(
       "Ofertas del día",
       style: TextStyle(
-      fontFamily: Strings.fontArialBold,
+      fontFamily: Strings.fontBold,
       fontSize: 16,
       color: CustomColors.blackLetter
 

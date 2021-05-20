@@ -91,7 +91,16 @@ class _Utils {
           image: AssetImage("Assets/images/ic_error.png"),
         ),
       ),
-      message:  message,
+      messageText: Align(
+        alignment: Alignment.center,
+        child:Text(
+          message,
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: Strings.fontRegular
+          ),
+        ),
+      ),
       duration:  Duration(seconds: 3),
     )..show(context);
   }
@@ -274,7 +283,7 @@ class _Utils {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => ConfirmationSlidePage(userModel: userModel,)
+        builder: (BuildContext context) => ConfirmationSlidePage(email: "",)
     );
   }
 
@@ -335,7 +344,7 @@ class _Utils {
 
                       child: Text(titleAlert,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: Strings.fontArialBold,color: CustomColors.blackLetter,fontSize: 18),),
+                        style: TextStyle(fontFamily: Strings.fontBold,color: CustomColors.blackLetter,fontSize: 18),),
 
                     ),
                     SizedBox(height: 15),
@@ -344,7 +353,7 @@ class _Utils {
                       padding: const EdgeInsets.only(left: 26,right: 26),
                       child: Text(textAlert,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: Strings.fontArial,color: CustomColors.grayLetter,fontSize: 15),),
+                        style: TextStyle(fontFamily: Strings.fontRegular,color: CustomColors.grayLetter,fontSize: 15),),
 
                     ),
                     SizedBox(height: 22.5),

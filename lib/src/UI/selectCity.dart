@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -24,7 +25,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
   bool selected = false;
   List<City>cities = List();
   bool loading = true;
-
+  OnboardingProvider providerOnboarding;
   @override
   void initState() {
     _serviceGetCities("");
@@ -33,6 +34,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -81,7 +83,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
                           style: TextStyle(
                               fontSize: 24,
                               color: CustomColors.blackLetter,
-                              fontFamily: Strings.fontArialBold
+                              fontFamily: Strings.fontBold
                           ),
                         ),
                         SizedBox(height: 21),
@@ -129,7 +131,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.getCities(context, search, 0, widget.state);
+        Future callUser = providerOnboarding.getCities(context, search, 0, widget.state);
         await callUser.then((cityResponse) {
 
           var decodeJSON = jsonDecode(cityResponse);
@@ -195,7 +197,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
 
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = OnboardingProvider.instance.getCities(context, search, 0, widget.state);
+        Future callUser = providerOnboarding.getCities(context, search, 0, widget.state);
         await callUser.then((cityResponse) {
 
           var decodeJSON = jsonDecode(cityResponse);
@@ -263,7 +265,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
                 },
                 controller: countryController,
                 style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                 ),
@@ -272,7 +274,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
                     isDense: true,
                     border: InputBorder.none,
                     hintStyle: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 15,
                         color: CustomColors.grayLetter
                     )

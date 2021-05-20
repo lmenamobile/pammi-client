@@ -103,7 +103,7 @@ class _GooglePlacesAutocompleteOverlayState
               child: Text(
                 title,
                 style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 17,
                     color: CustomColors.white
 
@@ -313,7 +313,7 @@ class _GooglePlacesAutocompleteOverlayState
   Widget _textField() => new TextField(
     focusNode: _focusAddress,
     style: TextStyle(
-        fontFamily: Strings.fontArial,
+        fontFamily: Strings.fontRegular,
         fontSize: 16,
         color: CustomColors.darkLetter
     ),
@@ -324,7 +324,7 @@ class _GooglePlacesAutocompleteOverlayState
 
       hintText: Strings.inputAddress,
       hintStyle: new TextStyle(
-        fontFamily: Strings.fontArial,
+        fontFamily: Strings.fontRegular,
         fontSize: 16,
         color: CustomColors.darkLetter.withOpacity(.3),
       ),
@@ -428,7 +428,7 @@ class PredictionTile extends StatelessWidget {
                         addressTitle,
                         style: TextStyle(
                           color: CustomColors.blackLetter,
-                          fontFamily: Strings.fontArial,
+                          fontFamily: Strings.fontRegular,
                           fontSize: 16.0,
                         ),
                       ),
@@ -439,7 +439,7 @@ class PredictionTile extends StatelessWidget {
                         addressSubtitle,
                         style: TextStyle(
                           color: CustomColors.gray,
-                          fontFamily: Strings.fontArial,
+                          fontFamily: Strings.fontRegular,
                           fontSize: 14.0,
                         ),
                       ),

@@ -81,7 +81,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             style: TextStyle(
 
                                 fontSize: 15,
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
                                 color: CustomColors.blackLetter
                             ),
                           ),
@@ -178,7 +178,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         Text(
                           "Adata",
                           style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 15,
                               color: CustomColors.grayLetter
                           ),
@@ -186,7 +186,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         Text(
                           "Micro SD 64GB UHS-I",
                           style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 20,
                               color: CustomColors.blackLetter
                           ),
@@ -194,7 +194,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         Text(
                           "Ref.:12345",
                           style: TextStyle(
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               fontSize: 12,
                               color: CustomColors.grayLetter
                           ),
@@ -202,7 +202,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         Text(
                           r"$ 60.990 COP",
                           style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 22,
                               color: CustomColors.orange
                           ),
@@ -236,7 +236,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 "Entrega a domicilio",
                                 style: TextStyle(
                                   fontSize: 14,
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   color: CustomColors.blackLetter
                                 ),
                               )
@@ -248,7 +248,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             Text(
                               "Procesador: ",
                               style: TextStyle(
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
                                 fontSize: 15,
                                 color: CustomColors.blackLetter
                               ),
@@ -256,7 +256,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             Text(
                               "AMD RYZEN",
                               style: TextStyle(
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   fontSize: 15,
                                   color: CustomColors.blackLetter
                               ),
@@ -269,7 +269,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             Text(
                               "Memoria RAM: ",
                               style: TextStyle(
-                                  fontFamily: Strings.fontArialBold,
+                                  fontFamily: Strings.fontBold,
                                   fontSize: 15,
                                   color: CustomColors.blackLetter
                               ),
@@ -277,7 +277,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             Text(
                               "8GB",
                               style: TextStyle(
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   fontSize: 15,
                                   color: CustomColors.blackLetter
                               ),
@@ -290,7 +290,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             Text(
                               "Tamaño de la pantalla:",
                               style: TextStyle(
-                                  fontFamily: Strings.fontArialBold,
+                                  fontFamily: Strings.fontBold,
                                   fontSize: 15,
                                   color: CustomColors.blackLetter
                               ),
@@ -298,7 +298,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             Text(
                               "15.6 pulgadas",
                               style: TextStyle(
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   fontSize: 15,
                                   color: CustomColors.blackLetter
                               ),
@@ -359,7 +359,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   Strings.infoProd,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: Strings.fontArialBold,
+                    fontFamily: Strings.fontBold,
                     color: CustomColors.blueProfile
                    ),
                 ),
@@ -405,7 +405,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 Text(
                   Strings.needHelp,
                   style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 11,
                     color: CustomColors.grayLetter
                   )
@@ -414,7 +414,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 Text(
                   "Contáctate al 031 567 8790",
                   style: TextStyle(
-                      fontFamily: Strings.fontArialBold,
+                      fontFamily: Strings.fontBold,
                       fontSize: 13,
                       color: CustomColors.blackLetter
                   ),
@@ -462,7 +462,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Text(
                         "0",
                         style: TextStyle(
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             fontSize: 20,
                             color: CustomColors.blackLetter
                         ),
@@ -486,7 +486,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   style: TextStyle(
                     fontSize: 18,
                     color: CustomColors.blackLetter,
-                    fontFamily: Strings.fontArialBold
+                    fontFamily: Strings.fontBold
                   ),
                 ),
 
@@ -507,7 +507,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Strings.gonnaBuy,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         color: CustomColors.blueProfile,
                         decoration: TextDecoration.underline
                       ),
@@ -549,7 +549,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
               child: Text(
                 "Ir al carrito",
                 style: TextStyle(
-                  fontFamily: Strings.fontArial,
+                  fontFamily: Strings.fontRegular,
                   fontSize: 14,
                   color: CustomColors.white,
 

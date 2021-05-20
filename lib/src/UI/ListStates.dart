@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -19,12 +20,10 @@ class StatesPage extends StatefulWidget {
 }
 
 class _StatesPageState extends State<StatesPage> {
-
-
   final searchStateController = TextEditingController();
   List<States> states = List();
   bool loading = true;
-
+  OnboardingProvider providerOnboarding;
   @override
   void initState() {
     _sertviceGetStates("");
@@ -33,6 +32,7 @@ class _StatesPageState extends State<StatesPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -82,7 +82,7 @@ class _StatesPageState extends State<StatesPage> {
                           style: TextStyle(
                               fontSize: 24,
                               color: CustomColors.blackLetter,
-                              fontFamily: Strings.fontArialBold
+                              fontFamily: Strings.fontBold
                           ),
                         ),
                         SizedBox(height: 21),
@@ -151,7 +151,7 @@ class _StatesPageState extends State<StatesPage> {
                 },
                 controller: searchStateController,
                 style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                 ),
@@ -160,7 +160,7 @@ class _StatesPageState extends State<StatesPage> {
                     isDense: true,
                     border: InputBorder.none,
                     hintStyle: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 15,
                         color: CustomColors.grayLetter
                     )
@@ -185,7 +185,7 @@ class _StatesPageState extends State<StatesPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.getStates(context, search ?? "", 0,widget.country);
+        Future callUser = providerOnboarding.getStates(context, search ?? "", 0,widget.country);
         await callUser.then((countryResponse) {
 
           var decodeJSON = jsonDecode(countryResponse);
@@ -250,7 +250,7 @@ class _StatesPageState extends State<StatesPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         //utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.getStates(context, search ?? "", 0,widget.country);
+        Future callUser = providerOnboarding.getStates(context, search ?? "", 0,widget.country);
         await callUser.then((countryResponse) {
 
           var decodeJSON = jsonDecode(countryResponse);

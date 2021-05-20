@@ -59,7 +59,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                               Strings.tipeDocument,
                               style: TextStyle(
                                 fontSize: 18,
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
                                 color: CustomColors.blackLetter,
 
 
@@ -81,7 +81,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                               child: Text(
                                 Strings.cedulaCiudadania,
                                 style: TextStyle(
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   fontSize: 15,
                                   color: CustomColors.blackLetter
                                 ),
@@ -109,7 +109,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                               child: Text(
                                 Strings.cedulaExtranjeria,
                                 style: TextStyle(
-                                    fontFamily: Strings.fontArial,
+                                    fontFamily: Strings.fontRegular,
                                     fontSize: 15,
                                     color: CustomColors.blackLetter
                                 ),
@@ -137,7 +137,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                               child: Text(
                                 Strings.passport,
                                 style: TextStyle(
-                                    fontFamily: Strings.fontArial,
+                                    fontFamily: Strings.fontRegular,
                                     fontSize: 15,
                                     color: CustomColors.blackLetter
                                 ),

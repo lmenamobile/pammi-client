@@ -69,7 +69,7 @@ class _PayMethodsPageState extends State<PayMethodsPage> {
                         style: TextStyle(
 
                             fontSize: 15,
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             color: CustomColors.blackLetter
                         ),
                       ),
@@ -146,7 +146,7 @@ class _PayMethodsPageState extends State<PayMethodsPage> {
                       Text(
                           "**** **** **** 3655",
                         style: TextStyle(
-                          fontFamily: Strings.fontArialBold,
+                          fontFamily: Strings.fontBold,
                           fontSize: 17,
                           color: CustomColors.blackLetter
                         ),
@@ -156,7 +156,7 @@ class _PayMethodsPageState extends State<PayMethodsPage> {
                           style: TextStyle(
                             fontSize: 14,
                             color: CustomColors.purpleOpacity,
-                            fontFamily: Strings.fontArial
+                            fontFamily: Strings.fontRegular
                           ),
 
 

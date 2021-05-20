@@ -1,4 +1,5 @@
 class Strings {
+  static const String appName = 'Pamii';
 
   //Tour
   static const String omitir = 'Omitir';
@@ -18,16 +19,6 @@ class Strings {
   static const String selectCategory = 'Selecciona una o más categorías que te interesen.';
   static const String emptySelectCategory = 'Debes escoger almenos una categoria';
 
-
-
-
-
-
-
-
-
-
-
   static const String textWelcome = 'Servicio 24/7 para todo tipo de productos y servicios de carácter internacional.';
 
   static const String welcome2 = 'Bienvenid@';
@@ -39,14 +30,11 @@ class Strings {
 
   static const String cobertCountry = 'En este momento no tenemos cobertura en este país';
   static const String cobertCity = 'En este momento no tenemos cobertura en este estado';
-  static const String createAccount = 'Crea tu cuenta';
+  static const String createAccount = 'Crear cuenta';
   static const String registerMsg = '¡Completa siguiente información de tu perfil!';
 
-
-
-
   static const String send = 'Enviar';
-  static const String textLogin = 'Ingresa tu correo electrónico y \n contraseña';
+  static const String textLogin = 'Ingresa tu correo electrónico y \ncontraseña';
   static const String email = 'Correo electrónico';
   static const String password= 'Contraseña';
   static const String confirmPassword = 'Confirmar contraseña';
@@ -59,9 +47,6 @@ class Strings {
   static const String verification = 'Verificación';
   static const String recoverPass = 'Recuperar contraseña';
   static const String textRecoverPass = 'Escribe tu dirección de correo, nosotros te enviaremos un código para cambiar tu contraseña.';
-
-
-
 
 
   static const String sendAgain = 'Volver a enviar';
@@ -183,11 +168,6 @@ class Strings {
   static const String ordersComplete = 'Ordenes completadas';
 
 
-
-
-
-
-
   //Validations
   static const String passwordChallenge = 'La contraseña debe contener al menos 6 caracteres y un número.';
 
@@ -235,11 +215,26 @@ class Strings {
 
 
 
-
-
+  /*Errors*/
+  static const String errorServeTimeOut                   = "Ha ocurrido un error de parte nuestra, por favor vuelve a intentarlo.";
+  static const String emailEmpty                            = "El correo es requerido.";
+  static const String nameEmpty                             = "El nombre es requerido.";
+  static const String lastNameEmpty                         = "El apellido es requerido.";
+  static const String emailInvalidate                       = "Ingrese un correo valido.";
+  static const String phoneEmpty                            = "El teléfono es requerido.";
+  static const String phoneInvalidate                       = "El teléfono no es valido, debe tener 10 digitos.";
+  static const String numberEmpty                           = "El número de identificación es requerido.";
+  static const String cityEmpty                             = "La ciudad es requerida.";
+  static const String documentTypeEmpty                     = "El tipo de documento es requerido.";
+  static const String termsAndConditionsEmpty               = "Debes aceptar los terminos y condiciones";
+  static const String pwdEmpty                              = "La contraseña es requerida.";
+  static const String pwdConfirmEmpty                       = "La confirmación de contraseña es requerida.";
+  static const String pwdNotEquals                          = "Las contraseñas no coinciden.";
+  static const String errorFormatPWD                        = 'La contraseña debe ser mínimo de 6 carácteres, con al menos un número, una mayúscula y una minúscula.';
   //Fonts
-  static const String fontArial = 'ArialRegular';
-  static const String fontArialBold = 'ArialBold';
+  static const String fontBold = 'FontBold';
+  static const String fontRegular = 'FontRegular';
+  static const String fontMedium = 'FontMedium';
 
 }
 

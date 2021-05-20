@@ -67,7 +67,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                 Text(
                   "Orden #101",
                   style: TextStyle(
-                    fontFamily: Strings.fontArialBold,
+                    fontFamily: Strings.fontBold,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                   ),
@@ -75,7 +75,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
             Text(
               "1 producto",
               style: TextStyle(
-                  fontFamily: Strings.fontArial,
+                  fontFamily: Strings.fontRegular,
                   fontSize: 12,
                   color: CustomColors.grayLetter
               ),
@@ -115,7 +115,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                           style: TextStyle(
                               fontSize: 12,
                               color: CustomColors.blueGray,
-                              fontFamily: Strings.fontArial
+                              fontFamily: Strings.fontRegular
                           ),)
                       ],
                     ),

@@ -22,14 +22,7 @@ import 'coupons.dart';
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -103,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 style: TextStyle(
                                   color: CustomColors.letterDarkBlue,
                                   fontSize: 16,
-                                  fontFamily: Strings.fontArialBold
+                                  fontFamily: Strings.fontBold
                                 ),
                               ),
 
@@ -116,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     style: TextStyle(
                                         color: CustomColors.orange,
                                         fontSize: 16,
-                                        fontFamily: Strings.fontArialBold
+                                        fontFamily: Strings.fontBold
                                     ),
                                   ),
                                   onTap: (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:AllCategoriesPage(), duration: Duration(milliseconds: 700)));},
@@ -156,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 12,
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             color: CustomColors.blue
                           ),
                         ),
@@ -165,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 16,
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               color: CustomColors.splashColor
                           ),
                         ),
@@ -206,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Text(
                           Strings.top,
                           style: TextStyle(
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             fontSize: 12,
                             color: CustomColors.blue
                           ),
@@ -214,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Text(
                           Strings.vendidos,
                           style: TextStyle(
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               fontSize: 16,
                               color: CustomColors.splashColor
                           ),
@@ -252,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Strings.findHere,
                               style: TextStyle(
                                 fontSize: 12,
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
                                 color: CustomColors.blue,
 
                               ),
@@ -261,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Strings.ofertas,
                               style: TextStyle(
                                 fontSize: 16,
-                                fontFamily: Strings.fontArialBold,
+                                fontFamily: Strings.fontBold,
                                 color: CustomColors.splashColor,
 
                               ),
@@ -398,7 +391,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextField(
                 controller: searchController,
                 style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                 ),
@@ -407,7 +400,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     isDense: true,
                     border: InputBorder.none,
                     hintStyle: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 16,
                         color: CustomColors.grayLetter
                     )

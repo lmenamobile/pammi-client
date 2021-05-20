@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -12,26 +10,22 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
-
-
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-class RegiterStepTwoPage extends StatefulWidget {
+class RegisterStepTwoPage extends StatefulWidget {
 
   final UserModel user;
-  RegiterStepTwoPage({Key key,this.user}) : super(key: key);
+  RegisterStepTwoPage({Key key,this.user}) : super(key: key);
 
   @override
-  _RegiterStepTwoPageState createState() => _RegiterStepTwoPageState();
+  _RegisterStepTwoPageState createState() => _RegisterStepTwoPageState();
 }
 
-class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
+class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
 
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
@@ -39,7 +33,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
   final confirmPassController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(mask: '###############', filter: { "#": RegExp(r'[0-9]') });
   NotifyVariablesBloc notifyVariables;
-
+  OnboardingProvider providerOnboarding;
 
   bool checkTerms = false;
   bool checkDates = false;
@@ -49,7 +43,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -106,7 +100,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                 child: Text(
                   Strings.register,
                   style: TextStyle(
-                      fontFamily: Strings.fontArial,
+                      fontFamily: Strings.fontRegular,
                       fontSize: 18,
                       color: CustomColors.white
                   ),
@@ -138,7 +132,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                         Strings.createAccount,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             fontSize: 24,
                             color: CustomColors.blackLetter
                         ),
@@ -148,7 +142,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                         Strings.registerMsg,
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            fontFamily: Strings.fontArial,
+                            fontFamily: Strings.fontRegular,
                             fontSize: 15,
                             color: CustomColors.blackLetter
                         ),
@@ -195,7 +189,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                         child: Text(
                           Strings.challengePassword,
                           style: TextStyle(
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               fontSize: 10,
                               color: CustomColors.grayLetter2
                           ),
@@ -257,7 +251,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                 child:  Text(
                                   Strings.AuthorizeDates,
                                   style: TextStyle(
-                                      fontFamily: Strings.fontArial,
+                                      fontFamily: Strings.fontRegular,
                                       fontSize: 14,
                                       color: CustomColors.blackLetter
                                   ),
@@ -331,14 +325,14 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                       TextSpan(
                                           text: "He leido y acepto los ",
                                           style: TextStyle(
-                                              fontFamily: Strings.fontArial, color: CustomColors.gray)
+                                              fontFamily: Strings.fontRegular, color: CustomColors.gray)
                                       ),
 
                                       TextSpan(
 
                                           text: "Terminos y condiciones",
                                           style: TextStyle(
-                                              fontFamily: Strings.fontArial, color: CustomColors.blueActiveDots, decoration: TextDecoration.underline),
+                                              fontFamily: Strings.fontRegular, color: CustomColors.blueActiveDots, decoration: TextDecoration.underline),
                                         recognizer: TapGestureRecognizer() ..onTap = () => launch("https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Clientes_Terminos+y+condiciones.pdf"),
 
                                       ),
@@ -346,14 +340,14 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                       TextSpan(
                                           text: " y la",
                                           style: TextStyle(
-                                              fontFamily: Strings.fontArial, color: CustomColors.gray)
+                                              fontFamily: Strings.fontRegular, color: CustomColors.gray)
                                       ),
 
                                       TextSpan(
 
                                         text: " Política de privacidad",
                                         style: TextStyle(
-                                            fontFamily: Strings.fontArial,color: CustomColors.blueActiveDots, decoration: TextDecoration.underline),
+                                            fontFamily: Strings.fontRegular,color: CustomColors.blueActiveDots, decoration: TextDecoration.underline),
                                         recognizer: TapGestureRecognizer() ..onTap = () => launch("https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Cliente_Politica_De_Tratamiento_De_Datos_Personales.pdf"),
                                       ),
 
@@ -426,7 +420,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                               controller: passwordController,
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   color:CustomColors.blackLetter
                               ),
 
@@ -436,7 +430,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                 hintStyle: TextStyle(
                                   color:  CustomColors.grayLetter.withOpacity(.4),
                                   fontSize: 16,
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
 
                                 ),
                                 hintText: Strings.password,
@@ -478,7 +472,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
               //SizedBox(height: 20,),
               snapshot.hasError ?  Padding(
                 padding: const EdgeInsets.only(left: 8,top: 2),
-                child: Text(Strings.passwordChallenge,style: TextStyle(fontFamily: Strings.fontArial,fontSize: 13,color: CustomColors.red),),
+                child: Text(Strings.passwordChallenge,style: TextStyle(fontFamily: Strings.fontRegular,fontSize: 13,color: CustomColors.red),),
 
               ): Container(
 
@@ -527,7 +521,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                               controller: passwordController,
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
                                   color:CustomColors.blackLetter
                               ),
 
@@ -537,7 +531,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
                                 hintStyle: TextStyle(
                                   color:  CustomColors.grayLetter.withOpacity(.4),
                                   fontSize: 16,
-                                  fontFamily: Strings.fontArial,
+                                  fontFamily: Strings.fontRegular,
 
                                 ),
                                 hintText: Strings.confirmPassword,
@@ -579,7 +573,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
               //SizedBox(height: 20,),
               snapshot.hasError ?  Padding(
                 padding: const EdgeInsets.only(left: 8,top: 2),
-                child: Text(Strings.passwordChallenge,style: TextStyle(fontFamily: Strings.fontArial,fontSize: 13,color: CustomColors.red),),
+                child: Text(Strings.passwordChallenge,style: TextStyle(fontFamily: Strings.fontRegular,fontSize: 13,color: CustomColors.red),),
 
               ): Container(
 
@@ -662,7 +656,7 @@ class _RegiterStepTwoPageState extends State<RegiterStepTwoPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = OnboardingProvider.instance.createAccount(context, widget.user);
+        Future callUser = providerOnboarding.createAccount(context, widget.user);
         await callUser.then((user) {
 
           var decodeJSON = jsonDecode(user);

@@ -110,7 +110,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                   child: Text(
                     Strings.supportAndService,
                     style: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 17,
                         color: CustomColors.white
 
@@ -147,7 +147,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                           Strings.support,
                           style: TextStyle(
                               fontSize: 15,
-                              fontFamily: Strings.fontArialBold,
+                              fontFamily: Strings.fontBold,
                               color: CustomColors.blackLetter
                           ),
                         ),
@@ -158,7 +158,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 15,
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               color: CustomColors.blueGray
                           ),
                         ),

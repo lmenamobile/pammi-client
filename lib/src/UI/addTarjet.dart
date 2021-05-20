@@ -74,7 +74,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                       style: TextStyle(
 
                           fontSize: 15,
-                          fontFamily: Strings.fontArialBold,
+                          fontFamily: Strings.fontRegular,
                           color: CustomColors.blackLetter
                       ),
                     ),
@@ -96,7 +96,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                   style: TextStyle(
                       fontSize: 15,
                       color: CustomColors.blackLetter,
-                      fontFamily: Strings.fontArialBold
+                      fontFamily: Strings.fontRegular
                   ),
 
 
@@ -157,7 +157,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
 
                   style: TextStyle(
 
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter,
                   ),
@@ -168,7 +168,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                     border: InputBorder.none,
                     hintText:  Strings.nameCard,
                     hintStyle: TextStyle(
-                      fontFamily: Strings.fontArial,
+                      fontFamily: Strings.fontRegular,
                       fontSize: 15,
                       color: CustomColors.grayLetter.withOpacity(.4)
                     )
@@ -226,7 +226,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
 
                   style: TextStyle(
 
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter,
                   ),
@@ -238,7 +238,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                       border: InputBorder.none,
                       hintText:  Strings.numberCard,
                       hintStyle: TextStyle(
-                          fontFamily: Strings.fontArial,
+                          fontFamily: Strings.fontRegular,
                           fontSize: 15,
                           color: CustomColors.grayLetter.withOpacity(.4)
                       )
@@ -278,7 +278,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                 child: Text(
                   txt,
                   style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                   ),
@@ -295,7 +295,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                 keyboardType: TextInputType.number,
                 inputFormatters: [maskMountFormatter],
                 style: TextStyle(
-                  fontFamily: Strings.fontArial,
+                  fontFamily: Strings.fontRegular,
                   fontSize: 15,
                   color: CustomColors.blackLetter,
                 ),
@@ -303,7 +303,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                   hintText:"00",
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.grayLetter.withOpacity(.4),
 

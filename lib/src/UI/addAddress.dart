@@ -244,7 +244,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                 child: TextField(
                   focusNode: focusNode,
                   style: TextStyle(
-                    fontFamily: Strings.fontArial,
+                    fontFamily: Strings.fontRegular,
                     fontSize: 15,
                     color: CustomColors.blackLetter
                   ),
@@ -254,7 +254,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                   controller: addressController,
                   decoration: InputDecoration(
                     hintStyle: TextStyle(
-                        fontFamily: Strings.fontArial,
+                        fontFamily: Strings.fontRegular,
                         fontSize: 15,
                         color: CustomColors.grayLetter2
                     ),
@@ -276,7 +276,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                   style: TextStyle(
                     fontSize: 13,
                     color: CustomColors.blackLetter.withOpacity(.6),
-                    fontFamily: Strings.fontArial
+                    fontFamily: Strings.fontRegular
                   ),
                 ),
               ),
@@ -376,7 +376,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                           Strings.addAddres,
                           style: TextStyle(
                           fontSize: 15,
-                            fontFamily: Strings.fontArialBold,
+                            fontFamily: Strings.fontBold,
                             color: CustomColors.white
                         ),
                       ),
@@ -545,7 +545,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
             labelTitle,
             style: TextStyle(
                 fontSize: 15,
-                fontFamily: Strings.fontArial,
+                fontFamily: Strings.fontRegular,
                 color: CustomColors.grayLetter
             ),
           ),
@@ -566,7 +566,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                     TextField(
                       controller: controller,
                       style: TextStyle(
-                          fontFamily: Strings.fontArial,
+                          fontFamily: Strings.fontRegular,
                           fontSize: 17,
                           color: CustomColors.blackLetter
                       ),
@@ -574,7 +574,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                           border: InputBorder.none,
                           hintText: hintText,
                           hintStyle: TextStyle(
-                              fontFamily: Strings.fontArial,
+                              fontFamily: Strings.fontRegular,
                               fontSize: 17,
                               color: CustomColors.grayLetter.withOpacity(.4)
 
@@ -644,7 +644,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                       Strings.helpMap,
                       style: TextStyle(
                           fontSize: 11,
-                          fontFamily: Strings.fontArial,
+                          fontFamily: Strings.fontRegular,
                           color: CustomColors.orange
                       ),
                     ),
@@ -678,7 +678,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
             textButton,
             style: TextStyle(
                 fontSize: 14,
-                fontFamily: Strings.fontArial,
+                fontFamily: Strings.fontRegular,
                 color: textColor
             ),
           ),
