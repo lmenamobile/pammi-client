@@ -344,10 +344,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
 
           if (data.code.toString() == "100") {
             Navigator.pop(context);
-            Navigator.of(context).pushReplacement(PageTransition(
-                type: PageTransitionType.slideInLeft,
-                child: LoginPage(),
-                duration: Duration(milliseconds: 700)));
+            Navigator.pushAndRemoveUntil(context,customPageTransition(LoginPage()) , (route) => false);
           } else {
             Navigator.pop(context);
             utils.showSnackBar(context, data.message);

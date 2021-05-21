@@ -57,57 +57,58 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
             },
           ),
         ),
-        SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.only(left: 40, right: 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: 200,
-                  child: Text(
-                    Strings.selectInterest,
-                    maxLines: 2,
+        Expanded(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.only(left: 40, right: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    child: Text(
+                      Strings.selectInterest,
+                      maxLines: 2,
+                      style: TextStyle(
+                          fontSize: 35,
+                          fontFamily: Strings.fontBold,
+                          color: CustomColors.white),
+                    ),
+                  ),
+                  SizedBox(height: 11),
+                  Text(
+                    Strings.selectCategory,
                     style: TextStyle(
-                        fontSize: 35,
-                        fontFamily: Strings.fontBold,
+                        fontFamily: Strings.fontRegular,
                         color: CustomColors.white),
                   ),
-                ),
-                SizedBox(height: 11),
-                Text(
-                  Strings.selectCategory,
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: Strings.fontRegular,
-                      color: CustomColors.white),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 20, bottom: 30),
-                  child: StaggeredGridView.countBuilder(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(bottom: 0),
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    itemCount: this.categories.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return itemCategoryInteresting(
-                          this.categories[index], selectCategory);
-                    },
-                    staggeredTileBuilder: (int index) =>
-                        new StaggeredTile.count(1, 1.1),
-                    mainAxisSpacing: 0,
-                    crossAxisSpacing: 0,
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 20, bottom: 30),
+                    child: StaggeredGridView.countBuilder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: 0),
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      itemCount: this.categories.length ?? 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        return itemCategoryInteresting(
+                            this.categories[index], selectCategory);
+                      },
+                      staggeredTileBuilder: (int index) =>
+                          new StaggeredTile.count(1, 1.1),
+                      mainAxisSpacing: 0,
+                      crossAxisSpacing: 0,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
-                  child: btnCustomRounded(
-                      CustomColors.white, CustomColors.grayLetter, Strings.next, validateCategoriesSelected, context),
-                )
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    child: btnCustomRounded(
+                        CustomColors.white, CustomColors.grayLetter, Strings.next, validateCategoriesSelected, context),
+                  )
+                ],
+              ),
             ),
           ),
         ),

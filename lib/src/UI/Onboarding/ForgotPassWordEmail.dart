@@ -146,8 +146,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
         Future callUser = providerOnboarding.passwordRecovery(emailController.text.trim());
         await callUser.then((msg) {
           Navigator.pop(context);
-          Navigator.of(context).push(customPageTransition(VerificationCodePage(
-              email: emailController.text.trim(), flag: "p")));
+          Navigator.of(context).push(customPageTransition(VerificationCodePage(email: emailController.text.trim(), flag: "p")));
         }, onError: (error) {
           Navigator.pop(context);
           utils.showSnackBar(context, error.toString());

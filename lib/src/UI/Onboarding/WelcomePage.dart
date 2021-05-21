@@ -51,9 +51,11 @@ class _WelcomePageState extends State<WelcomePage> {
                     color: CustomColors.white,
                   ),
                 ),
+                SizedBox(height: 10,),
                 Text(
                   Strings.textWelcome,
                   style: TextStyle(
+                    height: 1.5,
                     fontSize: 15,
                     fontFamily: Strings.fontRegular,
                     color: CustomColors.white,
@@ -70,7 +72,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         duration: Duration(milliseconds: 700)));
                   }, context, CustomColors.white),
                 ),
-                SizedBox(height: 11),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: btnCustomRounded(CustomColors.white,

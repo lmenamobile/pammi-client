@@ -50,12 +50,12 @@ class _FirstPageTourState extends State<TourPage> {
         ),
         Container(
           alignment: Alignment.bottomCenter,
-          margin: EdgeInsets.only(bottom: 60),
+          margin: EdgeInsets.only(bottom: 70),
           child: _dotsIndicator(),
         ),
         Container(
           alignment: Alignment.bottomCenter,
-          margin: EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.only(bottom: 40),
           child: GestureDetector(
             child: Text(
               Strings.omitir,
@@ -107,7 +107,7 @@ class _FirstPageTourState extends State<TourPage> {
             ),
           ),
         ),
-        SizedBox(height: 33),
+        SizedBox(height: 30,),
         Container(
           padding: EdgeInsets.only(left: 33, right: 44),
           child: Column(

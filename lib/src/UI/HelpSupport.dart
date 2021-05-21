@@ -30,14 +30,14 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
 
   @override
   void initState() {
-    // serviceGetQuestions();
+    serviceGetQuestions();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.blueSplash,
+      backgroundColor: CustomColors.redTour,
       key: _drawerKey,
       drawer: DraweMenuPage(
         rollOverActive: "support",
@@ -56,25 +56,14 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     return Column(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top: 10),
           width: double.infinity,
-          height: 90,
+          height: 70,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("Assets/images/ic_header.png"),
-                  fit: BoxFit.fitWidth)),
+                  image: AssetImage("Assets/images/ic_header_red.png"),
+                  fit: BoxFit.fill)),
           child: Stack(
             children: <Widget>[
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  width: double.infinity,
-                  height: 9,
-                  color: CustomColors.blueSplash,
-                ),
-              ),
               Positioned(
                 top: 16,
                 left: 15,
@@ -107,74 +96,80 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
             ],
           ),
         ),
-        SingleChildScrollView(
-          child: Column(children: <Widget>[
-            SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.only(left: 70, right: 70),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image(
-                    width: 135,
-                    height: 135,
-                    image: AssetImage("Assets/images/ic_customer.png"),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    Strings.support,
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: Strings.fontBold,
-                        color: CustomColors.blackLetter),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    Strings.supportMessage,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: Strings.fontRegular,
-                        color: CustomColors.blueGray),
-                  ),
-                ],
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(children: <Widget>[
+              SizedBox(height: 24),
+              Padding(
+                padding: const EdgeInsets.only(left: 70, right: 70),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image(
+                      width: 135,
+                      height: 135,
+                      image: AssetImage("Assets/images/ic_customer.png"),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      Strings.support,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: Strings.fontBold,
+                          color: CustomColors.blackLetter),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      Strings.supportMessage,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: Strings.fontRegular,
+                          color: CustomColors.blueGray),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.only(top: 0),
-                        child: ListView.builder(
-                            itemCount: this.questions.length ?? 0,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return itemHelpCenterExpanded(
-                                  this.questions[index], context);
-                            }),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        child: ListView.builder(
+              Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: double.infinity,
                             padding: EdgeInsets.only(top: 0),
-                            itemCount: this.terms.length ?? 0,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return itemHelpCenter(this.terms[index].name, () {
-                                launch(this.terms[index].url);
-                              });
-                            }),
-                      ),
-                    ],
-                  )),
-            ),
-          ]),
+                            child: ListView.builder(
+                                itemCount: this.questions.length ?? 0,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    child: itemHelpCenterExpanded(
+                                        this.questions[index], context),
+                                  );
+                                }),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            child: ListView.builder(
+                                padding: EdgeInsets.only(top: 0),
+                                itemCount: this.terms.length ?? 0,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return itemHelpCenter(this.terms[index].name, () {
+                                    launch(this.terms[index].url);
+                                  });
+                                }),
+                          ),
+                        ],
+                      )),
+                ),
+
+            ]),
+          ),
         ),
       ],
     );

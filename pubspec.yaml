@@ -73,6 +73,7 @@ dependencies:
   encrypt: ^4.0.1
   flutter_svg: ^0.18.0
   flutter_spinkit: ^4.1.2+1
+  pin_code_fields: ^6.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

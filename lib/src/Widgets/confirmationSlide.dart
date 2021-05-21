@@ -107,7 +107,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       padding: const EdgeInsets.only(left: 50,right: 50),
                       child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
-                        Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:VerificationCodePage(email: widget.email,flag: "r",), duration: Duration(milliseconds: 700)));
+                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email,flag: "r",)) , (route) => false);
 
                         },context),
                     ),

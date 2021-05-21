@@ -16,6 +16,22 @@ class SharePreference {
     this._prefs = await SharedPreferences.getInstance();
   }
 
+  get cityIdUser {
+    return _prefs.getString('cityIdUser') ?? "0";
+  }
+
+  set cityIdUser(String value) {
+    _prefs.setString('cityIdUser', value);
+  }
+
+  get nameUser {
+    return _prefs.getString('nameUser') ?? "0";
+  }
+
+  set nameUser(String value) {
+    _prefs.setString('nameUser', value);
+  }
+
   get token {
     return _prefs.getString('token') ?? "0";
   }

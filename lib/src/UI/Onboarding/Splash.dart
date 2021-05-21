@@ -86,8 +86,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _serviceAccesToken();
     Future.delayed(const Duration(seconds: 3), () {
-      _serviceAccesToken();
       getPermissionGps();
     });
     _controller = AnimationController(

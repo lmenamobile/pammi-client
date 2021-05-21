@@ -42,6 +42,8 @@ class OnboardingProvider with ChangeNotifier {
       if (decodeJson['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
         _prefs.authToken = response.authToken;
+        _prefs.nameUser = response.user.fullname;
+        _prefs.cityIdUser = response.user.countryUser.id;
         _prefs.dataUser = jsonEncode(response.user);
         return response.user;
       } else {
@@ -148,15 +150,11 @@ class OnboardingProvider with ChangeNotifier {
       'phone':userModel.numPhone,
       'password':jsonEncript['encrypted'],
       'iv':jsonEncript['iv'],
-      'documentType':userModel.typeDoc,
-      'document':userModel.numDoc,
       'city':userModel.cityId,
       'platform':Platform.isIOS ? "i" : "a",
       'type':"lc",
       'pushToken':"",
       'version':packageInfo.version.toString(),
-
-
     };
 
     var body = jsonEncode(jsonData);

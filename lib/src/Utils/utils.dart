@@ -93,11 +93,14 @@ class _Utils {
       ),
       messageText: Align(
         alignment: Alignment.center,
-        child:Text(
-          message,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: Strings.fontRegular
+        child:Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            message,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: Strings.fontRegular
+            ),
           ),
         ),
       ),
@@ -319,8 +322,7 @@ class _Utils {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-
-                width: 245,
+                margin: EdgeInsets.symmetric(horizontal: 30),
                 decoration:BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(19)),
                   color: CustomColors.white,
@@ -337,17 +339,16 @@ class _Utils {
                         width: 70,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    SizedBox(height: 10),
 
 
                    Center(
-
                       child: Text(titleAlert,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontFamily: Strings.fontBold,color: CustomColors.blackLetter,fontSize: 18),),
 
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 10),
 
                     Padding(
                       padding: const EdgeInsets.only(left: 26,right: 26),
@@ -361,10 +362,10 @@ class _Utils {
                       padding: EdgeInsets.only(left: 30,right: 30),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container( child: btnCustomRounded(CustomColors.blueProfile, CustomColors.white, "Si", action, context),width: 88,),
-                          SizedBox(width: 5),
-                          Container(child: btnCustomRounded(CustomColors.gray2, CustomColors.blackLetter, "No", actionNegative, context),width: 88,)
+                          Container( child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, "Si", action, context),width: 100,),
+                          Container(child: btnCustomRounded(CustomColors.gray2, CustomColors.blackLetter, "No", actionNegative, context),width: 100,)
                         ],
                       ),
                     ),

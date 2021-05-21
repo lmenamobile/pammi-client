@@ -150,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   lastNameController,
                                   TextInputType.text, []),
                               SizedBox(height: 21),
-                              customTextFieldAction("Assets/images/ic_identity.png",
+                           /*   customTextFieldAction("Assets/images/ic_identity.png",
                                   "Tipo de documento", typeDocumentController, () {
                                 pushToSelectDocument();
                               }),
@@ -163,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 LengthLimitingTextInputFormatter(15),
                                 FilteringTextInputFormatter.digitsOnly
                               ]),
-                              SizedBox(height: 21),
+                              SizedBox(height: 21),*/
                               customTextFieldAction("Assets/images/ic_country.png",
                                   "País", countryController, () {
                                 Navigator.of(context).push(PageTransition(
@@ -218,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
       return true;
     }
 
-    if (typeDocumentController.text == "") {
+  /*  if (typeDocumentController.text == "") {
       utils.showSnackBar(context, Strings.emptyTypeDoc);
       return true;
     }
@@ -226,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (numberIdentityController.text == "") {
       utils.showSnackBar(context, Strings.emptyNumDoc);
       return true;
-    }
+    }*/
 
     if (countryController.text == "") {
       utils.showSnackBar(context, Strings.countryEmpty);
@@ -234,7 +234,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
 
-    switch (typeDocumentController.text) {
+/*    switch (typeDocumentController.text) {
       case 'Cédula de Ciudadanía':
         userModel.typeDoc = "cc";
         break;
@@ -246,11 +246,11 @@ class _RegisterPageState extends State<RegisterPage> {
       case 'Pasaporte':
         userModel.typeDoc = "pa";
         break;
-    }
+    }*/
 
     userModel.name = nameController.text;
     userModel.lastName = lastNameController.text;
-    userModel.numDoc = numberIdentityController.text;
+   // userModel.numDoc = numberIdentityController.text;
     userModel.country = countryController.text;
     userModel.cityId = globalVariables.cityId;
 

@@ -40,7 +40,7 @@ class SupportProvider {
       "limit" : 10,
       "status": "active",
       "moduleType" : "client",
-      "countryId": "CO"
+      "countryId": _prefs.cityIdUser
 };
 
 
@@ -75,7 +75,7 @@ class SupportProvider {
       "limit" : 10,
       "status": "active",
       "moduleType" : "client",
-      "countryId": "CO"
+      "countryId": _prefs.cityIdUser
     };
 
 

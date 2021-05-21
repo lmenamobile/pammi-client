@@ -65,6 +65,8 @@ class CustomColors {
   static final des3 = const Color(0xffFBEFEF);
   static final greyBorder = const Color(0xffE6E6E6);
   static final greyBackground = const Color(0xffFCFCFC);
+  static final grayOne = const Color(0xffCACCCF);
+  static final gray3 = const Color(0xffF7F7F783);
 
 
 

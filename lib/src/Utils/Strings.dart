@@ -17,7 +17,7 @@ class Strings {
   static const String supportAndService = 'Soporte y servicios';
   static const String selectInterest = 'Elige tus intereses';
   static const String selectCategory = 'Selecciona una o más categorías que te intereses.';
-  static const String emptySelectCategory = 'Debes escoger almenos una categoria';
+  static const String emptySelectCategory = 'Debes escoger almenos una categoría';
 
   static const String textWelcome = 'Servicio 24/7 para todo tipo de productos y servicios de carácter internacional.';
 

@@ -1,5 +1,7 @@
 
 
+import 'package:wawamko/src/Models/CountryUser.dart';
+
 class ResponseAccessToken{
   int code;
   String message;
@@ -146,6 +148,7 @@ class UserResponse {
   String typeSeller;
   String verificationCode;
   bool verifyedAccount;
+  CountryUser countryUser;
 
   UserResponse({
     this.verifyedAccount,
@@ -170,7 +173,8 @@ class UserResponse {
     this.step,
     this.type,
     this.typeSeller,
-    this.verificationCode
+    this.verificationCode,
+    this.countryUser
   });
 
 
@@ -198,7 +202,7 @@ class UserResponse {
     type = json["type"];
     typeSeller = json["typeSeller"];
     verificationCode = json["verificationCode"];
-
+    countryUser = json["country"]==null?null:CountryUser.fromJson(json["country"]);
   }
 
   Map<String, dynamic> toJson() => {

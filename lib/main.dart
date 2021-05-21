@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/VerificationCode.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 import 'src/Providers/Onboarding.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           'splash':(_) => SplashPage(),
         },
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: MyHomePage(title: 'Flutter Demo Home Page'),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -1231,7 +1232,7 @@ Widget itemHelpCenterExpanded(
     questionModel.Question question, BuildContext context) {
   return ExpansionWidget(
       tilePadding: EdgeInsets.zero,
-      initiallyExpanded: true,
+      initiallyExpanded: false,
       iconColor: CustomColors.gray,
       title: Container(
           width: MediaQuery.of(context).size.width,
@@ -1277,16 +1278,13 @@ Widget itemHelpCenterExpanded(
                   bottomLeft: Radius.circular(8),
                   bottomRight: Radius.circular(8)),
               color: CustomColors.white),
-          child: Text(
-            question.answer ?? "",
-            style: TextStyle(
-                fontSize: 15,
-                fontFamily: Strings.fontRegular,
-                color: CustomColors.darkLetter),
+          child: Html(
+            data: question.answer ?? "",
           ),
         ),
       ]);
 }
+
 
 Widget notifyInternet(String image, String title, String text,
     BuildContext context, Function action) {
@@ -1764,7 +1762,7 @@ Widget textFieldCode(TextEditingController controller, String placeHolder,
     child: Padding(
       padding: const EdgeInsets.only(left: 10, top: 0),
       child: TextField(
-          textInputAction: TextInputAction.next,
+          textInputAction: TextInputAction.done,
           controller: controller,
           keyboardType: TextInputType.number,
           style: TextStyle(color: CustomColors.blackLetter, fontSize: 19),

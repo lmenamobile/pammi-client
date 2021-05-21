@@ -11,6 +11,7 @@ import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -32,7 +33,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
   NotifyVariablesBloc notifyVariables;
   OnboardingProvider providerOnboarding;
-
+  SharePreference _prefs = SharePreference();
   bool checkTerms = false;
   bool checkDates = false;
   bool obscureTextPass = true;
@@ -614,6 +615,9 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
 
           if (data.code.toString() == "100") {
             var dataUser = data.data.user;
+
+            _prefs.nameUser = dataUser.fullname;
+            _prefs.cityIdUser = dataUser?.countryUser?.id??'';
 
             //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
             Navigator.pop(context);

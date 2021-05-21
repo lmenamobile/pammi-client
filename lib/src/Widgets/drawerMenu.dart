@@ -99,26 +99,19 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                             itemProfile(context),
-
+                             itemProfile(context,_prefs.nameUser??''),
                              SizedBox(height: 23),
                              itemMenu(context,"Assets/images/ic_start.png", (){widget.rollOverActive != "start" ?  pushToPage(MyHomePage()) :Navigator.pop(context);},Strings.start),
-
                              itemMenu(context,"Assets/images/ic_ offers_day.png", (){widget.rollOverActive != "ofertsDay" ? pushToPage(DayOferstPage()) : Navigator.pop(context);}, Strings.dayOferts),
-
                              itemMenu(context,"Assets/images/ic_featured.png", (){widget.rollOverActive != "featured" ?  pushToPage(FeaturedPage()) :Navigator.pop(context);},Strings.destacados ),
-
                              itemMenu(context,"Assets/images/ic_news.png", (){widget.rollOverActive != "myOrders" ?  pushToPage(MyOrdersPage()) :Navigator.pop(context);},Strings.myOrders ),
-
                              itemMenu(context,"Assets/images/ic_wishes.png", (){},Strings.wishes ),
-
                              itemMenu(context,"Assets/images/ic_ notification.png", (){},Strings.notifications ),
-                             SizedBox(height: 25),
                              itemMenu(context,"Assets/images/ic_support.png", (){widget.rollOverActive != "support" ?  pushToPage(SupportHelpPage()) :Navigator.pop(context);},Strings.supportservices ),
                              SizedBox(height: 17),
                              Padding(
                                padding: const EdgeInsets.only(left: 39,right: 39),
-                               child: btnCustomRounded(CustomColors.orange, CustomColors.white,Strings.closeSesion, (){utils.startCustomAlertMessage(context, Strings.closeSesion, "Assets/images/ic_exit.png", Strings.closeSesionText, (){_prefs.dataUser = "0"; Navigator.pop(context);  Navigator.pop(context); Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInUp, child:LoginPage(), duration: Duration(milliseconds: 700))); }, (){Navigator.pop(context);});},context),
+                               child: btnCustomRounded(CustomColors.orange, CustomColors.white,Strings.closeSesion, (){utils.startCustomAlertMessage(context, Strings.closeSesion, "Assets/images/ic_sign_off.png", Strings.closeSesionText, (){_prefs.dataUser = "0"; Navigator.pop(context);  Navigator.pop(context); Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInUp, child:LoginPage(), duration: Duration(milliseconds: 700))); }, (){Navigator.pop(context);});},context),
                              ),
                               SizedBox(height: 16),
 
@@ -137,7 +130,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
 
   }
 
-  Widget itemProfile(BuildContext context){
+  Widget itemProfile(BuildContext context,String nameUser){
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
@@ -174,7 +167,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Jhonathan Belmonte",
+                      nameUser??'',
                       style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 12,
