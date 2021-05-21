@@ -324,6 +324,7 @@ class OnboardingProvider with ChangeNotifier {
       "Content-Type": "application/json",
       "X-WA-Access-Token":_prefs.accessToken.toString(),
     };
+    print(email);
     Map jsonData = {
       'user':email,
     };
@@ -335,7 +336,7 @@ class OnboardingProvider with ChangeNotifier {
     Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson['code'] == 100) {
-        throw decodeJson['message'];
+        return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }

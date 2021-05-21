@@ -2020,41 +2020,49 @@ Widget itemInterestCategoryRight(Category category, Function refreshSelected) {
   );
 }
 
-Widget itemCategoryInteresting(Category category){
+Widget itemCategoryInteresting(Category category,Function actionSelect){
   return Container(
-  child: Column(
-    children: [
-      Container(
-        height: 100,
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: category.selected?convertColor(category.color):Colors.white.withOpacity(.3)
+  child: GestureDetector(
+    onTap: ()=>actionSelect(category),
+    child: Column(
+      children: [
+        Container(
+          height: 100,
+          width: 100,
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: category.selected?convertColor(category.color):Colors.white.withOpacity(.3)
+                  ),
                 ),
               ),
-            ),
-            FadeInImage(
-              height: 50,
-              image: NetworkImage(category.image),
-              placeholder: AssetImage(""),
-              fit: BoxFit.fill,
-            )
-          ],
+              Positioned(
+                right: 12,
+                bottom: 18,
+                child: FadeInImage(
+                  height:40,
+                  image: NetworkImage(category.image),
+                  placeholder: AssetImage("Assets/images/ic_sport.png"),
+                  fit: BoxFit.fill,
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-      SizedBox(height: 10,),
-      Text(
-        category?.category??'',
-        style: TextStyle(
-            fontFamily: Strings.fontBold,
-            fontSize: 16,
-            color: CustomColors.white),
-      )
-    ],
+        SizedBox(height: 10,),
+        Text(
+          category?.category??'',
+          style: TextStyle(
+              fontFamily: Strings.fontBold,
+              fontSize: 16,
+              color: CustomColors.white),
+        )
+      ],
+    ),
   ),
   );
 }

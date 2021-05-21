@@ -18,6 +18,7 @@ class InterestCategoriesUser extends StatefulWidget {
 
 class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   List<Category> categories = List();
+  List<Category> categoriesSelected = List();
   bool hasInternet;
 
   @override
@@ -30,95 +31,89 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.redTour,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: _body(context),
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          child: _body(context),
+        ),
       ),
     );
   }
 
-  Widget _body(BuildContext context){
-    return Stack(
+  Widget _body(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Positioned(
-          top: 30,
-          left: 30,
+        Container(
+          margin: EdgeInsets.only(left: 30, top: 20, bottom: 10),
           child: GestureDetector(
             child: Container(
               width: 40,
               height: 40,
-              child: Image(
-                  image: AssetImage("Assets/images/ic_back_w.png")
-              ),
+              child: Image(image: AssetImage("Assets/images/ic_back_w.png")),
             ),
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
           ),
-
         ),
-        Positioned(
-          top: 80,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.only(left: 42,right:50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
+        SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.only(left: 40, right: 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: 200,
+                  child: Text(
                     Strings.selectInterest,
+                    maxLines: 2,
                     style: TextStyle(
-                      fontSize: 35,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.white
-                    ),
+                        fontSize: 35,
+                        fontFamily: Strings.fontBold,
+                        color: CustomColors.white),
                   ),
-                  SizedBox(height: 11),
-                  Text(
-                    Strings.selectCategory,
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: Strings.fontRegular,
-                        color: CustomColors.white
-                    ),
+                ),
+                SizedBox(height: 11),
+                Text(
+                  Strings.selectCategory,
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontFamily: Strings.fontRegular,
+                      color: CustomColors.white),
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: 20, bottom: 30),
+                  child: StaggeredGridView.countBuilder(
+                    physics: BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(bottom: 0),
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    itemCount: this.categories.length ?? 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      return itemCategoryInteresting(
+                          this.categories[index], selectCategory);
+                    },
+                    staggeredTileBuilder: (int index) =>
+                        new StaggeredTile.count(1, 1.1),
+                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 0,
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 20,bottom: 30),
-                    child: StaggeredGridView.countBuilder(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: 0),
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      itemCount:this.categories.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        return itemCategoryInteresting(this.categories[index]);
-                      },
-                      staggeredTileBuilder: (int index) =>
-                      new StaggeredTile.count( 1,1.1),
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 0,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 50,right:50,bottom: 20),
-                    child: btnCustomRounded(CustomColors.white,CustomColors.grayLetter, Strings.next, (){serviceSaveCategories();}, context),
-                  )
-                ],
-              ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                  child: btnCustomRounded(
+                      CustomColors.white, CustomColors.grayLetter, Strings.next, validateCategoriesSelected, context),
+                )
+              ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
-
-
 
   serviceGetCategories(String filter) async {
     this.categories = [];
@@ -126,28 +121,22 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
       if (value) {
         utils.startProgress(context);
 
-
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = ProductsProvider.instance.getCategories(context,filter,0);
+        Future callResponse =
+            ProductsProvider.instance.getCategories(context, filter, 0);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           CategoriesResponse data = CategoriesResponse.fromJson(decodeJSON);
 
-          if(data.status) {
-
-
-            for(var category in data.data.categories ){
+          if (data.status) {
+            for (var category in data.data.categories) {
               this.categories.add(category);
             }
-            setState(() {
-
-            });
+            setState(() {});
             Navigator.pop(context);
-          }else{
+          } else {
             Navigator.pop(context);
-            setState(() {
-
-            });
+            setState(() {});
             // utils.showSnackBarError(context,data.message);
           }
 
@@ -157,7 +146,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
           //loading = false;
           Navigator.pop(context);
         });
-      }else{
+      } else {
         hasInternet = false;
         // loading = false;
         //utils.showSnackBarError(context,Strings.loseInternet);
@@ -165,46 +154,50 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
     });
   }
 
-  serviceSaveCategories() async {
-    var numSelected = 0;
-    List<int> idCats = List();
-
-    for(var cat in this.categories){
-      if(cat.selected){
-        idCats.add(cat.id);
-        numSelected += 1;
+  selectCategory(Category category) {
+    if (category.selected) {
+      category.selected = false;
+      categoriesSelected.remove(category);
+    } else {
+      if (categoriesSelected.length <= 4) {
+        category.selected = true;
+        categoriesSelected.add(category);
+      } else {
+        utils.showSnackBar(context, Strings.categoriesMaxSelected);
       }
     }
+    setState(() {});
+  }
 
-    if(numSelected < 1){
+  validateCategoriesSelected(){
+    if(categoriesSelected.isNotEmpty){
+      serviceSaveCategories();
+    }else{
       utils.showSnackBar(context, Strings.emptySelectCategory);
-      return;
     }
+  }
 
-
+  serviceSaveCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-
-
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = ProductsProvider.instance.saveCategories(context, idCats);
+        Future callResponse =
+            ProductsProvider.instance.saveCategories(context, categoriesSelected);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
-          ChangeStatusAddressResponse data = ChangeStatusAddressResponse.fromJson(decodeJSON);
+          ChangeStatusAddressResponse data =
+              ChangeStatusAddressResponse.fromJson(decodeJSON);
 
-          if(data.status) {
-
+          if (data.status) {
             print("Sucess___");
             Navigator.pop(context);
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                MyHomePage()), (Route<dynamic> route) => false);
-          }else{
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+                (Route<dynamic> route) => false);
+          } else {
             Navigator.pop(context);
-            setState(() {
-
-            });
-             utils.showSnackBarError(context,data.message);
+            setState(() {});
+            utils.showSnackBarError(context, data.message);
           }
 
           //loading = false;
@@ -213,10 +206,10 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
           //loading = false;
           Navigator.pop(context);
         });
-      }else{
+      } else {
         hasInternet = false;
         // loading = false;
-        utils.showSnackBarError(context,Strings.loseInternet);
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }

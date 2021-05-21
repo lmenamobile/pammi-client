@@ -16,7 +16,7 @@ class Strings {
   static const String updateAddressButton = 'Actualizar dirección';
   static const String supportAndService = 'Soporte y servicios';
   static const String selectInterest = 'Elige tus intereses';
-  static const String selectCategory = 'Selecciona una o más categorías que te interesen.';
+  static const String selectCategory = 'Selecciona una o más categorías que te intereses.';
   static const String emptySelectCategory = 'Debes escoger almenos una categoria';
 
   static const String textWelcome = 'Servicio 24/7 para todo tipo de productos y servicios de carácter internacional.';
@@ -109,7 +109,7 @@ class Strings {
 
   //Support
   static const String support = '¿En qué podemos ayudarte?';
-  static const String supportMessage = 'Lorem Ipsum is simply dummy text of the printing and';
+  static const String supportMessage = '';
   static const String buying = 'Comprando';
   static const String howDoEmprend = 'Como ser emprendedor';
   static const String howPayShop = 'Cómo pagar tu compra';
@@ -232,6 +232,8 @@ class Strings {
   static const String pwdConfirmEmpty                       = "La confirmación de contraseña es requerida.";
   static const String pwdNotEquals                          = "Las contraseñas no coinciden.";
   static const String errorFormatPWD                        = 'La contraseña debe ser mínimo de 6 carácteres, con al menos un número, una mayúscula y una minúscula.';
+  static const String categoriesMaxSelected                 = "Solo puedes seleccionar maximo 5 intereses.";
+
   //Fonts
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';

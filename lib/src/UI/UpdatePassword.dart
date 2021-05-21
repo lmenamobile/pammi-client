@@ -109,9 +109,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             SizedBox(height: 31),
             customBoxConfirmPass(confirmPasswordController),
             Padding(
-              padding: const EdgeInsets.only(left: 70, right: 70, top: 35),
+              padding: const EdgeInsets.only(left: 50, right: 50, top: 35),
               child: btnCustomRounded(
-                  CustomColors.blueSplash, CustomColors.white, Strings.send,
+                  CustomColors.blueSplash, CustomColors.white, Strings.save,
                   () {
                 _serviceUpdatePass();
               }, context),
@@ -128,14 +128,14 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          //  width: double.infinity,
           height: 52,
           decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validPass
                       ? CustomColors.blueSplash
                       : CustomColors.gray.withOpacity(.3),
-                  width: 1.3),
+                  width: 1),
               color: CustomColors.white),
           child: Center(
             child: Padding(
@@ -150,17 +150,18 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
                   ),
-                  SizedBox(
-                    width: 6,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    width: 1,
+                    height: 25,
+                    color: CustomColors.grayLetter.withOpacity(.4),
                   ),
                   Expanded(
                     child: Container(
-                      width: 200,
                       child: TextField(
                         obscureText: obscureTextPass,
                         controller: passwordController,
                         style: TextStyle(
-                            fontSize: 16,
                             fontFamily: Strings.fontRegular,
                             color: CustomColors.blackLetter),
                         decoration: InputDecoration(
@@ -168,7 +169,6 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                             color: CustomColors.grayLetter.withOpacity(.4),
-                            fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.password,
@@ -216,14 +216,14 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          //  width: double.infinity,
           height: 52,
           decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validConfirmPass
                       ? CustomColors.blueSplash
                       : CustomColors.gray.withOpacity(.3),
-                  width: 1.3),
+                  width: 1),
               color: CustomColors.white),
           child: Center(
             child: Padding(
@@ -238,8 +238,11 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
                   ),
-                  SizedBox(
-                    width: 6,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    width: 1,
+                    height: 25,
+                    color: CustomColors.grayLetter.withOpacity(.4),
                   ),
                   Expanded(
                     child: Container(
@@ -248,7 +251,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         obscureText: obscureTextConfirmPass,
                         controller: passwordController,
                         style: TextStyle(
-                            fontSize: 16,
+
                             fontFamily: Strings.fontRegular,
                             color: CustomColors.blackLetter),
                         decoration: InputDecoration(
@@ -256,7 +259,6 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                             color: CustomColors.grayLetter.withOpacity(.4),
-                            fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.confirmPassword,

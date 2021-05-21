@@ -60,22 +60,19 @@ class ProductsProvider {
     return response.body;
   }
 
-  Future<dynamic> saveCategories(BuildContext context,List<int> arrayIdCategories) async {
-
-
+  Future<dynamic> saveCategories(BuildContext context,List<Category> arrayIdCategories) async {
+    List<int> idCats = List();
+    arrayIdCategories.forEach((element) {
+      idCats.add(element.id);
+    });
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":_prefs.accessToken.toString(),
       "X-WA-Auth-Token":_prefs.authToken.toString()
     };
-
-
-
     Map jsonData = {
-      "categories": arrayIdCategories,
-
+      "categories": idCats,
     };
-
 
     var body = jsonEncode(jsonData);
 

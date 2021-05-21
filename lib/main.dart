@@ -7,6 +7,7 @@ import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 import 'src/Providers/Onboarding.dart';
+import 'src/UI/InterestCategoriesUser.dart';
 import 'src/UI/Onboarding/Splash.dart';
 import 'src/Utils/Strings.dart';
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: 'splash',
         routes: <String,WidgetBuilder>{
-          'splash': (BuildContext context) => SplashPage(),
+          'splash':(_) => SplashPage(),
         },
         theme: ThemeData(
           primarySwatch: Colors.blue,
