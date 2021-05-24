@@ -1,10 +1,7 @@
 
 import 'dart:async';
-import 'package:event/event.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:nacional_licores/src/models/OnboardongModels.dart';
-//import 'package:nacional_licores/src/models/shopCarModel.dart';
+
 
 class GlobalVariables {
 
@@ -28,18 +25,12 @@ class GlobalVariables {
   String tokenVerify = "";
   Map<String,dynamic> userModel;
   String emailRecoverPass = "";
-  var eventRefreshRegister = Event();
   int cityId;
 
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
  
-  var sc = StreamController();
 
-  //Socket
-
-Map<String, bool> isProbablyConnected = {};
-  
    
 
 }

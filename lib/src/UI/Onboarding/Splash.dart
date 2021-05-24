@@ -14,6 +14,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 
+import '../addAddress.dart';
 import 'TourPage.dart';
 import 'WelcomePage.dart';
 
@@ -149,6 +150,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             duration: Duration(milliseconds: 700)));
       }
     } else {
+
       Navigator.of(context).pushReplacement(PageTransition(
           type: PageTransitionType.slideInLeft,
           curve: Curves.decelerate,

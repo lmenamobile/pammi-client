@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "262228864942",
+    "project_id": "pamii-c9ca6",
+    "storage_bucket": "pamii-c9ca6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262228864942:android:32ad47cc477fc2b719223f",
+        "android_client_info": {
+          "package_name": "com.kubo.pamii"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262228864942-34tpniantgkkqo8aul6c1q0li6pjbbos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kubo.pamii",
+            "certificate_hash": "defea637d3d0fc18d601ce0ac2f55f11ae7dd410"
+          }
+        },
+        {
+          "client_id": "262228864942-h3hicn6lt0rqdev9m90g2sfup34qj7au.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA62XHfJH82p0zBrjDFuBp4pNmGg27o11Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262228864942-h3hicn6lt0rqdev9m90g2sfup34qj7au.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
