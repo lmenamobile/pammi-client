@@ -9,7 +9,7 @@ import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/MyOrders.dart';
 import 'package:wawamko/src/UI/dayOferts.dart';
-import 'package:wawamko/src/UI/profile.dart';
+import 'package:wawamko/src/UI/User/ProfilePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';

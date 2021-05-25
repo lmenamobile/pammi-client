@@ -219,13 +219,13 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                                   ),
                             SizedBox(width: 10),
                             Expanded(
-                              child:  Text(
-                                  Strings.AuthorizeDates,
-                                  style: TextStyle(
-                                      fontFamily: Strings.fontRegular,
-                                      fontSize: 12,
-                                      color: CustomColors.blackLetter),
-                                ),
+                              child: Text(
+                                Strings.AuthorizeDates,
+                                style: TextStyle(
+                                    fontFamily: Strings.fontRegular,
+                                    fontSize: 12,
+                                    color: CustomColors.blackLetter),
+                              ),
                             )
                           ],
                         ),
@@ -617,7 +617,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
             var dataUser = data.data.user;
 
             _prefs.nameUser = dataUser.fullname;
-            _prefs.cityIdUser = dataUser?.countryUser?.id??'';
+            _prefs.cityIdUser = dataUser?.countryUser?.id ?? '';
 
             //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
             Navigator.pop(context);

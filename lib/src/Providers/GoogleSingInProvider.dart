@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSingInProvider {
@@ -14,7 +16,9 @@ class GoogleSingInProvider {
       final googleKey = await account.authentication;
       print(account);
       print(googleKey.idToken);
-      return googleKey.idToken;
+      //return googleKey.idToken;
+
+      return account;
     }catch(error){
       print('Error login google:$error');
       return error;

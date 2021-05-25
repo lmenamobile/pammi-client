@@ -10,11 +10,10 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-
 class SelectCityPage extends StatefulWidget {
-
   final States state;
-  SelectCityPage({Key key,this.state}) : super(key: key);
+
+  SelectCityPage({Key key, this.state}) : super(key: key);
 
   @override
   _SelectCityPageState createState() => _SelectCityPageState();
@@ -23,9 +22,10 @@ class SelectCityPage extends StatefulWidget {
 class _SelectCityPageState extends State<SelectCityPage> {
   final countryController = TextEditingController();
   bool selected = false;
-  List<City>cities = List();
+  List<City> cities = List();
   bool loading = true;
   OnboardingProvider providerOnboarding;
+
   @override
   void initState() {
     _serviceGetCities("");
@@ -46,7 +46,8 @@ class _SelectCityPageState extends State<SelectCityPage> {
       ),
     );
   }
-  Widget _body(BuildContext context){
+
+  Widget _body(BuildContext context) {
     return Stack(
       children: <Widget>[
         Positioned(
@@ -58,7 +59,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
               height: 40,
               image: AssetImage("Assets/images/ic_back.png"),
             ),
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
           ),
@@ -69,187 +70,156 @@ class _SelectCityPageState extends State<SelectCityPage> {
           right: 0,
           bottom: 0,
           child: SingleChildScrollView(
-            child: Stack(
-                children: <Widget>[
-
-
-                  Padding(
-                    padding: EdgeInsets.only(top: 8,left: 39,right: 35),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          Strings.selectCity,
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: CustomColors.blackLetter,
-                              fontFamily: Strings.fontBold
-                          ),
-                        ),
-                        SizedBox(height: 21),
-                        boxSearch(context),
-                        SizedBox(height: 21),
-                        !this.loading ? this.cities.isEmpty ? Container(  child: Center(child: notifyUser("Assets/images/ic_from_empty.png", Strings.titleAmSorry, Strings.cobertCity),)) : Container(
-                          // margin: EdgeInsets.only(left: 23,right: 15),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(top: 0),
-                            itemCount: cities?.length ?? 0,//productsInShopCar.length ?? 0,//this.productsZones?.length ?? 0,
-                            itemBuilder: (BuildContext context, int index) {
-
-                              return  AnimationConfiguration.staggeredList(
-                                  position: index,
-                                  duration: const Duration(milliseconds: 800),
-                                  child: SlideAnimation(
-                                    verticalOffset: 50.0,
-                                    child: FadeInAnimation(
-                                        child: itemCity(context, index,this.cities[index])//itemBookings(context, data, _openBookingDetail),
-                                    ),
-                                  )
-                              );
-                            },
-                          ),
-                        ):Container(),
-                        SizedBox(height: 37),
-                        //  Padding(padding: EdgeInsets.only(left: 50,right: 50), child: btnCustomRounded(CustomColors.blueActiveDots,CustomColors.white,"Continuar",(){Navigator.pop(context);},context)),
-                        //SizedBox(height: 73),
-                      ],
+            child: Stack(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 8, left: 39, right: 35),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      Strings.selectCity,
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: CustomColors.blackLetter,
+                          fontFamily: Strings.fontBold),
                     ),
-                  )
-                ]
-            ),
+                    SizedBox(height: 21),
+                    boxSearch(context),
+                    SizedBox(height: 21),
+                    !this.loading
+                        ? this.cities.isEmpty
+                            ? Container(
+                                child: Center(
+                                child: notifyUser(
+                                    "Assets/images/ic_from_empty.png",
+                                    Strings.titleAmSorry,
+                                    Strings.cobertCity),
+                              ))
+                            : Container(
+                                // margin: EdgeInsets.only(left: 23,right: 15),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.only(top: 0),
+                                  itemCount: cities?.length ?? 0,
+                                  //productsInShopCar.length ?? 0,//this.productsZones?.length ?? 0,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return AnimationConfiguration.staggeredList(
+                                        position: index,
+                                        duration:
+                                            const Duration(milliseconds: 800),
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                              child: itemCity(
+                                                  context,
+                                                  index,
+                                                  this.cities[
+                                                      index]) //itemBookings(context, data, _openBookingDetail),
+                                              ),
+                                        ));
+                                  },
+                                ),
+                              )
+                        : Container(),
+                    SizedBox(height: 37),
+                    //  Padding(padding: EdgeInsets.only(left: 50,right: 50), child: btnCustomRounded(CustomColors.blueActiveDots,CustomColors.white,"Continuar",(){Navigator.pop(context);},context)),
+                    //SizedBox(height: 73),
+                  ],
+                ),
+              )
+            ]),
           ),
         ),
-
       ],
     );
   }
 
   _serviceGetCities(String search) async {
-
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = providerOnboarding.getCities(context, search, 0, widget.state);
+        Future callUser =
+            providerOnboarding.getCities(context, search, 0, widget.state);
         await callUser.then((cityResponse) {
-
           var decodeJSON = jsonDecode(cityResponse);
           CitiesResponse data = CitiesResponse.fromJsonMap(decodeJSON);
 
-
-          if(data.code.toString() == "100") {
-
+          if (data.code.toString() == "100") {
             this.cities = [];
 
-            if (data.data != null){
-              for (var city in data.data.cities){
+            if (data.data != null) {
+              for (var city in data.data.cities) {
                 this.cities.add(city);
               }
             }
 
-
-
             Navigator.pop(context);
             this.loading = false;
-            setState(() {
-
-            });
-
-
+            setState(() {});
           } else {
             Navigator.pop(context);
             this.loading = false;
 
-
             utils.showSnackBar(context, data.message);
-            setState(() {
-
-            });
-
+            setState(() {});
           }
         }, onError: (error) {
           Navigator.pop(context);
           this.loading = false;
 
           utils.showSnackBar(context, Strings.serviceError);
-          setState(() {
-
-          });
-
-
+          setState(() {});
         });
       } else {
         Navigator.pop(context);
         this.loading = false;
         utils.showSnackBar(context, Strings.internetError);
-        setState(() {
-
-        });
-
-
+        setState(() {});
       }
     });
   }
 
-
   _serviceGetCities2(String search) async {
-
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnboarding.getCities(context, search, 0, widget.state);
+        Future callUser =
+            providerOnboarding.getCities(context, search, 0, widget.state);
         await callUser.then((cityResponse) {
-
           var decodeJSON = jsonDecode(cityResponse);
           CitiesResponse data = CitiesResponse.fromJsonMap(decodeJSON);
 
-
-          if(data.code.toString() == "100") {
-
+          if (data.code.toString() == "100") {
             this.cities = [];
 
-            if (data.data != null){
-              for (var city in data.data.cities){
+            if (data.data != null) {
+              for (var city in data.data.cities) {
                 this.cities.add(city);
               }
             }
 
-
-            setState(() {
-
-            });
-
-
+            setState(() {});
           } else {
-
-
             //utils.showSnackBar(context, data.message);
 
           }
         }, onError: (error) {
-
-
           utils.showSnackBar(context, Strings.serviceError);
-
-
         });
       } else {
-
         utils.showSnackBar(context, Strings.internetError);
-
-
       }
     });
   }
 
-  Widget boxSearch(BuildContext context){
+  Widget boxSearch(BuildContext context) {
     return Container(
       height: 47,
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: CustomColors.grayBackground
-      ),
+          color: CustomColors.grayBackground),
       child: Center(
         child: Row(
           children: <Widget>[
@@ -260,15 +230,14 @@ class _SelectCityPageState extends State<SelectCityPage> {
             ),
             Expanded(
               child: TextField(
-                onChanged: (value){
+                onChanged: (value) {
                   _serviceGetCities2(value);
                 },
                 controller: countryController,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blackLetter
-                ),
+                    color: CustomColors.blackLetter),
                 decoration: InputDecoration(
                     hintText: "Buscar",
                     isDense: true,
@@ -276,15 +245,12 @@ class _SelectCityPageState extends State<SelectCityPage> {
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColors.grayLetter
-                    )
-                ),
+                        color: CustomColors.grayLetter)),
               ),
             )
           ],
         ),
       ),
     );
-
   }
 }

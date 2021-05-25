@@ -1,19 +1,26 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/GoogleSingInProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/Onboarding/ForgotPassWordEmail.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
 import 'package:wawamko/src/UI/VerificationCode.dart';
+import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import 'package:http/http.dart' as http;
+import '../selectCountry.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -25,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   SharePreference prefs = SharePreference();
   NotifyVariablesBloc notifyVariables;
+  GlobalVariables globalVariables = GlobalVariables();
   OnboardingProvider providerOnboarding;
   var obscureTextPass = true;
   String msgError = '';
@@ -104,25 +112,30 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(),
                     ),
                     GestureDetector(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        padding: EdgeInsets.only(right: 30, top: 5),
-                        child: Text(
-                          Strings.forgotPass,
-                          style: TextStyle(
-                              fontFamily: Strings.fontMedium,
-                              fontSize: 12,
-                              color: CustomColors.blackLetter),
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          padding: EdgeInsets.only(right: 30, top: 5),
+                          child: Text(
+                            Strings.forgotPass,
+                            style: TextStyle(
+                                fontFamily: Strings.fontMedium,
+                                fontSize: 12,
+                                color: CustomColors.blackLetter),
+                          ),
                         ),
-                      ),
-                      onTap: ()=>Navigator.of(context).push(customPageTransition(ForgotPasswordEmailPage())))
+                        onTap: () => Navigator.of(context).push(
+                            customPageTransition(ForgotPasswordEmailPage())))
                   ],
                 ),
                 SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: btnCustomRounded(
-                      CustomColors.redTour, CustomColors.white, Strings.login,callServiceLogin, context),
+                      CustomColors.redTour,
+                      CustomColors.white,
+                      Strings.login,
+                      callServiceLogin,
+                      context),
                 ),
                 SizedBox(height: 14),
                 Padding(
@@ -131,7 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                       CustomColors.blueSplash,
                       CustomColors.white,
                       Strings.createAccount,
-                      ()=>Navigator.of(context).push(customPageTransition(RegisterPage())),
+                      () => Navigator.of(context)
+                          .push(customPageTransition(RegisterPage())),
                       context),
                 ),
                 SizedBox(height: 22),
@@ -146,9 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    itemConnectTo("Assets/images/ic_google.png", () {}),
+                    itemConnectTo("Assets/images/ic_google.png",
+                        () => validateUserGoogle()),
                     SizedBox(width: 13),
-                    itemConnectTo("Assets/images/ic_facebook.png", () {}),
+                    itemConnectTo("Assets/images/ic_facebook.png", ()=>requestLoginFacebook()),
                     SizedBox(width: 13),
                     itemConnectTo("Assets/images/ic_mac.png", () {}),
                   ],
@@ -197,10 +212,11 @@ class _LoginPageState extends State<LoginPage> {
                     height: 25,
                     color: CustomColors.grayLetter.withOpacity(.4),
                   ),
-                  SizedBox(width: 5,),
+                  SizedBox(
+                    width: 5,
+                  ),
                   Expanded(
                     child: Container(
-
                       child: TextField(
                         obscureText: obscureTextPass,
                         controller: passwordController,
@@ -262,7 +278,7 @@ class _LoginPageState extends State<LoginPage> {
     if (emailController.text.isEmpty) {
       validateForm = false;
       msgError = Strings.emailEmpty;
-    }else  if (!validateEmail(emailController.text)) {
+    } else if (!validateEmail(emailController.text)) {
       validateForm = false;
       msgError = Strings.emailInvalidate;
     } else if (passwordController.text.isEmpty) {
@@ -272,10 +288,10 @@ class _LoginPageState extends State<LoginPage> {
     return validateForm;
   }
 
-  callServiceLogin(){
-    if(validateFormLogin()){
+  callServiceLogin() {
+    if (validateFormLogin()) {
       _serviceLoginUser();
-    }else{
+    } else {
       utils.showSnackBar(context, msgError);
     }
   }
@@ -285,16 +301,20 @@ class _LoginPageState extends State<LoginPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = providerOnboarding.loginUser(emailController.text.trim(), passwordController.text);
+        Future callUser = providerOnboarding.loginUser(
+            emailController.text.trim(), passwordController.text);
         await callUser.then((user) {
           Navigator.pop(context);
-            if (user.verifyedAccount) {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
-                  (Route<dynamic> route) => false);
-            } else {
-              Navigator.of(context).push(customPageTransition(VerificationCodePage(email: user.email,)));
-            }
+          if (user.verifyedAccount) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+                (Route<dynamic> route) => false);
+          } else {
+            Navigator.of(context)
+                .push(customPageTransition(VerificationCodePage(
+              email: user.email,
+            )));
+          }
         }, onError: (error) {
           Navigator.pop(context);
           utils.showSnackBar(context, error.toString());
@@ -303,5 +323,110 @@ class _LoginPageState extends State<LoginPage> {
         utils.showSnackBar(context, Strings.internetError);
       }
     });
+  }
+
+  void validateUserGoogle() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = GoogleSingInProvider.singInWithGoogle();
+        await callUser.then((user) {
+          GoogleSingInProvider.googleSingOut();
+          loginSocialNetwork(user, ConstantsApi.loginGMAIL);
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  void registerSocialNetwork(
+      String name, String email, String typeRegister, String cityId) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callUser = providerOnboarding.registerUserSocialNetwork(
+            name, email, typeRegister, cityId);
+        await callUser.then((user) {
+          Navigator.pop(context);
+        }, onError: (error) {
+          Navigator.pop(context);
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  void validateUserIsNotRegister(var user, String typeRegister) {
+    globalVariables.cityId = null;
+    Navigator.of(context)
+        .push(customPageTransition(SelectCountryPage()))
+        .then((value) {
+      if (globalVariables.cityId != null) {
+        if (typeRegister == ConstantsApi.loginGMAIL) {
+          registerSocialNetwork(user.displayName, user.email, typeRegister,
+              globalVariables.cityId.toString());
+        } else if (typeRegister == ConstantsApi.loginFacebook) {}
+        registerSocialNetwork(user['name'].toString(), user['email'].toString(),
+            typeRegister, globalVariables.cityId.toString());
+      } else {
+        utils.showSnackBar(context, Strings.errorCreateAccountGmail);
+      }
+    });
+  }
+
+  loginSocialNetwork(var dataUser, String typeLogin) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callUser = providerOnboarding.loginUserSocialNetWork(
+            typeLogin == ConstantsApi.loginGMAIL
+                ? dataUser.email
+                : dataUser["email"],
+            typeLogin);
+        await callUser.then((user) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+              (Route<dynamic> route) => false);
+        }, onError: (error) {
+          Navigator.pop(context);
+          validateUserIsNotRegister(dataUser, typeLogin);
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  void requestLoginFacebook() async {
+    final facebookLogin = FacebookLogin();
+    facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
+    final result = await facebookLogin.logIn(['email']);
+    facebookLogin.logOut();
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        getUserInfoFB(result.accessToken.token);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        utils.showSnackBar(context, Strings.errorFacebook);
+        break;
+      case FacebookLoginStatus.error:
+        utils.showSnackBar(context, Strings.errorFacebook);
+        break;
+    }
+  }
+
+  void getUserInfoFB(String token) async {
+    final response = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture,gender,birthday&access_token=$token');
+    final profile = json.decode(response.body);
+    if (profile['email'] != null && profile['name'] != null) {
+      loginSocialNetwork(profile, ConstantsApi.loginFacebook);
+    } else {
+      utils.showSnackBar(context, Strings.errorFacebook);
+    }
   }
 }

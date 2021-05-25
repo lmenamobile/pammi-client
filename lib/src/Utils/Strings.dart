@@ -199,7 +199,8 @@ class Strings {
   static const String  addressEmpty  = 'Debes ingresar una dirección';
   static const String  emptyFields  = 'Campos incompletos';
   static const String  emailInvalid = 'El correo electronico no es valido';
-
+  static const String  errorCreateAccountGmail = 'No fue posible finalizar tu registro';
+  static const String errorFacebook            = 'Error al iniciar sesión con Facebook';
   static const String  change  = 'Cambiar';
 
 

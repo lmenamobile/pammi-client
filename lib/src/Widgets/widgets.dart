@@ -656,12 +656,14 @@ Widget itemCountry(BuildContext context, int pos, Country country) {
     onTap: () {
       print("Select ${country.country}");
       globalVariables.countrySelected = country.country;
-      Navigator.of(context).pushReplacement(PageTransition(
+       Navigator.of(context).push(PageTransition(
           type: PageTransitionType.slideInLeft,
           child: StatesPage(
             country: country,
           ),
-          duration: Duration(milliseconds: 700)));
+          duration: Duration(milliseconds: 700))).then((value){
+            Navigator.pop(context);
+       });
     },
   );
 }
@@ -696,15 +698,17 @@ Widget itemState(BuildContext context, int pos, States state) {
         ),
       ],
     ),
-    onTap: () {
+    onTap: () async{
       globalVariables.countrySelected =
           globalVariables.countrySelected + "/" + state.name;
-      Navigator.of(context).pushReplacement(PageTransition(
+      await Navigator.of(context).push(PageTransition(
           type: PageTransitionType.slideInLeft,
           child: SelectCityPage(
             state: state,
           ),
-          duration: Duration(milliseconds: 700)));
+          duration: Duration(milliseconds: 700))).then((value){
+            Navigator.pop(context);
+      });
     },
   );
 }
@@ -740,7 +744,7 @@ Widget itemCity(BuildContext context, int pos, City city) {
         ),
       ],
     ),
-    onTap: () {
+    onTap: () async{
       globalVariables.countrySelected =
           globalVariables.countrySelected + "/" + city.name;
       globalVariables.cityId = city.id;
