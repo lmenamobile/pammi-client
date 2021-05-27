@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
@@ -34,9 +36,11 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
 
  var hideMenu = false;
  SharePreference _prefs = SharePreference();
+ ProfileProvider profileProvider;
 
   @override
   Widget build(BuildContext context) {
+    profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
         backgroundColor: CustomColors.white.withOpacity(.5),
         body: Container(
@@ -99,7 +103,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                             itemProfile(context,_prefs.nameUser??''),
+                             itemProfile(context,profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,),
                              SizedBox(height: 23),
                              itemMenu(context,"Assets/images/ic_start.png", (){widget.rollOverActive != "start" ?  pushToPage(MyHomePage()) :Navigator.pop(context);},Strings.start),
                              itemMenu(context,"Assets/images/ic_ offers_day.png", (){widget.rollOverActive != "ofertsDay" ? pushToPage(DayOferstPage()) : Navigator.pop(context);}, Strings.dayOferts),

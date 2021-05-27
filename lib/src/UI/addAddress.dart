@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:location/location.dart' as loc;
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
@@ -9,7 +8,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
-import 'package:wawamko/src/Models/Address/AddresModel.dart' ;
+import 'package:wawamko/src/Models/Address/AddresModel.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart' as model;
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
@@ -19,23 +18,24 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/google_place_util.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 
 class AddAddressPage extends StatefulWidget {
   final flagAddress;
   model.Address address;
-  AddAddressPage({Key key,this.flagAddress,this.address}) : super(key: key);
+
+  AddAddressPage({Key key, this.flagAddress, this.address}) : super(key: key);
+
   @override
   _AddAddressPageState createState() => _AddAddressPageState();
 }
 
-class _AddAddressPageState extends State<AddAddressPage> implements GooglePlacesListener {
-
-
+class _AddAddressPageState extends State<AddAddressPage>
+    implements GooglePlacesListener {
   final complementContrroller = TextEditingController();
   final nameAddressContrroller = TextEditingController();
   final addressController = TextEditingController();
-
 
   GlobalVariables singleton = GlobalVariables();
   NotifyVariablesBloc notifyVariables;
@@ -61,46 +61,12 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
   GoogleMapController mapController;
   CameraPosition _initialPosition;
 
-
   Completer<GoogleMapController> _controller = Completer();
 
-  //static LatLng _center = const LatLng(singleton.latitude.toDouble(), -122.67);
-
-  void _onCameraMove(CameraPosition position) {
-    //  _lastMapPosition = position.target;
-  }
-
   void _onMapCreated(GoogleMapController controller) {
-    // final OrderModel order = ModalRoute.of(context).settings.arguments;
     _controller.complete(controller);
-    setState(() {
-      /*_markers.add(Marker(
-        markerId: MarkerId("domi"),
-        position: LatLng(singleton.latitude,singleton.longitude),
-        infoWindow: InfoWindow(
-          title: "",
-          snippet:"",
-
-        ),
-        icon: myIcon,
-      ));*/
-
-      /* _markers.add(Marker(
-        markerId: MarkerId("store"),
-
-        position: LatLng(widget.order.shop.latitude ?? 0.0,widget.order.shop.longitude ?? 0.0),
-        infoWindow: InfoWindow(
-          title: widget.order.shop.name ?? "",
-          snippet: "",
-
-        ),
-
-        icon: storeIcon,
-      ));*/
-    });
+    setState(() {});
   }
-
-
 
   getPermissionGps() async {
     loc.Location location = new loc.Location();
@@ -115,24 +81,19 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
       }
     }
 
-
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        //openApp();
         print("OpenApp");
         return;
       }
     }
 
-    if(widget.flagAddress != "update"){
+    if (widget.flagAddress != "update") {
       _locationData = await location.getLocation();
       getLocation(_locationData);
     }
-
-
-
   }
 
   void getLocation(LocationData locationData) async {
@@ -141,29 +102,19 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
 
     singleton.latitude = locationData.latitude;
     singleton.longitude = locationData.longitude;
-    CameraPosition updateCamera = CameraPosition(
-      //bearing: 192.8334901395799,
-        target: LatLng(latLocation, lonLocation),
-        //tilt: 59.440717697143555,
-        zoom: 16.5);
-
-
+    CameraPosition updateCamera =
+        CameraPosition(target: LatLng(latLocation, lonLocation), zoom: 16.5);
     mapController.moveCamera(CameraUpdate.newCameraPosition(updateCamera));
-
-    setState(() {
-
-    });
+    setState(() {});
     _geocodeFirstFromCorToAddress();
-
   }
 
-  loadFieldsAddress(){
+  loadFieldsAddress() {
     addressController.text = widget.address.address;
     complementContrroller.text = widget.address.complement;
     nameAddressContrroller.text = widget.address.name;
-    latLocation =double.parse(widget.address.latitude);
-    lonLocation =double.parse(widget.address.longitude);
-
+    latLocation = double.parse(widget.address.latitude);
+    lonLocation = double.parse(widget.address.longitude);
   }
 
   @override
@@ -171,19 +122,13 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
     //
     getPermissionGps();
     googlePlaces = new GooglePlaces(this);
-    if(widget.flagAddress == "update"){
-
+    if (widget.flagAddress == "update") {
       loadFieldsAddress();
-    }else{
-
+    } else {
       latLocation = singleton.latitude;
       lonLocation = singleton.longitude;
       _geocodeFirstFromCorToAddress();
-
     }
-
-
-
 
     // TODO: implement initState
     super.initState();
@@ -195,38 +140,33 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
-      body: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        width: double.infinity,
-        child: _body(context),
+      backgroundColor: CustomColors.redTour,
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: _body(context),
+        ),
       ),
     );
   }
 
-  openSuggestAddress(){
+  openSuggestAddress() {
     FocusScope.of(context).unfocus();
     googlePlaces.findPlace(context);
   }
 
-  Widget boxAddress(){
+  Widget boxAddress() {
     return Container(
       width: double.infinity,
       height: 42.7,
-      padding: EdgeInsets.only(left: 10,right: 10),
+      padding: EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(2)),
-        color: CustomColors.grayBackground,
-        border: Border.all(color: CustomColors.greyBorder,width: 1)
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(2)),
+          color: CustomColors.grayBackground,
+          border: Border.all(color: CustomColors.greyBorder, width: 1)),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -237,50 +177,49 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
               height: 25,
               image: AssetImage("Assets/images/ic_location_blue.png"),
             ),
-            SizedBox(width: 6,),
+            SizedBox(
+              width: 6,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 4),
                 child: TextField(
                   focusNode: focusNode,
                   style: TextStyle(
-                    fontFamily: Strings.fontRegular,
-                    fontSize: 15,
-                    color: CustomColors.blackLetter
-                  ),
+                      fontFamily: Strings.fontRegular,
+                      fontSize: 15,
+                      color: CustomColors.blackLetter),
                   onTap: () {
-                    !editAddress ? openSuggestAddress(): print("is editing");
+                    !editAddress ? openSuggestAddress() : print("is editing");
                   },
                   controller: addressController,
                   decoration: InputDecoration(
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColors.grayLetter2
-                    ),
+                        color: CustomColors.grayLetter2),
                     hintText: Strings.address,
                     border: InputBorder.none,
-
-
                   ),
                   cursorColor: CustomColors.blueSplash,
                 ),
               ),
             ),
-            SizedBox(width: 6,),
+            SizedBox(
+              width: 6,
+            ),
             GestureDetector(
               child: Container(
                 height: 20,
                 child: Text(
                   Strings.change,
                   style: TextStyle(
-                    fontSize: 13,
-                    color: CustomColors.blackLetter.withOpacity(.6),
-                    fontFamily: Strings.fontRegular
-                  ),
+                      fontSize: 13,
+                      color: CustomColors.blackLetter.withOpacity(.6),
+                      fontFamily: Strings.fontRegular),
                 ),
               ),
-              onTap: (){
+              onTap: () {
                 FocusScope.of(context).requestFocus(focusNode);
                 editAddress = true;
               },
@@ -292,252 +231,171 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
   }
 
   serviceUpdateAddressUser() async {
-
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
 
-
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = UserProvider.instance.updateAddress(context, addressController.text ?? "", latLocation.toString(), lonLocation.toString(), complementContrroller.text ?? "", nameAddressContrroller.text,widget.address);
+        Future callResponse = UserProvider.instance.updateAddress(
+            context,
+            addressController.text ?? "",
+            latLocation.toString(),
+            lonLocation.toString(),
+            complementContrroller.text ?? "",
+            nameAddressContrroller.text,
+            widget.address);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
-          ChangeStatusAddressResponse data = ChangeStatusAddressResponse.fromJson(decodeJSON);
+          ChangeStatusAddressResponse data =
+              ChangeStatusAddressResponse.fromJson(decodeJSON);
 
-          if(data.status) {
+          if (data.status) {
             Navigator.pop(context);
-            Navigator.pop(context,true);
-
-
-          }else{
+            Navigator.pop(context, true);
+          } else {
             Navigator.pop(context);
-            setState(() {
-
-            });
-            utils.showSnackBarError(context,data.message);
+            setState(() {});
+            utils.showSnackBarError(context, data.message);
           }
-
-
         }, onError: (error) {
           print("Ocurrio un error: ${error}");
 
           Navigator.pop(context);
         });
-      }else{
-
-        utils.showSnackBarError(context,Strings.loseInternet);
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
 
-
   Widget _body(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return  Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                width: double.infinity,
-                height: 85,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fitWidth,
-                    image: AssetImage("Assets/images/ic_header.png"),
-                  )
-                ),
-                child: Stack(
-                  children: <Widget>[
-
-
-                    Container(
-                      alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.only(left: 15,top: 5),
-                        child:GestureDetector(
-                          child: Image(
-                            width: 35,
-                            height: 35,
-                            fit: BoxFit.contain,
-                            image: AssetImage("Assets/images/ic_back_w.png"),
-                          ),
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-
-
-                     Container(
-                        alignment: Alignment.topCenter,
-                        margin: EdgeInsets.only(top: 35),
-                        child: Text(
-                          Strings.addAddres,
-                          style: TextStyle(
-                          fontSize: 15,
-                            fontFamily: Strings.fontBold,
-                            color: CustomColors.white
-                        ),
-                      ),
-
-                    ),
-
-
-
-
-
-                  ],
+    return Column(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 70,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("Assets/images/ic_header_red.png"),
+                  fit: BoxFit.fill)),
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                left: 15,
+                top: 15,
+                child: GestureDetector(
+                  child: Image(
+                    width: 40,
+                    height: 40,
+                    color: Colors.white,
+                    image: AssetImage("Assets/images/ic_blue_arrow.png"),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
-            ),
-
-            Positioned(
-              top: 85,
-              left: 0,
-              right: 0,
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.5,
-                child: Stack(
-                  children: <Widget>[
-                    _map(context),
-                    /* GoogleMap(
-                        onMapCreated: _onMapCreated,
-
-                        onCameraMove: _onCameraMove,
-                        initialCameraPosition:CameraPosition(
-                            target: LatLng(singleton.latitude,singleton.longitude),
-                            zoom: 16.0
-                        )// _initialPosition,
-
-                    ),*/
-                    Center(
-                      child: Image(
-                        fit: BoxFit.fill,
-                        width: 35,
-                        height: 35,
-                        image: AssetImage("Assets/images/ic_location_red.png"),
-                      ),
-                    ),
-                    notifyVariables.showHelpMap ? Positioned(
-                      top: 50,
-                      right: 50,
-                      left: 50,
-                      child: helperMap(),
-                    ) : Container(),
-                    /*Positioned(
-                      bottom: 22,
-                      left: 60,
-                      right: 60,
-                      child: btnConfirmAddress(
-                          CustomColors.blueProfile, CustomColors.white,
-                          Strings.confirm, () {_searchLocationByCoordinates(); }, context),
-                    )*/
-                  ],
+              Center(
+                child: Container(
+                  child: Text(
+                    Strings.addAddres,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: Strings.fontRegular,
+                        color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-           Positioned(
-             left: 0,
-             right: 0,
-             bottom: 0,
-             child: Container(
-               width: double.infinity,
-               padding: EdgeInsets.only(left: 21,right: 21,top: 24,bottom: 24),
-               decoration: BoxDecoration(
-                 color: CustomColors.white,
-                 borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20))
-               ),
-               child: Column(
-                  children: <Widget>[
-                    boxAddress(),
-                    SizedBox(height: 18.5),
-                    textFieldAddress(Strings.complement,"Assets/images/ic_complement.png" ,complementContrroller,(){ editAddress= false;}),
-                    SizedBox(height: 18.5),
-                    textFieldAddress(Strings.nameAddress,"Assets/images/ic_name_address.png" ,nameAddressContrroller,(){ editAddress= false;}),
-                    SizedBox(height: 18.5),
-                    Padding(
-                      padding: EdgeInsets.only(left: 70,right: 70),
-                      child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white,widget.flagAddress == "update" ? Strings.updateAddressButton : Strings.addAddres, (){widget.flagAddress == "update" ? serviceUpdateAddressUser() : serviceAddAddressUser();}, context),
-                    ),
-                    SizedBox(height: 12),
-                  ],
-               ),
-             ),
-           )
-
-
-           /*
-            Column(
-              children: <Widget>[
-                SizedBox(height: 30),
+            ],
+          ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
                 Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30)),
-                      color: CustomColors.white
-                  ),
-                  child: Column(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Stack(
                     children: <Widget>[
-
-
-                      Container(
-                        width: double.infinity,
-
-
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 40, right: 35),
-                          child: Column(
-
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-
-                              itemAddAddres(Strings.address,
-                                  "Assets/images/ic_location_blue.png",
-                                  Strings.address, addresController),
-                              SizedBox(height: 20.5),
-                              itemAddAddres(Strings.complement,
-                                  "Assets/images/ic_home.png",
-                                  Strings.complement, complementContrroller),
-                              SizedBox(height: 35),
-
-                            ],
-                          ),
+                      _map(context),
+                      Center(
+                        child: Image(
+                          fit: BoxFit.fill,
+                          width: 35,
+                          height: 35,
+                          image: AssetImage("Assets/images/ic_location_red.png"),
                         ),
-
                       ),
-                      SizedBox(height: 20),
-
+                      notifyVariables.showHelpMap
+                          ? Positioned(
+                        top: 50,
+                        right: 50,
+                        left: 50,
+                        child: helperMap(),
+                      )
+                          : Container(),
                     ],
                   ),
                 ),
-
-
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(left: 21, right: 21, top: 24, bottom: 24),
+                  decoration: BoxDecoration(
+                      color: CustomColors.white,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20))),
+                  child: Column(
+                    children: <Widget>[
+                      boxAddress(),
+                      SizedBox(height: 18.5),
+                      textFieldAddress(
+                          Strings.complement,
+                          "Assets/images/ic_complement.png",
+                          complementContrroller, () {
+                        editAddress = false;
+                      }),
+                      SizedBox(height: 18.5),
+                      textFieldAddress(
+                          Strings.nameAddress,
+                          "Assets/images/ic_name_address.png",
+                          nameAddressContrroller, () {
+                        editAddress = false;
+                      }),
+                      SizedBox(height: 18.5),
+                      Padding(
+                        padding: EdgeInsets.only(left: 70, right: 70),
+                        child: btnCustomRounded(
+                            CustomColors.blueSplash,
+                            CustomColors.white,
+                            widget.flagAddress == "update"
+                                ? Strings.updateAddressButton
+                                : Strings.addAddres, () {
+                          widget.flagAddress == "update"
+                              ? serviceUpdateAddressUser()
+                              : serviceAddAddressUser();
+                        }, context),
+                      ),
+                      SizedBox(height: 12),
+                    ],
+                  ),
+                ),
               ],
             ),
-            */
+          ),
+        )
 
-
-          ],
-
-
-
-
+      ],
     );
   }
-
 
   Widget itemAddAddres(String labelTitle, String image, String hintText,
       TextEditingController controller) {
     return Container(
       width: double.infinity,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -546,10 +404,8 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
             style: TextStyle(
                 fontSize: 15,
                 fontFamily: Strings.fontRegular,
-                color: CustomColors.grayLetter
-            ),
+                color: CustomColors.grayLetter),
           ),
-
           Row(
             children: <Widget>[
               Image(
@@ -557,7 +413,6 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                 width: 25,
                 height: 25,
                 fit: BoxFit.fill,
-
               ),
               SizedBox(width: 5),
               Expanded(
@@ -568,18 +423,14 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 17,
-                          color: CustomColors.blackLetter
-                      ),
+                          color: CustomColors.blackLetter),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: hintText,
                           hintStyle: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 17,
-                              color: CustomColors.grayLetter.withOpacity(.4)
-
-                          )
-                      ),
+                              color: CustomColors.grayLetter.withOpacity(.4))),
                     ),
                     Container(
                       height: 2,
@@ -601,9 +452,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
       decoration: BoxDecoration(
           border: Border.all(color: CustomColors.orange, width: 1),
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: CustomColors.redBackground
-
-      ),
+          color: CustomColors.redBackground),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -623,7 +472,6 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
           ),
           Center(
             child: Container(
-
               //width: double.infinity,
               margin: EdgeInsets.only(left: 20, right: 20),
               child: Row(
@@ -634,7 +482,6 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                       width: 40,
                       height: 40,
                       fit: BoxFit.fill,
-
                     ),
                     onTap: () {},
                   ),
@@ -645,42 +492,34 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
                       style: TextStyle(
                           fontSize: 11,
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.orange
-                      ),
+                          color: CustomColors.orange),
                     ),
                   )
                 ],
               ),
             ),
           ),
-
-
         ],
       ),
-
     );
   }
-
 
   Widget btnConfirmAddress(Color backgroungButton, Color textColor,
       String textButton, Function action, BuildContext context) {
     return SpringButton(
       SpringButtonType.OnlyScale,
-
       Container(
         height: 45,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(14)),
-            color: backgroungButton
-        ),
+            color: backgroungButton),
         child: Center(
           child: Text(
             textButton,
             style: TextStyle(
                 fontSize: 14,
                 fontFamily: Strings.fontRegular,
-                color: textColor
-            ),
+                color: textColor),
           ),
         ),
       ),
@@ -689,7 +528,6 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
       },
     );
   }
-
 
   //View map
   Widget _map(BuildContext context) {
@@ -709,66 +547,63 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
         print("Lng ${lonLocation}");
 
         // _geocodeFromCorToAddress();
-
       },
       onCameraIdle: () {
         print("Iddle camera");
         setState(() {
-          if(enableGeoCode){
+          if (enableGeoCode) {
             bandLoadingText = true;
           }
         });
         _geocodeFromCorToAddress();
         enableGeoCode = true;
       },
-
-      initialCameraPosition: CameraPosition(target: LatLng(latLocation, lonLocation),zoom: 16.5),
+      initialCameraPosition:
+          CameraPosition(target: LatLng(latLocation, lonLocation), zoom: 16.5),
       compassEnabled: true,
       rotateGesturesEnabled: false,
       zoomGesturesEnabled: true,
       mapToolbarEnabled: false,
       zoomControlsEnabled: false,
       myLocationEnabled: false,
+      gestureRecognizers: {
+        Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
+        ),
+      },
       onMapCreated: (controller) {
         setState(() {
-
           mapController = controller;
-
         });
       },
     );
   }
 
   _searchLocationByCoordinates() async {
-    print("Query"+addressController.text);
+    print("Query" + addressController.text);
     //final coordinates = new Coordinates(lat, lon);
-    var addresses = await Geocoder.local.findAddressesFromQuery(addressController.text);
+    var addresses =
+        await Geocoder.local.findAddressesFromQuery(addressController.text);
 
     var result = addresses.first;
     latLocation = result.coordinates.latitude;
     lonLocation = result.coordinates.longitude;
-    print("Lat:"+"${result.coordinates.latitude}");
-    print("Long:"+"${result.coordinates.longitude}");
-
-
-
-
-
-
+    print("Lat:" + "${result.coordinates.latitude}");
+    print("Long:" + "${result.coordinates.longitude}");
   }
 
-  bool _validateFields(){
-    if(this.addressController.text == ""){
-      utils.showSnackBar(context,Strings.emptyAddress);
+  bool _validateFields() {
+    if (this.addressController.text == "") {
+      utils.showSnackBar(context, Strings.emptyAddress);
       return false;
     }
-    if(this.complementContrroller.text == ""){
-      utils.showSnackBar(context,Strings.emptyComplement);
+    if (this.complementContrroller.text == "") {
+      utils.showSnackBar(context, Strings.emptyComplement);
       return false;
     }
 
-    if(this.nameAddressContrroller.text == ""){
-      utils.showSnackBar(context,Strings.emptyNameAddress);
+    if (this.nameAddressContrroller.text == "") {
+      utils.showSnackBar(context, Strings.emptyNameAddress);
       return false;
     }
 
@@ -776,8 +611,7 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
   }
 
   serviceAddAddressUser() async {
-
-    if(!_validateFields()){
+    if (!_validateFields()) {
       return;
     }
 
@@ -785,42 +619,44 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
       if (value) {
         utils.startProgress(context);
 
-
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = UserProvider.instance.addAddress(context,this.addressController.text, this.latLocation.toString(), this.lonLocation.toString(),complementContrroller.text ?? "",nameAddressContrroller.text ?? "");
+        Future callResponse = UserProvider.instance.addAddress(
+            context,
+            this.addressController.text,
+            this.latLocation.toString(),
+            this.lonLocation.toString(),
+            complementContrroller.text ?? "",
+            nameAddressContrroller.text ?? "");
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           AddressResponse data = AddressResponse.fromJson(decodeJSON);
-          if(data.status) {
+          if (data.status) {
             Navigator.pop(context);
-            Navigator.pop(context,true);
-
-
-          }else{
+            Navigator.pop(context, true);
+          } else {
             Navigator.pop(context);
-            utils.showSnackBarError(context,data.message);
+            utils.showSnackBarError(context, data.message);
           }
-
-
         }, onError: (error) {
           print("Ocurrio un error: ${error}");
           Navigator.pop(context);
         });
-      }else{
-        utils.showSnackBarError(context,Strings.loseInternet);
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
 
   //Geocode the coordinates to address
-  void _geocodeFromCorToAddress() async{
-    if(enableGeoCode){
+  void _geocodeFromCorToAddress() async {
+    if (enableGeoCode) {
       final coordinates = new Coordinates(lat, lon);
-      var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      var addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
       var result = addresses.first;
       locationAddress = result.addressLine;
       var pos = locationAddress.indexOf(',');
-      locationAddress = locationAddress.substring(0,pos);
+      locationAddress = locationAddress.substring(0, pos);
 
       city = result.locality;
       //var arrayName = result.
@@ -836,19 +672,19 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
           bandLoadingText = false;
         });
       });
-      setState(() {
-      });
+      setState(() {});
     }
   }
 
-  void _geocodeFirstFromCorToAddress() async{
+  void _geocodeFirstFromCorToAddress() async {
     // if(enableGeoCode){
     final coordinates = new Coordinates(latLocation, lonLocation);
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var result = addresses.first;
     locationAddress = result.addressLine;
     var pos = locationAddress.indexOf(',');
-    locationAddress = locationAddress.substring(0,pos);
+    locationAddress = locationAddress.substring(0, pos);
 
     city = result.locality;
     //var arrayName = result.
@@ -865,20 +701,17 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
       });
     });
 
-    setState(() {
-    });
-
+    setState(() {});
   }
 
   @override
-  selectedLocation(double lat, double lng, String address, String name, String photoReference) {
+  selectedLocation(double lat, double lng, String address, String name,
+      String photoReference) {
     setState(() {
       print("____________________!!!!");
 
       locationAddress = address;
-      if(lat != 0.0 && lng != 0.0 && address!=''){
-
-
+      if (lat != 0.0 && lng != 0.0 && address != '') {
         //  allMarkers.clear();
         //Se adiciona marcador de destino que se selecciono en autocomplete
         // _addMarkerPositionGps(LatLng(lat, lng));
@@ -886,20 +719,15 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
         //var addressTitle = address.replaceRange(indexChar, address.length, "");
         var addressSubtitle = address.replaceRange(0, indexChar + 2, "");
         //photoPlace = photo;
-        addressController.text = name+" "+cityPlace;
+        addressController.text = name + " " + cityPlace;
         namePlace = name;
         cityPlace = addressSubtitle;
         city = cityPlace;
 
+        print(namePlace + "city" + cityPlace);
 
-
-
-        print(namePlace+"city"+cityPlace);
-
-
-
-        latLocation=lat;
-        lonLocation=lng;
+        latLocation = lat;
+        lonLocation = lng;
 
         print("Lat ${latLocation})");
         print("Lng ${lonLocation}");
@@ -916,6 +744,4 @@ class _AddAddressPageState extends State<AddAddressPage> implements GooglePlaces
       }
     });
   }
-
-
 }

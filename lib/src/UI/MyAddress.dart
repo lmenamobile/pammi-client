@@ -11,15 +11,13 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-
 class MyAddressPage extends StatefulWidget {
-
   @override
   _MyAddressPageState createState() => _MyAddressPageState();
 }
 
 class _MyAddressPageState extends State<MyAddressPage> {
-  List<Address>addresses = List();
+  List<Address> addresses = List();
   bool loading = true;
   bool hasInternet = true;
 
@@ -32,144 +30,143 @@ class _MyAddressPageState extends State<MyAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: _body(context),
+      backgroundColor: CustomColors.redTour,
+      body: SafeArea(
+        child: Container(
+          color: CustomColors.whiteBackGround,
+          child: _body(context),
+        ),
       ),
     );
   }
-  Widget _body(BuildContext context){
-    return   Stack(
+
+  Widget _body(BuildContext context) {
+    return Column(
       children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            width: double.infinity,
-            height: 9,
-            color: CustomColors.blueSplash,
-          ),
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            padding: EdgeInsets.only(top: 10),
-            width: double.infinity,
-            height: 90,
-            decoration: BoxDecoration(
+        Container(
+          width: double.infinity,
+          height: 70,
+          decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("Assets/images/ic_header.png"),
-                fit: BoxFit.fitWidth
-              )
-            ),
-            child:  Stack(
-              children: <Widget>[
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    width: double.infinity,
-                    height: 9,
-                    color: CustomColors.blueSplash,
+                  image: AssetImage("Assets/images/ic_header_red.png"),
+                  fit: BoxFit.fill)),
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                left: 15,
+                top: 15,
+                child: GestureDetector(
+                  child: Image(
+                    width: 40,
+                    height: 40,
+                    color: Colors.white,
+                    image: AssetImage("Assets/images/ic_blue_arrow.png"),
                   ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                Positioned(
-                  top: 16,
-                  left: 15,
-                  child: GestureDetector(
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      child: Image(
-                        image: AssetImage("Assets/images/ic_back_w.png"),
-                      ),
-                    ),
-                    onTap: (){
-                      FocusScope.of(context).unfocus();
-                      //singleton.eventRefreshHome.broadcast();
-                      Navigator.pop(context);
-                      //singleton.eventRefreshCheckout.broadcast();
-                    },
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topCenter,
-                  margin: EdgeInsets.only(top: 25),
+              ),
+              Center(
+                child: Container(
                   child: Text(
                     Strings.myAddress,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
+                        fontSize: 15,
                         fontFamily: Strings.fontRegular,
-                        fontSize: 17,
-                        color: CustomColors.white
-
-                    ),
+                        color: Colors.white),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
-
         ),
-        Positioned(
-          top: 90,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Container(
-
-              child: Column(
+        SizedBox(height: 20,),
+        SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-
-                  hasInternet ?  !this.loading ? this.addresses.isEmpty ? Container(
-
-                      child: emptyAdd("Assets/images/ic_receive.png", Strings.questionAddress, Strings.beginAddAddress, Strings.addAddres,(){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:pushToAddAddress(), duration: Duration(milliseconds: 700)));}, context),
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height - 90,
-                  )
-                    : Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
-                        width: double.infinity,
-                        child: ListView.builder(
-                            itemCount: this.addresses.length ?? 0,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context,int index){
-                              return itemAddress(this.addresses[index], (){serviceChangeAddressUser(this.addresses[index]);},context,(){pushToUpdateAddAddress(this.addresses[index]);});
-                            }
-                        ),
-                      ),
-
-                      SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 70,right: 60),
-                        child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.addAddres,(){ pushToAddAddress();}, context),
-                      ),
-                      SizedBox(height: 25),
-                    ],
-                  ):Container():Container(child: Container(width: double.infinity,height: MediaQuery.of(context).size.height - 90, child: notifyInternet("Assets/images/ic_img_internet.png", Strings.titleAmSorry, Strings.loseInternet,context,(){
-                    serviceGetAddAddressUser();})))
-                ]
-              ),
-            ),
+                  hasInternet
+                      ? !this.loading
+                          ? this.addresses.isEmpty
+                              ? Container(
+                                  child: emptyAdd(
+                                      "Assets/images/ic_receive.png",
+                                      Strings.questionAddress,
+                                      Strings.beginAddAddress,
+                                      Strings.addAddres, () {
+                                    Navigator.of(context).push(PageTransition(
+                                        type: PageTransitionType.slideInLeft,
+                                        child: pushToAddAddress(),
+                                        duration: Duration(milliseconds: 700)));
+                                  }, context),
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height - 90,
+                                )
+                              : Column(
+                                  children: <Widget>[
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      width: double.infinity,
+                                      child: ListView.builder(
+                                          itemCount: this.addresses.length ?? 0,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return itemAddress(
+                                                this.addresses[index],
+                                                () {
+                                                  serviceChangeAddressUser(
+                                                      this.addresses[index]);
+                                                },
+                                                context,
+                                                () {
+                                                  pushToUpdateAddAddress(
+                                                      this.addresses[index]);
+                                                });
+                                          }),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 70, right: 60),
+                                      child: btnCustomRounded(
+                                          CustomColors.blueSplash,
+                                          CustomColors.white,
+                                          Strings.addAddres, () {
+                                        pushToAddAddress();
+                                      }, context),
+                                    ),
+                                    SizedBox(height: 25),
+                                  ],
+                                )
+                          : Container()
+                      : Container(
+                          child: Container(
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height - 90,
+                              child: notifyInternet(
+                                  "Assets/images/ic_img_internet.png",
+                                  Strings.titleAmSorry,
+                                  Strings.loseInternet,
+                                  context, () {
+                                serviceGetAddAddressUser();
+                              })))
+                ]),
           ),
         )
       ],
-
     );
   }
-
 
   serviceGetAddAddressUser() async {
     this.addresses = [];
@@ -178,30 +175,22 @@ class _MyAddressPageState extends State<MyAddressPage> {
         hasInternet = true;
         utils.startProgress(context);
 
-
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = UserProvider.instance.getAddress(context,0);
+        Future callResponse = UserProvider.instance.getAddress(context, 0);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           GetAddressResponse data = GetAddressResponse.fromJson(decodeJSON);
 
-          if(data.status) {
-
-
-            for(var address in data.data.addresses ){
+          if (data.status) {
+            for (var address in data.data.addresses) {
               this.addresses.add(address);
             }
             Navigator.pop(context);
-            setState(() {
-
-            });
-
-          }else{
+            setState(() {});
+          } else {
             Navigator.pop(context);
-            setState(() {
-
-            });
-           // utils.showSnackBarError(context,data.message);
+            setState(() {});
+            // utils.showSnackBarError(context,data.message);
           }
 
           loading = false;
@@ -210,61 +199,56 @@ class _MyAddressPageState extends State<MyAddressPage> {
           loading = false;
           Navigator.pop(context);
         });
-      }else{
+      } else {
         hasInternet = false;
-        setState(() {
-
-        });
+        setState(() {});
         //utils.showSnackBarError(context,Strings.loseInternet);
       }
     });
   }
 
   serviceChangeAddressUser(Address address) async {
-
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
 
-
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = UserProvider.instance.changeStatusAddress(context, address);
+        Future callResponse =
+            UserProvider.instance.changeStatusAddress(context, address);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
-          ChangeStatusAddressResponse data = ChangeStatusAddressResponse.fromJson(decodeJSON);
+          ChangeStatusAddressResponse data =
+              ChangeStatusAddressResponse.fromJson(decodeJSON);
 
-          if(data.status) {
+          if (data.status) {
             Navigator.pop(context);
             utils.showSnackBarGood(context, data.message);
             serviceGetAddAddressUser();
-
-          }else{
+          } else {
             Navigator.pop(context);
-            setState(() {
-
-            });
-            utils.showSnackBarError(context,data.message);
+            setState(() {});
+            utils.showSnackBarError(context, data.message);
           }
-
-
         }, onError: (error) {
           print("Ocurrio un error: ${error}");
 
           Navigator.pop(context);
         });
-      }else{
-
-        utils.showSnackBarError(context,Strings.loseInternet);
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
 
-
-
-  pushToAddAddress()async{
-    var data = await Navigator.push(context, PageTransition(type: PageTransitionType.slideInLeft, child: AddAddressPage(), duration: Duration(milliseconds: 500)));
-    if(data){
-      if(data){
+  pushToAddAddress() async {
+    var data = await Navigator.push(
+        context,
+        PageTransition(
+            type: PageTransitionType.slideInLeft,
+            child: AddAddressPage(),
+            duration: Duration(milliseconds: 500)));
+    if (data) {
+      if (data) {
         print("Reloading address...");
         this.loading = true;
         serviceGetAddAddressUser();
@@ -272,23 +256,25 @@ class _MyAddressPageState extends State<MyAddressPage> {
         // serviceGetProdsInCat();
 
       }
-
     }
   }
 
-
-  pushToUpdateAddAddress(Address address)async{
-    var data = await Navigator.push(context, PageTransition(type: PageTransitionType.slideInLeft, child: AddAddressPage(flagAddress: "update",address:address), duration: Duration(milliseconds: 500)));
-    if(data){
-      if(data){
+  pushToUpdateAddAddress(Address address) async {
+    var data = await Navigator.push(
+        context,
+        PageTransition(
+            type: PageTransitionType.slideInLeft,
+            child: AddAddressPage(flagAddress: "update", address: address),
+            duration: Duration(milliseconds: 500)));
+    if (data) {
+      if (data) {
         print("Update address...");
         serviceGetAddAddressUser();
-        utils.showSnackBarGood(context,Strings.updateAddress);
+        utils.showSnackBarGood(context, Strings.updateAddress);
         //serviceGetCar2(context);
         // serviceGetProdsInCat();
 
       }
-
     }
   }
 }

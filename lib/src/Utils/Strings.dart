@@ -200,7 +200,7 @@ class Strings {
   static const String  emptyPassword = 'Debes ingresar una contraseña';
   static const String  emptyConfirmPassword = 'Debes confirmar la contraseña';
   static const String  passwordNotEquals = 'Las contraseñas no coinciden';
-
+  static const String  errorSelectPhoto = 'No fue posible seleccionar la foto';
   static const String  emptyEmail = 'Debes ingresar el correo electronico';
   static const String  passwordEmpty  = 'Debes ingresar la contraseña';
   static const String  addressEmpty  = 'Debes ingresar una dirección';
@@ -220,6 +220,8 @@ class Strings {
   static const String  emptyPhone = 'Debes ingresar el telefono';
   static const String  emptyConfirmPass = 'Debes confirmar la contraseña';
   static const String  dontSamePass = 'Las contraseñas no coinciden';
+  static const String pwdActuallyEmpty = "La contraseña actual es requerida.";
+  static const String pwdNewEmpty      = "La nueva contraseña es requerida.";
 
 
 

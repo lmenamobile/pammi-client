@@ -12,13 +12,13 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
 import 'package:wawamko/src/UI/selectCountry.dart';
 import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:flutter/services.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
-import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 
 class MyDatesPage extends StatefulWidget {
@@ -26,7 +26,8 @@ class MyDatesPage extends StatefulWidget {
   _MyDatesPageState createState() => _MyDatesPageState();
 }
 
-class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMixin, ImagePickerListener{
+class _MyDatesPageState extends State<MyDatesPage>
+    with TickerProviderStateMixin, ImagePickerListener {
   SharePreference prefs = SharePreference();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -37,7 +38,6 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
   final phoneController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
-  File imageUserFile;
   AnimationController _controller;
   ImagePickerHandler imagePicker;
   NotifyVariablesBloc notifyVariables;
@@ -53,6 +53,7 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
     );
     imagePicker = new ImagePickerHandler(this, _controller);
     imagePicker.init();
+    getUser();
     super.initState();
   }
 
@@ -60,19 +61,25 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
   Widget build(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
+    countryController.text = notifyVariables.countrySelected;
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
-        child: Container(
-          color: CustomColors.redTour,
-          child: _body(context),
+        child: Stack(
+          children: [
+            Container(
+              color: CustomColors.redTour,
+              child: _body(context),
+            ),
+            Visibility(
+                visible: profileProvider.isLoading, child: LoadingProgress()),
+          ],
         ),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
-    setDataProfile();
     return Stack(
       children: [
         Image.asset("Assets/images/ic_bg_profile.png"),
@@ -97,7 +104,8 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
                               ),
                             ),
                           ),
-                          onTap: () => Navigator.pop(context),
+                          onTap: (){Navigator.pop(context);
+                          profileProvider.isEditProfile = false;},
                         ),
                         Expanded(
                             child: Center(
@@ -143,21 +151,22 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
                                         color: CustomColors.grayBackground,
                                       ),
                                       child: InkWell(
-                                        onTap: () => imagePicker.showDialog(context),
+                                        onTap: () =>
+                                            imagePicker.showDialog(context),
                                         child: Container(
                                           width: 50,
                                           height: 50,
                                           child: ClipRRect(
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(100)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(100)),
                                             child: FadeInImage(
-                                              image: imageUserFile == null
-                                                  ? NetworkImage( '')
-                                                  : "".isNotEmpty
-                                                  ? NetworkImage( '')
-                                                  : FileImage(imageUserFile),
+                                              image: profileProvider?.user !=
+                                                      null
+                                                  ? NetworkImage(profileProvider
+                                                      ?.user?.photoUrl)
+                                                  : NetworkImage(''),
                                               fit: BoxFit.cover,
-                                              placeholder:  AssetImage(
+                                              placeholder: AssetImage(
                                                   "Assets/images/ic_default_perfil.png"),
                                             ),
                                           ),
@@ -172,12 +181,15 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  Strings.changePhoto,
-                                  style: TextStyle(
-                                      fontFamily: Strings.fontRegular,
-                                      color: CustomColors.white,
-                                      decoration: TextDecoration.underline),
+                                InkWell(
+                                  onTap: () => imagePicker.showDialog(context),
+                                  child: Text(
+                                    Strings.changePhoto,
+                                    style: TextStyle(
+                                        fontFamily: Strings.fontRegular,
+                                        color: CustomColors.white,
+                                        decoration: TextDecoration.underline),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 15,
@@ -227,64 +239,91 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
                 child: SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          Strings.personalInfo,
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: CustomColors.blackLetter,
-                              fontFamily: Strings.fontBold),
-                        ),
-                        SizedBox(height: 20),
-                        customTextField("Assets/images/ic_data.png", "Nombre",
-                            nameController, TextInputType.text, []),
-                        SizedBox(height: 21),
-                        customTextFieldAction("Assets/images/ic_identity.png",
-                            "Tipo de documento", typeDocumentController, () {
-                          pushToSelectDocument();
-                        }),
-                        SizedBox(height: 21),
-                        customTextField(
-                            "Assets/images/ic_identity.png",
-                            "Número de identificación",
-                            numberIdentityController,
-                            TextInputType.number, [
-                          LengthLimitingTextInputFormatter(15),
-                          FilteringTextInputFormatter.digitsOnly
-                        ]),
-                        SizedBox(height: 21),
-                        customTextFieldAction("Assets/images/ic_country.png",
-                            "País", countryController, () {
-                          Navigator.of(context).push(PageTransition(
-                              type: PageTransitionType.slideInLeft,
-                              child: SelectCountryPage(),
-                              duration: Duration(milliseconds: 700)));
-                        }),
-                        SizedBox(height: 21),
-                        customTextField(
-                            "Assets/images/ic_telephone.png",
-                            "Número de telefono",
-                            phoneController,
-                            TextInputType.number, [
-                          maskFormatter,
-                          LengthLimitingTextInputFormatter(15),
-                          FilteringTextInputFormatter.digitsOnly
-                        ]),
-                        SizedBox(height: 18),
-                        Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
                             margin: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 30),
-                            child: btnCustomRounded(CustomColors.blueSplash,
-                                CustomColors.white, Strings.changePass, () {
-                              Navigator.of(context).push(
-                                  customPageTransition(ChangePasswordPage()));
-                            }, context))
-                      ],
-                    ),
+                                horizontal: 30, vertical: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  Strings.personalInfo,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: CustomColors.blackLetter,
+                                      fontFamily: Strings.fontBold),
+                                ),
+                                SizedBox(height: 20),
+                                customTextField(
+                                    "Assets/images/ic_data.png",
+                                    "Nombre",
+                                    nameController,
+                                    TextInputType.text, []),
+                                SizedBox(height: 21),
+                                customTextFieldAction(
+                                    "Assets/images/ic_identity.png",
+                                    "Tipo de documento",
+                                    typeDocumentController, () {
+                                  pushToSelectDocument();
+                                }),
+                                SizedBox(height: 21),
+                                customTextField(
+                                    "Assets/images/ic_identity.png",
+                                    "Número de identificación",
+                                    numberIdentityController,
+                                    TextInputType.number, [
+                                  LengthLimitingTextInputFormatter(15),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ]),
+                                SizedBox(height: 21),
+                                customTextFieldAction(
+                                    "Assets/images/ic_country.png",
+                                    "País",
+                                    countryController, () {
+                                  Navigator.of(context).push(PageTransition(
+                                      type: PageTransitionType.slideInLeft,
+                                      child: SelectCountryPage(),
+                                      duration: Duration(milliseconds: 700)));
+                                }),
+                                SizedBox(height: 21),
+                                customTextField(
+                                    "Assets/images/ic_telephone.png",
+                                    "Número de telefono",
+                                    phoneController,
+                                    TextInputType.number, [
+                                  maskFormatter,
+                                  LengthLimitingTextInputFormatter(15),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ]),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            child: Visibility(
+                                visible: !profileProvider.isEditProfile,
+                                child: Container(
+                                  color: Colors.transparent,
+                                  width: double.infinity,
+                                )),
+                          )
+                        ],
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 30),
+                          child: btnCustomRounded(CustomColors.blueSplash,
+                              CustomColors.white, Strings.changePass, () {
+                            Navigator.of(context).push(
+                                customPageTransition(ChangePasswordPage()));
+                          }, context))
+                    ],
                   ),
                 ),
               ),
@@ -296,7 +335,12 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
   }
 
   void setDataProfile() {
-    countryController.text = notifyVariables.countrySelected;
+    nameController.text = profileProvider?.user?.fullname;
+    typeDocumentController.text = profileProvider?.user?.documentType;
+    numberIdentityController.text = profileProvider?.user?.document;
+    countryController.text = profileProvider?.user?.city?.name;
+    phoneController.text = profileProvider?.user?.phone;
+    globalVariables.cityId = profileProvider?.user?.city?.id;
   }
 
   bool validateFormProfile() {
@@ -307,6 +351,22 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
         validateForm = false;
         msgError = Strings.phoneInvalidate;
       }
+    }
+    if (nameController.text.isEmpty) {
+      validateForm = false;
+      msgError = Strings.nameEmpty;
+    }
+    if (typeDocumentController.text.isEmpty) {
+      validateForm = false;
+      msgError = Strings.documentTypeEmpty;
+    }
+    if (numberIdentityController.text.isEmpty) {
+      validateForm = false;
+      msgError = Strings.numberEmpty;
+    }
+    if (countryController.text.isEmpty) {
+      validateForm = false;
+      msgError = Strings.cityEmpty;
     }
     return validateForm;
   }
@@ -319,20 +379,20 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
       if (data) {
         FocusScope.of(context).unfocus();
         typeDocumentController.text = globalVariables.typeDocument.toString();
-        setState(() {});
       }
     }
   }
 
-  callServiceUpdate(){
-    if(validateFormProfile()){
+  callServiceUpdate() {
+    if (validateFormProfile()) {
       serviceUpdateUser();
-    }else{
-      utils.showSnackBar(context,msgError);
+    } else {
+      utils.showSnackBar(context, msgError);
     }
   }
 
-  serviceUpdateUser()async{
+  serviceUpdateUser() async {
+    FocusScope.of(context).unfocus();
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = profileProvider.updateUser(
@@ -343,18 +403,55 @@ class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMix
             globalVariables.cityId.toString());
         await callUser.then((msg) {
           profileProvider.isEditProfile = false;
-          utils.showSnackBarGood(context,msgError.toString());
+          getUser();
+          utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          utils.showSnackBar(context,error.toString());
+          utils.showSnackBar(context, error.toString());
         });
       } else {
-        utils.showSnackBar(context,Strings.internetError);
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  serviceUpdatePhoto(File picture) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = profileProvider.serviceUpdatePhoto(picture);
+        await callUser.then((msg) {
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  getUser() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = profileProvider.getDataUser();
+        await callUser.then((msg) {
+          setDataProfile();
+        }, onError: (error) {
+          profileProvider.isLoading = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
       }
     });
   }
 
   @override
   userImage(File imageFile) {
-    imageUserFile = imageFile;
+    if (imageFile != null) {
+      profileProvider.imageUserFile = imageFile;
+      serviceUpdatePhoto(imageFile);
+    } else {
+      utils.showSnackBar(context, Strings.internetError);
+    }
   }
 }

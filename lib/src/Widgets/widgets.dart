@@ -404,9 +404,9 @@ Widget itemAddress(Address address, Function action, BuildContext context,
       margin: EdgeInsets.only(bottom: 20),
       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
       decoration: BoxDecoration(
-          color: CustomColors.whiteBackGround,
-          border: Border.all(color: CustomColors.greyBorder, width: 1.3),
-          borderRadius: BorderRadius.all(Radius.circular(21))),
+          color: Colors.white,
+          border: Border.all(color: CustomColors.greyBorder, width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -435,20 +435,20 @@ Widget itemAddress(Address address, Function action, BuildContext context,
                   style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 16,
-                      color: CustomColors.darkLetter),
+                      color: CustomColors.blackLetter),
                 ),
                 Text(
                   address.complement,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
-                      fontSize: 16,
+                      fontSize: 15,
                       color: CustomColors.grayLetter),
                 ),
                 Text(
                   address.name ?? "",
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
-                      fontSize: 16,
+                      fontSize: 15,
                       color: CustomColors.grayLetter),
                 )
               ],
@@ -1853,7 +1853,7 @@ Widget textFieldAddress(String hint, String icon,
     TextEditingController controller, Function action) {
   return Container(
     width: double.infinity,
-    height: 42.7,
+    height: 45,
     padding: EdgeInsets.only(left: 10, right: 10),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -1873,12 +1873,11 @@ Widget textFieldAddress(String hint, String icon,
             width: 6,
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 4),
               child: TextField(
                 onTap: () {
                   action();
                 },
+                maxLines: 1,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
@@ -1894,7 +1893,6 @@ Widget textFieldAddress(String hint, String icon,
                 ),
                 cursorColor: CustomColors.blueSplash,
               ),
-            ),
           ),
           SizedBox(
             width: 6,

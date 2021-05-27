@@ -83,23 +83,23 @@ class ImagePickerDialog extends StatelessWidget {
               child: Container(
                 child: Center(
                     child: Container(
-                        margin: EdgeInsets.only(left: 23, right: 23),
+                        margin: EdgeInsets.symmetric(horizontal: 30),
                         width: double.infinity,
                         child: Stack(
                           children: <Widget>[
                             Container(
                               margin: EdgeInsets.only(top: 30),
-                              height: 260,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 color: CustomColors.white,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 40),
+                                padding: EdgeInsets.symmetric(horizontal: 20,vertical: 25),
                                 child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+                                    SizedBox(height: 10,),
                                     Center(
                                       child: Text(
                                         Strings.uploadPhoto,
@@ -111,27 +111,22 @@ class ImagePickerDialog extends StatelessWidget {
                                       ),
                                     ),
                                     SizedBox(height: 15),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(left: 20, right: 20),
-                                      height: 1,
-                                      color: CustomColors.gray.withOpacity(.2),
-                                    ),
-                                    SizedBox(height: 30),
+                                    Container(height: 1, color: CustomColors.gray.withOpacity(.2),),
+                                    SizedBox(height: 15),
                                     _btnCustom(Strings.btnGallery, null,
                                         "ic_gallery.png", () {
-                                      statePermissionsPhotos = true;
-                                      statePermissionsGallery = false;
-                                      validateCamera();
+                                          statePermissionsPhotos = false;
+                                          statePermissionsGallery = true;
+                                          validateGallery();
+
                                     }),
                                     Divider(),
                                     _btnCustom(Strings.btnCamera, null,
                                         "ic_camera.png", () {
-                                      statePermissionsPhotos = false;
-                                      statePermissionsGallery = true;
-                                      validateGallery();
+                                          statePermissionsPhotos = true;
+                                          statePermissionsGallery = false;
+                                          validateCamera();
                                     }),
-                                    SizedBox(height: 20),
                                   ],
                                 ),
                               ),
@@ -187,7 +182,6 @@ class ImagePickerDialog extends StatelessWidget {
     return GestureDetector(
       child: Container(
         width: double.infinity,
-        height: 20,
         child: Row(
           children: [
             Image.asset(

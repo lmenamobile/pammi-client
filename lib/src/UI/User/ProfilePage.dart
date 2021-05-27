@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
+import 'package:provider/provider.dart';
+import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/MyAddress.dart';
 import 'package:wawamko/src/UI/MyDates.dart';
 import 'package:wawamko/src/UI/coupons.dart';
@@ -19,9 +21,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
+  ProfileProvider profileProvider;
 
   @override
   Widget build(BuildContext context) {
+    profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
       key: _drawerKey,
       drawer: DraweMenuPage(
@@ -108,9 +112,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                             width: 1),
                                         color: CustomColors.grayBackground,
                                       ),
-                                      child: Image(
-                                        image: AssetImage(
-                                            "Assets/images/ic_default_perfil.png"),
+                                      child:  Container(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(100)),
+                                          child: FadeInImage(
+                                            image: profileProvider?.user !=
+                                                null
+                                                ? NetworkImage(profileProvider
+                                                ?.user?.photoUrl)
+                                                : NetworkImage(''),
+                                            fit: BoxFit.cover,
+                                            placeholder: AssetImage(
+                                                "Assets/images/ic_default_perfil.png"),
+                                          ),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -122,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  _prefs.nameUser??'',
+                                  profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,
                                   style: TextStyle(
                                       fontFamily: Strings.fontBold,
                                       fontSize: 18,

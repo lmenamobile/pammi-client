@@ -65,7 +65,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           child: Stack(
             children: <Widget>[
               Positioned(
-                top: 16,
+                top: 15,
                 left: 15,
                 child: GestureDetector(
                   child: Container(
@@ -76,9 +76,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                     ),
                   ),
                   onTap: () {
-                    //FocusScope.of(context).unfocus();
                     _drawerKey.currentState.openDrawer();
-                    //singleton.eventRefreshCheckout.broadcast();
                   },
                 ),
               ),
