@@ -150,20 +150,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                   lastNameController,
                                   TextInputType.text, []),
                               SizedBox(height: 21),
-                           /*   customTextFieldAction("Assets/images/ic_identity.png",
-                                  "Tipo de documento", typeDocumentController, () {
-                                pushToSelectDocument();
-                              }),
-                              SizedBox(height: 21),
-                              customTextField(
-                                  "Assets/images/ic_identity.png",
-                                  "Número de identificación",
-                                  numberIdentityController,
-                                  TextInputType.number, [
-                                LengthLimitingTextInputFormatter(15),
-                                FilteringTextInputFormatter.digitsOnly
-                              ]),
-                              SizedBox(height: 21),*/
                               customTextFieldAction("Assets/images/ic_country.png",
                                   "País", countryController, () {
                                 Navigator.of(context).push(PageTransition(

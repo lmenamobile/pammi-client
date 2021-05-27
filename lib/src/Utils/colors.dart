@@ -14,6 +14,7 @@ class CustomColors {
   static final garyHint = const Color(0xff20154741);
   static final gray = const Color(0xff888888);
   static final gray2 = const Color(0xffEDEDED);
+  static final grayThree = const Color(0xffEFEFEF);
   static final greenValid = const Color(0xff64D38C);
   static final blueSplash = const Color(0xff07213E);
   static final blueDarkSplash = const Color(0xff0D0D0D);
@@ -55,6 +56,7 @@ class CustomColors {
   static final orange = const Color(0xffEA7700);
   static final blue = const Color(0xff008DD8);
   static final yellow = const Color(0xffEA7700);
+  static final yellowOne = const Color(0xffFEC84E);
   static final grayMenu = const Color(0xffFCFCFC);
   static final redBackground = const Color(0xffFFF4E8);
   static final purpleOpacity = const Color(0xff787994);

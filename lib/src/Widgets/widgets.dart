@@ -299,6 +299,28 @@ Widget btnCustomRoundedImage(Color backgroungButton, Color textColor,
   );
 }
 
+Widget btnRoundedCustom(double height,Color backgroungButton, Color textColor, String textButton, Function action) {
+  return SpringButton(
+    SpringButtonType.OnlyScale,
+    Container(
+      height: height,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: backgroungButton),
+      child: Center(
+        child: Text(
+          textButton,
+          style: TextStyle(
+              fontSize: 13, fontFamily: Strings.fontRegular, color: textColor),
+        ),
+      ),
+    ),
+    onTapUp: (_) {
+      action();
+    },
+  );
+}
+
 Widget btnCustomRounded(Color backgroungButton, Color textColor,
     String textButton, Function action, BuildContext context) {
   return SpringButton(

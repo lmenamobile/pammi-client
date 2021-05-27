@@ -1,281 +1,360 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
-import 'package:wawamko/src/UI/changePassword.dart';
-import 'package:wawamko/src/UI/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-
+import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
+import 'package:wawamko/src/UI/selectCountry.dart';
+import 'package:wawamko/src/UI/changePassword.dart';
+import 'package:flutter/services.dart';
+import 'package:wawamko/src/Providers/ProfileProvider.dart';
+import 'package:wawamko/src/Utils/Validators.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 
 class MyDatesPage extends StatefulWidget {
   @override
   _MyDatesPageState createState() => _MyDatesPageState();
 }
 
-class _MyDatesPageState extends State<MyDatesPage> {
-
+class _MyDatesPageState extends State<MyDatesPage>   with TickerProviderStateMixin, ImagePickerListener{
+  SharePreference prefs = SharePreference();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final typeDocumentController = TextEditingController();
   final numberIdentityController = TextEditingController();
+  final emailController = TextEditingController();
   final countryController = TextEditingController();
-  var maskFormatter = new MaskTextInputFormatter(mask: '###############', filter: { "#": RegExp(r'[0-9]') });
-
+  final phoneController = TextEditingController();
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '###############', filter: {"#": RegExp(r'[0-9]')});
+  File imageUserFile;
+  AnimationController _controller;
+  ImagePickerHandler imagePicker;
   NotifyVariablesBloc notifyVariables;
-
- // var edit = false;
+  String msgError = '';
   GlobalVariables globalVariables = GlobalVariables();
+  ProfileProvider profileProvider;
 
-
-@override
+  @override
   void initState() {
-    // TODO: implement initState
+    _controller = new AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    imagePicker = new ImagePickerHandler(this, _controller);
+    imagePicker.init();
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColors.whiteBackGround,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: _body(context),
+      backgroundColor: CustomColors.redTour,
+      body: SafeArea(
+        child: Container(
+          color: CustomColors.redTour,
+          child: _body(context),
+        ),
       ),
     );
   }
 
-  _body(BuildContext context){
-    //final bloc = Provider.ofVariables(context);
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-
-
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
-              color: CustomColors.blueProfile
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-
-              children: <Widget>[
-                Container(
-
-                  height: 100,
-                  child: Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child:  Container(
-
-                        width: double.infinity,
-                        height: 40,
-
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                              left: 20,
-                              top: 5,
-                              child: GestureDetector(
-                                child: Image(
-                                  width: 25,
-                                  height: 25,
-                                  image: AssetImage("Assets/images/ic_backward_arrow.png"),
-
-                                ),
-                                onTap: (){Navigator.pop(context);},
-                              ),
-                            ),
-
-                            Center(
-                              child: Container(
-                                //alignment: Alignment.center,
-
-                                child: Text(
-                                  Strings.myDates,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-
-                                      fontSize: 15,
-                                      fontFamily: Strings.fontBold,
-                                      color: CustomColors.white
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 36),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                          border: Border.all(color: CustomColors.white  ,width: 1),
-
-                        ),
-                        child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 60,
-                                width: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                                  border: Border.all(color: CustomColors.white  ,width: 1),
-                                  color: CustomColors.grayBackground,
-
-                                ),
-                                child: Image(
-                                  image: AssetImage("Assets/images/ic_default_perfil.png"),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 13,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                              Strings.changePhoto,
-                              style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                fontSize: 14,
-                                color: CustomColors.white.withOpacity(.8),
-                                decoration: TextDecoration.underline
-                              ),
-                          ),
-                          SizedBox(height: 15,),
-                          notifyVariables.edit2 ? Container(width: 101, child: btnCustomRounded(CustomColors.white, CustomColors.blueActiveDots,Strings.saveDates , (){
-
-                            notifyVariables.edit2 ? notifyVariables.edit2 = false : notifyVariables.edit2 = true;
-
-
-
-
-                          },context)): Container(width: 101, child: btnCustomRounded(CustomColors.white, CustomColors.blueActiveDots,Strings.edit , (){
-
-                            notifyVariables.edit2 ? notifyVariables.edit2 = false : notifyVariables.edit2 = true;
-
-
-
-
-                          },context))
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 28),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 33,right: 33),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 600),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  verticalOffset: 50.0,
-                  child: FadeInAnimation(
-                    child: widget,
-                  ),
-                ),
-
-                children: <Widget>[
-                  Text(
-                    Strings.personalInfo,
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: CustomColors.blackLetter,
-                        fontFamily: Strings.fontBold
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  customTextField("Assets/images/ic_data.png","Nombre", nameController,TextInputType.text,[]),
-                  SizedBox(height: 21),
-                  customTextField("Assets/images/ic_data.png","Apellido", lastNameController,TextInputType.text,[]),
-                  SizedBox(height: 21),
-                  customTextField("Assets/images/ic_identity.png","Número de identificación", numberIdentityController,TextInputType.number,[]),
-                  SizedBox(height: 21),
-                   customTextFieldAction("Assets/images/ic_country.png", "País", countryController, (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCountryPage(), duration: Duration(milliseconds: 700)));
-                  }),
-                  SizedBox(height: 21),
-                  customTextField("Assets/images/ic_telephone.png","Número de telefono", numberIdentityController,TextInputType.number,[maskFormatter]),
-                  SizedBox(height: 21),
-                  customTextField("Assets/images/ic_email_blue.png","Email", numberIdentityController,TextInputType.emailAddress,[]),
-                  SizedBox(height: 18),
-                  !notifyVariables.edit2 ? GestureDetector(
+  Widget _body(BuildContext context) {
+    setDataProfile();
+    return Stack(
+      children: [
+        Image.asset("Assets/images/ic_bg_profile.png"),
+        Column(
+          children: <Widget>[
+            Container(
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Row(
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Image(
-                          width:13,
-                          height:13,
-                          image: AssetImage("Assets/images/ic_close_red.png"),
-                        ),
-                        SizedBox(width: 5),
-                        Text(
-                          Strings.deleteAccount,
-                          style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 16,
-                            color: CustomColors.red
+                        GestureDetector(
+                          child: Container(
+                            width: 31,
+                            height: 31,
+                            child: Center(
+                              child: Image(
+                                image: AssetImage(
+                                    "Assets/images/ic_backward_arrow.png"),
+                              ),
+                            ),
                           ),
-                        )
+                          onTap: () => Navigator.pop(context),
+                        ),
+                        Expanded(
+                            child: Center(
+                          child: Text(
+                            Strings.myDates,
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 15,
+                                color: CustomColors.white),
+                          ),
+                        )),
                       ],
                     ),
-                    onTap: (){utils.startCustomAlertMessage(context, "¡Espera!", "Assets/images/ic_error2.png", "¿Estas seguro deseas eliminar tu cuenta Wawamko?", (){Navigator.pop(context);},(){Navigator.pop(context);});},
-                  ) : Container(),
-                  // customTextFieldAction("Assets/images/ic_country.png", "País", countryController, (){Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:SelectCountryPage(), duration: Duration(milliseconds: 700)));
-                  //}),
-                 // notifyVariables.edit2  ? SizedBox(height: 46) : SizedBox(height: 0),
-
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 20),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
+                                border: Border.all(
+                                    color: CustomColors.white, width: 1),
+                              ),
+                              child: Center(
+                                child: Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 55,
+                                      width: 55,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(100)),
+                                        border: Border.all(
+                                            color: CustomColors.white,
+                                            width: 1),
+                                        color: CustomColors.grayBackground,
+                                      ),
+                                      child: InkWell(
+                                        onTap: () => imagePicker.showDialog(context),
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(100)),
+                                            child: FadeInImage(
+                                              image: imageUserFile == null
+                                                  ? NetworkImage( '')
+                                                  : "".isNotEmpty
+                                                  ? NetworkImage( '')
+                                                  : FileImage(imageUserFile),
+                                              fit: BoxFit.cover,
+                                              placeholder:  AssetImage(
+                                                  "Assets/images/ic_default_perfil.png"),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 23),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  Strings.changePhoto,
+                                  style: TextStyle(
+                                      fontFamily: Strings.fontRegular,
+                                      color: CustomColors.white,
+                                      decoration: TextDecoration.underline),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Visibility(
+                                  visible: profileProvider.isEditProfile,
+                                  child: Container(
+                                      width: 130,
+                                      child: btnRoundedCustom(
+                                          30,
+                                          CustomColors.yellowOne,
+                                          CustomColors.blackLetter,
+                                          Strings.saveDates, () {
+                                        callServiceUpdate();
+                                      })),
+                                ),
+                                Visibility(
+                                  visible: !profileProvider.isEditProfile,
+                                  child: Container(
+                                      width: 100,
+                                      child: btnRoundedCustom(
+                                          30,
+                                          CustomColors.white,
+                                          CustomColors.letterGray,
+                                          Strings.edit, () {
+                                        profileProvider.isEditProfile = true;
+                                      })),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
-              )
-
+              ),
             ),
-          ),
-          notifyVariables.edit2 ? Container(
-              margin: EdgeInsets.only(top: 0,bottom: 40),
-              padding: EdgeInsets.only(left: 60,right: 60),
-              child:  btnCustomRounded(CustomColors.orange, CustomColors.white, Strings.changePass, (){ Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child:ChangePasswordPage(), duration: Duration(milliseconds: 700))); },context)
-          ): Container()
-
-        ],
-      ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: CustomColors.white,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30))),
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          Strings.personalInfo,
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: CustomColors.blackLetter,
+                              fontFamily: Strings.fontBold),
+                        ),
+                        SizedBox(height: 20),
+                        customTextField("Assets/images/ic_data.png", "Nombre",
+                            nameController, TextInputType.text, []),
+                        SizedBox(height: 21),
+                        customTextFieldAction("Assets/images/ic_identity.png",
+                            "Tipo de documento", typeDocumentController, () {
+                          pushToSelectDocument();
+                        }),
+                        SizedBox(height: 21),
+                        customTextField(
+                            "Assets/images/ic_identity.png",
+                            "Número de identificación",
+                            numberIdentityController,
+                            TextInputType.number, [
+                          LengthLimitingTextInputFormatter(15),
+                          FilteringTextInputFormatter.digitsOnly
+                        ]),
+                        SizedBox(height: 21),
+                        customTextFieldAction("Assets/images/ic_country.png",
+                            "País", countryController, () {
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.slideInLeft,
+                              child: SelectCountryPage(),
+                              duration: Duration(milliseconds: 700)));
+                        }),
+                        SizedBox(height: 21),
+                        customTextField(
+                            "Assets/images/ic_telephone.png",
+                            "Número de telefono",
+                            phoneController,
+                            TextInputType.number, [
+                          maskFormatter,
+                          LengthLimitingTextInputFormatter(15),
+                          FilteringTextInputFormatter.digitsOnly
+                        ]),
+                        SizedBox(height: 18),
+                        Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 30),
+                            child: btnCustomRounded(CustomColors.blueSplash,
+                                CustomColors.white, Strings.changePass, () {
+                              Navigator.of(context).push(
+                                  customPageTransition(ChangePasswordPage()));
+                            }, context))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
+  void setDataProfile() {
+    countryController.text = notifyVariables.countrySelected;
+  }
 
+  bool validateFormProfile() {
+    bool validateForm = true;
+    msgError = '';
+    if (phoneController.text.isNotEmpty) {
+      if (phoneController.text.length <= 7) {
+        validateForm = false;
+        msgError = Strings.phoneInvalidate;
+      }
+    }
+    return validateForm;
+  }
 
+  pushToSelectDocument() async {
+    var data = await Navigator.of(context).push(PageRouteBuilder(
+        opaque: false, // set to false
+        pageBuilder: (_, __, ___) => DialogSelectDocument()));
+    if (data != null) {
+      if (data) {
+        FocusScope.of(context).unfocus();
+        typeDocumentController.text = globalVariables.typeDocument.toString();
+        setState(() {});
+      }
+    }
+  }
 
+  callServiceUpdate(){
+    if(validateFormProfile()){
+      serviceUpdateUser();
+    }else{
+      utils.showSnackBar(context,msgError);
+    }
+  }
 
+  serviceUpdateUser()async{
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = profileProvider.updateUser(
+            nameController.text,
+            typeDocumentController.text,
+            numberIdentityController.text,
+            phoneController.text,
+            globalVariables.cityId.toString());
+        await callUser.then((msg) {
+          profileProvider.isEditProfile = false;
+          utils.showSnackBarGood(context,msgError.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context,error.toString());
+        });
+      } else {
+        utils.showSnackBar(context,Strings.internetError);
+      }
+    });
+  }
 
+  @override
+  userImage(File imageFile) {
+    imageUserFile = imageFile;
+  }
 }

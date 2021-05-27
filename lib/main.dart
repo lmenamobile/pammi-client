@@ -4,11 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
-import 'package:wawamko/src/UI/VerificationCode.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-
+import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
-import 'src/UI/InterestCategoriesUser.dart';
 import 'src/UI/Onboarding/Splash.dart';
 import 'src/Utils/Strings.dart';
 
@@ -34,6 +32,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_)=> NotifyVariablesBloc()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: MaterialApp(
         title: Strings.appName,

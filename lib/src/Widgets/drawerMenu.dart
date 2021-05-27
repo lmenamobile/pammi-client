@@ -209,16 +209,14 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
         height: 63,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
-                color: CustomColors.grayBackground,
-                border: Border.all(color:  CustomColors.gray.withOpacity(.3),width: 1),
-
+                color: CustomColors.grayMenu,
+                border: Border.all(color:  CustomColors.grayThree,width: 1),
               ),
               child: Center(
                 child: Image(

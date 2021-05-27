@@ -102,6 +102,13 @@ class Strings {
   static const String cedulaCiudadania = 'Cédula de Ciudadanía';
   static const String tipeDocument = 'Tipo de documento';
 
+  /*fotos*/
+  static const String alertTextPhotos =
+      "Por favor active los permisos de Cámara y Galería para acceder a esta función.";
+  static const String btnGallery = 'Galería';
+  static const String btnCamera = 'Cámara';
+  static const String uploadPhoto = 'Cambiar Foto';
+
 
   //Selecciona tu país
   static const String selectCountry = 'Selecciona tu país';
@@ -223,7 +230,7 @@ class Strings {
   static const String lastNameEmpty                         = "El apellido es requerido.";
   static const String emailInvalidate                       = "Ingrese un correo valido.";
   static const String phoneEmpty                            = "El teléfono es requerido.";
-  static const String phoneInvalidate                       = "El teléfono no es valido, debe tener 10 digitos.";
+  static const String phoneInvalidate                       = "El teléfono no es valido, debe tener almenos 7 digitos.";
   static const String numberEmpty                           = "El número de identificación es requerido.";
   static const String cityEmpty                             = "La ciudad es requerida.";
   static const String countryEmpty                           = "El país es requerido.";

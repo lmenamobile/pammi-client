@@ -123,7 +123,19 @@ class _Utils {
           image: AssetImage("Assets/images/ic_correct.png"),
         ),
       ),
-      message:  message,
+      messageText: Align(
+        alignment: Alignment.center,
+        child:Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            message,
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: Strings.fontRegular
+            ),
+          ),
+        ),
+      ),
       duration:  Duration(seconds: 3),
     )..show(context);
   }
