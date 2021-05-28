@@ -144,7 +144,7 @@ class Strings {
   static const String beginShop = 'Empieza a agregar para realizar tus compras';
   static const String addTarjet = 'Agregar tarjeta';
   static const String creditTarjet = 'Tarjeta crédito';
-  static const String nameCard = 'Nombre y apellido del títular';
+  static const String nameCard = 'Nombre del títular';
   static const String numberCard = 'Número de tarjeta';
   static const String mountCard = 'Mes de vencimiento';
   static const String yearCard = 'Año de vencimiento';
@@ -210,6 +210,9 @@ class Strings {
   static const String errorFacebook            = 'Error al iniciar sesión con Facebook';
   static const String  change  = 'Cambiar';
 
+  /*Mis tarjetas de credito*/
+  static const String  titleDeleteCreditCard  = 'Eliminar tarjeta';
+  static const String  msgDeleteCreditCard  = "¿Seguro que deseas eliminar este medio de pago?";
 
  // validation
   static const String  emptyName = 'Debes ingresar el nombre';

@@ -4,9 +4,9 @@ import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/MyAddress.dart';
-import 'package:wawamko/src/UI/MyDates.dart';
+import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/User/MyDates.dart';
 import 'package:wawamko/src/UI/coupons.dart';
-import 'package:wawamko/src/UI/payMethods.dart';
+import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/drawerMenu.dart';
@@ -197,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Strings.methodsPay, false, false, false, () {
                             Navigator.of(context).push(PageTransition(
                                 type: PageTransitionType.slideInLeft,
-                                child: PayMethodsPage(),
+                                child: MyCreditCards(),
                                 duration: Duration(milliseconds: 700)));
                           }),
                           itemProfile(context, "Assets/images/discount_big.png",

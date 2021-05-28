@@ -5,7 +5,7 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/addAddress.dart';
-import 'package:wawamko/src/UI/addTarjet.dart';
+import 'file:///C:/Users/Asus/Documents/KUBO/AppsFlutter/Pamii/AppUser/lib/src/UI/PaymentMethods/addTarjet.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Models/UserProfile.dart';
 import 'dart:convert';
 import 'package:wawamko/src/Utils/ConstansApi.dart';
@@ -48,6 +49,13 @@ class ProfileProvider with ChangeNotifier {
 
   set imageUserFile(File value) {
     this._imageUserFile = value;
+    notifyListeners();
+  }
+
+  List<CreditCard> _ltsCreditCards = List();
+  List<CreditCard> get ltsCreditCards => this._ltsCreditCards;
+  set ltsCreditCards(List<CreditCard> value) {
+    this._ltsCreditCards = value;
     notifyListeners();
   }
 
@@ -199,5 +207,41 @@ class ProfileProvider with ChangeNotifier {
       this.isLoading = false;
       throw decodeJson['message'];
     }
+  }
+
+  Future<List<CreditCard>> getLtsCreditCards(String page) async {
+    this.isLoading = true;
+    Map params = {
+      "limit":"20",
+      "offset":page
+    };
+    var header = {
+      "Content-Type": "application/json".toString(),
+      "X-WA-Auth-Token": prefsUser.authToken.toString()
+    };
+    var body = jsonEncode(params);
+    final response = await http.post(ConstantsApi.baseURL  + 'profile/get-payment-methods',
+        headers: header,body: body)
+        .timeout(Duration(seconds: 10)).catchError((value) {this.isLoading = false;throw Strings.errorServeTimeOut;});
+    final List<CreditCard> listCards = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final card = CreditCard.fromJson(item);
+          listCards.add(card);
+        }
+        this.isLoading = false;
+        this.ltsCreditCards = listCards;
+        return listCards;
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+
   }
 }
