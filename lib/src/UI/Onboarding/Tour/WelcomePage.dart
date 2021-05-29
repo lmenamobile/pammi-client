@@ -6,7 +6,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import 'login.dart';
+import '../Login.dart';
 
 class WelcomePage extends StatefulWidget {
   @override

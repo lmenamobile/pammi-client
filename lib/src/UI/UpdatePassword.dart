@@ -12,7 +12,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import 'Onboarding/login.dart';
+import 'Onboarding/Login.dart';
 
 class UpdatePasswordPage extends StatefulWidget {
   @override

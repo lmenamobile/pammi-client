@@ -7,7 +7,7 @@ import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
-import 'src/UI/Onboarding/Splash.dart';
+import 'src/UI/Onboarding/Tour/Splash.dart';
 import 'src/Utils/Strings.dart';
 
 void main() async{

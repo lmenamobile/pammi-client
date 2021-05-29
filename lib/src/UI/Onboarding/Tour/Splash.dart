@@ -1,34 +1,62 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as GPS;
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-
-import '../addAddress.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import 'TourPage.dart';
 import 'WelcomePage.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashPage extends StatefulWidget {
   @override
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, WidgetsBindingObserver {
   final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
   OnboardingProvider providerOnboarding;
   AnimationController _controller;
   Animation<double> _animation;
+  var location = GPS.Location();
+  bool stateGps = false;
+  bool permissionGps = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    _serviceAccesToken();
+    Future.delayed(Duration(milliseconds: 2000), () {validatePermissions();});
+    _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
+    _controller.forward();
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async{
+    if(AppLifecycleState.resumed==state){
+      if( await location.serviceEnabled() && await Permission.location.isGranted){
+        openApp();
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,77 +113,48 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     );
   }
 
-  @override
-  void initState() {
-    _serviceAccesToken();
-    Future.delayed(const Duration(seconds: 3), () {
-      getPermissionGps();
-    });
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
-    _animation =
-        CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
-    _controller.forward();
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  getPermissionGps() async {
-    Location location = new Location();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
+  validatePermissions()async{
+    stateGps = await location.serviceEnabled();
+    if(stateGps) {
+      final status = await Permission.location.request();
+      statusPermissionsGPS(status);
+    }else{
+      print("gps desactivado");
     }
+  }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+  statusPermissionsGPS(PermissionStatus status)async {
+    switch (status) {
+      case PermissionStatus.granted:
         openApp();
-        return;
-      }
+        break;
+      case PermissionStatus.denied:
+      case PermissionStatus.restricted:
+      case PermissionStatus.permanentlyDenied:
+      case PermissionStatus.undetermined:
+        openAppSettings();
+        break;
     }
-    _locationData = await location.getLocation();
-    getLocation(_locationData);
   }
 
-  void getLocation(LocationData locationData) async {
+  void getLocation(GPS.LocationData locationData) async {
     singleton.latitude = locationData.latitude;
     singleton.longitude = locationData.longitude;
     openApp();
   }
 
-  void openApp() {
+  void openApp() async{
+    GPS.LocationData locationData;
+    locationData = await location.getLocation();
+    getLocation(locationData);
     if (prefs.dataUser == "0") {
       if (prefs.enableTour == false) {
-        Navigator.of(context).pushReplacement(PageTransition(
-            type: PageTransitionType.slideInLeft,
-            child: WelcomePage(),
-            duration: Duration(milliseconds: 700)));
+        Navigator.pushReplacement(context, customPageTransition(WelcomePage()));
       } else {
-        Navigator.of(context).pushReplacement(PageTransition(
-            type: PageTransitionType.slideInLeft,
-            child: TourPage(),
-            duration: Duration(milliseconds: 700)));
+        Navigator.pushReplacement(context, customPageTransition(TourPage()));
       }
     } else {
-
-      Navigator.of(context).pushReplacement(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          curve: Curves.decelerate,
-          duration: Duration(milliseconds: 500),
-          child: MyHomePage()));
+      Navigator.pushReplacement(context, customPageTransition(MyHomePage()));
     }
   }
 
@@ -171,12 +170,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
           if (data.code.toString() == "100") {
             prefs.accessToken = data.data.accessToken;
-          } else {
-            //  Navigator.pop(context);
-          }
-        }, onError: (error) {
-          // Navigator.pop(context);
-        });
+          } else {}
+        }, onError: (error) {});
       } else {
         print("you has not internet");
       }
