@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "262228864942-isss5vaj3qij1vpg3rgld7ht2lbn9tra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kubo.pamii",
+            "certificate_hash": "fcdef64ae62b431114d4fb4c602504a1507e095d"
+          }
+        },
+        {
           "client_id": "262228864942-h3hicn6lt0rqdev9m90g2sfup34qj7au.apps.googleusercontent.com",
           "client_type": 3
         }

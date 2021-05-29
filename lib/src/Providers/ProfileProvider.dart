@@ -244,4 +244,80 @@ class ProfileProvider with ChangeNotifier {
     }
 
   }
+
+  Future addCreditCard(
+      String name,
+      String numberCard,
+      String month,
+      String year,
+      String cvc) async {
+    this.isLoading = true;
+    Map params = {
+      "cardHolder": name,
+      "cardNumber": numberCard,
+      "expirationMonth": month,
+      "expirationYear": year,
+      "cvc" : cvc
+    };
+    var header = {
+      "Content-Type": "application/json".toString(),
+      "X-WA-Auth-Token": prefsUser.authToken.toString()
+    };
+    var body = jsonEncode(params);
+    final response = await http
+        .post(ConstantsApi.baseURL + 'profile/create-payment-method',
+        headers: header, body: body)
+        .timeout(Duration(seconds: 10))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 201) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        this.ltsCreditCards.clear();
+        getLtsCreditCards("0");
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future deleteCreditCard(
+      String idCreditCard) async {
+    this.isLoading = true;
+    var header = {
+      "Content-Type": "application/json".toString(),
+      "X-WA-Auth-Token": prefsUser.authToken.toString()
+    };
+    final response = await http
+        .put(ConstantsApi.baseURL + 'profile/change-status-payment-method/$idCreditCard',
+        headers: header)
+        .timeout(Duration(seconds: 10))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        this.ltsCreditCards.clear();
+        getLtsCreditCards("0");
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
 }

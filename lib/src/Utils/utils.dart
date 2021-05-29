@@ -1,22 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:credit_card/credit_card_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Utils/ConstansApi.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/Widgets/DialogLoading.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 
 class _Utils {
 
@@ -290,7 +286,7 @@ class _Utils {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => DialogLoadingAnimated()
+        builder: (BuildContext context) => LoadingProgress()
     );
   }
 
@@ -403,6 +399,29 @@ class _Utils {
   }
 
 
+  List<String> listMonths(){
+    List<String> lts = List();
+    for (int i = 1; i <=12; i++) {
+      if(i<=9){
+        lts.add("0$i");
+        // print("0$i");
+      }else{
+        lts.add('$i');
+        //print(i);
+      }
+    }
+    return lts;
+  }
+
+  List<String> listYears(){
+    List<String> lts = List();
+    var aux = DateTime.now();
+    for (int i = aux.year; i <= aux.year+10; i++) {
+      lts.add('$i');
+      //print(i);
+    }
+    return lts;
+  }
 
 
 

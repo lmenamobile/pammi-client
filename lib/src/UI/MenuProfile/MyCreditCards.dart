@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 
 class MyCreditCards extends StatefulWidget {
   @override
@@ -31,9 +32,15 @@ class _MyCreditCardsState extends State<MyCreditCards> {
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
-        child: Container(
-          color: CustomColors.grayBackground,
-          child: _body(context),
+        child: Stack(
+          children: [
+            Container(
+              color: CustomColors.grayBackground,
+              child: _body(context),
+            ),
+            Visibility(
+                visible: profileProvider.isLoading, child: LoadingProgress()),
+          ],
         ),
       ),
     );
@@ -45,7 +52,9 @@ class _MyCreditCardsState extends State<MyCreditCards> {
         titleBar(Strings.methodsPay, "ic_blue_arrow.png",
             () => Navigator.pop(context)),
         Expanded(
-          child: Container(
+          child:profileProvider.ltsCreditCards.isEmpty?
+              emptyView("Assets/images/ic_payment.png",Strings.emptyPaymentMethods,Strings.textPaymentMethods)
+              :Container(
               margin: EdgeInsets.only(right: 20, left: 20, top: 20),
               child: ListView.builder(
                   shrinkWrap: true,
@@ -102,7 +111,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                             color: CustomColors.blackLetter),
                       ),
                       Text(
-                        Strings.masterCard,
+                        creditCard?.franchise??'',
                         style: TextStyle(
                             fontSize: 13,
                             color: CustomColors.purpleOpacity,
@@ -126,6 +135,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                         "Assets/images/ic_trash_big.png",
                         Strings.msgDeleteCreditCard, () {
                       Navigator.pop(context);
+                      deleteCreditCard(creditCard.id.toString());
                     }, () {
                       Navigator.pop(context);
                     });
@@ -148,6 +158,23 @@ class _MyCreditCardsState extends State<MyCreditCards> {
       });
       } else {
         utils.showSnackBar(context, Strings.internetError);      }
+    });
+  }
+
+
+  deleteCreditCard(String id) {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = profileProvider.deleteCreditCard(id);
+        await callUser.then((msg) {
+          utils.showSnackBarGood(context,msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context,error.toString());
+          profileProvider.isLoading = false;
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
     });
   }
 }

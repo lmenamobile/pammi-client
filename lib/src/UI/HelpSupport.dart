@@ -1,20 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart';
 import 'package:wawamko/src/Models/Support/TermsConditionsModel.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
-import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
-import 'package:wawamko/src/UI/UpdatePassword.dart';
-import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/drawerMenu.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import 'package:wawamko/src/Utils/Validators.dart';
+
+import 'PreRegister/InterestPage.dart';
 
 class SupportHelpPage extends StatefulWidget {
   @override
@@ -134,6 +132,36 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                       margin: EdgeInsets.only(bottom: 20),
                       child: Column(
                         children: <Widget>[
+                          InkWell(
+                            onTap:()=>Navigator.of(context).push(customPageTransition(InterestsPage())),
+                            child: Container(
+                              height: 50,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                border: Border.all(color: CustomColors.greyBorder,width: 1)
+                              ),
+                              child: Row(
+                                mainAxisSize:MainAxisSize.max ,
+                                mainAxisAlignment:MainAxisAlignment.spaceAround ,
+                                children: [
+                                  Text(
+                                    Strings.preRegister,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontFamily: Strings.fontBold,
+                                        fontSize: 15,
+                                        color: CustomColors.blackLetter),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: CustomColors.grayLetter,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
                           Container(
                             width: double.infinity,
                             padding: EdgeInsets.only(top: 0),

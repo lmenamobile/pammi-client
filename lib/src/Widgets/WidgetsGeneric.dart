@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Utils/colors.dart';
 
 Widget titleBar(String title,String icon,Function action){
   return Container(
@@ -36,6 +37,47 @@ Widget titleBar(String title,String icon,Function action){
             ),
           ),
         ),
+      ],
+    ),
+  );
+}
+
+Widget emptyView(String image, String title, String text) {
+  return Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image(
+          fit: BoxFit.fill,
+          width: 200,
+          image: AssetImage(image),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 60),
+          child: Column(
+            children: <Widget>[
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 22,
+                    color: CustomColors.blueGray),
+              ),
+              SizedBox(height: 5),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 15,
+                    color: CustomColors.blueGray),
+              ),
+              SizedBox(height: 23),
+            ],
+          ),
+        )
       ],
     ),
   );

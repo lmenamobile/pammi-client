@@ -151,6 +151,17 @@ class Strings {
   static const String cvc = 'CVC';
   static const String save = 'Guardar';
   static const String infoCard = 'Información de tarjeta';
+  static const selectedYear        = 'Año';
+  static const selectedMonth        = 'Mes';
+  static const hintName        = 'NOMBRE';
+  static const hintDate        = 'MM/AAAA';
+  static const String nameCardEmpty = 'El nombre del títular es requerido';
+  static const String numberCardEmpty = 'El número de tarjeta es requerido';
+  static const String numberCardLength = 'El número de tarjeta debe ser minimo de 15 digitos';
+  static const String mountCardEmpty = 'El mes de vencimiento es requerido';
+  static const String yearCardEmpty = 'El año de vencimiento es requerido';
+  static const String cvcEmpty = 'El CVC es requerido';
+  static const String cvcLength= 'El CVC debe ser minimo de 3 digitos';
 
   static const String questionAddress = '¿Dónde quieres recibir tus productos?';
   static const String beginAddAddress = 'Empieza a agregar tus direcciones de envío';
@@ -189,6 +200,8 @@ class Strings {
   static const String supportservices = 'Soporte y servicios';
   static const String closeSesion = 'Cerrar sesión';
   static const String closeSesionText = '¿Estás seguro de cerrar sesión?';
+  static const String sessionClose = '¡Upps!';
+  static const String sessionText = 'Para acceder a esta opcion debes iniciar sesion';
 
   static const String shopCar = 'Carrito de compras';
 
@@ -226,7 +239,16 @@ class Strings {
   static const String pwdActuallyEmpty = "La contraseña actual es requerida.";
   static const String pwdNewEmpty      = "La nueva contraseña es requerida.";
 
+  /*Metodos de pago*/
+  static const String emptyPaymentMethods      = "Aún no has agregado métodos de pago.";
+  static const String textPaymentMethods = "Empieza a agregar para realizar tus compras";
 
+  /*help suport*/
+  static const String preRegister = "Postularme como emprendedor";
+  static const String titleInterests = '¡Gracias por tu interés en unirte a Pamii';
+  static const String txInterests = 'Por favor completa el siguiente formulario y te responderemos lo antes posible.';
+  static const String name = 'Nombre';
+  static const String phone = 'Número de teléfono';
 
   /*Errors*/
   static const String errorServeTimeOut                   = "Ha ocurrido un error de parte nuestra, por favor vuelve a intentarlo.";
