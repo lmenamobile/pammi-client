@@ -226,6 +226,11 @@ class Strings {
   static const String pwdActuallyEmpty = "La contraseña actual es requerida.";
   static const String pwdNewEmpty      = "La nueva contraseña es requerida.";
 
+  /*Dialogs*/
+  static const String  btnAccept = 'Aceptar';
+  static const String  btnCancel = 'Cancelar';
+  static const String  titleGPS = 'GPS';
+  static const String  textInformationGPS = 'Por favor active el GPS y vuelva a intentarlo.';
 
 
   /*Errors*/

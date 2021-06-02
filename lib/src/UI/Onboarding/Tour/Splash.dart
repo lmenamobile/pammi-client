@@ -1,15 +1,15 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as GPS;
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
+import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'TourPage.dart';
 import 'WelcomePage.dart';
@@ -33,7 +33,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    _serviceAccesToken();
+    callAccessToken();
     Future.delayed(Duration(milliseconds: 2000), () {validatePermissions();});
     _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async{
     if(AppLifecycleState.resumed==state){
-      if( await location.serviceEnabled() && await Permission.location.isGranted){
+      if(await Permission.location.isGranted){
         openApp();
       }
     }
@@ -119,7 +119,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       final status = await Permission.location.request();
       statusPermissionsGPS(status);
     }else{
-      print("gps desactivado");
+      bool status = await showCustomAlertDialog(context,Strings.titleGPS,Strings.textInformationGPS);
     }
   }
 
@@ -140,7 +140,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   void getLocation(GPS.LocationData locationData) async {
     singleton.latitude = locationData.latitude;
     singleton.longitude = locationData.longitude;
-    openApp();
   }
 
   void openApp() async{
@@ -151,29 +150,24 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       if (prefs.enableTour == false) {
         Navigator.pushReplacement(context, customPageTransition(WelcomePage()));
       } else {
-        Navigator.pushReplacement(context, customPageTransition(TourPage()));
+        Navigator.of(context).pushReplacement(customPageTransition(TourPage()));
       }
     } else {
       Navigator.pushReplacement(context, customPageTransition(MyHomePage()));
     }
   }
 
-  _serviceAccesToken() async {
+  callAccessToken() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnboarding.generateAccesToken(context);
-        await callUser.then((user) {
-          var decodeJSON = jsonDecode(user);
+        Future callUser = providerOnboarding.getAccessToken();
+        await callUser.then((token) {
 
-          ResponseAccessToken data =
-              ResponseAccessToken.fromJsonMap(decodeJSON);
-
-          if (data.code.toString() == "100") {
-            prefs.accessToken = data.data.accessToken;
-          } else {}
-        }, onError: (error) {});
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
       } else {
-        print("you has not internet");
+        utils.showSnackBar(context, Strings.internetError);
       }
     });
   }

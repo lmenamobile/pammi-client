@@ -68,6 +68,7 @@ dependencies:
   google_sign_in: ^4.5.9
   flutter_facebook_login: ^3.0.0
   lottie: ^0.7.0
+  simple_animations: ^2.2.3
 
 
 

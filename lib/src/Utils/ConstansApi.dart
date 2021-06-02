@@ -9,5 +9,6 @@ class ConstantsApi {
 
   static const String loginGMAIL = 'gm';
   static const String loginFacebook = 'fb';
+  static const String codeAccountNotValidate = '103';
 
 }

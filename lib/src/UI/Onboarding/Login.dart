@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -7,17 +8,19 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/GoogleSingInProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/UI/Onboarding/ForgotPassWordEmail.dart';
+import 'package:wawamko/src/UI/Onboarding/ForgotPasswordEmail.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
 import 'package:wawamko/src/UI/VerificationCode.dart';
 import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import '../selectCountry.dart';
@@ -42,60 +45,74 @@ class _LoginPageState extends State<LoginPage> {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          color: CustomColors.white,
-          child: _body(context),
-        ),
+        child:  Stack(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                  color: CustomColors.white,
+                  child: _body(context),
+                ),
+              ),
+              Visibility(
+                  visible: providerOnboarding.isLoading, child: LoadingProgress()),
+            ],
+          ),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return SingleChildScrollView(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 170),
-            child: Image(
-              image: AssetImage("Assets/images/ic_shape.png"),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 29, top: 50),
-            child: Image(
-              width: 110,
-              height: 110,
-              image: AssetImage("Assets/images/ic_logo_login.png"),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 140, left: 29),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  Strings.login,
-                  style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 25,
-                      color: CustomColors.blackLetter),
+    return Column(
+      children: <Widget>[
+        Stack(
+          children: [
+            FadeInUpBig(
+              child: Container(
+                margin: EdgeInsets.only(top: 130),
+                child: Image(
+                  image: AssetImage("Assets/images/ic_shape.png"),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  Strings.textLogin,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 14,
-                      color: CustomColors.blackLetter),
-                ),
-              ],
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 35, right: 35, top: 330, bottom: 50),
+            Container(
+              margin: EdgeInsets.only(top: 50, left: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image(
+                    width: 120,
+                    image: AssetImage("Assets/images/ic_logo_login.png"),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    Strings.login,
+                    style: TextStyle(
+                        fontFamily: Strings.fontBold,
+                        fontSize: 25,
+                        color: CustomColors.blackLetter),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    Strings.textLogin,
+                    style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        fontSize: 14,
+                        color: CustomColors.blackLetter),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        FadeInUp(
+          delay: Duration(milliseconds: 1200),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -119,7 +136,6 @@ class _LoginPageState extends State<LoginPage> {
                             Strings.forgotPass,
                             style: TextStyle(
                                 fontFamily: Strings.fontMedium,
-                                fontSize: 12,
                                 color: CustomColors.blackLetter),
                           ),
                         ),
@@ -163,17 +179,22 @@ class _LoginPageState extends State<LoginPage> {
                     itemConnectTo("Assets/images/ic_google.png",
                         () => validateUserGoogle()),
                     SizedBox(width: 13),
-                    itemConnectTo("Assets/images/ic_facebook.png", ()=>requestLoginFacebook()),
-                    SizedBox(width: 13),
-                    itemConnectTo("Assets/images/ic_mac.png", () {}),
+                    itemConnectTo("Assets/images/ic_facebook.png",
+                        () => requestLoginFacebook()),
+                    Visibility(
+                        visible: !platformIsAndroid(),
+                        child: Container(
+                            margin: EdgeInsets.only(left: 13),
+                            child: itemConnectTo(
+                                "Assets/images/ic_mac.png", () {}))),
                   ],
                 ),
                 SizedBox(height: 10),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -300,24 +321,19 @@ class _LoginPageState extends State<LoginPage> {
     FocusScope.of(context).unfocus();
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-        Future callUser = providerOnboarding.loginUser(
-            emailController.text.trim(), passwordController.text);
+        Future callUser = providerOnboarding.loginUser(emailController.text.trim(), passwordController.text);
         await callUser.then((user) {
-          Navigator.pop(context);
-          if (user.verifyedAccount) {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => MyHomePage()),
-                (Route<dynamic> route) => false);
-          } else {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
+        }, onError: (error) {
+          providerOnboarding.isLoading = false;
+          if(error.toString()==ConstantsApi.codeAccountNotValidate){
             Navigator.of(context)
                 .push(customPageTransition(VerificationCodePage(
-              email: user.email,
+              email: emailController.text.trim(),
             )));
+          }else{
+            utils.showSnackBar(context, error.toString());
           }
-        }, onError: (error) {
-          Navigator.pop(context);
-          utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 
 Widget titleBar(String title,String icon,Function action){
   return Container(
@@ -39,4 +41,38 @@ Widget titleBar(String title,String icon,Function action){
       ],
     ),
   );
+}
+
+Widget btnCustom(String nameButton, Color colorBackground, Color colorText,Function action){
+  return Container(
+    width: 200,
+    height: 40,
+    child: AnimateButton(
+      pressEvent: action,
+      body: Container(
+        decoration: BoxDecoration(
+            color: colorBackground,
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        child: Center(
+          child: Text(
+            nameButton,
+            style: TextStyle(
+              fontFamily: Strings.fontMedium,
+              color: colorText,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Future<bool> showCustomAlertDialog(BuildContext context,String title,String msg) async {
+  bool state = await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) => DialogCustomAlert(title: title, msgText: msg),
+  );
+  return state;
 }

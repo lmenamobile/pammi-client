@@ -14,6 +14,33 @@ import 'package:wawamko/src/Utils/utils.dart';
 class OnboardingProvider with ChangeNotifier {
   final _prefs = SharePreference();
 
+  bool _isLoading = false;
+  bool get isLoading => this._isLoading;
+  set isLoading(bool value) {
+    this._isLoading = value;
+    notifyListeners();
+  }
+
+  Future getAccessToken() async {
+    final response = await http
+        .get(ConstantsApi.baseURL + "wa/generate-access-token")
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        _prefs.accessToken = decodeJson['data']['accessToken'];
+        return decodeJson['data']['accessToken'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      throw decodeJson['message'];
+    }
+  }
+
   Future registerUserSocialNetwork(
       String name, String email, String typeRegister, String cityId) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -52,7 +79,8 @@ class OnboardingProvider with ChangeNotifier {
     }
   }
 
-  Future<UserResponse> loginUserSocialNetWork(String email,String typeLogin) async {
+  Future<UserResponse> loginUserSocialNetWork(
+      String email, String typeLogin) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Map encrypt = utils.encryptPwdIv(ConstantsApi.pwdSocialNetwork);
     final header = {
@@ -71,7 +99,7 @@ class OnboardingProvider with ChangeNotifier {
     var body = jsonEncode(jsonData);
     final response = await http
         .post(ConstantsApi.baseURL + "onboarding/login",
-        headers: header, body: body)
+            headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       throw Strings.errorServeTimeOut;
@@ -94,6 +122,7 @@ class OnboardingProvider with ChangeNotifier {
   }
 
   Future<UserResponse> loginUser(String email, String password) async {
+    this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var jsonIV = utils.encryptPwdIv(password);
     final header = {
@@ -112,13 +141,15 @@ class OnboardingProvider with ChangeNotifier {
     var body = jsonEncode(jsonData);
     final response = await http
         .post(ConstantsApi.baseURL + "onboarding/login",
-        headers: header, body: body)
+            headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
+      this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
     Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
+      this.isLoading = false;
       if (decodeJson['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
         _prefs.authToken = response.authToken;
@@ -129,14 +160,49 @@ class OnboardingProvider with ChangeNotifier {
       } else {
         throw decodeJson['message'];
       }
+    } else if (response.statusCode == 400) {
+      this.isLoading = false;
+      if (decodeJson['code'] == 103) {
+        //Usuario no validado
+        throw 103;
+      }
     } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future passwordRecovery(String email) async {
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": _prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      'user': email,
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(ConstantsApi.baseURL + "onboarding/password-recovery", headers: header, body: body)
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoading = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
       throw decodeJson['message'];
     }
   }
 
   /*-----JOnis-----*/
-
-
 
   Future<dynamic> recoveryPassword(BuildContext context, String email) async {
     final header = {
@@ -190,20 +256,6 @@ class OnboardingProvider with ChangeNotifier {
     });
 
     print("Json VerifyCode: ${response.body}");
-
-    return response.body;
-  }
-
-  Future<dynamic> generateAccesToken(BuildContext context) async {
-    final response = await http
-        .get(ConstantsApi.baseURL + "wa/generate-access-token")
-        .timeout(Duration(seconds: 25))
-        .catchError((value) {
-      print("Ocurrio un errorTimeout" + value);
-      throw Exception(value);
-    });
-
-    print("Json AccesToken: ${response.body}");
 
     return response.body;
   }
@@ -387,34 +439,7 @@ class OnboardingProvider with ChangeNotifier {
     return response.body;
   }
 
-  Future<dynamic> passwordRecovery(String email) async {
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token": _prefs.accessToken.toString(),
-    };
-    print(email);
-    Map jsonData = {
-      'user': email,
-    };
-    var body = jsonEncode(jsonData);
-    final response = await http
-        .post(ConstantsApi.baseURL + "onboarding/password-recovery",
-            headers: header, body: body)
-        .timeout(Duration(seconds: 15))
-        .catchError((value) {
-      throw Strings.errorServeTimeOut;
-    });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
-        return decodeJson['message'];
-      } else {
-        throw decodeJson['message'];
-      }
-    } else {
-      throw decodeJson['message'];
-    }
-  }
+
 
   Future<dynamic> sendAgainCode(BuildContext context, String email) async {
     final header = {
