@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Models/UserProfile.dart';
 import 'dart:convert';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:mime_type/mime_type.dart';
@@ -88,7 +88,7 @@ class ProfileProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(ConstantsApi.baseURL + 'profile/update-profile',
+        .post(Constants.baseURL + 'profile/update-profile',
             headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
@@ -116,7 +116,7 @@ class ProfileProvider with ChangeNotifier {
       "Content-Type": "application/json".toString(),
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
-    final url = Uri.parse(ConstantsApi.baseURL + 'profile/update-photo');
+    final url = Uri.parse(Constants.baseURL + 'profile/update-photo');
     final request = http.MultipartRequest("POST", url);
     request.headers.addAll(header);
     final mimeType = mime(picture.path).split('/');
@@ -149,7 +149,7 @@ class ProfileProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     final response = await http
-        .get(ConstantsApi.baseURL + 'profile/get-profile', headers: header)
+        .get(Constants.baseURL + 'profile/get-profile', headers: header)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
@@ -187,7 +187,7 @@ class ProfileProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(ConstantsApi.baseURL + 'profile/change-password',
+        .post(Constants.baseURL + 'profile/change-password',
             headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
@@ -220,7 +220,7 @@ class ProfileProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     var body = jsonEncode(params);
-    final response = await http.post(ConstantsApi.baseURL  + 'profile/get-payment-methods',
+    final response = await http.post(Constants.baseURL  + 'profile/get-payment-methods',
         headers: header,body: body)
         .timeout(Duration(seconds: 10)).catchError((value) {this.isLoading = false;throw Strings.errorServeTimeOut;});
     final List<CreditCard> listCards = List();

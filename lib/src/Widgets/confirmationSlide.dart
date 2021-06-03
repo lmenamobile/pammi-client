@@ -1,9 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
-import 'package:wawamko/src/UI/VerificationCode.dart';
+import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -20,7 +18,6 @@ class ConfirmationSlidePage extends StatefulWidget {
 
 class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
   SharePreference prefs = SharePreference();
-  // bool slideUp = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +104,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       padding: const EdgeInsets.only(left: 50,right: 50),
                       child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
-                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email,flag: "r",)) , (route) => false);
+                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email,typeView: Constants.isViewRegister,)) , (route) => false);
 
                         },context),
                     ),

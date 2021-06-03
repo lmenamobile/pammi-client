@@ -16,7 +16,7 @@ import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
 import 'package:wawamko/src/UI/ListStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 import 'package:wawamko/src/UI/detailProduct.dart';
-import 'package:wawamko/src/UI/selectCity.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/selectCity.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 
@@ -504,7 +504,7 @@ Widget customTextField(
     String hintText,
     TextEditingController controller,
     TextInputType inputType,
-    List<TextInputFormatter> formaters) {
+    List<TextInputFormatter> formatters) {
   return Container(
     padding: EdgeInsets.only(left: 10),
     height: 52,
@@ -532,7 +532,7 @@ Widget customTextField(
           child: Container(
             width: 200,
             child: TextField(
-              inputFormatters: formaters,
+              inputFormatters: formatters,
               keyboardType: inputType,
               controller: controller,
               style: TextStyle(

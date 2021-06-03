@@ -10,7 +10,7 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'ConstansApi.dart';
+import 'Constans.dart';
 
 class GooglePlacesAutocompleteWidget extends StatefulWidget {
 
@@ -506,7 +506,7 @@ abstract class GooglePlacesAutocompleteState
     super.initState();
 
     query = new TextEditingController(text: "");
-    _places = new GoogleMapsPlaces(apiKey: ConstantsApi.googleApyKey);
+    _places = new GoogleMapsPlaces(apiKey: Constants.googleApyKey);
     searching = false;
 
   }

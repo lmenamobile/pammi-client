@@ -4,6 +4,7 @@ import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../Login.dart';
@@ -18,10 +19,14 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
-      body: Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height,
-        child: _body(context),
+      body: WillPopScope(
+        onWillPop: () async => showAlertActions(
+            context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)),
+        child: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          child: _body(context),
+        ),
       ),
     );
   }

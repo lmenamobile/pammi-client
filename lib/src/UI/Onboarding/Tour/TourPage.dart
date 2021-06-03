@@ -58,7 +58,7 @@ class _FirstPageTourState extends State<TourPage> {
           margin: EdgeInsets.only(bottom: 40),
           child: GestureDetector(
             child: Text(
-              Strings.omitir,
+             position==2? Strings.nextBtn: Strings.skip,
               style: TextStyle(
                 fontFamily: Strings.fontBold,
                 color: CustomColors.redTour,

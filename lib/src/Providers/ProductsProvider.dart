@@ -6,7 +6,7 @@ import 'package:package_info/package_info.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/Product/CategoryModel.dart';
 import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 import 'package:http/http.dart' as http;
@@ -49,7 +49,7 @@ class ProductsProvider {
 
     print("Parameters getCategories ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"category/get-categories",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"category/get-categories",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -78,7 +78,7 @@ class ProductsProvider {
 
     print("Parameters getCategories ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"profile/save-interests",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"profile/save-interests",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -113,7 +113,7 @@ class ProductsProvider {
 
     print("Parameters getCategories ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"category/get-subcategories",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"category/get-subcategories",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:package_info/package_info.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 import 'package:http/http.dart' as http;
@@ -48,7 +48,7 @@ class SupportProvider {
 
     print("Parameters get Terms ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"system/get-conditions",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"system/get-conditions",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -83,7 +83,7 @@ class SupportProvider {
 
     print("Parameters get questions ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"system/get-frequent-questions",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"system/get-frequent-questions",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);

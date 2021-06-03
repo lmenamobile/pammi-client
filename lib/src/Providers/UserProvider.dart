@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,7 +43,7 @@ class UserProvider {
 
     print("Parameters AddAddressUser ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"profile/create-address",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"profile/create-address",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -78,7 +78,7 @@ class UserProvider {
 
     print("Parameters getAddressUser ${jsonData}");
 
-    final response = await http.post(ConstantsApi.baseURL+"profile/get-addresses",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Constants.baseURL+"profile/get-addresses",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -98,7 +98,7 @@ class UserProvider {
       "X-WA-Auth-Token":_prefs.authToken.toString()
     };
 
-    final response = await http.put(ConstantsApi.baseURL+"profile/change-status/${address.id}",headers: header ).timeout(Duration(seconds: 25))
+    final response = await http.put(Constants.baseURL+"profile/change-status/${address.id}",headers: header ).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -134,7 +134,7 @@ class UserProvider {
 
     print("Parameters updateAddressUser ${jsonData}");
 
-    final response = await http.put(ConstantsApi.baseURL+"profile/update-address/${addressModel.id}",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.put(Constants.baseURL+"profile/update-address/${addressModel.id}",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);

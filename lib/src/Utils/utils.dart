@@ -8,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -24,7 +25,7 @@ class _Utils {
 
 
   Map encryptPwdIv(String value) {
-    var key = cript.Key.fromUtf8(ConstantsApi.key_encrypt);
+    var key = cript.Key.fromUtf8(Constants.key_encrypt);
     var iv = cript.IV.fromSecureRandom(16);
     var encrypter = cript.Encrypter(cript.AES(key, mode: cript.AESMode.ctr, padding: null));
     var iv16 = iv.base16;
@@ -279,10 +280,9 @@ class _Utils {
 
   startCustomAlertMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action,Function actionNegative){
     showDialog(
-
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => alertCustomMessage(context,titleAlert,image,textAlert, action, actionNegative)
+        builder: (BuildContext context) => alertCustomMessage(titleAlert,image,textAlert, action, actionNegative)
     );
   }
 
@@ -324,7 +324,7 @@ class _Utils {
   }
 
 
-  Widget alertCustomMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action,Function actionNegative){
+  Widget alertCustomMessage(String titleAlert,String image,String textAlert,Function action,Function actionNegative){
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -334,11 +334,10 @@ class _Utils {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
+                margin: EdgeInsets.symmetric(horizontal: 40),
                 decoration:BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(19)),
                   color: CustomColors.white,
-                  //border: Border.all(color: CustomColors.redBorderError,width: 1)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -347,53 +346,40 @@ class _Utils {
                     Center(
                       child: Image.asset(image,
                         fit: BoxFit.fill,
-                        height:70,
-                        width: 70,
+                        height:50,
+                        width: 50,
                       ),
                     ),
                     SizedBox(height: 10),
-
-
                    Center(
                       child: Text(titleAlert,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontFamily: Strings.fontBold,color: CustomColors.blackLetter,fontSize: 18),),
-
                     ),
                     SizedBox(height: 10),
-
                     Padding(
-                      padding: const EdgeInsets.only(left: 26,right: 26),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Text(textAlert,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontFamily: Strings.fontRegular,color: CustomColors.grayLetter,fontSize: 15),),
 
                     ),
-                    SizedBox(height: 22.5),
+                    SizedBox(height: 15),
                     Padding(
-                      padding: EdgeInsets.only(left: 30,right: 30),
+                      padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container( child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, "Si", action, context),width: 100,),
-                          Container(child: btnCustomRounded(CustomColors.gray2, CustomColors.blackLetter, "No", actionNegative, context),width: 100,)
+                          Container( child: btnCustomSize(35,Strings.btnYes,CustomColors.blueSplash, CustomColors.white, action),width: 100,),
+                          Container(child: btnCustomSize(35, Strings.btnNot, CustomColors.gray2, CustomColors.blackLetter,actionNegative),width: 100,)
                         ],
                       ),
                     ),
-                    SizedBox(height: 24.5),
-
-
-                    //btnAccept(CustomColors.greenButton, Strings.accept, TextStyle(fontSize: 11,color: CustomColors.darkBlue,fontFamily: Strings.fontAvantGarGotItcTEEDemRegular),context,action)
-
+                    SizedBox(height: 16),
                   ],
                 ),
-
-
               ),
-
-
-
 
             ],
           ),

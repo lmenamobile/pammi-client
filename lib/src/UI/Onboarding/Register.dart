@@ -6,12 +6,12 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/UI/selectCountry.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'RegisterStepTwo.dart';
 
@@ -25,9 +25,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
-  final typeDocumentController = TextEditingController();
-  final numberIdentityController = TextEditingController();
   final countryController = TextEditingController();
+  final cityController = TextEditingController();
 
   UserModel userModel = UserModel();
   GlobalVariables globalVariables = GlobalVariables();
@@ -78,9 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     width: 40,
                     height: 40,
                   ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  onTap: ()=> Navigator.pop(context),
                 ),
               ),
               Container(
@@ -129,48 +126,33 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: CustomColors.grayLetter),
                         ),
                         SizedBox(height: 13),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 0, right: 0),
-                          child: Column(
+                         Column(
                               children: AnimationConfiguration.toStaggeredList(
                             duration: const Duration(milliseconds: 600),
                             childAnimationBuilder: (widget) => SlideAnimation(
-                              verticalOffset: 50.0,
+                              verticalOffset: 50,
                               child: FadeInAnimation(
                                 child: widget,
                               ),
                             ),
                             children: <Widget>[
-                              customTextField("Assets/images/ic_data.png", "Nombre",
-                                  nameController, TextInputType.text, []),
-                              SizedBox(height: 21),
-                              customTextField(
-                                  "Assets/images/ic_data.png",
-                                  "Apellido",
-                                  lastNameController,
-                                  TextInputType.text, []),
-                              SizedBox(height: 21),
-                              customTextFieldAction("Assets/images/ic_country.png",
-                                  "País", countryController, () {
-                                Navigator.of(context).push(PageTransition(
-                                    type: PageTransitionType.slideInLeft,
-                                    child: SelectCountryPage(),
-                                    duration: Duration(milliseconds: 700)));
-                              }),
-                              SizedBox(height: 36),
+                              customTextFieldIcon("ic_data.png",true, Strings.nameUser,
+                                  nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                              customTextFieldIcon("ic_data.png",true, Strings.lastName,
+                                  lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
+                              InkWell(
+                                onTap: ()=>openSelectCountry(),
+                                  child: customTextFieldIcon("ic_country.png",false, Strings.country, countryController, TextInputType.text, [])),
+                              customTextFieldIcon("ic_country.png",false, Strings.city, cityController, TextInputType.text, []),
+                              SizedBox(height: 30),
                             ],
                           )),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 20, left: 50, right: 50),
-                          child: btnCustomRoundedImage(CustomColors.blueSplash,
-                              CustomColors.white, Strings.next, () {
-                            _validateEmptyFields();
-                          }, context, "Assets/images/ic_next.png"),
-                        )
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 30),
+                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColors.blueSplash, Colors.white, _validateEmptyFields))
                       ],
                     ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 15,),
                 ],
               ),
             ),
@@ -180,18 +162,10 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  pushToSelectDocument() async {
-    var data = await Navigator.of(context).push(PageRouteBuilder(
-        opaque: false, // set to false
-        pageBuilder: (_, __, ___) => DialogSelectDocument()));
-    if (data != null) {
-      if (data) {
-        FocusScope.of(context).unfocus();
-        typeDocumentController.text = globalVariables.typeDocument.toString();
-        setState(() {});
-      }
-    }
+  openSelectCountry(){
+    Navigator.push(context, customPageTransition(SelectCountryPage()));
   }
+
 
   bool _validateEmptyFields() {
     if (nameController.text == "") {
@@ -204,15 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
       return true;
     }
 
-  /*  if (typeDocumentController.text == "") {
-      utils.showSnackBar(context, Strings.emptyTypeDoc);
-      return true;
-    }
 
-    if (numberIdentityController.text == "") {
-      utils.showSnackBar(context, Strings.emptyNumDoc);
-      return true;
-    }*/
 
     if (countryController.text == "") {
       utils.showSnackBar(context, Strings.countryEmpty);
@@ -220,23 +186,11 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
 
-/*    switch (typeDocumentController.text) {
-      case 'Cédula de Ciudadanía':
-        userModel.typeDoc = "cc";
-        break;
 
-      case 'Cédula de Extranjería':
-        userModel.typeDoc = "ce";
-        break;
-
-      case 'Pasaporte':
-        userModel.typeDoc = "pa";
-        break;
-    }*/
 
     userModel.name = nameController.text;
     userModel.lastName = lastNameController.text;
-   // userModel.numDoc = numberIdentityController.text;
+
     userModel.country = countryController.text;
     userModel.cityId = globalVariables.cityId;
 

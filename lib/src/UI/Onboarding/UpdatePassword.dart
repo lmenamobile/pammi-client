@@ -10,9 +10,10 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import 'Onboarding/Login.dart';
+import 'Login.dart';
 
 class UpdatePasswordPage extends StatefulWidget {
   @override
@@ -26,16 +27,22 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   final confirmPasswordController = TextEditingController();
   NotifyVariablesBloc notifyVariables;
   OnboardingProvider providerOnboarding;
+  String msgError = '';
 
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: double.infinity,
-          child: _body(context),
+        child: Stack(
+          children: [
+            Container(
+              child: _body(context),
+            ),
+            Visibility(
+                visible: providerOnboarding.isLoading,
+                child: LoadingProgress()),
+          ],
         ),
       ),
     );
@@ -44,64 +51,73 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   Widget _body(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return SingleChildScrollView(
-        child: Stack(children: <Widget>[
-      GestureDetector(
-        child: Container(
-          margin: EdgeInsets.only(top: 8, left: 8),
-          alignment: Alignment.topLeft,
-          child: Image(
-            width: 50,
-            height: 50,
-            image: AssetImage("Assets/images/ic_back.png"),
+        child: Column(children: <Widget>[
+      Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 130),
+            child: Image(
+              image: AssetImage("Assets/images/ic_shape.png"),
+            ),
           ),
-        ),
-        onTap: () {
-          var vc = Navigator.pop(context);
-        },
+          Container(
+            margin: EdgeInsets.only(top: 50, left: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Image(
+                    width: 120,
+                    image: AssetImage("Assets/images/ic_logo_login.png"),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  Strings.newPassword,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: Strings.fontBold,
+                      fontSize: 22,
+                      color: CustomColors.blackLetter),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: 300,
+                  child: Text(
+                    Strings.textNewPassword,
+                    style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        fontSize: 14,
+                        color: CustomColors.blackLetter),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 20,
+              ),
+              alignment: Alignment.topLeft,
+              child: Image(
+                width: 50,
+                height: 50,
+                image: AssetImage("Assets/images/ic_back.png"),
+              ),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
       Container(
-        margin: EdgeInsets.only(top: 175),
-        child: Image(
-          image: AssetImage("Assets/images/ic_shape.png"),
-          //fit: BoxFit.fill,
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.only(left: 29, top: 50),
-        child: Image(
-          width: 110,
-          height: 110,
-          image: AssetImage("Assets/images/ic_logo_login.png"),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 140, left: 29),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              Strings.login,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: Strings.fontBold,
-                  fontSize: 22,
-                  color: CustomColors.blackLetter),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              Strings.textLogin,
-              style: TextStyle(
-                  fontFamily: Strings.fontRegular,
-                  fontSize: 14,
-                  color: CustomColors.blackLetter),
-            ),
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(left: 35, right: 35, top: 330, bottom: 20),
+        margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -111,10 +127,11 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             Padding(
               padding: const EdgeInsets.only(left: 50, right: 50, top: 35),
               child: btnCustomRounded(
-                  CustomColors.blueSplash, CustomColors.white, Strings.save,
-                  () {
-                _serviceUpdatePass();
-              }, context),
+                  CustomColors.blueSplash,
+                  CustomColors.white,
+                  Strings.save,
+                  callServiceUpdatePassword,
+                  context),
             ),
           ],
         ),
@@ -251,7 +268,6 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         obscureText: obscureTextConfirmPass,
                         controller: passwordController,
                         style: TextStyle(
-
                             fontFamily: Strings.fontRegular,
                             color: CustomColors.blackLetter),
                         decoration: InputDecoration(
@@ -302,60 +318,46 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
     );
   }
 
+  callServiceUpdatePassword() {
+    if (_validateEmptyFields()) {
+      _serviceUpdatePass();
+    } else {
+      utils.showSnackBar(context, msgError);
+    }
+  }
+
   bool _validateEmptyFields() {
-    if (passwordController.text == "") {
-      utils.showSnackBar(context, Strings.emptyPassword);
-      return true;
+    FocusScope.of(context).unfocus();
+    if (passwordController.text.isEmpty) {
+      msgError = Strings.emptyPassword;
+      return false;
+    } else if (!validatePwd(passwordController.text)) {
+      msgError = Strings.passwordChallenge;
+      return false;
+    } else if (confirmPasswordController.text.isEmpty) {
+      msgError = Strings.emptyConfirmPassword;
+      return false;
+    } else if (confirmPasswordController.text != passwordController.text) {
+      msgError = Strings.dontSamePass;
+      return false;
     }
-
-    if (!validatePwd(passwordController.text)) {
-      utils.showSnackBar(context, Strings.passwordChallenge);
-      return true;
-    }
-
-    if (confirmPasswordController.text == "") {
-      utils.showSnackBar(context, Strings.emptyConfirmPassword);
-      return true;
-    }
-
-    if (confirmPasswordController.text != passwordController.text) {
-      utils.showSnackBar(context, Strings.dontSamePass);
-      return true;
-    }
-
-    return false;
+    return true;
   }
 
   _serviceUpdatePass() async {
-    FocusScope.of(context).unfocus();
-
-    if (_validateEmptyFields()) {
-      return;
-    }
-
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-        Future callUser = providerOnboarding
-            .updatePassword(context, passwordController.text);
+        Future callUser =
+            providerOnboarding.updatePassword(passwordController.text.trim());
         await callUser.then((value) {
-          var decodeJSON = jsonDecode(value);
-          ForgetPassResponse data = ForgetPassResponse.fromJsonMap(decodeJSON);
-
-          if (data.code.toString() == "100") {
-            Navigator.pop(context);
-            Navigator.pushAndRemoveUntil(context,customPageTransition(LoginPage()) , (route) => false);
-          } else {
-            Navigator.pop(context);
-            utils.showSnackBar(context, data.message);
-          }
+          utils.showSnackBarGood(context, value.toString());
+          Navigator.pushAndRemoveUntil(
+              context, customPageTransition(LoginPage()), (route) => false);
         }, onError: (error) {
-          Navigator.pop(context);
-          utils.showSnackBar(context, Strings.serviceError);
+          utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
-        print("you has not internet");
       }
     });
   }

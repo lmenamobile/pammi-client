@@ -11,8 +11,8 @@ import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/Onboarding/ForgotPasswordEmail.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
-import 'package:wawamko/src/UI/VerificationCode.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -21,9 +21,10 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:http/http.dart' as http;
-import '../selectCountry.dart';
+import '../SearchCountryAndCity/selectCountry.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -44,19 +45,23 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
-      body: SafeArea(
-        child:  Stack(
-            children: [
-              SingleChildScrollView(
-                child: Container(
-                  color: CustomColors.white,
-                  child: _body(context),
+      body: WillPopScope(
+        onWillPop: () async => showAlertActions(
+        context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)),
+        child: SafeArea(
+          child:  Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Container(
+                    color: CustomColors.white,
+                    child: _body(context),
+                  ),
                 ),
-              ),
-              Visibility(
-                  visible: providerOnboarding.isLoading, child: LoadingProgress()),
-            ],
-          ),
+                Visibility(
+                    visible: providerOnboarding.isLoading, child: LoadingProgress()),
+              ],
+            ),
+        ),
       ),
     );
   }
@@ -326,7 +331,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
         }, onError: (error) {
           providerOnboarding.isLoading = false;
-          if(error.toString()==ConstantsApi.codeAccountNotValidate){
+          if(error.toString()==Constants.codeAccountNotValidate){
             Navigator.of(context)
                 .push(customPageTransition(VerificationCodePage(
               email: emailController.text.trim(),
@@ -347,7 +352,7 @@ class _LoginPageState extends State<LoginPage> {
         Future callUser = GoogleSingInProvider.singInWithGoogle();
         await callUser.then((user) {
           GoogleSingInProvider.googleSingOut();
-          loginSocialNetwork(user, ConstantsApi.loginGMAIL);
+          loginSocialNetwork(user, Constants.loginGMAIL);
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -382,10 +387,10 @@ class _LoginPageState extends State<LoginPage> {
         .push(customPageTransition(SelectCountryPage()))
         .then((value) {
       if (globalVariables.cityId != null) {
-        if (typeRegister == ConstantsApi.loginGMAIL) {
+        if (typeRegister == Constants.loginGMAIL) {
           registerSocialNetwork(user.displayName, user.email, typeRegister,
               globalVariables.cityId.toString());
-        } else if (typeRegister == ConstantsApi.loginFacebook) {}
+        } else if (typeRegister == Constants.loginFacebook) {}
         registerSocialNetwork(user['name'].toString(), user['email'].toString(),
             typeRegister, globalVariables.cityId.toString());
       } else {
@@ -399,7 +404,7 @@ class _LoginPageState extends State<LoginPage> {
       if (value) {
         utils.startProgress(context);
         Future callUser = providerOnboarding.loginUserSocialNetWork(
-            typeLogin == ConstantsApi.loginGMAIL
+            typeLogin == Constants.loginGMAIL
                 ? dataUser.email
                 : dataUser["email"],
             typeLogin);
@@ -440,7 +445,7 @@ class _LoginPageState extends State<LoginPage> {
         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture,gender,birthday&access_token=$token');
     final profile = json.decode(response.body);
     if (profile['email'] != null && profile['name'] != null) {
-      loginSocialNetwork(profile, ConstantsApi.loginFacebook);
+      loginSocialNetwork(profile, Constants.loginFacebook);
     } else {
       utils.showSnackBar(context, Strings.errorFacebook);
     }

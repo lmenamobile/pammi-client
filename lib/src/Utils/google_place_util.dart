@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Utils/Constans.dart';
 
 import 'flutter_google_autocomplete.dart';
 
@@ -13,7 +13,7 @@ class GooglePlaces {
   final homeScaffoldKey = new GlobalKey<ScaffoldState>();
   final searchScaffoldKey = new GlobalKey<ScaffoldState>();
   GoogleMapsPlaces _places =
-  new GoogleMapsPlaces(apiKey: ConstantsApi.googleApyKey);
+  new GoogleMapsPlaces(apiKey: Constants.googleApyKey);
   Location location;
   GooglePlacesListener _mapScreenState;
 

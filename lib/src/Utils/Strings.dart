@@ -2,7 +2,8 @@ class Strings {
   static const String appName = 'Pamii';
 
   //Tour
-  static const String omitir = 'Omitir';
+  static const String nextBtn = 'Siguiente';
+  static const String skip = 'Omitir';
   static const String verifyCode = 'Verificar codigo';
   static const String welcome = '¡Bienvenido!';
   static const String next = 'Continuar';
@@ -52,7 +53,7 @@ class Strings {
   static const String sendAgain = 'Volver a enviar';
   static const String retry = 'Reintentar';
 
-  static const String verificationMsg = 'Enviamos un código a tu correo,por favor escribe en los siguientes campos';
+
   static const String begin = '¡Empezar!';
 
 
@@ -210,6 +211,26 @@ class Strings {
   static const String errorFacebook            = 'Error al iniciar sesión con Facebook';
   static const String  change  = 'Cambiar';
 
+
+
+  /*Register User*/
+  static const String  nameUser = 'Nombre';
+  static const String  lastName = 'Apellido';
+  static const String  city = 'Ciudad';
+  static const String  country = 'País';
+  static const String  phoneNumber = 'Número telefónico';
+
+  static const String  search = 'Buscar';
+
+  /*Dialog btones*/
+  static const String  btnYes  = 'Si';
+  static const String  btnNot  = 'No';
+
+  /*Update PAssword*/
+  static const String  newPassword  = 'Nueva contraseña';
+  static const String  textNewPassword  = 'Escribe una nueva contraseña';
+  static const String verificationMsg = 'Enviamos un código a tu correo, por favor escribelo en los siguientes campos';
+
   /*Mis tarjetas de credito*/
   static const String  titleDeleteCreditCard  = 'Eliminar tarjeta';
   static const String  msgDeleteCreditCard  = "¿Seguro que deseas eliminar este medio de pago?";
@@ -231,6 +252,8 @@ class Strings {
   static const String  btnCancel = 'Cancelar';
   static const String  titleGPS = 'GPS';
   static const String  textInformationGPS = 'Por favor active el GPS y vuelva a intentarlo.';
+  static const String  closeApp = 'Salir';
+  static const String  textCloseApp = '¿Estas seguro que deseas salir de Pamii?';
 
 
   /*Errors*/

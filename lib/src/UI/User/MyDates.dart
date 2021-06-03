@@ -15,7 +15,7 @@ import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
-import 'package:wawamko/src/UI/selectCountry.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:flutter/services.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
