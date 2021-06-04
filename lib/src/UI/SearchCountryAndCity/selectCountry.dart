@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import 'Widgets.dart';
 
@@ -19,14 +22,15 @@ class SelectCountryPage extends StatefulWidget {
 class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
   bool selected = false;
-  List<Country> countries = List();
+  ProviderSettings providerSettings;
   OnboardingProvider providerOnboarding;
   double widgetHeight = 0;
 
   @override
   void initState() {
-    // _sertviceGetCountries("");
-
+    providerSettings = Provider.of<ProviderSettings>(context, listen: false);
+    providerSettings.ltsCountries.clear();
+    getCountries();
     super.initState();
   }
 
@@ -35,14 +39,21 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       widgetHeight = constraints.maxHeight;
       return Scaffold(
         body: SafeArea(
-          child: Container(
-            color: CustomColors.white,
-            child: _body(context),
+          child: Stack(
+            children: [
+              Container(
+                color: CustomColors.white,
+                child: _body(context),
+              ),
+              Visibility(
+                  visible: providerSettings.isLoading, child: LoadingProgress()),
+            ],
           ),
         ),
       );
@@ -79,7 +90,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 SizedBox(height: 21),
                 boxSearch(context),
                 SizedBox(height: 21),
-                Container(
+                providerSettings.ltsCountries.isEmpty?emptyData("ic_empty_location.png", Strings.emptyCountries, ""):Container(
                   height: MediaQuery.of(context).size.height - 180,
                   child: Stack(
                     children: <Widget>[
@@ -87,8 +98,8 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                           height: widgetHeight,
                           child: ListWheelScrollView(
                             itemExtent: 30,
-                            children: items
-                                .map((item) => Center(child: Text(item)))
+                            children: providerSettings.ltsCountries
+                                .map((country) => Center(child: itemCountry(country, null)))
                                 .toList(),
                             magnification: 1.5,
                             useMagnifier: true,
@@ -127,7 +138,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             Expanded(
               child: TextField(
                 onChanged: (value) {
-                  _sertviceGetCountries2(value);
+
                 },
                 controller: countryController,
                 style: TextStyle(
@@ -150,69 +161,18 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
   }
 
-  _sertviceGetCountries(String search) async {
+
+
+  getCountries() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-        Future callUser =
-            providerOnboarding.getCountries(context, search ?? "", 0);
-        await callUser.then((countryResponse) {
-          var decodeJSON = jsonDecode(countryResponse);
-          CountriesResponse data = CountriesResponse.fromJsonMap(decodeJSON);
+        Future callUser = providerSettings.getCountries("", 0);
+        await callUser.then((msg) {
 
-          if (data.code.toString() == "100") {
-            this.countries = [];
-            for (var country in data.data.countries) {
-              this.countries.add(country);
-            }
-
-            setState(() {});
-
-            Navigator.pop(context);
-          } else {
-            Navigator.pop(context);
-            utils.showSnackBar(context, data.message);
-          }
         }, onError: (error) {
-          Navigator.pop(context);
-          utils.showSnackBar(context, Strings.serviceError);
+          utils.showSnackBar(context, error.toString());
         });
       } else {
-        Navigator.pop(context);
-        utils.showSnackBar(context, Strings.internetError);
-      }
-    });
-  }
-
-  _sertviceGetCountries2(String search) async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        //utils.startProgress(context);
-        Future callUser =
-            providerOnboarding.getCountries(context, search ?? "", 0);
-        await callUser.then((countryResponse) {
-          var decodeJSON = jsonDecode(countryResponse);
-          CountriesResponse data = CountriesResponse.fromJsonMap(decodeJSON);
-
-          if (data.code.toString() == "100") {
-            this.countries = [];
-            for (var country in data.data.countries) {
-              this.countries.add(country);
-            }
-
-            setState(() {});
-
-            //Navigator.pop(context);
-          } else {
-            //Navigator.pop(context);
-            utils.showSnackBar(context, data.message);
-          }
-        }, onError: (error) {
-          //Navigator.pop(context);
-          utils.showSnackBar(context, Strings.serviceError);
-        });
-      } else {
-        //Navigator.pop(context);
         utils.showSnackBar(context, Strings.internetError);
       }
     });

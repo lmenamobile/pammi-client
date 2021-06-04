@@ -12,7 +12,7 @@ import 'package:wawamko/src/UI/Onboarding/ForgotPasswordEmail.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
-import 'package:wawamko/src/Utils/Constans.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';

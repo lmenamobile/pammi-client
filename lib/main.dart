@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'src/Providers/ProfileProvider.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> NotifyVariablesBloc()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => ProviderSettings()),
       ],
       child: MaterialApp(
         title: Strings.appName,

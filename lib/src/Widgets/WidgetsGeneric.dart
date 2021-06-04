@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
+import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
@@ -70,8 +72,8 @@ Widget btnCustom(String nameButton, Color colorBackground, Color colorText,
   );
 }
 
-Widget btnCustomIcon(String asset,String nameButton, Color colorBackground, Color colorText,
-    Function action) {
+Widget btnCustomIcon(String asset, String nameButton, Color colorBackground,
+    Color colorText, Function action) {
   return Container(
     height: 45,
     child: AnimateButton(
@@ -82,19 +84,24 @@ Widget btnCustomIcon(String asset,String nameButton, Color colorBackground, Colo
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Center(
           child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  nameButton,
-                  style: TextStyle(
-                    fontFamily: Strings.fontMedium,
-                    color: colorText,
-                  ),
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                nameButton,
+                style: TextStyle(
+                  fontFamily: Strings.fontMedium,
+                  color: colorText,
                 ),
-                SizedBox(width: 10,),
-                Image.asset("Assets/images/$asset",width: 20,)
-              ],
-            ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Image.asset(
+                "Assets/images/$asset",
+                width: 20,
+              )
+            ],
+          ),
         ),
       ),
     ),
@@ -179,6 +186,51 @@ Widget customTextFieldIcon(
                 hintText: hintText,
               ),
             ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget emptyData(
+  String image,
+  String title,
+  String text,
+) {
+  return Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image(
+          fit: BoxFit.fill,
+          height: 200,
+          width: 200,
+          image: AssetImage("Assets/images/$image"),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 60),
+          child: Column(
+            children: <Widget>[
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 22,
+                    color: CustomColors.blueGray),
+              ),
+              SizedBox(height: 5),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 15,
+                    color: CustomColors.blueGray),
+              ),
+            ],
           ),
         )
       ],

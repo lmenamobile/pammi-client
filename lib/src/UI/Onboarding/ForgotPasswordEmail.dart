@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
-import 'package:wawamko/src/Utils/Constans.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -165,7 +165,8 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerOnboarding.passwordRecovery(emailController.text.trim());
-        await callUser.then((msg) {Navigator.of(context).push(customPageTransition(VerificationCodePage(email: emailController.text.trim(), typeView: Constants.isViewPassword,)));
+        await callUser.then((msg) {
+          Navigator.of(context).push(customPageTransition(VerificationCodePage(email: emailController.text.trim(), typeView: Constants.isViewPassword,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

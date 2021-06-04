@@ -275,6 +275,7 @@ class Strings {
   static const String errorFormatPWD                        = 'La contraseña debe ser mínimo de 6 carácteres, con al menos un número, una mayúscula y una minúscula.';
   static const String categoriesMaxSelected                 = "Solo puedes seleccionar maximo 5 intereses.";
 
+  static const String emptyCountries                       = "Aún no estamos en tu país, lo estaremos próximamente.";
   //Fonts
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';

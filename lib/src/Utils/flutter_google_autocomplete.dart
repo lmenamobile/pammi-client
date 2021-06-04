@@ -10,7 +10,7 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'Constans.dart';
+import 'Constants.dart';
 
 class GooglePlacesAutocompleteWidget extends StatefulWidget {
 

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Models/UserProfile.dart';
 import 'dart:convert';
-import 'package:wawamko/src/Utils/Constans.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:mime_type/mime_type.dart';
