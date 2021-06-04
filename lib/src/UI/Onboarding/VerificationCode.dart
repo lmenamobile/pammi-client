@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
+import 'package:wawamko/src/UI/Onboarding/Login.dart';
 import 'package:wawamko/src/UI/Onboarding/UpdatePassword.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -16,6 +17,8 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import '../HomePage.dart';
 
 class VerificationCodePage extends StatefulWidget {
   final String email;
@@ -36,16 +39,19 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              child: _body(context),
-            ),
-            Visibility(
-                visible: providerOnboarding.isLoading,
-                child: LoadingProgress()),
-          ],
+      body: WillPopScope(
+        onWillPop: () async =>false,
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Container(
+                child: _body(context),
+              ),
+              Visibility(
+                  visible: providerOnboarding.isLoading,
+                  child: LoadingProgress()),
+            ],
+          ),
         ),
       ),
     );
@@ -114,7 +120,13 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  if(Constants.isViewRegister==widget.typeView) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                            (Route<dynamic> route) => false);
+                  }else{
+                    Navigator.pop(context);
+                  }
                 },
               ),
             ],
@@ -223,6 +235,11 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
             case Constants.isViewPassword:
               Navigator.of(context)
                   .pushReplacement(customPageTransition(UpdatePasswordPage()));
+              break;
+            case Constants.isViewLogin:
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                      (Route<dynamic> route) => false);
               break;
             default:
           }

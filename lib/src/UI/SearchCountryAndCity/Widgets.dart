@@ -1,18 +1,51 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
+import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
-Widget boxSelect(){
-  return  Center(
-    child: Container(
-      height: 35,
-      decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: CustomColors.blueSplash, width: 1.0),
-          bottom: BorderSide(color:  CustomColors.blueSplash, width: 1.0),
-        ),
+Widget boxSearchCountries(TextEditingController controllerSearch,Function search) {
+  return Container(
+    height: 40,
+    width: double.infinity,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: CustomColors.grayBackground),
+    child: Center(
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Image(
+              width: 20,
+              height: 20,
+              image: AssetImage("Assets/images/ic_seeker.png"),
+            ),
+          ),
+          Expanded(
+            child: TextField(
+              onSubmitted: (value) {
+                search(value);
+              },
+              textInputAction: TextInputAction.search,
+              controller: controllerSearch,
+              style: TextStyle(
+                  fontFamily: Strings.fontRegular,
+                  fontSize: 15,
+                  color: CustomColors.blackLetter),
+              decoration: InputDecoration(
+                  hintText: Strings.search,
+                  isDense: true,
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                      fontFamily: Strings.fontRegular,
+                      fontSize: 15,
+                      color: CustomColors.grayLetter)),
+            ),
+          )
+        ],
       ),
     ),
   );
@@ -20,56 +53,115 @@ Widget boxSelect(){
 
 Widget itemCountry(CountryUser country, Function action) {
   return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    child: Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color:  CustomColors.gray.withOpacity(.3), width: .8),
+        ),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(15),
+        child: Container(
+          margin: EdgeInsets.only(left:50),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: CustomColors.grayBackground,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(100))),
-                          child: ClipRRect(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(100)),
-                            child: SvgPicture.network(
-                              country.flag,
-                              height: 30,
-                              width: 30,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                      SizedBox(width: 15),
-                      Text(
-                        country.country,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: CustomColors.blackLetter,
-                            fontFamily: Strings.fontBold),
-                      ),
-                    ]),
-              ],
+            Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                    color: CustomColors.grayBackground,
+                    borderRadius: BorderRadius.all(Radius.circular(100))),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  child: SvgPicture.network(
+                    country.flag,
+                    height: 30,
+                    width: 30,
+                    fit: BoxFit.fitHeight,
+                  ),
+                )),
+            SizedBox(width: 15),
+            Text(
+              country.country,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontSize: 18,
+                  color: CustomColors.blackLetter,
+                  fontFamily: Strings.fontBold),
             ),
-          ),
+          ]),
         ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.4),
-          width: double.infinity,
-        ),
-      ],
+      ),
     ),
-    onTap: () => action,
+    onTap: () => action(country),
+  );
+}
+
+Widget itemStateCountry(StatesCountry state, Function action) {
+  return GestureDetector(
+    child: Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color:  CustomColors.gray.withOpacity(.3), width: .8),
+        ),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(15),
+        child: Container(
+          margin: EdgeInsets.only(left:50),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  state.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: CustomColors.blackLetter,
+                      fontFamily: Strings.fontBold),
+                ),
+              ]),
+        ),
+      ),
+    ),
+    onTap: () => action(state),
+  );
+}
+
+Widget cityItem(City city, Function action) {
+  return GestureDetector(
+    child: Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color:  CustomColors.gray.withOpacity(.3), width: .8),
+        ),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(15),
+        child: Container(
+          margin: EdgeInsets.only(left:50),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  city.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: CustomColors.blackLetter,
+                      fontFamily: Strings.fontBold),
+                ),
+              ]),
+        ),
+      ),
+    ),
+    onTap: () => action(city),
   );
 }

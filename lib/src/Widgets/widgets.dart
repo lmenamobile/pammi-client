@@ -13,7 +13,7 @@ import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/Product/CategoryModel.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
-import 'package:wawamko/src/UI/ListStates.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 import 'package:wawamko/src/UI/detailProduct.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCity.dart';
@@ -680,8 +680,7 @@ Widget itemCountry(BuildContext context, int pos, Country country) {
       globalVariables.countrySelected = country.country;
        Navigator.of(context).push(PageTransition(
           type: PageTransitionType.slideInLeft,
-          child: StatesPage(
-            country: country,
+          child: SelectStatesPage(
           ),
           duration: Duration(milliseconds: 700))).then((value){
             Navigator.pop(context);
@@ -726,7 +725,6 @@ Widget itemState(BuildContext context, int pos, States state) {
       await Navigator.of(context).push(PageTransition(
           type: PageTransitionType.slideInLeft,
           child: SelectCityPage(
-            state: state,
           ),
           duration: Duration(milliseconds: 700))).then((value){
             Navigator.pop(context);

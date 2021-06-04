@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/GoogleSingInProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
+import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/Onboarding/ForgotPasswordEmail.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
@@ -328,13 +329,17 @@ class _LoginPageState extends State<LoginPage> {
       if (value) {
         Future callUser = providerOnboarding.loginUser(emailController.text.trim(), passwordController.text);
         await callUser.then((user) {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
+          if(user.interestsConfigured){
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
+          }else{
+            Navigator.push(context, customPageTransition(InterestCategoriesUser()));
+          }
         }, onError: (error) {
           providerOnboarding.isLoading = false;
           if(error.toString()==Constants.codeAccountNotValidate){
             Navigator.of(context)
                 .push(customPageTransition(VerificationCodePage(
-              email: emailController.text.trim(),
+              email: emailController.text.trim(),typeView: Constants.isViewLogin,
             )));
           }else{
             utils.showSnackBar(context, error.toString());
@@ -370,7 +375,9 @@ class _LoginPageState extends State<LoginPage> {
         Future callUser = providerOnboarding.registerUserSocialNetwork(
             name, email, typeRegister, cityId);
         await callUser.then((user) {
-          Navigator.pop(context);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => InterestCategoriesUser()),
+                  (Route<dynamic> route) => false);
         }, onError: (error) {
           Navigator.pop(context);
           utils.showSnackBar(context, error.toString());
@@ -383,8 +390,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void validateUserIsNotRegister(var user, String typeRegister) {
     globalVariables.cityId = null;
-    Navigator.of(context)
-        .push(customPageTransition(SelectCountryPage()))
+    Navigator.of(context).push(customPageTransition(SelectCountryPage()))
         .then((value) {
       if (globalVariables.cityId != null) {
         if (typeRegister == Constants.loginGMAIL) {

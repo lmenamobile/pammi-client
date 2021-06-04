@@ -13,5 +13,6 @@ class Constants {
 
   static const int isViewRegister = 0;
   static const int isViewPassword = 1;
+  static const int isViewLogin = 2;
 
 }

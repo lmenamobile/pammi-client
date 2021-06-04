@@ -11,6 +11,8 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import 'Onboarding/Login.dart';
+
 class InterestCategoriesUser extends StatefulWidget {
   @override
   _InterestCategoriesUserState createState() => _InterestCategoriesUserState();
@@ -31,10 +33,13 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.redTour,
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          child: _body(context),
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Container(
+            width: double.infinity,
+            child: _body(context),
+          ),
         ),
       ),
     );
@@ -53,7 +58,9 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
               child: Image(image: AssetImage("Assets/images/ic_back_w.png")),
             ),
             onTap: () {
-              Navigator.pop(context);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                        (Route<dynamic> route) => false);
             },
           ),
         ),
@@ -122,7 +129,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
       if (value) {
         utils.startProgress(context);
 
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
+
         Future callResponse =
             ProductsProvider.instance.getCategories(context, filter, 0);
         await callResponse.then((user) {

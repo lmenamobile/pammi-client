@@ -13,6 +13,7 @@ import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class RegisterStepTwoPage extends StatefulWidget {
@@ -25,7 +26,6 @@ class RegisterStepTwoPage extends StatefulWidget {
 }
 
 class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
-  final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPassController = TextEditingController();
@@ -33,11 +33,11 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
   NotifyVariablesBloc notifyVariables;
   OnboardingProvider providerOnboarding;
-  SharePreference _prefs = SharePreference();
   bool checkTerms = false;
   bool checkDates = false;
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
+  String msgError = '';
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +45,16 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
       body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          color: CustomColors.white,
-          child: _body(context),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              color: CustomColors.white,
+              child: _body(context),
+            ),
+            Visibility(
+                visible: providerOnboarding.isLoading, child: LoadingProgress()),
+          ],
         ),
       ),
     );
@@ -147,12 +153,6 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                           ),
                         ),
                         children: <Widget>[
-                          customTextField(
-                              "Assets/images/ic_telephone.png",
-                              "Número telefónico",
-                              phoneController,
-                              TextInputType.number,
-                              [maskFormatter]),
                           SizedBox(height: 21),
                           customBoxEmailRegister(
                               emailController, notifyVariables, () {
@@ -321,10 +321,13 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                   SizedBox(height: 12),
                   Padding(
                     padding: EdgeInsets.only(bottom: 20, left: 50, right: 50),
-                    child: btnCustomRoundedImage(CustomColors.blueSplash,
-                        CustomColors.white, Strings.next, () {
-                      _serviceRegister();
-                    }, context, "Assets/images/ic_next.png"),
+                    child: btnCustomRoundedImage(
+                        CustomColors.blueSplash,
+                        CustomColors.white,
+                        Strings.next,
+                        callRegisterUser,
+                        context,
+                        "Assets/images/ic_next.png"),
                   )
                 ],
               ),
@@ -542,99 +545,56 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   }
 
   bool _validateEmptyFields() {
-    if (phoneController.text == "") {
-      utils.showSnackBar(context, Strings.emptyPhone);
-      return true;
+    if (emailController.text.isEmpty) {
+      msgError = Strings.emptyEmail;
+      return false;
+    } else if (!validateEmail(emailController.text.trim())) {
+      msgError = Strings.emailInvalidate;
+      return false;
+    } else if (passwordController.text.isEmpty) {
+      msgError = Strings.passwordEmpty;
+      return false;
+    } else if (confirmPassController.text.isEmpty) {
+      msgError = Strings.emptyConfirmPassword;
+      return false;
+    } else if (!validatePwd(passwordController.text)) {
+      msgError = Strings.passwordChallenge;
+      return false;
+    } else if (confirmPassController.text != passwordController.text) {
+      msgError = Strings.dontSamePass;
+      return false;
+    } else if (!checkDates) {
+      msgError = Strings.dontCheckDates;
+      return false;
+    } else if (!checkTerms) {
+      msgError = Strings.dontCheckTerms;
+      return false;
     }
 
-    if (emailController.text == "") {
-      utils.showSnackBar(context, Strings.emptyEmail);
-      return true;
-    } else if (!validateEmail(emailController.text)) {
-      utils.showSnackBar(context, Strings.emailInvalidate);
-      return true;
+    return true;
+  }
+
+  callRegisterUser() {
+    if (_validateEmptyFields()) {
+      widget.user.email = emailController.text;
+      widget.user.passWord = passwordController.text;
+      _serviceRegister();
+    } else {
+      utils.showSnackBar(context, msgError);
     }
-
-    if (passwordController.text == "") {
-      utils.showSnackBar(context, Strings.passwordEmpty);
-      return true;
-    }
-
-    if (confirmPassController.text == "") {
-      utils.showSnackBar(context, Strings.emptyConfirmPassword);
-      return true;
-    }
-
-    if (!validateEmail(emailController.text)) {
-      utils.showSnackBar(context, Strings.emailInvalid);
-      return true;
-    }
-
-    if (!validatePwd(passwordController.text)) {
-      utils.showSnackBar(context, Strings.passwordChallenge);
-      return true;
-    }
-
-    if (confirmPassController.text != passwordController.text) {
-      utils.showSnackBar(context, Strings.dontSamePass);
-      return true;
-    }
-
-    if (!checkDates) {
-      utils.showSnackBar(context, Strings.dontCheckDates);
-      return true;
-    }
-
-    if (!checkTerms) {
-      utils.showSnackBar(context, Strings.dontCheckTerms);
-      return true;
-    }
-
-    widget.user.numPhone = phoneController.text;
-    widget.user.email = emailController.text;
-    widget.user.passWord = passwordController.text;
-
-    return false;
   }
 
   _serviceRegister() async {
-    FocusScope.of(context).unfocus();
-
-    if (_validateEmptyFields()) {
-      return;
-    }
-
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-        Future callUser =
-            providerOnboarding.createAccount(context, widget.user);
+        Future callUser = providerOnboarding.createAccount(widget.user);
         await callUser.then((user) {
-          var decodeJSON = jsonDecode(user);
-          ResponseUserinfo data = ResponseUserinfo.fromJsonMap(decodeJSON);
-
-          if (data.code.toString() == "100") {
-            var dataUser = data.data.user;
-
-            _prefs.nameUser = dataUser.fullname;
-            _prefs.cityIdUser = dataUser?.countryUser?.id ?? '';
-
-            //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BaseNavigationPage()), (Route<dynamic> route) => false);
-            Navigator.pop(context);
-            utils.startOpenSlideUp(context, dataUser.email, dataUser.fullname);
-            //Navigator.of(context).push(PageTransition(type: PageTransitionType.slideInLeft, child: MyHomePage(), duration: Duration(milliseconds: 700)));
-
-          } else {
-            Navigator.pop(context);
-            utils.showSnackBar(context, data.message);
-          }
+          utils.startOpenSlideUp(context, user.email, user.fullname);
         }, onError: (error) {
-          Navigator.pop(context);
-          utils.showSnackBar(context, Strings.serviceError);
+          utils.showSnackBar(context, error);
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
-        print("you has not internet");
       }
     });
   }

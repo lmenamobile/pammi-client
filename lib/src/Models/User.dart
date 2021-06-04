@@ -143,6 +143,7 @@ class UserResponse {
   String phoneNumber;
   String referredCode;
   bool acceptTerms;
+  bool interestsConfigured;
   String step;
   String type;
   String typeSeller;
@@ -170,6 +171,7 @@ class UserResponse {
     this.phoneNumber,
     this.referredCode,
     this.acceptTerms,
+    this.interestsConfigured,
     this.step,
     this.type,
     this.typeSeller,
@@ -198,6 +200,7 @@ class UserResponse {
     phoneNumber = json["phoneNumber"];
     referredCode = json["referredCode"];
     acceptTerms = json["acceptTerms"];
+    interestsConfigured  =json["interestsConfigured"]==null?false:json["interestsConfigured"];
     step = json["step"];
     type = json["type"];
     typeSeller = json["typeSeller"];

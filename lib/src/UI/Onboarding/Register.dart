@@ -6,6 +6,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -27,15 +29,30 @@ class _RegisterPageState extends State<RegisterPage> {
   final lastNameController = TextEditingController();
   final countryController = TextEditingController();
   final cityController = TextEditingController();
+  final phoneController = TextEditingController();
 
   UserModel userModel = UserModel();
   GlobalVariables globalVariables = GlobalVariables();
   NotifyVariablesBloc notifyVariables;
+  ProviderSettings providerSettings;
+
+  String msgError = '';
+
+  @override
+  void initState() {
+    providerSettings = Provider.of<ProviderSettings>(context,listen: false);
+    providerSettings.countrySelected = null;
+    providerSettings.stateCountrySelected = null;
+    providerSettings.citySelected = null;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    countryController.text = notifyVariables.countrySelected;
+    providerSettings = Provider.of<ProviderSettings>(context);
+    cityController.text = providerSettings?.citySelected?.name;
+
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
       body: SafeArea(
@@ -143,13 +160,17 @@ class _RegisterPageState extends State<RegisterPage> {
                               InkWell(
                                 onTap: ()=>openSelectCountry(),
                                   child: customTextFieldIcon("ic_country.png",false, Strings.country, countryController, TextInputType.text, [])),
-                              customTextFieldIcon("ic_country.png",false, Strings.city, cityController, TextInputType.text, []),
+                              InkWell(
+                                  onTap: ()=>openSelectCityByState(),
+                                  child: customTextFieldIcon("ic_country.png",false, Strings.city, cityController, TextInputType.text, [])),
+                              customTextFieldIcon("ic_telephone.png", true, Strings.phoneNumber,
+                                  phoneController, TextInputType.number, [LengthLimitingTextInputFormatter(15),FilteringTextInputFormatter.digitsOnly]),
                               SizedBox(height: 30),
                             ],
                           )),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 30),
-                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColors.blueSplash, Colors.white, _validateEmptyFields))
+                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColors.blueSplash, Colors.white, callStepTwoRegister))
                       ],
                     ),
                   SizedBox(height: 15,),
@@ -162,43 +183,53 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  openSelectCountry(){
-    Navigator.push(context, customPageTransition(SelectCountryPage()));
+  openSelectCountry()async{
+     await Navigator.push(context, customPageTransition(SelectCountryPage()));
+     countryController.text = providerSettings?.countrySelected?.country;
+  }
+
+  openSelectCityByState(){
+    if(providerSettings?.countrySelected!=null) {
+       Navigator.push(context, customPageTransition(SelectStatesPage()));
+    }else{
+      utils.showSnackBar(context, Strings.countryEmpty);
+    }
   }
 
 
   bool _validateEmptyFields() {
-    if (nameController.text == "") {
-      utils.showSnackBar(context, Strings.emptyName);
-      return true;
+    if (nameController.text.isEmpty) {
+      msgError = Strings.emptyName;
+      return false;
+    }else if (lastNameController.text.isEmpty) {
+      msgError = Strings.emptyLastName;
+      return false;
+    }else if (countryController.text.isEmpty) {
+      msgError = Strings.countryEmpty;
+      return false;
+    }else if (cityController.text.isEmpty) {
+      msgError = Strings.cityEmpty;
+      return false;
+    }else if (phoneController.text.isEmpty) {
+      msgError = Strings.phoneEmpty;
+      return false;
+    }else if (phoneController.text.length <= 7) {
+      msgError = Strings.phoneInvalidate;
+      return false;
     }
+    return true;
 
-    if (lastNameController.text == "") {
-      utils.showSnackBar(context, Strings.emptyLastName);
-      return true;
+  }
+
+  callStepTwoRegister(){
+    if(_validateEmptyFields()){
+      userModel.name = nameController.text;
+      userModel.lastName = lastNameController.text;
+      userModel.numPhone = phoneController.text;
+      userModel.cityId = providerSettings.citySelected.id;
+      Navigator.push(context,customPageTransition(RegisterStepTwoPage(user: userModel)));
+    }else{
+      utils.showSnackBar(context, msgError);
     }
-
-
-
-    if (countryController.text == "") {
-      utils.showSnackBar(context, Strings.countryEmpty);
-      return true;
-    }
-
-
-
-
-    userModel.name = nameController.text;
-    userModel.lastName = lastNameController.text;
-
-    userModel.country = countryController.text;
-    userModel.cityId = globalVariables.cityId;
-
-    Navigator.of(context).push(PageTransition(
-        type: PageTransitionType.slideInLeft,
-        child: RegisterStepTwoPage(user: userModel),
-        duration: Duration(milliseconds: 700)));
-
-    return false;
   }
 }

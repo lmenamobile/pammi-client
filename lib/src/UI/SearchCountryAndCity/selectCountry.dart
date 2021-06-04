@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Country.dart';
+import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -21,20 +22,17 @@ class SelectCountryPage extends StatefulWidget {
 
 class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
-  bool selected = false;
   ProviderSettings providerSettings;
   OnboardingProvider providerOnboarding;
-  double widgetHeight = 0;
+
 
   @override
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerSettings.ltsCountries.clear();
-    getCountries();
+    getCountries("");
     super.initState();
   }
-
-  List<String> items = ["uno", "Dos"];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,6 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      widgetHeight = constraints.maxHeight;
       return Scaffold(
         body: SafeArea(
           child: Stack(
@@ -52,7 +49,8 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 child: _body(context),
               ),
               Visibility(
-                  visible: providerSettings.isLoading, child: LoadingProgress()),
+                  visible: providerSettings.isLoading,
+                  child: LoadingProgress()),
             ],
           ),
         ),
@@ -75,43 +73,30 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             onTap: () => Navigator.pop(context),
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 35),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  Strings.selectCountry,
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: CustomColors.blackLetter,
-                      fontFamily: Strings.fontBold),
-                ),
-                SizedBox(height: 21),
-                boxSearch(context),
-                SizedBox(height: 21),
-                providerSettings.ltsCountries.isEmpty?emptyData("ic_empty_location.png", Strings.emptyCountries, ""):Container(
-                  height: MediaQuery.of(context).size.height - 180,
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                          height: widgetHeight,
-                          child: ListWheelScrollView(
-                            itemExtent: 30,
-                            children: providerSettings.ltsCountries
-                                .map((country) => Center(child: itemCountry(country, null)))
-                                .toList(),
-                            magnification: 1.5,
-                            useMagnifier: true,
-                            physics: FixedExtentScrollPhysics(),
-                            perspective: 0.0000000001,
-                            onSelectedItemChanged: (index) => {},
-                          )),
-                      boxSelect(),
-                    ],
-                  ),
-                ),
-              ]),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 35),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      Strings.selectCountry,
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: CustomColors.blackLetter,
+                          fontFamily: Strings.fontBold),
+                    ),
+                    SizedBox(height: 21),
+                    boxSearch(context),
+                    SizedBox(height: 21),
+                    providerSettings.ltsCountries.isEmpty
+                        ? emptyData(
+                            "ic_empty_location.png", Strings.emptyCountries, "")
+                        : listItemsCountry()
+                  ]),
+            ),
+          ),
         ),
       ],
     );
@@ -137,9 +122,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             ),
             Expanded(
               child: TextField(
-                onChanged: (value) {
-
+                onSubmitted: (value) {
+                  providerSettings.ltsCountries.clear();
+                  getCountries(value);
                 },
+                textInputAction: TextInputAction.search,
                 controller: countryController,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
@@ -161,15 +148,29 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
   }
 
+  Widget listItemsCountry() {
+    return ListView.builder(
+      padding: EdgeInsets.only(top: 10),
+      itemCount: providerSettings.ltsCountries.length,
+      physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return itemCountry(
+            providerSettings.ltsCountries[index], actionSelectCountry);
+      },
+    );
+  }
 
+  actionSelectCountry(CountryUser country) {
+    providerSettings.countrySelected = country;
+    Navigator.pop(context);
+  }
 
-  getCountries() async {
+  getCountries(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getCountries("", 0);
-        await callUser.then((msg) {
-
-        }, onError: (error) {
+        Future callUser = providerSettings.getCountries(search, 0);
+        await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
       } else {

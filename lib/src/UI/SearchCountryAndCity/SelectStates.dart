@@ -1,25 +1,36 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/City.dart';
+import 'package:wawamko/src/Models/Country.dart';
+import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/selectCity.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 
-import 'Widgets.dart';
 
-class SelectCityPage extends StatefulWidget {
+
+class SelectStatesPage extends StatefulWidget {
   @override
-  _SelectCityPageState createState() => _SelectCityPageState();
+  _SelectStatesPageState createState() => _SelectStatesPageState();
 }
 
-class _SelectCityPageState extends State<SelectCityPage> {
-  final cityController = TextEditingController();
+class _SelectStatesPageState extends State<SelectStatesPage> {
+  final searchStateController = TextEditingController();
   ProviderSettings providerSettings;
+
+  @override
+  void initState() {
+    providerSettings = Provider.of<ProviderSettings>(context, listen: false);
+    providerSettings.ltsCities.clear();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +46,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
       ),
     );
   }
-
+  
   Widget _body(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,19 +70,19 @@ class _SelectCityPageState extends State<SelectCityPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      Strings.selectCity,
+                      Strings.selectState,
                       style: TextStyle(
                           fontSize: 24,
                           color: CustomColors.blackLetter,
                           fontFamily: Strings.fontBold),
                     ),
                     SizedBox(height: 21),
-                    boxSearchCountries(cityController,searchCities),
+                    boxSearchCountries(searchStateController,searchState),
                     SizedBox(height: 21),
-                    providerSettings.ltsCities.isEmpty
+                    providerSettings.ltsStatesCountries.isEmpty
                         ? emptyData(
-                        "ic_empty_location.png", Strings.emptyCities, "")
-                        : listItemsCities()
+                        "ic_empty_location.png", Strings.emptyStates, "")
+                        : listItemsStates()
                   ]),
             ),
           ),
@@ -80,32 +91,32 @@ class _SelectCityPageState extends State<SelectCityPage> {
     );
   }
 
-  Widget listItemsCities() {
+  Widget listItemsStates() {
     return ListView.builder(
       padding: EdgeInsets.only(top: 10),
-      itemCount: providerSettings.ltsCities.length,
+      itemCount: providerSettings.ltsStatesCountries.length,
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
-        return cityItem(providerSettings.ltsCities[index], actionSelectCity);
+        return itemStateCountry(providerSettings.ltsStatesCountries[index], actionSelectState);
       },
     );
   }
-
-  searchCities(String value){
-    providerSettings.ltsCities.clear();
-    getCitiesSearch(value);
+  
+  searchState(String value){
+    providerSettings.ltsStatesCountries.clear();
+    getStatesSearch(value);
   }
 
-  actionSelectCity(City city) {
-    providerSettings.citySelected = city;
-    Navigator.pop(context);
+  actionSelectState(StatesCountry state) {
+    providerSettings.stateCountrySelected = state;
+    Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
   }
 
-  getCitiesSearch(String search) async {
+  getStatesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getCities(search, 0,providerSettings.stateCountrySelected);
+        Future callUser = providerSettings.getStates(search, 0,providerSettings.countrySelected);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

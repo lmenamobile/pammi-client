@@ -276,6 +276,8 @@ class Strings {
   static const String categoriesMaxSelected                 = "Solo puedes seleccionar maximo 5 intereses.";
 
   static const String emptyCountries                       = "Aún no estamos en tu país, lo estaremos próximamente.";
+  static const String emptyStates                          = "Aún no estamos en este estado, lo estaremos próximamente.";
+  static const String emptyCities                          = "Aún no estamos en esta ciudad, lo estaremos próximamente.";
   //Fonts
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';
