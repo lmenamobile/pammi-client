@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
@@ -22,9 +23,11 @@ class SelectCountryPage extends StatefulWidget {
 
 class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
+  RefreshController _refreshCountries =
+      RefreshController(initialRefresh: false);
   ProviderSettings providerSettings;
   OnboardingProvider providerOnboarding;
-
+  int pageOffset = 0;
 
   @override
   void initState() {
@@ -91,9 +94,21 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                     boxSearch(context),
                     SizedBox(height: 21),
                     providerSettings.ltsCountries.isEmpty
-                        ? emptyData(
-                            "ic_empty_location.png", Strings.emptyCountries, "")
+                        ? emptyData("ic_empty_location.png",
+                        Strings.emptyCountries, "")
                         : listItemsCountry()
+                 /*   SmartRefresher(
+                        controller: _refreshCountries,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        onLoading: _onLoadingToRefresh,
+                        footer: footerRefreshCustom(),
+                        header: headerRefresh(),
+                        onRefresh: _pullToRefresh,
+                        child: providerSettings.ltsCountries.isEmpty
+                            ? emptyData("ic_empty_location.png",
+                                Strings.emptyCountries, "")
+                            : listItemsCountry())*/
                   ]),
             ),
           ),
@@ -148,6 +163,25 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
   }
 
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshCountries.refreshCompleted();
+  }
+
+  void clearForRefresh() {
+    pageOffset = 0;
+    providerSettings.ltsCountries.clear();
+    getCountries("");
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+    getCountries("");
+    _refreshCountries.loadComplete();
+  }
+
   Widget listItemsCountry() {
     return ListView.builder(
       padding: EdgeInsets.only(top: 10),
@@ -169,7 +203,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   getCountries(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getCountries(search, 0);
+        Future callUser = providerSettings.getCountries(search, pageOffset);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

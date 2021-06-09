@@ -6,6 +6,7 @@ import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 Widget titleBar(String title, String icon, Function action) {
   return Container(
@@ -348,4 +349,16 @@ Future<bool> showAlertActions(BuildContext context, String title, String msg,
         alertMessageWithActions(title, asset, msg, positive, negative),
   );
   return state;
+}
+
+Widget headerRefresh(){
+  return WaterDropHeader(waterDropColor: CustomColors.blueSplash, complete: Container(), failed: Container(), refresh: SizedBox(
+    width: 25.0,
+    height: 25.0,
+    child:  CircularProgressIndicator(strokeWidth: 2.0),
+  ));
+}
+
+Widget footerRefreshCustom(){
+  return ClassicFooter(noDataText: "", loadingText: "", idleText: "", idleIcon: null, height: 30);
 }

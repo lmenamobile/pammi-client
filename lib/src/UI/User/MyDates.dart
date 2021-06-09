@@ -6,6 +6,8 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -13,6 +15,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
@@ -35,6 +38,7 @@ class _MyDatesPageState extends State<MyDatesPage>
   final numberIdentityController = TextEditingController();
   final emailController = TextEditingController();
   final countryController = TextEditingController();
+  final cityController = TextEditingController();
   final phoneController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
@@ -44,6 +48,7 @@ class _MyDatesPageState extends State<MyDatesPage>
   String msgError = '';
   GlobalVariables globalVariables = GlobalVariables();
   ProfileProvider profileProvider;
+  ProviderSettings providerSettings;
 
   @override
   void initState() {
@@ -60,8 +65,8 @@ class _MyDatesPageState extends State<MyDatesPage>
   @override
   Widget build(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
-    countryController.text = notifyVariables.countrySelected;
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -257,47 +262,21 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       fontFamily: Strings.fontBold),
                                 ),
                                 SizedBox(height: 20),
-                                customTextField(
-                                    "Assets/images/ic_data.png",
-                                    "Nombre",
-                                    nameController,
-                                    TextInputType.text, []),
-                                SizedBox(height: 21),
-                                customTextFieldAction(
-                                    "Assets/images/ic_identity.png",
-                                    "Tipo de documento",
-                                    typeDocumentController, () {
-                                  pushToSelectDocument();
-                                }),
-                                SizedBox(height: 21),
-                                customTextField(
-                                    "Assets/images/ic_identity.png",
-                                    "Número de identificación",
-                                    numberIdentityController,
-                                    TextInputType.number, [
-                                  LengthLimitingTextInputFormatter(15),
-                                  FilteringTextInputFormatter.digitsOnly
-                                ]),
-                                SizedBox(height: 21),
-                                customTextFieldAction(
-                                    "Assets/images/ic_country.png",
-                                    "País",
-                                    countryController, () {
-                                  Navigator.of(context).push(PageTransition(
-                                      type: PageTransitionType.slideInLeft,
-                                      child: SelectCountryPage(),
-                                      duration: Duration(milliseconds: 700)));
-                                }),
-                                SizedBox(height: 21),
-                                customTextField(
-                                    "Assets/images/ic_telephone.png",
-                                    "Número de telefono",
-                                    phoneController,
-                                    TextInputType.number, [
-                                  maskFormatter,
-                                  LengthLimitingTextInputFormatter(15),
-                                  FilteringTextInputFormatter.digitsOnly
-                                ]),
+                                customTextFieldIcon("ic_data.png",true, Strings.nameUser,
+                                    nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                                InkWell(
+                                    onTap: ()=>pushToSelectDocument(),
+                                    child: customTextFieldIcon("ic_identity.png",false, Strings.typeDocument,typeDocumentController, TextInputType.text, [])),
+                                customTextFieldIcon("ic_identity.png",true, Strings.idNumberDocument,
+                                    numberIdentityController, TextInputType.text, [ LengthLimitingTextInputFormatter(30),FilteringTextInputFormatter.digitsOnly]),
+                                InkWell(
+                                    onTap: ()=>openSelectCountry(),
+                                    child: customTextFieldIcon("ic_country.png",false, Strings.country, countryController, TextInputType.text, [])),
+                                InkWell(
+                                    onTap: ()=>openSelectCityByState(),
+                                    child: customTextFieldIcon("ic_country.png",false, Strings.city, cityController, TextInputType.text, [])),
+                                customTextFieldIcon("ic_telephone.png", true, Strings.phoneNumber,
+                                    phoneController, TextInputType.number, [LengthLimitingTextInputFormatter(15),FilteringTextInputFormatter.digitsOnly]),
                               ],
                             ),
                           ),
@@ -334,11 +313,26 @@ class _MyDatesPageState extends State<MyDatesPage>
     );
   }
 
+  openSelectCountry()async{
+    await Navigator.push(context, customPageTransition(SelectCountryPage()));
+    countryController.text = providerSettings?.countrySelected?.country;
+  }
+
+  openSelectCityByState(){
+    if(providerSettings?.countrySelected!=null) {
+      Navigator.push(context, customPageTransition(SelectStatesPage()));
+      cityController.text = providerSettings?.citySelected?.name;
+    }else{
+      utils.showSnackBar(context, Strings.countryEmpty);
+    }
+  }
+
   void setDataProfile() {
     nameController.text = profileProvider?.user?.fullname;
     typeDocumentController.text = profileProvider?.user?.documentType;
     numberIdentityController.text = profileProvider?.user?.document;
-    countryController.text = profileProvider?.user?.city?.name;
+    countryController.text = profileProvider?.user?.city?.countryUser?.country;
+    cityController.text = profileProvider?.user?.city?.name;
     phoneController.text = profileProvider?.user?.phone;
     globalVariables.cityId = profileProvider?.user?.city?.id;
   }

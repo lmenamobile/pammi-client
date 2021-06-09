@@ -219,8 +219,9 @@ class Strings {
   static const String  city = 'Ciudad';
   static const String  country = 'País';
   static const String  phoneNumber = 'Número telefónico';
-
   static const String  search = 'Buscar';
+  static const String  typeDocument = 'Tipo de documento';
+  static const String  idNumberDocument = 'Número de Documento';
 
   /*Dialog btones*/
   static const String  btnYes  = 'Si';

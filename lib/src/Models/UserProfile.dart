@@ -1,3 +1,5 @@
+
+
 import 'City.dart';
 
 class UserProfile {
@@ -13,7 +15,7 @@ class UserProfile {
     this.verifyedAccount,
     this.type,
     this.verificationCode,
-    this.city,
+    this.city
   });
 
   String id;
@@ -29,6 +31,7 @@ class UserProfile {
   String verificationCode;
   City city;
 
+
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
     id: json["id"],
     fullname: json["fullname"],
@@ -42,6 +45,7 @@ class UserProfile {
     type: json["type"],
     verificationCode: json["verificationCode"],
     city: City.fromJson(json["city"]),
+
   );
 
   Map<String, dynamic> toJson() => {
