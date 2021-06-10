@@ -140,6 +140,8 @@ class Strings {
   static const String inputPass = 'Ingresa una nueva contraseña';
   static const String passCurrent = 'Contraseña actual';
   static const String confirmPass = 'Confirmar contraseña';
+  static const String linkEntrepreneur = 'Vincúlate con un emprendedor';
+  static const String shareYourCode = 'Dale el siguiente código al emprendedor';
 
   static const String dontMethodsPay = 'Aún no has agregado métodos de pago';
   static const String beginShop = 'Empieza a agregar para realizar tus compras';
@@ -152,19 +154,14 @@ class Strings {
   static const String cvc = 'CVC';
   static const String save = 'Guardar';
   static const String infoCard = 'Información de tarjeta';
-
   static const String questionAddress = '¿Dónde quieres recibir tus productos?';
   static const String beginAddAddress = 'Empieza a agregar tus direcciones de envío';
   static const String addAddres = 'Agregar dirección';
   static const String nameAddress = ' Nombre de la dirección';
-
-
-
   static const String address = 'Dirección';
   static const String complement = 'Complemento';
   static const String helpMap = 'Arrastra el mapa para ajustar tu dirección';
   static const String confirm = 'Confirmar';
-
   static const String ups = '¡Upps!';
   static const String masterCard = 'Master Card';
   static const String emptyCupons = 'En este momento no tienes registro de cupones';
@@ -211,6 +208,12 @@ class Strings {
   static const String errorFacebook            = 'Error al iniciar sesión con Facebook';
   static const String  change  = 'Cambiar';
 
+  /*Menu drawer*/
+  static const String  wingsReferred = r'¡Gana $10.000 por referir a un amigo!';
+  static const String  shareAndEnjoy = '¡Comparte, invita y disfruta!';
+  static const String  textInfoReferred = r'Recibe $10.000 en una Gif card por referir a un amigo que haga su primer pedido con tu código.';
+  static const String  shareCode = 'COMPARTE TU CÓDIGO';
+  static const String  share = 'Compartir';
 
 
   /*Register User*/
@@ -279,6 +282,8 @@ class Strings {
   static const String emptyCountries                       = "Aún no estamos en tu país, lo estaremos próximamente.";
   static const String emptyStates                          = "Aún no estamos en este estado, lo estaremos próximamente.";
   static const String emptyCities                          = "Aún no estamos en esta ciudad, lo estaremos próximamente.";
+
+  static const String errorCodeReferred                = "No tienes un codigo de referido aun";
   //Fonts
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';

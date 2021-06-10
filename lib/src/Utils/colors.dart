@@ -7,6 +7,8 @@ class CustomColors {
   static final white = const Color(0xffFFFFFF);
   static final red= const Color(0xffF9423A);
 
+  static final grayGradient = const Color(0xff5A293C);
+
 
 
   static final darkBlue = const Color(0xff201547);

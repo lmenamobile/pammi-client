@@ -44,7 +44,7 @@ class UserProfile {
     verifyedAccount: json["verifyedAccount"],
     type: json["type"],
     verificationCode: json["verificationCode"],
-    city: City.fromJson(json["city"]),
+    city:json["city"]==null?null: City.fromJson(json["city"]),
 
   );
 

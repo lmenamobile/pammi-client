@@ -4,7 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:tabbar/tabbar.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/drawerMenu.dart';
+import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -95,7 +95,7 @@ class _FeaturedPageState extends State<FeaturedPage> {
                           Navigator.of(context).push(
                               PageRouteBuilder(
                                   opaque: false, // set to false
-                                  pageBuilder: (_, __, ___) => DraweMenuPage(rollOverActive: "featured",)
+                                  pageBuilder: (_, __, ___) => DrawerMenuPage(rollOverActive: "featured",)
                               ));
                         },
                       ),

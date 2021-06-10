@@ -1,15 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:package_info/package_info.dart';
-import 'package:wawamko/src/Models/Country.dart';
-import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:wawamko/src/Utils/utils.dart';
 
 
 class SupportProvider {

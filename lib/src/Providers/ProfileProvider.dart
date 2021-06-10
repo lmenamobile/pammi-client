@@ -17,36 +17,28 @@ class ProfileProvider with ChangeNotifier {
   final prefsUser = SharePreference();
 
   bool _isLoading = false;
-
   bool get isLoading => this._isLoading;
-
   set isLoading(bool value) {
     this._isLoading = value;
     notifyListeners();
   }
 
   bool _isEditProfile = false;
-
   bool get isEditProfile => this._isEditProfile;
-
   set isEditProfile(bool value) {
     this._isEditProfile = value;
     notifyListeners();
   }
 
   UserProfile _user;
-
   UserProfile get user => this._user;
-
   set user(UserProfile value) {
     this._user = value;
     notifyListeners();
   }
 
   File _imageUserFile;
-
   File get imageUserFile => this._imageUserFile;
-
   set imageUserFile(File value) {
     this._imageUserFile = value;
     notifyListeners();
@@ -244,4 +236,5 @@ class ProfileProvider with ChangeNotifier {
     }
 
   }
+
 }

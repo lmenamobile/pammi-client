@@ -69,6 +69,9 @@ dependencies:
   lottie: ^0.7.0
   simple_animations: ^2.2.3
   pull_to_refresh: 1.6.3
+  firebase_messaging: ^7.0.3
+  slimy_card: ^1.0.4
+  share: ^0.6.5+4
 
 
   # The following adds the Cupertino Icons font to your application.

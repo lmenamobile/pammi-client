@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:provider/provider.dart';
+import 'package:slimy_card/slimy_card.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
-import 'package:wawamko/src/UI/MyAddress.dart';
+import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
+import 'package:wawamko/src/UI/User/Widgets.dart';
 import 'package:wawamko/src/UI/coupons.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/drawerMenu.dart';
+import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -29,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
       key: _drawerKey,
-      drawer: DraweMenuPage(
+      drawer: DrawerMenuPage(
         rollOverActive: "profile",
       ),
       backgroundColor: CustomColors.redTour,

@@ -206,7 +206,6 @@ Widget emptyData(
       children: <Widget>[
         Image(
           fit: BoxFit.fill,
-          height: 200,
           width: 200,
           image: AssetImage("Assets/images/$image"),
         ),
@@ -231,6 +230,50 @@ Widget emptyData(
                     fontSize: 15,
                     color: CustomColors.blueGray),
               ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget emptyDataWithAction(String image, String title, String text, String titleButton, Function action) {
+  return Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Image(
+          fit: BoxFit.fill,
+          width: 200,
+          image: AssetImage("Assets/images/$image"),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 60, right: 60),
+          child: Column(
+            children: <Widget>[
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 22,
+                    color: CustomColors.blueGray),
+              ),
+              SizedBox(height: 5),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 15,
+                    color: CustomColors.blueGray),
+              ),
+              SizedBox(height: 23),
+              btnCustom(titleButton, CustomColors.blueSplash, Colors.white, action),
+              SizedBox(height: 25),
             ],
           ),
         )

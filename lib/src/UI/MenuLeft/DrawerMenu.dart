@@ -9,30 +9,32 @@ import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/MenuLeft/Widgets.dart';
 import 'package:wawamko/src/UI/MyOrders.dart';
 import 'package:wawamko/src/UI/dayOferts.dart';
 import 'package:wawamko/src/UI/User/ProfilePage.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import '../UI/Onboarding/Login.dart';
+import '../Onboarding/Login.dart';
 
 
 
 
-class DraweMenuPage extends StatefulWidget {
+class DrawerMenuPage extends StatefulWidget {
 
   final rollOverActive;
 
-  DraweMenuPage({Key key,this.rollOverActive}) : super(key: key);
+  DrawerMenuPage({Key key,this.rollOverActive}) : super(key: key);
 
-  _DraweMenuPageState createState() => _DraweMenuPageState();
+  _DrawerMenuPageState createState() => _DrawerMenuPageState();
 }
 
-class _DraweMenuPageState extends State<DraweMenuPage> {
+class _DrawerMenuPageState extends State<DrawerMenuPage> {
 
  var hideMenu = false;
  SharePreference _prefs = SharePreference();
@@ -55,9 +57,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
 
   Widget _body(BuildContext context){
     return  FadeInLeft(
-
             child: Container(
-
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -77,15 +77,8 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                           ),
                         ),
                       ),
-                      onTap: (){
-
-                        Navigator.pop(context);
-
-
-
-                        // Navigator.pop(context);
-                      },
-
+                      onTap: ()=>
+                        Navigator.pop(context),
                     ),
                   ),
 
@@ -105,6 +98,7 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
                             children: <Widget>[
                              itemProfile(context,profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,),
                              SizedBox(height: 23),
+                             BounceInDown(child: itemBtnReferred(()=>openBottomSheet(context,openReferredCode))),
                              itemMenu(context,"Assets/images/ic_start.png", (){widget.rollOverActive != "start" ?  pushToPage(MyHomePage()) :Navigator.pop(context);},Strings.start),
                              itemMenu(context,"Assets/images/ic_ offers_day.png", (){widget.rollOverActive != "ofertsDay" ? pushToPage(DayOferstPage()) : Navigator.pop(context);}, Strings.dayOferts),
                              itemMenu(context,"Assets/images/ic_featured.png", (){widget.rollOverActive != "featured" ?  pushToPage(FeaturedPage()) :Navigator.pop(context);},Strings.destacados ),
@@ -132,6 +126,15 @@ class _DraweMenuPageState extends State<DraweMenuPage> {
 
     );
 
+  }
+
+  void openReferredCode(){
+    if(_prefs.referredCode.toString().isNotEmpty){
+      Navigator.pop(context);
+      openShareLink("IYAISIASG123");
+    }else{
+      utils.showSnackBar(context, Strings.errorCodeReferred);
+    }
   }
 
   Widget itemProfile(BuildContext context,String nameUser){

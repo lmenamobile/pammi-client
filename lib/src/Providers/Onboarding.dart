@@ -113,6 +113,7 @@ class OnboardingProvider with ChangeNotifier {
         _prefs.nameUser = response.user.fullname;
         _prefs.cityIdUser = response.user.countryUser.id;
         _prefs.dataUser = jsonEncode(response.user);
+        _prefs.referredCode = response.user.referredCode;
         return response.user;
       } else {
         throw decodeJson['message'];
@@ -157,6 +158,7 @@ class OnboardingProvider with ChangeNotifier {
         _prefs.nameUser = response.user.fullname;
         _prefs.cityIdUser = response.user.countryUser.id;
         _prefs.dataUser = jsonEncode(response.user);
+        _prefs.referredCode = response.user.referredCode;
         return response.user;
       } else {
         throw decodeJson['message'];

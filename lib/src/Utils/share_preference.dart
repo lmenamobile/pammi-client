@@ -16,6 +16,14 @@ class SharePreference {
     this._prefs = await SharedPreferences.getInstance();
   }
 
+  get referredCode {
+    return _prefs.getString('referredCode') ?? "";
+  }
+
+  set referredCode(String value) {
+    _prefs.setString('referredCode', value);
+  }
+
   get cityIdUser {
     return _prefs.getString('cityIdUser') ?? "0";
   }
@@ -40,20 +48,12 @@ class SharePreference {
     _prefs.setString('token', value);
   }
 
-  get stateOrder {
-    return _prefs.getInt('stateOrder') ?? 1;
+  get pushToken {
+    return _prefs.getString('pushToken') ??'';
   }
 
-  set stateOrder(int value) {
-    _prefs.setInt('stateOrder', value);
-  }
-
-  get shopCar {
-    return _prefs.getString('shopCar') ?? "0";
-  }
-
-  set shopCar(String value) {
-    _prefs.setString('shopCar', value);
+  set pushToken(String value) {
+    _prefs.setString('pushToken', value);
   }
 
   get dataUser {
@@ -64,13 +64,7 @@ class SharePreference {
     _prefs.setString('dataUser', value);
   }
 
-  get dataShopCar {
-    return _prefs.getString('dataShopCar') ?? "0";
-  }
 
-  set dataShopCar (String value) {
-    _prefs.setString('dataShopCar', value);
-  }
 
 
   get enableTour {

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/UI/HomePage.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'src/Providers/ProfileProvider.dart';
@@ -19,9 +20,30 @@ void main() async{
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
 
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    final pushProvider = PushNotificationService();
+    pushProvider.initNotifications();
+    pushProvider.dataNotification.listen((data) {
+      print('infomarcion notificacion $data');
+      if(data['isLocal']) {
+
+      }else{
+
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([

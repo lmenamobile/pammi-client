@@ -14,6 +14,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -290,7 +291,7 @@ class _Utils {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => DialogLoadingAnimated()
+        builder: (BuildContext context) => LoadingProgress()
     );
   }
 

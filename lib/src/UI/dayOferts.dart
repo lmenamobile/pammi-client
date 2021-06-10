@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/drawerMenu.dart';
+import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -19,7 +19,7 @@ class _DayOferstPageState extends State<DayOferstPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _drawerKey,
-      drawer: DraweMenuPage(rollOverActive:"ofertsDay",),
+      drawer: DrawerMenuPage(rollOverActive:"ofertsDay",),
       backgroundColor: CustomColors.grayBackground,
       body: Container(
         width: double.infinity,

@@ -13,7 +13,7 @@ import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'package:wawamko/src/Widgets/drawerMenu.dart';
+import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class SupportHelpPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: _drawerKey,
-      drawer: DraweMenuPage(
+      drawer: DrawerMenuPage(
         rollOverActive: "support",
       ),
       body: SafeArea(

@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 Color convertColor(String color){
   var auxColor = "0xff"+color;
@@ -14,4 +15,9 @@ bool platformIsAndroid(){
     value = true;
   }
   return value;
+}
+
+/*Share url*/
+openShareLink(String url) {
+  Share.share(url);
 }
