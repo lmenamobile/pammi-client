@@ -63,7 +63,7 @@ Widget itemBtnReferred(Function action) {
   );
 }
 
-openBottomSheet(BuildContext context,Function actionShare) {
+openBottomSheet(BuildContext context,Function actionShare,String code) {
   return showModalBottomSheet(
       context: context,
       elevation: 0,
@@ -165,7 +165,7 @@ openBottomSheet(BuildContext context,Function actionShare) {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "IYAISIASG123",
+                              code??'',
                               style: TextStyle(
                                 color: CustomColors.blueSplash,
                                 fontFamily: Strings.fontBold,),

@@ -98,7 +98,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                             children: <Widget>[
                              itemProfile(context,profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,),
                              SizedBox(height: 23),
-                             BounceInDown(child: itemBtnReferred(()=>openBottomSheet(context,openReferredCode))),
+                             BounceInDown(child: itemBtnReferred(()=>openBottomSheet(context,openReferredCode,_prefs.referredCode.toString()))),
                              itemMenu(context,"Assets/images/ic_start.png", (){widget.rollOverActive != "start" ?  pushToPage(MyHomePage()) :Navigator.pop(context);},Strings.start),
                              itemMenu(context,"Assets/images/ic_ offers_day.png", (){widget.rollOverActive != "ofertsDay" ? pushToPage(DayOferstPage()) : Navigator.pop(context);}, Strings.dayOferts),
                              itemMenu(context,"Assets/images/ic_featured.png", (){widget.rollOverActive != "featured" ?  pushToPage(FeaturedPage()) :Navigator.pop(context);},Strings.destacados ),
@@ -131,7 +131,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
   void openReferredCode(){
     if(_prefs.referredCode.toString().isNotEmpty){
       Navigator.pop(context);
-      openShareLink("IYAISIASG123");
+      openShareLink(_prefs.referredCode.toString());
     }else{
       utils.showSnackBar(context, Strings.errorCodeReferred);
     }
