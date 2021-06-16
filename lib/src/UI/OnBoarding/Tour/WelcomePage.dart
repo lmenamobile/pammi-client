@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';

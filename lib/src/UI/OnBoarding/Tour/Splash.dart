@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart' as GPS;
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';

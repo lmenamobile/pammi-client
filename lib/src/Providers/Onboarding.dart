@@ -14,11 +14,30 @@ class OnboardingProvider with ChangeNotifier {
   final _prefs = SharePreference();
 
   bool _isLoading = false;
-
   bool get isLoading => this._isLoading;
-
   set isLoading(bool value) {
     this._isLoading = value;
+    notifyListeners();
+  }
+
+  bool _stateDates = false;
+  bool get stateDates => this._stateDates;
+  set stateDates(bool value) {
+    this._stateDates = value;
+    notifyListeners();
+  }
+
+  bool _stateTerms = false;
+  bool get stateTerms => this._stateTerms;
+  set stateTerms(bool value) {
+    this._stateTerms = value;
+    notifyListeners();
+  }
+
+  bool _stateCentrals = false;
+  bool get stateCentrals => this._stateCentrals;
+  set stateCentrals(bool value) {
+    this._stateCentrals = value;
     notifyListeners();
   }
 
@@ -111,7 +130,7 @@ class OnboardingProvider with ChangeNotifier {
         var response = DataUser.fromJsonMap(decodeJson['data']);
         _prefs.authToken = response.authToken;
         _prefs.nameUser = response.user.fullname;
-        _prefs.cityIdUser = response.user.countryUser.id;
+        _prefs.countryIdUser = response.user.countryUser.id;
         _prefs.dataUser = jsonEncode(response.user);
         _prefs.referredCode = response.user.referredCode;
         return response.user;
@@ -156,7 +175,7 @@ class OnboardingProvider with ChangeNotifier {
         var response = DataUser.fromJsonMap(decodeJson['data']);
         _prefs.authToken = response.authToken;
         _prefs.nameUser = response.user.fullname;
-        _prefs.cityIdUser = response.user.countryUser.id;
+        _prefs.countryIdUser = response.user.countryUser.id;
         _prefs.dataUser = jsonEncode(response.user);
         _prefs.referredCode = response.user.referredCode;
         return response.user;
@@ -348,7 +367,7 @@ class OnboardingProvider with ChangeNotifier {
         var response = DataUser.fromJsonMap(decodeJson['data']);
         _prefs.authToken = response.authToken;
         _prefs.nameUser = response.user.fullname;
-        _prefs.cityIdUser = response.user.countryUser.id;
+        _prefs.countryIdUser = response.user.countryUser.id;
         _prefs.dataUser = jsonEncode(response.user);
         return response.user;
       } else {

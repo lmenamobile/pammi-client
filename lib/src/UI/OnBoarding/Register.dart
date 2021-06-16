@@ -6,6 +6,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
+import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
@@ -35,17 +36,23 @@ class _RegisterPageState extends State<RegisterPage> {
   GlobalVariables globalVariables = GlobalVariables();
   NotifyVariablesBloc notifyVariables;
   ProviderSettings providerSettings;
-
+  OnboardingProvider providerOnBoarding;
   String msgError = '';
 
   @override
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context,listen: false);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context,listen: false);
+    providerOnBoarding.stateTerms = false;
+    providerOnBoarding.stateDates = false;
+    providerOnBoarding.stateCentrals = false;
     providerSettings.countrySelected = null;
     providerSettings.stateCountrySelected = null;
     providerSettings.citySelected = null;
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {

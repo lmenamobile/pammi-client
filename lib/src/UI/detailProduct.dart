@@ -342,7 +342,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
         height: 41.45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: CustomColors.blueProfile.withOpacity(.1)
+          color: CustomColors.blueOne.withOpacity(.1)
         ),
         child: Center(
           child: Row(
@@ -360,7 +360,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: Strings.fontBold,
-                    color: CustomColors.blueProfile
+                    color: CustomColors.blueOne
                    ),
                 ),
               ),
@@ -508,7 +508,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.blueProfile,
+                        color: CustomColors.blueOne,
                         decoration: TextDecoration.underline
                       ),
                     ),
@@ -531,7 +531,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(14)),
-          color: CustomColors.blueProfile
+          color: CustomColors.blueOne
         ),
         child: Stack(
           children: <Widget>[

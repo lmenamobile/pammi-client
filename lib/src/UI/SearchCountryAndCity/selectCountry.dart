@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -23,10 +21,9 @@ class SelectCountryPage extends StatefulWidget {
 
 class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
-  RefreshController _refreshCountries =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshCountries = RefreshController(initialRefresh: false);
   ProviderSettings providerSettings;
-  OnboardingProvider providerOnboarding;
+  OnboardingProvider providerOnBoarding;
   int pageOffset = 0;
 
   @override
@@ -39,7 +36,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   @override
   Widget build(BuildContext context) {
-    providerOnboarding = Provider.of<OnboardingProvider>(context);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
@@ -77,39 +74,42 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 35),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      Strings.selectCountry,
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: CustomColors.blackLetter,
-                          fontFamily: Strings.fontBold),
+          child: SmartRefresher(
+            controller: _refreshCountries,
+            enablePullDown: true,
+            enablePullUp: true,
+            onLoading: _onLoadingToRefresh,
+            footer: footerRefreshCustom(),
+            header: headerRefresh(),
+            onRefresh: _pullToRefresh,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 35),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              Strings.selectCountry,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: CustomColors.blackLetter,
+                                  fontFamily: Strings.fontBold),
+                            ),
+                            SizedBox(height: 21),
+                            boxSearch(context),
+                            SizedBox(height: 21),
+                            providerSettings.ltsCountries.isEmpty
+                                ? emptyData("ic_empty_location.png",
+                                    Strings.emptyCountries, "")
+                                : listItemsCountry()
+                          ]),
                     ),
-                    SizedBox(height: 21),
-                    boxSearch(context),
-                    SizedBox(height: 21),
-                    providerSettings.ltsCountries.isEmpty
-                        ? emptyData("ic_empty_location.png",
-                        Strings.emptyCountries, "")
-                        : listItemsCountry()
-                 /*   SmartRefresher(
-                        controller: _refreshCountries,
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        onLoading: _onLoadingToRefresh,
-                        footer: footerRefreshCustom(),
-                        header: headerRefresh(),
-                        onRefresh: _pullToRefresh,
-                        child: providerSettings.ltsCountries.isEmpty
-                            ? emptyData("ic_empty_location.png",
-                                Strings.emptyCountries, "")
-                            : listItemsCountry())*/
-                  ]),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -172,13 +172,14 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   void clearForRefresh() {
     pageOffset = 0;
     providerSettings.ltsCountries.clear();
+    countryController.clear();
     getCountries("");
   }
 
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getCountries("");
+    getCountries(countryController.text??'');
     _refreshCountries.loadComplete();
   }
 

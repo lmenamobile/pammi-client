@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/Widgets.dart';
 import 'package:wawamko/src/UI/MyOrders.dart';
 import 'package:wawamko/src/UI/dayOferts.dart';

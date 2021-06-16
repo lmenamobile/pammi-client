@@ -45,6 +45,7 @@ class Strings {
   static const String register = 'Regístrate';
   static const String dontCheckTerms = 'Debes aceptar los terminos y condiciones';
   static const String dontCheckDates = 'Debes autorizar el tratamiento de tus datos personales';
+  static const String notCheckCentral = 'Debes autorizar centrales de riesgo.';
   static const String verification = 'Verificación';
   static const String recoverPass = 'Recuperar contraseña';
   static const String textRecoverPass = 'Escribe tu dirección de correo, nosotros te enviaremos un código para cambiar tu contraseña.';
@@ -70,22 +71,21 @@ class Strings {
 
 
   //Home
-  static const String ourCategories = 'Nuestras categorías';
+  static const String search = 'Buscar';
+  static const String categories = 'Categorías';
   static const String moreAll = 'Mostrar todas';
-  static const String aprovecha = '¡Aprovecha!';
-  static const String detacados = 'Productos destacados';
-  static const String top = 'Top 10';
-  static const String vendidos = 'Productos más vendidos';
   static const String findHere = 'Encuentra aquí';
-  static const String ofertas = 'Ofertas del día';
   static const String suggest = 'Sugerencias';
+  static const String enjoy = 'Disfruta de';
+  static const String ourOfficialBrands = 'Nuestras marcas oficiales';
+  static const String highlightedOffers = 'Ofertas destacadas';
+  static const String discoverThe = 'Descubre los';
+  static const String mostSelledProducts = 'Productos más vendidos';
   static const String infoProd = 'Información del producto';
   static const String needHelp = '¿Necesitas ayuda?';
   static const String payNow = 'Pagar ahora';
   static const String gonnaBuy= 'Seguir comprando';
-
   static const String filter = 'Filtro';
-  static const String marca = 'Marca';
   static const String price = 'Precio';
   static const String min = 'Mínimo';
   static const String max = 'Máximo';
@@ -167,8 +167,6 @@ class Strings {
   static const String emptyCupons = 'En este momento no tienes registro de cupones';
 
 //MyOrders
-
-
   static const String myOrdersTitle = 'Mis ordenes';
   static const String ordersComplete = 'Ordenes completadas';
 
@@ -187,13 +185,8 @@ class Strings {
   static const String supportservices = 'Soporte y servicios';
   static const String closeSesion = 'Cerrar sesión';
   static const String closeSesionText = '¿Estás seguro de cerrar sesión?';
-
   static const String shopCar = 'Carrito de compras';
-
-
-
   static const String  serviceError = 'Ocurrio un error intentalo mas tarde.';
-
   static const String  internetError = 'No tienes conexion a internet.';
   static const String  emptyPassword = 'Debes ingresar una contraseña';
   static const String  emptyConfirmPassword = 'Debes confirmar la contraseña';
@@ -222,9 +215,13 @@ class Strings {
   static const String  city = 'Ciudad';
   static const String  country = 'País';
   static const String  phoneNumber = 'Número telefónico';
-  static const String  search = 'Buscar';
   static const String  typeDocument = 'Tipo de documento';
   static const String  idNumberDocument = 'Número de Documento';
+  static const String termsAndPolitics = 'He leido y acepto los ';
+  static const String terms = 'Términos y Condiciones';
+  static const String politics = 'Política de Privacidad.';
+  static const String politicsText = ' y la ';
+  static const String authorizedCredit = 'Autorizó centrales de riesgo.';
 
   /*Dialog btones*/
   static const String  btnYes  = 'Si';

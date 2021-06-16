@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:wawamko/src/Models/Product/CategoryModel.dart';
 import 'package:wawamko/src/Providers/ProductsProvider.dart';
 import 'package:wawamko/src/UI/productsByCategorie.dart';
@@ -263,7 +262,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
 
 
         // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = ProductsProvider.instance.getCategories(context,filter,0);
+        Future callResponse = null;//ProductsProvider.instance.getCategories(context,filter,0);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           CategoriesResponse data = CategoriesResponse.fromJson(decodeJSON);

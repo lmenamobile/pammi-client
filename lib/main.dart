@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
@@ -57,6 +58,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),
+        ChangeNotifierProvider(create: (_) => ProviderHome()),
       ],
       child: MaterialApp(
         title: Strings.appName,
@@ -69,7 +71,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.red,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(title: 'Flutter Demo Home Page'),
+        home: MyHomePage(),
       ),
     );
   }

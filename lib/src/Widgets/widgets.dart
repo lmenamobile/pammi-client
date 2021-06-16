@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
+import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Country.dart';
-import 'package:wawamko/src/Models/Product/CategoryModel.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
@@ -414,7 +414,7 @@ Widget itemAddress(Address address, Function action, BuildContext context,
             height: 47,
             width: 49,
             decoration: BoxDecoration(
-                color: CustomColors.blueProfile.withOpacity(.2),
+                color: CustomColors.blueOne.withOpacity(.2),
                 shape: BoxShape.circle),
             child: Center(
               child: Image(
@@ -617,211 +617,12 @@ Widget customTextFieldAction(String icon, String hintText,
   );
 }
 
-Widget itemCountry(BuildContext context, int pos, Country country) {
-  return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        // pos == 0 ? Container() : Container(height: 1,color:  CustomColors.grayBackground.withOpacity(.5),width: double.infinity,),
-        Container(
-          height: 70,
-          width: double.infinity,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 150,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: CustomColors.grayBackground,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100))),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
-                            child: SvgPicture.network(
-                              country.flag,
-                              height: 30,
-                              width: 30,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                      SizedBox(width: 15),
-                      Text(
-                        country.country,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: CustomColors.blackLetter,
-                            fontFamily: Strings.fontBold),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.5),
-          width: double.infinity,
-        ),
-      ],
-    ),
-    onTap: () {
-      print("Select ${country.country}");
-      globalVariables.countrySelected = country.country;
-       Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: SelectStatesPage(
-          ),
-          duration: Duration(milliseconds: 700))).then((value){
-            Navigator.pop(context);
-       });
-    },
-  );
-}
 
-Widget itemState(BuildContext context, int pos, States state) {
-  return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        pos == 0
-            ? Container()
-            : Container(
-                height: 1,
-                color: CustomColors.grayBackground.withOpacity(.5),
-                width: double.infinity,
-              ),
-        Container(
-          height: 70,
-          width: double.infinity,
-          child: Center(
-              child: Text(
-            state.name,
-            style: TextStyle(
-                color: CustomColors.letterDarkBlue,
-                fontFamily: Strings.fontBold,
-                fontSize: 18),
-          )),
-        ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.5),
-          width: double.infinity,
-        ),
-      ],
-    ),
-    onTap: () async{
-      globalVariables.countrySelected =
-          globalVariables.countrySelected + "/" + state.name;
-      await Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: SelectCityPage(
-          ),
-          duration: Duration(milliseconds: 700))).then((value){
-            Navigator.pop(context);
-      });
-    },
-  );
-}
 
-Widget itemCity(BuildContext context, int pos, City city) {
-  notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-  return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        pos == 0
-            ? Container()
-            : Container(
-                height: 1,
-                color: CustomColors.grayBackground.withOpacity(.5),
-                width: double.infinity,
-              ),
-        Container(
-          height: 70,
-          width: double.infinity,
-          child: Center(
-              child: Text(
-            city.name,
-            style: TextStyle(
-                color: CustomColors.letterDarkBlue,
-                fontFamily: Strings.fontBold,
-                fontSize: 18),
-          )),
-        ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.5),
-          width: double.infinity,
-        ),
-      ],
-    ),
-    onTap: () async{
-      globalVariables.countrySelected =
-          globalVariables.countrySelected + "/" + city.name;
-      globalVariables.cityId = city.id;
 
-      //globalVariables.eventRefreshRegister.broadcast();
-      notifyVariables.countrySelected = globalVariables.countrySelected;
-      Navigator.pop(context);
-      //Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: RegisterPage(country: globalVariables.countrySelected), duration: Duration(milliseconds: 700)));
-    },
-  );
-}
 
-Widget itemCategorie(Category category) {
-  return Container(
-    width: 50,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: HexColor(category.color),
-              boxShadow: [
-                BoxShadow(
-                    color: HexColor(category.color).withOpacity(.2),
-                    blurRadius: 2,
-                    offset: Offset.fromDirection(2, 6))
-              ]),
-          child: Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              child: FadeInImage(
-                fit: BoxFit.contain,
-                width: 40,
-                height: 40,
-                image: NetworkImage(category.image),
-                placeholder: AssetImage(""),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        Text(
-          category.category,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: Strings.fontRegular,
-            fontSize: 13,
-            color: CustomColors.blackLetter,
-          ),
-        )
-      ],
-    ),
-  );
-}
+
+
 
 Widget itemProductFirstDestacado() {
   return Container(
@@ -1518,7 +1319,7 @@ Widget itemCarrito(BuildContext context) {
                 style: TextStyle(
                     fontSize: 12,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.blueProfile,
+                    color: CustomColors.blueOne,
                     decoration: TextDecoration.underline),
               ),
             ),
@@ -1603,7 +1404,7 @@ Widget itemInfoShopCar() {
               height: 55,
               padding: EdgeInsets.only(left: 14, right: 9),
               decoration: BoxDecoration(
-                color: CustomColors.blueProfile,
+                color: CustomColors.blueOne,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Row(
@@ -1901,69 +1702,7 @@ Widget textFieldAddress(String hint, String icon,
   );
 }
 
-Widget itemInterestCategoryLeft(Category category, Function refreshSelected) {
-  return GestureDetector(
-    child: Container(
-      height: 140,
-      width: 140,
-      decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: Colors.white.withOpacity(.2),
-            width: 1,
-          ),
-          bottom: BorderSide(
-            color: Colors.white.withOpacity(.2),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            width: double.infinity,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: category.selected
-                      ? HexColor(category.color)
-                      : CustomColors.white.withOpacity(.3)),
-            ),
-          ),
-          Positioned(
-              top: 25,
-              left: 50,
-              child: FadeInImage(
-                width: 70,
-                height: 70,
-                image: NetworkImage(category.image),
-                placeholder: AssetImage(""),
-                fit: BoxFit.contain,
-              )),
-          Container(
-            width: double.infinity,
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              category.category,
-              style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 16,
-                  color: CustomColors.white),
-            ),
-          )
-        ],
-      ),
-    ),
-    onTap: () {
-      print("select category");
-      refreshSelected();
-    },
-  );
-}
+
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
@@ -1977,68 +1716,6 @@ class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
 
-Widget itemInterestCategoryRight(Category category, Function refreshSelected) {
-  //category.color.replaceAll("#", "");
-  //var colorCat = Color(0xff);
-
-  return GestureDetector(
-    child: Container(
-      height: 140,
-      width: 140,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.white.withOpacity(.2),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            width: double.infinity,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: category.selected
-                      ? HexColor(category.color)
-                      : CustomColors.white.withOpacity(.3)),
-            ),
-          ),
-          Positioned(
-              top: 25,
-              left: 50,
-              child: FadeInImage(
-                width: 70,
-                height: 70,
-                image: NetworkImage(category.image),
-                placeholder: AssetImage(""),
-                fit: BoxFit.contain,
-              )),
-          Container(
-            width: double.infinity,
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              category.category,
-              style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 16,
-                  color: CustomColors.white),
-            ),
-          )
-        ],
-      ),
-    ),
-    onTap: () {
-      print("selected");
-      refreshSelected();
-    },
-  );
-}
 
 Widget itemCategoryInteresting(Category category,Function actionSelect){
   return Container(
@@ -2056,7 +1733,7 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: category.selected?convertColor(category.color):Colors.white.withOpacity(.3)
+                    color: category.isSelected?convertColor(category.color):Colors.white.withOpacity(.3)
                   ),
                 ),
               ),

@@ -98,7 +98,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                     Strings.marca,
+                                     "Aca va algo",
                                       style: TextStyle(
                                         fontFamily: Strings.fontBold,
                                         fontSize: 11,
@@ -345,7 +345,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                             Padding(
                               padding: EdgeInsets.only(left: 40,top: 6),
                               child: Text(
-                                Strings.marca,
+                                "Aca va algo",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontFamily: Strings.fontRegular,

@@ -130,7 +130,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                 Container(
                   width: 89,
                   height: 26,
-                  child: btnCustomSemiRounded(CustomColors.blueProfile, CustomColors.white, "Ver detalle", (){}, context),
+                  child: btnCustomSemiRounded(CustomColors.blueOne, CustomColors.white, "Ver detalle", (){}, context),
                 )
               ],
             ),

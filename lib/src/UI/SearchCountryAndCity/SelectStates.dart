@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -12,9 +12,6 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-
-
-
 class SelectStatesPage extends StatefulWidget {
   @override
   _SelectStatesPageState createState() => _SelectStatesPageState();
@@ -22,7 +19,9 @@ class SelectStatesPage extends StatefulWidget {
 
 class _SelectStatesPageState extends State<SelectStatesPage> {
   final searchStateController = TextEditingController();
+  RefreshController _refreshStates = RefreshController(initialRefresh: false);
   ProviderSettings providerSettings;
+  int pageOffset = 0;
 
   @override
   void initState() {
@@ -30,7 +29,6 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
     providerSettings.ltsCities.clear();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
       ),
     );
   }
-  
+
   Widget _body(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,32 +61,68 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 35),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      Strings.selectState,
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: CustomColors.blackLetter,
-                          fontFamily: Strings.fontBold),
+          child: SmartRefresher(
+            controller: _refreshStates,
+            enablePullDown: true,
+            enablePullUp: true,
+            onLoading: _onLoadingToRefresh,
+            footer: footerRefreshCustom(),
+            header: headerRefresh(),
+            onRefresh: _pullToRefresh,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 35),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              Strings.selectState,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: CustomColors.blackLetter,
+                                  fontFamily: Strings.fontBold),
+                            ),
+                            SizedBox(height: 21),
+                            boxSearchCountries(
+                                searchStateController, searchState),
+                            SizedBox(height: 21),
+                            providerSettings.ltsStatesCountries.isEmpty
+                                ? emptyData("ic_empty_location.png",
+                                    Strings.emptyStates, "")
+                                : listItemsStates()
+                          ]),
                     ),
-                    SizedBox(height: 21),
-                    boxSearchCountries(searchStateController,searchState),
-                    SizedBox(height: 21),
-                    providerSettings.ltsStatesCountries.isEmpty
-                        ? emptyData(
-                        "ic_empty_location.png", Strings.emptyStates, "")
-                        : listItemsStates()
-                  ]),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshStates.refreshCompleted();
+  }
+
+  void clearForRefresh() {
+    pageOffset = 0;
+    providerSettings.ltsStatesCountries.clear();
+    searchStateController.clear();
+    getStatesSearch("");
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+    getStatesSearch(searchStateController.text??'');
+    _refreshStates.loadComplete();
   }
 
   Widget listItemsStates() {
@@ -98,12 +132,13 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
-        return itemStateCountry(providerSettings.ltsStatesCountries[index], actionSelectState);
+        return itemStateCountry(
+            providerSettings.ltsStatesCountries[index], actionSelectState);
       },
     );
   }
-  
-  searchState(String value){
+
+  searchState(String value) {
     providerSettings.ltsStatesCountries.clear();
     getStatesSearch(value);
   }
@@ -116,7 +151,8 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   getStatesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getStates(search, 0,providerSettings.countrySelected);
+        Future callUser = providerSettings.getStates(
+            search, 0, providerSettings.countrySelected);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

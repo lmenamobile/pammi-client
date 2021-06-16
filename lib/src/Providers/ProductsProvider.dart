@@ -25,69 +25,9 @@ class ProductsProvider {
 
   ProductsProvider._internal();
 
-  Future<dynamic> getCategories(BuildContext context,String filter,int page) async {
-
-
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token":_prefs.accessToken.toString(),
-    };
 
 
 
-    Map jsonData = {
-      "filter": filter,
-      "offset" : page,
-      "limit" : 20,
-      "status": "active",
-      "countryId": "CO"
-
-    };
-
-
-    var body = jsonEncode(jsonData);
-
-    print("Parameters getCategories ${jsonData}");
-
-    final response = await http.post(Constants.baseURL+"category/get-categories",headers: header ,body: body).timeout(Duration(seconds: 25))
-        .catchError((value){
-      print("Ocurrio un errorTimeout"+value);
-      throw Exception(value);
-    });
-
-    print("Json getCategories: ${response.body}");
-
-    return response.body;
-  }
-
-  Future<dynamic> saveCategories(BuildContext context,List<Category> arrayIdCategories) async {
-    List<int> idCats = List();
-    arrayIdCategories.forEach((element) {
-      idCats.add(element.id);
-    });
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token":_prefs.accessToken.toString(),
-      "X-WA-Auth-Token":_prefs.authToken.toString()
-    };
-    Map jsonData = {
-      "categories": idCats,
-    };
-
-    var body = jsonEncode(jsonData);
-
-    print("Parameters getCategories ${jsonData}");
-
-    final response = await http.post(Constants.baseURL+"profile/save-interests",headers: header ,body: body).timeout(Duration(seconds: 25))
-        .catchError((value){
-      print("Ocurrio un errorTimeout"+value);
-      throw Exception(value);
-    });
-
-    print("Json saveCategories: ${response.body}");
-
-    return response.body;
-  }
 
   Future<dynamic> getSubCategories(BuildContext context,String filter,int page,Category category) async {
 

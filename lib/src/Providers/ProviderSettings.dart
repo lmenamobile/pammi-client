@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
@@ -62,6 +63,13 @@ class ProviderSettings with ChangeNotifier{
   List<City> get ltsCities => this._ltsCities;
   set ltsCities(List<City> value) {
     this._ltsCities.addAll(value);
+    notifyListeners();
+  }
+
+  List<Category> _ltsCategories = List();
+  List<Category> get ltsCategories => this._ltsCategories;
+  set ltsCategories(List<Category> value) {
+    this._ltsCategories.addAll(value);
     notifyListeners();
   }
 
@@ -208,16 +216,66 @@ class ProviderSettings with ChangeNotifier{
     };
     var body = jsonEncode(jsonData);
 
-    final response = await http.post(Constants.baseURL+"category/get-categories",headers: header ,body: body).timeout(Duration(seconds: 25))
-        .catchError((value){
-      print("Ocurrio un errorTimeout"+value);
-      throw Exception(value);
+    final response = await http.post(Constants.baseURL+"category/get-categories", headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
     });
-
-    print("Json getCategories: ${response.body}");
-
-    return response.body;
+    final List<Category> listCategories = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final category = Category.fromJson(item);
+          listCategories.add(category);
+        }
+        this.isLoadingSettings = false;
+        this.ltsCategories= listCategories;
+        return listCategories;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
   }
+
+  Future<dynamic> saveCategories(List<Category> myCategories) async {
+    List<int> idCats = List();
+    myCategories.forEach((element) {
+      idCats.add(element.id);
+    });
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token":prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "categories": idCats,
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL+"profile/save-interests",headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 201) {
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+  }
+
 
 
 

@@ -18,7 +18,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import '../HomePage.dart';
+import '../Home/HomePage.dart';
 
 class VerificationCodePage extends StatefulWidget {
   final String email;

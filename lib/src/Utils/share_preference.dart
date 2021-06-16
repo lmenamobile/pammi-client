@@ -24,12 +24,12 @@ class SharePreference {
     _prefs.setString('referredCode', value);
   }
 
-  get cityIdUser {
-    return _prefs.getString('cityIdUser') ?? "0";
+  get countryIdUser {
+    return _prefs.getString('countryIdUser') ?? "0";
   }
 
-  set cityIdUser(String value) {
-    _prefs.setString('cityIdUser', value);
+  set countryIdUser(String value) {
+    _prefs.setString('countryIdUser', value);
   }
 
   get nameUser {

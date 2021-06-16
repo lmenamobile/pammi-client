@@ -1,17 +1,14 @@
-import 'dart:convert';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
+import 'package:wawamko/src/UI/OnBoarding/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -32,16 +29,16 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   var maskFormatter = new MaskTextInputFormatter(
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
   NotifyVariablesBloc notifyVariables;
-  OnboardingProvider providerOnboarding;
-  bool checkTerms = false;
-  bool checkDates = false;
+  OnboardingProvider providerOnBoarding;
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
   String msgError = '';
 
+
+
   @override
   Widget build(BuildContext context) {
-    providerOnboarding = Provider.of<OnboardingProvider>(context);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
       body: SafeArea(
@@ -53,7 +50,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
               child: _body(context),
             ),
             Visibility(
-                visible: providerOnboarding.isLoading, child: LoadingProgress()),
+                visible: providerOnBoarding.isLoading,
+                child: LoadingProgress()),
           ],
         ),
       ),
@@ -177,144 +175,33 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            checkDates
-                                ? GestureDetector(
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  "Assets/images/ic_check2.png"))),
-                                    ),
-                                    onTap: () {
-                                      this.checkDates = false;
-                                      print("true");
-                                      setState(() {});
-                                    },
-                                  )
-                                : GestureDetector(
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  "Assets/images/ic_check.png"))),
-                                    ),
-                                    onTap: () {
-                                      this.checkDates = true;
-                                      print("False");
-                                      setState(() {});
-                                    },
-                                  ),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                Strings.AuthorizeDates,
-                                style: TextStyle(
-                                    fontFamily: Strings.fontRegular,
-                                    fontSize: 12,
-                                    color: CustomColors.blackLetter),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 14),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          checkTerms
-                              ? GestureDetector(
-                                  child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  "Assets/images/ic_check2.png")))),
-                                  onTap: () {
-                                    this.checkTerms = false;
-                                    print("true");
-                                    setState(() {});
-                                  },
-                                )
-                              : GestureDetector(
-                                  child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  "Assets/images/ic_check.png")))),
-                                  onTap: () {
-                                    this.checkTerms = true;
-                                    print("False");
-                                    setState(() {});
-                                  },
-                                ),
-                          SizedBox(width: 10),
-                          Expanded(
-                              child: RichText(
-                            textAlign: TextAlign.left,
-                            text: TextSpan(
+                        child: itemCheck(
+                            () => providerOnBoarding.stateDates =
+                                !providerOnBoarding.stateDates,
+                            providerOnBoarding.stateDates,
+                            Text(
+                              Strings.AuthorizeDates,
                               style: TextStyle(
-                                height: 1.5,
-                                fontSize: 12,
-                                color: CustomColors.blackLetter,
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: "He leido y acepto los ",
-                                    style: TextStyle(
-                                      fontFamily: Strings.fontRegular,
-                                    )),
-                                TextSpan(
-                                  text: "Terminos y condiciones",
-                                  style: TextStyle(
-                                      fontFamily: Strings.fontRegular,
-                                      color: CustomColors.blueActiveDots,
-                                      decoration: TextDecoration.underline),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => launch(
-                                        "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Clientes_Terminos+y+condiciones.pdf"),
-                                ),
-                                TextSpan(
-                                    text: " y la",
-                                    style: TextStyle(
-                                      fontFamily: Strings.fontRegular,
-                                    )),
-                                TextSpan(
-                                  text: " Política de privacidad",
-                                  style: TextStyle(
-                                      fontFamily: Strings.fontRegular,
-                                      color: CustomColors.blueActiveDots,
-                                      decoration: TextDecoration.underline),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => launch(
-                                        "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Cliente_Politica_De_Tratamiento_De_Datos_Personales.pdf"),
-                                ),
-                              ],
-                            ),
-                          ))
-                        ],
+                                  fontFamily: Strings.fontRegular,
+                                  fontSize: 12,
+                                  color: CustomColors.blackLetter),
+                            )),
                       ),
+                      SizedBox(height: 10),
+                      itemCheck(
+                              () => providerOnBoarding.stateCentrals =
+                          !providerOnBoarding.stateCentrals,
+                          providerOnBoarding.stateCentrals,
+                          Text(
+                            Strings.authorizedCredit,
+                            style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                fontSize: 12,
+                                color: CustomColors.blackLetter),
+                          )),
+                      SizedBox(height: 10),
+                      itemCheck(() => providerOnBoarding.stateTerms =
+                      !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
                       SizedBox(height: 32),
                     ],
                   ),
@@ -563,10 +450,14 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
     } else if (confirmPassController.text != passwordController.text) {
       msgError = Strings.dontSamePass;
       return false;
-    } else if (!checkDates) {
+    } else if (!providerOnBoarding.stateDates) {
       msgError = Strings.dontCheckDates;
       return false;
-    } else if (!checkTerms) {
+    }
+    else if (!providerOnBoarding.stateCentrals) {
+      msgError = Strings.notCheckCentral;
+      return false;
+    }else if (!providerOnBoarding.stateTerms) {
       msgError = Strings.dontCheckTerms;
       return false;
     }
@@ -587,7 +478,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   _serviceRegister() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnboarding.createAccount(widget.user);
+        Future callUser = providerOnBoarding.createAccount(widget.user);
         await callUser.then((user) {
           utils.startOpenSlideUp(context, user.email, user.fullname);
         }, onError: (error) {

@@ -10,7 +10,7 @@ import 'package:wawamko/src/Providers/GoogleSingInProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/Onboarding/ForgotPasswordEmail.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
 import 'package:wawamko/src/Utils/Constants.dart';

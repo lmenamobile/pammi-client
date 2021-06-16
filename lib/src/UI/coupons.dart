@@ -149,7 +149,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                 width: 74,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: CustomColors.blueProfile,
+                  color: CustomColors.blueOne,
                 ),
                 child: Center(
                   child: Text(
