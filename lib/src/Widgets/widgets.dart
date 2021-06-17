@@ -28,13 +28,7 @@ import 'package:wawamko/src/Widgets/expancion_widget.dart';
 GlobalVariables globalVariables = GlobalVariables();
 NotifyVariablesBloc notifyVariables;
 
-customPageTransition(Widget page) {
-  return PageTransition(
-      curve: Curves.decelerate,
-      child: page,
-      type: PageTransitionType.slideInLeft,
-      duration: Duration(milliseconds: 600));
-}
+
 
 Widget customBoxEmailLogin(TextEditingController emailController,
     NotifyVariablesBloc notifyVariables, Function refresh) {

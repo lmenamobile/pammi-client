@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
+import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
+import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+
+class SubCategoryPage extends StatefulWidget{
+  final Category category;
+
+  const SubCategoryPage({@required this.category});
+  @override
+  _SubCategoryPageState createState() => _SubCategoryPageState();
+}
+
+class _SubCategoryPageState extends State<SubCategoryPage> {
+  ProviderSettings providerSettings;
+  SharePreference prefs = SharePreference();
+  RefreshController _refreshSubCategories =
+  RefreshController(initialRefresh: false);
+  int pageOffset = 0;
+
+
+  @override
+  void initState() {
+    providerSettings = Provider.of<ProviderSettings>(context,listen: false);
+    providerSettings.ltsSubCategories.clear();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getSubCategories(widget.category.id.toString());
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
+    return Scaffold(
+      backgroundColor: CustomColors.redTour,
+      body: SafeArea(
+        child: Container(
+          color: CustomColors.whiteBackGround,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  titleBar(widget.category.category,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
+                  Expanded(
+                      child: SmartRefresher(
+                          controller: _refreshSubCategories,
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          onLoading: _onLoadingToRefresh,
+                          footer: footerRefreshCustom(),
+                          header: headerRefresh(),
+                          onRefresh: _pullToRefresh,
+                          child: SingleChildScrollView(child: listSubcategories())))
+                ],
+              ),
+              Visibility(
+                  visible: providerSettings.isLoading, child: LoadingProgress()),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget listSubcategories() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: providerSettings.ltsSubCategories.isEmpty?0:providerSettings.ltsSubCategories.length,
+        itemBuilder: (BuildContext context, int index) {
+          return itemSubCategoryRow(providerSettings.ltsSubCategories[index], openProductsBySubCategory);
+        },
+      ),
+    );
+  }
+
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshSubCategories.refreshCompleted();
+  }
+
+  void clearForRefresh() {
+    pageOffset = 0;
+    providerSettings.ltsCategories.clear();
+    getSubCategories(widget.category.id.toString());
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+    getSubCategories(widget.category.id.toString());
+    _refreshSubCategories.loadComplete();
+  }
+
+  openProductsBySubCategory(){
+      Navigator.push(context, customPageTransition(ProductCategoryPage()));
+  }
+
+  getSubCategories(String idCategory) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callSettings = providerSettings.getSubCategories(pageOffset, idCategory);
+        await callSettings.then((list) {
+
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+}

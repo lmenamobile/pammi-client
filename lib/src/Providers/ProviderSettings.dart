@@ -5,6 +5,7 @@ import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
+import 'package:wawamko/src/Models/SubCategory.dart';
 
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -70,6 +71,13 @@ class ProviderSettings with ChangeNotifier{
   List<Category> get ltsCategories => this._ltsCategories;
   set ltsCategories(List<Category> value) {
     this._ltsCategories.addAll(value);
+    notifyListeners();
+  }
+
+  List<SubCategory> _ltsSubCategories = List();
+  List<SubCategory> get ltsSubCategories => this._ltsSubCategories;
+  set ltsSubCategories(List<SubCategory> value) {
+    this._ltsSubCategories.addAll(value);
     notifyListeners();
   }
 
@@ -233,6 +241,47 @@ class ProviderSettings with ChangeNotifier{
         this.isLoadingSettings = false;
         this.ltsCategories= listCategories;
         return listCategories;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future<dynamic> getSubCategories(int page,String idCategory) async {
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token":prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      "filter": "",
+      "offset" : page,
+      "limit" : 20,
+      "status": "active",
+      "categoryId":idCategory
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL+"category/get-subcategories", headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<SubCategory> listSubCategories = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final subcategory = SubCategory.fromJson(item);
+          listSubCategories.add(subcategory);
+        }
+        this.isLoadingSettings = false;
+        this._ltsSubCategories= listSubCategories;
+        return listSubCategories;
       } else {
         this.isLoadingSettings = false;
         throw decodeJson['message'];

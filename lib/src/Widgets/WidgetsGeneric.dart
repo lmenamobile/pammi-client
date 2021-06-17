@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
@@ -7,6 +8,14 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+customPageTransition(Widget page) {
+  return PageTransition(
+      curve: Curves.decelerate,
+      child: page,
+      type: PageTransitionType.slideInLeft,
+      duration: Duration(milliseconds: 600));
+}
 
 Widget titleBar(String title, String icon, Function action) {
   return Container(

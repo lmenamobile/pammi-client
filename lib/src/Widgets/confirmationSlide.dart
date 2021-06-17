@@ -7,6 +7,8 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import 'WidgetsGeneric.dart';
+
 
 class ConfirmationSlidePage extends StatefulWidget {
 

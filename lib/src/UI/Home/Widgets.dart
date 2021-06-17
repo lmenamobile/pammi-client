@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
@@ -50,13 +51,14 @@ Widget itemCategory(Category category) {
   );
 }
 
-Widget boxSearchHome( TextEditingController searchController) {
+
+
+Widget boxSearchHome( TextEditingController searchController,Function searchElements) {
   return Container(
     width: double.infinity,
-    margin: EdgeInsets.symmetric(horizontal: 40),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: CustomColors.graySearch.withOpacity(.6)),
+        color: CustomColors.graySearch.withOpacity(.3)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
@@ -73,6 +75,9 @@ Widget boxSearchHome( TextEditingController searchController) {
         Expanded(
           child: TextField(
             controller: searchController,
+            onChanged: (value){
+              searchElements(value);
+            },
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
@@ -125,29 +130,29 @@ Widget itemBrand(Brand brand){
   );
 }
 
-Widget sliderBanner(int indexSlider,Function updateIndex, List banners){
+Widget sliderBanner(int indexSlider,Function updateIndex, List<Banners> banners){
   return Stack(
     children: [
       Swiper(
           itemBuilder:
               (BuildContext context, int index) {
             return Image.network(
-              banners??"http://via.placeholder.com/200x150",
+              banners.isEmpty?"http://via.placeholder.com/200x150":banners[index].image,
               fit: BoxFit.fill,
             );
           },
-          autoplay: true,
-          itemCount: 3,
-          duration: 3000,
+          autoplay: false,
+          itemCount: banners.isEmpty?0:banners.length,
+          duration: 4000,
           onIndexChanged: (index) {
             updateIndex(index);
           }),
-      Positioned(
-        bottom: 5,
+      banners.isEmpty?Container():Positioned(
+        bottom: 10,
         left: 0,
         right: 0,
         child: DotsIndicator(
-          dotsCount: 3,
+          dotsCount: banners.length,
           position: indexSlider.toDouble(),
           decorator: DotsDecorator(
             activeColor: CustomColors.redTour,
@@ -189,7 +194,7 @@ Widget itemProduct(){
                     bottomRight: Radius.circular(5)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: Colors.grey.withOpacity(0.1),
                     spreadRadius: 2,
                     blurRadius: 3,
                     offset: Offset(0, 2), // changes position of shadow

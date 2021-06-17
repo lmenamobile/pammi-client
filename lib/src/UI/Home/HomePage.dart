@@ -5,12 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
-
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'Widgets.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -26,12 +27,6 @@ class _MyHomePageState extends State<MyHomePage> {
   ProviderSettings providerSettings;
   ProviderHome providerHome;
   SharePreference prefs = SharePreference();
-  PageController controllerBanner = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-  int pageOffset = 0;
-  int pageOffsetBrands = 0;
 
   @override
   void initState() {
@@ -114,32 +109,44 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 10,
                 ),
-                boxSearchHome(searchController)
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40),
+                    child: boxSearchHome(searchController,null))
               ],
             ),
           ),
         ),
         Expanded(
           child: SingleChildScrollView(
-            child: Column(
+            child: Stack(
               children: <Widget>[
                 Container(
-                    height: 120,
+                    height: 170,
                     width: double.infinity,
-                    child:sliderBanner(providerHome.indexBannerHeader,updateIndexBannerHeader,null)),
+                    child: sliderBanner(providerHome.indexBannerHeader,
+                        updateIndexBannerHeader, providerHome.ltsBanners)),
                 Container(
-                  color: Colors.white,
+                  margin: EdgeInsets.only(top: 165),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        topLeft: Radius.circular(15),
+                      )),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       sectionCategories(),
                       sectionsBrands(),
-                      sectionHighlight(),
+                      providerHome.ltsBannersOffer.isEmpty
+                          ? Container()
+                          : sectionHighlight(),
                       sectionBestSellers(),
                       Image.asset(
                         "Assets/images/ic_banner.png",
                         width: double.infinity,
-                        fit: BoxFit.fill,)
+                        fit: BoxFit.fill,
+                      )
                     ],
                   ),
                 ),
@@ -151,9 +158,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget sectionCategories(){
+  Widget sectionCategories() {
     return Container(
-      margin: EdgeInsets.only(left: 15,right: 15,top: 20,bottom: 5),
+      margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
       child: Column(
         children: [
           Container(
@@ -167,7 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontSize: 16,
                       fontFamily: Strings.fontBold),
                 ),
-                GestureDetector(
+                InkWell(
+                  onTap: () => Navigator.push(
+                      context, customPageTransition(CategoriesPage())),
                   child: Text(
                     Strings.moreAll,
                     textAlign: TextAlign.end,
@@ -177,14 +186,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 12,
                         fontFamily: Strings.fontBold),
                   ),
-                  onTap: null,
                 ),
               ],
             ),
           ),
           GridView.builder(
-            gridDelegate:
-            new SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               mainAxisSpacing: 10,
               childAspectRatio: 1,
@@ -197,8 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 : providerSettings.ltsCategories.length,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return itemCategory(
-                  providerSettings.ltsCategories[index]);
+              return itemCategory(providerSettings.ltsCategories[index]);
             },
           ),
           customDivider(),
@@ -207,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget sectionsBrands(){
+  Widget sectionsBrands() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: Column(
@@ -254,13 +260,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget sectionHighlight(){
+  Widget sectionHighlight() {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Text(
               Strings.findHere,
               style: TextStyle(
@@ -302,7 +308,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
               height: 200,
               width: double.infinity,
-              child:sliderBanner(providerHome.indexBannerFooter,updateIndexBannerFooter,null)),
+              child: sliderBanner(providerHome.indexBannerFooter,
+                  updateIndexBannerFooter, providerHome.ltsBannersOffer)),
           SizedBox(
             height: 10,
           ),
@@ -311,7 +318,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget sectionBestSellers(){
+  Widget sectionBestSellers() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: Column(
@@ -384,19 +391,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  updateIndexBannerFooter(int index){
+  updateIndexBannerFooter(int index) {
     providerHome.indexBannerFooter = index;
   }
 
-  updateIndexBannerHeader(int index){
+  updateIndexBannerHeader(int index) {
     providerHome.indexBannerHeader = index;
   }
 
   serviceGetCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callSettings = providerSettings.getCategoriesInterest(
-            "", pageOffset, prefs.countryIdUser);
+        Future callSettings =
+            providerSettings.getCategoriesInterest("", 0, prefs.countryIdUser);
         await callSettings.then((list) {
           getBrands();
         }, onError: (error) {
@@ -411,7 +418,37 @@ class _MyHomePageState extends State<MyHomePage> {
   getBrands() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callHome = providerHome.getBrands(pageOffsetBrands.toString());
+        Future callHome = providerHome.getBrands("0");
+        await callHome.then((list) {
+          getBanners();
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getBanners() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callHome = providerHome.getBannersGeneral("0");
+        await callHome.then((list) {
+          getBannersOffer();
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getBannersOffer() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callHome = providerHome.getBannersOffer("0");
         await callHome.then((list) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

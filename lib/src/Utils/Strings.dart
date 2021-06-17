@@ -95,6 +95,8 @@ class Strings {
   static const String apply = 'Aplicar';
   static const String campaigns = 'Campañas';
 
+  /*categories*/
+
 
 
   //Dialog select document

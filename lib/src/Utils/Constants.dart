@@ -15,4 +15,7 @@ class Constants {
   static const int isViewPassword = 1;
   static const int isViewLogin = 2;
 
+  static const String bannerGeneral = 'ex';
+  static const String bannerOffer = 'in';
+
 }

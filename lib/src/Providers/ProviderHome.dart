@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -38,6 +39,20 @@ class ProviderHome with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Banners> _ltsBanners = List();
+  List<Banners> get ltsBanners => this._ltsBanners;
+  set ltsBanners(List<Banners> value) {
+    this._ltsBanners.addAll(value);
+    notifyListeners();
+  }
+
+  List<Banners> _ltsBannersOffer = List();
+  List<Banners> get ltsBannersOffer => this._ltsBannersOffer;
+  set ltsBannersOffer(List<Banners> value) {
+    this._ltsBannersOffer.addAll(value);
+    notifyListeners();
+  }
+
   Future<dynamic> getBrands(String offset) async {
     this.isLoadingHome = true;
     final header = {
@@ -69,6 +84,92 @@ class ProviderHome with ChangeNotifier {
         this.isLoadingHome = false;
         this.ltsBrands = listBrand;
         return listBrand;
+      } else {
+        this.isLoadingHome = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingHome = false;
+      throw decodeJson['message'];
+    }
+
+  }
+
+  Future<dynamic> getBannersGeneral(String offset) async {
+    this.isLoadingHome = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      'filter': "",
+      'offset': offset,
+      'limit': 20,
+      "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "type": Constants.bannerGeneral
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "home/get-banners",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingHome = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<Banners> listBanner = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final banner = Banners.fromJson(item);
+          listBanner.add(banner);
+        }
+        this.isLoadingHome = false;
+        this.ltsBanners = listBanner;
+        return listBanner;
+      } else {
+        this.isLoadingHome = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingHome = false;
+      throw decodeJson['message'];
+    }
+
+  }
+
+  Future<dynamic> getBannersOffer(String offset) async {
+    this.isLoadingHome = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      'filter': "",
+      'offset': offset,
+      'limit': 20,
+      "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "type": Constants.bannerOffer
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "home/get-banners",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingHome = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<Banners> listBanner = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final banner = Banners.fromJson(item);
+          listBanner.add(banner);
+        }
+        this.isLoadingHome = false;
+        this.ltsBannersOffer = listBanner;
+        return listBanner;
       } else {
         this.isLoadingHome = false;
         throw decodeJson['message'];
