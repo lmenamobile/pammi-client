@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Models/SubCategory.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
@@ -105,8 +106,8 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
     _refreshSubCategories.loadComplete();
   }
 
-  openProductsBySubCategory(){
-      Navigator.push(context, customPageTransition(ProductCategoryPage()));
+  openProductsBySubCategory(SubCategory subCategory){
+      Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: widget.category.id.toString(),idSubcategory: subCategory.id.toString(),)));
   }
 
   getSubCategories(String idCategory) async {

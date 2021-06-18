@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
+import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),
         ChangeNotifierProvider(create: (_) => ProviderHome()),
+        ChangeNotifierProvider(create: (_) => ProviderProducts()),
       ],
       child: MaterialApp(
         title: Strings.appName,

@@ -97,6 +97,8 @@ class Strings {
 
   /*categories*/
 
+  /*DetailProduct*/
+  static const String references = 'Referencias';
 
 
   //Dialog select document
