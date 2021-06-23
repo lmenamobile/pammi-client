@@ -98,7 +98,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 17,
-                        color: CustomColors.letterGray
+                        color: CustomColors.gray7
                       ),
                     ),
                     SizedBox(height: 20),

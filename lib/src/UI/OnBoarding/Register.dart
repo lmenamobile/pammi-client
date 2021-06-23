@@ -147,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Strings.registerMsg,
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
-                              color: CustomColors.grayLetter),
+                              color: CustomColors.gray7),
                         ),
                         SizedBox(height: 13),
                          Column(

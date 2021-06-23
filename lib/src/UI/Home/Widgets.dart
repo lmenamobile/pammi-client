@@ -51,6 +51,49 @@ Widget itemCategory(Category category) {
   );
 }
 
+Widget boxSearchNextPage( TextEditingController searchController,Function searchElements) {
+  return Container(
+    width: double.infinity,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: CustomColors.graySearch.withOpacity(.3)),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 10,right: 10),
+          child: Image(
+            height: 20,
+            color: Colors.white,
+            image: AssetImage("Assets/images/ic_seeker.png"),
+          ),
+        ),
+        Expanded(
+          child: TextField(
+            controller: searchController,
+            onSubmitted: (value){
+             searchElements();
+            },
+            style: TextStyle(
+                fontFamily: Strings.fontRegular,
+                fontSize: 15,
+                color: Colors.white),
+            decoration: InputDecoration(
+                hintText: Strings.search,
+                isDense: true,
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 15,
+                    color: Colors.white)),
+          ),
+        )
+      ],
+    ),
+  );
+}
 
 
 Widget boxSearchHome( TextEditingController searchController,Function searchElements) {
@@ -246,7 +289,7 @@ Widget itemProduct(){
                   style: TextStyle(
                       fontSize: 11,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.grayLetter),
+                      color: CustomColors.gray7),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 5),

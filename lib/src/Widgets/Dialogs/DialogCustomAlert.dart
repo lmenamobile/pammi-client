@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -66,7 +68,7 @@ class DialogCustomAlert extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              child: btnCustom(Strings.btnAccept, CustomColors.blueSplash,
+              child: btnCustom(null,Strings.btnAccept, CustomColors.blueSplash,
                   Colors.white, () => Navigator.pop(context, true)),
             ),
             SizedBox(

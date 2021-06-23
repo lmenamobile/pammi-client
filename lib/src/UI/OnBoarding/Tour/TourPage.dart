@@ -126,7 +126,7 @@ class _FirstPageTourState extends State<TourPage> {
                 style: TextStyle(
                     fontSize: 20,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.grayLetter),
+                    color: CustomColors.gray7),
                 textAlign: TextAlign.center,
               )
             ],
@@ -165,7 +165,7 @@ class _FirstPageTourState extends State<TourPage> {
                 style: TextStyle(
                     fontSize: 20,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.grayLetter),
+                    color: CustomColors.gray7),
                 textAlign: TextAlign.center,
               )
             ],
@@ -208,7 +208,7 @@ class _FirstPageTourState extends State<TourPage> {
                 style: TextStyle(
                     fontSize: 20,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.grayLetter),
+                    color: CustomColors.gray7),
                 textAlign: TextAlign.center,
               )
             ],

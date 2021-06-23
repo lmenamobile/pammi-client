@@ -191,7 +191,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                               hintStyle: TextStyle(
                                   fontFamily: Strings.fontRegular,
                                   fontSize: 15,
-                                  color: CustomColors.grayLetter
+                                  color: CustomColors.gray7
                               )
                           ),
                         ),
@@ -249,7 +249,7 @@ class _ListProductByCategoriesState extends State<ListProductByCategories> {
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 10,
-                              color: CustomColors.grayLetter
+                              color: CustomColors.gray7
                           ),
 
                         ),

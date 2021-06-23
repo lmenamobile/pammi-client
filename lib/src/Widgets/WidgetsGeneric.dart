@@ -57,10 +57,10 @@ Widget titleBar(String title, String icon, Function action) {
   );
 }
 
-Widget btnCustom(String nameButton, Color colorBackground, Color colorText,
+Widget btnCustom(double width,String nameButton, Color colorBackground, Color colorText,
     Function action) {
   return Container(
-    width: 200,
+    width: width??200,
     height: 40,
     child: AnimateButton(
       pressEvent: action,
@@ -110,6 +110,43 @@ Widget btnCustomIcon(String asset, String nameButton, Color colorBackground,
                 "Assets/images/$asset",
                 width: 20,
               )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget btnCustomIconLeft(String asset, String nameButton, Color colorBackground,
+    Color colorText, Function action) {
+  return Container(
+    width: double.infinity,
+    height: 40,
+    child: AnimateButton(
+      pressEvent: action,
+      body: Container(
+        decoration: BoxDecoration(
+            color: colorBackground,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        child: Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                "Assets/images/$asset",
+                width: 20,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                nameButton,
+                style: TextStyle(
+                  fontFamily: Strings.fontMedium,
+                  color: colorText,
+                ),
+              ),
             ],
           ),
         ),
@@ -171,7 +208,7 @@ Widget customTextFieldIcon(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.grayLetter.withOpacity(.4),
+          color: CustomColors.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -190,7 +227,7 @@ Widget customTextFieldIcon(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.grayLetter.withOpacity(.4),
+                  color: CustomColors.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -281,7 +318,7 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                     color: CustomColors.blueGray),
               ),
               SizedBox(height: 23),
-              btnCustom(titleButton, CustomColors.blueSplash, Colors.white, action),
+              btnCustom(null,titleButton, CustomColors.blueSplash, Colors.white, action),
               SizedBox(height: 25),
             ],
           ),
@@ -338,7 +375,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.grayLetter,
+                          color: CustomColors.gray7,
                           fontSize: 15),
                     ),
                   ),

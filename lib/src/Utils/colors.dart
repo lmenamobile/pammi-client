@@ -14,12 +14,21 @@ class CustomColors {
   static final darkBlue = const Color(0xff201547);
   static final darkLetter = const Color(0xff2F2F2F);
   static final garyHint = const Color(0xff20154741);
+  static final black1 = const Color(0xff313131);
+  static final black2 = const Color(0xff424A50);
+  static final grayBackground = const Color(0xffF2F2F2);
   static final gray = const Color(0xff888888);
   static final gray2 = const Color(0xffEDEDED);
-  static final grayThree = const Color(0xffEFEFEF);
+  static final gray3 = const Color(0xffF7F7F783);
   static final gray4 = const Color(0xffB2B2B2);
   static final gray5 = const Color(0xffDFDAE7);
   static final gray6 = const Color(0xffC6C6C6);
+  static final gray7 = const Color(0xff767676);
+  static final grayThree = const Color(0xffEFEFEF);
+  static final greyBorder = const Color(0xffE6E6E6);
+  static final greyBackground = const Color(0xffFCFCFC);
+  static final grayOne = const Color(0xffCACCCF);
+  static final blackLetter = const Color(0xff484848);
   static final greenValid = const Color(0xff64D38C);
   static final blueSplash = const Color(0xff07213E);
   static final blueDarkSplash = const Color(0xff0D0D0D);
@@ -53,14 +62,12 @@ class CustomColors {
   static final blueActiveDots = const Color(0xff168DD8);
   static final blueOne = const Color(0xff0078C4);
 
-  static final blackLetter = const Color(0xff484848);
-  static final grayLetter = const Color(0xff767676);
+ 
   static final blueTitle = const Color(0xff121D3A);
   static final blueClose = const Color.fromRGBO(126, 197, 233, 1);
-  static final grayBackground = const Color(0xffF2F2F2);
+
 
   static final letterDarkBlue = const Color(0xff000000);
-  static final letterGray = const Color(0xff767676);
   static final splashColor = const Color(0xff333333);
   static final blue = const Color(0xff008DD8);
   static final yellow = const Color(0xffEA7700);
@@ -73,10 +80,7 @@ class CustomColors {
   static final des1 = const Color(0xffF4F7FF);
   static final des2 = const Color(0xffFEF7E4);
   static final des3 = const Color(0xffFBEFEF);
-  static final greyBorder = const Color(0xffE6E6E6);
-  static final greyBackground = const Color(0xffFCFCFC);
-  static final grayOne = const Color(0xffCACCCF);
-  static final gray3 = const Color(0xffF7F7F783);
+ 
 
 
 

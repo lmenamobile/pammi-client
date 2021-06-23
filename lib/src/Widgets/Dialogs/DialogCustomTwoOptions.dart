@@ -71,7 +71,7 @@ class DialogCustomTwoOptions extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: btnCustom(
+                    child: btnCustom(null,
                             Strings.btnCancel,
                             CustomColors.splashColor,
                             Colors.white,
@@ -83,7 +83,8 @@ class DialogCustomTwoOptions extends StatelessWidget {
                     height: 20,
                   ),
                   Expanded(
-                    child: btnCustom(Strings.btnAccept, CustomColors.blueSplash, Colors.white,
+                    child: btnCustom(null,
+                        Strings.btnAccept, CustomColors.blueSplash, Colors.white,
                         () => Navigator.pop(context, true)),
                   ),
                 ],

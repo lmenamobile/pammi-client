@@ -180,7 +180,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           style: TextStyle(
                               fontFamily: Strings.fontBold,
                               fontSize: 15,
-                              color: CustomColors.grayLetter
+                              color: CustomColors.gray7
                           ),
                         ),
                         Text(
@@ -196,7 +196,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 12,
-                              color: CustomColors.grayLetter
+                              color: CustomColors.gray7
                           ),
                         ),
                         Text(
@@ -407,7 +407,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 11,
-                    color: CustomColors.grayLetter
+                    color: CustomColors.gray7
                   )
                   ,
                 ),

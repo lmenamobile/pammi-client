@@ -362,7 +362,7 @@ class _Utils {
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Text(textAlert,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: Strings.fontRegular,color: CustomColors.grayLetter,fontSize: 15),),
+                        style: TextStyle(fontFamily: Strings.fontRegular,color: CustomColors.gray7,fontSize: 15),),
 
                     ),
                     SizedBox(height: 15),

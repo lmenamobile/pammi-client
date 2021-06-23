@@ -147,7 +147,7 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                     Text(
                       Strings.shareCode,
                       style: TextStyle(
-                          color: CustomColors.grayLetter,
+                          color: CustomColors.gray7,
                           fontFamily: Strings.fontBold,),
                     ),
                     SizedBox(height: 8,),

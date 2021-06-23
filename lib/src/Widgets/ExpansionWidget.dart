@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:wawamko/src/Utils/colors.dart';
-
-
 const Duration _kExpand = Duration(milliseconds: 200);
 
 /// A single-line [ListTile] with a trailing button that expands or collapses
@@ -216,21 +213,6 @@ class _ExpansionWidgetState extends State<ExpansionWidget> with SingleTickerProv
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          /*  ListTileTheme.merge(
-            iconColor: _iconColor.value,
-            textColor: _headerColor.value,
-            child: ListTile(
-              onTap: _handleTap,
-              contentPadding: widget.tilePadding,
-              leading: widget.leading,
-              title: widget.title,
-              subtitle: widget.subtitle,
-              trailing: widget.trailing ?? RotationTransition(
-                turns: _iconTurns,
-                child: const Icon(Icons.expand_more),
-              ),
-            ),
-          ),*/
           ListTileTheme.merge(
               iconColor: _iconColor.value,
               textColor: _headerColor.value,
@@ -246,7 +228,7 @@ class _ExpansionWidgetState extends State<ExpansionWidget> with SingleTickerProv
                         width: 30,
                         height: 30,
                         decoration: BoxDecoration(
-                          color: CustomColors.white,
+                          color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: InkWell(

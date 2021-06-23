@@ -1,29 +1,24 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Category.dart';
-import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
-import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 import 'package:wawamko/src/UI/detailProduct.dart';
-import 'package:wawamko/src/UI/SearchCountryAndCity/selectCity.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/expancion_widget.dart';
+import 'ExpansionWidget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
 NotifyVariablesBloc notifyVariables;
@@ -60,7 +55,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 width: 1,
                 height: 25,
-                color: CustomColors.grayLetter.withOpacity(.4),
+                color: CustomColors.gray7.withOpacity(.4),
               ),
               SizedBox(width: 5,),
               Expanded(
@@ -75,7 +70,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
                       isDense: true,
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        color: CustomColors.grayLetter.withOpacity(.4),
+                        color: CustomColors.gray7.withOpacity(.4),
                         fontSize: 16,
                         fontFamily: Strings.fontRegular,
                       ),
@@ -131,7 +126,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 width: 1,
                 height: 25,
-                color: CustomColors.grayLetter.withOpacity(.4),
+                color: CustomColors.gray7.withOpacity(.4),
               ),
               SizedBox(width: 5,),
               Expanded(
@@ -146,7 +141,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
                       isDense: true,
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        color: CustomColors.grayLetter.withOpacity(.4),
+                        color: CustomColors.gray7.withOpacity(.4),
                         fontSize: 16,
                         fontFamily: Strings.fontRegular,
                       ),
@@ -203,7 +198,7 @@ Widget customBoxEmailRegister(TextEditingController emailController,
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(width: 5,),
                   Expanded(
@@ -218,7 +213,7 @@ Widget customBoxEmailRegister(TextEditingController emailController,
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.email,
@@ -436,14 +431,14 @@ Widget itemAddress(Address address, Function action, BuildContext context,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.grayLetter),
+                      color: CustomColors.gray7),
                 ),
                 Text(
                   address.name ?? "",
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.grayLetter),
+                      color: CustomColors.gray7),
                 )
               ],
             ),
@@ -519,7 +514,7 @@ Widget customTextField(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.grayLetter.withOpacity(.4),
+          color: CustomColors.gray7.withOpacity(.4),
         ),
         SizedBox(width: 5,),
         Expanded(
@@ -536,7 +531,7 @@ Widget customTextField(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.grayLetter.withOpacity(.4),
+                  color: CustomColors.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -572,7 +567,7 @@ Widget customTextFieldAction(String icon, String hintText,
             margin: EdgeInsets.symmetric(horizontal: 5),
             width: 1,
             height: 25,
-            color: CustomColors.grayLetter.withOpacity(.4),
+            color: CustomColors.gray7.withOpacity(.4),
           ),
           SizedBox(width: 5,),
           Expanded(
@@ -588,7 +583,7 @@ Widget customTextFieldAction(String icon, String hintText,
                   isDense: true,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                     fontFamily: Strings.fontRegular,
                   ),
                   hintText: hintText,
@@ -650,7 +645,7 @@ Widget itemProductFirstDestacado() {
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 11,
-                    color: CustomColors.letterGray),
+                    color: CustomColors.gray7),
               ),
               SizedBox(height: 7),
               Text(
@@ -716,7 +711,7 @@ Widget itemProductDestacado() {
                         style: TextStyle(
                             fontSize: 9,
                             fontFamily: Strings.fontBold,
-                            color: CustomColors.letterGray),
+                            color: CustomColors.gray7),
                       ),
                       Text(
                         "Audifonos Stereo Bluetooth",
@@ -829,7 +824,7 @@ Widget itemProduct(bool border, BuildContext context) {
                       decoration: TextDecoration.lineThrough,
                       fontSize: 10,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.letterGray),
+                      color: CustomColors.gray7),
                 ),
                 SizedBox(height: 20),
               ],
@@ -907,7 +902,7 @@ Widget itemDestacado(BuildContext context) {
                       decoration: TextDecoration.lineThrough,
                       fontSize: 10,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.letterGray),
+                      color: CustomColors.gray7),
                 ),
                 SizedBox(height: 20),
               ],
@@ -1270,7 +1265,7 @@ Widget itemCarrito(BuildContext context) {
                             "HP",
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColors.grayLetter,
+                                color: CustomColors.gray7,
                                 fontSize: 9),
                           ),
                           Text(
@@ -1285,7 +1280,7 @@ Widget itemCarrito(BuildContext context) {
                             "1 Producto",
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColors.grayLetter,
+                                color: CustomColors.gray7,
                                 fontSize: 9),
                           ),
                           SizedBox(height: 12),

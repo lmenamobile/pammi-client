@@ -154,7 +154,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColors.grayLetter)),
+                        color: CustomColors.gray7)),
               ),
             )
           ],

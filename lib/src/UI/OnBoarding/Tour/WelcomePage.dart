@@ -81,7 +81,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: btnCustomRounded(CustomColors.white,
-                      CustomColors.grayLetter, Strings.begin, () {
+                      CustomColors.gray7, Strings.begin, () {
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => MyHomePage()),
                         (Route<dynamic> route) => false);

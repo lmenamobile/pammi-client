@@ -77,7 +77,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 12,
-                  color: CustomColors.grayLetter
+                  color: CustomColors.gray7
               ),
             ),
 
@@ -122,7 +122,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                     Container(
                       height: 1,
                       width: 72,
-                      color: CustomColors.grayLetter,
+                      color: CustomColors.gray7,
                     ),
                   ],
                 ),

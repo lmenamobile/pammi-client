@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/SubCategory.dart';
@@ -152,7 +156,7 @@ Widget itemProductCategory(Product product, Function openDetail){
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.grayLetter,
+                          color: CustomColors.gray7,
                         ),
                       ),
                       Text(
@@ -210,6 +214,73 @@ Widget favorite(bool isFavorite){
         size: 20,
         color: isFavorite?CustomColors.redTour:CustomColors.gray5,
       ),
+    ),
+  );
+}
+
+Widget rowButtonsMoreAndLess(){
+  return  Container(
+    margin: EdgeInsets.symmetric(vertical: 10),
+    child: Row(
+      children: [
+        buttonMoreOrLess(Icons.remove, null),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            "0",
+            style: TextStyle(
+                fontSize: 25,
+                fontFamily: Strings.fontBold,
+                color: CustomColors.blueSplash),
+          ),
+        ),
+        buttonMoreOrLess(Icons.add, null),
+      ],
+    ),
+  );
+}
+
+Widget buttonMoreOrLess(IconData icon, Function action){
+  return Container(
+    width: 30,
+    height: 30,
+    child: AnimateButton(
+
+      pressEvent: ()=> action(),
+      body: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+            color: CustomColors.blueSplash,
+            borderRadius: BorderRadius.all(Radius.circular(6))
+        ),
+        child: Center(
+          child: Icon(
+            icon,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget rowStars(double qualify){
+  return  Container(
+    margin: EdgeInsets.symmetric(vertical: 5),
+    child: RatingBar.builder(
+      initialRating: qualify,
+      minRating: 1,
+      itemSize: 20,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      ignoreGestures: true,
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {},
     ),
   );
 }

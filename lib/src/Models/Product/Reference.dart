@@ -12,6 +12,8 @@ class Reference {
     this.qty,
     this.color,
     this.images,
+    this.qualification,
+    this.isSelected
   });
 
   int id;
@@ -21,7 +23,9 @@ class Reference {
   String iva;
   String qty;
   String color;
+  String qualification;
   List<ImageProduct> images;
+  bool isSelected = false;
 
   factory Reference.fromJson(Map<String, dynamic> json) => Reference(
     id: json["id"],
@@ -31,6 +35,8 @@ class Reference {
     iva: json["iva"].toString(),
     qty: json["qty"].toString(),
     color: json["color"],
+    isSelected: false,
+    qualification: json["qualification"]==null?'0':json["qualification"].toString(),
     images: List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
   );
 

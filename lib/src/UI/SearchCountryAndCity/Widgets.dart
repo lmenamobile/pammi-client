@@ -42,7 +42,7 @@ Widget boxSearchCountries(TextEditingController controllerSearch,Function search
                   hintStyle: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.grayLetter)),
+                      color: CustomColors.gray7)),
             ),
           )
         ],

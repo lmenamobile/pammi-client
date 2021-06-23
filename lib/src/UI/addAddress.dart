@@ -404,7 +404,7 @@ class _AddAddressPageState extends State<AddAddressPage>
             style: TextStyle(
                 fontSize: 15,
                 fontFamily: Strings.fontRegular,
-                color: CustomColors.grayLetter),
+                color: CustomColors.gray7),
           ),
           Row(
             children: <Widget>[
@@ -430,7 +430,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                           hintStyle: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 17,
-                              color: CustomColors.grayLetter.withOpacity(.4))),
+                              color: CustomColors.gray7.withOpacity(.4))),
                     ),
                     Container(
                       height: 2,

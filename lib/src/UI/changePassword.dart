@@ -175,7 +175,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -193,7 +193,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
@@ -254,7 +254,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -272,7 +272,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
@@ -333,7 +333,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -351,7 +351,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),

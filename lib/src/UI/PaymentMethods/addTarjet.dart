@@ -74,7 +74,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
             hintStyle: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColors.grayLetter.withOpacity(.4))),
+                color: CustomColors.gray7.withOpacity(.4))),
       ),
     );
   }

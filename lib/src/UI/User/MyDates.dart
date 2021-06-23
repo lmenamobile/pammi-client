@@ -218,7 +218,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       child: btnRoundedCustom(
                                           30,
                                           CustomColors.white,
-                                          CustomColors.letterGray,
+                                          CustomColors.gray7,
                                           Strings.edit, () {
                                         profileProvider.isEditProfile = true;
                                       })),

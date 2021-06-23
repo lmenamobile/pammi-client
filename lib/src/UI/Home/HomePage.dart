@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
+import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 40),
-                    child: boxSearchHome(searchController,null))
+                    child: boxSearchNextPage(searchController,openPageSearch))
               ],
             ),
           ),
@@ -389,6 +390,10 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  openPageSearch(){
+    Navigator.push(context, customPageTransition(SearchProductHome(textSearch: searchController.text,)));
   }
 
   updateIndexBannerFooter(int index) {

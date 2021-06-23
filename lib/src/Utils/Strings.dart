@@ -72,6 +72,7 @@ class Strings {
 
   //Home
   static const String search = 'Buscar';
+  static const String searcher = 'Buscador';
   static const String categories = 'Categorías';
   static const String moreAll = 'Mostrar todas';
   static const String findHere = 'Encuentra aquí';
@@ -99,6 +100,12 @@ class Strings {
 
   /*DetailProduct*/
   static const String references = 'Referencias';
+  static const String paymentNow = 'Pagar ahora';
+  static const String addCartShop = 'Agregar al carrito';
+  static const String productInformation = 'Información de producto';
+  static const String description = 'Descripción';
+  static const String conditions = 'Condiciones';
+  static const String comments = 'Comentarios';
 
 
   //Dialog select document

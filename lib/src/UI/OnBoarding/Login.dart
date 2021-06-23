@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 14,
-                      color: CustomColors.grayLetter),
+                      color: CustomColors.gray7),
                 ),
                 SizedBox(height: 23),
                 Row(
@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -255,7 +255,7 @@ class _LoginPageState extends State<LoginPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),

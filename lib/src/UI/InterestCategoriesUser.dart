@@ -132,7 +132,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                                   EdgeInsets.only(left: 50, right: 50, bottom: 20),
                               child: btnCustomRounded(
                                   CustomColors.white,
-                                  CustomColors.grayLetter,
+                                  CustomColors.gray7,
                                   Strings.next,
                                   validateCategoriesSelected,
                                   context),
