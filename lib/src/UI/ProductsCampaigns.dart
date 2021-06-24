@@ -100,7 +100,7 @@ class _ProductsCampaignsPageState extends State<ProductsCampaignsPage> {
 
                     itemCount: 20,
 
-                    itemBuilder: (BuildContext context, int index) =>itemDestacado(context),
+                    itemBuilder: (BuildContext context, int index) =>null,
                     staggeredTileBuilder: (int index) =>
                     new StaggeredTile.count(1,1.2),
                     mainAxisSpacing: 8,

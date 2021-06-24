@@ -96,6 +96,11 @@ class Strings {
   static const String apply = 'Aplicar';
   static const String campaigns = 'Campañas';
 
+  /*Comment*/
+  static const String comment = 'Comentario';
+  static const String informationProduct = 'Información del producto';
+  static const String textCommentProduct = 'Sentimos no encontrar lo que estás buscando, escribe tu correo y la descripción del artículo:';
+
   /*categories*/
 
   /*DetailProduct*/
@@ -205,6 +210,7 @@ class Strings {
   static const String  errorSelectPhoto = 'No fue posible seleccionar la foto';
   static const String  emptyEmail = 'Debes ingresar el correo electronico';
   static const String  passwordEmpty  = 'Debes ingresar la contraseña';
+  static const String  commentEmpty  = 'Debes ingresar un comentario';
   static const String  addressEmpty  = 'Debes ingresar una dirección';
   static const String  emptyFields  = 'Campos incompletos';
   static const String  emailInvalid = 'El correo electronico no es valido';
@@ -290,6 +296,9 @@ class Strings {
   static const String emptyCountries                       = "Aún no estamos en tu país, lo estaremos próximamente.";
   static const String emptyStates                          = "Aún no estamos en este estado, lo estaremos próximamente.";
   static const String emptyCities                          = "Aún no estamos en esta ciudad, lo estaremos próximamente.";
+
+  static const String sorrySearch                          = "¡Lo sentimos!";
+  static const String emptySearchProducts                  = "No encontramos resultados para esta busqueda. Notifica al administrador el producto que estas buscando.";
 
   static const String errorCodeReferred                = "No tienes un codigo de referido aun";
   //Fonts

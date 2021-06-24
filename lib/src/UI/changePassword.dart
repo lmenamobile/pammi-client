@@ -117,7 +117,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           style: TextStyle(
                               fontSize: 15,
                               fontFamily: Strings.fontRegular,
-                              color: CustomColors.blueGray),
+                              color: CustomColors.gray8),
                         ),
                         SizedBox(height: 28),
                         txtCurrentPassword(

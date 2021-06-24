@@ -393,7 +393,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   openPageSearch(){
-    Navigator.push(context, customPageTransition(SearchProductHome(textSearch: searchController.text,)));
+    FocusScope.of(context).unfocus();
+    if(searchController.text.isNotEmpty) {
+      Navigator.push(context, customPageTransition(
+          SearchProductHome(textSearch: searchController.text,)));
+    }
   }
 
   updateIndexBannerFooter(int index) {

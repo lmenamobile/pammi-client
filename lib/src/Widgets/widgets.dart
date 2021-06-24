@@ -11,7 +11,7 @@ import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
 import 'package:wawamko/src/UI/ProductsCampaigns.dart';
-import 'package:wawamko/src/UI/detailProduct.dart';
+
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 
@@ -739,266 +739,11 @@ Widget itemProductDestacado() {
       ));
 }
 
-Widget itemProduct(bool border, BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(right: 10),
-      // height: 300,
-      width: 152,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all(
-              color: border
-                  ? CustomColors.gray.withOpacity(.3)
-                  : CustomColors.white,
-              width: 1.3),
-          color: CustomColors.white),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: CustomColors.red.withOpacity(.8)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "20%",
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 8,
-                        color: CustomColors.white),
-                  ),
-                  Text(
-                    "DCT",
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 4,
-                        color: CustomColors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            // color: CustomColors.green,
-            width: double.infinity,
-            margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-            child: Image(
-              image: NetworkImage(
-                  "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-              height: 81,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 100, right: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "Tenis Adidas Mujer Moda Vl Court 2.0",
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontFamily: Strings.fontBold,
-                        color: CustomColors.blackLetter),
-                  ),
-                ),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.orange),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      fontSize: 10,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.gray7),
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-          )
-          //eSTRELLas
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: DetailProductPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
 
-Widget itemDestacado(BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(right: 10),
-      // height: 300,
-      width: 152,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          //border: Border.all(color: border ? CustomColors.gray.withOpacity(.3) : CustomColors.white ,width: 1.3),
 
-          color: CustomColors.white),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            // color: CustomColors.green,
-            width: double.infinity,
-            margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-            child: Image(
-              image: NetworkImage(
-                  "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-              height: 81,
-            ),
-          ),
-          SizedBox(height: 5),
-          Container(
-            margin: EdgeInsets.only(top: 100, left: 15, right: 15),
-            height: 1,
-            width: double.infinity,
-            color: CustomColors.grayBackground,
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, top: 110, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "Tenis Adidas Mujer Moda Vl Court 2.0",
-                    style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: Strings.fontBold,
-                        color: CustomColors.blackLetter),
-                  ),
-                ),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.orange),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      fontSize: 10,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.gray7),
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-          )
-          //eSTRELLas
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: DetailProductPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
 
-Widget itemFirsOfertas(BuildContext context) {
-  return Container(
-    width: double.infinity,
-    child: Stack(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(right: 30),
-          child: Center(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Ofertas del día",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: Strings.fontRegular,
-                            color: CustomColors.orange),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 50),
-                        child: Text(
-                          "Altavoz inteligente para el hogar con el Asistente de Google ",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: Strings.fontBold,
-                              color: CustomColors.blackLetter),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        r"$129.000",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: Strings.fontBold,
-                            color: CustomColors.orange),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    //width: 400,
-                    height: 200,
 
-                    child: Image(
-                      width: 500,
-                      fit: BoxFit.fitHeight,
-                      image: NetworkImage(
-                          "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Image(
-            width: 35,
-            height: 35,
-            image: AssetImage("Assets/images/ic_orange_arrow.png"),
-          ),
-        ),
-      ],
-    ),
-  );
-}
+
 
 Widget itemHelpCenter(String question, Function action) {
   return GestureDetector(
@@ -1120,7 +865,7 @@ Widget notifyInternet(String image, String title, String text,
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 22,
-              color: CustomColors.blueGray,
+              color: CustomColors.gray8,
             ),
           ),
           SizedBox(height: 3),
@@ -1130,7 +875,7 @@ Widget notifyInternet(String image, String title, String text,
             style: TextStyle(
               fontFamily: Strings.fontRegular,
               fontSize: 15,
-              color: CustomColors.blueGray,
+              color: CustomColors.gray8,
             ),
           ),
           SizedBox(height: 20),
@@ -1167,7 +912,7 @@ Widget emptyAdd(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -1176,7 +921,7 @@ Widget emptyAdd(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 23),
               btnCustomRounded(
@@ -1215,7 +960,7 @@ Widget emptyInfo(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -1224,7 +969,7 @@ Widget emptyInfo(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 25),
             ],
@@ -1235,146 +980,6 @@ Widget emptyInfo(String image, String title, String text, String titleButton,
   );
 }
 
-Widget itemCarrito(BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadiusDirectional.all(Radius.circular(11)),
-          color: CustomColors.white),
-      child: Stack(
-        children: <Widget>[
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 30),
-              child: Container(
-                margin: EdgeInsets.only(right: 100),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: NetworkImage(
-                          "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-                      width: 75,
-                      height: 75,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "HP",
-                            style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                color: CustomColors.gray7,
-                                fontSize: 9),
-                          ),
-                          Text(
-                            "Portátil ideapad s145-14api amd r3",
-                            style: TextStyle(
-                                fontFamily: Strings.fontBold,
-                                color: CustomColors.blackLetter,
-                                fontSize: 12),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "1 Producto",
-                            style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                color: CustomColors.gray7,
-                                fontSize: 9),
-                          ),
-                          SizedBox(height: 12),
-                          Text(
-                            r"$ 1.899.900 COP",
-                            style: TextStyle(
-                                fontFamily: Strings.fontBold,
-                                color: CustomColors.orange,
-                                fontSize: 11),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 9,
-            left: 28,
-            child: GestureDetector(
-              child: Text(
-                "Editar",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: Strings.fontRegular,
-                    color: CustomColors.blueOne,
-                    decoration: TextDecoration.underline),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 5,
-            right: 5,
-            child: GestureDetector(
-              child: Image(
-                width: 30,
-                height: 30,
-                fit: BoxFit.fill,
-                image: AssetImage("Assets/images/ic_close_table.png"),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 6,
-            bottom: 11,
-            child: Container(
-              width: 96,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  SpringButton(
-                    SpringButtonType.OnlyScale,
-                    Image(
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.fill,
-                      image: AssetImage("Assets/images/ic_negative.png"),
-                    ),
-                    onTapUp: (_) {},
-                  ),
-                  Text(
-                    "0",
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 20,
-                        color: CustomColors.blackLetter),
-                  ),
-                  SpringButton(
-                    SpringButtonType.OnlyScale,
-                    Image(
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.fill,
-                      image: AssetImage("Assets/images/ic_add.png"),
-                    ),
-                    onTapUp: (_) {},
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: DetailProductPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
 
 Widget itemInfoShopCar() {
   return Container(

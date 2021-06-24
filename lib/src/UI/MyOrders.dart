@@ -114,7 +114,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                         Text("Preparando 22",
                           style: TextStyle(
                               fontSize: 12,
-                              color: CustomColors.blueGray,
+                              color: CustomColors.gray8,
                               fontFamily: Strings.fontRegular
                           ),)
                       ],

@@ -126,7 +126,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 14,
-                        color: CustomColors.blueGray
+                        color: CustomColors.gray8
                     ),
                   ),
                   Text(
@@ -134,7 +134,7 @@ class _CoupondsPageState extends State<CoupondsPage> {
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 13,
-                        color: CustomColors.blueGray
+                        color: CustomColors.gray8
                     ),
                   )
                 ],

@@ -24,6 +24,7 @@ class CustomColors {
   static final gray5 = const Color(0xffDFDAE7);
   static final gray6 = const Color(0xffC6C6C6);
   static final gray7 = const Color(0xff767676);
+  static final gray8 = const Color(0xff525252);
   static final grayThree = const Color(0xffEFEFEF);
   static final greyBorder = const Color(0xffE6E6E6);
   static final greyBackground = const Color(0xffFCFCFC);
@@ -52,7 +53,7 @@ class CustomColors {
   static final green = const Color(0xff05AD45);
   static final morado = const Color(0xff201547);
   static final darkBlues2 = const Color(0xff083642);
-  static final blueGray = const Color(0xff525252);
+  
   static final blueCian = const Color(0xff274A5D);
   static final purpleLetter = const Color(0xff787994);
 

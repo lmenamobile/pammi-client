@@ -123,7 +123,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.blueGray),
+                          color: CustomColors.gray8),
                     ),
                   ],
                 ),

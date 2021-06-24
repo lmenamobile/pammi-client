@@ -325,6 +325,39 @@ class ProviderSettings with ChangeNotifier{
     }
   }
 
+  Future<dynamic> sendCommentProductNoFound(String email,String comment) async {
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token":prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      "email": email,
+      "description": comment
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL+"system/notify-product-not-found",headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingSettings = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+  }
+
 
 
 

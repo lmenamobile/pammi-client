@@ -265,7 +265,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -274,7 +274,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
             ],
           ),
@@ -306,7 +306,7 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -315,7 +315,7 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 23),
               btnCustom(null,titleButton, CustomColors.blueSplash, Colors.white, action),

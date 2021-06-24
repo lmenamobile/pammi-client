@@ -98,7 +98,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: 10,
                             itemBuilder: (BuildContext context, int index) {
-                              return itemCarrito(context);
+                              return null;
 
                             }
                         )
@@ -129,7 +129,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
                               physics: BouncingScrollPhysics(),
                               itemCount: 5,
                               itemBuilder: (BuildContext context, int index) {
-                                return itemProduct(false,context);
+                                return null;
                               },
                             ),
                           ),
