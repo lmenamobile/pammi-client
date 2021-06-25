@@ -1,4 +1,8 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -38,14 +42,17 @@ Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
             ),
           ),
         ),
-        GestureDetector(
-          child: Image(
-            width: 40,
-            height: 40,
-            color: Colors.white,
-            image: AssetImage("Assets/images/$iconTwo"),
+        Container(
+          margin: EdgeInsets.only(right: 10),
+          child: GestureDetector(
+            child: Image(
+              width: 40,
+              height: 40,
+              color: Colors.white,
+              image: AssetImage("Assets/images/$iconTwo"),
+            ),
+            onTap: () => action(),
           ),
-          onTap: () => action(),
         ),
       ],
     ),
@@ -123,6 +130,59 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
         ],
       ),
     ),
+  );
+}
+
+ zoomImage(BuildContext context,String image){
+  return PhotoView(
+    backgroundDecoration: BoxDecoration(
+        color: Colors.transparent
+    ),
+    heroAttributes: PhotoViewHeroAttributes(tag: image),
+    initialScale:  PhotoViewComputedScale.covered,
+    customSize: Size(MediaQuery.of(context).size.width, 300),
+    minScale: PhotoViewComputedScale.covered,
+    maxScale: PhotoViewComputedScale.covered*3.0,
+    imageProvider: NetworkImage(image),
+  );
+}
+
+Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> images){
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 300,
+        height: 300,
+        child: Swiper(
+            itemBuilder:
+                (BuildContext context, int index) {
+              return zoomImage(context, images.isEmpty?"http://via.placeholder.com/200x150":images[index].url);/*FadeInImage(
+                image: NetworkImage(
+                  images.isEmpty?"http://via.placeholder.com/200x150":images[index].url,
+                ),
+                fit: BoxFit.fill,
+                placeholder: AssetImage("Assets/images/spinner.gif"),
+              );*/
+            },
+            itemCount: images.isEmpty?0:images.length,
+            onIndexChanged: (index) {
+              updateIndex(index);
+            }),
+      ),
+      SizedBox(height: 20,),
+      images.isEmpty?Container():DotsIndicator(
+        dotsCount: images.length,
+        position: indexSlider.toDouble(),
+        decorator: DotsDecorator(
+          activeColor: CustomColors.orange,
+          size: const Size.square(9),
+          spacing: const EdgeInsets.symmetric(horizontal: 2,vertical: 4),
+          activeSize: const Size(30, 9),
+          activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        ),
+      )
+    ],
   );
 }
 

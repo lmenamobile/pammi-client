@@ -225,6 +225,8 @@ class Strings {
   static const String  shareCode = 'COMPARTE TU CÓDIGO';
   static const String  share = 'Compartir';
 
+  /*Favorites*/
+  static const String  favorites = 'Deseos';
 
   /*Register User*/
   static const String  nameUser = 'Nombre';

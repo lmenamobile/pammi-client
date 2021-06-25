@@ -11,6 +11,13 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 class ProviderProducts with ChangeNotifier{
   final prefs = SharePreference();
 
+  int _indexSliderImages = 0;
+  int get indexSliderImages => this._indexSliderImages;
+  set indexSliderImages(int value) {
+    this._indexSliderImages = value;
+    notifyListeners();
+  }
+
   bool _isLoadingProducts = false;
   bool get isLoadingProducts => this._isLoadingProducts;
   set isLoadingProducts(bool value) {

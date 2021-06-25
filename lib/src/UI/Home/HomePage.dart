@@ -7,6 +7,7 @@ import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -46,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
-        rollOverActive: "start",
+        rollOverActive: Constants.menuHome,
       ),
       backgroundColor: CustomColors.redTour,
       body: SafeArea(

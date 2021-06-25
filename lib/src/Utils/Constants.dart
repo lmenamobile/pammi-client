@@ -18,4 +18,13 @@ class Constants {
   static const String bannerGeneral = 'ex';
   static const String bannerOffer = 'in';
 
+  /*Opciones Menu izquierdo*/
+  static const String menuFavorites     = 'favorites';
+  static const String menuProfile       = 'profile';
+  static const String menuOffersTheDay  = 'offersDay';
+  static const String menuHighlights    = 'highlights';
+  static const String menuHome          = 'home';
+  static const String menuNotifications = 'Notifications';
+  static const String menuSupport       = 'support';
+
 }

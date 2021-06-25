@@ -5,6 +5,7 @@ import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
+import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
@@ -69,11 +70,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            imageReference(
-                                170,
-                                providerProducts
-                                        ?.imageReferenceProductSelected ??
-                                    ''),
+                            InkWell(
+                              onTap: ()=>openZoomImages(),
+                              child: imageReference(
+                                  170,
+                                  providerProducts
+                                          ?.imageReferenceProductSelected ??
+                                      ''),
+                            ),
                             Container(
                                 margin: EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 30),
@@ -373,6 +377,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
       }
     });
     Navigator.pop(context);
+  }
+
+  openZoomImages(){
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (BuildContext context, _, __)=>PhotosProductPage(productReference: providerProducts?.referenceProductSelected,)));
   }
 
 }
