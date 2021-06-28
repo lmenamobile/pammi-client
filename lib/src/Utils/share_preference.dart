@@ -16,6 +16,14 @@ class SharePreference {
     this._prefs = await SharedPreferences.getInstance();
   }
 
+  get userID {
+    return _prefs.getString('userID') ?? "";
+  }
+
+  set userID(String value) {
+    _prefs.setString('userID', value);
+  }
+
   get referredCode {
     return _prefs.getString('referredCode') ?? "";
   }

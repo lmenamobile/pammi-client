@@ -1,5 +1,6 @@
 
 
+import 'package:wawamko/src/Models/Product/BrandAndProduct.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 
 class Reference {
@@ -13,7 +14,9 @@ class Reference {
     this.color,
     this.images,
     this.qualification,
-    this.isSelected
+    this.isSelected,
+    this.brandAndProduct,
+    this.isFavorite,
   });
 
   int id;
@@ -26,6 +29,8 @@ class Reference {
   String qualification;
   List<ImageProduct> images;
   bool isSelected = false;
+  bool isFavorite = false;
+  BrandAndProduct brandAndProduct;
 
   factory Reference.fromJson(Map<String, dynamic> json) => Reference(
     id: json["id"],
@@ -36,8 +41,10 @@ class Reference {
     qty: json["qty"].toString(),
     color: json["color"],
     isSelected: false,
+    isFavorite: json["liked"],
     qualification: json["qualification"]==null?'0':json["qualification"].toString(),
     images: List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
+    brandAndProduct: json["brandProviderProduct"]==null?null:BrandAndProduct.fromJson(json["brandProviderProduct"]),
   );
 
   Map<String, dynamic> toJson() => {

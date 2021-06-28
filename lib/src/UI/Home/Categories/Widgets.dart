@@ -113,7 +113,7 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
   );
 }
 
-Widget itemProductCategory(Product product, Function openDetail){
+Widget itemProductCategory(Product product, Function openDetail,Function callFavorite){
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -183,7 +183,9 @@ Widget itemProductCategory(Product product, Function openDetail){
             Positioned(
               top: 3,
                 right: 3,
-                child: favorite(true))
+                child: InkWell(
+                  onTap: ()=>callFavorite(product?.references[0]),
+                    child: favorite(product?.references[0]?.isFavorite)))
           ],
         ),
       ),

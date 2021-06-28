@@ -228,6 +228,10 @@ class Strings {
   /*Favorites*/
   static const String  favorites = 'Deseos';
 
+  /*highlights*/
+  static const String  highlights = 'Destacados';
+  static const String advertising = "Campañas";
+
   /*Register User*/
   static const String  nameUser = 'Nombre';
   static const String  lastName = 'Apellido';
@@ -294,15 +298,16 @@ class Strings {
   static const String pwdNotEquals                          = "Las contraseñas no coinciden.";
   static const String errorFormatPWD                        = 'La contraseña debe ser mínimo de 6 carácteres, con al menos un número, una mayúscula y una minúscula.';
   static const String categoriesMaxSelected                 = "Solo puedes seleccionar maximo 5 intereses.";
-
   static const String emptyCountries                       = "Aún no estamos en tu país, lo estaremos próximamente.";
   static const String emptyStates                          = "Aún no estamos en este estado, lo estaremos próximamente.";
   static const String emptyCities                          = "Aún no estamos en esta ciudad, lo estaremos próximamente.";
-
   static const String sorrySearch                          = "¡Lo sentimos!";
   static const String emptySearchProducts                  = "No encontramos resultados para esta busqueda. Notifica al administrador el producto que estas buscando.";
+  static const String errorCodeReferred                    = "No tienes un codigo de referido aun";
+  static const String sorryFavorites                       = "Aún no tienes productos en tus deseos";
+  static const String emptyFavorites                       = "Tenemos miles de productos que te encantarán ¡explora la app y súmalos a tu lista de deseos!";
 
-  static const String errorCodeReferred                = "No tienes un codigo de referido aun";
+
   //Fonts
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';

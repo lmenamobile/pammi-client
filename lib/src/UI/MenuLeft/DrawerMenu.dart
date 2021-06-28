@@ -10,6 +10,7 @@ import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/FavoritesPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/Widgets.dart';
 import 'package:wawamko/src/UI/MyOrders.dart';
 import 'package:wawamko/src/UI/dayOferts.dart';
@@ -89,20 +90,10 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       BounceInDown(
                           child: itemBtnReferred(() => openBottomSheet(context,
                               openReferredCode, _prefs.referredCode.toString()))),
-                      itemMenu(
-                          "ic_start.png",
-                          () => widget.rollOverActive != Constants.menuHome
-                              ? pushToPage(MyHomePage())
-                              : Navigator.pop(context),
-                          Strings.start),
+                      itemMenu("ic_start.png", () => widget.rollOverActive != Constants.menuHome ? pushToPage(MyHomePage()) : Navigator.pop(context), Strings.start),
                       itemMenu("ic_ offers_day.png", () {}, Strings.dayOferts),
-                      itemMenu("ic_featured.png", () {}, Strings.destacados),
-                      itemMenu(
-                          "ic_wishes.png",
-                          () => widget.rollOverActive != Constants.menuFavorites
-                              ? pushToPage(FavoritesPage())
-                              : Navigator.pop(context),
-                          Strings.wishes),
+                      itemMenu("ic_featured.png",  () => widget.rollOverActive != Constants.menuHighlights? pushToPage(HighlightsPage()) : Navigator.pop(context), Strings.destacados),
+                      itemMenu("ic_wishes.png", () => widget.rollOverActive != Constants.menuFavorites ? pushToPage(FavoritesPage()) : Navigator.pop(context), Strings.wishes),
                       itemMenu("ic_news.png", () {}, Strings.myOrders),
                       itemMenu(
                           "ic_ notification.png", () {}, Strings.notifications),

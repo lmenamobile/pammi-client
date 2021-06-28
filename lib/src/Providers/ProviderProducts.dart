@@ -103,7 +103,8 @@ class ProviderProducts with ChangeNotifier{
       "subcategoryId": idSubcategory??'',
       "categoryId": idCategory??'',
       "price": price??'',
-      "orderBy": orderBy??''
+      "orderBy": orderBy??'',
+      "userId": prefs.userID
     };
     var body = jsonEncode(jsonData);
     final response = await http.post(Constants.baseURL + "product/get-products",
@@ -157,7 +158,8 @@ class ProviderProducts with ChangeNotifier{
       "subcategoryId": idSubcategory,
       "categoryId": idCategory,
       "price": price??'',
-      "orderBy": orderBy??''
+      "orderBy": orderBy??'',
+      "userId": prefs.userID
     };
     var body = jsonEncode(jsonData);
     final response = await http.post(Constants.baseURL + "product/get-products",

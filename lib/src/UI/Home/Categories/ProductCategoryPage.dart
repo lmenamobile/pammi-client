@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
+import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
@@ -22,6 +24,7 @@ class ProductCategoryPage extends StatefulWidget {
 class _ProductCategoryPageState extends State<ProductCategoryPage> {
   final searchController = TextEditingController();
   ProviderProducts providerProducts;
+  ProviderUser providerUser;
   int pageOffset = 0;
 
   @override
@@ -35,6 +38,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   @override
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
+    providerUser = Provider.of<ProviderUser>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -137,7 +141,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                       providerProducts.ltsProductsByCategory.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        return itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct);
+                        return itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct,callIsFavorite);
                       },
                     ),
                   )
@@ -152,6 +156,8 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     );
   }
 
+
+
   openDetailProduct(Product product){
     Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
@@ -163,6 +169,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         await callProducts.then((list) {
 
         }, onError: (error) {
+          providerProducts.isLoadingProducts = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -170,4 +177,48 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
       }
     });
   }
+
+  callIsFavorite(Reference reference){
+    if(reference.isFavorite){
+      removeFavoriteProduct(reference);
+    }else{
+      saveFavoriteProduct(reference);
+    }
+  }
+
+  saveFavoriteProduct(Reference reference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerUser.saveAsFavorite(reference.id.toString());
+        await callUser.then((msg) {
+          utils.showSnackBarGood(context, msg.toString());
+          providerProducts.ltsProductsByCategory.clear();
+          getProducts();
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  removeFavoriteProduct(Reference reference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerUser.deleteFavorite(reference.id.toString());
+        await callUser.then((msg) {
+          utils.showSnackBarGood(context, msg.toString());
+          providerProducts.ltsProductsByCategory.clear();
+          getProducts();
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+
 }

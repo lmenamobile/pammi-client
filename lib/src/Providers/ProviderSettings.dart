@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
@@ -78,6 +79,13 @@ class ProviderSettings with ChangeNotifier{
   List<SubCategory> get ltsSubCategories => this._ltsSubCategories;
   set ltsSubCategories(List<SubCategory> value) {
     this._ltsSubCategories.addAll(value);
+    notifyListeners();
+  }
+
+  List<Banners> _ltsBannersHighlights = List();
+  List<Banners> get ltsBannersHighlights => this._ltsBannersHighlights;
+  set ltsBannersHighlights(List<Banners> value) {
+    this._ltsBannersHighlights.addAll(value);
     notifyListeners();
   }
 
@@ -356,6 +364,49 @@ class ProviderSettings with ChangeNotifier{
       this.isLoadingSettings = false;
       throw decodeJson['message'];
     }
+  }
+
+  Future<dynamic> getBannersHighlights(String offset) async {
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      'filter': "",
+      'offset': offset,
+      'limit': 20,
+      "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "type": Constants.bannerOffer
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "home/get-banners",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<Banners> listBanner = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final banner = Banners.fromJson(item);
+          listBanner.add(banner);
+        }
+        this.isLoadingSettings = false;
+        this.ltsBannersHighlights = listBanner;
+        return listBanner;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+
   }
 
 
