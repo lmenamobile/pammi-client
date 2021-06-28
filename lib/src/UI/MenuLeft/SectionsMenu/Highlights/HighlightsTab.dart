@@ -3,6 +3,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 
 class HighlightsTab extends StatefulWidget{
   @override
@@ -11,6 +12,7 @@ class HighlightsTab extends StatefulWidget{
 
 class _HighlightsTabState extends State<HighlightsTab> {
   ProviderSettings providerSettings;
+  int pageOffset = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,5 +36,20 @@ class _HighlightsTabState extends State<HighlightsTab> {
         return itemHighlights();
       },
     );
+  }
+
+  getBannersHighlights() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callHome = providerSettings.getBannersHighlights(pageOffset.toString());
+        await callHome.then((list) {
+
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
   }
 }
