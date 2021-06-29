@@ -227,6 +227,7 @@ class Strings {
 
   /*Favorites*/
   static const String  favorites = 'Deseos';
+  static const String  productsRelations = 'Sugerencias para ti';
 
   /*highlights*/
   static const String  highlights = 'Destacados';
@@ -306,7 +307,9 @@ class Strings {
   static const String errorCodeReferred                    = "No tienes un codigo de referido aun";
   static const String sorryFavorites                       = "Aún no tienes productos en tus deseos";
   static const String emptyFavorites                       = "Tenemos miles de productos que te encantarán ¡explora la app y súmalos a tu lista de deseos!";
-
+  static const String sorryHighlights                      = "¡Lo sentimos!";
+  static const String emptyHighlights                      = "Aún no hay destacados que mostrar aquí.";
+  static const String emptyCampaigns                      = "Aún no hay campañas que mostrar aquí.";
 
   //Fonts
   static const String fontBold = 'FontBold';

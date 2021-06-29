@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
+import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
+import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -18,11 +22,12 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
-  RefreshController _refreshFavorites =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshFavorites = RefreshController(initialRefresh: false);
   ProviderUser providerUser;
+  ProviderProducts providerProducts;
   int pageOffset = 0;
-
+  int pageOffsetProductsRelations = 0;
+  int randomReference = 0;
   @override
   void initState() {
     providerUser = Provider.of<ProviderUser>(context, listen: false);
@@ -34,6 +39,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     providerUser = Provider.of<ProviderUser>(context);
+    providerProducts = Provider.of<ProviderProducts>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -60,27 +66,50 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       ? emptyData("ic_favorite_empty.png",
                           Strings.sorryFavorites, Strings.emptyFavorites)
                       : SingleChildScrollView(
-                          child: GridView.builder(
-                            gridDelegate:
-                                new SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10,
-                              childAspectRatio: .77,
-                              crossAxisSpacing: 15,
-                            ),
-                            padding: EdgeInsets.only(
-                                top: 20, bottom: 10, left: 10, right: 10),
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: providerUser.ltsProductsFavorite.isEmpty
-                                ? 0
-                                : providerUser.ltsProductsFavorite.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return itemProductFavorite(
-                                  providerUser.ltsProductsFavorite[index],
-                                  openDetailProduct,
-                                  removeFavoriteProduct);
-                            },
+                          child: Column(
+                            children: [
+                              GridView.builder(
+                                gridDelegate:
+                                    new SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: .77,
+                                  crossAxisSpacing: 15,
+                                ),
+                                padding: EdgeInsets.only(
+                                    top: 20, bottom: 10, left: 10, right: 10),
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: providerUser.ltsProductsFavorite.isEmpty
+                                    ? 0
+                                    : providerUser.ltsProductsFavorite.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return itemProductFavorite(
+                                      providerUser.ltsProductsFavorite[index],
+                                      openDetailProduct,
+                                      removeFavoriteProduct);
+                                },
+                              ),
+                              customDivider(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                    child: Text(
+                                      Strings.productsRelations,
+                                      style:TextStyle(
+                                        fontFamily: Strings.fontBold,
+                                        color: CustomColors.blackLetter
+                                      ) ,
+                                    ),
+                                  ),
+                                  Container(
+                                      height: 210,
+                                      child: listItemsProductsRelations()),
+                                ],
+                              )
+                            ],
                           ),
                         ),
                 ),
@@ -92,7 +121,28 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
+  Widget listItemsProductsRelations() {
+    return ListView.builder(
+      itemCount: providerProducts.ltsProductsRelationsByReference.isEmpty?0:providerProducts.ltsProductsRelationsByReference.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: itemProductCategory(providerProducts.ltsProductsRelationsByReference[index],openDetailProduct,callIsFavorite)
+        );
+      },
+    );
+  }
+
   openDetailProduct() {}
+
+  callIsFavorite(Reference reference){
+    if(reference.isFavorite){
+      removeFavoriteProduct(reference.id.toString());
+    }else{
+      saveFavoriteProduct(reference);
+    }
+  }
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
@@ -117,7 +167,44 @@ class _FavoritesPageState extends State<FavoritesPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerUser.getProductsFavorites(pageOffset);
-        await callUser.then((list) {}, onError: (error) {
+        await callUser.then((list) {
+          randomReference = providerProducts.getRandomPosition(providerUser.ltsProductsFavorite.length);
+          providerProducts.ltsProductsRelationsByReference.clear();
+          getProductsRelations();
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getProductsRelations() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerProducts.getProductsRelationByReference(pageOffsetProductsRelations,providerUser.ltsProductsFavorite[randomReference].reference.id.toString() );
+        await callUser.then((list) {
+
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  saveFavoriteProduct(Reference reference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerUser.saveAsFavorite(reference.id.toString());
+        await callUser.then((msg) {
+          utils.showSnackBarGood(context, msg.toString());
+          providerUser.ltsProductsFavorite.clear();
+          getProductsFavorites();
+
+        }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
       } else {

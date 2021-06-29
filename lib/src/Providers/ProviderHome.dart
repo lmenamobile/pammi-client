@@ -58,6 +58,7 @@ class ProviderHome with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
     };
     Map jsonData = {
       'filter': "",
@@ -100,6 +101,7 @@ class ProviderHome with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
     };
     Map jsonData = {
       'filter': "",
@@ -143,6 +145,7 @@ class ProviderHome with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
     };
     Map jsonData = {
       'filter': "",

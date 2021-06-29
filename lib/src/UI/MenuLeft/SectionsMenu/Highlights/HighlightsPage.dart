@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/AdvertisingTab.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsTab.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -89,7 +90,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
                     controller: tabControllerPages,
                     children: [
                       HighlightsTab(),
-                      Container()
+                      AdvertisingTab()
                     ],
                   ),
                 )

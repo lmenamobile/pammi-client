@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -20,4 +21,13 @@ bool platformIsAndroid(){
 /*Share url*/
 openShareLink(String url) {
   Share.share(url);
+}
+
+int getRandomPosition(int lengthList){
+  if(lengthList>0){
+    Random random = new Random();
+    return random.nextInt(lengthList);
+  }else{
+    return 0;
+  }
 }

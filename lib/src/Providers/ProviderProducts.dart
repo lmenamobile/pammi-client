@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,13 @@ class ProviderProducts with ChangeNotifier{
   List<Product> get ltsProductsByCategory => this._ltsProductsByCategory;
   set ltsProductsByCategory(List<Product> value) {
     this._ltsProductsByCategory.addAll(value);
+    notifyListeners();
+  }
+
+  List<Product> _ltsProductsRelationsByReference = List();
+  List<Product> get ltsProductsRelationsByReference => this._ltsProductsRelationsByReference;
+  set ltsProductsRelationsByReference(List<Product> value) {
+    this._ltsProductsRelationsByReference.addAll(value);
     notifyListeners();
   }
 
@@ -82,6 +90,15 @@ class ProviderProducts with ChangeNotifier{
   }
   /*-------------------------*/
 
+  int getRandomPosition(int lengthList){
+    if(lengthList>0){
+      Random random = new Random();
+      return random.nextInt(lengthList);
+    }else{
+      return 0;
+    }
+  }
+
   Future<dynamic> getProductsSearch(
       String filter,
       int offset,
@@ -94,6 +111,7 @@ class ProviderProducts with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
     };
     Map jsonData = {
       'filter': filter,
@@ -197,6 +215,7 @@ class ProviderProducts with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
     };
 
     final response = await http.get(Constants.baseURL+"/get-product/$idProduct",headers: header)
@@ -219,6 +238,54 @@ class ProviderProducts with ChangeNotifier{
       this.isLoadingProducts = false;
       throw decodeJson['message'];
     }
+  }
+
+  Future<dynamic> getProductsRelationByReference(
+      int offset,
+      String referenceId
+   ) async {
+    this.isLoadingProducts = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      'filter': '',
+      'offset': offset,
+      'limit': 20,
+      "referenceId": referenceId,
+      "userId": prefs.userID
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "product/get-relational-products",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingProducts = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    final List<Product> listProducts = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['products']) {
+          final product = Product.fromJson(item);
+          listProducts.add(product);
+        }
+        this.isLoadingProducts = false;
+        this.ltsProductsRelationsByReference = listProducts;
+        return listProducts;
+      } else {
+        this.isLoadingProducts = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingProducts = false;
+      throw decodeJson['message'];
+    }
+
   }
 
 }

@@ -114,6 +114,7 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
 }
 
 Widget itemProductCategory(Product product, Function openDetail,Function callFavorite){
+  int position = getRandomPosition(product?.references?.length??0);
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -184,8 +185,8 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
               top: 3,
                 right: 3,
                 child: InkWell(
-                  onTap: ()=>callFavorite(product?.references[0]),
-                    child: favorite(product?.references[0]?.isFavorite)))
+                  onTap: ()=>callFavorite(product?.references[position]),
+                    child: favorite(product?.references[position]?.isFavorite)))
           ],
         ),
       ),
