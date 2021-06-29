@@ -14,6 +14,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class SupportHelpPage extends StatefulWidget {
@@ -134,6 +135,36 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                       margin: EdgeInsets.only(bottom: 20),
                       child: Column(
                         children: <Widget>[
+                          InkWell(
+                            onTap:()=>Navigator.of(context).push(customPageTransition(InterestsPage())),
+                            child: Container(
+                              height: 50,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  border: Border.all(color: CustomColors.greyBorder,width: 1)
+                              ),
+                              child: Row(
+                                mainAxisSize:MainAxisSize.max ,
+                                mainAxisAlignment:MainAxisAlignment.spaceAround ,
+                                children: [
+                                  Text(
+                                    Strings.preRegister,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontFamily: Strings.fontBold,
+                                        fontSize: 15,
+                                        color: CustomColors.blackLetter),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: CustomColors.gray7,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
                           Container(
                             width: double.infinity,
                             padding: EdgeInsets.only(top: 0),
