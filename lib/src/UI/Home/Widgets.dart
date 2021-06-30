@@ -250,7 +250,7 @@ Widget itemProduct(){
                 width: 50,
                 height: 30,
                 child: FadeInImage(
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   image: NetworkImage("https://logodownload.org/wp-content/uploads/2014/01/samsung-logo-4.png"),
                   placeholder: AssetImage(""),
           ),

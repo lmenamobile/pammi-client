@@ -230,6 +230,7 @@ class ProviderSettings with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     Map jsonData = {
       "filter": filter,
@@ -272,6 +273,7 @@ class ProviderSettings with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     Map jsonData = {
       "filter": "",
@@ -379,7 +381,7 @@ class ProviderSettings with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     Map jsonData = {
       'filter': "",
@@ -423,7 +425,7 @@ class ProviderSettings with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     Map jsonData = {
       'filter': "",

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Models/Offer.dart';
 
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
@@ -90,6 +91,16 @@ class ProviderProducts with ChangeNotifier{
   }
   /*-------------------------*/
 
+  /*Seccion ofertas del dia*/
+
+  List<Offer> _ltsOfferUnits = List();
+  List<Offer> get ltsOfferUnits => this._ltsOfferUnits;
+  set ltsOfferUnits(List<Offer> value) {
+    this._ltsOfferUnits.addAll(value);
+    notifyListeners();
+  }
+  /*-------------------------*/
+
   int getRandomPosition(int lengthList){
     if(lengthList>0){
       Random random = new Random();
@@ -111,7 +122,7 @@ class ProviderProducts with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     Map jsonData = {
       'filter': filter,
@@ -167,6 +178,7 @@ class ProviderProducts with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     Map jsonData = {
       'filter': filter,
@@ -215,7 +227,7 @@ class ProviderProducts with ChangeNotifier{
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
 
     final response = await http.get(Constants.baseURL+"/get-product/$idProduct",headers: header)
@@ -277,6 +289,55 @@ class ProviderProducts with ChangeNotifier{
         this.isLoadingProducts = false;
         this.ltsProductsRelationsByReference = listProducts;
         return listProducts;
+      } else {
+        this.isLoadingProducts = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingProducts = false;
+      throw decodeJson['message'];
+    }
+
+  }
+
+  Future<dynamic> getOfferByType(
+     String typeOffer,
+      String brandId,
+      int offset,
+      ) async {
+    this.isLoadingProducts = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      'filter': '',
+      'offerType':typeOffer,
+      "brandId": brandId??'',
+      'offset': offset,
+      'limit': 20,
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "offer/get-offers",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingProducts = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    final List<Offer> listOffers = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final offer = Offer.fromJson(item);
+          listOffers.add(offer);
+        }
+        this.isLoadingProducts = false;
+        this.ltsOfferUnits = listOffers;
+        return listOffers;
       } else {
         this.isLoadingProducts = false;
         throw decodeJson['message'];

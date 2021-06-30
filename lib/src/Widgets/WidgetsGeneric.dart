@@ -423,6 +423,47 @@ Widget alertMessageWithActions(String titleAlert, String image,
   );
 }
 
+Widget emptyView(String image, String title, String text) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Image(
+            fit: BoxFit.fill,
+            width: 200,
+            image: AssetImage(image),
+         ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 60),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 22,
+                      color: CustomColors.gray8),
+                ),
+              SizedBox(height: 5),
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: Strings.fontRegular,
+                      fontSize: 15,
+                      color: CustomColors.gray8),
+                ),
+                SizedBox(height: 23),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+}
+
 Future<bool> showCustomAlertDialog(
     BuildContext context, String title, String msg) async {
   bool state = await showDialog(

@@ -17,6 +17,8 @@ import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import 'PreRegister/InterestsPage.dart';
+
 class SupportHelpPage extends StatefulWidget {
   @override
   _SupportHelpPageState createState() => _SupportHelpPageState();

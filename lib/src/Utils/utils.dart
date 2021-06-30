@@ -19,16 +19,14 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-
 class _Utils {
-
   final prefs = SharePreference();
-
 
   Map encryptPwdIv(String value) {
     var key = cript.Key.fromUtf8(Constants.key_encrypt);
     var iv = cript.IV.fromSecureRandom(16);
-    var encrypter = cript.Encrypter(cript.AES(key, mode: cript.AESMode.ctr, padding: null));
+    var encrypter =
+        cript.Encrypter(cript.AES(key, mode: cript.AESMode.ctr, padding: null));
     var iv16 = iv.base16;
     var encrypted = encrypter.encrypt(value, iv: iv);
     var encrypted16 = encrypted.base16;
@@ -41,9 +39,6 @@ class _Utils {
     return jsonEncrypted;
   }
 
-
-
-
   Future<bool> checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
@@ -54,7 +49,7 @@ class _Utils {
     return false;
   }
 
-  String getPlatform(){
+  String getPlatform() {
     if (Platform.isAndroid) {
       return "a";
     } else if (Platform.isIOS) {
@@ -65,7 +60,7 @@ class _Utils {
 
   double getLatitude() {
     var singleton = GlobalVariables();
-    if(singleton.latitude == 0.0 && singleton.longitude == 0.0){
+    if (singleton.latitude == 0.0 && singleton.longitude == 0.0) {
       return 4.6287835;
     }
     return singleton.latitude;
@@ -73,16 +68,16 @@ class _Utils {
 
   double getLongitude() {
     var singleton = GlobalVariables();
-    if(singleton.longitude == 0.0 && singleton.longitude == 0.0){
+    if (singleton.longitude == 0.0 && singleton.longitude == 0.0) {
       return -74.0695618;
     }
     return singleton.longitude;
   }
 
-  Widget showSnackBar(BuildContext context,String message){
+  Widget showSnackBar(BuildContext context, String message) {
     return Flushbar(
       animationDuration: Duration(milliseconds: 500),
-      margin: EdgeInsets.only(left: 60,right: 60,bottom: 60),
+      margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       borderRadius: 15.0,
       backgroundColor: CustomColors.splashColor,
       icon: Padding(
@@ -95,26 +90,23 @@ class _Utils {
       ),
       messageText: Align(
         alignment: Alignment.center,
-        child:Container(
+        child: Container(
           margin: EdgeInsets.only(left: 10),
           child: Text(
             message,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: Strings.fontRegular
-            ),
+            style:
+                TextStyle(color: Colors.white, fontFamily: Strings.fontRegular),
           ),
         ),
       ),
-      duration:  Duration(seconds: 3),
+      duration: Duration(seconds: 3),
     )..show(context);
   }
 
-
-  Widget showSnackBarGood(BuildContext context,String message){
+  Widget showSnackBarGood(BuildContext context, String message) {
     return Flushbar(
       animationDuration: Duration(milliseconds: 500),
-      margin: EdgeInsets.only(left: 60,right: 60,bottom: 60),
+      margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       borderRadius: 15.0,
       backgroundColor: CustomColors.greenValid,
       icon: Padding(
@@ -127,53 +119,43 @@ class _Utils {
       ),
       messageText: Align(
         alignment: Alignment.center,
-        child:Container(
+        child: Container(
           margin: EdgeInsets.only(left: 10),
           child: Text(
             message,
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: Strings.fontRegular
-            ),
+            style:
+                TextStyle(color: Colors.white, fontFamily: Strings.fontRegular),
           ),
         ),
       ),
-      duration:  Duration(seconds: 3),
+      duration: Duration(seconds: 3),
     )..show(context);
   }
 
-  Widget showSnackBarError(BuildContext context,String message){
+  Widget showSnackBarError(BuildContext context, String message) {
     return IgnorePointer(
       child: Flushbar(
-
         animationDuration: Duration(milliseconds: 500),
-        margin: EdgeInsets.only(left: 17,right: 17),
+        margin: EdgeInsets.only(left: 17, right: 17),
         borderRadius: 15.0,
         backgroundColor: CustomColors.red,
-        icon:  Image(
-
-
+        icon: Image(
           image: AssetImage("assets/images/ic_whiteclose.png"),
-
         ),
         message: message,
-        duration:  Duration(seconds: 3),
+        duration: Duration(seconds: 3),
       )..show(context),
     );
   }
 
-  List<String>getbtnPromos(String btnPromos){
-
+  List<String> getbtnPromos(String btnPromos) {
     var s1 = btnPromos.replaceAll("[", "");
     var s2 = s1.replaceAll("]", "");
     var listPromosImages = s2.split(",");
     return listPromosImages;
-
   }
 
-
-  String getSessionId(Map<String,dynamic> header){
-
+  String getSessionId(Map<String, dynamic> header) {
     var cad = header['set-cookie'].split("3A");
     var cad2 = cad[1].split(".");
 
@@ -184,7 +166,7 @@ class _Utils {
   }
 
   Map<CardType, Set<List<String>>> cardNumPatterns =
-  <CardType, Set<List<String>>>{
+      <CardType, Set<List<String>>>{
     CardType.visa: <List<String>>{
       <String>['4'],
     },
@@ -208,8 +190,6 @@ class _Utils {
     },
   };
 
-
-
   CardType detectCCType(String cardNumber) {
     //Default card type is other
     CardType cardType = CardType.otherBrand;
@@ -219,11 +199,11 @@ class _Utils {
     }
 
     cardNumPatterns.forEach(
-          (CardType type, Set<List<String>> patterns) {
+      (CardType type, Set<List<String>> patterns) {
         for (List<String> patternRange in patterns) {
           // Remove any spaces
           String ccPatternStr =
-          cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
+              cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
           final int rangeLen = patternRange[0].length;
           // Trim the Credit Card number string to match the pattern prefix length
           if (rangeLen < cardNumber.length) {
@@ -258,49 +238,49 @@ class _Utils {
     return cardType;
   }
 
-
-  String decimalFormat(int number){
+  String decimalFormat(int number) {
     var f = new NumberFormat("###,###.###", "es_CO");
     //print("________"+f.format(number));
     return f.format(number);
-
   }
 
-  int priceToInt (String price){
+  int priceToInt(String price) {
     int price2 = 0;
-    if(price.contains(".")){
+    if (price.contains(".")) {
       var priceArray = price.split(".");
-      if(priceArray.length == 2){
+      if (priceArray.length == 2) {
         price2 = int.parse(priceArray[0]);
       }
-    }else{
+    } else {
       price2 = int.parse(price);
     }
     return price2;
   }
 
-  startCustomAlertMessage(BuildContext context,String titleAlert,String image,String textAlert,Function action,Function actionNegative){
+  startCustomAlertMessage(BuildContext context, String titleAlert, String image,
+      String textAlert, Function action, Function actionNegative) {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => alertCustomMessage(titleAlert,image,textAlert, action, actionNegative)
-    );
+        builder: (BuildContext context) => alertCustomMessage(
+            titleAlert, image, textAlert, action, actionNegative));
   }
 
   startProgress(BuildContext context) {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => LoadingProgress()
-    );
+        builder: (BuildContext context) => LoadingProgress());
   }
 
-   startOpenSlideUp(BuildContext context,String email,String name) {
+  startOpenSlideUp(BuildContext context, String email, String name) {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => ConfirmationSlidePage(email: email,name: name,)
-    );
+        builder: (BuildContext context) => ConfirmationSlidePage(
+              email: email,
+              name: name,
+            ));
   }
 
   Future<bool> check() async {
@@ -317,15 +297,14 @@ class _Utils {
     check().then((internet) {
       if (internet != null && internet) {
         func(true, context);
-      }
-      else{
+      } else {
         func(false, context);
       }
     });
   }
 
-
-  Widget alertCustomMessage(String titleAlert,String image,String textAlert,Function action,Function actionNegative){
+  Widget alertCustomMessage(String titleAlert, String image, String textAlert,
+      Function action, Function actionNegative) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -336,7 +315,7 @@ class _Utils {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40),
-                decoration:BoxDecoration(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(19)),
                   color: CustomColors.white,
                 ),
@@ -345,35 +324,61 @@ class _Utils {
                   children: <Widget>[
                     SizedBox(height: 20),
                     Center(
-                      child: Image.asset(image,
+                      child: Image.asset(
+                        image,
                         fit: BoxFit.fill,
-                        height:50,
+                        height: 50,
                         width: 50,
                       ),
                     ),
                     SizedBox(height: 10),
-                   Center(
-                      child: Text(titleAlert,
+                    Center(
+                      child: Text(
+                        titleAlert,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: Strings.fontBold,color: CustomColors.blackLetter,fontSize: 18),),
+                        style: TextStyle(
+                            fontFamily: Strings.fontBold,
+                            color: CustomColors.blackLetter,
+                            fontSize: 18),
+                      ),
                     ),
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Text(textAlert,
+                      child: Text(
+                        textAlert,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: Strings.fontRegular,color: CustomColors.gray7,fontSize: 15),),
-
+                        style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            color: CustomColors.gray7,
+                            fontSize: 15),
+                      ),
                     ),
                     SizedBox(height: 15),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container( child: btnCustomSize(35,Strings.btnYes,CustomColors.blueSplash, CustomColors.white, action),width: 100,),
-                          Container(child: btnCustomSize(35, Strings.btnNot, CustomColors.gray2, CustomColors.blackLetter,actionNegative),width: 100,)
+                          Container(
+                            child: btnCustomSize(
+                                35,
+                                Strings.btnYes,
+                                CustomColors.blueSplash,
+                                CustomColors.white,
+                                action),
+                            width: 100,
+                          ),
+                          Container(
+                            child: btnCustomSize(
+                                35,
+                                Strings.btnNot,
+                                CustomColors.gray2,
+                                CustomColors.blackLetter,
+                                actionNegative),
+                            width: 100,
+                          )
                         ],
                       ),
                     ),
@@ -381,7 +386,6 @@ class _Utils {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -389,10 +393,26 @@ class _Utils {
     );
   }
 
+  List<String> listMonths() {
+    List<String> lts = List();
+    for (int i = 1; i <= 12; i++) {
+      if (i <= 9) {
+        lts.add("0$i");
+      } else {
+        lts.add('$i');
+      }
+    }
+    return lts;
+  }
 
-
-
-
+  List<String> listYears() {
+    List<String> lts = List();
+    var aux = DateTime.now();
+    for (int i = aux.year; i <= aux.year + 10; i++) {
+      lts.add('$i');
+    }
+    return lts;
+  }
 }
 
 final utils = _Utils();
