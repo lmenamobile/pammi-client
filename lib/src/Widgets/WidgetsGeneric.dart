@@ -432,7 +432,7 @@ Widget emptyView(String image, String title, String text) {
           Image(
             fit: BoxFit.fill,
             width: 200,
-            image: AssetImage(image),
+            image: AssetImage("Assets/images/$image"),
          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 60),

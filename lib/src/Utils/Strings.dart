@@ -256,6 +256,7 @@ class Strings {
   static const String  moreView = 'Ver mas';
   static const String  offersForUnits = 'Ofertas por unidades';
   static const String  offersForMix = 'Superofertas';
+  static const String  offersEmpty = 'Aún no hay ofertas por mostrar';
 
   /*Register User*/
   static const String  nameUser = 'Nombre';

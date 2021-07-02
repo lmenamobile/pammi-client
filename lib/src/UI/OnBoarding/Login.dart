@@ -448,7 +448,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void getUserInfoFB(String token) async {
     final response = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture,gender,birthday&access_token=$token');
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
     final profile = json.decode(response.body);
     if (profile['email'] != null && profile['name'] != null) {
       loginSocialNetwork(profile, Constants.loginFacebook);

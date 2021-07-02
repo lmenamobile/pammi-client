@@ -107,9 +107,9 @@ class _FirstPageTourState extends State<TourPage> {
             ),
           ),
         ),
-        SizedBox(height: 30,),
+        Expanded(child: Container(),),
         Container(
-          padding: EdgeInsets.only(left: 33, right: 44),
+          padding: EdgeInsets.only(left: 40, right: 40,bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -131,7 +131,8 @@ class _FirstPageTourState extends State<TourPage> {
               )
             ],
           ),
-        )
+        ),
+        Expanded(child: Container(),),
       ],
     );
   }
@@ -146,9 +147,9 @@ class _FirstPageTourState extends State<TourPage> {
             fit: BoxFit.cover,
           ),
         ),
-        SizedBox(height: 33),
+        Expanded(child: Container(),),
         Container(
-          padding: EdgeInsets.only(left: 33, right: 44),
+          padding: EdgeInsets.only(left: 40, right: 40,bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -170,7 +171,8 @@ class _FirstPageTourState extends State<TourPage> {
               )
             ],
           ),
-        )
+        ),
+        Expanded(child: Container(),),
       ],
     );
   }
@@ -188,9 +190,9 @@ class _FirstPageTourState extends State<TourPage> {
             ),
           ),
         ),
-        SizedBox(height: 33),
+        Expanded(child: Container(),),
         Container(
-          padding: EdgeInsets.only(left: 33, right: 44),
+          padding: EdgeInsets.only(left: 40, right: 40,bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -213,7 +215,8 @@ class _FirstPageTourState extends State<TourPage> {
               )
             ],
           ),
-        )
+        ),
+        Expanded(child: Container(),),
       ],
     );
   }

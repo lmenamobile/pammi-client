@@ -157,11 +157,31 @@ Widget charactersOffers(Reference reference){
 }
 
 Widget itemBrandOffer(String url){
-  return CircleAvatar(
-    radius: 30.0,
-    backgroundImage:
-    NetworkImage(url),
-    backgroundColor: Colors.transparent,
+  return  Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color:  Colors.black38.withOpacity(0.2),
+                blurRadius: 5.0,
+                spreadRadius: 1.0,
+                offset: Offset(
+                  2.0,
+                  2.0,
+                ),
+              )
+            ],
+            image: DecorationImage(
+                fit: BoxFit.contain,
+                image: url == "" ? AssetImage("Assets/images/spinner.gif") : NetworkImage(url)
+            )
+        )
+    ),
   );
 }
 
