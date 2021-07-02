@@ -99,6 +99,13 @@ class ProviderProducts with ChangeNotifier{
     this._ltsOfferUnits.addAll(value);
     notifyListeners();
   }
+
+  List<Offer> _ltsOfferMix = List();
+  List<Offer> get ltsOfferMix => this._ltsOfferMix;
+  set ltsOfferMix(List<Offer> value) {
+    this._ltsOfferMix.addAll(value);
+    notifyListeners();
+  }
   /*-------------------------*/
 
   int getRandomPosition(int lengthList){
@@ -336,7 +343,6 @@ class ProviderProducts with ChangeNotifier{
           listOffers.add(offer);
         }
         this.isLoadingProducts = false;
-        this.ltsOfferUnits = listOffers;
         return listOffers;
       } else {
         this.isLoadingProducts = false;

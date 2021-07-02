@@ -156,6 +156,7 @@ class Strings {
   static const String inputPass = 'Ingresa una nueva contraseña';
   static const String passCurrent = 'Contraseña actual';
   static const String confirmPass = 'Confirmar contraseña';
+  static const String linkUp = "Vinculación";
   static const String linkEntrepreneur = 'Vincúlate con un emprendedor';
   static const String shareYourCode = 'Dale el siguiente código al emprendedor';
 
@@ -252,6 +253,9 @@ class Strings {
   static const String  offersDay = 'Ofertas del día';
   static const String  products = 'Productos';
   static const String  productsGift = 'Productos de regalo';
+  static const String  moreView = 'Ver mas';
+  static const String  offersForUnits = 'Ofertas por unidades';
+  static const String  offersForMix = 'Superofertas';
 
   /*Register User*/
   static const String  nameUser = 'Nombre';

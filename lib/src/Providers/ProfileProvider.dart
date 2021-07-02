@@ -16,6 +16,13 @@ import 'package:wawamko/src/Utils/utils.dart';
 class ProfileProvider with ChangeNotifier {
   final prefsUser = SharePreference();
 
+  bool _isOpenLink = false;
+  bool get isOpenLink => this._isOpenLink;
+  set isOpenLink(bool value) {
+    this._isOpenLink = value;
+    notifyListeners();
+  }
+
   bool _isLoading = false;
   bool get isLoading => this._isLoading;
   set isLoading(bool value) {

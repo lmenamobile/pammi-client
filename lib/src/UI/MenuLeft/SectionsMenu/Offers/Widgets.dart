@@ -7,11 +7,14 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 Widget itemOfferUnits(Offer offer) {
   return Container(
+    width: 310,
     decoration: BoxDecoration(
       color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(5)),
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.2),
@@ -24,30 +27,67 @@ Widget itemOfferUnits(Offer offer) {
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               itemImageOffer(offer?.baseProducts[getRandomPosition(offer?.baseProducts?.length??0)].reference.images[0].url),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                width: 1,
+                height:120,
+                color: CustomColors.grayBackground,
+              ),
               itemImageOffer(offer?.promotionProducts[getRandomPosition(offer?.promotionProducts?.length??0)].reference.images[0].url)],
           ),
           customDivider(),
           Text(
             offer?.name??'',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: Strings.fontBold,
               color: CustomColors.blackLetter
             ),
           ),
+          SizedBox(height: 5,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: itemDescriptionOffer(Strings.products, offer?.baseProducts)),
+              Expanded(child: itemDescriptionOffer(Strings.productsGift, offer?.promotionProducts))
+            ],
+          ),
+          customDivider(),
           Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              itemDescriptionOffer(Strings.products, offer?.baseProducts),
-              itemDescriptionOffer(Strings.productsGift, offer?.promotionProducts)
+              Container(
+                width: 150,
+                child: btnCustomIconLeft(
+                    "ic_pay_add.png",
+                    Strings.addCartShop,
+                    CustomColors.blue,
+                    Colors.white,
+                    null),
+              ),
+              Text(
+                Strings.moreView,
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                    fontFamily: Strings.fontBold,
+                    color: CustomColors.blue
+                ),
+              ),
             ],
           )
+
         ],
       ),
     ),
@@ -67,6 +107,9 @@ Widget itemImageOffer(String url) {
 
 Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts){
   return Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         description,
@@ -75,10 +118,11 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts){
             color: CustomColors.gray7
         ),
       ),
+      SizedBox(height: 8,),
       ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: ltsProducts.isEmpty?0:ltsProducts.length,
+        itemCount: ltsProducts.isEmpty?0:ltsProducts.length>=1?1:ltsProducts.length,
         itemBuilder: (BuildContext context, int index) {
           return charactersOffers(ltsProducts[index].reference);
         },
@@ -89,6 +133,8 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts){
 
 Widget charactersOffers(Reference reference){
   return Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         reference.reference??'',
@@ -103,9 +149,21 @@ Widget charactersOffers(Reference reference){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColors.gray7
+            color: CustomColors.orange
         ),
       ),
     ],
   );
 }
+
+Widget itemBrandOffer(String url){
+  return CircleAvatar(
+    radius: 30.0,
+    backgroundImage:
+    NetworkImage(url),
+    backgroundColor: Colors.transparent,
+  );
+}
+
+
+

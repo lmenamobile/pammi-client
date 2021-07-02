@@ -11,6 +11,8 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:slimy_card/slimy_card.dart';
 
 import 'MyDates.dart';
 
@@ -166,56 +168,144 @@ class _ProfilePageState extends State<ProfilePage> {
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
                 child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          itemProfile(
-                              context,
-                              "Assets/images/ic_user_Profile.png",
-                              Strings.myDates,
-                              false,
-                              true,
-                              false, () {
-                            Navigator.of(context).push(customPageTransition(MyDatesPage()));
-                          }),
-                          itemProfile(context, "Assets/images/ic_place.png",
-                              Strings.myAddress, true, true, true, () {
-                            Navigator.of(context).push(PageTransition(
-                                type: PageTransitionType.slideInLeft,
-                                child: MyAddressPage(),
-                                duration: Duration(milliseconds: 700)));
-                          }),
-                        ],
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          itemProfile(context, "Assets/images/ic_target.png",
-                              Strings.methodsPay, false, false, false, () {
-                            Navigator.of(context).push(PageTransition(
-                                type: PageTransitionType.slideInLeft,
-                                child: MyCreditCards(),
-                                duration: Duration(milliseconds: 700)));
-                          }),
-                          itemProfile(context, "Assets/images/discount_big.png",
-                              Strings.coupons, true, false, true, () {
-                            Navigator.of(context).push(PageTransition(
-                                type: PageTransitionType.slideInLeft,
-                                child: CoupondsPage(),
-                                duration: Duration(milliseconds: 700)));
-                          }),
-                        ],
-                      )
-                    ],
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                       linkUser(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                itemProfile(
+                                    context,
+                                    "Assets/images/ic_user_Profile.png",
+                                    Strings.myDates,
+                                    false,
+                                    true,
+                                    false, () {
+                                  Navigator.of(context).push(customPageTransition(MyDatesPage()));
+                                }),
+                                itemProfile(context, "Assets/images/ic_place.png",
+                                    Strings.myAddress, true, true, true, () {
+                                  Navigator.of(context).push(PageTransition(
+                                      type: PageTransitionType.slideInLeft,
+                                      child: MyAddressPage(),
+                                      duration: Duration(milliseconds: 700)));
+                                }),
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                itemProfile(context, "Assets/images/ic_target.png",
+                                    Strings.methodsPay, false, false, false, () {
+                                  Navigator.of(context).push(PageTransition(
+                                      type: PageTransitionType.slideInLeft,
+                                      child: MyCreditCards(),
+                                      duration: Duration(milliseconds: 700)));
+                                }),
+                                itemProfile(context, "Assets/images/discount_big.png",
+                                    Strings.coupons, true, false, true, () {
+                                  Navigator.of(context).push(PageTransition(
+                                      type: PageTransitionType.slideInLeft,
+                                      child: CoupondsPage(),
+                                      duration: Duration(milliseconds: 700)));
+                                }),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  Widget linkUser(){
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 30),
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: CustomColors.blueSplash,
+              borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Text(
+                  Strings.linkUp,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: Strings.fontBold
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  Strings.shareYourCode,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: Strings.fontRegular
+                  ),
+                ),
+                SizedBox(height: 10,),
+                InkWell(
+                  onTap: ()=>profileProvider.isOpenLink = !profileProvider.isOpenLink,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    child:Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(profileProvider.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: CustomColors.blueSplash,),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        Visibility(
+          visible: profileProvider.isOpenLink,
+          child: BounceInDown(
+            child: Container(
+              margin: EdgeInsets.only(left: 30,right: 30,top: 10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: CustomColors.blueSplash,
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Text(
+                      _prefs.referredCode??'',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: Strings.fontBold
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

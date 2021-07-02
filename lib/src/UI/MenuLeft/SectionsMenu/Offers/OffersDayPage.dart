@@ -8,10 +8,12 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 
 import '../../DrawerMenu.dart';
 
-class OffersDayPage extends StatefulWidget{
+class OffersDayPage extends StatefulWidget {
   @override
   _OffersDayPageState createState() => _OffersDayPageState();
 }
@@ -20,19 +22,25 @@ class _OffersDayPageState extends State<OffersDayPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   final searchController = TextEditingController();
   ProviderProducts providerProducts;
+  ProviderHome providerHome;
   int pageOffsetUnits = 0;
+  int pageOffsetMix = 0;
 
   @override
   void initState() {
-    providerProducts = Provider.of<ProviderProducts>(context,listen: false);
+    providerHome = Provider.of<ProviderHome>(context, listen: false);
+    providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     providerProducts.ltsOfferUnits.clear();
-    getOffersType("units", "", pageOffsetUnits);
+    providerProducts.ltsOfferMix.clear();
+    getOffersUnits(Constants.offersUnits, "", pageOffsetUnits);
+    getOffersMix(Constants.offersMix, "", pageOffsetMix);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -42,18 +50,72 @@ class _OffersDayPageState extends State<OffersDayPage> {
       body: SafeArea(
         child: Container(
           color: CustomColors.grayBackground,
-          child:Column(
+          child: Column(
             children: [
               header(),
-              Expanded(child: listOffersUnits())
+              Container(
+                height: 100,
+                  child: listBrands()),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 37,
+                        width: double.infinity,
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, bottom: 10),
+                          child: Text(
+                            Strings.offersForUnits,
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                color: CustomColors.blackLetter),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          height: 320,
+                          width: double.infinity,
+                          child: listOffersUnits()),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 37,
+                        width: double.infinity,
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, bottom: 10),
+                          child: Text(
+                            Strings.offersForMix,
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                color: CustomColors.blackLetter),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          height: 320,
+                          width: double.infinity,
+                          child: listOffersMix())
+                    ],
+                  ),
+                ),
+              )
             ],
-          ) ,
+          ),
         ),
       ),
     );
   }
 
-  Widget header(){
+  Widget header() {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -82,8 +144,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                     height: 30,
                     width: 30,
                     child: Image(
-                      image: AssetImage(
-                          "Assets/images/ic_backward_arrow.png"),
+                      image: AssetImage("Assets/images/ic_backward_arrow.png"),
                     ),
                   ),
                   onTap: () => keyMenuLeft.currentState.openDrawer(),
@@ -114,16 +175,14 @@ class _OffersDayPageState extends State<OffersDayPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Expanded(
-                      child: boxSearchHome(searchController, null)),
+                  Expanded(child: boxSearchHome(searchController, null)),
                   SizedBox(
                     width: 10,
                   ),
                   IconButton(
                       icon: Icon(
                         Icons.menu,
-                        color:
-                        CustomColors.graySearch.withOpacity(.3),
+                        color: CustomColors.graySearch.withOpacity(.3),
                       ),
                       onPressed: null)
                 ],
@@ -137,7 +196,9 @@ class _OffersDayPageState extends State<OffersDayPage> {
 
   Widget listOffersUnits() {
     return ListView.builder(
-      itemCount: providerProducts.ltsOfferUnits.isEmpty?0:providerProducts.ltsOfferUnits.length,
+      itemCount: providerProducts.ltsOfferUnits.isEmpty
+          ? 0
+          : providerProducts.ltsOfferUnits.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
@@ -148,12 +209,59 @@ class _OffersDayPageState extends State<OffersDayPage> {
     );
   }
 
-  getOffersType(String typeOffer,String brandId,int offset) async {
+  Widget listBrands() {
+    return ListView.builder(
+      itemCount: providerHome.ltsBrands.isEmpty
+          ? 0
+          : providerHome.ltsBrands.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: itemBrandOffer(providerHome.ltsBrands[index].image),
+        );
+      },
+    );
+  }
+
+  Widget listOffersMix() {
+    return ListView.builder(
+      itemCount: providerProducts.ltsOfferMix.isEmpty
+          ? 0
+          : providerProducts.ltsOfferMix.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: itemOfferUnits(providerProducts.ltsOfferMix[index]),
+        );
+      },
+    );
+  }
+
+  getOffersUnits(String typeOffer, String brandId, int offset) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callProducts = providerProducts.getOfferByType(typeOffer, brandId, offset);
+        Future callProducts =
+            providerProducts.getOfferByType(typeOffer, brandId, offset);
         await callProducts.then((list) {
+          providerProducts.ltsOfferUnits = list;
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
 
+  getOffersMix(String typeOffer, String brandId, int offset) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callProducts =
+            providerProducts.getOfferByType(typeOffer, brandId, offset);
+        await callProducts.then((list) {
+          providerProducts.ltsOfferMix = list;
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
