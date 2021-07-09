@@ -51,6 +51,49 @@ Widget boxSearchCountries(TextEditingController controllerSearch,Function search
   );
 }
 
+Widget itemCountrySelect(CountryUser country, Function action) {
+  return GestureDetector(
+    child: Container(
+      width: double.infinity,
+      child: Container(
+        margin: EdgeInsets.all(10),
+        child: Container(
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        color: CustomColors.grayBackground,
+                        borderRadius: BorderRadius.all(Radius.circular(100))),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      child: SvgPicture.network(
+                        country.flag,
+                        height: 30,
+                        width: 30,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )),
+                SizedBox(width: 15),
+                Text(
+                  country.country,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 15,
+                      color: CustomColors.blackLetter,
+                      fontFamily: Strings.fontRegular),
+                ),
+              ]),
+        ),
+      ),
+    ),
+    onTap: () => action(country),
+  );
+}
+
 Widget itemCountry(CountryUser country, Function action) {
   return GestureDetector(
     child: Container(

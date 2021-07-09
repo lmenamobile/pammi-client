@@ -43,7 +43,7 @@ class Reference {
     isSelected: false,
     isFavorite: json["liked"],
     qualification: json["qualification"]==null?'0':json["qualification"].toString(),
-    images: List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
+    images:json["images"]==null?null: List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
     brandAndProduct: json["brandProviderProduct"]==null?null:BrandAndProduct.fromJson(json["brandProviderProduct"]),
   );
 

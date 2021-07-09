@@ -31,7 +31,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       providerProducts.productDetail = widget.product;
-      providerProducts.referenceProductSelected = widget.product.references[0];
+      providerProducts.referenceProductSelected = providerProducts.referenceProductSelected??widget.product.references[0];
     });
     super.initState();
   }

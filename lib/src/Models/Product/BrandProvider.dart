@@ -8,7 +8,7 @@ class BrandProvider {
   Brand brand;
 
   factory BrandProvider.fromJson(Map<String, dynamic> json) => BrandProvider(
-    brand: Brand.fromJson(json["brand"]),
+    brand: json["brand"]==null?null:Brand.fromJson(json["brand"]),
   );
 
   Map<String, dynamic> toJson() => {

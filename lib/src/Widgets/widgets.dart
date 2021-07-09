@@ -482,9 +482,7 @@ Widget itemConnectTo(String logo, Function actionConnect) {
         ),
       ),
     ),
-    onTapUp: (_) {
-      actionConnect();
-    },
+    onTap: ()=>actionConnect(),
   );
 }
 
@@ -1332,10 +1330,10 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                 ),
               ),
               Positioned(
-                right: 12,
-                bottom: 18,
+                right: 5,
+                bottom: 10,
                 child: FadeInImage(
-                  height:40,
+                  height:60,
                   image: NetworkImage(category.image),
                   placeholder: AssetImage("Assets/images/ic_sport.png"),
                   fit: BoxFit.fill,

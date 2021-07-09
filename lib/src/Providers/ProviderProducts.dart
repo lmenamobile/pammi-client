@@ -193,7 +193,7 @@ class ProviderProducts with ChangeNotifier{
       'limit': 20,
       "brandProviderId": idBrand??'',
       "subcategoryId": idSubcategory,
-      "categoryId": idCategory,
+      "categoryId": idCategory??'',
       "price": price??'',
       "orderBy": orderBy??'',
       "userId": prefs.userID
@@ -237,7 +237,14 @@ class ProviderProducts with ChangeNotifier{
       "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
 
-    final response = await http.get(Constants.baseURL+"/get-product/$idProduct",headers: header)
+    Map jsonData = {
+      "brandProviderProductId":idProduct,
+      "userId": prefs.userID
+    };
+
+    var body = jsonEncode(jsonData);
+
+    final response = await http.post(Constants.baseURL+"product/get-product",headers: header,body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingProducts = false;

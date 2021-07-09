@@ -7,10 +7,12 @@ import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogSelectCountry.dart';
 
 customPageTransition(Widget page) {
   return PageTransition(
@@ -177,6 +179,81 @@ Widget btnCustomSize(double height, String nameButton, Color colorBackground,
               color: colorText,
             ),
           ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget itemProductGeneric(Product product, Function openDetail){
+  int position = getRandomPosition(product?.references?.length??0);
+  return InkWell(
+    onTap: ()=>openDetail(product),
+    child: Container(
+      width: 160,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 3,
+            offset: Offset(0, 2), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  child: FadeInImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(product?.references[position]?.images[0]?.url),
+                    placeholder: AssetImage("Assets/images/spinner.gif"),
+                  ),
+                ),
+                customDivider(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product?.brandProvider?.brand?.brand??'',
+                        style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 12,
+                          color: CustomColors.gray7,
+                        ),
+                      ),
+                      Text(
+                        product?.references[position]?.reference??'',
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 13,
+                          color: CustomColors.blackLetter,
+                        ),
+                      ),
+                      Text(
+                        formatMoney( product?.references[position]?.price??'0'),
+                        style: TextStyle(
+                          fontFamily: Strings.fontBold,
+                          color: CustomColors.orange,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     ),
@@ -464,6 +541,17 @@ Widget emptyView(String image, String title, String text) {
     );
 }
 
+Future<dynamic> openSelectCountry(
+    BuildContext context,) async {
+  var state = await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) =>DialogSelectCountry(),
+  );
+  return state;
+}
+
+
 Future<bool> showCustomAlertDialog(
     BuildContext context, String title, String msg) async {
   bool state = await showDialog(
@@ -495,5 +583,5 @@ Widget headerRefresh(){
 }
 
 Widget footerRefreshCustom(){
-  return ClassicFooter(noDataText: "", loadingText: "", idleText: "", idleIcon: null, height: 30);
+  return ClassicFooter( canLoadingText:"Cargar mas",noDataText: "", loadingText: "", idleText: "", idleIcon: null, height: 30);
 }

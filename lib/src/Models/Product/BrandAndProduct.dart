@@ -35,7 +35,7 @@ class BrandAndProduct {
     featured: json["featured"],
     weight: json["weight"],
     volume: json["volume"],
-    brandProvider: BrandProvider.fromJson(json["brandProvider"]),
+    brandProvider:json["brandProvider"]==null?null: BrandProvider.fromJson(json["brandProvider"]),
   );
 
   Map<String, dynamic> toJson() => {

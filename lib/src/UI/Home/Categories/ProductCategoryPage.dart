@@ -14,9 +14,9 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class ProductCategoryPage extends StatefulWidget {
-  final String idCategory, idSubcategory;
+  final String idCategory, idSubcategory, idBrandProvider;
 
-  const ProductCategoryPage({@required this.idCategory,@required this.idSubcategory});
+  const ProductCategoryPage({@required this.idCategory,@required this.idSubcategory,this.idBrandProvider});
   @override
   _ProductCategoryPageState createState() => _ProductCategoryPageState();
 }
@@ -165,7 +165,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   getProducts() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callProducts = providerProducts.getProductsByCategory("", pageOffset, null, widget.idCategory, widget.idSubcategory, null, null);
+        Future callProducts = providerProducts.getProductsByCategory("", pageOffset, widget?.idBrandProvider==null?null:widget?.idBrandProvider, widget.idCategory.isEmpty?null:widget.idCategory, widget.idSubcategory, null, null);
         await callProducts.then((list) {
 
         }, onError: (error) {

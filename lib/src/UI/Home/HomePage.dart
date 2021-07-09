@@ -35,8 +35,15 @@ class _MyHomePageState extends State<MyHomePage> {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     providerHome.ltsBrands.clear();
+    providerHome.ltsBanners.clear();
     providerSettings.ltsCategories.clear();
-    serviceGetCategories();
+    if(prefs.countryIdUser!="0") {
+      serviceGetCategories();
+    }else{
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        selectCountryUserNotLogin();
+      });
+    }
     super.initState();
   }
 
@@ -417,7 +424,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await callSettings.then((list) {
           getBrands();
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -432,7 +439,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await callHome.then((list) {
           getBanners();
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -447,7 +454,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await callHome.then((list) {
           getBannersOffer();
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -460,11 +467,16 @@ class _MyHomePageState extends State<MyHomePage> {
       if (value) {
         Future callHome = providerHome.getBannersOffer("0");
         await callHome.then((list) {}, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
+  }
+
+  selectCountryUserNotLogin()async{
+    bool state = await openSelectCountry(context);
+    if(state)serviceGetCategories();
   }
 }

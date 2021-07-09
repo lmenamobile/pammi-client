@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -52,7 +53,12 @@ class _OffersDayPageState extends State<OffersDayPage> {
           color: CustomColors.grayBackground,
           child: Column(
             children: [
-              header(),
+              titleBarWithDoubleAction(
+              Strings.offersDay,
+              "ic_blue_arrow.png",
+              "ic_car.png",
+                  () =>keyMenuLeft.currentState.openDrawer(),
+              null),
               Container(
                 height: 100,
                   child: listBrands()),

@@ -53,13 +53,13 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
           Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 130),
+                margin: EdgeInsets.only(top: 170),
                 child: Image(
                   image: AssetImage("Assets/images/ic_shape.png"),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 50, left: 30),
+                margin: EdgeInsets.only(top: 75, left: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -100,6 +100,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                 child: Container(
                   margin: EdgeInsets.only(
                     left: 20,
+                    top: 10
                   ),
                   alignment: Alignment.topLeft,
                   child: Image(

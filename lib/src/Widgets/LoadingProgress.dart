@@ -39,7 +39,7 @@ class _LoadingProgressState extends State<LoadingProgress> with TickerProviderSt
   }
 
   Widget loadingWidget(AnimationController controller){
-    controller.duration = Duration(milliseconds: 1900);
+    controller.duration = Duration(milliseconds: 3000);
     controller.repeat();
     return Lottie.asset(
       'Assets/images/loanding.json',

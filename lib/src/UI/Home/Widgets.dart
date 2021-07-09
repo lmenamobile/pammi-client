@@ -29,7 +29,7 @@ Widget itemCategory(Category category) {
               ]),
           child: Center(
             child: FadeInImage(
-              height: 30,
+              height: 40,
               fit: BoxFit.fill,
               image: NetworkImage(category.image),
               placeholder: AssetImage(""),

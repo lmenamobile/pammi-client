@@ -1,4 +1,6 @@
 
+import 'package:wawamko/src/Models/OfferHighlights.dart';
+
 class Banners {
   Banners({
     this.id,
@@ -7,6 +9,7 @@ class Banners {
     this.position,
     this.image,
     this.type,
+    this.offerHighlights
   });
 
   int id;
@@ -15,6 +18,7 @@ class Banners {
   int position;
   String image;
   String type;
+  OfferHighlights offerHighlights;
 
   factory Banners.fromJson(Map<String, dynamic> json) => Banners(
     id: json["id"],
@@ -23,6 +27,7 @@ class Banners {
     position: json["position"],
     image: json["image"],
     type: json["type"],
+    offerHighlights:json["providerOffer"]==null?null:OfferHighlights.fromJson(json["providerOffer"]),
   );
 
   Map<String, dynamic> toJson() => {

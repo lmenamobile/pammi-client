@@ -5,6 +5,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
@@ -39,12 +40,14 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
   var hideMenu = false;
   SharePreference _prefs = SharePreference();
   ProfileProvider profileProvider;
+  OnboardingProvider providerOnBoarding;
 
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColors.white.withOpacity(.5),
+      backgroundColor: CustomColors.white.withOpacity(.6),
       body: Container(child: _body(context)),
     );
   }
@@ -81,7 +84,6 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       itemProfile(
-                        context,
                         profileProvider?.user == null
                             ? _prefs.nameUser
                             : profileProvider?.user?.fullname,
@@ -131,15 +133,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                               context,
                               Strings.closeSesion,
                               "Assets/images/ic_sign_off.png",
-                              Strings.closeSesionText, () {
-                            _prefs.dataUser = "0";
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.of(context).pushReplacement(
-                                PageTransition(
-                                    type: PageTransitionType.slideInUp,
-                                    child: LoginPage(),
-                                    duration: Duration(milliseconds: 700)));
+                              Strings.closeSesionText, () async{
+                            await _prefs.clearPrefs();
+                            await callAccessToken();
                           }, () {
                             Navigator.pop(context);
                           });
@@ -169,7 +165,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     }
   }
 
-  Widget itemProfile(BuildContext context, String nameUser) {
+  Widget itemProfile(String nameUser) {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
@@ -181,7 +177,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
           padding: EdgeInsets.only(left: 25, right: 25),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 width: 40,
@@ -200,7 +196,14 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
               SizedBox(
                 width: 10,
               ),
-              Expanded(
+              _prefs.authToken == "0"? Text(
+                Strings.login,
+                style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontFamily: Strings.fontBold,
+                    fontSize: 12,
+                    color: CustomColors.yellow),
+              ): Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -291,5 +294,23 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
 
   pushToPage(Widget page) {
     Navigator.pushReplacement(context, customPageTransition(page));
+  }
+
+  callAccessToken() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerOnBoarding.getAccessToken();
+        await callUser.then((token) {
+
+          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => LoginPage()),
+                  (Route<dynamic> route) => false);
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
   }
 }

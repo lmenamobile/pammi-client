@@ -106,7 +106,7 @@ class ProviderHome with ChangeNotifier {
     Map jsonData = {
       'filter': "",
       'offset': offset,
-      'limit': 20,
+      'limit': 30,
       "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
       "type": Constants.bannerGeneral
     };
@@ -150,7 +150,7 @@ class ProviderHome with ChangeNotifier {
     Map jsonData = {
       'filter': "",
       'offset': offset,
-      'limit': 20,
+      'limit': 30,
       "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
       "type": Constants.bannerOffer
     };

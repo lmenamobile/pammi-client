@@ -16,6 +16,11 @@ class SharePreference {
     this._prefs = await SharedPreferences.getInstance();
   }
 
+  clearPrefs()async{
+    //final pref = await SharedPreferences.getInstance();
+    await this._prefs.clear();
+  }
+
   get userID {
     return _prefs.getString('userID') ?? "";
   }

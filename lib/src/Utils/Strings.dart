@@ -28,6 +28,7 @@ class Strings {
   //loGIN
   static const String login = 'Iniciar sesión';
   static const String titleAmSorry = '¡Lo sentimos!';
+  static const String selectYourCountry = 'Selecciona tu país';
 
   static const String cobertCountry = 'En este momento no tenemos cobertura en este país';
   static const String cobertCity = 'En este momento no tenemos cobertura en este estado';
