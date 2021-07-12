@@ -145,7 +145,10 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
 
   actionSelectState(StatesCountry state) {
     providerSettings.stateCountrySelected = state;
-    Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
+    //Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
+    Navigator.push(context, customPageTransition(SelectCityPage())).then((value) => {
+    Navigator.pop(context)
+    });
   }
 
   getStatesSearch(String search) async {

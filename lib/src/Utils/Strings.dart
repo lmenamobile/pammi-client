@@ -259,6 +259,12 @@ class Strings {
   static const String  offersForMix = 'Superofertas';
   static const String  offersEmpty = 'Aún no hay ofertas por mostrar';
 
+  /*ShopCart*/
+  static const String  shopCart = 'Carrito de compras';
+  static const String  saveProduct = 'Guardar';
+  static const String  deleteProduct = 'Eliminar';
+  static const String  provider = 'Proveedor';
+
   /*Register User*/
   static const String  nameUser = 'Nombre';
   static const String  lastName = 'Apellido';

@@ -179,10 +179,11 @@ Widget sliderBanner(int indexSlider,Function updateIndex, List<Banners> banners)
       Swiper(
           itemBuilder:
               (BuildContext context, int index) {
-            return Image.network(
-              banners.isEmpty?"http://via.placeholder.com/200x150":banners[index].image,
-              fit: BoxFit.fill,
-            );
+            return FadeInImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(banners.isEmpty?"":banners[index].image),
+                placeholder: AssetImage("Assets/images/preloader.gif"),
+              );
           },
           autoplay: false,
           itemCount: banners.isEmpty?0:banners.length,
@@ -252,7 +253,7 @@ Widget itemProduct(){
                 child: FadeInImage(
                   fit: BoxFit.cover,
                   image: NetworkImage("https://logodownload.org/wp-content/uploads/2014/01/samsung-logo-4.png"),
-                  placeholder: AssetImage(""),
+                  placeholder: AssetImage("Assets/images/preloader.gif"),
           ),
               ),
             )

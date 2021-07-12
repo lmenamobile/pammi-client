@@ -402,8 +402,8 @@ class _LoginPageState extends State<LoginPage> {
         providerSettings.citySelected = null;
         Navigator.push(context, customPageTransition(SelectStatesPage())).then((value){
           print(providerSettings.citySelected.name);
+          validateUserIsNotRegister(user, typeRegister);
         });
-        print(providerSettings.citySelected.name+"dfpjdpfjpj");
       } else {
         utils.showSnackBar(context, Strings.errorCreateAccountGmail);
       }
@@ -432,7 +432,6 @@ class _LoginPageState extends State<LoginPage> {
               (Route<dynamic> route) => false);
         }, onError: (error) {
           Navigator.pop(context);
-          //validateUserIsNotRegister(dataUser, typeLogin);
           selectCountryAndCity(dataUser, typeLogin);
         });
       } else {
