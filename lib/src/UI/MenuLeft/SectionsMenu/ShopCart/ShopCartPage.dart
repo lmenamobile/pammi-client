@@ -53,10 +53,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
                           topRight: Radius.circular(10),
                         )
                       ),
-                      child: Column(
-                        children: [
-
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            listProductsByProvider(),
+                            itemSubtotalCart(providerShopCart?.shopCart?.totalCart)
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -77,7 +80,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerShopCart?.shopCart?.packagesProvider==null?0:providerShopCart?.shopCart?.packagesProvider?.length,
         itemBuilder: (BuildContext context, int index) {
-          return cardListProductsByProvider();
+          return cardListProductsByProvider(providerShopCart?.shopCart?.packagesProvider[index]);
         },
       ),
     );

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
@@ -7,15 +6,13 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
-import 'package:wawamko/src/UI/Featured.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/FavoritesPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OffersDayPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Training/TrainingPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/Widgets.dart';
-import 'package:wawamko/src/UI/MyOrders.dart';
-import 'package:wawamko/src/UI/dayOferts.dart';
 import 'package:wawamko/src/UI/User/ProfilePage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
@@ -27,6 +24,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../Onboarding/Login.dart';
+import 'SectionsMenu/GiftCards/GiftCartPage.dart';
 
 class DrawerMenuPage extends StatefulWidget {
   final rollOverActive;
@@ -100,25 +98,30 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                               ? pushToPage(MyHomePage())
                               : Navigator.pop(context),
                           Strings.start),
-                      itemMenu("ic_ offers_day.png",  () => widget.rollOverActive != Constants.menuOffersTheDay
+                      itemMenu("ic_offers_day.png",  () => widget.rollOverActive != Constants.menuOffersTheDay
                           ? pushToPage(OffersDayPage())
                           : Navigator.pop(context), Strings.dayOferts),
                       itemMenu(
-                          "ic_featured.png",
+                          "ic_highlight.png",
                           () =>
                               widget.rollOverActive != Constants.menuHighlights
                                   ? pushToPage(HighlightsPage())
                                   : Navigator.pop(context),
                           Strings.destacados),
                       itemMenu(
-                          "ic_wishes.png",
+                          "ic_favorite.png",
                           () => widget.rollOverActive != Constants.menuFavorites
                               ? pushToPage(FavoritesPage())
                               : Navigator.pop(context),
                           Strings.wishes),
-                      itemMenu("ic_news.png", () {}, Strings.myOrders),
-                      itemMenu(
-                          "ic_ notification.png", () {}, Strings.notifications),
+                      itemMenu("ic_gif_card.png",() => widget.rollOverActive != Constants.menuGiftCard
+                          ? pushToPage(GiftCartPage())
+                          : Navigator.pop(context), Strings.giftCards),
+                      itemMenu("ic_orders.png", () {}, Strings.myOrders),
+                      itemMenu("ic_trainings.png", () => widget.rollOverActive != Constants.menuTraining
+                          ? pushToPage(TrainingPage())
+                          : Navigator.pop(context), Strings.trainings),
+                      itemMenu("ic_notification.png", () {}, Strings.notifications),
                       itemMenu("ic_support.png", () {
                         widget.rollOverActive != "support"
                             ? pushToPage(SupportHelpPage())
@@ -189,7 +192,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                 child: Center(
                   child: Image(
                     fit: BoxFit.fill,
-                    image: AssetImage("Assets/images/ic_default_perfil.png"),
+                    image: AssetImage("Assets/images/ic_img_profile.png"),
                   ),
                 ),
               ),

@@ -30,5 +30,7 @@ class Constants {
   static const String menuHome          = 'home';
   static const String menuNotifications = 'Notifications';
   static const String menuSupport       = 'support';
+  static const String menuGiftCard       = 'giftCard';
+  static const String menuTraining       = 'training';
 
 }

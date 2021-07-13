@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 : NetworkImage(''),
                                             fit: BoxFit.cover,
                                             placeholder: AssetImage(
-                                                "Assets/images/ic_default_perfil.png"),
+                                                "Assets/images/ic_img_profile.png"),
                                           ),
                                         ),
                                       ),

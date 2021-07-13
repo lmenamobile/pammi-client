@@ -209,6 +209,8 @@ class Strings {
   static const String dayOferts = 'Ofertas del día';
   static const String destacados = 'Destacados';
   static const String myOrders = 'Mis pedidos';
+  static const String giftCards = 'Tarjetas de regalo';
+  static const String trainings = 'Capacitaciones';
   static const String wishes = 'Deseos';
   static const String notifications = 'Notificaciones';
   static const String supportservices = 'Soporte y servicios';
@@ -264,6 +266,14 @@ class Strings {
   static const String  saveProduct = 'Guardar';
   static const String  deleteProduct = 'Eliminar';
   static const String  provider = 'Proveedor';
+  static const String  subtotal = 'Subtotal';
+  static const String  makePurchase = 'Realizar compra';
+
+  /*GiftCart*/
+
+  /*Training*/
+
+
 
   /*Register User*/
   static const String  nameUser = 'Nombre';
