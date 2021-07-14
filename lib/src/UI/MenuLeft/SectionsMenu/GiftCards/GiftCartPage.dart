@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -8,6 +9,7 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import '../../DrawerMenu.dart';
@@ -22,11 +24,12 @@ class _GiftCartPageState extends State<GiftCartPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshGiftCard = RefreshController(initialRefresh: false);
   ProviderShopCart providerShopCart;
+  int pageOffset = 0;
 
   @override
   void initState() {
     providerShopCart = Provider.of<ProviderShopCart>(context,listen: false);
-
+    getLtsGiftCarts();
     super.initState();
   }
 
@@ -62,26 +65,24 @@ class _GiftCartPageState extends State<GiftCartPage> {
                           topRight: Radius.circular(10),
                         )
                       ),
-                      child: Container(
-                        child: GridView.builder(
-                          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: .8,
-                            crossAxisSpacing: 15,
-                          ),
-                          padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
-                          itemCount: 5,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return itemGiftCard();
-                          },
-                        ),
-                      ),
+                      child:  SmartRefresher(
+                          controller: _refreshGiftCard,
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          onLoading: _onLoadingToRefresh,
+                          footer: footerRefreshCustom(),
+                          header: headerRefresh(),
+                          onRefresh: _pullToRefresh,
+                          child:  providerShopCart.ltsGiftCard.isEmpty
+                              ? emptyData("ic_highlights_empty.png",
+                              Strings.sorryHighlights, Strings.emptyGiftCards)
+                              : SingleChildScrollView(child: gridViewItems())),
                     ),
                   ),
                 ],
-              )
+              ),
+              Visibility(
+                  visible: providerShopCart.isLoadingCart, child: LoadingProgress()),
             ],
           ),
         ),
@@ -89,7 +90,27 @@ class _GiftCartPageState extends State<GiftCartPage> {
     );
   }
 
-  Widget itemGiftCard(){
+  Widget gridViewItems(){
+    return Container(
+      child: GridView.builder(
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          childAspectRatio: .8,
+          crossAxisSpacing: 15,
+        ),
+        padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
+        itemCount: providerShopCart.ltsGiftCard.isEmpty?0:providerShopCart.ltsGiftCard.length,
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return itemGiftCard(providerShopCart.ltsGiftCard[index]);
+        },
+      ),
+    );
+  }
+
+  Widget itemGiftCard(GiftCard gift){
     return InkWell(
       onTap: ()=>null,
       child: Container(
@@ -126,7 +147,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                         child: Image.asset("Assets/images/ic_giftcard.png")),
                     Center(
                       child: Text(
-                        formatMoney("200"),
+                        formatMoney(gift?.value??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 18,
@@ -144,7 +165,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'La tarjeta',
+                    gift?.name??'',
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
@@ -153,7 +174,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   ),
                   SizedBox(height: 5,),
                   Text(
-                    formatMoney("200"),
+                    formatMoney(gift?.value??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 13,
@@ -190,10 +211,29 @@ class _GiftCartPageState extends State<GiftCartPage> {
     );
   }
 
-  getShopCart() async {
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshGiftCard.refreshCompleted();
+  }
+
+  void clearForRefresh() {
+    pageOffset = 0;
+    providerShopCart.ltsGiftCard.clear();
+    getLtsGiftCarts();
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+    getLtsGiftCarts();
+    _refreshGiftCard.loadComplete();
+  }
+
+  getLtsGiftCarts() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getShopCart();
+        Future callCart = providerShopCart.getGiftCards(pageOffset,null,null);
         await callCart.then((msg) {
 
         }, onError: (error) {

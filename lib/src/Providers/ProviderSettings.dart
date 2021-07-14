@@ -8,6 +8,7 @@ import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Models/SubCategory.dart';
+import 'package:wawamko/src/Models/Training.dart';
 
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -52,6 +53,13 @@ class ProviderSettings with ChangeNotifier{
   List<StatesCountry> get ltsStatesCountries => this._ltsStatesCountries;
   set ltsStatesCountries(List<StatesCountry> value) {
     this._ltsStatesCountries.addAll(value);
+    notifyListeners();
+  }
+
+  List<Training> _ltsTraining = List();
+  List<Training> get ltsTraining => this._ltsTraining;
+  set ltsTraining(List<Training> value) {
+    this._ltsTraining.addAll(value);
     notifyListeners();
   }
 
@@ -461,6 +469,47 @@ class ProviderSettings with ChangeNotifier{
       throw decodeJson['message'];
     }
 
+  }
+
+  Future<dynamic> getTrainings(int page) async {
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token":prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      "filter": "",
+      "offset" : page,
+      "limit" : 20,
+      "countryId": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL+"system/get-trainings", headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<Training> listTrainings = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final training = Training.fromJson(item);
+          listTrainings.add(training);
+        }
+        this.isLoadingSettings = false;
+        this._ltsTraining = listTrainings;
+        return listTrainings;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
   }
 
 

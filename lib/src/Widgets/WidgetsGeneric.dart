@@ -337,6 +337,7 @@ Widget emptyData(
           width: 200,
           image: AssetImage("Assets/images/$image"),
         ),
+        SizedBox(height: 20,),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 60),
           child: Column(
