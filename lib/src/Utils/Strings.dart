@@ -273,6 +273,8 @@ class Strings {
 
   /*Training*/
 
+  /*Products Save*/
+  static const String  productsSave = 'Productos guardados';
 
 
   /*Register User*/
@@ -362,9 +364,10 @@ class Strings {
   static const String emptyFavorites                       = "Tenemos miles de productos que te encantarán ¡explora la app y súmalos a tu lista de deseos!";
   static const String sorryHighlights                      = "¡Lo sentimos!";
   static const String emptyHighlights                      = "Aún no hay destacados que mostrar aquí.";
-  static const String emptyCampaigns                      = "Aún no hay campañas que mostrar aquí.";
-  static const String emptyTraining                      = "Aún no hay capacitaciones que mostrar aquí.";
-  static const String emptyGiftCards                      = "Aún no hay tarjetas de regalo que mostrar aquí.";
+  static const String emptyCampaigns                       = "Aún no hay campañas que mostrar aquí.";
+  static const String emptyTraining                        = "Aún no hay capacitaciones que mostrar aquí.";
+  static const String emptyGiftCards                       = "Aún no hay tarjetas de regalo que mostrar aquí.";
+  static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
 
   //Fonts
   static const String fontBold = 'FontBold';

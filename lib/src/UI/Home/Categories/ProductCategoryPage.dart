@@ -127,22 +127,24 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    child: GridView.builder(
-                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: .77,
-                        crossAxisSpacing: 15,
+                  Expanded(
+                    child: Container(
+                      child: GridView.builder(
+                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: .77,
+                          crossAxisSpacing: 15,
+                        ),
+                        padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
+
+                        itemCount: providerProducts.ltsProductsByCategory.isEmpty?0:
+                        providerProducts.ltsProductsByCategory.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct,callIsFavorite);
+                        },
                       ),
-                      padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: providerProducts.ltsProductsByCategory.isEmpty?0:
-                      providerProducts.ltsProductsByCategory.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct,callIsFavorite);
-                      },
                     ),
                   )
                 ],

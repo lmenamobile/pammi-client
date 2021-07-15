@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ProductsSavePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import 'Widgets.dart';
 
@@ -21,7 +23,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   @override
   void initState() {
     providerShopCart = Provider.of<ProviderShopCart>(context,listen: false);
-    providerShopCart.getShopCart();
+    getShopCart();
     super.initState();
   }
 
@@ -57,7 +59,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                         child: Column(
                           children: [
                             listProductsByProvider(),
-                            itemSubtotalCart(providerShopCart?.shopCart?.totalCart)
+                            itemSubtotalCart(providerShopCart?.shopCart?.totalCart,()=>Navigator.push(context, customPageTransition(ProductsSavePage())))
                           ],
                         ),
                       ),
@@ -80,7 +82,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerShopCart?.shopCart?.packagesProvider==null?0:providerShopCart?.shopCart?.packagesProvider?.length,
         itemBuilder: (BuildContext context, int index) {
-          return cardListProductsByProvider(providerShopCart?.shopCart?.packagesProvider[index]);
+          return cardListProductsByProvider(providerShopCart?.shopCart?.packagesProvider[index],updateProductCart,deleteProduct,saveProduct);
         },
       ),
     );
@@ -91,7 +93,58 @@ class _ShopCartPageState extends State<ShopCartPage> {
       if (value) {
         Future callCart = providerShopCart.getShopCart();
         await callCart.then((msg) {
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
 
+  updateProductCart(int quantity,String idReference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.updateQuantityProductCart(
+            idReference,
+            quantity.toString());
+        await callCart.then((msg) {
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  deleteProduct(String idReference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.deleteProductCart(idReference);
+        await callCart.then((msg) {
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  saveProduct(String idReference,String quantity) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.saveReference(idReference, quantity);
+        await callCart.then((msg) {
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());

@@ -27,6 +27,13 @@ class ProviderProducts with ChangeNotifier{
     notifyListeners();
   }
 
+  int _unitsProduct = 1;
+  int get unitsProduct => this._unitsProduct;
+  set unitsProduct(int value) {
+    this._unitsProduct = value;
+    notifyListeners();
+  }
+
   List<Product> _ltsProductsByCategory = List();
   List<Product> get ltsProductsByCategory => this._ltsProductsByCategory;
   set ltsProductsByCategory(List<Product> value) {

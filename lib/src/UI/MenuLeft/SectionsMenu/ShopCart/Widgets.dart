@@ -10,7 +10,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget itemProductCart(ProductShopCart product) {
+Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct) {
   return Column(
     children: [
       Container(
@@ -61,10 +61,15 @@ Widget itemProductCart(ProductShopCart product) {
                 viewPrice(product),
                 Row(
                   children: [
-                    containerCustom(Icon(
-                      Icons.remove,
-                      color: CustomColors.black2,
-                    )),
+                    InkWell(
+                      onTap: (){
+                        if(int.parse(product?.qty)>1)updateQuantity(int.parse(product?.qty)-1,product?.reference?.id.toString());
+                      },
+                      child: containerCustom(Icon(
+                        Icons.remove,
+                        color: CustomColors.black2,
+                      )),
+                    ),
                     containerCustom(Text(
                       product?.qty??'0',
                       style: TextStyle(
@@ -72,10 +77,13 @@ Widget itemProductCart(ProductShopCart product) {
                           fontSize: 15,
                           color: CustomColors.black2),
                     )),
-                    containerCustom(Icon(
-                      Icons.add,
-                      color: CustomColors.black2,
-                    ))
+                    InkWell(
+                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,product?.reference?.id.toString()),
+                      child: containerCustom(Icon(
+                        Icons.add,
+                        color: CustomColors.black2,
+                      )),
+                    )
                   ],
                 )
               ],
@@ -94,7 +102,7 @@ Widget itemProductCart(ProductShopCart product) {
         children: [
           Expanded(
               child: customButton("ic_save.png", Strings.saveProduct,
-                  CustomColors.gray7, null)),
+                  CustomColors.gray7, (){saveProduct(product?.reference?.id.toString(), product?.qty);})),
           Container(
             height: 40,
             width: 1,
@@ -102,10 +110,105 @@ Widget itemProductCart(ProductShopCart product) {
           ),
           Expanded(
               child: customButton("ic_remove.png", Strings.deleteProduct,
-                  CustomColors.redTour, null)),
+                  CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
         ],
       )
     ],
+  );
+}
+
+Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteProduct) {
+  return Container(
+    margin: EdgeInsets.only(bottom: 15),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(
+        Radius.circular(15),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 3,
+          offset: Offset(0, 2), // changes position of shadow
+        ),
+      ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Container(
+                width: 130,
+                child: Center(
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    child: FadeInImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(product?.reference?.images[getRandomPosition(product?.reference?.images?.length)].url),
+                      placeholder: AssetImage("Assets/images/spinner.gif"),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                      style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        fontSize: 12,
+                        color: CustomColors.gray7,
+                      ),
+                    ),
+                    Text(
+                      product?.reference?.reference ?? '',
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        fontSize: 13,
+                        color: CustomColors.blackLetter,
+                      ),
+                    ),
+                    viewPrice(product),
+                  ],
+                ),
+              )
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            height: 1,
+            width: double.infinity,
+            color: CustomColors.grayBackground,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                  child: customButton("ic_shopping_white.png", Strings.addCartShop,
+                      CustomColors.gray7, (){addCart(int.parse(product?.qty),product?.reference?.id.toString(),product?.id.toString());})),
+              Container(
+                height: 40,
+                width: 1,
+                color: CustomColors.grayBackground,
+              ),
+              Expanded(
+                  child: customButton("ic_remove.png", Strings.deleteProduct,
+                      CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
+            ],
+          )
+        ],
+      ),
+    ),
   );
 }
 
@@ -168,7 +271,7 @@ Widget containerCustom(Widget item) {
 Widget customButton(
     String icon, String text, Color colorText, Function action) {
   return InkWell(
-    onTap: () => action(),
+    onTap: action,
     child: Container(
       width: double.infinity,
       height: 40,
@@ -179,6 +282,7 @@ Widget customButton(
             Image.asset(
               "Assets/images/$icon",
               width: 25,
+              color: colorText,
             ),
             Text(
               text,
@@ -192,7 +296,7 @@ Widget customButton(
   );
 }
 
-Widget cardListProductsByProvider(PackagesProvider provider) {
+Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete, Function save) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -261,7 +365,7 @@ Widget cardListProductsByProvider(PackagesProvider provider) {
               SizedBox(
                 height: 10,
               ),
-              listProducts(provider.products)
+              listProducts(provider.products,updateQuantity,delete,save)
             ],
           )
         ],
@@ -270,20 +374,20 @@ Widget cardListProductsByProvider(PackagesProvider provider) {
   );
 }
 
-Widget listProducts(List<ProductShopCart> ltsProducts) {
+Widget listProducts(List<ProductShopCart> ltsProducts, Function updateQuantity, Function delete, Function save) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
-        return itemProductCart(ltsProducts[index]);
+        return itemProductCart(ltsProducts[index],updateQuantity,delete,save);
       },
     ),
   );
 }
 
-Widget itemSubtotalCart(TotalCart total){
+Widget itemSubtotalCart(TotalCart total, Function openProductsSave){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 15),
     decoration: BoxDecoration(
@@ -328,14 +432,17 @@ Widget itemSubtotalCart(TotalCart total){
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: CustomColors.orange,
-                  borderRadius: BorderRadius.all(Radius.circular(5))
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
-                  child: Image.asset("Assets/images/ic_box.png",height: 40,),
+              InkWell(
+                onTap: ()=>openProductsSave(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: CustomColors.orange,
+                    borderRadius: BorderRadius.all(Radius.circular(5))
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
+                    child: Image.asset("Assets/images/ic_box.png",height: 40,),
+                  ),
                 ),
               ),
               SizedBox(width: 20,),

@@ -221,23 +221,23 @@ Widget favorite(bool isFavorite){
   );
 }
 
-Widget rowButtonsMoreAndLess(){
+Widget rowButtonsMoreAndLess(String units, Function add, Function remove){
   return  Container(
     margin: EdgeInsets.symmetric(vertical: 10),
     child: Row(
       children: [
-        buttonMoreOrLess(Icons.remove, null),
+        buttonMoreOrLess(Icons.remove, remove),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            "0",
+            units,
             style: TextStyle(
                 fontSize: 25,
                 fontFamily: Strings.fontBold,
                 color: CustomColors.blueSplash),
           ),
         ),
-        buttonMoreOrLess(Icons.add, null),
+        buttonMoreOrLess(Icons.add, add),
       ],
     ),
   );
@@ -248,7 +248,6 @@ Widget buttonMoreOrLess(IconData icon, Function action){
     width: 30,
     height: 30,
     child: AnimateButton(
-
       pressEvent: ()=> action(),
       body: Container(
         width: 30,

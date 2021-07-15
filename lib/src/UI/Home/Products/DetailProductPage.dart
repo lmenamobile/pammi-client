@@ -4,13 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -25,13 +28,15 @@ class DetailProductPage extends StatefulWidget {
 
 class _DetailProductPageState extends State<DetailProductPage> {
   ProviderProducts providerProducts;
+  ProviderShopCart providerShopCart;
 
   @override
   void initState() {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       providerProducts.productDetail = widget.product;
-      providerProducts.referenceProductSelected = providerProducts.referenceProductSelected??widget.product.references[0];
+      providerProducts.referenceProductSelected = widget.product.references[0];
+      providerProducts.unitsProduct = 1;
     });
     super.initState();
   }
@@ -39,7 +44,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   @override
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
-
+    providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -52,7 +57,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   "ic_blue_arrow.png",
                   "ic_car.png",
                   () => Navigator.pop(context),
-                  null),
+                  ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -71,7 +76,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             InkWell(
-                              onTap: ()=>openZoomImages(),
+                              onTap: () => openZoomImages(),
                               child: imageReference(
                                   170,
                                   providerProducts
@@ -104,12 +109,16 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 10,
                               ),
                               InkWell(
-                                onTap: ()=>openBottomSheetLtsReferences(context, setReference,providerProducts?.ltsReferencesProductSelected),
+                                onTap: () => openBottomSheetLtsReferences(
+                                    context,
+                                    setReference,
+                                    providerProducts
+                                        ?.ltsReferencesProductSelected),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: CustomColors.gray6,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 23, vertical: 8),
@@ -136,7 +145,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                                       ?.reference ??
                                                   '',
                                               style: TextStyle(
-                                                  fontFamily: Strings.fontRegular,
+                                                  fontFamily:
+                                                      Strings.fontRegular,
                                                   color: CustomColors.gray7),
                                             )
                                           ],
@@ -187,7 +197,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     fontFamily: Strings.fontMedium,
                                     color: CustomColors.orange),
                               ),
-                              rowButtonsMoreAndLess(),
+                              rowButtonsMoreAndLess(
+                                  providerProducts.unitsProduct.toString(),
+                                  addProduct,
+                                  removeProduct),
                               customDivider(),
                               Row(
                                 children: [
@@ -225,7 +238,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             Strings.addCartShop,
                                             CustomColors.blue,
                                             Colors.white,
-                                            null),
+                                            () => addProductCart()),
                                       ),
                                     )
                                   ],
@@ -369,20 +382,48 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts?.imageReferenceProductSelected = asset;
   }
 
-  setReference(Reference reference){
+  setReference(Reference reference) {
     providerProducts?.referenceProductSelected = reference;
     providerProducts?.productDetail?.references?.forEach((element) {
-      if(element!=reference){
+      if (element != reference) {
         element.isSelected = false;
       }
     });
     Navigator.pop(context);
   }
 
-  openZoomImages(){
+  openZoomImages() {
     Navigator.of(context).push(PageRouteBuilder(
-      opaque: false,
-      pageBuilder: (BuildContext context, _, __)=>PhotosProductPage(productReference: providerProducts?.referenceProductSelected,)));
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => PhotosProductPage(
+              productReference: providerProducts?.referenceProductSelected,
+            )));
   }
 
+  addProductCart() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.updateQuantityProductCart(
+            providerProducts?.referenceProductSelected?.id.toString(),
+            providerProducts.unitsProduct.toString());
+        await callCart.then((msg) {
+          Navigator.pop(context);
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  addProduct() {
+    providerProducts.unitsProduct = providerProducts.unitsProduct + 1;
+  }
+
+  removeProduct() {
+    if (providerProducts.unitsProduct > 1)
+      providerProducts.unitsProduct = providerProducts.unitsProduct - 1;
+  }
 }

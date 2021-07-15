@@ -32,6 +32,13 @@ class ProviderShopCart with ChangeNotifier{
     this._ltsGiftCard.addAll(value);
     notifyListeners();
   }
+  List<ProductShopCart> _ltsProductsSave = List();
+  List<ProductShopCart> get ltsProductsSave => this._ltsProductsSave;
+  set ltsProductsSave(List<ProductShopCart> value) {
+    this._ltsProductsSave.addAll(value);
+    notifyListeners();
+  }
+
 
   Future getShopCart() async {
     this.isLoadingCart = true;
@@ -62,7 +69,7 @@ class ProviderShopCart with ChangeNotifier{
     }
   }
 
-  Future<dynamic> getGiftCards(int page,String categoryId, String price) async {
+  Future getGiftCards(int page,String categoryId, String price) async {
     this.isLoadingCart = true;
     final header = {
       "Content-Type": "application/json",
@@ -103,4 +110,163 @@ class ProviderShopCart with ChangeNotifier{
       throw decodeJson['message'];
     }
   }
+
+  Future updateQuantityProductCart(String referenceId,String units) async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "referenceId": referenceId,
+      "qty": units
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "cart/add-product", headers: header, body: body)
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingCart = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future deleteProductCart(String referenceId) async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    final response = await http
+        .delete(Constants.baseURL + "cart/delete-product/$referenceId", headers: header)
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingCart = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future saveReference(String referenceId,String quantity) async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "referenceId": referenceId,
+      "qty": quantity
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "product/save-reference", headers: header,body: body )
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 201) {
+      this.isLoadingCart = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future deleteReference(String referenceId) async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    final response = await http
+        .delete(Constants.baseURL + "product/delete-saved-reference/$referenceId", headers: header)
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingCart = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future getLtsReferencesSave(int page) async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      "offset" : page,
+      "limit" : 20,
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL+"product/get-saved-references", headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<ProductShopCart> listProductsSave = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final reference = ProductShopCart.fromJson(item);
+          listProductsSave.add(reference);
+        }
+        this.isLoadingCart = false;
+        this._ltsProductsSave = listProductsSave;
+        return listProductsSave;
+      } else {
+        this.isLoadingCart = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
+
 }
