@@ -5,9 +5,9 @@ import 'package:wawamko/src/Utils/colors.dart';
 import '../WidgetsGeneric.dart';
 
 class DialogCustomTwoOptions extends StatelessWidget {
-  final String title, msgText;
+  final String title, msgText, asset;
 
-  const DialogCustomTwoOptions({@required this.title, @required this.msgText});
+  const DialogCustomTwoOptions({@required this.title, @required this.msgText, @required this.asset});
 
   @override
   Widget build(BuildContext context) {
@@ -20,22 +20,13 @@ class DialogCustomTwoOptions extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height: 35,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                          padding: EdgeInsets.all(0),
-                          icon: Icon(
-                            Icons.close,
-                            color: CustomColors.gray,
-                          ),
-                          onPressed: () => Navigator.pop(context, false)))
-                ],
+            SizedBox(height: 20),
+            Center(
+              child: Image.asset(
+                "Assets/images/$asset",
+                fit: BoxFit.fill,
+                height: 50,
+                width: 50,
               ),
             ),
             Visibility(

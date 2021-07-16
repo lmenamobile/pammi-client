@@ -43,7 +43,7 @@ class Product {
     volume: json["volume"],
     brandProvider: BrandProvider.fromJson(json["brandProvider"]),
     warranty: Warranty.fromJson(json["warranty"]),
-    references: List<Reference>.from(json["references"].map((x) => Reference.fromJson(x))),
+    references:json["references"]==null?null: List<Reference>.from(json["references"].map((x) => x==null?null:Reference.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

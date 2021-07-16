@@ -114,11 +114,13 @@ class Strings {
   static const String comments = 'Comentarios';
 
 
-  //Dialog select document
+  //Dialogs
   static const String passport = 'Pasaporte';
   static const String cedulaExtranjeria = 'Cédula de Extranjería';
   static const String cedulaCiudadania = 'Cédula de Ciudadanía';
   static const String tipeDocument = 'Tipo de documento';
+  static const String delete = 'Eliminar';
+  static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
 
   /*fotos*/
   static const String alertTextPhotos =
@@ -264,7 +266,6 @@ class Strings {
   /*ShopCart*/
   static const String  shopCart = 'Carrito de compras';
   static const String  saveProduct = 'Guardar';
-  static const String  deleteProduct = 'Eliminar';
   static const String  provider = 'Proveedor';
   static const String  subtotal = 'Subtotal';
   static const String  makePurchase = 'Realizar compra';

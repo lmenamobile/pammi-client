@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
+import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductShopCart.dart';
 import 'package:wawamko/src/Models/ShopCart/ShopCart.dart';
 import 'package:wawamko/src/Utils/Constants.dart';

@@ -102,14 +102,14 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
         children: [
           Expanded(
               child: customButton("ic_save.png", Strings.saveProduct,
-                  CustomColors.gray7, (){saveProduct(product?.reference?.id.toString(), product?.qty);})),
+                  CustomColors.gray7, (){saveProduct(product?.reference?.id.toString(), product?.qty, product?.id.toString());})),
           Container(
             height: 40,
             width: 1,
             color: CustomColors.grayBackground,
           ),
           Expanded(
-              child: customButton("ic_remove.png", Strings.deleteProduct,
+              child: customButton("ic_remove.png", Strings.delete,
                   CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
         ],
       )
@@ -195,7 +195,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
             children: [
               Expanded(
                   child: customButton("ic_shopping_white.png", Strings.addCartShop,
-                      CustomColors.gray7, (){addCart(int.parse(product?.qty),product?.reference?.id.toString(),product?.id.toString());})),
+                      CustomColors.gray7, (){addCart(int.parse(product?.qty),product?.reference?.id.toString());})),
               Container(
                 height: 40,
                 width: 1,
@@ -203,7 +203,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
               ),
               Expanded(
                   child: customButton("ic_remove.png", Strings.deleteProduct,
-                      CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
+                      CustomColors.redTour, (){deleteProduct(product?.reference?.id.toString());})),
             ],
           )
         ],

@@ -105,14 +105,14 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
     });
   }
 
-  addProductCart(int quantity,String idReference,String idProduct) async {
+  addProductCart(int quantity,String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.updateQuantityProductCart(
             idReference,
             quantity.toString());
         await callCart.then((msg) {
-          deleteReference(idProduct);
+          deleteReference(idReference);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -123,11 +123,12 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
     });
   }
 
-  deleteReference(String idProduct) async {
+  deleteReference(String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.deleteReference(idProduct);
+        Future callCart = providerShopCart.deleteReference(idReference);
         await callCart.then((msg) {
+          providerShopCart.ltsProductsSave.clear();
           getLtsProductsSave();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {

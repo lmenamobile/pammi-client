@@ -12,6 +12,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogCustomTwoOptions.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogSelectCountry.dart';
 
 customPageTransition(Widget page) {
@@ -571,6 +572,17 @@ Future<bool> showAlertActions(BuildContext context, String title, String msg,
     barrierDismissible: false,
     builder: (BuildContext context) =>
         alertMessageWithActions(title, asset, msg, positive, negative),
+  );
+  return state;
+}
+
+Future<bool> showDialogDoubleAction(BuildContext context, String title, String msg,
+    String asset) async {
+  bool state = await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) =>
+    DialogCustomTwoOptions(title: title, msgText: msg, asset: asset)
   );
   return state;
 }
