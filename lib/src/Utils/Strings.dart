@@ -269,6 +269,30 @@ class Strings {
   static const String  provider = 'Proveedor';
   static const String  subtotal = 'Subtotal';
   static const String  makePurchase = 'Realizar compra';
+  static const String  giftProducts = 'Productos de regalo';
+
+  static const String  order = 'Orden';
+
+  /*checkOut*/
+  static const String  yourOrder = 'Tu pedido';
+  static const String  brand = 'Marca';
+  static const String  paymentMethod = 'Metodo de pago';
+  static const String  selectPayment = 'Seleccionar medio de pago';
+  static const String deliveryAddress  = 'Dirección de entrega';
+  static const String mainAddress  = 'Dirección principal';
+  static const String  coupon = 'Cupón';
+  static const String  card = 'Gift card';
+  static const String  hintCoupon = 'Ingresar cupón';
+  static const String  hintCard = 'Ingresar gift card';
+  static const String  validate = 'Validar';
+  static const String  discount = 'Descuentos';
+  static const String  subTotal = 'SubTotal';
+  static const String  delivery = 'Envio';
+  static const String  IVA = 'IVA';
+  static const String  total = 'Total';
+  static const String  payment = 'Pagar';
+
+
 
   /*GiftCart*/
 
