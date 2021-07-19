@@ -6,6 +6,7 @@ import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
@@ -385,8 +386,7 @@ Widget btnCustomSemiRounded(Color backgroungButton, Color textColor,
   );
 }
 
-Widget itemAddress(Address address, Function action, BuildContext context,
-    Function updateAddress) {
+Widget itemAddress(Address address, Function delete, Function selectAddress) {
   return GestureDetector(
     child: Container(
       width: double.infinity,
@@ -452,14 +452,14 @@ Widget itemAddress(Address address, Function action, BuildContext context,
                       image: AssetImage("Assets/images/ic_remove.png"))),
             ),
             onTap: () {
-              action();
+              delete();
             },
           )
         ],
       ),
     ),
     onTap: () {
-      updateAddress();
+     selectAddress();
     },
   );
 }

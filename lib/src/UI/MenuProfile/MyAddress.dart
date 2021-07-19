@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -20,6 +23,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
   List<Address> addresses = List();
   bool loading = true;
   bool hasInternet = true;
+  ProviderCheckOut providerCheckOut;
 
   @override
   void initState() {
@@ -29,6 +33,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -75,13 +80,10 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                       return itemAddress(
                                           this.addresses[index],
                                           () {
-                                            serviceChangeAddressUser(
-                                                this.addresses[index]);
+                                            serviceChangeAddressUser(this.addresses[index]);
                                           },
-                                          context,
                                           () {
-                                            pushToUpdateAddAddress(
-                                                this.addresses[index]);
+                                            selectAddress(this.addresses[index]);
                                           });
                                     }),
                               ),
@@ -216,5 +218,10 @@ class _MyAddressPageState extends State<MyAddressPage> {
         utils.showSnackBarGood(context, Strings.updateAddress);
       }
     }
+  }
+
+  selectAddress(Address address){
+      providerCheckOut.addressSelected = address;
+      Navigator.pop(context);
   }
 }

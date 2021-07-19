@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address/AddresModel.dart';
-import 'package:wawamko/src/Models/Address/GetAddress.dart' as model;
+import 'package:wawamko/src/Models/Address.dart' as model;
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';

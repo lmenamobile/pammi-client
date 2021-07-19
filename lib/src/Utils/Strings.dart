@@ -238,6 +238,8 @@ class Strings {
   static const String  errorCreateAccountGmail = 'No fue posible finalizar tu registro';
   static const String errorFacebook            = 'Error al iniciar sesión con Facebook';
   static const String  change  = 'Cambiar';
+  static const String  couponEmpty  = 'Debes ingresar un cupón valido';
+  static const String  giftEmpty  = 'Debes ingresar una gift card valida';
 
   /*Menu drawer*/
   static const String  wingsReferred = r'¡Gana $10.000 por referir a un amigo!';
@@ -291,6 +293,10 @@ class Strings {
   static const String  IVA = 'IVA';
   static const String  total = 'Total';
   static const String  payment = 'Pagar';
+  static const String  remove = 'Remover';
+
+  /*Payment Methods*/
+  static const String  paymentMethods = 'Metodos de pago';
 
 
 

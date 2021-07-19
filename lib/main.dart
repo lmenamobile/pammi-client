@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -65,6 +66,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderProducts()),
         ChangeNotifierProvider(create: (_) => ProviderUser()),
         ChangeNotifierProvider(create: (_) => ProviderShopCart()),
+        ChangeNotifierProvider(create: (_) => ProviderCheckOut()),
       ],
       child: MaterialApp(
         title: Strings.appName,

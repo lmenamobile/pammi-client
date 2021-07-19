@@ -26,6 +26,7 @@ class CustomColors {
   static final gray7 = const Color(0xff767676);
   static final gray8 = const Color(0xff525252);
   static final gray9 = const Color(0xffF6F6F6);
+  static final gray10 = const Color(0xffD6DEE5);
   static final grayThree = const Color(0xffEFEFEF);
   static final greyBorder = const Color(0xffE6E6E6);
   static final greyBackground = const Color(0xffFCFCFC);

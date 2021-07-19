@@ -341,7 +341,7 @@ Widget itemCardGiftProduct(ProductShopCart product,Function updateQuantity,Funct
 
 Widget sliderCardOffer(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct){
   return Container(
-    height: 190,
+    height: 195,
     child: Swiper(
         itemBuilder: (_, int index) {
           return Padding(
