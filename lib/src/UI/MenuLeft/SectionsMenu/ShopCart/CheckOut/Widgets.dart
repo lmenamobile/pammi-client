@@ -356,7 +356,7 @@ Widget sectionDiscount(
               child: isValidateGift?fieldCoupon(controllerGift, Strings.hintCard):fieldCoupon(controllerCoupon, Strings.hintCoupon)),
           Container(
             width: 150,
-            child: isValidateDiscount?btnCustomSize(35, Strings.validate, CustomColors.redTour, Colors.white, deleteDiscount):btnCustomSize(35, Strings.validate, CustomColors.orange, Colors.white, applyDiscount),
+            child: isValidateDiscount?btnCustomSize(35, Strings.remove, CustomColors.redTour, Colors.white, deleteDiscount):btnCustomSize(35, Strings.validate, CustomColors.orange, Colors.white, applyDiscount),
           )
         ],
       ),
@@ -437,7 +437,7 @@ Widget fieldCoupon(TextEditingController controller, String hintText) {
   );
 }
 
-Widget sectionTotal( TotalCart totalCart) {
+Widget sectionTotal( TotalCart totalCart, Function createOrder) {
   var styleRegular = TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blackLetter,);
   var styleBold = TextStyle(fontFamily: Strings.fontBold, fontSize: 19, color: CustomColors.blackLetter,);
 
@@ -463,7 +463,7 @@ Widget sectionTotal( TotalCart totalCart) {
           SizedBox(height: 20,),
           Align(
               alignment: Alignment.center,
-              child: btnCustom(230,Strings.payment,CustomColors.blueSplash,Colors.white,null)),
+              child: btnCustom(230,Strings.payment,CustomColors.blueSplash,Colors.white,createOrder)),
           SizedBox(height: 20,),
         ],
       ),

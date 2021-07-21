@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/UI/PaymentMethods/addTarjet.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -16,6 +17,7 @@ class MyCreditCards extends StatefulWidget {
 
 class _MyCreditCardsState extends State<MyCreditCards> {
   ProfileProvider profileProvider;
+  ProviderCheckOut providerCheckOut;
   int pageOffset = 0;
 
   @override
@@ -28,6 +30,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -51,7 +54,9 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                   shrinkWrap: true,
                   itemCount: profileProvider.ltsCreditCards==null?0:profileProvider.ltsCreditCards.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return itemPayMethod(profileProvider.ltsCreditCards[index]);
+                    return InkWell(
+                      onTap:()=>selectCreditCard(profileProvider.ltsCreditCards[index]) ,
+                        child: itemPayMethod(profileProvider.ltsCreditCards[index]));
                   })),
         ),
 
@@ -64,6 +69,11 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                 , context)),
       ],
     );
+  }
+
+  selectCreditCard(CreditCard creditCard){
+    providerCheckOut.creditCardSelected = creditCard;
+    Navigator.pop(context);
   }
 
   Widget itemPayMethod(CreditCard creditCard) {

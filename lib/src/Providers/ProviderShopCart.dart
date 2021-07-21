@@ -171,6 +171,33 @@ class ProviderShopCart with ChangeNotifier{
     }
   }
 
+  Future deleteCart() async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    final response = await http
+        .delete(Constants.baseURL + "cart/delete-cart", headers: header)
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingCart = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
   Future saveReference(String referenceId,String quantity) async {
     this.isLoadingCart = true;
     final header = {

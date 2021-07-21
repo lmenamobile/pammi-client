@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/Address.dart';
-import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
+import 'package:wawamko/src/Models/PaymentMethod.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/DetailTransaction/DetailTransactionPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/PaymentMethodsPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
+import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import '../CheckOut/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+
+import 'OrderConfirmationPage.dart';
 
 class CheckOutPage extends StatefulWidget {
   @override
@@ -22,7 +25,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   TextEditingController controllerCoupon = TextEditingController();
   ProviderCheckOut providerCheckOut;
   ProviderShopCart providerShopCart;
-
+  String msgError = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +50,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       sectionProducts(providerShopCart?.shopCart?.packagesProvider),
                       SizedBox(height: 8,),
                       InkWell(
-                        onTap: ()=>Navigator.push(context, customPageTransition(PaymentMethodsPage())),
+                        onTap: ()=>openPaymentMethods(),
                           child: sectionPayment(providerCheckOut.paymentSelected)),
                       SizedBox(height: 8,),
                       sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
                           changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,deleteCoupon
                       ),
                       SizedBox(height: 15,),
-                      sectionTotal(providerShopCart?.shopCart?.totalCart)
+                      sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder)
                     ],
                   ),
                 ),
@@ -66,10 +69,46 @@ class _CheckOutPageState extends State<CheckOutPage> {
     );
   }
 
+  bool validateCheckOut(){
+    if(providerCheckOut.addressSelected==null){
+      msgError = Strings.errorSelectAddress;
+      return false;
+    }else if(providerCheckOut.paymentSelected==null){
+      msgError = Strings.errorSelectPayment;
+      return false;
+    }
+
+    if(providerCheckOut.paymentSelected.id== 1){
+      if(providerCheckOut.creditCardSelected==null){
+        msgError = Strings.errorSelectedCreditCard;
+        return false;
+      }
+    }
+    return true;
+  }
+
   changeValueValidateDiscount(){
     controllerCoupon.clear();
     controllerGift.clear();
     providerCheckOut.isValidateGift = !providerCheckOut.isValidateGift;
+  }
+
+  openCreateOrder(){
+    if(validateCheckOut()){
+      actionsByTypePayment(providerCheckOut.paymentSelected);
+    }else{
+      utils.showSnackBar(context, msgError);
+    }
+    //Navigator.push(context, customPageTransition(DetailTransactionPage()));
+
+  }
+
+  openPaymentMethods(){
+    Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value){
+      if(providerCheckOut.paymentSelected.id== 1){
+        Navigator.push(context, customPageTransition(MyCreditCards()));
+      }
+    });
   }
 
   callApplyDiscount(){
@@ -81,6 +120,37 @@ class _CheckOutPageState extends State<CheckOutPage> {
       }else{
         utils.showSnackBar(context, Strings.couponEmpty);
       }
+    }
+  }
+
+  actionsByTypePayment(PaymentMethod paymentMethod){
+    switch (paymentMethod.id) {
+      case 1:
+          createOrder(providerCheckOut.paymentSelected.id.toString(),
+              providerCheckOut.addressSelected.id.toString(), "",
+              providerCheckOut.creditCardSelected.id.toString());
+        break;
+      case 2:
+        createOrder(
+            providerCheckOut.paymentSelected.id.toString(),
+            providerCheckOut.addressSelected.id.toString(), "","");
+        break;
+      case 3:
+        utils.showSnackBar(context, Strings.errorPaymentMethod);
+        break;
+      case 4:
+        createOrder(
+            providerCheckOut.paymentSelected.id.toString(),
+            providerCheckOut.addressSelected.id.toString(), "","");
+        break;
+      case 5:
+        createOrder(
+            providerCheckOut.paymentSelected.id.toString(),
+            providerCheckOut.addressSelected.id.toString(), "","");
+        break;
+      case 6:
+        utils.showSnackBar(context, Strings.errorPaymentMethod);
+        break;
     }
   }
 
@@ -107,6 +177,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
       if (value) {
         Future callCart = providerCheckOut.deleteCoupon();
         await callCart.then((msg) {
+          providerCheckOut.isValidateDiscount = false;
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
@@ -126,6 +197,30 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  createOrder( String paymentMethodId,
+      String addressId,
+      String bankId,
+      String creditCardId) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerCheckOut.createOrder(paymentMethodId, addressId, bankId,creditCardId);
+        await callCart.then((msg) {
+          if(paymentMethodId == "2"){
+            Navigator.push(context, customPageTransition(OrderConfirmationPage()));
+          }else if(paymentMethodId == "5"){
+            Navigator.push(context, customPageTransition(DetailTransactionPage()));
+          }
+          utils.showSnackBarGood(context, msg);
+        }, onError: (error) {
+          providerCheckOut.isLoading = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {

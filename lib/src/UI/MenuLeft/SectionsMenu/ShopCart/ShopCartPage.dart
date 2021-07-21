@@ -44,7 +44,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           child: Stack(
             children: [
               titleBarWithDoubleAction(Strings.shopCart, "ic_blue_arrow.png",
-                  "ic_car.png", () => Navigator.pop(context), null),
+                  "ic_remove_white.png", () => Navigator.pop(context), ()=>deleteCart()),
               Column(
                 children: [
                   SizedBox(
@@ -188,6 +188,27 @@ class _ShopCartPageState extends State<ShopCartPage> {
           Future callCart = providerShopCart.deleteProductCart(idProduct);
           await callCart.then((msg) {
             getShopCart();
+            utils.showSnackBarGood(context, msg.toString());
+          }, onError: (error) {
+            providerShopCart.isLoadingCart = false;
+            utils.showSnackBar(context, error.toString());
+          });
+        } else {
+          utils.showSnackBar(context, Strings.internetError);
+        }
+      });
+  }
+
+  deleteCart() async {
+    bool status = await showDialogDoubleAction(
+        context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
+    if (status)
+      utils.checkInternet().then((value) async {
+        if (value) {
+          Future callCart = providerShopCart.deleteCart();
+          await callCart.then((msg) {
+            //getShopCart();
+            providerShopCart.shopCart = null;
             utils.showSnackBarGood(context, msg.toString());
           }, onError: (error) {
             providerShopCart.isLoadingCart = false;

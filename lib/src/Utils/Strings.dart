@@ -121,6 +121,7 @@ class Strings {
   static const String tipeDocument = 'Tipo de documento';
   static const String delete = 'Eliminar';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
+  static const String deleteCart = "¿Estás seguro de eliminar tu carrito de compras?";
 
   /*fotos*/
   static const String alertTextPhotos =
@@ -297,8 +298,19 @@ class Strings {
 
   /*Payment Methods*/
   static const String  paymentMethods = 'Metodos de pago';
+  static const String  confirmationOrder = 'Confirmación';
+  static const String  thanksOrder = '¡Gracias por su pedido!';
+  static const String  textConfirmationOrder = 'Puedes realizar un seguimiento de la entrega de tus productos en la sección “Mis ordenes”';
+  static const String  textConfirmation = 'Los productos se entregaran a:';
+  static const String  textConfirmationTwo = 'productos a';
 
 
+  /*Detail transaction*/
+  static const String  completeCheckOut = 'Para completar tu compra';
+  static const String  agreement = 'Convenio No.';
+  static const String  buys = 'Compraste';
+  static const String  textTransactionEfecty = 'Este comprobante es válido para pagar en los locales de la red, en todo el país.';
+  static const String  reference = 'Referencia';
 
   /*GiftCart*/
 
@@ -399,6 +411,10 @@ class Strings {
   static const String emptyTraining                        = "Aún no hay capacitaciones que mostrar aquí.";
   static const String emptyGiftCards                       = "Aún no hay tarjetas de regalo que mostrar aquí.";
   static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
+  static const String errorSelectAddress                   = "Debes seleccionar una dirección de envío";
+  static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
+  static const String errorPaymentMethod                   = "Medio de pago no disponible";
+  static const String errorSelectedCreditCard              = "Debes seleccionar una tarjeta de credito";
 
   //Fonts
   static const String fontBold = 'FontBold';
