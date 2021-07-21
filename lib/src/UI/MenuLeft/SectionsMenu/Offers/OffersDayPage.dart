@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -24,6 +26,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   RefreshController _refreshView = RefreshController(initialRefresh: false);
   ProviderProducts providerProducts;
   ProviderHome providerHome;
+  ProviderShopCart providerShopCart;
   int pageOffsetUnits = 0;
   int pageOffsetMix = 0;
 
@@ -42,6 +45,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerHome = Provider.of<ProviderHome>(context);
+    providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -58,7 +62,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
               "ic_blue_arrow.png",
               "ic_car.png",
                   () =>keyMenuLeft.currentState.openDrawer(),
-              null),
+                  ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
               Container(
                 height: 100,
                   child: listBrands()),
@@ -232,7 +236,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemOfferUnits(providerProducts.ltsOfferUnits[index]),
+          child: itemOfferUnits(providerProducts.ltsOfferUnits[index],addOfferCart),
         );
       },
     );
@@ -259,7 +263,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemOfferUnits(providerProducts.ltsOfferMix[index]),
+          child: itemOfferUnits(providerProducts.ltsOfferMix[index],addOfferCart),
         );
       },
     );
@@ -299,6 +303,21 @@ class _OffersDayPageState extends State<OffersDayPage> {
             providerProducts.getOfferByType(typeOffer, brandId, offset);
         await callProducts.then((list) {
           providerProducts.ltsOfferMix = list;
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  addOfferCart(String idOffer) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.addOfferCart(idOffer, "1");
+        await callCart.then((msg) {
+          utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

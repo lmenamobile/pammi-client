@@ -37,6 +37,14 @@ class SharePreference {
     _prefs.setString('referredCode', value);
   }
 
+  get codeShare {
+    return _prefs.getString('code') ?? "";
+  }
+
+  set codeShare(String value) {
+    _prefs.setString('code', value);
+  }
+
   get countryIdUser {
     return _prefs.getString('countryIdUser') ?? "0";
   }

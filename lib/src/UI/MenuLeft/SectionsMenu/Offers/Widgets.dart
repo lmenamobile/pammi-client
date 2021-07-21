@@ -9,7 +9,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget itemOfferUnits(Offer offer) {
+Widget itemOfferUnits(Offer offer, Function addOffer) {
   return Container(
     width: 310,
     decoration: BoxDecoration(
@@ -75,7 +75,9 @@ Widget itemOfferUnits(Offer offer) {
                     Strings.addCartShop,
                     CustomColors.blue,
                     Colors.white,
-                    null),
+                    (){
+                      addOffer(offer?.id.toString());
+                    }),
               ),
               Text(
                 Strings.moreView,

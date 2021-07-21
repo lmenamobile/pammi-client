@@ -67,7 +67,8 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                   children: [
                     InkWell(
                       onTap: (){
-                        if(int.parse(product?.qty)>1)updateQuantity(int.parse(product?.qty)-1,product?.reference?.id.toString());
+                        if(int.parse(product?.qty)>1)
+                          updateQuantity(int.parse(product?.qty)-1,product?.reference?.id.toString(),true);
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
@@ -82,7 +83,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,product?.reference?.id.toString()),
+                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,product?.reference?.id.toString(),true),
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -178,12 +179,13 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                     color: CustomColors.blackLetter,
                   ),
                 ),
-                viewPrice(product),
+                viewPriceOffer(offer),
                 Row(
                   children: [
                     InkWell(
                       onTap: (){
-                        if(int.parse(product?.qty)>1)updateQuantity(int.parse(product?.qty)-1,offer?.reference?.id.toString());
+                        if(int.parse(product?.qty)>1)
+                          updateQuantity(int.parse(product?.qty)-1,offer?.reference?.id.toString(),false);
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
@@ -198,7 +200,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,offer?.reference?.id.toString()),
+                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,offer?.reference?.id.toString(),false),
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -481,6 +483,30 @@ Widget viewPrice(ProductShopCart product) {
             color: CustomColors.orange,
           ),
         );
+}
+
+Widget viewPriceOffer(ProductOfferCart offer) {
+  return offer?.reference != null
+      ? Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        formatMoney(offer?.reference?.price ??
+            '0'),
+        style: TextStyle(
+          fontFamily: Strings.fontBold,
+          color: CustomColors.orange,
+        ),
+      )
+    ],
+  )
+      : Text(
+    formatMoney('0'),
+    style: TextStyle(
+      fontFamily: Strings.fontBold,
+      color: CustomColors.orange,
+    ),
+  );
 }
 
 Widget containerCustom(Widget item) {

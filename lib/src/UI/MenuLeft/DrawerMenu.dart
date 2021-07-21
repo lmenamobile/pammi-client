@@ -91,7 +91,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           child: itemBtnReferred(() => openBottomSheet(
                               context,
                               openReferredCode,
-                              _prefs.referredCode.toString()))),
+                              _prefs.codeShare.toString()))),
                       itemMenu(
                           "ic_start.png",
                           () => widget.rollOverActive != Constants.menuHome
@@ -160,9 +160,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
   }
 
   void openReferredCode() {
-    if (_prefs.referredCode.toString().isNotEmpty) {
+    if (_prefs.codeShare.toString().isNotEmpty) {
       Navigator.pop(context);
-      openShareLink(_prefs.referredCode.toString());
+      openShareLink(_prefs.codeShare.toString());
     } else {
       utils.showSnackBar(context, Strings.errorCodeReferred);
     }

@@ -11,6 +11,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomTwoOptions.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogSelectBank.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogSelectCountry.dart';
 
 customPageTransition(Widget page) {
@@ -547,6 +548,16 @@ Future<dynamic> openSelectCountry(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) =>DialogSelectCountry(),
+  );
+  return state;
+}
+
+Future<dynamic> openSelectBank(
+    BuildContext context,) async {
+  var state = await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) =>DialogSelectBank(),
   );
   return state;
 }

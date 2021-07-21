@@ -150,6 +150,7 @@ class UserResponse {
   String verificationCode;
   bool verifyedAccount;
   CountryUser countryUser;
+  String codeShare;
 
   UserResponse({
     this.verifyedAccount,
@@ -176,7 +177,8 @@ class UserResponse {
     this.type,
     this.typeSeller,
     this.verificationCode,
-    this.countryUser
+    this.countryUser,
+    this.codeShare
   });
 
 
@@ -199,6 +201,7 @@ class UserResponse {
     longitude = json["longitude"];
     phoneNumber = json["phoneNumber"];
     referredCode = json["referredCode"];
+    codeShare = json["referrerCode"];
     acceptTerms = json["acceptTerms"];
     interestsConfigured  =json["interestsConfigured"]==null?false:json["interestsConfigured"];
     step = json["step"];

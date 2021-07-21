@@ -28,76 +28,81 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
             children: [
               titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
                   () => Navigator.pop(context)),
+              SizedBox(height: 20,),
               Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(Strings.thanksOrder,
-                          style: TextStyle(
-                              fontFamily: Strings.fontBold,
-                              fontSize: 24,
-                              color: CustomColors.blueSplash)),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 30),
-                        child: Text(Strings.textConfirmationOrder,
-                            textAlign: TextAlign.center,
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(Strings.thanksOrder,
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 24,
+                                color: CustomColors.blueSplash)),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 30),
+                          child: Text(Strings.textConfirmationOrder,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: Strings.fontRegular,
+                                  fontSize: 15,
+                                  color: CustomColors.gray7)),
+                        ),
+                        Image.asset(
+                          "Assets/images/order.gif",
+                          width: 250,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(Strings.textConfirmation,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
                                 fontSize: 15,
                                 color: CustomColors.gray7)),
-                      ),
-                      Image.asset(
-                        "Assets/images/order.gif",
-                        width: 250,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(Strings.textConfirmation,
-                          style: TextStyle(
-                              fontFamily: Strings.fontRegular,
-                              fontSize: 15,
-                              color: CustomColors.gray7)),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(prefs.nameUser??'',
-                          style: TextStyle(
-                              fontFamily: Strings.fontBold,
-                              fontSize: 18,
-                              color: CustomColors.blueSplash)),
-                      Text(providerCheckOut?.addressSelected?.address??'',
-                          style: TextStyle(
-                              fontFamily: Strings.fontBold,
-                              fontSize: 18,
-                              color: CustomColors.blueSplash)),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      btnCustom(230, Strings.myOrders, CustomColors.blueSplash,
-                          Colors.white, null),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(.2),
-                              spreadRadius: 2,
-                              blurRadius: 7,
-                              offset: Offset(2, 2))
-                        ]),
-                        child: btnCustom(230, Strings.start, Colors.white,
-                            CustomColors.blackLetter, openStart),
-                      )
-                    ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(prefs.nameUser??'',
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 18,
+                                color: CustomColors.blueSplash)),
+                        Text(providerCheckOut?.addressSelected?.address??'',
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 18,
+                                color: CustomColors.blueSplash)),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        btnCustom(230, Strings.myOrders, CustomColors.blueSplash,
+                            Colors.white, null),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(.2),
+                                spreadRadius: 2,
+                                blurRadius: 7,
+                                offset: Offset(2, 2))
+                          ]),
+                          child: btnCustom(230, Strings.start, Colors.white,
+                              CustomColors.blackLetter, openStart),
+                        ),
+                        SizedBox(height: 20,),
+                      ],
+                    ),
                   ),
                 ),
               ),
+
             ],
           ),
         ),

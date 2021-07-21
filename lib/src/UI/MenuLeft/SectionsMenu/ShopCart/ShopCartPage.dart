@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
@@ -119,7 +120,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
         itemBuilder: (BuildContext context, int index) {
           return cardListProductsByProvider(
               providerShopCart?.shopCart?.packagesProvider[index],
-              updateProductCart,
+              updateOfferOrProduct,
               deleteProduct,
               saveProduct);
         },
@@ -177,6 +178,30 @@ class _ShopCartPageState extends State<ShopCartPage> {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
+  }
+
+  addOfferCart(String idOffer,int quantity) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.addOfferCart(idOffer, quantity.toString());
+        await callCart.then((msg) {
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  updateOfferOrProduct(int quantity, String idReference,bool isProduct){
+    if(isProduct){
+      updateProductCart(quantity, idReference);
+    }else{
+      addOfferCart(idReference,quantity);
+    }
   }
 
   deleteProduct(String idProduct) async {

@@ -377,6 +377,7 @@ class Strings {
   static const String  textInformationGPS = 'Por favor active el GPS y vuelva a intentarlo.';
   static const String  closeApp = 'Salir';
   static const String  textCloseApp = '¿Estas seguro que deseas salir de Pamii?';
+  static const String  selectBank = 'Selecciona tu banco';
 
 
   /*Errors*/
@@ -401,6 +402,8 @@ class Strings {
   static const String emptyStates                          = "Aún no estamos en este estado, lo estaremos próximamente.";
   static const String emptyCities                          = "Aún no estamos en esta ciudad, lo estaremos próximamente.";
   static const String sorrySearch                          = "¡Lo sentimos!";
+  static const String sorry                                = "¡Lo sentimos!";
+  static const String emptyBanks                           = "No hay ningun banco disponible";
   static const String emptySearchProducts                  = "No encontramos resultados para esta busqueda. Notifica al administrador el producto que estas buscando.";
   static const String errorCodeReferred                    = "No tienes un codigo de referido aun";
   static const String sorryFavorites                       = "Aún no tienes productos en tus deseos";
@@ -415,6 +418,7 @@ class Strings {
   static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
   static const String errorPaymentMethod                   = "Medio de pago no disponible";
   static const String errorSelectedCreditCard              = "Debes seleccionar una tarjeta de credito";
+  static const String errorSelectedBank             = "Debes seleccionar un banco para pagar con PSE";
 
   //Fonts
   static const String fontBold = 'FontBold';

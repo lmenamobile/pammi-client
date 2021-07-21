@@ -5,9 +5,11 @@ import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/DetailTransaction/DetailTransactionPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/PaymentMethodsPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/TransactionPSEPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import '../CheckOut/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -36,32 +38,38 @@ class _CheckOutPageState extends State<CheckOutPage> {
       body: SafeArea(
         child: Container(
           color: CustomColors.grayBackground,
-          child: Column(
+          child: Stack(
             children: [
-              titleBar(Strings.order, "ic_blue_arrow.png", () => Navigator.pop(context)),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      InkWell(
-                          onTap: ()=>Navigator.push(context, customPageTransition(MyAddressPage())),
-                          child: sectionAddress(providerCheckOut.addressSelected)),
-                      SizedBox(height: 8,),
-                      sectionProducts(providerShopCart?.shopCart?.packagesProvider),
-                      SizedBox(height: 8,),
-                      InkWell(
-                        onTap: ()=>openPaymentMethods(),
-                          child: sectionPayment(providerCheckOut.paymentSelected)),
-                      SizedBox(height: 8,),
-                      sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
-                          changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,deleteCoupon
+              Column(
+                children: [
+                  titleBar(Strings.order, "ic_blue_arrow.png", () => Navigator.pop(context)),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          InkWell(
+                              onTap: ()=>Navigator.push(context, customPageTransition(MyAddressPage())),
+                              child: sectionAddress(providerCheckOut.addressSelected)),
+                          SizedBox(height: 8,),
+                          sectionProducts(providerShopCart?.shopCart?.packagesProvider),
+                          SizedBox(height: 8,),
+                          InkWell(
+                            onTap: ()=>openPaymentMethods(),
+                              child: sectionPayment(providerCheckOut.paymentSelected)),
+                          SizedBox(height: 8,),
+                          sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
+                              changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,deleteCoupon
+                          ),
+                          SizedBox(height: 15,),
+                          sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder)
+                        ],
                       ),
-                      SizedBox(height: 15,),
-                      sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder)
-                    ],
-                  ),
-                ),
-              )
+                    ),
+                  )
+                ],
+              ),
+              Visibility(
+                  visible: providerCheckOut.isLoading, child: LoadingProgress()),
             ],
           ),
         ),
@@ -77,10 +85,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
       msgError = Strings.errorSelectPayment;
       return false;
     }
-
     if(providerCheckOut.paymentSelected.id== 1){
       if(providerCheckOut.creditCardSelected==null){
         msgError = Strings.errorSelectedCreditCard;
+        return false;
+      }
+    }
+    if(providerCheckOut.paymentSelected.id== 6){
+      if(providerCheckOut.bankSelected  ==null){
+        msgError = Strings.errorSelectedBank;
         return false;
       }
     }
@@ -99,14 +112,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
     }else{
       utils.showSnackBar(context, msgError);
     }
-    //Navigator.push(context, customPageTransition(DetailTransactionPage()));
-
   }
 
   openPaymentMethods(){
-    Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value){
+    Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value)async{
       if(providerCheckOut.paymentSelected.id== 1){
         Navigator.push(context, customPageTransition(MyCreditCards()));
+      }else if(providerCheckOut.paymentSelected.id== 6){
+        var bank = await openSelectBank(context);
+        if(bank!=null)
+          providerCheckOut.bankSelected = bank;
       }
     });
   }
@@ -149,7 +164,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
             providerCheckOut.addressSelected.id.toString(), "","");
         break;
       case 6:
-        utils.showSnackBar(context, Strings.errorPaymentMethod);
+        createOrder(
+            providerCheckOut.paymentSelected.id.toString(),
+            providerCheckOut.addressSelected.id.toString(), providerCheckOut.bankSelected.bankCode,"");
         break;
     }
   }
@@ -213,10 +230,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
       if (value) {
         Future callCart = providerCheckOut.createOrder(paymentMethodId, addressId, bankId,creditCardId);
         await callCart.then((msg) {
-          if(paymentMethodId == "2"){
+          if(paymentMethodId == "1"){
+            Navigator.push(context, customPageTransition(OrderConfirmationPage()));
+          }else if(paymentMethodId == "2"){
             Navigator.push(context, customPageTransition(OrderConfirmationPage()));
           }else if(paymentMethodId == "5"){
             Navigator.push(context, customPageTransition(DetailTransactionPage()));
+          }else if(paymentMethodId == "6"){
+            Navigator.push(context, customPageTransition(TransactionPSEPage()));
           }
           utils.showSnackBarGood(context, msg);
         }, onError: (error) {

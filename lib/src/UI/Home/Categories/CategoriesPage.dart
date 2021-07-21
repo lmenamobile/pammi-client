@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -90,7 +91,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 image: AssetImage("Assets/images/ic_car.png"),
                               ),
                             ),
-                            onTap: null,
+                            onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
                           ),
                         ],
                       ),

@@ -43,63 +43,74 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
               child: Column(
                 children: [
                   SizedBox(height: 30,),
-                  Text(
-                    formatMoney(providerCheckOut?.efecty?.valorPesos??''),
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.blackLetter
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Text(
-                   Strings.completeCheckOut,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        color: CustomColors.gray7
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  imageAvatar("ic_efecty.png"),
-                  SizedBox(height: 30,),
-                  Text(
-                    Strings.agreement,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        color: CustomColors.gray7
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  containerText(providerCheckOut?.efecty?.codigoproyecto??''),
-                  SizedBox(height: 20,),
-                  Text(
-                    Strings.reference,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        color: CustomColors.gray7
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  containerText(providerCheckOut?.efecty?.pin??''),
-                  SizedBox(height: 20,),
-                  Container(
-                    margin:EdgeInsets.symmetric(horizontal: 30),
-                    child: Text(
-                      Strings.textTransactionEfecty,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray7
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Text(
+                            formatMoney(providerCheckOut?.efecty?.valorPesos??''),
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: Strings.fontBold,
+                                color: CustomColors.blackLetter
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Text(
+                            Strings.completeCheckOut,
+                            style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                color: CustomColors.gray7
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          imageAvatar("ic_efecty.png"),
+                          SizedBox(height: 30,),
+                          Text(
+                            Strings.agreement,
+                            style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                color: CustomColors.gray7
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          containerText(providerCheckOut?.efecty?.codigoproyecto??''),
+                          SizedBox(height: 20,),
+                          Text(
+                            Strings.reference,
+                            style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                color: CustomColors.gray7
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          containerText(providerCheckOut?.efecty?.pin??''),
+                          SizedBox(height: 20,),
+                          Container(
+                            margin:EdgeInsets.symmetric(horizontal: 30),
+                            child: Text(
+                              Strings.textTransactionEfecty,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: Strings.fontRegular,
+                                  color: CustomColors.gray7
+                              ),
+                            ),
+                          ),
+                          containerExpansion(providerShopCart?.shopCart?.packagesProvider),
+                          SizedBox(height: 10,),
+                          Container(
+                            width: 230,
+                            child: btnCustomSize(40, Strings.btnAccept, CustomColors.blueSplash,
+                                Colors.white, openFinishTransaction),
+                          ),
+                          SizedBox(height: 20,),
+                        ],
                       ),
                     ),
-                  ),
-                  containerExpansion(providerShopCart?.shopCart?.packagesProvider),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: 230,
-                    child: btnCustomSize(40, Strings.btnAccept, CustomColors.blueSplash,
-                        Colors.white, openFinishTransaction),
                   )
+
                 ],
               ),
            ),

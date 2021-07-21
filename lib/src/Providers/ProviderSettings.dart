@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wawamko/src/Models/Bank.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Campaign.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -102,6 +103,13 @@ class ProviderSettings with ChangeNotifier{
   List<Campaign> get ltsBannersCampaign => this._ltsBannersCampaign;
   set ltsBannersCampaign(List<Campaign> value) {
     this._ltsBannersCampaign.addAll(value);
+    notifyListeners();
+  }
+
+  List<Bank> _ltsBanks = List();
+  List<Bank> get ltsBanks => this._ltsBanks;
+  set ltsBanks(List<Bank> value) {
+    this._ltsBanks = value;
     notifyListeners();
   }
 
@@ -510,6 +518,44 @@ class ProviderSettings with ChangeNotifier{
       this.isLoadingSettings = false;
       throw decodeJson['message'];
     }
+  }
+
+  Future<dynamic> getBanks() async {
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    final response = await http.get(Constants.baseURL + "payment/get-banks",
+        headers: header)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    final List<Bank> listBanks = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']) {
+          final bank = Bank.fromJson(item);
+          if(bank.bankCode!="0")
+          listBanks.add(bank);
+        }
+        this.isLoadingSettings = false;
+        this.ltsBanks = listBanks;
+        return listBanks;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+
   }
 
 

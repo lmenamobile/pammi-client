@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
+import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -214,7 +216,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 : providerSettings.ltsCategories.length,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return itemCategory(providerSettings.ltsCategories[index]);
+              return InkWell(
+                onTap: ()=>openSubCategory(providerSettings.ltsCategories[index]),
+                  child: itemCategory(providerSettings.ltsCategories[index]));
             },
           ),
           customDivider(),
@@ -399,6 +403,14 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  openSubCategory(Category category) {
+    Navigator.push(
+        context,
+        customPageTransition(SubCategoryPage(
+          category: category,
+        )));
   }
 
   openPageSearch(){

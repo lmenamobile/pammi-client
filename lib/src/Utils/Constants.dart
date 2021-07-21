@@ -22,6 +22,9 @@ class Constants {
   static const String offersUnits = 'units';
   static const String offersMix = 'mixed';
 
+  /*urls transaction*/
+  static const String finishTransaction = "http://devwebclient.pamii.com/";
+
   /*Opciones Menu izquierdo*/
   static const String menuFavorites     = 'favorites';
   static const String menuProfile       = 'profile';
