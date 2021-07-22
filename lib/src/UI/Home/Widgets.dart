@@ -177,11 +177,10 @@ Widget sliderBanner(int indexSlider,Function updateIndex, List<Banners> banners)
   return Stack(
     children: [
       Swiper(
-          itemBuilder:
-              (BuildContext context, int index) {
+          itemBuilder: (_, int index) {
             return FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(banners.isEmpty?"":banners[index].image),
+                image: NetworkImage(banners.isEmpty?"":banners[index]?.image),
                 placeholder: AssetImage("Assets/images/preloader.gif"),
               );
           },

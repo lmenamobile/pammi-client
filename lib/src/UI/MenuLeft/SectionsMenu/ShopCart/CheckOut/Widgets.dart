@@ -703,7 +703,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                     color: CustomColors.blackLetter,
                   ),
                 ),
-                viewPrice(product),
+                viewPriceOffer(offer),
               ],
             ),
           )

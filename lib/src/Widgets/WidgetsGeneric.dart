@@ -25,13 +25,29 @@ customPageTransition(Widget page) {
 Widget titleBar(String title, String icon, Function action) {
   return Container(
     width: double.infinity,
-    height: 70,
+    height: 75,
     decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage("Assets/images/ic_header_red.png"),
+            image: AssetImage("Assets/images/ic_header_reds.png"),
             fit: BoxFit.fill)),
     child: Stack(
       children: <Widget>[
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            width: double.infinity,
+            height: 15,
+            decoration: BoxDecoration(
+              color: CustomColors.whiteBackGround,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              )
+            ),
+          ),
+        ),
         Positioned(
           left: 15,
           top: 15,
@@ -606,4 +622,10 @@ Widget headerRefresh(){
 
 Widget footerRefreshCustom(){
   return ClassicFooter( canLoadingText:"Cargar mas",noDataText: "", loadingText: "", idleText: "", idleIcon: null, height: 30);
+}
+
+Widget loadingWidgets(double size){
+  return Container(
+    child: Image.asset("Assets/images/spinner.gif",width: size,),
+  );
 }

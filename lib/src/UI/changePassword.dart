@@ -51,7 +51,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         height: 70,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("Assets/images/ic_header_red.png"),
+                image: AssetImage("Assets/images/ic_header_reds.png"),
                 fit: BoxFit.fill)),
         child: Stack(
           children: <Widget>[

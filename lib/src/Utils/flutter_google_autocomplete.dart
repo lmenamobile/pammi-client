@@ -62,7 +62,7 @@ class _GooglePlacesAutocompleteOverlayState
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("Assets/images/ic_header.png"),
+            image: AssetImage("Assets/images/ic_header_reds.png"),
             fit: BoxFit.fitWidth
           )
         ),

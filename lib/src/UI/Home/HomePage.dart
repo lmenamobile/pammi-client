@@ -40,9 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
     providerHome.ltsBrands.clear();
     providerHome.ltsBanners.clear();
     providerSettings.ltsCategories.clear();
-    if(prefs.countryIdUser!="0") {
+    if (prefs.countryIdUser != "0") {
       serviceGetCategories();
-    }else{
+    } else {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         selectCountryUserNotLogin();
       });
@@ -114,7 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           image: AssetImage("Assets/images/ic_car.png"),
                         ),
                       ),
-                      onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
+                      onTap: () => Navigator.push(
+                          context, customPageTransition(ShopCartPage())),
                     ),
                   ],
                 ),
@@ -123,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                     margin: EdgeInsets.symmetric(horizontal: 40),
-                    child: boxSearchNextPage(searchController,openPageSearch))
+                    child: boxSearchNextPage(searchController, openPageSearch))
               ],
             ),
           ),
@@ -135,8 +136,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                     height: 170,
                     width: double.infinity,
-                    child: sliderBanner(providerHome.indexBannerHeader,
-                        updateIndexBannerHeader, providerHome.ltsBanners)),
+                    child: providerHome.ltsBanners.isEmpty
+                        ? Center(
+                            child: loadingWidgets(70),
+                          )
+                        : sliderBanner(providerHome?.indexBannerHeader,
+                            updateIndexBannerHeader, providerHome?.ltsBanners)),
                 Container(
                   margin: EdgeInsets.only(top: 165),
                   decoration: BoxDecoration(
@@ -217,7 +222,8 @@ class _MyHomePageState extends State<MyHomePage> {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
-                onTap: ()=>openSubCategory(providerSettings.ltsCategories[index]),
+                  onTap: () =>
+                      openSubCategory(providerSettings.ltsCategories[index]),
                   child: itemCategory(providerSettings.ltsCategories[index]));
             },
           ),
@@ -322,8 +328,10 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
               height: 200,
               width: double.infinity,
-              child: sliderBanner(providerHome.indexBannerFooter,
-                  updateIndexBannerFooter, providerHome.ltsBannersOffer)),
+              child: providerHome.ltsBannersOffer.isEmpty
+                  ? Center(child: loadingWidgets(70),)
+                  : sliderBanner(providerHome.indexBannerFooter,
+                      updateIndexBannerFooter, providerHome.ltsBannersOffer)),
           SizedBox(
             height: 10,
           ),
@@ -413,11 +421,14 @@ class _MyHomePageState extends State<MyHomePage> {
         )));
   }
 
-  openPageSearch(){
+  openPageSearch() {
     FocusScope.of(context).unfocus();
-    if(searchController.text.isNotEmpty) {
-      Navigator.push(context, customPageTransition(
-          SearchProductHome(textSearch: searchController.text,)));
+    if (searchController.text.isNotEmpty) {
+      Navigator.push(
+          context,
+          customPageTransition(SearchProductHome(
+            textSearch: searchController.text,
+          )));
     }
   }
 
@@ -437,7 +448,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await callSettings.then((list) {
           getBrands();
         }, onError: (error) {
-         // utils.showSnackBar(context, error.toString());
+          // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -467,7 +478,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await callHome.then((list) {
           getBannersOffer();
         }, onError: (error) {
-         // utils.showSnackBar(context, error.toString());
+          // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -488,8 +499,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  selectCountryUserNotLogin()async{
+  selectCountryUserNotLogin() async {
     bool state = await openSelectCountry(context);
-    if(state)serviceGetCategories();
+    if (state) serviceGetCategories();
   }
 }
