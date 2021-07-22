@@ -54,7 +54,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
       ),
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: CustomColors.whiteBackGround,
           child: Column(
             children: [
               titleBarWithDoubleAction(

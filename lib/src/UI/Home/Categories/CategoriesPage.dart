@@ -45,10 +45,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  ),
                   gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
@@ -56,55 +52,79 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   ),
                 ),
                 child: Container(
-                  height: 100,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  height: 120,
+                  child: Stack(
                     children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          GestureDetector(
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              child: Image(
-                                image: AssetImage(
-                                    "Assets/images/ic_backward_arrow.png"),
-                              ),
-                            ),
-                            onTap: () => Navigator.pop(context),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          width: double.infinity,
+                          height: 15,
+                          decoration: BoxDecoration(
+                              color: CustomColors.whiteBackGround,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15), topRight: Radius.circular(15),
+                              )
                           ),
-                          Text(
-                            Strings.categories,
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontFamily: Strings.fontBold),
-                          ),
-                          GestureDetector(
-                            child: Container(
-                              width: 30,
-                              child: Image(
-                                image: AssetImage("Assets/images/ic_car.png"),
-                              ),
-                            ),
-                            onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
+                        ),
                       ),
                       Container(
-                          margin: EdgeInsets.symmetric(horizontal: 40),
-                          child: boxSearchHome(searchController,searchElements))
+                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                GestureDetector(
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    child: Image(
+                                      image: AssetImage(
+                                          "Assets/images/ic_backward_arrow.png"),
+                                    ),
+                                  ),
+                                  onTap: () => Navigator.pop(context),
+                                ),
+                                Text(
+                                  Strings.categories,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontFamily: Strings.fontBold),
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                    width: 30,
+                                    child: Image(
+                                      image: AssetImage("Assets/images/ic_car.png"),
+                                    ),
+                                  ),
+                                  onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                                margin: EdgeInsets.symmetric(horizontal: 40),
+                                child: boxSearchHome(searchController,searchElements))
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
+
               Expanded(
                 child: SmartRefresher(
                   controller: _refreshCategories,

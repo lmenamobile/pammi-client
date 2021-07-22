@@ -40,7 +40,7 @@ Widget titleBar(String title, String icon, Function action) {
             width: double.infinity,
             height: 15,
             decoration: BoxDecoration(
-              color: CustomColors.whiteBackGround      ,
+              color: CustomColors.whiteBackGround,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15), topRight: Radius.circular(15),
               )

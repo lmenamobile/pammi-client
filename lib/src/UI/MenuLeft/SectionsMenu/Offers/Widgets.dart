@@ -99,6 +99,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer) {
 Widget itemImageOffer(String url) {
   return Container(
     width: 130,
+    height: 130,
     child: FadeInImage(
       fit: BoxFit.fill,
       image: NetworkImage(url),

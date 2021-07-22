@@ -48,7 +48,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       ),
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: CustomColors.whiteBackGround,
           child: Column(
             children: [
               titleBar(Strings.favorites, "ic_menu_w.png",

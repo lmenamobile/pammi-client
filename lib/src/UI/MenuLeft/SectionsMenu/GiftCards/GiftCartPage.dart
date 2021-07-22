@@ -14,8 +14,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import '../../DrawerMenu.dart';
 
-
-class GiftCartPage  extends StatefulWidget {
+class GiftCartPage extends StatefulWidget {
   @override
   _GiftCartPageState createState() => _GiftCartPageState();
 }
@@ -28,7 +27,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
 
   @override
   void initState() {
-    providerShopCart = Provider.of<ProviderShopCart>(context,listen: false);
+    providerShopCart = Provider.of<ProviderShopCart>(context, listen: false);
     getLtsGiftCarts();
     super.initState();
   }
@@ -51,21 +50,22 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   Strings.giftCards,
                   "ic_menu_w.png",
                   "ic_car.png",
-                      () => keyMenuLeft.currentState.openDrawer(),
+                  () => keyMenuLeft.currentState.openDrawer(),
                   null),
               Column(
                 children: [
-                  SizedBox(height: 55,),
+                  SizedBox(
+                    height: 55,
+                  ),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
                           color: CustomColors.whiteBackGround,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        )
-                      ),
-                      child:  SmartRefresher(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          )),
+                      child: SmartRefresher(
                           controller: _refreshGiftCard,
                           enablePullDown: true,
                           enablePullUp: true,
@@ -73,16 +73,19 @@ class _GiftCartPageState extends State<GiftCartPage> {
                           footer: footerRefreshCustom(),
                           header: headerRefresh(),
                           onRefresh: _pullToRefresh,
-                          child:  providerShopCart.ltsGiftCard.isEmpty
-                              ? emptyData("ic_highlights_empty.png",
-                              Strings.sorryHighlights, Strings.emptyGiftCards)
+                          child: providerShopCart.ltsGiftCard.isEmpty
+                              ? emptyData(
+                                  "ic_highlights_empty.png",
+                                  Strings.sorryHighlights,
+                                  Strings.emptyGiftCards)
                               : SingleChildScrollView(child: gridViewItems())),
                     ),
                   ),
                 ],
               ),
               Visibility(
-                  visible: providerShopCart.isLoadingCart, child: LoadingProgress()),
+                  visible: providerShopCart.isLoadingCart,
+                  child: LoadingProgress()),
             ],
           ),
         ),
@@ -90,7 +93,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
     );
   }
 
-  Widget gridViewItems(){
+  Widget gridViewItems() {
     return Container(
       child: GridView.builder(
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
@@ -99,8 +102,10 @@ class _GiftCartPageState extends State<GiftCartPage> {
           childAspectRatio: .8,
           crossAxisSpacing: 15,
         ),
-        padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
-        itemCount: providerShopCart.ltsGiftCard.isEmpty?0:providerShopCart.ltsGiftCard.length,
+        padding: EdgeInsets.only(top: 20, bottom: 10, left: 10, right: 10),
+        itemCount: providerShopCart.ltsGiftCard.isEmpty
+            ? 0
+            : providerShopCart.ltsGiftCard.length,
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
@@ -110,9 +115,9 @@ class _GiftCartPageState extends State<GiftCartPage> {
     );
   }
 
-  Widget itemGiftCard(GiftCard gift){
+  Widget itemGiftCard(GiftCard gift) {
     return InkWell(
-      onTap: ()=>null,
+      onTap: () => null,
       child: Container(
         width: 150,
         decoration: BoxDecoration(
@@ -128,34 +133,38 @@ class _GiftCartPageState extends State<GiftCartPage> {
           ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
-                color: CustomColors.gray6,
+                color: CustomColors.gray4,
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(12),
-                topLeft: Radius.circular(12)),
+                    topLeft: Radius.circular(12)),
               ),
               width: double.infinity,
               height: 100,
               child: Container(
                 margin: EdgeInsets.all(8),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                        child: Image.asset("Assets/images/ic_giftcard.png")),
-                    Center(
-                      child: Text(
-                        formatMoney(gift?.value??'0'),
-                        style: TextStyle(
-                          fontFamily: Strings.fontBold,
-                          fontSize: 18,
-                          color: Colors.white,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          child: Image.asset("Assets/images/ic_giftcard.png")),
+                      Center(
+                        child: Text(
+                          formatMoney(gift?.value ?? '0'),
+                          style: TextStyle(
+                            fontFamily: Strings.fontBold,
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -165,29 +174,41 @@ class _GiftCartPageState extends State<GiftCartPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    gift?.name??'',
+                    gift?.name ?? '',
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
                       color: CustomColors.gray7,
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Text(
-                    formatMoney(gift?.value??'0'),
+                    formatMoney(gift?.value ?? '0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 13,
                       color: CustomColors.orange,
                     ),
                   ),
-                  SizedBox(height: 5,),
-                  btnCustomIconLeft(
-                      "ic_pay_add.png",
-                      Strings.addCartShop,
-                      CustomColors.blue,
-                      Colors.white,
-                      null)
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: CustomColors.blue,
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                          ),
+                        )),
+                  )
                 ],
               ),
             )
@@ -199,7 +220,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
 
   Widget listGiftCards() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -233,10 +254,8 @@ class _GiftCartPageState extends State<GiftCartPage> {
   getLtsGiftCarts() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getGiftCards(pageOffset,null,null);
-        await callCart.then((msg) {
-
-        }, onError: (error) {
+        Future callCart = providerShopCart.getGiftCards(pageOffset, null, null);
+        await callCart.then((msg) {}, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });

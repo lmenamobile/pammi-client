@@ -36,7 +36,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: CustomColors.whiteBackGround,
           child: Column(
             children: [
               titleBar(Strings.productsSave, "ic_blue_arrow.png", () => Navigator.pop(context)),

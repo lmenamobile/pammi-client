@@ -50,7 +50,7 @@ class CustomColors {
 
 
 
-  static final whiteBackground = const Color(0xffFAFAFA);
+
   static final purple = const Color(0xff463168);
   static final green = const Color(0xff05AD45);
   static final morado = const Color(0xff201547);

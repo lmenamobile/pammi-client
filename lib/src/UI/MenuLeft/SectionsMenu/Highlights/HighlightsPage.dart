@@ -52,7 +52,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
       ),
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: CustomColors.whiteBackGround,
           child: Column(
               children: [
                 titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState.openDrawer()),

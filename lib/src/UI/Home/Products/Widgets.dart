@@ -12,47 +12,66 @@ Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
     Function action, Function actionTwo) {
   return Container(
     width: double.infinity,
-    height: 70,
+    height: 75,
     decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage("Assets/images/ic_header_reds.png"),
             fit: BoxFit.fill)),
-    child: Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        GestureDetector(
-          child: Image(
-            width: 40,
-            height: 40,
-            color: Colors.white,
-            image: AssetImage("Assets/images/$icon"),
-          ),
-          onTap: () => action(),
-        ),
-        Center(
+    child: Stack(
+      children: [
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
           child: Container(
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 15,
-                  fontFamily: Strings.fontRegular,
-                  color: Colors.white),
+            width: double.infinity,
+            height: 15,
+            decoration: BoxDecoration(
+                color: CustomColors.whiteBackGround,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15),
+                )
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(right: 10),
-          child: GestureDetector(
-            child: Image(
-              width: 40,
-              height: 40,
-              color: Colors.white,
-              image: AssetImage("Assets/images/$iconTwo"),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            GestureDetector(
+              child: Image(
+                width: 40,
+                height: 40,
+                color: Colors.white,
+                image: AssetImage("Assets/images/$icon"),
+              ),
+              onTap: () => action(),
             ),
-            onTap: () => actionTwo(),
-          ),
+            Center(
+              child: Container(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontRegular,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: GestureDetector(
+                child: Image(
+                  width: 40,
+                  height: 40,
+                  color: Colors.white,
+                  image: AssetImage("Assets/images/$iconTwo"),
+                ),
+                onTap: () => actionTwo(),
+              ),
+            ),
+          ],
         ),
       ],
     ),
