@@ -32,7 +32,7 @@ Widget itemCategory(Category category) {
               height: 40,
               fit: BoxFit.fill,
               image: NetworkImage(category.image),
-              placeholder: AssetImage(""),
+              placeholder: AssetImage("Assets/images/spinner.gif"),
             ),
           ),
         ),

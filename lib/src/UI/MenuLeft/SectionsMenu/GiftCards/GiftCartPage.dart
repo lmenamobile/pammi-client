@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/GiftCards/FilterGiftCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -51,7 +52,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   "ic_menu_w.png",
                   "ic_car.png",
                   () => keyMenuLeft.currentState.openDrawer(),
-                  null),
+                  ()=>Navigator.push(context, customPageTransition(FilterGiftCartPage()))),
               Column(
                 children: [
                   SizedBox(

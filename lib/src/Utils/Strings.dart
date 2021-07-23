@@ -418,7 +418,7 @@ class Strings {
   static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
   static const String errorPaymentMethod                   = "Medio de pago no disponible";
   static const String errorSelectedCreditCard              = "Debes seleccionar una tarjeta de credito";
-  static const String errorSelectedBank             = "Debes seleccionar un banco para pagar con PSE";
+  static const String errorSelectedBank                   = "Debes seleccionar un banco para pagar con PSE";
 
   //Fonts
   static const String fontBold = 'FontBold';
