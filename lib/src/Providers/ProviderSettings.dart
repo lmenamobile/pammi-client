@@ -78,6 +78,18 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
+ Category _selectCategory;
+  Category get selectCategory => this._selectCategory;
+  set selectCategory(Category value) {
+    this._selectCategory = value;
+    _ltsCategories.firstWhere((element) => element==value?element.isSelected=true:element.isSelected=false,orElse: ()=> null);
+     ltsCategories.forEach((category) {
+       if(category!=value)
+         category.isSelected = false;
+     });
+    notifyListeners();
+  }
+
   List<Category> _ltsCategories = List();
   List<Category> get ltsCategories => this._ltsCategories;
   set ltsCategories(List<Category> value) {

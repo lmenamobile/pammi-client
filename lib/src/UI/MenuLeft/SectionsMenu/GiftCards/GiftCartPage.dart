@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/GiftCards/FilterGiftCartPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -24,6 +26,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshGiftCard = RefreshController(initialRefresh: false);
   ProviderShopCart providerShopCart;
+  ProviderSettings providerSettings;
   int pageOffset = 0;
 
   @override
@@ -36,6 +39,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
   @override
   Widget build(BuildContext context) {
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -47,16 +51,63 @@ class _GiftCartPageState extends State<GiftCartPage> {
           color: CustomColors.whiteBackGround,
           child: Stack(
             children: [
-              titleBarWithDoubleAction(
-                  Strings.giftCards,
-                  "ic_menu_w.png",
-                  "ic_car.png",
-                  () => keyMenuLeft.currentState.openDrawer(),
-                  ()=>Navigator.push(context, customPageTransition(FilterGiftCartPage()))),
               Column(
                 children: [
-                  SizedBox(
-                    height: 55,
+                  titleBarWithDoubleAction(
+                      Strings.giftCards,
+                      "ic_menu_w.png",
+                      "ic_car.png",
+                          () => keyMenuLeft.currentState.openDrawer(),
+                          ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                  Text(
+                    Strings.buyGiftCard,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 17,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                  Text(
+                    Strings.textGiftCard,
+                    style: TextStyle(
+                      fontFamily: Strings.fontRegular,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                  SizedBox(height: 13,),
+                  InkWell(
+                    onTap: ()=>updateDataFilter(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: CustomColors.blueSplash,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5)
+                        )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              Strings.filter,
+                              style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 8,),
+                            Text(
+                              "0",
+                              style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -252,10 +303,20 @@ class _GiftCartPageState extends State<GiftCartPage> {
     _refreshGiftCard.loadComplete();
   }
 
+  updateDataFilter(){
+    Navigator.push(context, customPageTransition(FilterGiftCartPage())).then((value) =>{
+      if(value){
+        providerShopCart.ltsGiftCard.clear(),
+        getLtsGiftCarts()
+      }
+    });
+  }
+
   getLtsGiftCarts() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getGiftCards(pageOffset, null, null);
+        Future callCart = providerShopCart.getGiftCards(pageOffset, providerSettings.selectCategory==null?null:
+            providerSettings.selectCategory.id.toString(), null);
         await callCart.then((msg) {}, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());

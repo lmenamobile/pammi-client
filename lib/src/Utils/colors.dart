@@ -64,6 +64,7 @@ class CustomColors {
   //____
   static final blueActiveDots = const Color(0xff168DD8);
   static final blueOne = const Color(0xff0078C4);
+  static final blueTwo = const Color(0xffF2F7FA);
 
  
   static final blueTitle = const Color(0xff121D3A);

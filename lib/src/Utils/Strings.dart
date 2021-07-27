@@ -150,6 +150,7 @@ class Strings {
   static const String myDates = 'Mis datos';
   static const String methodsPay = 'Métodos de pago';
   static const String myAddress = 'Mis direcciones';
+  static const String myOrders = 'Mis Ordenes';
   static const String coupons = 'Cupones';
   static const String changePhoto = 'Cambiar foto';
   static const String edit = 'Editar';
@@ -211,7 +212,6 @@ class Strings {
   static const String start = 'Inicio';
   static const String dayOferts = 'Ofertas del día';
   static const String destacados = 'Destacados';
-  static const String myOrders = 'Mis pedidos';
   static const String giftCards = 'Tarjetas de regalo';
   static const String trainings = 'Capacitaciones';
   static const String wishes = 'Deseos';
@@ -256,6 +256,13 @@ class Strings {
   /*highlights*/
   static const String  highlights = 'Destacados';
   static const String advertising = "Campañas";
+
+  /*Orders*/
+  static const String  actives         = 'Activos';
+  static const String ordersPrevious   = "Anteriores";
+  static const String orderId          = "ID orden";
+  static const String orderDateRequest = "Fecha de solicitud";
+  static const String valueOrder       = "Valor total";
 
   /*Offers*/
   static const String  offersDay = 'Ofertas del día';
@@ -313,7 +320,8 @@ class Strings {
   static const String  reference = 'Referencia';
 
   /*GiftCart*/
-
+  static const String  buyGiftCard = 'Compra Gift Cards';
+  static const String textGiftCard = '¡Conoce nuestras opciones!';
   /*Training*/
 
   /*Products Save*/
@@ -375,6 +383,7 @@ class Strings {
   static const String  btnCancel = 'Cancelar';
   static const String  titleGPS = 'GPS';
   static const String  textInformationGPS = 'Por favor active el GPS y vuelva a intentarlo.';
+  static const String  textAlertFilter = 'Por favor selecciona al menos un filtro';
   static const String  closeApp = 'Salir';
   static const String  textCloseApp = '¿Estas seguro que deseas salir de Pamii?';
   static const String  selectBank = 'Selecciona tu banco';

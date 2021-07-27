@@ -69,7 +69,7 @@ class DialogCustomAlert extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: btnCustom(null,Strings.btnAccept, CustomColors.blueSplash,
-                  Colors.white, () => Navigator.pop(context, true)),
+                  Colors.white, () => Navigator.pop(context, false)),
             ),
             SizedBox(
               height: 20,

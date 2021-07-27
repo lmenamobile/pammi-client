@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
+import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
@@ -51,6 +53,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: CustomColors.redTour)
+    );
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -67,6 +73,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderUser()),
         ChangeNotifierProvider(create: (_) => ProviderShopCart()),
         ChangeNotifierProvider(create: (_) => ProviderCheckOut()),
+        ChangeNotifierProvider(create: (_) => ProviderOrder()),
       ],
       child: MaterialApp(
         title: Strings.appName,

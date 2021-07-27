@@ -33,8 +33,8 @@ class BrandAndProduct {
     linkVideo: json["linkVideo"],
     conditions: json["conditions"],
     featured: json["featured"],
-    weight: json["weight"],
-    volume: json["volume"],
+    weight: json["weight"].toString(),
+    volume: json["volume"].toString(),
     brandProvider:json["brandProvider"]==null?null: BrandProvider.fromJson(json["brandProvider"]),
   );
 

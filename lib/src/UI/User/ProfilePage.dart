@@ -5,14 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
-import 'package:wawamko/src/UI/coupons.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:slimy_card/slimy_card.dart';
 
 import 'MyDates.dart';
 
@@ -209,12 +208,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: MyCreditCards(),
                                       duration: Duration(milliseconds: 700)));
                                 }),
-                                itemProfile(context, "Assets/images/discount_big.png",
-                                    Strings.coupons, true, false, true, () {
-                                  Navigator.of(context).push(PageTransition(
-                                      type: PageTransitionType.slideInLeft,
-                                      child: CoupondsPage(),
-                                      duration: Duration(milliseconds: 700)));
+                                itemProfile(context, "Assets/images/ic_order_history.png",
+                                    Strings.myOrders, true, false, true, () {
+                                 Navigator.push(context, customPageTransition(MyOrdersPage()));
                                 }),
                               ],
                             )
@@ -336,7 +332,7 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              width: 105,
+              width: 100,
               height: 87,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
