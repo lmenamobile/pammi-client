@@ -4,6 +4,8 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import 'OrdersFinishTab.dart';
+
 class MyOrdersPage extends StatefulWidget {
   @override
   _MyOrdersPageState createState() => _MyOrdersPageState();
@@ -63,7 +65,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                   controller: tabControllerPages,
                   children: [
                     OrdersActiveTab(),
-                    OrdersActiveTab()
+                    OrdersFinishTab()
                   ],
                 ),
               )

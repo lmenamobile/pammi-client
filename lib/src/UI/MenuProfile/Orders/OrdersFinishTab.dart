@@ -9,12 +9,12 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-class OrdersActiveTab extends StatefulWidget {
+class OrdersFinishTab extends StatefulWidget {
   @override
-  _OrdersActiveTabState createState() => _OrdersActiveTabState();
+  _OrdersFinishTabState createState() => _OrdersFinishTabState();
 }
 
-class _OrdersActiveTabState extends State<OrdersActiveTab> {
+class _OrdersFinishTabState extends State<OrdersFinishTab> {
   ProviderOrder providerOrder;
   RefreshController _refreshOrders = RefreshController(initialRefresh: false);
   int pageOffset = 0;
@@ -22,8 +22,8 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
   @override
   void initState() {
     providerOrder = Provider.of<ProviderOrder>(context,listen: false);
-    providerOrder.lstOrders.clear();
-    getOrders();
+    providerOrder.lstOrdersFinish.clear();
+    getOrdersFinish();
     super.initState();
   }
 
@@ -44,9 +44,9 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
                   footer: footerRefreshCustom(),
                   header: headerRefresh(),
                   onRefresh: _pullToRefresh,
-                  child:  providerOrder.lstOrders.isEmpty
+                  child:  providerOrder.lstOrdersFinish.isEmpty
                       ? emptyData("ic_highlights_empty.png",
-                      Strings.sorryHighlights, Strings.emptyHighlights)
+                      Strings.sorryHighlights, Strings.emptyOrders)
                       : listItemsOrders()))
             ],
           ),
@@ -63,40 +63,41 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
 
   void clearForRefresh() {
     pageOffset = 0;
-    providerOrder.lstOrders.clear();
-    getOrders();
+    providerOrder.lstOrdersFinish.clear();
+    getOrdersFinish();
   }
 
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getOrders();
+    getOrdersFinish();
     _refreshOrders.loadComplete();
   }
 
   Widget listItemsOrders(){
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 15),
-      itemCount: providerOrder.lstOrders.isEmpty ? 0 :providerOrder.lstOrders.length,
+      itemCount: providerOrder.lstOrdersFinish.isEmpty ? 0 :
+      providerOrder.lstOrdersFinish.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
         return InkWell(
-          onTap: ()=>openDetailOrder(providerOrder.lstOrders[index].id.toString()),
-            child: itemOrder(providerOrder.lstOrders[index]));
+          onTap: ()=>openDetailOrderFinish(providerOrder.lstOrdersFinish[index].id.toString()),
+            child: itemOrder(providerOrder.lstOrdersFinish[index]));
       },
     );
   }
 
-  openDetailOrder(String id){
+  openDetailOrderFinish(String id){
     Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,)));
   }
 
-  getOrders() async {
+  getOrdersFinish() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrders = providerOrder.getOrders(pageOffset.toString());
+        Future callOrders = providerOrder.getOrdersByStatus(pageOffset.toString(),false);
         await callOrders.then((list) {
-
+          providerOrder.lstOrdersFinish = list;
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

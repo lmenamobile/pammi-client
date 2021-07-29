@@ -43,6 +43,7 @@ class CustomColors {
   static final graySearch = const Color(0xffE4E4E4);
 
   static final orange = const Color(0xffEC7700);
+  static final pink  = const Color(0xffF88686);
 
 
 

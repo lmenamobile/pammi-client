@@ -18,7 +18,8 @@ class Reference {
     this.isSelected,
     this.brandAndProduct,
     this.isFavorite,
-    this.totalProductOffer
+    this.totalProductOffer,
+
   });
 
   int id;
@@ -34,6 +35,7 @@ class Reference {
   bool isFavorite = false;
   BrandAndProduct brandAndProduct;
   TotalProductOffer totalProductOffer;
+
 
   factory Reference.fromJson(Map<String, dynamic> json) => Reference(
     id: json["id"],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
@@ -77,6 +78,13 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         title: Strings.appName,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('es'),
+        ],
         debugShowCheckedModeBanner: false,
         initialRoute: 'splash',
         routes: <String,WidgetBuilder>{

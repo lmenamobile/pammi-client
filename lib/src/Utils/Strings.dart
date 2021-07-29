@@ -263,6 +263,7 @@ class Strings {
   static const String orderId          = "ID orden";
   static const String orderDateRequest = "Fecha de solicitud";
   static const String valueOrder       = "Valor total";
+  static const String chat       = "Chat";
 
   /*Offers*/
   static const String  offersDay = 'Ofertas del día';
@@ -326,6 +327,16 @@ class Strings {
 
   /*Products Save*/
   static const String  productsSave = 'Productos guardados';
+
+  /*Detail Order*/
+  static const String  priceSend = 'Costo de envío';
+  static const String  tracking = 'Seguimiento';
+  static const String  subOrder = 'ID Suborden';
+  static const String  addressDelivery = 'Dirección de domicilio';
+  static const String  detailTotalOrder = 'Detalle del pedido';
+  static const String  seller = 'Emprendedor';
+  static const String  qualificationSeller = 'Califica al emprendedor';
+  static const String  qualification = 'Calificar';
 
 
   /*Register User*/
@@ -423,6 +434,7 @@ class Strings {
   static const String emptyTraining                        = "Aún no hay capacitaciones que mostrar aquí.";
   static const String emptyGiftCards                       = "Aún no hay tarjetas de regalo que mostrar aquí.";
   static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
+  static const String emptyOrders                          = "Aún no hay ordenes que mostrar aquí.";
   static const String errorSelectAddress                   = "Debes seleccionar una dirección de envío";
   static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
   static const String errorPaymentMethod                   = "Medio de pago no disponible";
