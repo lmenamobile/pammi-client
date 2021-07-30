@@ -6,6 +6,7 @@ import 'package:wawamko/src/Models/Order/PackageProvider.dart';
 import 'package:wawamko/src/Models/Order/ProductProvider.dart';
 import 'package:wawamko/src/Models/Order/Seller.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -151,7 +152,7 @@ Widget itemDescription(IconData icon, String text, String price) {
   );
 }
 
-Widget itemProductsProvider(PackageProvider provider) {
+Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification) {
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -175,7 +176,7 @@ Widget itemProductsProvider(PackageProvider provider) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Strings.subOrder +" ${ provider?.id.toString()}",
+                Strings.subOrder +" ${ providerPackage?.id.toString()}",
                 style: TextStyle(
                     color: CustomColors.blue, fontFamily: Strings.fontBold),
               ),
@@ -187,7 +188,7 @@ Widget itemProductsProvider(PackageProvider provider) {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Text(
-                    provider?.status??'',
+                    providerPackage?.status??'',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -206,7 +207,7 @@ Widget itemProductsProvider(PackageProvider provider) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    provider?.providerProduct?.businessName??'',
+                    providerPackage?.providerProduct?.businessName??'',
                     style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 15,
@@ -234,22 +235,32 @@ Widget itemProductsProvider(PackageProvider provider) {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Text(
-                   Strings.qualification,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        fontSize: 13,
-                        color: CustomColors.blue),
+              Visibility(
+                visible: isActive,
+                child: InkWell(
+                  onTap: ()=>qualification(Constants.qualificationProvider,providerPackage?.providerProduct?.id.toString(),providerPackage?.id.toString()),
+                  child: Row(
+                    children: [
+                      Image.asset("Assets/images/ic_star.png", width: 15,color: CustomColors.gray5,),
+                      SizedBox(width: 5,),
+                      Text(
+                       Strings.qualification,
+                        style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            fontSize: 13,
+                            color: CustomColors.blue),
+                      ),
+                      SizedBox(width: 5,),
+                      Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.blue,size: 15,)
+                    ],
                   ),
-                ],
+                ),
               )
             ],
           ),
 
           customDivider(),
-          listProducts(provider?.productsProvider),
+          listProducts(providerPackage,providerPackage?.productsProvider,isActive,qualification),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,7 +274,7 @@ Widget itemProductsProvider(PackageProvider provider) {
                 ),
               ),
               Text(
-                formatMoney(provider?.shippingValue??'0'),
+                formatMoney(providerPackage?.shippingValue??'0'),
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
@@ -285,7 +296,7 @@ Widget itemProductsProvider(PackageProvider provider) {
                 ),
               ),
               Text(
-                formatMoney(provider?.total??'0'),
+                formatMoney(providerPackage?.total??'0'),
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontBold,
@@ -304,7 +315,7 @@ Widget itemProductsProvider(PackageProvider provider) {
   );
 }
 
-Widget itemProduct(ProductProvider product){
+Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification){
   return Column(
     children: [
       Row(
@@ -355,7 +366,12 @@ Widget itemProduct(ProductProvider product){
                 )
               ],
             ),
-          )
+          ),
+          Visibility(
+            visible: isActive,
+              child: InkWell(
+                  onTap: ()=>qualification(Constants.qualificationProduct,product?.reference?.id.toString(),providerPackage?.id.toString(),product?.reference?.images[0].url),
+                  child: Image.asset("Assets/images/ic_star.png", width: 20,color: CustomColors.gray5,))),
         ],
       ),
       customDivider()
@@ -363,20 +379,83 @@ Widget itemProduct(ProductProvider product){
   );
 }
 
-Widget listProducts(List<ProductProvider> productsProvider) {
+Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification){
+  return Column(
+    children: [
+      Row(
+        children: [
+          Container(
+            width: 110,
+            child: Center(
+              child: Container(
+                width: 90,
+                height: 90,
+                child: FadeInImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(product?.offerOrder?.baseProducts[0].reference.images[getRandomPosition(product?.offerOrder?.baseProducts[0].reference.images.length)].url),
+                  placeholder: AssetImage("Assets/images/spinner.gif"),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(product?.offerOrder?.baseProducts[0].reference.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 12,
+                    color: CustomColors.gray7,
+                  ),
+                ),
+                Text(
+                  product?.offerOrder?.baseProducts[0].reference.reference??''+product?.qty,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.blackLetter,
+                  ),
+                ),
+                Text(
+                  formatMoney(product?.price??''),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.orange,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+      customDivider()
+    ],
+  );
+}
+
+
+Widget listProducts(PackageProvider providerPackage,List<ProductProvider> productsProvider,bool isActive,Function qualification) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: productsProvider==null?0:productsProvider.length,
       itemBuilder: (_, int index) {
-        return itemProduct(productsProvider[index]);
+        if(productsProvider[index].reference != null){
+          return itemProduct(providerPackage,productsProvider[index],isActive,qualification);
+        }else {
+          return itemProductOffer(providerPackage,productsProvider[index],isActive,qualification);
+        }
       },
     ),
   );
 }
 
-Widget sectionSeller(Seller seller){
+Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool isActive){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
     decoration: BoxDecoration(
@@ -438,19 +517,25 @@ Widget sectionSeller(Seller seller){
                     color: CustomColors.gray7,
                   ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      Strings.qualificationSeller,
-                      style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        fontSize: 15,
-                        color: CustomColors.blue,
-                      ),
+                Visibility(
+                  visible: isActive,
+                  child: InkWell(
+                    onTap: ()=>qualification(Constants.qualificationSeller,seller.id.toString(),order.id.toString(),seller?.photoUrl??''),
+                    child: Row(
+                      children: [
+                        Text(
+                          Strings.qualificationSeller,
+                          style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            fontSize: 15,
+                            color: CustomColors.blue,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.blue,size: 20,)
+                      ],
                     ),
-                    SizedBox(width: 10,),
-                    Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.blue,size: 20,)
-                  ],
+                  ),
                 )
               ],
             ),

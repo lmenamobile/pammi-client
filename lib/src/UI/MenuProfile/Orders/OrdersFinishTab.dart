@@ -89,7 +89,7 @@ class _OrdersFinishTabState extends State<OrdersFinishTab> {
   }
 
   openDetailOrderFinish(String id){
-    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,)));
+    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: true,)));
   }
 
   getOrdersFinish() async {

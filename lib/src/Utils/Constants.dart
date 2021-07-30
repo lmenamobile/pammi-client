@@ -18,6 +18,10 @@ class Constants {
   static const String bannerGeneral = 'ex';
   static const String bannerOffer = 'in';
 
+  static const int qualificationProvider = 0;
+  static const int qualificationProduct = 1;
+  static const int qualificationSeller = 2;
+
   /*Tipos de ofertas*/
   static const String offersUnits = 'units';
   static const String offersMix = 'mixed';

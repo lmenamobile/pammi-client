@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/QualificationPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -10,7 +11,8 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class DetailOrderPage extends StatefulWidget {
   final String idOrder;
-  const DetailOrderPage({@required this.idOrder});
+  final bool isActiveOrder;
+  const DetailOrderPage({@required this.idOrder, @required this.isActiveOrder});
   @override
   _DetailOrderPageState createState() => _DetailOrderPageState();
 }
@@ -43,7 +45,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       child: Column(
                         children: [
                           listProviders(),
-                          providerOrder?.orderDetail?.seller!=null?sectionSeller(providerOrder?.orderDetail?.seller):
+                          providerOrder?.orderDetail?.seller!=null?
+                          sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder):
                           Container(),
                           sectionAddressOrder(providerOrder?.orderDetail?.shippingAddress??''),
                           sectionTotalOrder(providerOrder?.orderDetail),
@@ -88,10 +91,25 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder.orderDetail.packagesProvider.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(providerOrder?.orderDetail?.packagesProvider[index]);
+          return itemProductsProvider(providerOrder?.orderDetail?.packagesProvider[index],widget.isActiveOrder,openQualificationPage);
         },
       ),
     );
+  }
+
+  openQualificationPage(int optionView,String idQualification,String idSubOrder,String data){
+    switch (optionView) {
+      case 0:
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,)));
+        break;
+      case 1:
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,)));
+        break;
+      case 2:
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,)));
+        break;
+
+    }
   }
 
   getDetailOrder(String idOrder) async {

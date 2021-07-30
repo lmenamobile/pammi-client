@@ -338,6 +338,14 @@ class Strings {
   static const String  qualificationSeller = 'Califica al emprendedor';
   static const String  qualification = 'Calificar';
 
+  /*Qualification */
+  static const String  textQualification = '¿Cómo te fue con tu pedido del Proveedor';
+  static const String  brands = 'Marcas asociadas';
+  static const String  countStar = '¿Cuántas estrellas le darías?';
+  static const String  commentProduct = 'Cuéntanos más del producto';
+  static const String  textQualificationSeller = '¿Cómo calificarías a';
+  static const String  hintComment = 'Cuentanos tu experiencia con';
+
 
   /*Register User*/
   static const String  nameUser = 'Nombre';

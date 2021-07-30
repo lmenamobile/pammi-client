@@ -44,7 +44,7 @@ class OrderDetail {
     shippingAddress: json["shippingAddress"] == null ? null : json["shippingAddress"],
     status: json["status"],
     seller: json["seller"] == null ? null : Seller.fromJson( json["seller"]),
-    paymentMethod: PaymentMethod.fromJson(json["systemMethodPayment"]),
+    paymentMethod:json["systemMethodPayment"] == null? null: PaymentMethod.fromJson(json["systemMethodPayment"]),
     packagesProvider: json["packages"] == null ? null : List<PackageProvider>.from(json["packages"].map((x) => PackageProvider.fromJson(x))),
   );
 

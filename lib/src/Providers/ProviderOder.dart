@@ -12,28 +12,36 @@ class ProviderOrder with ChangeNotifier {
   final prefs = SharePreference();
 
   bool _isLoading = false;
+
   bool get isLoading => this._isLoading;
+
   set isLoading(bool value) {
     this._isLoading = value;
     notifyListeners();
   }
 
   OrderDetail _orderDetail;
+
   OrderDetail get orderDetail => this._orderDetail;
+
   set orderDetail(OrderDetail value) {
     this._orderDetail = value;
     notifyListeners();
   }
 
   List<Order> _lstOrders = List();
+
   List<Order> get lstOrders => this._lstOrders;
+
   set lstOrders(List<Order> value) {
     this._lstOrders.addAll(value);
     notifyListeners();
   }
 
   List<Order> _lstOrdersFinish = List();
+
   List<Order> get lstOrdersFinish => this._lstOrdersFinish;
+
   set lstOrdersFinish(List<Order> value) {
     this._lstOrdersFinish.addAll(value);
     notifyListeners();
@@ -52,8 +60,9 @@ class ProviderOrder with ChangeNotifier {
       "actives": true
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "order/get-orders",
-        headers: header, body: body)
+    final response = await http
+        .post(Constants.baseURL + "order/get-orders",
+            headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
@@ -79,10 +88,9 @@ class ProviderOrder with ChangeNotifier {
       this.isLoading = false;
       throw decodeJson['message'];
     }
-
   }
 
-  Future<dynamic> getOrdersByStatus(String offset,bool status) async {
+  Future<dynamic> getOrdersByStatus(String offset, bool status) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -95,8 +103,9 @@ class ProviderOrder with ChangeNotifier {
       "actives": status
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "order/get-orders",
-        headers: header, body: body)
+    final response = await http
+        .post(Constants.baseURL + "order/get-orders",
+            headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
@@ -121,7 +130,6 @@ class ProviderOrder with ChangeNotifier {
       this.isLoading = false;
       throw decodeJson['message'];
     }
-
   }
 
   Future<dynamic> getOrderDetail(String idOrder) async {
@@ -130,8 +138,10 @@ class ProviderOrder with ChangeNotifier {
       "Content-Type": "application/json",
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
-    final response = await http.get(Constants.baseURL + "order/get-order/$idOrder",
-        headers: header).timeout(Duration(seconds: 25)).catchError((value) {
+    final response = await http
+        .get(Constants.baseURL + "order/get-order/$idOrder", headers: header)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
@@ -141,6 +151,118 @@ class ProviderOrder with ChangeNotifier {
       if (decodeJson['code'] == 100) {
         this.orderDetail = OrderDetail.fromJson(decodeJson['data']['order']);
         return OrderDetail.fromJson(decodeJson['data']['order']);
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future<dynamic> qualificationProvider(
+      String providerId, String qualification, String suborderId) async {
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "providerId": providerId,
+      "qualification": qualification,
+      "suborderId": suborderId
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "provider/rate-provider",
+            headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future<dynamic> qualificationProduct(String idReference, String qualification,
+      String suborderId, String comment) async {
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "referenceId": idReference,
+      "comment": comment,
+      "qualification": qualification,
+      "suborderId": suborderId
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "product/rate-product",
+            headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future<dynamic> qualificationSeller(
+      String sellerID, String qualification, String suborderId) async {
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "sellerId": sellerID,
+      "qualification": qualification,
+      "suborderId": suborderId
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "product/rate-product",
+            headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        return decodeJson['message'];
       } else {
         this.isLoading = false;
         throw decodeJson['message'];
