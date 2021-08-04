@@ -26,8 +26,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final searchController = TextEditingController();
-  RefreshController _refreshCategories =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshHome = RefreshController(initialRefresh: false);
+  RefreshController _refreshCategories = RefreshController(initialRefresh: false);
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   ProviderSettings providerSettings;
   ProviderHome providerHome;
@@ -130,44 +130,51 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                    height: 170,
-                    width: double.infinity,
-                    child: providerHome.ltsBanners.isEmpty
-                        ? Center(
-                            child: loadingWidgets(70),
-                          )
-                        : sliderBanner(providerHome?.indexBannerHeader,
-                            updateIndexBannerHeader, providerHome?.ltsBanners)),
-                Container(
-                  margin: EdgeInsets.only(top: 165),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
-                      )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      sectionCategories(),
-                      sectionsBrands(),
-                      providerHome.ltsBannersOffer.isEmpty
-                          ? Container()
-                          : sectionHighlight(),
-                      sectionBestSellers(),
-                      Image.asset(
-                        "Assets/images/ic_banner.png",
-                        width: double.infinity,
-                        fit: BoxFit.fill,
-                      )
-                    ],
+          child: SmartRefresher(
+            controller: _refreshHome,
+            enablePullDown: true,
+            header: headerRefresh(),
+            footer: footerRefreshCustom(),
+            onRefresh: _pullToRefresh,
+            child: SingleChildScrollView(
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                      height: 170,
+                      width: double.infinity,
+                      child: providerHome.ltsBanners.isEmpty
+                          ? Center(
+                              child: loadingWidgets(70),
+                            )
+                          : sliderBanner(providerHome?.indexBannerHeader,
+                              updateIndexBannerHeader, providerHome?.ltsBanners)),
+                  Container(
+                    margin: EdgeInsets.only(top: 165),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(15),
+                          topLeft: Radius.circular(15),
+                        )),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        sectionCategories(),
+                        sectionsBrands(),
+                        providerHome.ltsBannersOffer.isEmpty
+                            ? Container()
+                            : sectionHighlight(),
+                        sectionBestSellers(),
+                        Image.asset(
+                          "Assets/images/ic_banner.png",
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -438,6 +445,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   updateIndexBannerHeader(int index) {
     providerHome.indexBannerHeader = index;
+  }
+
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    providerHome.ltsBrands.clear();
+    providerHome.ltsBanners.clear();
+    providerSettings.ltsCategories.clear();
+    serviceGetCategories();
+    _refreshHome.refreshCompleted();
   }
 
   serviceGetCategories() async {

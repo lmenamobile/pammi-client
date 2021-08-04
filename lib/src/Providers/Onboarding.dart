@@ -73,7 +73,8 @@ class OnboardingProvider with ChangeNotifier {
       'city': cityId,
       "iv": encrypt['iv'],
       'platform': Platform.isIOS ? "i" : "a",
-      'pushToken': "",
+      'pushToken': _prefs.pushToken,
+      "userReferrerCode":"",
       'version': packageInfo.version.toString(),
     };
     var header = {
@@ -112,9 +113,10 @@ class OnboardingProvider with ChangeNotifier {
       'password': encrypt['encrypted'],
       'iv': encrypt['iv'],
       'type': typeLogin,
-      'pushToken': "",
+      'pushToken': _prefs.pushToken,
       'version': packageInfo.version,
       'platform': Platform.isIOS ? "i" : "a",
+      "userReferrerCode":""
     };
     var body = jsonEncode(jsonData);
     final response = await http
@@ -156,7 +158,7 @@ class OnboardingProvider with ChangeNotifier {
       'password': jsonIV['encrypted'],
       'iv': jsonIV['iv'],
       'type': "lc",
-      'pushToken': "",
+      'pushToken': _prefs.pushToken,
       'version': packageInfo.version,
       'platform': Platform.isIOS ? "i" : "a",
     };
@@ -348,7 +350,8 @@ class OnboardingProvider with ChangeNotifier {
       'city': userModel.cityId,
       'platform': Platform.isIOS ? "i" : "a",
       'type': "lc",
-      'pushToken': "",
+      'pushToken': _prefs.pushToken,
+      "userReferrerCode":"",
       'version': packageInfo.version.toString(),
     };
 
