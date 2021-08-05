@@ -168,87 +168,87 @@ class _GiftCartPageState extends State<GiftCartPage> {
   }
 
   Widget itemGiftCard(GiftCard gift) {
-    return InkWell(
-      onTap: () => null,
-      child: Container(
-        width: 150,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 3,
-              offset: Offset(0, 2), // changes position of shadow
+    return Container(
+      width: 150,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 3,
+            offset: Offset(0, 2), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: CustomColors.gray4,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(12)),
             ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: CustomColors.gray4,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    topLeft: Radius.circular(12)),
-              ),
-              width: double.infinity,
-              height: 100,
-              child: Container(
-                margin: EdgeInsets.all(8),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          child: Image.asset("Assets/images/ic_giftcard.png")),
-                      Center(
-                        child: Text(
-                          formatMoney(gift?.value ?? '0'),
-                          style: TextStyle(
-                            fontFamily: Strings.fontBold,
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
+            width: double.infinity,
+            height: 100,
+            child: Container(
+              margin: EdgeInsets.all(8),
+              child: Align(
+                alignment: Alignment.center,
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        child: Image.asset("Assets/images/ic_giftcard.png")),
+                    Center(
+                      child: Text(
+                        formatMoney(gift?.value ?? '0'),
+                        style: TextStyle(
+                          fontFamily: Strings.fontBold,
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    gift?.name ?? '',
-                    style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 12,
-                      color: CustomColors.gray7,
-                    ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  gift?.name ?? '',
+                  style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 12,
+                    color: CustomColors.gray7,
                   ),
-                  SizedBox(
-                    height: 5,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  formatMoney(gift?.value ?? '0'),
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.orange,
                   ),
-                  Text(
-                    formatMoney(gift?.value ?? '0'),
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 13,
-                      color: CustomColors.orange,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                    onTap: ()=>addGiftCard(gift.id.toString()),
                     child: Container(
                         decoration: BoxDecoration(
                             color: CustomColors.blue,
@@ -260,29 +260,16 @@ class _GiftCartPageState extends State<GiftCartPage> {
                             color: Colors.white,
                           ),
                         )),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget listGiftCards() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 0,
-        itemBuilder: (BuildContext context, int index) {
-          return Container();
-        },
-      ),
-    );
-  }
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
@@ -319,10 +306,25 @@ class _GiftCartPageState extends State<GiftCartPage> {
             providerSettings.selectCategory.id.toString(), null);
         await callCart.then((msg) {}, onError: (error) {
           providerShopCart.isLoadingCart = false;
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  addGiftCard(String idGift) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.addGiftCard(idGift, "1");
+        await callCart.then((msg) {
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }

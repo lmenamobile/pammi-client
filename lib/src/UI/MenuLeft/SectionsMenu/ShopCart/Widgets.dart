@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Models/Product/ProductOffer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
@@ -236,6 +237,115 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
         ],
       )
     ],
+  );
+}
+
+Widget itemGiftCart(ProductShopCart product,GiftCard giftCard,Function updateQuantity,Function deleteProduct) {
+  return Container(
+    margin: EdgeInsets.only(bottom: 10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(
+        Radius.circular(15),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 3,
+          offset: Offset(0, 2), // changes position of shadow
+        ),
+      ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+
+          Text(
+            giftCard?.name??'',
+            style: TextStyle(
+              fontFamily: Strings.fontBold,
+              fontSize: 12,
+              color: CustomColors.blackLetter,
+            ),
+          ),
+          Row(
+            children: [
+              Container(
+                width: 130,
+                child: Container(
+                  margin: EdgeInsets.all(8),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        child: Image.asset("Assets/images/ic_giftcard.png")),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      formatMoney(giftCard?.total??'0'),
+                      style: TextStyle(
+                        fontFamily: Strings.fontBold,
+                        fontSize: 13,
+                        color: CustomColors.orange,
+                      ),
+                    ),
+
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: (){
+                            if(int.parse(product?.qty)>1)
+                              updateQuantity(int.parse(product?.qty)-1,giftCard.id.toString());
+                          },
+                          child: containerCustom(Icon(
+                            Icons.remove,
+                            color: CustomColors.black2,
+                          )),
+                        ),
+                        containerCustom(Text(
+                          product?.qty??'0',
+                          style: TextStyle(
+                              fontFamily: Strings.fontBold,
+                              fontSize: 15,
+                              color: CustomColors.black2),
+                        )),
+                        InkWell(
+                          onTap: ()=>updateQuantity(int.parse(product?.qty)+1,giftCard.id.toString()),
+                          child: containerCustom(Icon(
+                            Icons.add,
+                            color: CustomColors.black2,
+                          )),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 100,
+                child: customButton("ic_remove.png", Strings.delete,
+                    CustomColors.redTour, (){deleteProduct(product?.id.toString());}),
+              ),
+            ],
+          )
+        ],
+      ),
+    ),
   );
 }
 
@@ -633,6 +743,19 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
           )
         ],
       ),
+    ),
+  );
+}
+
+Widget listGiftCard(List<ProductShopCart> ltsProducts, Function updateQuantity, Function delete) {
+  return Container(
+    child: ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: ltsProducts == null ? 0 : ltsProducts.length,
+      itemBuilder: (_, int index) {
+      return itemGiftCart(ltsProducts[index], ltsProducts[index].giftCard, updateQuantity, delete);
+      },
     ),
   );
 }

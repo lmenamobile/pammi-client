@@ -329,5 +329,37 @@ class ProviderShopCart with ChangeNotifier{
     }
   }
 
+  Future addGiftCard(String giftCardId,String units) async {
+    this.isLoadingCart = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "giftcardId": giftCardId,
+      "qty": units
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "cart/add-giftcard", headers: header, body: body)
+        .timeout(Duration(seconds: 15)).catchError((value) {
+      this.isLoadingCart = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingCart = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingCart = false;
+      throw decodeJson['message'];
+    }
+  }
+
 
 }

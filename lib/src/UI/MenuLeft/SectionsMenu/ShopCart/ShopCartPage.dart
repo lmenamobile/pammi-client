@@ -44,8 +44,12 @@ class _ShopCartPageState extends State<ShopCartPage> {
           color: CustomColors.whiteBackGround,
           child: Stack(
             children: [
-              titleBarWithDoubleAction(Strings.shopCart, "ic_blue_arrow.png",
-                  "ic_remove_white.png", () => Navigator.pop(context), ()=>deleteCart()),
+              titleBarWithDoubleAction(
+                  Strings.shopCart,
+                  "ic_blue_arrow.png",
+                  "ic_remove_white.png",
+                  () => Navigator.pop(context),
+                  () => deleteCart()),
               Column(
                 children: [
                   SizedBox(
@@ -59,7 +63,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           )),
-                      child: providerShopCart?.shopCart==null
+                      child: providerShopCart?.shopCart == null
                           ? emptyData(
                               "ic_highlights_empty.png",
                               Strings.sorryHighlights,
@@ -67,14 +71,17 @@ class _ShopCartPageState extends State<ShopCartPage> {
                           : SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  listProductsByProvider(),
+                                  providerShopCart.shopCart.packagesProvider.isEmpty? sectionGiftCard():listProductsByProvider() ,
                                   itemSubtotalCart(
                                       providerShopCart?.shopCart?.totalCart,
                                       () => Navigator.push(
                                           context,
-                                          customPageTransition(ProductsSavePage())),
-                                          () => Navigator.push(context,
-                                      customPageTransition(CheckOutPage()))),
+                                          customPageTransition(
+                                              ProductsSavePage())),
+                                      () => Navigator.push(
+                                          context,
+                                          customPageTransition(
+                                              CheckOutPage()))),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -126,6 +133,15 @@ class _ShopCartPageState extends State<ShopCartPage> {
         },
       ),
     );
+  }
+
+  Widget sectionGiftCard() {
+    return providerShopCart?.shopCart?.products == null
+        ? Container()
+        : Container(
+            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            child: listGiftCard(providerShopCart?.shopCart?.products,
+                updateGiftCard, deleteProduct));
   }
 
   Widget listItemsProductsRelations() {
@@ -180,10 +196,11 @@ class _ShopCartPageState extends State<ShopCartPage> {
     });
   }
 
-  addOfferCart(String idOffer,int quantity) async {
+  updateGiftCard(int quantity, String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(idOffer, quantity.toString());
+        Future callCart =
+            providerShopCart.addGiftCard(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -196,11 +213,28 @@ class _ShopCartPageState extends State<ShopCartPage> {
     });
   }
 
-  updateOfferOrProduct(int quantity, String idReference,bool isProduct){
-    if(isProduct){
+  addOfferCart(String idOffer, int quantity) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart =
+            providerShopCart.addOfferCart(idOffer, quantity.toString());
+        await callCart.then((msg) {
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  updateOfferOrProduct(int quantity, String idReference, bool isProduct) {
+    if (isProduct) {
       updateProductCart(quantity, idReference);
-    }else{
-      addOfferCart(idReference,quantity);
+    } else {
+      addOfferCart(idReference, quantity);
     }
   }
 
