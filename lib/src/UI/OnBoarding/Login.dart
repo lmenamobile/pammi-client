@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: btnCustomRounded(
                       CustomColors.redTour,
                       CustomColors.white,
@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 14),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: btnCustomRounded(
                       CustomColors.blueSplash,
                       CustomColors.white,
@@ -357,8 +357,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void validateUserGoogle() async {
-
-    utils.checkInternet().then((value) async {
+    utils.showSnackBar(context, "Lo sentimos, no disponible por a hora");
+ /*   utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = GoogleSingInProvider.singInWithGoogle();
         await callUser.then((user) {
@@ -370,7 +370,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         utils.showSnackBar(context, Strings.internetError);
       }
-    });
+    });*/
   }
 
   void registerSocialNetwork(
@@ -441,7 +441,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   requestLoginFacebook() async{
-    final fb = FacebookLogin();
+    utils.showSnackBar(context, "Lo sentimos, no disponible por a hora");
+   /* final fb = FacebookLogin();
     final result = await fb.logIn(permissions: [
       FacebookPermission.publicProfile,
       FacebookPermission.email,
@@ -457,7 +458,7 @@ class _LoginPageState extends State<LoginPage> {
      case FacebookLoginStatus.error:
        utils.showSnackBar(context, Strings.errorFacebook);
        break;
-    }
+    }*/
   }
 
  /* requestLoginFacebook() async{

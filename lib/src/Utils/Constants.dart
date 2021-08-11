@@ -40,4 +40,7 @@ class Constants {
   static const String menuGiftCard       = 'giftCard';
   static const String menuTraining       = 'training';
 
+  /*Locale*/
+  static const String localeES = 'es_CO';
+
 }

@@ -63,9 +63,12 @@ class _OffersDayPageState extends State<OffersDayPage> {
               "ic_car.png",
                   () =>keyMenuLeft.currentState.openDrawer(),
                   ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
-              Container(
-                height: 100,
-                  child: listBrands()),
+              Visibility(
+                visible: providerHome.ltsBrands.isNotEmpty,
+                child: Container(
+                  height: 100,
+                    child: listBrands()),
+              ),
               SizedBox(
                 height: 10,
               ),

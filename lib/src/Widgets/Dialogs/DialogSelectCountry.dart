@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -42,7 +43,7 @@ class _DialogSelectCountryState extends State<DialogSelectCountry> {
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(15))),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -56,9 +57,9 @@ class _DialogSelectCountryState extends State<DialogSelectCountry> {
                       fontFamily: Strings.fontMedium),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                  child: customDivider()),
               Container(
                 height: MediaQuery.of(context).size.height*.4,
                 child: SmartRefresher(

@@ -65,13 +65,13 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
           Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 130),
+                margin: EdgeInsets.only(top: 145),
                 child: Image(
                   image: AssetImage("Assets/images/ic_shape.png"),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 50, left: 30),
+                margin: EdgeInsets.only(top: 65, left: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -111,7 +111,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
               GestureDetector(
                 child: Container(
                   margin: EdgeInsets.only(
-                    left: 20,
+                    left: 20,top: 15
                   ),
                   alignment: Alignment.topLeft,
                   child: Image(

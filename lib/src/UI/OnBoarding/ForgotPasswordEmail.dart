@@ -125,7 +125,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                 }),
                 SizedBox(height: 30),
                 Padding(
-                  padding: const EdgeInsets.only(left: 75, right: 75),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: btnCustomRounded(
                       CustomColors.blueSplash,
                       CustomColors.white,

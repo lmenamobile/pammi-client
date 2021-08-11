@@ -10,6 +10,7 @@ import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/FavoritesPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Notifications/NotificationsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OffersDayPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Training/TrainingPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/Widgets.dart';
@@ -121,7 +122,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       itemMenu("ic_trainings.png", () => widget.rollOverActive != Constants.menuTraining
                           ? pushToPage(TrainingPage())
                           : Navigator.pop(context), Strings.trainings),
-                      itemMenu("ic_notification.png", () {}, Strings.notifications),
+                      itemMenu("ic_notification.png", () => widget.rollOverActive != Constants.menuNotifications
+                          ? pushToPage(NotificationsPage())
+                          : Navigator.pop(context), Strings.notifications),
                       itemMenu("ic_support.png", () {
                         widget.rollOverActive != "support"
                             ? pushToPage(SupportHelpPage())

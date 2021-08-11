@@ -14,12 +14,12 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 
-class InterestsPage extends StatefulWidget {
+class PreRegisterPage extends StatefulWidget {
   @override
-  _InterestsPageState createState() => _InterestsPageState();
+  _PreRegisterPageState createState() => _PreRegisterPageState();
 }
 
-class _InterestsPageState extends State<InterestsPage> {
+class _PreRegisterPageState extends State<PreRegisterPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
   ProfileProvider profileProvider;

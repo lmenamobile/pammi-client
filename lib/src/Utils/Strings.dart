@@ -122,6 +122,8 @@ class Strings {
   static const String delete = 'Eliminar';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
   static const String deleteCart = "¿Estás seguro de eliminar tu carrito de compras?";
+  static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
+  static const String notSelectedNotification = "Por favor seleccione una notificación";
 
   /*fotos*/
   static const String alertTextPhotos =
@@ -220,6 +222,7 @@ class Strings {
   static const String closeSesion = 'Cerrar sesión';
   static const String closeSesionText = '¿Estás seguro de cerrar sesión?';
   static const String sessionClose = '¡Upps!';
+  static const String closeAppText = '¿Estás seguro de salir?';
   static const String sessionText = 'Para acceder a esta opcion debes iniciar sesion';
 
 
@@ -256,6 +259,8 @@ class Strings {
   /*highlights*/
   static const String  highlights = 'Destacados';
   static const String advertising = "Campañas";
+
+
 
   /*Orders*/
   static const String  actives         = 'Activos';
@@ -443,6 +448,7 @@ class Strings {
   static const String emptyGiftCards                       = "Aún no hay tarjetas de regalo que mostrar aquí.";
   static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
   static const String emptyOrders                          = "Aún no hay ordenes que mostrar aquí.";
+  static const String emptyNotifications                   = "Aún no hay notificaciones que mostrar aquí.";
   static const String errorSelectAddress                   = "Debes seleccionar una dirección de envío";
   static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
   static const String errorPaymentMethod                   = "Medio de pago no disponible";

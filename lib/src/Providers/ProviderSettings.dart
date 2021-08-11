@@ -7,6 +7,7 @@ import 'package:wawamko/src/Models/Campaign.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
+import 'package:wawamko/src/Models/Notifications.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Models/SubCategory.dart';
 import 'package:wawamko/src/Models/Training.dart';
@@ -122,6 +123,19 @@ class ProviderSettings with ChangeNotifier{
   List<Bank> get ltsBanks => this._ltsBanks;
   set ltsBanks(List<Bank> value) {
     this._ltsBanks = value;
+    notifyListeners();
+  }
+
+  List<Notifications> _ltsNotifications = List();
+  List<Notifications> get ltsNotifications => this._ltsNotifications;
+  set ltsNotifications(List<Notifications> value) {
+    this._ltsNotifications.addAll(value);
+    notifyListeners();
+  }
+
+  selectNotification(int idNotification){
+    var notification = this.ltsNotifications.firstWhere((element) => element.id == idNotification);
+    notification.isSelected==true? notification.isSelected=false: notification.isSelected=true;
     notifyListeners();
   }
 
@@ -559,6 +573,87 @@ class ProviderSettings with ChangeNotifier{
         this.isLoadingSettings = false;
         this.ltsBanks = listBanks;
         return listBanks;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+
+  }
+
+  Future<dynamic> getNotifications(int offset) async {
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      'filter': "",
+      'offset': offset,
+      'limit': 20,
+      "state": "send"
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "notification/get-notifications",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    final List<Notifications> listNotifications = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final notification = Notifications.fromJson(item);
+          listNotifications.add(notification);
+        }
+        this.isLoadingSettings = false;
+        this.ltsNotifications= listNotifications;
+        return listNotifications;
+      } else {
+        this.isLoadingSettings = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingSettings = false;
+      throw decodeJson['message'];
+    }
+
+  }
+
+  Future<dynamic> deleteNotifications(List<Notifications> idsNotifications) async {
+    List dataIDS = [];
+    idsNotifications.forEach((element) {
+      if(element.isSelected==true)
+        dataIDS.add(element.id);
+    });
+    this.isLoadingSettings = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    Map jsonData = {
+      "notifications": dataIDS
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "notification/delete-notifications",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingSettings = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoadingSettings = false;
+      if (decodeJson['code'] == 100) {
+        return decodeJson['message'];
       } else {
         this.isLoadingSettings = false;
         throw decodeJson['message'];

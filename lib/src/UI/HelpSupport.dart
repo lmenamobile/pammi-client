@@ -17,7 +17,7 @@ import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import 'PreRegister/InterestsPage.dart';
+import 'PreRegister/PreRegisterPage.dart';
 
 class SupportHelpPage extends StatefulWidget {
   @override
@@ -138,7 +138,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                       child: Column(
                         children: <Widget>[
                           InkWell(
-                            onTap:()=>Navigator.of(context).push(customPageTransition(InterestsPage())),
+                            onTap:()=>Navigator.of(context).push(customPageTransition(PreRegisterPage())),
                             child: Container(
                               height: 50,
                               width: double.infinity,

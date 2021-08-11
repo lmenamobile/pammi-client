@@ -63,7 +63,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 25),
+          margin: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
           child: GestureDetector(
             child: Image(
               width: 40,
@@ -103,7 +103,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                             SizedBox(height: 21),
                             providerSettings.ltsCountries.isEmpty
                                 ? emptyData("ic_empty_location.png",
-                                    Strings.emptyCountries, "")
+                                    Strings.sorry, Strings.emptyCountries)
                                 : listItemsCountry()
                           ]),
                     ),
@@ -204,7 +204,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   getCountries(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getCountries(search, pageOffset);
+        Future callUser = providerSettings.getCountries(search.trim(), pageOffset);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

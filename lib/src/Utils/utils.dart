@@ -257,9 +257,9 @@ class _Utils {
     return price2;
   }
 
-  startCustomAlertMessage(BuildContext context, String titleAlert, String image,
-      String textAlert, Function action, Function actionNegative) {
-    showDialog(
+  Future<bool> startCustomAlertMessage(BuildContext context, String titleAlert, String image,
+      String textAlert, Function action, Function actionNegative) async{
+   return   await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) => alertCustomMessage(
@@ -364,21 +364,21 @@ class _Utils {
                           Container(
                             child: btnCustomSize(
                                 35,
+                                Strings.btnNot,
+                                CustomColors.gray2,
+                                CustomColors.blackLetter,
+                                actionNegative),
+                            width: 100,
+                          ),
+                          Container(
+                            child: btnCustomSize(
+                                35,
                                 Strings.btnYes,
                                 CustomColors.blueSplash,
                                 CustomColors.white,
                                 action),
                             width: 100,
                           ),
-                          Container(
-                            child: btnCustomSize(
-                                35,
-                                Strings.btnNot,
-                                CustomColors.gray2,
-                                CustomColors.blackLetter,
-                                actionNegative),
-                            width: 100,
-                          )
                         ],
                       ),
                     ),

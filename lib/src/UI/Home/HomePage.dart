@@ -9,6 +9,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -39,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     providerHome.ltsBrands.clear();
     providerHome.ltsBanners.clear();
+    providerHome.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
     if (prefs.countryIdUser != "0") {
       serviceGetCategories();
@@ -60,9 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
         rollOverActive: Constants.menuHome,
       ),
       backgroundColor: CustomColors.redTour,
-      body: SafeArea(
-        child: Container(
-            color: CustomColors.grayBackground, child: _body(context)),
+      body: WillPopScope(
+        onWillPop:()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+              Navigator.pop(context,true), ()=>Navigator.pop(context,false)),
+        child: SafeArea(
+          child: Container(
+              color: CustomColors.grayBackground, child: _body(context)),
+        ),
       ),
     );
   }
@@ -165,11 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ? Container()
                             : sectionHighlight(),
                         sectionBestSellers(),
-                        Image.asset(
-                          "Assets/images/ic_banner.png",
-                          width: double.infinity,
-                          fit: BoxFit.fill,
-                        )
+
                       ],
                     ),
                   ),
@@ -201,19 +204,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 InkWell(
                   onTap: () => Navigator.push(
                       context, customPageTransition(CategoriesPage())),
-                  child: Text(
-                    Strings.moreAll,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: CustomColors.blueOne,
-                        fontSize: 12,
-                        fontFamily: Strings.fontBold),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: CustomColors.blue.withOpacity(.1),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                      child: Text(
+                        Strings.moreAll,
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            color: CustomColors.blueOne,
+                            fontSize: 12,
+                            fontFamily: Strings.fontBold),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(height: 8,),
           GridView.builder(
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
@@ -241,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sectionsBrands() {
-    return Container(
+    return providerHome.ltsBrands.isEmpty?Container():Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,16 +279,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontFamily: Strings.fontBold,
                     color: CustomColors.blueSplash),
               ),
-              Text(
-                Strings.moreAll,
-                style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: CustomColors.blueOne,
-                    fontSize: 12,
-                    fontFamily: Strings.fontBold),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: CustomColors.blue.withOpacity(.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                  child: Text(
+                    Strings.moreAll,
+                    style: TextStyle(
+                        color: CustomColors.blueOne,
+                        fontSize: 12,
+                        fontFamily: Strings.fontBold),
+                  ),
+                ),
               ),
             ],
           ),
+          SizedBox(height: 8,),
           Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               height: 100,
@@ -318,19 +339,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontFamily: Strings.fontBold,
                       color: CustomColors.blueSplash),
                 ),
-                Text(
-                  Strings.moreAll,
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: CustomColors.blueOne,
-                      fontSize: 12,
-                      fontFamily: Strings.fontBold),
+                InkWell(
+                  onTap: () => Navigator.pushReplacement(context, customPageTransition( HighlightsPage())),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: CustomColors.blue.withOpacity(.1),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                      child: Text(
+                        Strings.moreAll,
+                        style: TextStyle(
+                            color: CustomColors.blueOne,
+                            fontSize: 12,
+                            fontFamily: Strings.fontBold),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           Container(
               height: 200,
@@ -374,15 +406,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontFamily: Strings.fontBold,
                     color: CustomColors.blueSplash),
               ),
-              Text(
-                Strings.moreAll,
-                style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: CustomColors.blueOne,
-                    fontSize: 12,
-                    fontFamily: Strings.fontBold),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  color: CustomColors.blue.withOpacity(.1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                  child: Text(
+                    Strings.moreAll,
+                    style: TextStyle(
+                        color: CustomColors.blueOne,
+                        fontSize: 12,
+                        fontFamily: Strings.fontBold),
+                  ),
+                ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 20,
           ),
           Container(
               margin: EdgeInsets.symmetric(vertical: 10),
@@ -451,6 +494,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await Future.delayed(Duration(milliseconds: 800));
     providerHome.ltsBrands.clear();
     providerHome.ltsBanners.clear();
+    providerHome.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
     serviceGetCategories();
     _refreshHome.refreshCompleted();
@@ -479,6 +523,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await callHome.then((list) {
           getBanners();
         }, onError: (error) {
+          getBanners();
           //utils.showSnackBar(context, error.toString());
         });
       } else {

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Models/City.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
+import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
@@ -56,37 +57,44 @@ Widget itemCountrySelect(CountryUser country, Function action) {
     child: Container(
       width: double.infinity,
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.only(bottom: 5),
         child: Container(
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        color: CustomColors.grayBackground,
-                        borderRadius: BorderRadius.all(Radius.circular(100))),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      child: SvgPicture.network(
-                        country.flag,
-                        height: 30,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
                         width: 30,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )),
-                SizedBox(width: 15),
-                Text(
-                  country.country,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15,
-                      color: CustomColors.blackLetter,
-                      fontFamily: Strings.fontRegular),
-                ),
-              ]),
+                        height: 30,
+                        margin: EdgeInsets.only(left: 20),
+                        decoration: BoxDecoration(
+                            color: CustomColors.grayBackground,
+                            borderRadius: BorderRadius.all(Radius.circular(100))),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          child: SvgPicture.network(
+                            country.flag,
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        )),
+                    SizedBox(width: 15),
+                    Text(
+                      country.country,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                          color: CustomColors.blackLetter,
+                          fontFamily: Strings.fontRegular),
+                    ),
+                  ]),
+              customDivider(),
+            ],
+          ),
         ),
       ),
     ),
@@ -104,7 +112,7 @@ Widget itemCountry(CountryUser country, Function action) {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.all(15),
+        margin: EdgeInsets.all(20),
         child: Container(
           margin: EdgeInsets.only(left:50),
           child: Row(
@@ -153,7 +161,7 @@ Widget itemStateCountry(StatesCountry state, Function action) {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.all(15),
+        margin: EdgeInsets.all(20),
         child: Container(
           margin: EdgeInsets.only(left:50),
           child: Row(
@@ -186,7 +194,7 @@ Widget cityItem(City city, Function action) {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.all(15),
+        margin: EdgeInsets.all(20),
         child: Container(
           margin: EdgeInsets.only(left:50),
           child: Row(

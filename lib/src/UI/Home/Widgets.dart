@@ -36,7 +36,7 @@ Widget itemCategory(Category category) {
             ),
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 15),
         Text(
           category.category,
           textAlign: TextAlign.center,

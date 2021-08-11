@@ -124,7 +124,7 @@ Widget btnCustomIcon(String asset, String nameButton, Color colorBackground,
                 ),
               ),
               SizedBox(
-                width: 10,
+                width:20 ,
               ),
               Image.asset(
                 "Assets/images/$asset",
@@ -354,7 +354,7 @@ Widget emptyData(
         ),
         SizedBox(height: 20,),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 60),
+          padding: EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             children: <Widget>[
               Text(

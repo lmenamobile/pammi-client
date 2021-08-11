@@ -43,7 +43,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 25),
+          margin: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
           child: GestureDetector(
             child: Image(
               width: 40,
@@ -83,7 +83,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
                             SizedBox(height: 21),
                             providerSettings.ltsCities.isEmpty
                                 ? emptyData("ic_empty_location.png",
-                                    Strings.emptyCities, "")
+                                   Strings.sorry , Strings.emptyCities)
                                 : listItemsCities()
                           ]),
                     ),
@@ -143,7 +143,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerSettings.getCities(
-            search, 0, providerSettings.stateCountrySelected);
+            search.trim(), 0, providerSettings.stateCountrySelected);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
