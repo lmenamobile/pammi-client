@@ -105,7 +105,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                     ),
                                   ),
                                   Container(
-                                      height: 210,
+                                      height: 217,
                                       child: listItemsProductsRelations()),
                                 ],
                               )
@@ -187,7 +187,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         await callUser.then((list) {
 
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -65,14 +66,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           decoration: BoxDecoration(
                               color: CustomColors.whiteBackGround,
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15), topRight: Radius.circular(15),
-                              )
-                          ),
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                              )),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10
-                        ),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,10 +105,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   child: Container(
                                     width: 30,
                                     child: Image(
-                                      image: AssetImage("Assets/images/ic_car.png"),
+                                      image: AssetImage(
+                                          "Assets/images/ic_car.png"),
                                     ),
                                   ),
-                                  onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
+                                  onTap: () => Navigator.push(context,
+                                      customPageTransition(ShopCartPage())),
                                 ),
                               ],
                             ),
@@ -116,7 +119,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             ),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: 40),
-                                child: boxSearchHome(searchController,searchElements))
+                                child: boxSearchHome(
+                                    searchController, searchElements))
                           ],
                         ),
                       ),
@@ -124,7 +128,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   ),
                 ),
               ),
-
               Expanded(
                 child: SmartRefresher(
                   controller: _refreshCategories,
@@ -134,7 +137,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   footer: footerRefreshCustom(),
                   header: headerRefresh(),
                   onRefresh: _pullToRefresh,
-                  child: SingleChildScrollView(child: listCategories()),
+                  child: providerSettings.ltsCategories.isEmpty
+                      ? Center(
+                          child: SingleChildScrollView(
+                              child: emptyData("ic_empty_notification.png",
+                                  Strings.sorry, Strings.emptyCategories)),
+                        )
+                      : SingleChildScrollView(child: listCategories()),
                 ),
               ),
             ],
@@ -167,14 +176,27 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget listCategories() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: ListView.builder(
-        itemCount:providerSettings.ltsCategories.isEmpty?0:providerSettings.ltsCategories.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return itemCategoryRow(
-              providerSettings.ltsCategories[index], openSubCategory);
-        },
+      child: AnimationLimiter(
+        child: ListView.builder(
+          itemCount: providerSettings.ltsCategories.isEmpty
+              ? 0
+              : providerSettings.ltsCategories.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(milliseconds: 370),
+              child: SlideAnimation(
+                verticalOffset: 50,
+                child: FadeInAnimation(
+                  child: itemCategoryRow(
+                      providerSettings.ltsCategories[index], openSubCategory),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -187,15 +209,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
         )));
   }
 
-  searchElements(String value){
-      providerSettings.ltsCategories.clear();
-      getCategories(value);
+  searchElements(String value) {
+    providerSettings.ltsCategories.clear();
+    getCategories(value);
   }
 
   getCategories(String text) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callSettings = providerSettings.getCategoriesInterest(text ?? '', pageOffset, prefs.countryIdUser);
+        Future callSettings = providerSettings.getCategoriesInterest(
+            text ?? '', pageOffset, prefs.countryIdUser);
         await callSettings.then((list) {}, onError: (error) {
           //utils.showSnackBar(context, error.toString());
         });

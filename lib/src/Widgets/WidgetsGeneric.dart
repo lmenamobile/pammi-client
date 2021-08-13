@@ -337,6 +337,128 @@ Widget customTextFieldIcon(
   );
 }
 
+Widget textFieldIconSelector(
+    String icon,
+    bool isActive,
+    String hintText,
+    TextEditingController controller,
+    ) {
+  return Container(
+    margin: EdgeInsets.only(bottom: 20),
+    padding: EdgeInsets.only(left: 10),
+    height: 50,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
+        color: CustomColors.white),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Image(
+          width: 35,
+          height: 35,
+          fit: BoxFit.fill,
+          image: AssetImage("Assets/images/$icon"),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          width: 1,
+          height: 25,
+          color: CustomColors.gray7.withOpacity(.4),
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Expanded(
+          child: Container(
+            child: TextField(
+              enabled: isActive,
+              controller: controller,
+              style: TextStyle(
+                  fontFamily: Strings.fontRegular,
+                  color: CustomColors.blackLetter),
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                  color: CustomColors.gray7.withOpacity(.4),
+                  fontFamily: Strings.fontRegular,
+                ),
+                hintText: hintText,
+              ),
+            ),
+          ),
+        ),
+        Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.gray6,size: 20,),
+        SizedBox(
+          width: 5,
+        ),
+      ],
+    ),
+  );
+}
+
+Widget textFieldIconPhone(
+    String hintText,
+    String prefix,
+    TextEditingController controller,
+    ) {
+  return Container(
+    margin: EdgeInsets.only(bottom: 20),
+    padding: EdgeInsets.only(left: 10),
+    height: 50,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
+        color: CustomColors.white),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+
+        Container(
+          width: 35,
+          child: Text(
+            prefix,
+            style:  TextStyle(
+                fontFamily: Strings.fontRegular,
+                color: CustomColors.gray7),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          width: 1,
+          height: 25,
+          color: CustomColors.gray7.withOpacity(.4),
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Expanded(
+          child: Container(
+            child: TextField(
+              inputFormatters: [LengthLimitingTextInputFormatter(15),FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.phone,
+              controller: controller,
+              style: TextStyle(
+                  fontFamily: Strings.fontRegular,
+                  color: CustomColors.blackLetter),
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                  color: CustomColors.gray7.withOpacity(.4),
+                  fontFamily: Strings.fontRegular,
+                ),
+                hintText: hintText,
+              ),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
 Widget emptyData(
   String image,
   String title,

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -147,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                      height: 170,
+                      height: 200,
                       width: double.infinity,
                       child: providerHome.ltsBanners.isEmpty
                           ? Center(
@@ -156,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           : sliderBanner(providerHome?.indexBannerHeader,
                               updateIndexBannerHeader, providerHome?.ltsBanners)),
                   Container(
-                    margin: EdgeInsets.only(top: 165),
+                    margin: EdgeInsets.only(top: 185),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -226,25 +227,36 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           SizedBox(height: 8,),
-          GridView.builder(
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 10,
-              childAspectRatio: 1,
-              crossAxisSpacing: 5.0,
+          AnimationLimiter(
+            child: GridView.builder(
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1,
+                crossAxisSpacing: 5.0,
+              ),
+              padding: EdgeInsets.only(top: 20),
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: providerSettings.ltsCategories.length > 6
+                  ? 6
+                  : providerSettings.ltsCategories.length,
+              shrinkWrap: true,
+              itemBuilder: (_, int index) {
+                return AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  duration: const Duration(milliseconds: 375),
+                  columnCount: 3,
+                  child: ScaleAnimation(
+                    child: FadeInAnimation(
+                      child: InkWell(
+                          onTap: () =>
+                              openSubCategory(providerSettings.ltsCategories[index]),
+                          child: itemCategory(providerSettings.ltsCategories[index])),
+                    ),
+                  ),
+                );
+              },
             ),
-            padding: EdgeInsets.only(top: 20),
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: providerSettings.ltsCategories.length > 6
-                ? 6
-                : providerSettings.ltsCategories.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                  onTap: () =>
-                      openSubCategory(providerSettings.ltsCategories[index]),
-                  child: itemCategory(providerSettings.ltsCategories[index]));
-            },
           ),
           customDivider(),
         ],
@@ -324,7 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           SizedBox(
-            height: 8,
+            height: 5,
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15),

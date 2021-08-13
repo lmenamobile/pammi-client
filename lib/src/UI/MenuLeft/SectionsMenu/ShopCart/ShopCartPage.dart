@@ -97,7 +97,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                                         ),
                                       ),
                                       Container(
-                                          height: 210,
+                                          height: 217,
                                           child: listItemsProductsRelations()),
                                     ],
                                   )

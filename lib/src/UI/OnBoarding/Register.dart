@@ -164,12 +164,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                   lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
                               InkWell(
                                 onTap: ()=>openSelectCountry(),
-                                  child: customTextFieldIcon("ic_country.png",false, Strings.country, countryController, TextInputType.text, [])),
+                                  child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
                               InkWell(
                                   onTap: ()=>openSelectCityByState(),
-                                  child: customTextFieldIcon("ic_country.png",false, Strings.city, cityController, TextInputType.text, [])),
-                              customTextFieldIcon("ic_telephone.png", true, Strings.phoneNumber,
-                                  phoneController, TextInputType.number, [LengthLimitingTextInputFormatter(15),FilteringTextInputFormatter.digitsOnly]),
+                                  child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
+                              textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',phoneController ),
                               SizedBox(height: 30),
                             ],
                           )),

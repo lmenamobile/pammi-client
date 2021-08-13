@@ -61,7 +61,10 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
                           footer: footerRefreshCustom(),
                           header: headerRefresh(),
                           onRefresh: _pullToRefresh,
-                          child: SingleChildScrollView(child: listSubcategories())))
+                          child: providerSettings.ltsSubCategories.isEmpty
+                              ? emptyData("ic_empty_notification.png",
+                              Strings.sorry, Strings.emptySubCategories)
+                              :SingleChildScrollView(child: listSubcategories())))
                 ],
               ),
               Visibility(

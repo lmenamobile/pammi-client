@@ -35,7 +35,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: CustomColors.whiteBackGround,
           child: _body(context),
         ),
       ),
@@ -48,7 +48,10 @@ class _MyCreditCardsState extends State<MyCreditCards> {
         titleBar(Strings.methodsPay, "ic_blue_arrow.png",
             () => Navigator.pop(context)),
         Expanded(
-          child: Container(
+          child: profileProvider.ltsCreditCards.isEmpty
+              ? emptyData("ic_empty_payment.png",
+              Strings.notMethodPayment, Strings.beginShop)
+              :Container(
               margin: EdgeInsets.only(right: 20, left: 20, top: 20),
               child: ListView.builder(
                   shrinkWrap: true,

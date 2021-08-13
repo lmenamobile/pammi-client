@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
@@ -130,21 +131,32 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                   ),
                   Expanded(
                     child: Container(
-                      child: GridView.builder(
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: .77,
-                          crossAxisSpacing: 15,
+                      child:  providerProducts.ltsProductsByCategory.isEmpty
+                          ? Center(
+                        child: SingleChildScrollView(
+                            child: emptyData("ic_empty_notification.png",
+                                Strings.sorry, Strings.emptyCategories)),
+                      ) : AnimationLimiter(
+                        child: GridView.builder(
+                          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: .77,
+                            crossAxisSpacing: 15,
+                          ),
+                          padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
+                          itemCount: providerProducts.ltsProductsByCategory.isEmpty?0:
+                          providerProducts.ltsProductsByCategory.length,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                duration: const Duration(milliseconds: 375),
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                    child: FadeInAnimation(child: itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct,callIsFavorite))));
+                          },
                         ),
-                        padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
-
-                        itemCount: providerProducts.ltsProductsByCategory.isEmpty?0:
-                        providerProducts.ltsProductsByCategory.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct,callIsFavorite);
-                        },
                       ),
                     ),
                   )

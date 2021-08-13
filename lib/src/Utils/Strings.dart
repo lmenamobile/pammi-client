@@ -167,7 +167,7 @@ class Strings {
   static const String linkEntrepreneur = 'Vincúlate con un emprendedor';
   static const String shareYourCode = 'Dale el siguiente código al emprendedor';
 
-  static const String dontMethodsPay = 'Aún no has agregado métodos de pago';
+  static const String notMethodPayment = 'Aún no has agregado métodos de pago';
   static const String beginShop = 'Empieza a agregar para realizar tus compras';
   static const String addTarjet = 'Agregar tarjeta';
   static const String creditTarjet = 'Tarjeta crédito';
@@ -449,6 +449,8 @@ class Strings {
   static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
   static const String emptyOrders                          = "Aún no hay ordenes que mostrar aquí.";
   static const String emptyNotifications                   = "Aún no hay notificaciones que mostrar aquí.";
+  static const String emptyCategories                      = "No se encontraron categorias.";
+  static const String emptySubCategories                      = "No se encontraron Subcategorias.";
   static const String errorSelectAddress                   = "Debes seleccionar una dirección de envío";
   static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
   static const String errorPaymentMethod                   = "Medio de pago no disponible";
