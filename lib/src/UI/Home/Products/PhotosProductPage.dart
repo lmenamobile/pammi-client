@@ -45,35 +45,6 @@ class _PhotosProductPageState extends State<PhotosProductPage> {
         ),
       ),
     );
-    /*return Scaffold(
-      backgroundColor: CustomColors.redTour,
-      body: SafeArea(
-        child:Container(
-          color: CustomColors.whiteBackGround,
-          child: Column(
-            children: [
-              titleBarWithDoubleAction(
-                  reference?.reference??'',
-                  "ic_blue_arrow.png",
-                  "ic_car.png",
-                      () => Navigator.pop(context),
-                  null),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    sliderImages(
-                      providerProducts.indexSliderImages,updateIndexSliderImages,reference.images
-                    ),
-                ],),
-              )
-            ],
-          ),
-        ),
-      ),
-    );*/
   }
 
 

@@ -19,30 +19,23 @@ class UserProvider {
 
   UserProvider._internal();
 
-  Future<dynamic> addAddress(BuildContext context,String address,String lat, String long,String complement,String nameAddress) async {
-
-
+  Future<dynamic> addAddress(String address,String lat, String long,String complement,String nameAddress,String cityId) async {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":_prefs.accessToken.toString(),
       "X-WA-Auth-Token":_prefs.authToken.toString()
     };
 
-
-
     Map jsonData = {
       'address':address.toString(),
       'latitude':lat,
       'longitude':long,
       'complement':complement,
-      'name':nameAddress
-
+      'name':nameAddress,
+      "principal" : false,
+      'cityId':cityId
     };
-
-
     var body = jsonEncode(jsonData);
-
-    print("Parameters AddAddressUser ${jsonData}");
 
     final response = await http.post(Constants.baseURL+"profile/create-address",headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
@@ -50,7 +43,7 @@ class UserProvider {
       throw Exception(value);
     });
 
-    print("Json addAddress: ${response.body}");
+
 
     return response.body;
   }

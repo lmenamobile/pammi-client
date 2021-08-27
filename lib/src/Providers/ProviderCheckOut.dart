@@ -105,6 +105,15 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
+  String _shippingPrice;
+
+  String get shippingPrice => this._shippingPrice;
+
+  set shippingPrice(String value) {
+    this._shippingPrice = value;
+    notifyListeners();
+  }
+
   Future getPaymentMethods() async {
     this.isLoading = true;
     final header = {
@@ -188,7 +197,6 @@ class ProviderCheckOut with ChangeNotifier {
           ? "CO"
           : prefs.countryIdUser.toString(),
     };
-
     final response = await http
         .delete(Constants.baseURL + "cart/delete-coupon", headers: header)
         .timeout(Duration(seconds: 15))
@@ -302,4 +310,39 @@ class ProviderCheckOut with ChangeNotifier {
       throw decodeJson['message'];
     }
   }
+
+  Future calculateShippingPrice(String addressId)async{
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty ? "CO" : prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      "addressId": addressId
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http
+        .post(Constants.baseURL + "payment/get-shipping-value", headers: header,body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        this.shippingPrice = decodeJson['data']['shippingValue'].toString();
+        return decodeJson['data']['shippingValue'].toString();
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
 }

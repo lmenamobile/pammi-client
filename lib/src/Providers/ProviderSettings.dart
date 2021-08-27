@@ -31,7 +31,7 @@ class ProviderSettings with ChangeNotifier{
   set countrySelected(CountryUser value) {
     this._countrySelected = value;
     this.ltsStatesCountries.clear();
-    if(value!=null)getStates("", 0, this.countrySelected);
+    if(value!=null)getStates("", 0, this.countrySelected.id);
     notifyListeners();
   }
 
@@ -182,7 +182,7 @@ class ProviderSettings with ChangeNotifier{
 
   }
 
-  Future<dynamic> getStates(String filter, int offset, CountryUser country) async {
+  Future<dynamic> getStates(String filter, int offset, String countryId) async {
     this.isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
@@ -193,7 +193,7 @@ class ProviderSettings with ChangeNotifier{
       'offset': offset,
       'limit': 20,
       "status": "active",
-      "countryId": country.id
+      "countryId": countryId
     };
     var body = jsonEncode(jsonData);
     final response = await http.post(Constants.baseURL + "location/get-states",

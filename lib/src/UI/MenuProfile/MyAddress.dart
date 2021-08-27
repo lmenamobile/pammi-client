@@ -222,6 +222,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
   selectAddress(Address address){
       providerCheckOut.addressSelected = address;
-      Navigator.pop(context);
+      Navigator.pop(context,true);
   }
 }

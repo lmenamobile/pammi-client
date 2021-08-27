@@ -8,6 +8,7 @@ import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCity.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -22,6 +23,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   RefreshController _refreshStates = RefreshController(initialRefresh: false);
   ProviderSettings providerSettings;
   int pageOffset = 0;
+  final prefs = SharePreference();
 
   @override
   void initState() {
@@ -154,8 +156,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   getStatesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getStates(
-            search.trim(), 0, providerSettings.countrySelected);
+        Future callUser = providerSettings.getStates(search.trim(), 0, providerSettings.countrySelected!=null?providerSettings.countrySelected.id:prefs.countryIdUser);
         await callUser.then((msg) {}, onError: (error) {
          // utils.showSnackBar(context, error.toString());
         });

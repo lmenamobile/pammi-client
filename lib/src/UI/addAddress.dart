@@ -11,15 +11,20 @@ import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address/AddresModel.dart';
 import 'package:wawamko/src/Models/Address.dart' as model;
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/google_place_util.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+
+import 'SearchCountryAndCity/SelectStates.dart';
 
 class AddAddressPage extends StatefulWidget {
   final flagAddress;
@@ -33,10 +38,11 @@ class AddAddressPage extends StatefulWidget {
 
 class _AddAddressPageState extends State<AddAddressPage>
     implements GooglePlacesListener {
-  final complementContrroller = TextEditingController();
-  final nameAddressContrroller = TextEditingController();
+  final complementController = TextEditingController();
+  final nameAddressController = TextEditingController();
   final addressController = TextEditingController();
-
+  final cityController = TextEditingController();
+  final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
   NotifyVariablesBloc notifyVariables;
 
@@ -55,18 +61,13 @@ class _AddAddressPageState extends State<AddAddressPage>
   var lonLocation = -0.0;
 
   var cityPlace = "";
-
   var city = '';
 
   GoogleMapController mapController;
   CameraPosition _initialPosition;
 
   Completer<GoogleMapController> _controller = Completer();
-
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-    setState(() {});
-  }
+  ProviderSettings providerSettings;
 
   getPermissionGps() async {
     loc.Location location = new loc.Location();
@@ -85,11 +86,9 @@ class _AddAddressPageState extends State<AddAddressPage>
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        print("OpenApp");
         return;
       }
     }
-
     if (widget.flagAddress != "update") {
       _locationData = await location.getLocation();
       getLocation(_locationData);
@@ -111,16 +110,16 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   loadFieldsAddress() {
     addressController.text = widget.address.address;
-    complementContrroller.text = widget.address.complement;
-    nameAddressContrroller.text = widget.address.name;
+    complementController.text = widget.address.complement;
+    nameAddressController.text = widget.address.name;
     latLocation = double.parse(widget.address.latitude);
     lonLocation = double.parse(widget.address.longitude);
   }
 
   @override
   void initState() {
-    //
     getPermissionGps();
+    providerSettings = Provider.of<ProviderSettings>(context,listen: false);
     googlePlaces = new GooglePlaces(this);
     if (widget.flagAddress == "update") {
       loadFieldsAddress();
@@ -129,8 +128,6 @@ class _AddAddressPageState extends State<AddAddressPage>
       lonLocation = singleton.longitude;
       _geocodeFirstFromCorToAddress();
     }
-
-    // TODO: implement initState
     super.initState();
   }
 
@@ -142,6 +139,8 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
+    cityController.text = providerSettings?.citySelected?.name;
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -234,15 +233,13 @@ class _AddAddressPageState extends State<AddAddressPage>
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
         Future callResponse = UserProvider.instance.updateAddress(
             context,
             addressController.text ?? "",
             latLocation.toString(),
             lonLocation.toString(),
-            complementContrroller.text ?? "",
-            nameAddressContrroller.text,
+            complementController.text ?? "",
+            nameAddressController.text,
             widget.address);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
@@ -351,21 +348,25 @@ class _AddAddressPageState extends State<AddAddressPage>
                   child: Column(
                     children: <Widget>[
                       boxAddress(),
-                      SizedBox(height: 18.5),
+                      SizedBox(height: 18),
                       textFieldAddress(
                           Strings.complement,
                           "Assets/images/ic_complement.png",
-                          complementContrroller, () {
+                          complementController, () {
                         editAddress = false;
                       }),
-                      SizedBox(height: 18.5),
+                      SizedBox(height: 18),
                       textFieldAddress(
                           Strings.nameAddress,
                           "Assets/images/ic_name_address.png",
-                          nameAddressContrroller, () {
+                          nameAddressController, () {
                         editAddress = false;
                       }),
-                      SizedBox(height: 18.5),
+                      SizedBox(height: 18),
+                      InkWell(
+                          onTap: ()=>openSelectCityByState(),
+                          child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
+                      SizedBox(height: 18),
                       Padding(
                         padding: EdgeInsets.only(left: 70, right: 70),
                         child: btnCustomRounded(
@@ -392,8 +393,7 @@ class _AddAddressPageState extends State<AddAddressPage>
     );
   }
 
-  Widget itemAddAddres(String labelTitle, String image, String hintText,
-      TextEditingController controller) {
+  Widget itemAddAddress(String labelTitle, String image, String hintText, TextEditingController controller) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -529,24 +529,16 @@ class _AddAddressPageState extends State<AddAddressPage>
     );
   }
 
-  //View map
   Widget _map(BuildContext context) {
     return GoogleMap(
       mapType: MapType.normal,
       onCameraMove: (CameraPosition camerapos) {
-        print("Move Camera");
         FocusScope.of(context).unfocus();
         this.editAddress = false;
-        //this.showHelpMap = false;
         lat = camerapos.target.latitude;
         lon = camerapos.target.longitude;
         latLocation = camerapos.target.latitude;
         lonLocation = camerapos.target.longitude;
-
-        print("Lat ${latLocation})");
-        print("Lng ${lonLocation}");
-
-        // _geocodeFromCorToAddress();
       },
       onCameraIdle: () {
         print("Iddle camera");
@@ -579,30 +571,28 @@ class _AddAddressPageState extends State<AddAddressPage>
     );
   }
 
-  _searchLocationByCoordinates() async {
-    print("Query" + addressController.text);
-    //final coordinates = new Coordinates(lat, lon);
-    var addresses =
-        await Geocoder.local.findAddressesFromQuery(addressController.text);
-
-    var result = addresses.first;
-    latLocation = result.coordinates.latitude;
-    lonLocation = result.coordinates.longitude;
-    print("Lat:" + "${result.coordinates.latitude}");
-    print("Long:" + "${result.coordinates.longitude}");
+  openSelectCityByState()async{
+    if(providerSettings?.countrySelected!=null||prefs.countryIdUser!="0") {
+      providerSettings.ltsStatesCountries.clear();
+      await providerSettings.getStates("", 0, providerSettings?.countrySelected!=null?providerSettings.countrySelected.id:prefs.countryIdUser);
+      Navigator.push(context, customPageTransition(SelectStatesPage()));
+    }else{
+      utils.showSnackBar(context, Strings.countryEmpty);
+    }
   }
+
 
   bool _validateFields() {
     if (this.addressController.text == "") {
       utils.showSnackBar(context, Strings.emptyAddress);
       return false;
     }
-    if (this.complementContrroller.text == "") {
+    if (this.complementController.text == "") {
       utils.showSnackBar(context, Strings.emptyComplement);
       return false;
     }
 
-    if (this.nameAddressContrroller.text == "") {
+    if (this.nameAddressController.text == "") {
       utils.showSnackBar(context, Strings.emptyNameAddress);
       return false;
     }
@@ -618,15 +608,14 @@ class _AddAddressPageState extends State<AddAddressPage>
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
         Future callResponse = UserProvider.instance.addAddress(
-            context,
             this.addressController.text,
             this.latLocation.toString(),
             this.lonLocation.toString(),
-            complementContrroller.text ?? "",
-            nameAddressContrroller.text ?? "");
+            complementController.text ?? "",
+            nameAddressController.text ?? "",
+            providerSettings?.citySelected?.id.toString()
+        );
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           AddressResponse data = AddressResponse.fromJson(decodeJSON);
@@ -646,8 +635,6 @@ class _AddAddressPageState extends State<AddAddressPage>
       }
     });
   }
-
-  //Geocode the coordinates to address
   void _geocodeFromCorToAddress() async {
     if (enableGeoCode) {
       final coordinates = new Coordinates(lat, lon);
@@ -659,16 +646,14 @@ class _AddAddressPageState extends State<AddAddressPage>
       locationAddress = locationAddress.substring(0, pos);
 
       city = result.locality;
-      //var arrayName = result.
       namePlace = result.thoroughfare;
       latLocation = result.coordinates.latitude;
       lonLocation = result.coordinates.longitude;
-      print("Result: ${result.addressLine} ");
+
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         setState(() {
           addressController.text = locationAddress;
-
           bandLoadingText = false;
         });
       });
@@ -708,17 +693,12 @@ class _AddAddressPageState extends State<AddAddressPage>
   selectedLocation(double lat, double lng, String address, String name,
       String photoReference) {
     setState(() {
-      print("____________________!!!!");
+
 
       locationAddress = address;
       if (lat != 0.0 && lng != 0.0 && address != '') {
-        //  allMarkers.clear();
-        //Se adiciona marcador de destino que se selecciono en autocomplete
-        // _addMarkerPositionGps(LatLng(lat, lng));
         int indexChar = address.indexOf(",");
-        //var addressTitle = address.replaceRange(indexChar, address.length, "");
         var addressSubtitle = address.replaceRange(0, indexChar + 2, "");
-        //photoPlace = photo;
         addressController.text = name + " " + cityPlace;
         namePlace = name;
         cityPlace = addressSubtitle;
@@ -739,8 +719,7 @@ class _AddAddressPageState extends State<AddAddressPage>
           zoom: 16.5,
           tilt: 37.0,
         )));
-        //photoReferencePlace = photoReference;
-        //visibilityItemMap=true;
+
       }
     });
   }

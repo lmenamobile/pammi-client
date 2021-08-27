@@ -5,6 +5,7 @@ import 'package:wawamko/src/Models/Notifications.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -75,7 +76,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
 
-  Widget itemNotification(Notifications notification) {
+  Widget itemNotification(Notifications notification,Function select) {
     return Container(
       color: notification.isSelected?CustomColors.gray9:Colors.transparent,
       child: Column(
@@ -128,11 +129,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     ],
                   ),
                 ),
-                Visibility(
-                  visible: notification.isSelected,
-                  child: CircleAvatar(
-                    radius: 5,
-                    backgroundColor: CustomColors.orange,
+                InkWell(
+                  onTap: ()=>select(notification.id),
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: CircleAvatar(
+                      radius: 7,
+                      backgroundColor: notification.isSelected?CustomColors.orange:CustomColors.gray5,
+                    ),
                   ),
                 )
               ],
@@ -169,10 +173,21 @@ class _NotificationsPageState extends State<NotificationsPage> {
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
         return InkWell(
-            onTap: () => providerSettings.selectNotification(providerSettings.ltsNotifications[index].id),
-            child: itemNotification(providerSettings.ltsNotifications[index]));
+          onTap: ()=>actionOpenNotification(providerSettings.ltsNotifications[index].type),
+            child: itemNotification(providerSettings.ltsNotifications[index],providerSettings.selectNotification));
       },
     );
+  }
+
+  actionOpenNotification(String typeNotification){
+    switch (typeNotification) {
+      case Constants.notificationOrder:
+        Navigator.push(context, customPageTransition(MyOrdersPage()));
+        break;
+      case "":
+
+        break;
+    }
   }
 
   validateActionDelete()async{

@@ -17,7 +17,6 @@ class SharePreference {
   }
 
   clearPrefs()async{
-    //final pref = await SharedPreferences.getInstance();
     await this._prefs.clear();
   }
 

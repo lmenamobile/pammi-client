@@ -48,7 +48,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       child: Column(
                         children: [
                           InkWell(
-                              onTap: ()=>Navigator.push(context, customPageTransition(MyAddressPage())),
+                              onTap: (){
+                                Navigator.push(context, customPageTransition(MyAddressPage()));
+                              },
                               child: sectionAddress(providerCheckOut.addressSelected)),
                           SizedBox(height: 8,),
                           sectionProducts(providerShopCart?.shopCart?.packagesProvider),
@@ -210,6 +212,22 @@ class _CheckOutPageState extends State<CheckOutPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.getShopCart();
+        await callCart.then((msg) {
+
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  getShippingPrice() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected.id.toString());
         await callCart.then((msg) {
 
         }, onError: (error) {
