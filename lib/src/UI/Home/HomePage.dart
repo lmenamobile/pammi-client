@@ -7,6 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ProviderSettings providerSettings;
   ProviderHome providerHome;
   SharePreference prefs = SharePreference();
+
 
   @override
   void initState() {

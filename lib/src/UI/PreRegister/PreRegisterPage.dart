@@ -23,6 +23,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
   ProfileProvider profileProvider;
+  SupportProvider supportProvider;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
@@ -42,6 +43,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
@@ -438,7 +440,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = SupportProvider.instance.betSellerNotLogin(name, email);
+        Future callUser = supportProvider.betSellerNotLogin(name, email);
         await callUser.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context,msg.toString());
@@ -455,7 +457,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
   serviceSeller() {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = SupportProvider.instance.betSeller();
+        Future callUser = supportProvider.betSeller();
         await callUser.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context,msg.toString());

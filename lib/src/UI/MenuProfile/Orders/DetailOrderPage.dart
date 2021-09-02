@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
+import 'package:wawamko/src/Providers/SocketService.dart';
+import 'package:wawamko/src/UI/Chat/ChatPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/QualificationPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -19,6 +25,9 @@ class DetailOrderPage extends StatefulWidget {
 
 class _DetailOrderPageState extends State<DetailOrderPage> {
   ProviderOrder providerOrder;
+  ProviderChat providerChat;
+  SocketService socketService;
+  final prefs = SharePreference();
 
   @override
   void initState() {
@@ -30,6 +39,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
   @override
   Widget build(BuildContext context) {
     providerOrder = Provider.of<ProviderOrder>(context);
+    providerChat = Provider.of<ProviderChat>(context);
+    socketService = Provider.of<SocketService>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -46,28 +57,11 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                         children: [
                           listProviders(),
                           providerOrder?.orderDetail?.seller!=null?
-                          sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder):
+                          sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
                           Container(),
                           sectionAddressOrder(providerOrder?.orderDetail?.shippingAddress??''),
                           sectionTotalOrder(providerOrder?.orderDetail),
                           SizedBox(height: 15,),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
-                                      ,Colors.white, null),
-                                ),
-                                SizedBox(width: 30,),
-                                Expanded(
-                                  child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
-                                      Colors.white, null),
-                                )
-                              ],
-                            ),
-                          )
                         ],
                       ),
                     ),
@@ -91,7 +85,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder.orderDetail.packagesProvider.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(providerOrder?.orderDetail?.packagesProvider[index],widget.isActiveOrder,openQualificationPage);
+          return itemProductsProvider(providerOrder?.orderDetail?.packagesProvider[index],widget.isActiveOrder,openQualificationPage,openChat);
         },
       ),
     );
@@ -111,6 +105,14 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
     }
   }
+//String providerId,String suborderId
+  openChat(String providerId,String suborderId){
+    getRoomProvider(providerId, suborderId);
+  }
+
+  openChatSeller(String sellerId,String orderId){
+    getRoomSeller(sellerId, orderId);
+  }
 
   getDetailOrder(String idOrder) async {
     utils.checkInternet().then((value) async {
@@ -118,6 +120,43 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         Future callOrder = providerOrder.getOrderDetail(idOrder);
         await callOrder.then((product) {
 
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getRoomProvider(String providerId,String subOrderId) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomProvider(subOrderId, providerId);
+        await callChat.then((id) {
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,)));
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getRoomSeller(String sellerId,String orderId) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomSeller(sellerId, orderId);
+        await callChat.then((id) {
+         socketService.emit('joinRoomSellerUser', {json.encode({
+            'room':id,
+            'orderId':orderId,
+            'transmitterId':prefs.userID,
+            'typeUser': 'user'
+          })});
+
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

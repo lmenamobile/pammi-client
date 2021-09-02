@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart' as GPS;
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
+import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -29,6 +30,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   var location = GPS.Location();
   bool stateGps = false;
   bool permissionGps = false;
+  SocketService socketService;
 
   @override
   void initState() {
@@ -61,6 +63,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
+    socketService = Provider.of<SocketService>(context);
+    socketService.connectSocket();
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

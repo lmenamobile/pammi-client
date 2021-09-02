@@ -118,7 +118,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       itemMenu("ic_gif_card.png",() => widget.rollOverActive != Constants.menuGiftCard
                           ? pushToPage(GiftCartPage())
                           : Navigator.pop(context), Strings.giftCards),
-                      itemMenu("ic_orders.png", () {}, Strings.myOrders),
+                      itemMenu("ic_orders.png", () {}, Strings.blog),
                       itemMenu("ic_trainings.png", () => widget.rollOverActive != Constants.menuTraining
                           ? pushToPage(TrainingPage())
                           : Navigator.pop(context), Strings.trainings),

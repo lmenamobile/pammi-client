@@ -251,6 +251,7 @@ class Strings {
   static const String  textInfoReferred = r'Recibe $10.000 en una Gif card por referir a un amigo que haga su primer pedido con tu código.';
   static const String  shareCode = 'COMPARTE TU CÓDIGO';
   static const String  share = 'Compartir';
+  static const String  blog = 'Blog';
 
   /*Favorites*/
   static const String  favorites = 'Deseos';
@@ -259,6 +260,9 @@ class Strings {
   /*highlights*/
   static const String  highlights = 'Destacados';
   static const String advertising = "Campañas";
+
+  /*Chat*/
+  static const String sendMessage = 'Enviar mensaje';
 
 
 

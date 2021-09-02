@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart';
 import 'package:wawamko/src/Models/Support/TermsConditionsModel.dart';
@@ -25,257 +27,163 @@ class SupportHelpPage extends StatefulWidget {
 }
 
 class _SupportHelpPageState extends State<SupportHelpPage> {
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  List<Question> questions = List();
-  List<Term> terms = List();
-
-  //bool loading = true;
+  GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
+  RefreshController _refreshSupport = RefreshController(initialRefresh: false);
+  SupportProvider supportProvider;
+  int pageOffset = 0;
 
   @override
   void initState() {
-    serviceGetQuestions();
+    supportProvider = Provider.of<SupportProvider>(context,listen: false);
+    supportProvider.lstQuestion.clear();
+    getQuestions();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    supportProvider = Provider.of<SupportProvider>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
-      key: _drawerKey,
+      key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: "support",
       ),
       body: SafeArea(
         child: Container(
-          color: Colors.white,
-          width: double.infinity,
-          child: _body(context),
+          color: CustomColors.whiteBackGround,
+          child: Column(
+            children: [
+              titleBar(Strings.supportAndService, "ic_menu_w.png", () => keyMenuLeft.currentState.openDrawer()),
+              SizedBox(height: 20,),
+              Image(
+                width: 135,
+                height: 135,
+                image: AssetImage("Assets/images/ic_customer.png"),
+              ),
+              SizedBox(height: 10),
+              Text(
+                Strings.support,
+                style: TextStyle(
+                    fontSize: 15,
+                    fontFamily: Strings.fontBold,
+                    color: CustomColors.blackLetter),
+              ),
+              InkWell(
+                onTap:()=>Navigator.of(context).push(customPageTransition(PreRegisterPage())),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(color: CustomColors.greyBorder,width: 1)
+                  ),
+                  child: Row(
+                    mainAxisSize:MainAxisSize.max ,
+                    mainAxisAlignment:MainAxisAlignment.spaceAround ,
+                    children: [
+                      Text(
+                        Strings.preRegister,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: Strings.fontBold,
+                            fontSize: 15,
+                            color: CustomColors.blackLetter),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: CustomColors.gray7,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Expanded(child: SmartRefresher(
+                  controller: _refreshSupport,
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  onLoading: _onLoadingToRefresh,
+                  footer: footerRefreshCustom(),
+                  header: headerRefresh(),
+                  onRefresh: _pullToRefresh,
+                  child:  listQuestion()))
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: 70,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("Assets/images/ic_header_reds.png"),
-                  fit: BoxFit.fill)),
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: 15,
-                left: 15,
-                child: GestureDetector(
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    child: Image(
-                      image: AssetImage("Assets/images/ic_menu_w.png"),
-                    ),
-                  ),
-                  onTap: () {
-                    _drawerKey.currentState.openDrawer();
-                  },
-                ),
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 25),
-                child: Text(
-                  Strings.supportAndService,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 17,
-                      color: CustomColors.white),
-                ),
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(children: <Widget>[
-              SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.only(left: 70, right: 70),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Image(
-                      width: 135,
-                      height: 135,
-                      image: AssetImage("Assets/images/ic_customer.png"),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      Strings.support,
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      Strings.supportMessage,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray8),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: <Widget>[
-                          InkWell(
-                            onTap:()=>Navigator.of(context).push(customPageTransition(PreRegisterPage())),
-                            child: Container(
-                              height: 50,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                  border: Border.all(color: CustomColors.greyBorder,width: 1)
-                              ),
-                              child: Row(
-                                mainAxisSize:MainAxisSize.max ,
-                                mainAxisAlignment:MainAxisAlignment.spaceAround ,
-                                children: [
-                                  Text(
-                                    Strings.preRegister,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontBold,
-                                        fontSize: 15,
-                                        color: CustomColors.blackLetter),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: CustomColors.gray7,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.only(top: 0),
-                            child: ListView.builder(
-                                itemCount: this.questions.length ?? 0,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    child: itemHelpCenterExpanded(
-                                        this.questions[index], context),
-                                  );
-                                }),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: ListView.builder(
-                                padding: EdgeInsets.only(top: 0),
-                                itemCount: this.terms.length ?? 0,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return itemHelpCenter(this.terms[index].name, () {
-                                    launch(this.terms[index].url);
-                                  });
-                                }),
-                          ),
-                        ],
-                      )),
-                ),
-
-            ]),
-          ),
-        ),
-      ],
+  Widget listQuestion(){
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      itemCount: supportProvider.lstQuestion.isEmpty ? 0 : supportProvider.lstQuestion.length,
+      physics: BouncingScrollPhysics(),
+      itemBuilder: (_, int index) {
+        return  itemHelpCenterExpanded(supportProvider.lstQuestion[index], context);
+      },
     );
   }
 
-  serviceGetQuestions() async {
-    this.questions = [];
+  Widget listTerms(){
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      itemCount: supportProvider.lstTermsAndConditions.isEmpty ? 0 : supportProvider.lstTermsAndConditions.length,
+      physics: BouncingScrollPhysics(),
+      itemBuilder: (_, int index) {
+        return  itemHelpCenter(supportProvider.lstTermsAndConditions[index].name, () {
+          launch(supportProvider.lstTermsAndConditions[index].url);
+        });
+      },
+    );
+  }
+
+
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshSupport.refreshCompleted();
+  }
+
+  void clearForRefresh() {
+    pageOffset = 0;
+    supportProvider.lstQuestion.clear();
+    getQuestions();
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+   getQuestions();
+    _refreshSupport.loadComplete();
+  }
+
+  getQuestions() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse = SupportProvider.instance.getQuestions(context);
-        await callResponse.then((user) {
-          var decodeJSON = jsonDecode(user);
-          QuestionsResponse data = QuestionsResponse.fromJson(decodeJSON);
-
-          if (data.status) {
-            for (var question in data.data.questions) {
-              this.questions.add(question);
-            }
-
-            serviceGetTerms();
-          } else {
-            Navigator.pop(context);
-            setState(() {});
-            // utils.showSnackBarError(context,data.message);
-          }
-
-          //loading = false;
+        Future callSupport = supportProvider.getQuestions(pageOffset.toString());
+        await callSupport.then((list) {
+          serviceGetTerms();
         }, onError: (error) {
-          print("Ocurrio un error: ${error}");
-          //loading = false;
-          Navigator.pop(context);
+          utils.showSnackBar(context, error.toString());
         });
       } else {
-        // loading = false;
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
 
   serviceGetTerms() async {
-    this.terms = [];
     utils.checkInternet().then((value) async {
       if (value) {
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse =
-            SupportProvider.instance.getTermsAndConditions(context);
-        await callResponse.then((user) {
-          var decodeJSON = jsonDecode(user);
-          TermsConditionsResponse data =
-              TermsConditionsResponse.fromJson(decodeJSON);
+        Future callSupport = supportProvider.getTermsAndConditions();
+        await callSupport.then((list) {
 
-          if (data.status) {
-            for (var term in data.data.terms) {
-              this.terms.add(term);
-              // this.questions.add(question);
-            }
-            Navigator.pop(context);
-            setState(() {});
-          } else {
-            Navigator.pop(context);
-            setState(() {});
-            // utils.showSnackBarError(context,data.message);
-          }
-
-          //loading = false;
         }, onError: (error) {
-          print("Ocurrio un error: ${error}");
-          //loading = false;
-          Navigator.pop(context);
+          utils.showSnackBar(context, error.toString());
         });
       } else {
-        // loading = false;
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });

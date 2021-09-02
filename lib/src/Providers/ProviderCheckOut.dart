@@ -105,7 +105,7 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
-  String _shippingPrice;
+  String _shippingPrice = "0";
 
   String get shippingPrice => this._shippingPrice;
 
@@ -257,7 +257,7 @@ class ProviderCheckOut with ChangeNotifier {
   }
 
   Future createOrder(String paymentMethodId, String addressId, String bankId,
-      String creditCardId) async {
+      String creditCardId,String shippingValue) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -270,7 +270,8 @@ class ProviderCheckOut with ChangeNotifier {
       "methodPaymentId": paymentMethodId,
       "addressId": addressId,
       "userPaymentMethodId": creditCardId,
-      "bankId": bankId
+      "bankId": bankId,
+      "shippingValue": shippingValue
     };
     var body = jsonEncode(jsonData);
     final response = await http

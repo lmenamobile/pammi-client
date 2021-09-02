@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
@@ -12,6 +13,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
+import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -75,6 +77,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderShopCart()),
         ChangeNotifierProvider(create: (_) => ProviderCheckOut()),
         ChangeNotifierProvider(create: (_) => ProviderOrder()),
+        ChangeNotifierProvider(create: (_) => ProviderChat()),
+        ChangeNotifierProvider(create: (_) => SocketService()),
       ],
       child: MaterialApp(
         title: Strings.appName,

@@ -437,7 +437,7 @@ Widget fieldCoupon(TextEditingController controller, String hintText) {
   );
 }
 
-Widget sectionTotal( TotalCart totalCart, Function createOrder) {
+Widget sectionTotal( TotalCart totalCart, Function createOrder, String shipping) {
   var styleRegular = TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blackLetter,);
   var styleBold = TextStyle(fontFamily: Strings.fontBold, fontSize: 19, color: CustomColors.blackLetter,);
 
@@ -454,12 +454,12 @@ Widget sectionTotal( TotalCart totalCart, Function createOrder) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           itemTotal(styleRegular, Strings.subTotal, totalCart?.subtotal??'0'),
-          itemTotal(styleRegular, Strings.delivery, "0"),
+          itemTotal(styleRegular, Strings.delivery, shipping),
           customDivider(),
           itemTotal(styleRegular, Strings.IVA, totalCart?.iva??'0'),
           itemTotal(styleRegular, Strings.coupon, totalCart?.discountCoupon??'0'),
           customDivider(),
-          itemTotal(styleBold, Strings.total, totalCart?.total??'0'),
+          itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping)),
           SizedBox(height: 20,),
           Align(
               alignment: Alignment.center,

@@ -152,7 +152,7 @@ Widget itemDescription(IconData icon, String text, String price) {
   );
 }
 
-Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification) {
+Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat) {
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -258,7 +258,6 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
               )
             ],
           ),
-
           customDivider(),
           listProducts(providerPackage,providerPackage?.productsProvider,isActive,qualification),
           Row(
@@ -304,6 +303,26 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 ),
               ),
             ],
+          ),
+          customDivider(),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
+                      ,Colors.white, null),
+                ),
+                SizedBox(width: 30,),
+                Expanded(
+                  child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
+                      Colors.white, (){
+                    openChat(providerPackage?.providerProduct?.id.toString(),providerPackage?.id.toString());
+                      }),
+                )
+              ],
+            ),
           ),
           customDivider(),
           Align(
@@ -455,7 +474,7 @@ Widget listProducts(PackageProvider providerPackage,List<ProductProvider> produc
   );
 }
 
-Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool isActive){
+Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool isActive,Function openChat){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
     decoration: BoxDecoration(
@@ -540,12 +559,15 @@ Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool
               ],
             ),
           ),
-          CircleAvatar(
-            radius: 20,
-            backgroundColor: CustomColors.orange,
-            child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: Image.asset("Assets/images/ic_chat.png"),
+          InkWell(
+            onTap: ()=>openChat(seller.id.toString(),order.id.toString()),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: CustomColors.orange,
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset("Assets/images/ic_chat.png"),
+              ),
             ),
           )
         ],

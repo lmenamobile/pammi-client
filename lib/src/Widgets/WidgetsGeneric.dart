@@ -750,3 +750,19 @@ Widget loadingWidgets(double size){
     child: Image.asset("Assets/images/spinner.gif",width: size,),
   );
 }
+
+Widget btnSheet( String btnTextAction,Function action){
+  return TextButton(
+    onPressed: ()=>action(),
+    child:  Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        btnTextAction,
+        style: TextStyle(
+          fontFamily: Strings.fontRegular,
+          color: CustomColors.gray7
+        ),
+      ),
+    ),
+  );
+}

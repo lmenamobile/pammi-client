@@ -6,6 +6,7 @@ class Constants {
   static const String key_encrypt = 'ebfe48f81df787193c75c1ffacd88a07';
   static const String googleApyKey = 'AIzaSyA3J8--0OAj3E-z5nRG35U1JHpyDI1cOzY';
   static const String pwdSocialNetwork = '0';
+  static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
 
   static const String loginGMAIL = 'gm';
   static const String loginFacebook = 'fb';

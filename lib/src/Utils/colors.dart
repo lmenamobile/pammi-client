@@ -46,12 +46,6 @@ class CustomColors {
   static final pink  = const Color(0xffF88686);
 
 
-
-
-
-
-
-
   static final purple = const Color(0xff463168);
   static final green = const Color(0xff05AD45);
   static final morado = const Color(0xff201547);
@@ -61,15 +55,13 @@ class CustomColors {
   static final purpleLetter = const Color(0xff787994);
 
 
-
-  //____
   static final blueActiveDots = const Color(0xff168DD8);
   static final blueOne = const Color(0xff0078C4);
   static final blueTwo = const Color(0xffF2F7FA);
+  static final blue3 = const Color(0xff166AC9);
 
  
   static final blueTitle = const Color(0xff121D3A);
-  static final blueClose = const Color.fromRGBO(126, 197, 233, 1);
 
 
   static final letterDarkBlue = const Color(0xff000000);
@@ -80,23 +72,6 @@ class CustomColors {
   static final grayMenu = const Color(0xffFCFCFC);
   static final redBackground = const Color(0xffFFF4E8);
   static final purpleOpacity = const Color(0xff787994);
-
-
-  static final des1 = const Color(0xffF4F7FF);
-  static final des2 = const Color(0xffFEF7E4);
-  static final des3 = const Color(0xffFBEFEF);
- 
-
-
-
-
-
-
-
-
-
-
-//__________
 
 
 

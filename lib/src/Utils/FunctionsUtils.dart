@@ -31,3 +31,7 @@ int getRandomPosition(int lengthList){
     return 0;
   }
 }
+
+String addValues(String a , String b){
+  return (double.parse(a)+double.parse(b)).toString();
+}

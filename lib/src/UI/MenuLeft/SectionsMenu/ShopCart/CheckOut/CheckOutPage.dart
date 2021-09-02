@@ -48,8 +48,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       child: Column(
                         children: [
                           InkWell(
-                              onTap: (){
-                                Navigator.push(context, customPageTransition(MyAddressPage()));
+                              onTap: ()async{
+                                await Navigator.push(context, customPageTransition(MyAddressPage()));
+                                getShippingPrice();
                               },
                               child: sectionAddress(providerCheckOut.addressSelected)),
                           SizedBox(height: 8,),
@@ -63,7 +64,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,deleteCoupon
                           ),
                           SizedBox(height: 15,),
-                          sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder)
+                          sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder,providerCheckOut.shippingPrice)
                         ],
                       ),
                     ),
@@ -145,12 +146,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
       case 1:
           createOrder(providerCheckOut.paymentSelected.id.toString(),
               providerCheckOut.addressSelected.id.toString(), "",
-              providerCheckOut.creditCardSelected.id.toString());
+              providerCheckOut.creditCardSelected.id.toString(),providerCheckOut.shippingPrice);
         break;
       case 2:
         createOrder(
             providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), "","");
+            providerCheckOut.addressSelected.id.toString(), "","",providerCheckOut.shippingPrice);
         break;
       case 3:
         utils.showSnackBar(context, Strings.errorPaymentMethod);
@@ -158,17 +159,17 @@ class _CheckOutPageState extends State<CheckOutPage> {
       case 4:
         createOrder(
             providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), "","");
+            providerCheckOut.addressSelected.id.toString(), "","",providerCheckOut.shippingPrice);
         break;
       case 5:
         createOrder(
             providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), "","");
+            providerCheckOut.addressSelected.id.toString(), "","",providerCheckOut.shippingPrice);
         break;
       case 6:
         createOrder(
             providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), providerCheckOut.bankSelected.bankCode,"");
+            providerCheckOut.addressSelected.id.toString(), providerCheckOut.bankSelected.bankCode,"",providerCheckOut.shippingPrice);
         break;
     }
   }
@@ -229,7 +230,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
       if (value) {
         Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected.id.toString());
         await callCart.then((msg) {
-
+          print("valor $msg");
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
@@ -243,10 +244,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
   createOrder( String paymentMethodId,
       String addressId,
       String bankId,
-      String creditCardId) async {
+      String creditCardId,
+      String shippingValue) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerCheckOut.createOrder(paymentMethodId, addressId, bankId,creditCardId);
+        Future callCart = providerCheckOut.createOrder(paymentMethodId, addressId, bankId,creditCardId,shippingValue);
         await callCart.then((msg) {
           if(paymentMethodId == "1"){
             Navigator.push(context, customPageTransition(OrderConfirmationPage()));
