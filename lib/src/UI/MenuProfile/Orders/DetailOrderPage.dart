@@ -8,8 +8,8 @@ import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/QualificationPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -134,7 +134,13 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
       if (value) {
         Future callChat = providerChat.getRomProvider(subOrderId, providerId);
         await callChat.then((id) {
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,)));
+          socketService.emit('joinRoomProviderUser', {json.encode({
+            'room':id,
+            'suborderId':subOrderId,
+            'transmitterId':prefs.userID,
+            'typeUser': 'user'
+          })});
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -155,8 +161,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
             'transmitterId':prefs.userID,
             'typeUser': 'user'
           })});
-
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

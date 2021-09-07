@@ -172,7 +172,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           providerProducts.ltsProductsRelationsByReference.clear();
           getProductsRelations();
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

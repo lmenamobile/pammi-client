@@ -14,6 +14,7 @@ import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
+import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -31,8 +32,6 @@ void main() async{
 }
 
 class MyApp extends StatefulWidget {
-
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -79,6 +78,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderOrder()),
         ChangeNotifierProvider(create: (_) => ProviderChat()),
         ChangeNotifierProvider(create: (_) => SocketService()),
+        ChangeNotifierProvider(create: (_) => SupportProvider()),
       ],
       child: MaterialApp(
         title: Strings.appName,

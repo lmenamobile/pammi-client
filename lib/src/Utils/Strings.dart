@@ -140,6 +140,8 @@ class Strings {
   //Support
   static const String support = '¿En qué podemos ayudarte?';
   static const String supportMessage = '';
+  static const String chatWithUs = 'Chateá con nosotros';
+  static const String chatWithUsText = 'Te atenderemos enseguida';
   static const String buying = 'Comprando';
   static const String howDoEmprend = 'Como ser emprendedor';
   static const String howPayShop = 'Cómo pagar tu compra';

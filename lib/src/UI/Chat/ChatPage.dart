@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -15,8 +16,8 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'WidgetsChat/MessageChat.dart';
 
 class ChatPage extends StatefulWidget {
-  final String roomId,orderId,subOrderId;
-  const ChatPage({this.roomId, this.orderId, this.subOrderId});
+  final String roomId,orderId,subOrderId,typeChat;
+  const ChatPage({@required this.roomId, this.orderId, this.subOrderId,@required this.typeChat});
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -27,14 +28,15 @@ class _ChatPageState extends State<ChatPage> {
   final prefs = SharePreference();
   final messageController = TextEditingController();
   final focusMessage = FocusNode();
-  List<MessageChat> ltsMessages = [
-  ];
+
 
   @override
   void initState() {
     super.initState();
     socketService = Provider.of<SocketService>(context,listen: false);
-    socketService.socket.on('messageSellerUser', messageReceive);
+    providerChat = Provider.of<ProviderChat>(context,listen: false);
+    providerChat.ltsMessages.clear();
+    messageReceiveType(widget.typeChat);
   }
 
   @override
@@ -52,9 +54,9 @@ class _ChatPageState extends State<ChatPage> {
               Expanded(
                   child:ListView.builder(
                     physics: BouncingScrollPhysics(),
-                    itemCount: ltsMessages.length,
+                    itemCount: providerChat.ltsMessages.length,
                     reverse: true,
-                    itemBuilder: (_,i)=>ltsMessages[i],
+                    itemBuilder: (_,i)=>providerChat.ltsMessages[i],
                   )
               ),
               Container(
@@ -120,9 +122,8 @@ class _ChatPageState extends State<ChatPage> {
       messageController.clear();
       focusMessage.requestFocus();
       final message = MessageChat(uidUser: '1', message: text.toString().trim(),date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 1,photo:'',);
-      this.ltsMessages.insert(0,message);
-      setState(() {});
-      this.socketService.emit('messageSellerUser', { json.encode({
+      providerChat.addMessages = message;
+      this.socketService.emit(typeEmit(widget.typeChat), { json.encode({
       'room':widget.roomId,
       'type':"text",
       'typeUser':"user",
@@ -137,21 +138,21 @@ class _ChatPageState extends State<ChatPage> {
     switch (data["type"]) {
       case "text":
         final message = MessageChat(uidUser: '1', message:data['message'],date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 2,photo: data['image'],isLocal: false,);
-        this.ltsMessages.insert(0,message);
+        providerChat.addMessages = message;
         break;
       case "image":
-        final message = MessageChat(uidUser: '1', message:data['message'],date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 3,photo: data['image'],isLocal: false,);
-        this.ltsMessages.insert(0,message);
+        var dataMessage = json.decode(data['message']);
+        final message = MessageChat(uidUser: '1', message:dataMessage['url'],date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 3,photo: data['image'],isLocal: false,urlFile: dataMessage['url'],);
+        providerChat.addMessages = message;
         break;
       case "file":
-        final message = MessageChat(uidUser: '1', message:data['message'],date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 4,photo: data['image'],isLocal: false,);
-        this.ltsMessages.insert(0,message);
+        var dataMessage = json.decode(data['message']);
+        final message = MessageChat(uidUser: '1', message:dataMessage['name'],date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 4,photo: data['image'],isLocal: false,urlFile: dataMessage['url'],);
+        providerChat.addMessages = message;
         break;
 
     }
-    setState(() {});
   }
-
 
   void _handleFileSelection() async {
     final result = await FilePicker.platform.pickFiles(
@@ -160,7 +161,8 @@ class _ChatPageState extends State<ChatPage> {
     );
     if (result != null) {
       File file = File(result.files.single.path ?? "");
-      serviceUpdatePhoto(file,result.files.single.name,4);
+
+      serviceUpdatePhoto(file,result.files.single.name,4, result.files.single.size.toString());
     }
   }
 
@@ -171,7 +173,7 @@ class _ChatPageState extends State<ChatPage> {
     );
     if (result != null) {
       File file = File(result.files.single.path ?? "");
-      serviceUpdatePhoto(file,"",3);
+      serviceUpdatePhoto(file,"",3,result.files.single.size.toString());
     }
   }
 
@@ -202,35 +204,34 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  serviceUpdatePhoto(File file,String name,int type) async {
+  serviceUpdatePhoto(File file,String name,int type,String size) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerChat.serviceSendFile(file);
         await callUser.then((msg) {
-          final message = MessageChat(uidUser: '1', message: type==3?msg:name,date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: type,photo: "",isLocal: true,);
-          this.ltsMessages.insert(0,message);
           if(type==3) {
-            this.socketService.emit('messageSellerUser', {
+            this.socketService.emit(typeEmit(widget.typeChat), {
               json.encode({
                 'room': widget.roomId,
                 'type': "image",
                 'typeUser': "user",
                 'message': json.encode(
-                    {'name': widget.roomId, 'url': msg, "size": "100"})
+                    {'name': widget.roomId, 'url': msg, "size": size})
               })}
             );
           }else{
-            this.socketService.emit('messageSellerUser', {
-              json.encode({
-                'room': widget.roomId,
-                'type': "file",
-                'typeUser': "user",
-                'message': json.encode(
-                    {'name': name, 'url': msg, "size": "100"})
-              })}
+            this.socketService.emit(typeEmit(widget.typeChat), {      json.encode({
+              'room': widget.roomId,
+              'type': "file",
+              'typeUser': "user",
+              'message': json.encode(
+                  {'name': name, 'url': msg, "size": size})
+            })}
+
             );
           }
-          setState(() {});
+          final message = MessageChat(uidUser: '1', message: type==3?msg:name,date: formatDate( DateTime.now(),'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: type,photo: "",isLocal: true,urlFile: msg,);
+          providerChat.addMessages = message;
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -240,6 +241,35 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  messageReceiveType(String type){
+    switch (type) {
+      case Constants.typeSeller:
+        socketService.socket.on('messageSellerUser', messageReceive);
+        break;
+      case Constants.typeProvider:
+        socketService.socket.on('messageProviderUser', messageReceive);
+        break;
+      case Constants.typeAdmin:
+        socketService.socket.on('messageAdminUser', messageReceive);
+        break;
 
+    }
+  }
+
+  String typeEmit(String type){
+    switch (type) {
+      case Constants.typeSeller:
+        return "messageSellerUser";
+        break;
+      case Constants.typeProvider:
+        return 'messageProviderUser';
+        break;
+      case Constants.typeAdmin:
+        return "messageAdminUser";
+        break;
+      default:
+        return "";
+    }
+  }
 
 }

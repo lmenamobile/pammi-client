@@ -8,12 +8,17 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart';
 import 'package:wawamko/src/Models/Support/TermsConditionsModel.dart';
+import 'package:wawamko/src/Providers/ProviderChat.dart';
+import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
+import 'package:wawamko/src/UI/Chat/ChatPage.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/Onboarding/UpdatePassword.dart';
 import 'package:wawamko/src/UI/changePassword.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -30,6 +35,9 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshSupport = RefreshController(initialRefresh: false);
   SupportProvider supportProvider;
+  ProviderChat providerChat;
+  SocketService socketService;
+  final prefs = SharePreference();
   int pageOffset = 0;
 
   @override
@@ -43,6 +51,8 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
   @override
   Widget build(BuildContext context) {
     supportProvider = Provider.of<SupportProvider>(context);
+    providerChat = Provider.of<ProviderChat>(context);
+    socketService = Provider.of<SocketService>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -69,6 +79,9 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                     fontFamily: Strings.fontBold,
                     color: CustomColors.blackLetter),
               ),
+              SizedBox(height: 20),
+              btnChatSupport(),
+              SizedBox(height: 20),
               InkWell(
                 onTap:()=>Navigator.of(context).push(customPageTransition(PreRegisterPage())),
                 child: Container(
@@ -76,7 +89,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(color: CustomColors.greyBorder,width: 1)
+                      border: Border.all(color: CustomColors.greyBorder,width: .5)
                   ),
                   child: Row(
                     mainAxisSize:MainAxisSize.max ,
@@ -91,8 +104,9 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                             color: CustomColors.blackLetter),
                       ),
                       Icon(
-                        Icons.arrow_forward_ios,
+                        Icons.arrow_forward_ios_rounded,
                         color: CustomColors.gray7,
+                        size: 15,
                       ),
                     ],
                   ),
@@ -108,6 +122,60 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                   header: headerRefresh(),
                   onRefresh: _pullToRefresh,
                   child:  listQuestion()))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget btnChatSupport(){
+    return InkWell(
+      onTap: (){
+        getRoomSupport();
+      },
+      child: Container(
+        width: 270,
+        decoration: BoxDecoration(
+          color: CustomColors.blue,
+          borderRadius: BorderRadius.all(Radius.circular(12))
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Image.asset("Assets/images/ic_chat_pamii.png",width: 30,),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                height: 20,
+                width: 1,
+                color: Colors.white.withOpacity(.2),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    Strings.chatWithUs,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: Strings.fontBold,
+                    ),
+                  ),
+                  Text(
+                    Strings.chatWithUsText,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: Strings.fontRegular,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(width: 15,),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
             ],
           ),
         ),
@@ -180,6 +248,27 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
         Future callSupport = supportProvider.getTermsAndConditions();
         await callSupport.then((list) {
 
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getRoomSupport() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomAdmin();
+        await callChat.then((id) {
+          socketService.emit('joinRoomAdminUser', {json.encode({
+            'room':id,
+            'transmitterId':prefs.userID,
+            'typeUser': 'user'
+          })});
+
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,typeChat: Constants.typeAdmin,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

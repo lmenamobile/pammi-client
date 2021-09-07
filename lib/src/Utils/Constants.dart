@@ -27,6 +27,11 @@ class Constants {
   static const String offersUnits = 'units';
   static const String offersMix = 'mixed';
 
+  /*Tipos de chat*/
+  static const String typeSeller = 'seller';
+  static const String typeProvider = 'provider';
+  static const String typeAdmin = 'admin';
+
   /*urls transaction*/
   static const String finishTransaction = "http://devwebclient.pamii.com/";
 

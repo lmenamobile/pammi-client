@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
 class MessageChat extends StatelessWidget {
-  final String message, date, photo;
+  final String message, date, photo, urlFile;
   final String uidUser;
   final int typeMessage;
   final bool isLocal;
 
   const MessageChat(
       {this.message,
+        this.urlFile,
       this.date,
       this.uidUser,
       this.typeMessage,
@@ -23,13 +25,13 @@ class MessageChat extends StatelessWidget {
       children: [
         hourMessage(date),
         Container(
-          child: typeWidget(typeMessage, message, photo,isLocal),
+          child: typeWidget(typeMessage, message, photo,isLocal,urlFile),
         ),
       ],
     );
   }
 
-  Widget typeWidget(int type, String message, String photo,bool isLocal) {
+  Widget typeWidget(int type, String message, String photo,bool isLocal,String urlFile) {
     switch (type) {
       case 1:
         return Container(
@@ -44,12 +46,20 @@ class MessageChat extends StatelessWidget {
       case 3:
         return Container(
             margin: EdgeInsets.only(left: isLocal?0:10,right:isLocal?10:0),
-            child: messageFile(message, photo, isLocal, 3));
+            child: InkWell(
+              onTap: (){
+                launch(urlFile);
+              },
+                child: messageFile(message, photo, isLocal, 3)));
         break;
       case 4:
         return Container(
             margin: EdgeInsets.only(left: isLocal?0:10,right:isLocal?10:0),
-            child: messageFile(message, photo, isLocal, 4));
+            child: InkWell(
+              onTap: (){
+                  launch(urlFile);
+              },
+                child: messageFile(message, photo, isLocal, 4)));
         break;
       default:
         return Container();
@@ -179,7 +189,7 @@ Widget messageFile(String data, String photo, bool isLocal, int type) {
                     ),
                   ),
                   decoration: BoxDecoration(
-                      color: CustomColors.blue3,
+                      color: isLocal?CustomColors.blue3:Colors.black38.withOpacity(0.2),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
