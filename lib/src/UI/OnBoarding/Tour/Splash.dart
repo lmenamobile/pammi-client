@@ -30,7 +30,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   var location = GPS.Location();
   bool stateGps = false;
   bool permissionGps = false;
-  SocketService socketService;
 
   @override
   void initState() {
@@ -63,8 +62,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
-    socketService = Provider.of<SocketService>(context);
-    socketService.connectSocket();
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

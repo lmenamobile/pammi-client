@@ -134,12 +134,9 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
       if (value) {
         Future callChat = providerChat.getRomProvider(subOrderId, providerId);
         await callChat.then((id) {
-          socketService.emit('joinRoomProviderUser', {json.encode({
-            'room':id,
-            'suborderId':subOrderId,
-            'transmitterId':prefs.userID,
-            'typeUser': 'user'
-          })});
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeProvider, id,subOrderId);
+          }
           Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -155,12 +152,9 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
       if (value) {
         Future callChat = providerChat.getRomSeller(sellerId, orderId);
         await callChat.then((id) {
-         socketService.emit('joinRoomSellerUser', {json.encode({
-            'room':id,
-            'orderId':orderId,
-            'transmitterId':prefs.userID,
-            'typeUser': 'user'
-          })});
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeSeller, id,orderId);
+          }
           Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());

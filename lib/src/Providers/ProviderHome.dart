@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
+import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -50,6 +51,13 @@ class ProviderHome with ChangeNotifier {
   List<Banners> get ltsBannersOffer => this._ltsBannersOffer;
   set ltsBannersOffer(List<Banners> value) {
     this._ltsBannersOffer.addAll(value);
+    notifyListeners();
+  }
+
+  List<Product> _ltsMostSelledProducts = List();
+  List<Product> get ltsMostSelledProducts => this._ltsMostSelledProducts;
+  set ltsMostSelledProducts(List<Product> value) {
+    this._ltsMostSelledProducts = value;
     notifyListeners();
   }
 
@@ -173,6 +181,41 @@ class ProviderHome with ChangeNotifier {
         this.isLoadingHome = false;
         this.ltsBannersOffer = listBanner;
         return listBanner;
+      } else {
+        this.isLoadingHome = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingHome = false;
+      throw decodeJson['message'];
+    }
+
+  }
+
+  Future getProductsMostSelled() async {
+    this.isLoadingHome = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    final response = await http.get(Constants.baseURL + "home/get-most-selled-products", headers: header, )
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingHome = false;
+      throw Strings.errorServeTimeOut;
+    });
+    final List<Product> listProducts = List();
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final product = Product.fromJson(item['product']);
+          listProducts.add(product);
+        }
+        this.isLoadingHome = false;
+        this.ltsMostSelledProducts = listProducts;
+        return listProducts;
       } else {
         this.isLoadingHome = false;
         throw decodeJson['message'];

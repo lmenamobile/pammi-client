@@ -178,12 +178,15 @@ Widget messageFile(String data, String photo, bool isLocal, int type) {
                         SizedBox(
                           width: 5,
                         ),
-                        Text(
-                          data,
-                          style: TextStyle(
-                              fontFamily: Strings.fontRegular,
-                              fontSize: 15,
-                              color: Colors.white),
+                        Expanded(
+                          child: Text(
+                            data,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                fontSize: 15,
+                                color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
@@ -244,7 +247,7 @@ Widget messageFile(String data, String photo, bool isLocal, int type) {
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: photo == ""
-                            ? AssetImage("assets/images/ic_profile_default.png")
+                            ? AssetImage("Assets/images/ic_profile_default.png")
                             : NetworkImage(photo)))),
           ),
         ],

@@ -36,11 +36,13 @@ class _ChatPageState extends State<ChatPage> {
     socketService = Provider.of<SocketService>(context,listen: false);
     providerChat = Provider.of<ProviderChat>(context,listen: false);
     providerChat.ltsMessages.clear();
+    providerChat.setMessagesListAdmin();
     messageReceiveType(widget.typeChat);
   }
 
   @override
   Widget build(BuildContext context) {
+    socketService = Provider.of<SocketService>(context);
     providerChat = Provider.of<ProviderChat>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -49,7 +51,10 @@ class _ChatPageState extends State<ChatPage> {
           color: CustomColors.whiteBackGround,
           child: Column(
             children: [
-              titleBar(Strings.chat, "ic_blue_arrow.png", () => Navigator.pop(context)),
+              titleBar(Strings.chat, "ic_blue_arrow.png", (){
+                this.socketService.disconnectSocket();
+                Navigator.pop(context);
+              }),
               SizedBox(height: 20,),
               Expanded(
                   child:ListView.builder(
@@ -252,7 +257,6 @@ class _ChatPageState extends State<ChatPage> {
       case Constants.typeAdmin:
         socketService.socket.on('messageAdminUser', messageReceive);
         break;
-
     }
   }
 

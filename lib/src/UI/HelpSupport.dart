@@ -42,7 +42,8 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
 
   @override
   void initState() {
-    supportProvider = Provider.of<SupportProvider>(context,listen: false);
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
+    socketService = Provider.of<SocketService>(context,listen: false);
     supportProvider.lstQuestion.clear();
     getQuestions();
     super.initState();
@@ -64,8 +65,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           color: CustomColors.whiteBackGround,
           child: Column(
             children: [
-              titleBar(Strings.supportAndService, "ic_menu_w.png", () => keyMenuLeft.currentState.openDrawer()),
-              SizedBox(height: 20,),
+              titleBar(Strings.supportAndService, "ic_menu_w.png",
+                  () => keyMenuLeft.currentState.openDrawer()),
+              SizedBox(
+                height: 20,
+              ),
               Image(
                 width: 135,
                 height: 135,
@@ -83,17 +87,18 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
               btnChatSupport(),
               SizedBox(height: 20),
               InkWell(
-                onTap:()=>Navigator.of(context).push(customPageTransition(PreRegisterPage())),
+                onTap: () => Navigator.of(context)
+                    .push(customPageTransition(PreRegisterPage())),
                 child: Container(
                   height: 50,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(color: CustomColors.greyBorder,width: .5)
-                  ),
+                      border: Border.all(
+                          color: CustomColors.greyBorder, width: .5)),
                   child: Row(
-                    mainAxisSize:MainAxisSize.max ,
-                    mainAxisAlignment:MainAxisAlignment.spaceAround ,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
                         Strings.preRegister,
@@ -113,15 +118,16 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                 ),
               ),
               SizedBox(height: 10),
-              Expanded(child: SmartRefresher(
-                  controller: _refreshSupport,
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  onLoading: _onLoadingToRefresh,
-                  footer: footerRefreshCustom(),
-                  header: headerRefresh(),
-                  onRefresh: _pullToRefresh,
-                  child:  listQuestion()))
+              Expanded(
+                  child: SmartRefresher(
+                      controller: _refreshSupport,
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      onLoading: _onLoadingToRefresh,
+                      footer: footerRefreshCustom(),
+                      header: headerRefresh(),
+                      onRefresh: _pullToRefresh,
+                      child: listQuestion()))
             ],
           ),
         ),
@@ -129,22 +135,24 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     );
   }
 
-  Widget btnChatSupport(){
+  Widget btnChatSupport() {
     return InkWell(
-      onTap: (){
+      onTap: () {
         getRoomSupport();
       },
       child: Container(
         width: 270,
         decoration: BoxDecoration(
-          color: CustomColors.blue,
-          borderRadius: BorderRadius.all(Radius.circular(12))
-        ),
+            color: CustomColors.blue,
+            borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Image.asset("Assets/images/ic_chat_pamii.png",width: 30,),
+              Image.asset(
+                "Assets/images/ic_chat_pamii.png",
+                width: 30,
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 8),
                 height: 20,
@@ -170,7 +178,9 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                   )
                 ],
               ),
-              SizedBox(width: 15,),
+              SizedBox(
+                width: 15,
+              ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.white,
@@ -183,30 +193,35 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     );
   }
 
-  Widget listQuestion(){
+  Widget listQuestion() {
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 15),
-      itemCount: supportProvider.lstQuestion.isEmpty ? 0 : supportProvider.lstQuestion.length,
+      itemCount: supportProvider.lstQuestion.isEmpty
+          ? 0
+          : supportProvider.lstQuestion.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
-        return  itemHelpCenterExpanded(supportProvider.lstQuestion[index], context);
+        return itemHelpCenterExpanded(
+            supportProvider.lstQuestion[index], context);
       },
     );
   }
 
-  Widget listTerms(){
+  Widget listTerms() {
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 15),
-      itemCount: supportProvider.lstTermsAndConditions.isEmpty ? 0 : supportProvider.lstTermsAndConditions.length,
+      itemCount: supportProvider.lstTermsAndConditions.isEmpty
+          ? 0
+          : supportProvider.lstTermsAndConditions.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
-        return  itemHelpCenter(supportProvider.lstTermsAndConditions[index].name, () {
+        return itemHelpCenter(supportProvider.lstTermsAndConditions[index].name,
+            () {
           launch(supportProvider.lstTermsAndConditions[index].url);
         });
       },
     );
   }
-
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
@@ -223,14 +238,15 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-   getQuestions();
+    getQuestions();
     _refreshSupport.loadComplete();
   }
 
   getQuestions() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callSupport = supportProvider.getQuestions(pageOffset.toString());
+        Future callSupport =
+            supportProvider.getQuestions(pageOffset.toString());
         await callSupport.then((list) {
           serviceGetTerms();
         }, onError: (error) {
@@ -246,9 +262,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callSupport = supportProvider.getTermsAndConditions();
-        await callSupport.then((list) {
-
-        }, onError: (error) {
+        await callSupport.then((list) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -261,14 +275,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callChat = providerChat.getRomAdmin();
-        await callChat.then((id) {
-          socketService.emit('joinRoomAdminUser', {json.encode({
-            'room':id,
-            'transmitterId':prefs.userID,
-            'typeUser': 'user'
-          })});
-
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,typeChat: Constants.typeAdmin,)));
+        await callChat.then((id) async {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeAdmin, id,"");
+          }
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

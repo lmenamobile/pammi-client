@@ -5,6 +5,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
@@ -20,6 +21,7 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'Products/DetailProductPage.dart';
 import 'Widgets.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -45,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     providerHome.ltsBanners.clear();
     providerHome.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
+    providerHome.ltsMostSelledProducts.clear();
     if (prefs.countryIdUser != "0") {
       serviceGetCategories();
     } else {
@@ -420,22 +423,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontFamily: Strings.fontBold,
                     color: CustomColors.blueSplash),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: CustomColors.blue.withOpacity(.1),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                  child: Text(
-                    Strings.moreAll,
-                    style: TextStyle(
-                        color: CustomColors.blueOne,
-                        fontSize: 12,
-                        fontFamily: Strings.fontBold),
-                  ),
-                ),
-              ),
             ],
           ),
           SizedBox(
@@ -466,15 +453,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget listBestSellers() {
     return ListView.builder(
-      itemCount: 5,
+      itemCount: providerHome.ltsMostSelledProducts.length??0,
       scrollDirection: Axis.horizontal,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemProduct(),
+          child: InkWell(
+            onTap: ()=>openDetailProduct(providerHome.ltsMostSelledProducts[index]),
+              child: itemProduct(providerHome.ltsMostSelledProducts[index])),
         );
       },
     );
+  }
+
+  openDetailProduct(Product product){
+    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
 
   openSubCategory(Category category) {
@@ -510,7 +503,9 @@ class _MyHomePageState extends State<MyHomePage> {
     providerHome.ltsBanners.clear();
     providerHome.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
+    providerHome.ltsMostSelledProducts.clear();
     serviceGetCategories();
+    getProductsMoreSelled();
     _refreshHome.refreshCompleted();
   }
 
@@ -521,6 +516,7 @@ class _MyHomePageState extends State<MyHomePage> {
             providerSettings.getCategoriesInterest("", 0, prefs.countryIdUser);
         await callSettings.then((list) {
           getBrands();
+          getProductsMoreSelled();
         }, onError: (error) {
           // utils.showSnackBar(context, error.toString());
         });
@@ -567,6 +563,19 @@ class _MyHomePageState extends State<MyHomePage> {
         Future callHome = providerHome.getBannersOffer("0");
         await callHome.then((list) {}, onError: (error) {
           //utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getProductsMoreSelled() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callHome = providerHome.getProductsMostSelled();
+        await callHome.then((list) {}, onError: (error) {
+
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

@@ -15,23 +15,29 @@ class ProviderChat with ChangeNotifier {
   final prefs = SharePreference();
 
   bool _isLoading = false;
+
   bool get isLoading => this._isLoading;
+
   set isLoading(bool value) {
     this._isLoading = value;
     notifyListeners();
   }
 
   List<MessageChat> _ltsMessages = List();
+
   List<MessageChat> get ltsMessages => this._ltsMessages;
+
   set addMessages(MessageChat value) {
-    this._ltsMessages.insert(0,value);
+    this._ltsMessages.insert(0, value);
     notifyListeners();
   }
 
   List<DataMessage> _ltsMessagesChat = List();
+
   List<DataMessage> get ltsMessagesChat => this._ltsMessagesChat;
+
   set ltsMessagesChat(List<DataMessage> value) {
-    this.ltsMessagesChat = value;
+    this._ltsMessagesChat = value;
   }
 
   Future serviceSendFile(File file) async {
@@ -44,8 +50,7 @@ class ProviderChat with ChangeNotifier {
     final request = http.MultipartRequest("POST", url);
     request.headers.addAll(header);
     final mimeType = mime(file.path).split('/');
-    final multipartFile = await http.MultipartFile.fromPath(
-        'file', file.path,
+    final multipartFile = await http.MultipartFile.fromPath('file', file.path,
         contentType: MediaType(mimeType[0], mimeType[1]));
     request.files.add(multipartFile);
     final streamResponse = await request.send();
@@ -66,28 +71,35 @@ class ProviderChat with ChangeNotifier {
     }
   }
 
-  Future getRomSeller(String sellerId,String idOrder) async {
+  Future getRomSeller(String sellerId, String idOrder) async {
+    this.ltsMessagesChat.clear();
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
-    Map jsonData = {
-      "sellerId": sellerId,
-      "orderId": idOrder
-    };
+    Map jsonData = {"sellerId": sellerId, "orderId": idOrder};
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "chat/get-room-by-seller", headers: header,body: body)
+        .post(Constants.baseURL + "chat/get-room-by-seller",
+            headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+    final List<DataMessage> listMessages = List();
     Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
       if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['room']['messageSellerUser']) {
+          final data = DataMessage.fromJson(item);
+          listMessages.add(data);
+        }
+        if (listMessages.isNotEmpty) {
+          this.ltsMessagesChat = listMessages;
+        }
         return decodeJson['data']['room']['id'];
       } else {
         this.isLoading = false;
@@ -99,28 +111,35 @@ class ProviderChat with ChangeNotifier {
     }
   }
 
-  Future getRomProvider(String packageId,String idProvider) async {
+  Future getRomProvider(String packageId, String idProvider) async {
+    this.ltsMessagesChat.clear();
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
-    Map jsonData = {
-      "providerId": idProvider,
-      "orderPackageId": packageId
-    };
+    Map jsonData = {"providerId": idProvider, "orderPackageId": packageId};
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "chat/get-room-by-provider", headers: header,body: body)
+        .post(Constants.baseURL + "chat/get-room-by-provider",
+            headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+    final List<DataMessage> listMessages = List();
     Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
       if (decodeJson['code'] == 100) {
+        for (var item in decodeJson['data']['room']['messageProviderUser']) {
+          final data = DataMessage.fromJson(item);
+          listMessages.add(data);
+        }
+        if (listMessages.isNotEmpty) {
+          this.ltsMessagesChat = listMessages;
+        }
         return decodeJson['data']["room"]["id"];
       } else {
         this.isLoading = false;
@@ -133,6 +152,7 @@ class ProviderChat with ChangeNotifier {
   }
 
   Future getRomAdmin() async {
+    this.ltsMessagesChat.clear();
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -154,7 +174,9 @@ class ProviderChat with ChangeNotifier {
           final data = DataMessage.fromJson(item);
           listMessages.add(data);
         }
-        this.ltsMessagesChat = listMessages;
+        if (listMessages.isNotEmpty) {
+          this.ltsMessagesChat = listMessages;
+        }
         return decodeJson['data']['room']['id'];
       } else {
         this.isLoading = false;
@@ -166,10 +188,45 @@ class ProviderChat with ChangeNotifier {
     }
   }
 
-  setMessagesListAdmin(){
-    this.ltsMessagesChat.forEach((message) {
-      this.addMessages =  MessageChat(uidUser: '1', message: message.message,date: formatDate(message.dates.createdAt,'yyyy-MM-dd h:mm a',"es_CO"), typeMessage: 1,photo:'',);
+  setMessagesListAdmin() {
+    this.ltsMessages.clear();
+    this.ltsMessagesChat.forEach((data) {
+      switch (data.type) {
+        case "text":
+          this.addMessages = MessageChat(
+            uidUser: '1',
+            message: data.message,
+            date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
+            typeMessage: data.typeUser == "user" ? 1 : 2,
+            photo: '',
+            isLocal: false,
+          );
+          break;
+        case "image":
+          var dataMessage = json.decode(data.message);
+          this.addMessages = MessageChat(
+            uidUser: '1',
+            message: dataMessage['url'],
+            date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
+            typeMessage: 3,
+            photo: '',
+            isLocal: data.typeUser == "user" ? true : false,
+            urlFile: dataMessage['url'],
+          );
+          break;
+        case "file":
+          var dataMessage = json.decode(data.message);
+          this.addMessages = MessageChat(
+            uidUser: '1',
+            message: dataMessage['name'],
+            date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
+            typeMessage: 4,
+            photo: '',
+            isLocal: data.typeUser == "user" ? true : false,
+            urlFile: dataMessage['url'],
+          );
+          break;
+      }
     });
   }
-
 }

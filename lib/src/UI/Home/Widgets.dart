@@ -5,6 +5,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Models/Product/Product.dart';
+import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -210,7 +212,8 @@ Widget sliderBanner(int indexSlider,Function updateIndex, List<Banners> banners)
   );
 }
 
-Widget itemProduct(){
+Widget itemProduct(Product product){
+  int position = getRandomPosition(product?.references?.length??0);
   return Container(
     width: 150,
     decoration: BoxDecoration(
@@ -251,7 +254,7 @@ Widget itemProduct(){
                 height: 30,
                 child: FadeInImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage("https://logodownload.org/wp-content/uploads/2014/01/samsung-logo-4.png"),
+                  image: NetworkImage(product?.brandProvider?.brand?.image),
                   placeholder: AssetImage("Assets/images/preloader.gif"),
           ),
               ),
@@ -264,8 +267,8 @@ Widget itemProduct(){
           height: 90,
           child: FadeInImage(
             fit: BoxFit.fill,
-            image: NetworkImage("https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy/4c70105150234ac4b948a8bf01187e0c_9366/Tenis_Samba_OG_Negro_B75807_01_standard.jpg"),
-            placeholder: AssetImage(""),
+            image: NetworkImage(product?.references[position].images[getRandomPosition(product?.references[position].images.length)].url??''),
+            placeholder: AssetImage("Assets/images/spinner.gif"),
           ),
         ),
         customDivider(),
@@ -278,14 +281,14 @@ Widget itemProduct(){
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Televisor 55”",
+                  product.product??'',
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontBold,
                       color: CustomColors.blackLetter),
                 ),
                 Text(
-                  "6823836NB",
+                  product.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                       fontSize: 11,
                       fontFamily: Strings.fontRegular,
@@ -310,7 +313,7 @@ Widget itemProduct(){
                   ),
                 ),
                 Text(
-                  "1.200.000 COP",
+                  product.references.isNotEmpty?formatMoney(product?.references[position].price):formatMoney("0"),
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontBold,
