@@ -13,6 +13,7 @@ import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';

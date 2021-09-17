@@ -396,7 +396,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) => PhotosProductPage(
-              productReference: providerProducts?.referenceProductSelected,
+             image: providerProducts?.imageReferenceProductSelected,
             )));
   }
 

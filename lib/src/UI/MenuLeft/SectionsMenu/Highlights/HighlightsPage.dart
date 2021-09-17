@@ -143,7 +143,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
     if(bannerHighlight.offerHighlights.reference!=null){
       getProduct(bannerHighlight.offerHighlights.reference.brandAndProduct.id.toString(),bannerHighlight.offerHighlights.reference);
     }else if(bannerHighlight.offerHighlights.subcategory!=null){
-    openProductsBySubCategory(bannerHighlight);
+      openProductsBySubCategory(bannerHighlight);
     }
   }
 

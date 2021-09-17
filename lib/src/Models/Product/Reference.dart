@@ -37,6 +37,7 @@ class Reference {
   TotalProductOffer totalProductOffer;
 
 
+
   factory Reference.fromJson(Map<String, dynamic> json) => Reference(
     id: json["id"],
     sku: json["sku"],

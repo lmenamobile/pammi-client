@@ -51,14 +51,9 @@ class Strings {
   static const String recoverPass = 'Recuperar contraseña';
   static const String textRecoverPass = 'Escribe tu dirección de correo, nosotros te enviaremos un código para cambiar tu contraseña.';
 
-
   static const String sendAgain = 'Volver a enviar';
   static const String retry = 'Reintentar';
-
-
   static const String begin = '¡Empezar!';
-
-
 
   //Register
   static const String inputDates = 'Ingresa tus datos personales';
@@ -68,8 +63,8 @@ class Strings {
   static const String sendCode = ' Te hemos enviado un correo electrónico para la verificación del mismo.';
   static const String challengePassword= 'Debe ser mínimo de 6 caracteres, contener al menos un número, una mayúscula y una minúscula.';
 
-
-
+  //offerDetail
+  static const String productsPerPurchase = 'Productos por compra';
 
   //Home
   static const String search = 'Buscar';

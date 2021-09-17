@@ -182,6 +182,13 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
               ],
             ),
             Positioned(
+                top: 3,
+                left: 3,
+                child: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: CustomColors.redTour,
+                )),
+            Positioned(
               top: 3,
                 right: 3,
                 child: InkWell(
@@ -223,7 +230,7 @@ Widget favorite(bool isFavorite){
 
 Widget rowButtonsMoreAndLess(String units, Function add, Function remove){
   return  Container(
-    margin: EdgeInsets.symmetric(vertical: 10),
+    margin: EdgeInsets.only(bottom: 10),
     child: Row(
       children: [
         buttonMoreOrLess(Icons.remove, remove),

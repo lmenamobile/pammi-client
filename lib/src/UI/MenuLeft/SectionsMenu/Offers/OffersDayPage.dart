@@ -286,8 +286,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   getOffersUnits(String typeOffer, String brandId, int offset) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callProducts =
-            providerProducts.getOfferByType(typeOffer, brandId, offset);
+        Future callProducts = providerProducts.getOfferByType(typeOffer, brandId, offset);
         await callProducts.then((list) {
           providerProducts.ltsOfferUnits = list;
         }, onError: (error) {
