@@ -8,6 +8,7 @@ import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -123,12 +124,12 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
     });
   }
 
-  getProduct(String idProduct,Reference referenceOffer) async {
+  getProduct(String idProduct) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callProducts = providerProducts.getProduct(idProduct);
         await callProducts.then((product) {
-          providerProducts.referenceProductSelected = referenceOffer;//product.references.firstWhere((reference) => reference.id == referenceOffer.id, orElse: () => referenceOffer.);
+          //providerProducts.referenceProductSelected = referenceOffer;//product.references.firstWhere((reference) => reference.id == referenceOffer.id, orElse: () => referenceOffer.);
           Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -140,16 +141,22 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   }
 
   openPageByTypeHighlights(Banners bannerHighlight){
-    if(bannerHighlight.offerHighlights.reference!=null){
-      getProduct(bannerHighlight.offerHighlights.reference.brandAndProduct.id.toString(),bannerHighlight.offerHighlights.reference);
-    }else if(bannerHighlight.offerHighlights.subcategory!=null){
+    if(bannerHighlight.offerHighlights.offerType=="percent"&&bannerHighlight.offerHighlights.reference!=null){
+      getProduct(bannerHighlight.offerHighlights.reference.brandAndProduct.id.toString());
+    }else if(bannerHighlight.offerHighlights.offerType=="units"||bannerHighlight.offerHighlights.offerType=="mixed"){
+      openDetailOffer(bannerHighlight);
+    }else {
       openProductsBySubCategory(bannerHighlight);
     }
+  }
+
+  openDetailOffer(Banners bannerHighlight){
+    Navigator.push(context, customPageTransition(OfferDetail(nameOffer: bannerHighlight.offerHighlights.name,idOffer: bannerHighlight.offerHighlights.id.toString(),)));
   }
 
   openProductsBySubCategory(Banners bannerHighlight){
     Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: "",
       idSubcategory: bannerHighlight.offerHighlights.subcategory.id.toString(),
-        idBrandProvider: bannerHighlight.offerHighlights.brandProvider??null,)));
+      idBrandProvider: bannerHighlight.offerHighlights.brandProvider.toString()??null,)));
   }
 }

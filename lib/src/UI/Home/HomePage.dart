@@ -8,12 +8,11 @@ import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/Providers/SocketService.dart';
+import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
-import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -37,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   ProviderSettings providerSettings;
   ProviderHome providerHome;
+  ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
 
 
@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
+    providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
@@ -122,11 +123,33 @@ class _MyHomePageState extends State<MyHomePage> {
                       image: AssetImage("Assets/images/ic_logo_email.png"),
                     ),
                     GestureDetector(
-                      child: Container(
-                        width: 30,
-                        child: Image(
-                          image: AssetImage("Assets/images/ic_car.png"),
-                        ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 30,
+                            child: Image(
+                              image: AssetImage("Assets/images/ic_car.png"),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Visibility(
+                              visible: providerShopCart.totalProductsCart!="0"?true:false,
+                              child: CircleAvatar(
+                                radius: 6,
+                                backgroundColor: Colors.white,
+                                child: Text(
+                                  providerShopCart.totalProductsCart,
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    color: CustomColors.redTour
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                       onTap: () => Navigator.push(
                           context, customPageTransition(ShopCartPage())),

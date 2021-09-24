@@ -9,7 +9,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget itemOfferUnits(Offer offer, Function addOffer) {
+Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
   return Container(
     width: 310,
     decoration: BoxDecoration(
@@ -79,12 +79,15 @@ Widget itemOfferUnits(Offer offer, Function addOffer) {
                       addOffer(offer?.id.toString());
                     }),
               ),
-              Text(
-                Strings.moreView,
-                style: TextStyle(
-                  decoration: TextDecoration.underline,
-                    fontFamily: Strings.fontBold,
-                    color: CustomColors.blue
+              InkWell(
+                onTap: ()=>openDetail(offer),
+                child: Text(
+                  Strings.moreView,
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.blue
+                  ),
                 ),
               ),
             ],

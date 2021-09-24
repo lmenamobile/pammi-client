@@ -66,4 +66,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-messaging:20.2.3'
+    //Libreria para evitar error de dependecias con apple y google singIn
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 }

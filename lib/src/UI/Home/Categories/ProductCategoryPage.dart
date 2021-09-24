@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
@@ -27,6 +28,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   final searchController = TextEditingController();
   ProviderProducts providerProducts;
   ProviderUser providerUser;
+  ProviderShopCart providerShopCart;
   int pageOffset = 0;
 
   @override
@@ -41,6 +43,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerUser = Provider.of<ProviderUser>(context);
+    providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -92,11 +95,33 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                                     fontFamily: Strings.fontBold),
                               ),
                               GestureDetector(
-                                child: Container(
-                                  width: 30,
-                                  child: Image(
-                                    image: AssetImage("Assets/images/ic_car.png"),
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: 30,
+                                      child: Image(
+                                        image: AssetImage("Assets/images/ic_car.png"),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Visibility(
+                                        visible: providerShopCart.totalProductsCart!="0"?true:false,
+                                        child: CircleAvatar(
+                                          radius: 6,
+                                          backgroundColor: Colors.white,
+                                          child: Text(
+                                            providerShopCart.totalProductsCart,
+                                            style: TextStyle(
+                                                fontSize: 8,
+                                                color: CustomColors.redTour
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
                               ),

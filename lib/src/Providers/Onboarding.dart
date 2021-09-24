@@ -61,47 +61,9 @@ class OnboardingProvider with ChangeNotifier {
     }
   }
 
-  Future registerUserSocialNetwork(
-      String name, String email, String typeRegister, String cityId) async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    Map encrypt = utils.encryptPwdIv(Constants.pwdSocialNetwork);
-    var params = {
-      'fullname': name,
-      'email': email,
-      'password': encrypt['encrypted'],
-      "type": typeRegister,
-      'city': cityId,
-      "iv": encrypt['iv'],
-      'platform': Platform.isIOS ? "i" : "a",
-      'pushToken': _prefs.pushToken,
-      "userReferrerCode":"",
-      'version': packageInfo.version.toString(),
-    };
-    var header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token": _prefs.accessToken.toString(),
-    };
-    var body = jsonEncode(params);
-    final response = await http
-        .post(Constants.baseURL + "onboarding/create-account",
-            headers: header, body: body)
-        .timeout(Duration(seconds: 10))
-        .catchError((value) {
-      throw Strings.errorServeTimeOut;
-    });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
-    if (response.statusCode == 201) {
-      if (decodeJson['code'] == 100) {
-      } else {
-        throw decodeJson['message'];
-      }
-    } else {
-      throw decodeJson['message'];
-    }
-  }
-
-  Future<UserResponse> loginUserSocialNetWork(
+  Future loginUserSocialNetWork(
       String email, String typeLogin) async {
+    this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Map encrypt = utils.encryptPwdIv(Constants.pwdSocialNetwork);
     final header = {
@@ -116,7 +78,6 @@ class OnboardingProvider with ChangeNotifier {
       'pushToken': _prefs.pushToken,
       'version': packageInfo.version,
       'platform': Platform.isIOS ? "i" : "a",
-      "userReferrerCode":""
     };
     var body = jsonEncode(jsonData);
     final response = await http
@@ -124,10 +85,12 @@ class OnboardingProvider with ChangeNotifier {
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
+      this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
     Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
+      this.isLoading = false;
       if (decodeJson['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
         _prefs.authToken = response.authToken;
@@ -140,7 +103,11 @@ class OnboardingProvider with ChangeNotifier {
       } else {
         throw decodeJson['message'];
       }
+    }else if(response.statusCode == 404){
+      this.isLoading = false;
+      return Constants.isRegisterRS;
     } else {
+      this.isLoading = false;
       throw decodeJson['message'];
     }
   }
@@ -192,6 +159,56 @@ class OnboardingProvider with ChangeNotifier {
       if (decodeJson['code'] == 103) {
         //Usuario no validado
         throw 103;
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future validateTokenApple(String token) async {
+    this.isLoading = true;
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": _prefs.accessToken.toString(),
+    };
+    Map jsonData = {
+      'code': token,
+      'type':'lc',
+      'platform': Platform.isIOS ? "i" : "a",
+      'pushToken': _prefs.pushToken,
+      'version': packageInfo.version.toString(),
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Constants.baseURL + "onboarding/apple-login",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoading = false;
+      if(decodeJson['code']==100){
+        var response = DataUser.fromJsonMap(decodeJson['data']);
+        _prefs.authToken = response.authToken;
+        _prefs.nameUser = response.user.fullname;
+        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.dataUser = jsonEncode(response.user);
+        _prefs.referredCode = response.user.referredCode;
+        _prefs.codeShare = response.user.codeShare;
+        _prefs.userID = response.user.id.toString();
+        return decodeJson['code'];
+      }else {
+        Map dataUser = {
+          'code': decodeJson['code'],
+          'email': decodeJson['data']['email'],
+          'name': decodeJson['data']['email']
+        };
+        print(dataUser.toString());
+        return dataUser;
       }
     } else {
       this.isLoading = false;
@@ -381,6 +398,119 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future<dynamic> createAccountSocialNetwork(
+      String name,
+      String email,
+      String phone,
+      String cityId,
+      String codeReferred,
+      String typeRegister
+      ) async {
+    this.isLoading = true;
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": _prefs.accessToken.toString(),
+    };
+    var jsonEncrypt = utils.encryptPwdIv("Kubo123*");
+    Map jsonData = {
+      'fullname': name,
+      'email': email,
+      'phone':phone,
+      'password': jsonEncrypt['encrypted'],
+      'iv': jsonEncrypt['iv'],
+      'city':cityId,
+      'platform': Platform.isIOS ? "i" : "a",
+      'type': typeRegister,
+      'pushToken': _prefs.pushToken,
+      "userReferrerCode":codeReferred,
+      'version': packageInfo.version.toString(),
+      'verifyedAccount':"true"
+    };
+
+    var body = jsonEncode(jsonData);
+    print(body);
+    final response = await http
+        .post(Constants.baseURL + "onboarding/create-account",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 10))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    print(response.body);
+    if (response.statusCode == 201) {
+      this.isLoading = false;
+      if (decodeJson['code'] == 100) {
+        var response = DataUser.fromJsonMap(decodeJson['data']);
+        _prefs.authToken = response.authToken;
+        _prefs.nameUser = response.user.fullname;
+        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.dataUser = jsonEncode(response.user);
+        return response.user;
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
+  Future registerUserSocialNetwork(
+  String name,
+      String email,
+  String phone,
+      String cityId,
+  String codeReferred,
+     String typeRegister) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    Map encrypt = utils.encryptPwdIv("Kubo123*");
+    var params = {
+      'fullname': name,
+      'email': email,
+      'phone':phone,
+      'password': encrypt['encrypted'],
+      'iv': encrypt['iv'],
+      'city':cityId,
+      'platform': Platform.isIOS ? "i" : "a",
+      'type': "lc",
+      'pushToken': _prefs.pushToken,
+      "userReferrerCode":codeReferred,
+      'version': packageInfo.version.toString(),
+      'verifyedAccount':"true"
+    };
+    var header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": _prefs.accessToken.toString(),
+    };
+    var body = jsonEncode(params);
+    final response = await http
+        .post(Constants.baseURL + "onboarding/create-account",
+        headers: header, body: body)
+        .timeout(Duration(seconds: 10))
+        .catchError((value) {
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 201) {
+      this.isLoading = false;
+      if (decodeJson['code'] == 100) {
+        var response = DataUser.fromJsonMap(decodeJson['data']);
+        _prefs.authToken = response.authToken;
+        _prefs.nameUser = response.user.fullname;
+        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.dataUser = jsonEncode(response.user);
+        return response.user;
+      } else {
+        throw decodeJson['message'];
+      }
+    }  else {
       throw decodeJson['message'];
     }
   }

@@ -181,13 +181,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                 )
               ],
             ),
-            Positioned(
-                top: 3,
-                left: 3,
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: CustomColors.redTour,
-                )),
+
             Positioned(
               top: 3,
                 right: 3,

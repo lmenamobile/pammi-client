@@ -56,6 +56,8 @@ class Strings {
   static const String begin = '¡Empezar!';
 
   //Register
+  static const String registration = 'Registro';
+  static const String registrationFinish = 'Finaliza tú registro';
   static const String inputDates = 'Ingresa tus datos personales';
   static const String selectState = 'Selecciona tu estado';
   static const String textResgister = '¡Disfruta de un acceso rápido a tu historial y un pedido más rápido!';
@@ -361,6 +363,7 @@ class Strings {
   static const String  phoneNumber = 'Número telefónico';
   static const String  typeDocument = 'Tipo de documento';
   static const String  idNumberDocument = 'Número de Documento';
+  static const String  codeReferred = 'Código referido (opcional)';
   static const String termsAndPolitics = 'He leido y acepto los ';
   static const String terms = 'Términos y Condiciones';
   static const String politics = 'Política de Privacidad.';

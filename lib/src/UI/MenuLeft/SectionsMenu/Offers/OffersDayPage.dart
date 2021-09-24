@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -62,7 +64,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
               "ic_blue_arrow.png",
               "ic_car.png",
                   () =>keyMenuLeft.currentState.openDrawer(),
-                  ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                  ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
               Visibility(
                 visible: providerHome.ltsBrands.isNotEmpty,
                 child: Container(
@@ -239,7 +241,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemOfferUnits(providerProducts.ltsOfferUnits[index],addOfferCart),
+          child: itemOfferUnits(providerProducts.ltsOfferUnits[index],addOfferCart,openDetailOffer),
         );
       },
     );
@@ -266,7 +268,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemOfferUnits(providerProducts.ltsOfferMix[index],addOfferCart),
+          child: itemOfferUnits(providerProducts.ltsOfferMix[index],addOfferCart,openDetailOffer),
         );
       },
     );
@@ -281,6 +283,11 @@ class _OffersDayPageState extends State<OffersDayPage> {
     getOffersUnits(Constants.offersUnits, "", pageOffsetUnits);
     getOffersMix(Constants.offersMix, "", pageOffsetMix);
     _refreshView.refreshCompleted();
+  }
+
+  openDetailOffer(Offer offer){
+    Navigator.push(context, customPageTransition(
+        OfferDetail(nameOffer: offer.name,idOffer: offer.id.toString(),)));
   }
 
   getOffersUnits(String typeOffer, String brandId, int offset) async {

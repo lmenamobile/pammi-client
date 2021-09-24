@@ -9,6 +9,7 @@ import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/CheckOutPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -57,7 +58,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   "ic_blue_arrow.png",
                   "ic_car.png",
                   () => Navigator.pop(context),
-                  ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                  ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -226,7 +227,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         Strings.paymentNow,
                                         CustomColors.orange,
                                         Colors.white,
-                                        null),
+                                        ()=>paymentNow()),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -414,6 +415,41 @@ class _DetailProductPageState extends State<DetailProductPage> {
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  paymentNow() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.updateQuantityProductCart(
+            providerProducts?.referenceProductSelected?.id.toString(),
+            "1");
+        await callCart.then((msg) {
+         getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getShopCart() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.getShopCart();
+        await callCart.then((msg) {
+          Navigator.push(context, customPageTransition(
+                  CheckOutPage()));
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
       }
     });
   }

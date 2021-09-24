@@ -52,7 +52,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       "ic_menu_w.png",
                       "ic_remove_white.png",
                           () => keyMenuLeft.currentState.openDrawer(),
-                          () => validateActionDelete()),
+                          () => validateActionDelete(),false,""),
                   SizedBox(height: 10,),
                   Expanded(child: SmartRefresher(
                       controller: _refreshNotifications,

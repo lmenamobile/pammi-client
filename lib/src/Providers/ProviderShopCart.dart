@@ -20,10 +20,18 @@ class ProviderShopCart with ChangeNotifier{
     notifyListeners();
   }
 
+  String _totalProductsCart = "0";
+  String get totalProductsCart => this._totalProductsCart;
+  set totalProductsCart(String value) {
+    this._totalProductsCart = value;
+    notifyListeners();
+  }
+
   ShopCart _shopCart;
   ShopCart get shopCart => this._shopCart;
   set shopCart(ShopCart value) {
     this._shopCart = value;
+    totalProductsCart = value.packagesProvider.length.toString();
     notifyListeners();
   }
 
@@ -134,6 +142,7 @@ class ProviderShopCart with ChangeNotifier{
     if (response.statusCode == 200) {
       this.isLoadingCart = false;
       if (decodeJson['code'] == 100) {
+        getShopCart();
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
@@ -188,6 +197,7 @@ class ProviderShopCart with ChangeNotifier{
     if (response.statusCode == 200) {
       this.isLoadingCart = false;
       if (decodeJson['code'] == 100) {
+        this.totalProductsCart = "0";
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
@@ -319,6 +329,7 @@ class ProviderShopCart with ChangeNotifier{
     if (response.statusCode == 200) {
       this.isLoadingCart = false;
       if (decodeJson['code'] == 100) {
+        getShopCart();
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];

@@ -30,7 +30,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
           child: Column(
             children: [
               titleBarWithDoubleAction(Strings.filter, "ic_back.png",
-                  "ic_remove_white.png", () => Navigator.pop(context), ()=>clearFilter()),
+                  "ic_remove_white.png", () => Navigator.pop(context), ()=>clearFilter(),false,""),
               Expanded(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),

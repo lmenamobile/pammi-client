@@ -567,14 +567,16 @@ Widget viewPrice(ProductShopCart product) {
       ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              formatMoney(
-                  product?.reference?.totalProductOffer?.price ??
-                      '0'),
-              style: TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontFamily: Strings.fontBold,
-                color: CustomColors.gray7,
+            Visibility(
+              visible: product?.reference?.totalProductOffer?.status,
+              child: Text(
+                formatMoney(
+                    product?.reference?.totalProductOffer?.price ?? '0'),
+                style: TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  fontFamily: Strings.fontBold,
+                  color: CustomColors.gray7,
+                ),
               ),
             ),
             Text(

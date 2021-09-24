@@ -22,9 +22,9 @@ import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class OfferDetail extends StatefulWidget {
-  final String nameOffer;
+  final String nameOffer, idOffer;
 
-  const OfferDetail({@required this.nameOffer});
+  const OfferDetail({@required this.nameOffer, @required this.idOffer});
 
   @override
   _OfferDetailState createState() => _OfferDetailState();
@@ -37,9 +37,8 @@ class _OfferDetailState extends State<OfferDetail> {
   @override
   void initState() {
     providerOffer = Provider.of<ProviderOffer>(context, listen: false);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getDetailOffer("7");
+      getDetailOffer(widget.idOffer);
     });
     super.initState();
   }
@@ -56,7 +55,7 @@ class _OfferDetailState extends State<OfferDetail> {
           child: Column(
             children: [
               titleBarWithDoubleAction(widget.nameOffer ?? '',
-                  "ic_blue_arrow.png", "", () => Navigator.pop(context), () {}),
+                  "ic_blue_arrow.png", "", () => Navigator.pop(context), () {},false,""),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(

@@ -541,7 +541,6 @@ class _AddAddressPageState extends State<AddAddressPage>
         lonLocation = camerapos.target.longitude;
       },
       onCameraIdle: () {
-        print("Iddle camera");
         setState(() {
           if (enableGeoCode) {
             bandLoadingText = true;

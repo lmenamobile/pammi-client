@@ -58,7 +58,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                       "ic_menu_w.png",
                       "ic_car.png",
                           () => keyMenuLeft.currentState.openDrawer(),
-                          ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                          ()=>Navigator.push(context, customPageTransition(ShopCartPage())),false,""),
                   Text(
                     Strings.buyGiftCard,
                     style: TextStyle(

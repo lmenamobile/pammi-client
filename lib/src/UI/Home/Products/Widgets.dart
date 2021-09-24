@@ -9,7 +9,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
-    Function action, Function actionTwo) {
+    Function action, Function actionTwo, bool isIconCart,String totalProducts) {
   return Container(
     width: double.infinity,
     height: 75,
@@ -62,7 +62,34 @@ Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
             Container(
               margin: EdgeInsets.only(right: 10),
               child: GestureDetector(
-                child: Image(
+                child: isIconCart?Stack(
+                  children: [
+                    Container(
+                      width: 30,
+                      child: Image(
+                        image: AssetImage("Assets/images/ic_car.png"),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Visibility(
+                        visible: totalProducts!="0"?true:false,
+                        child: CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            totalProducts,
+                            style: TextStyle(
+                                fontSize: 8,
+                                color: CustomColors.redTour
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ):Image(
                   width: 40,
                   height: 40,
                   color: Colors.white,

@@ -97,7 +97,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
         await callCart.then((list) {
 
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -112,10 +112,11 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
             idReference,
             quantity.toString());
         await callCart.then((msg) {
+          getShopCart();
           deleteReference(idReference);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -133,7 +134,23 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  getShopCart() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.getShopCart();
+        await callCart.then((msg) {
+
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);

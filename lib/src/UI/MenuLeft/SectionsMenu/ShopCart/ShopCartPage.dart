@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
@@ -49,7 +48,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                   "ic_blue_arrow.png",
                   "ic_remove_white.png",
                   () => Navigator.pop(context),
-                  () => deleteCart()),
+                  () => deleteCart(),false,""),
               Column(
                 children: [
                   SizedBox(
@@ -171,7 +170,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           getProductsRelations();
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
