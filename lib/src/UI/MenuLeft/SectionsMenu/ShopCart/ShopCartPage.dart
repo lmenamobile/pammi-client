@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/Product/Product.dart';
+import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
+import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
+import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ProductsSavePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -21,6 +25,7 @@ class ShopCartPage extends StatefulWidget {
 class _ShopCartPageState extends State<ShopCartPage> {
   ProviderShopCart providerShopCart;
   ProviderProducts providerProducts;
+  ProviderUser providerUser;
   int pageOffsetProductsRelations = 0;
 
   @override
@@ -36,6 +41,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   Widget build(BuildContext context) {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
+    providerUser = Provider.of<ProviderUser>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -155,12 +161,22 @@ class _ShopCartPageState extends State<ShopCartPage> {
             child: itemProductCategory(
                 providerProducts.ltsProductsRelationsByReference[index],
                 openDetailProduct,
-                null));
+                callIsFavorite));
       },
     );
   }
 
-  openDetailProduct() {}
+  openDetailProduct(Product product) {
+    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+  }
+
+  callIsFavorite(Reference reference){
+    if(reference.isFavorite){
+      removeFavoriteProduct(reference);
+    }else{
+      saveFavoriteProduct(reference);
+    }
+  }
 
   getShopCart() async {
     utils.checkInternet().then((value) async {
@@ -305,6 +321,38 @@ class _ShopCartPageState extends State<ShopCartPage> {
                 .toString());
         await callProducts.then((list) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  saveFavoriteProduct(Reference reference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerUser.saveAsFavorite(reference.id.toString());
+        await callUser.then((msg) {
+          providerProducts.ltsProductsRelationsByReference.clear();
+          getProductsRelations();
+        }, onError: (error) {
+
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  removeFavoriteProduct(Reference reference) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callUser = providerUser.deleteFavorite(reference.id.toString());
+        await callUser.then((msg) {
+          providerProducts.ltsProductsRelationsByReference.clear();
+          getProductsRelations();
+        }, onError: (error) {
+
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
