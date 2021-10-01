@@ -33,6 +33,8 @@ class _ShopCartPageState extends State<ShopCartPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context, listen: false);
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     providerProducts.ltsProductsRelationsByReference.clear();
+    providerShopCart.shopCart = null;
+    providerShopCart.totalProductsCart = "0";
     getShopCart();
     super.initState();
   }
@@ -153,7 +155,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     return ListView.builder(
       itemCount: providerProducts.ltsProductsRelationsByReference.isEmpty
           ? 0
-          : providerProducts.ltsProductsRelationsByReference.length,
+          : providerProducts.ltsProductsRelationsByReference.length>=5?5:providerProducts.ltsProductsRelationsByReference.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
@@ -203,7 +205,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -274,24 +276,26 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   deleteCart() async {
-    bool status = await showDialogDoubleAction(
-        context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
-    if (status)
-      utils.checkInternet().then((value) async {
-        if (value) {
-          Future callCart = providerShopCart.deleteCart();
-          await callCart.then((msg) {
-            //getShopCart();
-            providerShopCart.shopCart = null;
-            utils.showSnackBarGood(context, msg.toString());
-          }, onError: (error) {
-            providerShopCart.isLoadingCart = false;
-            utils.showSnackBar(context, error.toString());
-          });
-        } else {
-          utils.showSnackBar(context, Strings.internetError);
-        }
-      });
+    if(providerShopCart?.shopCart != null) {
+      bool status = await showDialogDoubleAction(
+          context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
+      if (status)
+        utils.checkInternet().then((value) async {
+          if (value) {
+            Future callCart = providerShopCart.deleteCart();
+            await callCart.then((msg) {
+              //getShopCart();
+              providerShopCart.shopCart = null;
+              utils.showSnackBarGood(context, msg.toString());
+            }, onError: (error) {
+              providerShopCart.isLoadingCart = false;
+              utils.showSnackBar(context, error.toString());
+            });
+          } else {
+            utils.showSnackBar(context, Strings.internetError);
+          }
+        });
+    }
   }
 
   saveProduct(String idReference, String quantity, String idProduct) async {

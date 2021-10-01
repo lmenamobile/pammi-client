@@ -30,12 +30,16 @@ class ProviderOrder with ChangeNotifier {
   }
 
   List<Order> _lstOrders = List();
-
   List<Order> get lstOrders => this._lstOrders;
-
   set lstOrders(List<Order> value) {
     this._lstOrders.addAll(value);
     notifyListeners();
+  }
+
+  List<String> _lstImagesBrands= List();
+  List<String> get lstImagesBrands => this._lstImagesBrands;
+  set setImageBrand(String value) {
+    this._lstImagesBrands.add(value);
   }
 
   List<Order> _lstOrdersFinish = List();

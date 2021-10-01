@@ -36,7 +36,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                 height: 100,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product?.reference?.images[getRandomPosition(product?.reference?.images?.length)].url),
+                  image: NetworkImage(product?.reference?.images[0].url),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -461,7 +461,7 @@ Widget sliderCardOffer(ProductShopCart product,Function updateQuantity,Function 
             child: itemOfferCart(product, product.offer.baseProducts[index], updateQuantity, deleteProduct, saveProduct),
           );
         },
-        control: new SwiperControl(size: 20,color: CustomColors.gray5),
+        control: new  SwiperControl(size: 20,color: CustomColors.gray5),
         itemCount: product.offer==null?0:product.offer.baseProducts.length,
         ),
   );

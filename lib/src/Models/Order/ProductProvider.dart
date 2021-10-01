@@ -1,4 +1,5 @@
 
+import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 
 import 'OfferOrder.dart';
@@ -11,7 +12,8 @@ class ProductProvider {
     this.price,
     this.total,
     this.reference,
-    this.offerOrder
+    this.offerOrder,
+    this.giftCard
   });
 
   int id;
@@ -21,6 +23,7 @@ class ProductProvider {
   String total;
   Reference reference;
   OfferOrder offerOrder;
+  GiftCard giftCard;
 
   factory ProductProvider.fromJson(Map<String, dynamic> json) => ProductProvider(
     id: json["id"],
@@ -30,6 +33,7 @@ class ProductProvider {
     total: json["total"].toString(),
     reference: json["reference"] == null ? null : Reference.fromJson(json["reference"]),
     offerOrder: json["offer"] == null ? null : OfferOrder.fromJson(json["offer"]),
+    giftCard: json["giftcard"] == null ? null : GiftCard.fromJson(json["giftcard"]),
   );
 
 

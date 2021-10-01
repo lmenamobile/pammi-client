@@ -174,8 +174,7 @@ class _OfferDetailState extends State<OfferDetail> {
               children: [
                 InkWell(
                   onTap: () => openZoomImages(),
-                  child:
-                      imageReference(170, providerOffer?.imageSelected ?? ''),
+                  child: imageReference(170, providerOffer?.imageSelected ?? ''),
                 ),
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
@@ -238,14 +237,10 @@ class _OfferDetailState extends State<OfferDetail> {
     return Container(
       height: 390,
       child: Swiper(
-        scale: 0.2,
         itemBuilder: (_, int index) {
-          return itemSliderOffer(
-              providerOffer?.detailOffer?.baseProducts[index].reference);
+          return itemSliderOffer(providerOffer?.detailOffer?.baseProducts[index].reference);
         },
-        itemCount: providerOffer?.detailOffer?.baseProducts == null
-            ? 0
-            : providerOffer.detailOffer.baseProducts.length,
+        itemCount: providerOffer?.detailOffer?.baseProducts == null ? 0 : providerOffer.detailOffer.baseProducts.length,
       ),
     );
   }

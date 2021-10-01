@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/Order/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
@@ -10,6 +11,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/Qualificati
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -55,7 +57,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
-                          listProviders(),
+                          providerOrder?.orderDetail!=null? providerOrder.orderDetail.packagesProvider[0].providerProduct==null?listGiftCards():listProviders():Container(),
                           providerOrder?.orderDetail?.seller!=null?
                           sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
                           Container(),
@@ -91,9 +93,24 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     );
   }
 
-  openQualificationPage(int optionView,String idQualification,String idSubOrder,String data){
+  Widget listGiftCards() {
+    return Container(
+      width: 180,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder.orderDetail.packagesProvider[0].productsProvider.length,
+        itemBuilder: (_, int index) {
+          return itemGift(providerOrder.orderDetail.packagesProvider[0].productsProvider[index].giftCard);
+        },
+      ),
+    );
+  }
+
+  openQualificationPage(int optionView,String idQualification,String idSubOrder,String data,PackageProvider providerPackage)async{
     switch (optionView) {
       case 0:
+        await saveImagesBrands(providerPackage);
         Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,)));
         break;
       case 1:
@@ -110,6 +127,14 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     getRoomProvider(providerId, suborderId);
   }
 
+  saveImagesBrands(PackageProvider providerPackage){
+    providerOrder.lstImagesBrands.clear();
+    providerPackage.productsProvider.forEach((element) {
+      providerOrder.setImageBrand = element.reference.brandAndProduct.brandProvider.brand.image;
+    });
+
+  }
+
   openChatSeller(String sellerId,String orderId){
     getRoomSeller(sellerId, orderId);
   }
@@ -121,6 +146,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         await callOrder.then((product) {
 
         }, onError: (error) {
+          Navigator.pop(context);
           utils.showSnackBar(context, error.toString());
         });
       } else {

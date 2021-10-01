@@ -90,6 +90,7 @@ class _QualificationPageState extends State<QualificationPage> {
               style: TextStyle(
                   fontFamily: Strings.fontRegular, color: CustomColors.gray7),
             ),
+            listImagesBrands(),
             SizedBox(
               height: 20,
             ),
@@ -367,6 +368,27 @@ class _QualificationPageState extends State<QualificationPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget listImagesBrands() {
+    return Container(
+      height: 100,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: providerOrder?.lstImagesBrands==null?0:providerOrder.lstImagesBrands.length,
+        itemBuilder: (_, int index) {
+          return CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.white,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+                child: Image.network(providerOrder.lstImagesBrands[index])),
+          );
+        },
       ),
     );
   }

@@ -345,6 +345,7 @@ class Strings {
   static const String  seller = 'Emprendedor';
   static const String  qualificationSeller = 'Califica al emprendedor';
   static const String  qualification = 'Calificar';
+  static const String   listGiftCards  = 'GifCards';
 
   /*Qualification */
   static const String  textQualification = '¿Cómo te fue con tu pedido del Proveedor';

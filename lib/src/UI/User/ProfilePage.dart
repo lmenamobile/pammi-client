@@ -87,75 +87,69 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 20),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              height: 65,
-                              width: 65,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                border: Border.all(
-                                    color: CustomColors.white, width: 1),
-                              ),
-                              child: Center(
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 55,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(100)),
-                                        border: Border.all(
-                                            color: CustomColors.white,
-                                            width: 1),
-                                        color: CustomColors.grayBackground,
-                                      ),
-                                      child:  Container(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(100)),
-                                          child: FadeInImage(
-                                            image: profileProvider?.user !=
-                                                null
-                                                ? NetworkImage(profileProvider
-                                                ?.user?.photoUrl)
-                                                : NetworkImage(''),
-                                            fit: BoxFit.cover,
-                                            placeholder: AssetImage(
-                                                "Assets/images/ic_img_profile.png"),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 23),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Container(
+                          height: 65,
+                          width: 65,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
+                            border: Border.all(
+                                color: CustomColors.white, width: 1),
+                          ),
+                          child: Center(
+                            child: Stack(
                               children: <Widget>[
-                                Text(
-                                  profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,
-                                  style: TextStyle(
-                                      fontFamily: Strings.fontBold,
-                                      fontSize: 18,
-                                      color: CustomColors.white),
-                                ),
+                                Container(
+                                  height: 55,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(100)),
+                                    border: Border.all(
+                                        color: CustomColors.white,
+                                        width: 1),
+                                    color: CustomColors.grayBackground,
+                                  ),
+                                  child:  Container(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      child: FadeInImage(
+                                        image: profileProvider?.user !=
+                                            null
+                                            ? NetworkImage(profileProvider
+                                            ?.user?.photoUrl)
+                                            : NetworkImage(''),
+                                        fit: BoxFit.cover,
+                                        placeholder: AssetImage(
+                                            "Assets/images/ic_img_profile.png"),
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Text(
+                            profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 18,
+                                color: CustomColors.white),
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+
                 ],
               ),
             ),

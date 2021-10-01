@@ -6,6 +6,7 @@ class ProviderProduct {
     this.providerEmail,
     this.addressCompany,
     this.telephoneCompany,
+    this.qualification
   });
 
   int id;
@@ -14,6 +15,7 @@ class ProviderProduct {
   String providerEmail;
   String addressCompany;
   String telephoneCompany;
+  String qualification;
 
   factory ProviderProduct.fromJson(Map<String, dynamic> json) => ProviderProduct(
     id: json["id"],
@@ -22,6 +24,7 @@ class ProviderProduct {
     providerEmail: json["providerEmail"],
     addressCompany: json["addressCompany"],
     telephoneCompany: json["telephoneCompany"],
+    qualification: json["qualification"]==null?'0':json["qualification"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

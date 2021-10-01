@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -27,7 +28,9 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
           child: Column(
             children: [
               titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
-                  () => Navigator.pop(context)),
+                  () => Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (Route<dynamic> route) => false)),
               SizedBox(height: 20,),
               Expanded(
                 child: SingleChildScrollView(
@@ -81,7 +84,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                           height: 20,
                         ),
                         btnCustom(230, Strings.myOrders, CustomColors.blueSplash,
-                            Colors.white, null),
+                            Colors.white, openOrders),
                         SizedBox(
                           height: 20,
                         ),
@@ -114,5 +117,12 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => MyHomePage()),
         (Route<dynamic> route) => false);
+  }
+
+  openOrders(){
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MyHomePage()),
+            (Route<dynamic> route) => false);
+    Navigator.push(context, customPageTransition(MyOrdersPage()));
   }
 }

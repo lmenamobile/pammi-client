@@ -30,8 +30,9 @@ class ProviderShopCart with ChangeNotifier{
   ShopCart _shopCart;
   ShopCart get shopCart => this._shopCart;
   set shopCart(ShopCart value) {
+
     this._shopCart = value;
-    totalProductsCart = value.packagesProvider.length.toString();
+    if(shopCart!=null)totalProductsCart = value.packagesProvider.length.toString();
     notifyListeners();
   }
 

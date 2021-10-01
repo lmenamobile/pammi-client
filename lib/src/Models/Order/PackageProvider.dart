@@ -37,7 +37,7 @@ class PackageProvider {
     discountGiftCard: json["discountGiftcard"].toString(),
     shippingValue: json["shippingValue"].toString(),
     status: json["status"],
-    providerProduct: ProviderProduct.fromJson(json["provider"]),
+    providerProduct: json["provider"]==null?null:ProviderProduct.fromJson(json["provider"]),
     productsProvider: List<ProductProvider>.from(json["products"].map((x) => ProductProvider.fromJson(x))),
   );
 

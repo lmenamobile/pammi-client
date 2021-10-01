@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Models/Order.dart';
 import 'package:wawamko/src/Models/Order/OrderDeatil.dart';
 import 'package:wawamko/src/Models/Order/PackageProvider.dart';
@@ -152,8 +153,37 @@ Widget itemDescription(IconData icon, String text, String price) {
   );
 }
 
+Widget itemGift(GiftCard gift){
+  return Container(
+    width: 100,
+    height: 100,
+    margin: EdgeInsets.all(8),
+    child: Align(
+      alignment: Alignment.center,
+      child: Stack(
+        children: [
+          ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              child: Image.asset("Assets/images/ic_giftcard.png")),
+          Center(
+            child: Text(
+              formatMoney(gift?.value ?? '0'),
+              style: TextStyle(
+                fontFamily: Strings.fontBold,
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat) {
   return Container(
+    margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -238,10 +268,10 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
               Visibility(
                 visible: isActive,
                 child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProvider,providerPackage?.providerProduct?.id.toString(),providerPackage?.id.toString()),
+                  onTap: ()=>qualification(Constants.qualificationProvider,providerPackage?.providerProduct?.id.toString(),providerPackage?.id.toString(),"",providerPackage),
                   child: Row(
                     children: [
-                      Image.asset("Assets/images/ic_star.png", width: 15,color: CustomColors.gray5,),
+                      Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct.qualification=='0'?CustomColors.gray5:Colors.amber,),
                       SizedBox(width: 5,),
                       Text(
                        Strings.qualification,
@@ -389,8 +419,8 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
           Visibility(
             visible: isActive,
               child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProduct,product?.reference?.id.toString(),providerPackage?.id.toString(),product?.reference?.images[0].url),
-                  child: Image.asset("Assets/images/ic_star.png", width: 20,color: CustomColors.gray5,))),
+                  onTap: ()=>qualification(Constants.qualificationProduct,product?.reference?.id.toString(),providerPackage?.id.toString(),product?.reference?.images[0].url,null),
+                  child: Image.asset("Assets/images/ic_star.png", width: 20,color:product?.reference?.qualification=='0'?CustomColors.gray5:Colors.amber))),
         ],
       ),
       customDivider()
@@ -539,7 +569,7 @@ Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool
                 Visibility(
                   visible: isActive,
                   child: InkWell(
-                    onTap: ()=>qualification(Constants.qualificationSeller,seller.id.toString(),order.id.toString(),seller?.photoUrl??''),
+                    onTap: ()=>qualification(Constants.qualificationSeller,seller.id.toString(),order.id.toString(),seller?.photoUrl??'',null),
                     child: Row(
                       children: [
                         Text(
