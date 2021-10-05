@@ -153,7 +153,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                 height: 100,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(offer?.reference?.images[getRandomPosition(offer?.reference?.images?.length)].url),
+                  image: NetworkImage(offer?.reference?.images[0].url),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -186,7 +186,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                     InkWell(
                       onTap: (){
                         if(int.parse(product?.qty)>1)
-                          updateQuantity(int.parse(product?.qty)-1,offer?.reference?.id.toString(),false);
+                          updateQuantity(int.parse(product?.qty)-1,offer?.id.toString(),false);
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
@@ -201,7 +201,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,offer?.reference?.id.toString(),false),
+                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,offer?.id.toString(),false),
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -222,18 +222,16 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
       ),
       Row(
         mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(
-              child: customButton("ic_save.png", Strings.saveProduct,
-                  CustomColors.gray7, (){saveProduct(offer?.reference?.id.toString(), product?.qty, product?.id.toString());})),
           Container(
             height: 40,
             width: 1,
             color: CustomColors.grayBackground,
           ),
-          Expanded(
-              child: customButton("ic_remove.png", Strings.delete,
-                  CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
+          Container(
+            width: 100,
+              child: customButton("ic_remove.png", Strings.delete, CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
         ],
       )
     ],

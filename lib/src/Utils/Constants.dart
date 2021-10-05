@@ -11,6 +11,8 @@ class Constants {
   static const String pwdSocialNetwork = 'Kubo123*';
   static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
 
+  static const String urlBlog = 'http://devblog.pamii.com/';
+
   static const String loginGMAIL = 'gm';
   static const String loginFacebook = 'fb';
   static const String codeAccountNotValidate = '103';

@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_page_transition/flutter_page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
@@ -118,7 +119,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       itemMenu("ic_gif_card.png",() => widget.rollOverActive != Constants.menuGiftCard
                           ? pushToPage(GiftCartPage())
                           : Navigator.pop(context), Strings.giftCards),
-                      itemMenu("ic_orders.png", () {}, Strings.blog),
+                      itemMenu("ic_orders.png", ()=>launch(Constants.urlBlog), Strings.blog),
                       itemMenu("ic_trainings.png", () => widget.rollOverActive != Constants.menuTraining
                           ? pushToPage(TrainingPage())
                           : Navigator.pop(context), Strings.trainings),

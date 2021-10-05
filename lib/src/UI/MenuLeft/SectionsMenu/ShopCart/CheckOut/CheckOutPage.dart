@@ -43,7 +43,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
               Column(
                 children: [
                   titleBar(Strings.order, "ic_blue_arrow.png", () => Navigator.pop(context)),
-                  Expanded(
+                  providerShopCart?.shopCart == null
+                      ? emptyData(
+                      "ic_highlights_empty.png",
+                      Strings.sorryHighlights,
+                      Strings.emptyProductsSave)
+                      :Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -61,7 +66,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               child: sectionPayment(providerCheckOut.paymentSelected)),
                           SizedBox(height: 8,),
                           sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
-                              changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,deleteCoupon
+                              changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,callDeleteDiscount
                           ),
                           SizedBox(height: 15,),
                           sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder,providerCheckOut.shippingPrice)
@@ -131,13 +136,26 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   callApplyDiscount(){
     if(providerCheckOut.isValidateGift){
-      print("cajon de la gift ${controllerGift.text}");
+      if(controllerGift.text.isNotEmpty){
+        applyGiftCard(controllerGift.text.trim());
+      }else{
+        utils.showSnackBar(context, Strings.giftEmpty);
+      }
     }else{
       if(controllerCoupon.text.isNotEmpty){
         applyCoupon(controllerCoupon.text.trim());
       }else{
         utils.showSnackBar(context, Strings.couponEmpty);
       }
+    }
+  }
+
+  callDeleteDiscount(){
+    if(providerCheckOut.isValidateGift){
+      deleteGiftCard();
+      providerCheckOut.isValidateGift = false;
+    }else{
+      deleteCoupon();
     }
   }
 
@@ -174,6 +192,24 @@ class _CheckOutPageState extends State<CheckOutPage> {
     }
   }
 
+  applyGiftCard(String gift) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerCheckOut.applyGiftCard(gift);
+        await callCart.then((msg) {
+          providerCheckOut.isValidateDiscount = true;
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          providerCheckOut.isValidateDiscount = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
   applyCoupon(String coupon) async {
     utils.checkInternet().then((value) async {
       if (value) {
@@ -199,6 +235,23 @@ class _CheckOutPageState extends State<CheckOutPage> {
         await callCart.then((msg) {
           providerCheckOut.isValidateDiscount = false;
           getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  deleteGiftCard() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerCheckOut.deleteGiftCard();
+        await callCart.then((msg) {
+          providerCheckOut.isValidateDiscount = false;
+           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());

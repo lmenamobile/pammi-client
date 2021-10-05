@@ -458,6 +458,7 @@ Widget sectionTotal( TotalCart totalCart, Function createOrder, String shipping)
           customDivider(),
           itemTotal(styleRegular, Strings.IVA, totalCart?.iva??'0'),
           itemTotal(styleRegular, Strings.coupon, totalCart?.discountCoupon??'0'),
+          itemTotal(styleRegular, Strings.giftCard, totalCart?.discountGiftCard??'0'),
           customDivider(),
           itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping)),
           SizedBox(height: 20,),

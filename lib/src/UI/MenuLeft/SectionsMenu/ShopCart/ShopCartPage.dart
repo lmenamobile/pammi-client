@@ -70,7 +70,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           )),
-                      child: providerShopCart?.shopCart == null
+                      child: providerShopCart?.shopCart == null ||  providerShopCart?.shopCart?.packagesProvider?.length==0
                           ? emptyData(
                               "ic_highlights_empty.png",
                               Strings.sorryHighlights,
@@ -160,10 +160,9 @@ class _ShopCartPageState extends State<ShopCartPage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: itemProductCategory(
+            child: itemProductRelations(
                 providerProducts.ltsProductsRelationsByReference[index],
-                openDetailProduct,
-                callIsFavorite));
+                openDetailProduct));
       },
     );
   }
@@ -185,8 +184,10 @@ class _ShopCartPageState extends State<ShopCartPage> {
       if (value) {
         Future callCart = providerShopCart.getShopCart();
         await callCart.then((msg) {
+          if(providerShopCart.shopCart!=null)
           getProductsRelations();
         }, onError: (error) {
+          providerShopCart.shopCart = null;
           providerShopCart.isLoadingCart = false;
          // utils.showSnackBar(context, error.toString());
         });
@@ -263,6 +264,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
         if (value) {
           Future callCart = providerShopCart.deleteProductCart(idProduct);
           await callCart.then((msg) {
+            providerShopCart.shopCart = null;
             getShopCart();
             utils.showSnackBarGood(context, msg.toString());
           }, onError: (error) {

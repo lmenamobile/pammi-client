@@ -256,6 +256,37 @@ class ProviderCheckOut with ChangeNotifier {
     }
   }
 
+  Future deleteGiftCard() async {
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty
+          ? "CO"
+          : prefs.countryIdUser.toString(),
+    };
+    final response = await http
+        .delete(Constants.baseURL + "cart/delete-giftcard", headers: header)
+        .timeout(Duration(seconds: 15))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic> decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson['code'] == 100) {
+        this.isLoading = false;
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson['message'];
+    }
+  }
+
   Future createOrder(String paymentMethodId, String addressId, String bankId,
       String creditCardId,String shippingValue) async {
     this.isLoading = true;
@@ -277,7 +308,7 @@ class ProviderCheckOut with ChangeNotifier {
     final response = await http
         .post(Constants.baseURL + "payment/create-order",
             headers: header, body: body)
-        .timeout(Duration(seconds: 15))
+        .timeout(Duration(seconds: 30))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;

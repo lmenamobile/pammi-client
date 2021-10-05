@@ -99,7 +99,7 @@ class _OrdersFinishTabState extends State<OrdersFinishTab> {
         await callOrders.then((list) {
           providerOrder.lstOrdersFinish = list;
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

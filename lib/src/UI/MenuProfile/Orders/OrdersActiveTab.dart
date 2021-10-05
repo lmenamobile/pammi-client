@@ -99,7 +99,7 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
         await callOrders.then((list) {
 
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

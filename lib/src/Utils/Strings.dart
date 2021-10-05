@@ -289,7 +289,7 @@ class Strings {
   static const String  subtotal = 'Subtotal';
   static const String  makePurchase = 'Realizar compra';
   static const String  giftProducts = 'Productos de regalo';
-
+  static const String  giftCard = 'Tarjeta de regalo';
   static const String  order = 'Orden';
 
   /*checkOut*/

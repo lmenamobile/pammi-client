@@ -202,6 +202,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
 
+
   getProducts() async {
     utils.checkInternet().then((value) async {
       if (value) {

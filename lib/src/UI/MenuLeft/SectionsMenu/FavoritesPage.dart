@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
+import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -128,13 +130,15 @@ class _FavoritesPageState extends State<FavoritesPage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemProductCategory(providerProducts.ltsProductsRelationsByReference[index],openDetailProduct,callIsFavorite)
+          child: itemProductRelations(providerProducts.ltsProductsRelationsByReference[index],openDetailProduct)
         );
       },
     );
   }
 
-  openDetailProduct() {}
+  openDetailProduct(Product product) {
+    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+  }
 
   callIsFavorite(Reference reference){
     if(reference.isFavorite){

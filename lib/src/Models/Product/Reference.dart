@@ -1,6 +1,7 @@
 
 
 import 'package:wawamko/src/Models/Product/BrandAndProduct.dart';
+import 'package:wawamko/src/Models/Product/CommentProduct.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 import 'package:wawamko/src/Models/ShopCart/TotalProductOffer.dart';
 
@@ -14,6 +15,7 @@ class Reference {
     this.qty,
     this.color,
     this.images,
+    this.ltsComments,
     this.qualification,
     this.isSelected,
     this.brandAndProduct,
@@ -31,6 +33,7 @@ class Reference {
   String color;
   String qualification;
   List<ImageProduct> images;
+  List<CommentProduct> ltsComments;
   bool isSelected = false;
   bool isFavorite = false;
   BrandAndProduct brandAndProduct;
@@ -50,6 +53,7 @@ class Reference {
     isFavorite: json["liked"],
     qualification: json["qualification"]==null?'0':json["qualification"].toString(),
     images:json["images"]==null?null: List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
+    ltsComments:json["comments"]==null?null: List<CommentProduct>.from(json["comments"].map((x) => CommentProduct.fromJson(x))),
     brandAndProduct: json["brandProviderProduct"]==null?null:BrandAndProduct.fromJson(json["brandProviderProduct"]),
     totalProductOffer: json["offer"]==null?null:TotalProductOffer.fromJson(json["offer"]),
   );

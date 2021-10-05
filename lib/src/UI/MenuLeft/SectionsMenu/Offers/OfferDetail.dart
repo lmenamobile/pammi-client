@@ -12,6 +12,7 @@ import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/CheckOutPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
@@ -38,6 +39,7 @@ class _OfferDetailState extends State<OfferDetail> {
   void initState() {
     providerOffer = Provider.of<ProviderOffer>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      providerOffer.totalUnits = 1;
       getDetailOffer(widget.idOffer);
     });
     super.initState();
@@ -122,8 +124,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                       120,
                                       Strings.paymentNow,
                                       CustomColors.orange,
-                                      Colors.white,() => Navigator.push(
-                                      context, customPageTransition(ShopCartPage()))),
+                                      Colors.white,() => paymentNow()),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -403,6 +404,38 @@ class _OfferDetailState extends State<OfferDetail> {
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  paymentNow() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.addOfferCart(providerOffer.detailOffer.id.toString(), providerOffer?.totalUnits.toString());
+        await callCart.then((msg) {
+          getShopCart();
+          utils.showSnackBarGood(context, msg.toString());
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getShopCart() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerShopCart.getShopCart();
+        await callCart.then((msg) {
+          Navigator.push(context, customPageTransition(CheckOutPage()));
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
       }
     });
   }

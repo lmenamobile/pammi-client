@@ -58,7 +58,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   "ic_blue_arrow.png",
                   "ic_car.png",
                   () => Navigator.pop(context),
-                  ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
+                  () => Navigator.push(
+                      context, customPageTransition(ShopCartPage())),
+                  true,
+                  providerShopCart.totalProductsCart),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -128,29 +131,35 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                           MainAxisAlignment.spaceBetween,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Row(
-                                          children: [
-                                            itemImageReference(
-                                                35,
-                                                providerProducts
-                                                        ?.referenceProductSelected
-                                                        ?.images[0]
-                                                        .url ??
-                                                    ''),
-                                            SizedBox(
-                                              width: 13,
-                                            ),
-                                            Text(
-                                              providerProducts
-                                                      ?.referenceProductSelected
-                                                      ?.reference ??
-                                                  '',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      Strings.fontRegular,
-                                                  color: CustomColors.gray7),
-                                            )
-                                          ],
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              itemImageReference(
+                                                  35,
+                                                  providerProducts
+                                                          ?.referenceProductSelected
+                                                          ?.images[0]
+                                                          .url ??
+                                                      ''),
+                                              SizedBox(
+                                                width: 13,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  providerProducts
+                                                          ?.referenceProductSelected
+                                                          ?.reference ??
+                                                      '',
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          Strings.fontRegular,
+                                                      color: CustomColors.gray7),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         Icon(
                                           Icons.keyboard_arrow_right_outlined,
@@ -227,7 +236,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         Strings.paymentNow,
                                         CustomColors.orange,
                                         Colors.white,
-                                        ()=>paymentNow()),
+                                        () => paymentNow()),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -343,11 +352,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 ],
               ),
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    customDivider(),
-                  ],
+                Container(
+
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      customDivider(),
+                      listComments()],
+                  ),
                 )
               ],
             )
@@ -379,6 +392,21 @@ class _DetailProductPageState extends State<DetailProductPage> {
     );
   }
 
+  Widget listComments() {
+    return ListView.builder(
+      itemCount: providerProducts?.referenceProductSelected?.ltsComments == null
+          ? 0
+          : providerProducts?.referenceProductSelected?.ltsComments?.length,
+      shrinkWrap: true,
+      itemBuilder: (_, int index) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 5,bottom: 5),
+          child: itemComment(providerProducts?.referenceProductSelected?.ltsComments[index]),
+        );
+      },
+    );
+  }
+
   setImageReference(String asset) {
     providerProducts?.imageReferenceProductSelected = asset;
   }
@@ -397,7 +425,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) => PhotosProductPage(
-             image: providerProducts?.imageReferenceProductSelected,
+              image: providerProducts?.imageReferenceProductSelected,
             )));
   }
 
@@ -423,10 +451,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.updateQuantityProductCart(
-            providerProducts?.referenceProductSelected?.id.toString(),
-            "1");
+            providerProducts?.referenceProductSelected?.id.toString(), providerProducts.unitsProduct.toString());
         await callCart.then((msg) {
-         getShopCart();
+          getShopCart();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -442,8 +469,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
       if (value) {
         Future callCart = providerShopCart.getShopCart();
         await callCart.then((msg) {
-          Navigator.push(context, customPageTransition(
-                  CheckOutPage()));
+          Navigator.push(context, customPageTransition(CheckOutPage()));
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());

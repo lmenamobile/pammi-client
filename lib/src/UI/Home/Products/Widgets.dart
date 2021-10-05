@@ -2,8 +2,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:wawamko/src/Models/Product/CommentProduct.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -299,5 +301,65 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
           ),
         );
       });
+}
+
+itemComment(CommentProduct commentProduct){
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      color: CustomColors.whiteBackGround
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: Image.network(commentProduct?.user?.photoUrl),
+            ),
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  commentProduct?.user?.fullName,
+                  style: TextStyle(
+                    color: CustomColors.blue,
+                    fontSize: 13,
+                    fontFamily: Strings.fontRegular
+                  ),
+                ),
+                Text(
+                  commentProduct?.comment,
+                  maxLines: 2,
+                  style: TextStyle(
+                      color: CustomColors.gray7,
+                      fontSize: 13,
+                      fontFamily: Strings.fontRegular
+                  ),
+                ),
+                Text(
+                  formatDate(commentProduct?.date, "dd-MM-yyyy", "es_CO"),
+                  style: TextStyle(
+                      color: CustomColors.gray7,
+                      fontSize: 13,
+                      fontFamily: Strings.fontRegular
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    ),
+  );
 }
 
