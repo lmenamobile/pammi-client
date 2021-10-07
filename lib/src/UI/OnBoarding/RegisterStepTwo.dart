@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class RegisterStepTwoPage extends StatefulWidget {
@@ -24,6 +26,7 @@ class RegisterStepTwoPage extends StatefulWidget {
 
 class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   final emailController = TextEditingController();
+  final referredController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPassController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
@@ -156,7 +159,10 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                               emailController, notifyVariables, () {
                             setState(() {});
                           }),
-                          SizedBox(height: 21),
+                          SizedBox(height: 15),
+                          customTextFieldIcon("ic_data.png",true, Strings.codeReferred,
+                              referredController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+
                           customBoxPassword(passwordController),
                           SizedBox(height: 21),
                           customBoxConfirmPassword(confirmPassController)
@@ -199,6 +205,15 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                                 fontSize: 12,
                                 color: CustomColors.blackLetter),
                           )),
+                      SizedBox(height: 10),
+                      itemCheck(() => providerOnBoarding.stateContactCommercial =
+                      !providerOnBoarding.stateContactCommercial, providerOnBoarding.stateContactCommercial, Text(
+                        Strings.contactCommercial,
+                        style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            fontSize: 12,
+                            color: CustomColors.blackLetter),
+                      )),
                       SizedBox(height: 10),
                       itemCheck(() => providerOnBoarding.stateTerms =
                       !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
@@ -478,7 +493,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   _serviceRegister() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnBoarding.createAccount(widget.user);
+        Future callUser = providerOnBoarding.createAccount(widget.user,referredController.text??'',providerOnBoarding.stateContactCommercial);
         await callUser.then((user) {
           utils.startOpenSlideUp(context, user.email, user.fullname);
         }, onError: (error) {

@@ -175,7 +175,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
         Future callSettings = providerSettings.getCategoriesInterest(
             "", pageOffset, prefs.countryIdUser);
         await callSettings.then((list) {}, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

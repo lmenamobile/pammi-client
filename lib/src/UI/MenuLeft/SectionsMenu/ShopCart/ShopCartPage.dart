@@ -70,7 +70,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           )),
-                      child: providerShopCart?.shopCart == null ||  providerShopCart?.shopCart?.packagesProvider?.length==0
+                      child: providerShopCart?.shopCart == null ||  providerShopCart?.shopCart?.packagesProvider?.length==0 && providerShopCart?.shopCart?.products?.length==0
                           ? emptyData(
                               "ic_highlights_empty.png",
                               Strings.sorryHighlights,

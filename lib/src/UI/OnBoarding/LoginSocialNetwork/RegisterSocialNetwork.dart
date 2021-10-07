@@ -184,6 +184,15 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                                         color: CustomColors.blackLetter),
                                   )),
                               SizedBox(height: 10),
+                              itemCheck(() => providerOnBoarding.stateContactCommercial =
+                              !providerOnBoarding.stateContactCommercial, providerOnBoarding.stateContactCommercial, Text(
+                                Strings.contactCommercial,
+                                style: TextStyle(
+                                    fontFamily: Strings.fontRegular,
+                                    fontSize: 12,
+                                    color: CustomColors.blackLetter),
+                              )),
+                              SizedBox(height: 10),
                               itemCheck(() => providerOnBoarding.stateTerms =
                               !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
                             ],
@@ -248,7 +257,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerOnBoarding.createAccountSocialNetwork(widget.name, widget.email, phoneController.text,
-            providerSettings?.citySelected?.id.toString(), referredController.text??'',widget.typeRegister);
+            providerSettings?.citySelected?.id.toString(), referredController.text??'',providerOnBoarding.stateContactCommercial,widget.typeRegister);
         await callUser.then((user) {
           Navigator.pushAndRemoveUntil(
               context,

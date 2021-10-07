@@ -370,6 +370,7 @@ class Strings {
   static const String politics = 'Política de Privacidad.';
   static const String politicsText = ' y la ';
   static const String authorizedCredit = 'Autorizó centrales de riesgo.';
+  static const String contactCommercial = 'Acepto contacto comercial.';
 
   /*Dialog btones*/
   static const String  btnYes  = 'Si';

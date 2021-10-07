@@ -41,6 +41,12 @@ class OnboardingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _stateContactCommercial = false;
+  bool get stateContactCommercial => this._stateContactCommercial;
+  set stateContactCommercial(bool value) {
+    this._stateContactCommercial = value;
+    notifyListeners();
+  }
   Future getAccessToken() async {
     final response = await http
         .get(Constants.baseURL + "wa/generate-access-token")
@@ -350,7 +356,7 @@ class OnboardingProvider with ChangeNotifier {
     }
   }
 
-  Future<dynamic> createAccount(UserModel userModel) async {
+  Future<dynamic> createAccount(UserModel userModel,String codeReferred,bool contactCommercial) async {
     this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final header = {
@@ -368,7 +374,8 @@ class OnboardingProvider with ChangeNotifier {
       'platform': Platform.isIOS ? "i" : "a",
       'type': "lc",
       'pushToken': _prefs.pushToken,
-      "userReferrerCode":"",
+      "userReferrerCode":codeReferred,
+      "comercialContact": contactCommercial,
       'version': packageInfo.version.toString(),
     };
 
@@ -408,6 +415,7 @@ class OnboardingProvider with ChangeNotifier {
       String phone,
       String cityId,
       String codeReferred,
+      bool contactCommercial,
       String typeRegister
       ) async {
     this.isLoading = true;
@@ -428,6 +436,7 @@ class OnboardingProvider with ChangeNotifier {
       'type': typeRegister,
       'pushToken': _prefs.pushToken,
       "userReferrerCode":codeReferred,
+      "comercialContact": contactCommercial,
       'version': packageInfo.version.toString(),
       'verifyedAccount':"true"
     };
