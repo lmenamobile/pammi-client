@@ -9,13 +9,13 @@ class ProviderProduct {
     this.qualification
   });
 
-  int id;
-  String identification;
-  String businessName;
-  String providerEmail;
-  String addressCompany;
-  String telephoneCompany;
-  String qualification;
+  int? id;
+  String? identification;
+  String? businessName;
+  String? providerEmail;
+  String? addressCompany;
+  String? telephoneCompany;
+  String? qualification;
 
   factory ProviderProduct.fromJson(Map<String, dynamic> json) => ProviderProduct(
     id: json["id"],

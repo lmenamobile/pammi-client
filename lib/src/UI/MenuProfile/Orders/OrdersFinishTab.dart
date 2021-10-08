@@ -15,7 +15,7 @@ class OrdersFinishTab extends StatefulWidget {
 }
 
 class _OrdersFinishTabState extends State<OrdersFinishTab> {
-  ProviderOrder providerOrder;
+  late ProviderOrder providerOrder;
   RefreshController _refreshOrders = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 

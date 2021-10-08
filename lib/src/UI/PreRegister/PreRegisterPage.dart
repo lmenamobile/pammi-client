@@ -22,8 +22,8 @@ class PreRegisterPage extends StatefulWidget {
 class _PreRegisterPageState extends State<PreRegisterPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
-  ProfileProvider profileProvider;
-  SupportProvider supportProvider;
+  ProfileProvider? profileProvider;
+  late SupportProvider supportProvider;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();

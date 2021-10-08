@@ -31,28 +31,9 @@ class ProviderAddress with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     var body = jsonEncode(params);
-    final response = await http.post(Constants.baseURL  + 'profile/get-addresses',
+    final response = await http.post(Uri.parse(Constants.baseURL  + 'profile/get-addresses'),
         headers: header,body: body)
         .timeout(Duration(seconds: 10)).catchError((value) {this.isLoading = false;throw Strings.errorServeTimeOut;});
-/*    final List<Address> listAddress = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
-        for (var item in decodeJson['data']['items']) {
-          final card = CreditCard.fromJson(item);
-          listCards.add(card);
-        }
-        this.isLoading = false;
-        this.ltsCreditCards = listCards;
-        return listCards;
-      } else {
-        this.isLoading = false;
-        throw decodeJson['message'];
-      }
-    } else {
-      this.isLoading = false;
-      throw decodeJson['message'];
-    }*/
 
   }
 

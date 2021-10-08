@@ -14,14 +14,14 @@ class Offer {
     this.promotionProducts
   });
 
-  int id;
-  String name;
-  String offerType;
-  String discountValue;
-  String imageBanner;
-  BrandProvider brandProvider;
-  List<ProductOffer> baseProducts;
-  List<ProductOffer> promotionProducts;
+  int? id;
+  String? name;
+  String? offerType;
+  String? discountValue;
+  String? imageBanner;
+  BrandProvider? brandProvider;
+  List<ProductOffer>? baseProducts;
+  List<ProductOffer>? promotionProducts;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
     id: json["id"],

@@ -25,29 +25,29 @@ class ResponseEfecty {
     this.valorPesos,
   });
 
-  String refPayco;
-  String factura;
-  String descripcion;
-  String valor;
-  String iva;
-  String baseiva;
-  String moneda;
-  String banco;
-  String estado;
-  String respuesta;
-  String autorizacion;
-  String recibo;
-  DateTime fecha;
-  String tipoDoc;
-  String documento;
-  String nombres;
-  String apellidos;
-  String email;
-  String pin;
-  String codigoproyecto;
-  DateTime fechaexpiracion;
-  DateTime fechapago;
-  String valorPesos;
+  String? refPayco;
+  String? factura;
+  String? descripcion;
+  String? valor;
+  String? iva;
+  String? baseiva;
+  String? moneda;
+  String? banco;
+  String? estado;
+  String? respuesta;
+  String? autorizacion;
+  String? recibo;
+  DateTime? fecha;
+  String? tipoDoc;
+  String? documento;
+  String? nombres;
+  String? apellidos;
+  String? email;
+  String? pin;
+  String? codigoproyecto;
+  DateTime? fechaexpiracion;
+  DateTime? fechapago;
+  String? valorPesos;
 
   factory ResponseEfecty.fromJson(Map<String, dynamic> json) => ResponseEfecty(
     refPayco: json["ref_payco"].toString(),
@@ -88,7 +88,7 @@ class ResponseEfecty {
     "respuesta": respuesta,
     "autorizacion": autorizacion,
     "recibo": recibo,
-    "fecha": fecha.toIso8601String(),
+    "fecha": fecha!.toIso8601String(),
     "tipo_doc": tipoDoc,
     "documento": documento,
     "nombres": nombres,
@@ -96,8 +96,8 @@ class ResponseEfecty {
     "email": email,
     "pin": pin,
     "codigoproyecto": codigoproyecto,
-    "fechaexpiracion": fechaexpiracion.toIso8601String(),
-    "fechapago": fechapago.toIso8601String(),
+    "fechaexpiracion": fechaexpiracion!.toIso8601String(),
+    "fechapago": fechapago!.toIso8601String(),
     "valor_pesos": valorPesos,
   };
 }

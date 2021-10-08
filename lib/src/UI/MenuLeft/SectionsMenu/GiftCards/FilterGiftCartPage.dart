@@ -16,7 +16,7 @@ class FilterGiftCartPage extends StatefulWidget {
 }
 
 class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
 
   RangeValues values = RangeValues(0, 50);
 

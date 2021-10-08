@@ -17,18 +17,18 @@ class GooglePlacesAutocompleteWidget extends StatefulWidget {
 
   final String apiKey;
   final String hint;
-  final Location location;
-  final num offset;
-  final num radius;
-  final String language;
-  final List<String> types;
-  final List<Component> components;
-  final bool strictbounds;
-  final ValueChanged<PlacesAutocompleteResponse> onError;
-  var lenghtList = 0;
+  final Location? location;
+  final num? offset;
+  final num? radius;
+  final String? language;
+  final List<String>? types;
+  final List<Component>? components;
+  final bool? strictbounds;
+  final ValueChanged<PlacesAutocompleteResponse>? onError;
+  final lenghtList = 0;
 
   GooglePlacesAutocompleteWidget(
-      {@required this.apiKey,
+      {required this.apiKey,
         this.hint = "Buscar.",
         this.offset,
         this.location,
@@ -38,7 +38,7 @@ class GooglePlacesAutocompleteWidget extends StatefulWidget {
         this.components,
         this.strictbounds,
         this.onError,
-        Key key})
+        Key? key})
       : super(key: key);
 
   @override
@@ -46,8 +46,7 @@ class GooglePlacesAutocompleteWidget extends StatefulWidget {
     return new _GooglePlacesAutocompleteOverlayState();
   }
 
-  static GooglePlacesAutocompleteState of(BuildContext context) => context
-      .ancestorStateOfType(const TypeMatcher<GooglePlacesAutocompleteState>());
+  static GooglePlacesAutocompleteState? of(BuildContext context) => context.findAncestorStateOfType<GooglePlacesAutocompleteState>();
 }
 
 class _GooglePlacesAutocompleteOverlayState
@@ -233,9 +232,9 @@ class _GooglePlacesAutocompleteOverlayState
 
     var body;
 
-    if (query.text.isEmpty ||
+    if (query!.text.isEmpty ||
         response == null ||
-        response.predictions.isEmpty || query.text.length <= 3 || singleton.bandLoadingAutocomplete  ) {
+        response!.predictions.isEmpty || query!.text.length <= 3 || singleton.bandLoadingAutocomplete  ) {
       body = new Material(
 
         color: Colors.transparent,
@@ -267,12 +266,12 @@ class _GooglePlacesAutocompleteOverlayState
                       //borderRadius: BorderRadius.all(Radius.circular(15)),
                         color:Colors.white
                     ),
-                    child:response.predictions.length<=0?Container():ListView.builder(
+                    child:response!.predictions.length<=0?Container():ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: response.predictions?.length,
+                      itemCount: response!.predictions.length,
                       itemBuilder: (BuildContext context, int index){
-                        var data = response.predictions[index];
+                        var data = response!.predictions[index];
                         return index<0?Container():PredictionTile(
                           prediction: data,
                           onTap: Navigator.of(context).pop,
@@ -337,7 +336,7 @@ class _GooglePlacesAutocompleteOverlayState
 }
 
 class GooglePlacesAutocompleteResult extends StatefulWidget {
-  final ValueChanged<Prediction> onTap;
+  final ValueChanged<Prediction>? onTap;
 
   GooglePlacesAutocompleteResult({this.onTap});
 
@@ -350,19 +349,19 @@ class _GooglePlacesAutocompleteResult
     extends State<GooglePlacesAutocompleteResult> {
   @override
   Widget build(BuildContext context) {
-    final state = GooglePlacesAutocompleteWidget.of(context);
+    final state = GooglePlacesAutocompleteWidget.of(context)!;
     assert(state != null);
 
-    if (state.query.text.isEmpty ||
+    if (state.query!.text.isEmpty ||
         state.response == null ||
-        state.response.predictions.isEmpty) {
+        state.response!.predictions.isEmpty) {
       final children = <Widget>[];
 
       return new Stack(children: children);
     }
 
     return new PredictionsListView(
-        predictions: state.response.predictions, onTap: widget.onTap);
+        predictions: state.response!.predictions, onTap: widget.onTap);
 
 
   }
@@ -370,10 +369,10 @@ class _GooglePlacesAutocompleteResult
 
 class PredictionsListView extends StatelessWidget {
   final List<Prediction> predictions;
-  final ValueChanged<Prediction> onTap;
+  final ValueChanged<Prediction>? onTap;
   var lenghtList = 5;
 
-  PredictionsListView({@required this.predictions, this.onTap});
+  PredictionsListView({required this.predictions, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -391,20 +390,20 @@ class PredictionsListView extends StatelessWidget {
 
 class PredictionTile extends StatelessWidget {
   final Prediction prediction;
-  final ValueChanged<Prediction> onTap;
+  final ValueChanged<Prediction>? onTap;
 
-  String addressTitle;
-  String addressSubtitle;
+  late String addressTitle;
+  late String addressSubtitle;
 
-  PredictionTile({@required this.prediction, this.onTap});
+  PredictionTile({required this.prediction, this.onTap});
 
 
   @override
   Widget build(BuildContext context) {
-    int indexChar = prediction.description.indexOf(",");
-    addressTitle = prediction.description.replaceRange(indexChar, prediction.description.length, "");
-    addressSubtitle = prediction.description.replaceRange(0, indexChar + 2, "");
-    return prediction.description.length!=0?Column(
+    int indexChar = prediction.description!.indexOf(",");
+    addressTitle = prediction.description!.replaceRange(indexChar, prediction.description!.length, "");
+    addressSubtitle = prediction.description!.replaceRange(0, indexChar + 2, "");
+    return prediction.description!.length!=0?Column(
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -448,7 +447,7 @@ class PredictionTile extends StatelessWidget {
                     onTap: () {
                       if (onTap != null) {
                         print("prediction");
-                        onTap(prediction);
+                        onTap!(prediction);
                       }
                     },
                   ),
@@ -464,18 +463,18 @@ class PredictionTile extends StatelessWidget {
   }
 }
 
-Future<Prediction> showGooglePlacesAutocomplete(
-    {@required BuildContext context,
-      @required String apiKey,
+Future<Prediction?> showGooglePlacesAutocomplete(
+    {required BuildContext context,
+      required String apiKey,
       String hint = "Buscar",
-      num offset,
-      Location location,
-      num radius,
-      String language,
-      List<String> types,
-      List<Component> components,
-      bool strictbounds,
-      ValueChanged<PlacesAutocompleteResponse> onError}) {
+      num? offset,
+      Location? location,
+      num? radius,
+      String? language,
+      List<String>? types,
+      List<Component>? components,
+      bool? strictbounds,
+      ValueChanged<PlacesAutocompleteResponse>? onError}) {
   final builder = (BuildContext ctx) => new GooglePlacesAutocompleteWidget(
     apiKey: apiKey,
     language: language,
@@ -494,10 +493,10 @@ Future<Prediction> showGooglePlacesAutocomplete(
 
 abstract class GooglePlacesAutocompleteState
     extends State<GooglePlacesAutocompleteWidget> {
-  TextEditingController query;
-  PlacesAutocompleteResponse response;
-  GoogleMapsPlaces _places;
-  bool searching;
+  TextEditingController? query;
+  PlacesAutocompleteResponse? response;
+  late GoogleMapsPlaces _places;
+  bool? searching;
 
   final singleton = GlobalVariables();
 
@@ -529,9 +528,9 @@ abstract class GooglePlacesAutocompleteState
           location: widget.location,
           radius: widget.radius,
           language: widget.language,
-          types: widget.types,
-          components: widget.components,
-          strictbounds: widget.strictbounds);
+          types: widget.types!,
+          components: widget.components!,
+          strictbounds: widget.strictbounds!);
 
       if (res.errorMessage?.isNotEmpty == true ||
           res.status == "REQUEST_DENIED") {
@@ -553,12 +552,12 @@ abstract class GooglePlacesAutocompleteState
     }
   }
 
-  Timer _timer;
+  Timer? _timer;
 
   Future<Null> search(String value) async {
     _timer?.cancel();
     _timer = new Timer(const Duration(milliseconds: 300), () {
-      _timer.cancel();
+      _timer!.cancel();
       doSearch(value);
     });
   }
@@ -574,7 +573,7 @@ abstract class GooglePlacesAutocompleteState
   void onResponseError(PlacesAutocompleteResponse res) {
     if (mounted) {
       if (widget.onError != null) {
-        widget.onError(res);
+        widget.onError!(res);
       }
       setState(() {
         response = null;
@@ -593,7 +592,7 @@ abstract class GooglePlacesAutocompleteState
   }
 
   @mustCallSuper
-  void onResponse(PlacesAutocompleteResponse res) {
+  void onResponse(PlacesAutocompleteResponse? res) {
     if (mounted) {
       setState(() {
         response = res;

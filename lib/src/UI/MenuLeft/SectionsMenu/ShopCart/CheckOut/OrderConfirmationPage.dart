@@ -15,7 +15,7 @@ class OrderConfirmationPage extends StatefulWidget {
 
 class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   final prefs = SharePreference();
-  ProviderCheckOut providerCheckOut;
+  ProviderCheckOut? providerCheckOut;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(prefs.nameUser??'',
+                        Text(prefs.nameUser,
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,

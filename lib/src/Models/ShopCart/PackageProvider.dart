@@ -9,8 +9,8 @@ class PackagesProvider {
     this.products,
   });
 
-  ProviderProduct provider;
-  List<ProductShopCart> products;
+  ProviderProduct? provider;
+  List<ProductShopCart>? products;
 
   factory PackagesProvider.fromJson(Map<String, dynamic> json) => PackagesProvider(
     provider: ProviderProduct.fromJson(json["provider"]),
@@ -18,7 +18,7 @@ class PackagesProvider {
   );
 
   Map<String, dynamic> toJson() => {
-    "provider": provider.toJson(),
-    "products": List<dynamic>.from(products.map((x) => x.toJson())),
+    "provider": provider!.toJson(),
+    "products": List<dynamic>.from(products!.map((x) => x.toJson())),
   };
 }

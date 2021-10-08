@@ -20,8 +20,8 @@ class ForgotPasswordEmailPage extends StatefulWidget {
 
 class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
   final emailController = TextEditingController();
-  NotifyVariablesBloc notifyVariables;
-  OnboardingProvider providerOnboarding;
+  NotifyVariablesBloc? notifyVariables;
+  late OnboardingProvider providerOnboarding;
   String msgError = '';
 
   @override

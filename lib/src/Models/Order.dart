@@ -17,19 +17,19 @@ class Order {
     this.createdAt
   });
 
-  int id;
-  String subtotal;
-  String tax;
-  String total;
-  String discountCoupon;
-  String discountGiftCard;
-  String shippingValue;
-  String shippingAddress;
-  String status;
-  String cardNumber;
-  String franchise;
-  PaymentMethod paymentMethod;
-  DateTime createdAt;
+  int? id;
+  String? subtotal;
+  String? tax;
+  String? total;
+  String? discountCoupon;
+  String? discountGiftCard;
+  String? shippingValue;
+  String? shippingAddress;
+  String? status;
+  String? cardNumber;
+  String? franchise;
+  PaymentMethod? paymentMethod;
+  DateTime? createdAt;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
     id: json["id"],

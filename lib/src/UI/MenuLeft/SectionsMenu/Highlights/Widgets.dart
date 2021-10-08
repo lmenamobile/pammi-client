@@ -26,7 +26,7 @@ Widget itemHighlights(Banners item){
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(12)),
             child: FadeInImage(
-              image: NetworkImage(item.image),
+              image: NetworkImage(item.image!),
               fit: BoxFit.cover,
               placeholder: AssetImage(''),
             ),
@@ -60,7 +60,7 @@ Widget itemHighlights(Banners item){
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    item?.name,
+                    item.name??'',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -105,7 +105,7 @@ Widget itemCampaigns(Campaign item,Function action){
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(12)),
               child: FadeInImage(
-                image: NetworkImage(item.image),
+                image: NetworkImage(item.image!),
                 fit: BoxFit.cover,
                 placeholder: AssetImage(''),
               ),
@@ -139,7 +139,7 @@ Widget itemCampaigns(Campaign item,Function action){
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      item?.campaign??'',
+                      item.campaign??'',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
@@ -20,10 +20,10 @@ class MyAddressPage extends StatefulWidget {
 }
 
 class _MyAddressPageState extends State<MyAddressPage> {
-  List<Address> addresses = List();
+  List<Address> addresses = [];
   bool loading = true;
   bool hasInternet = true;
-  ProviderCheckOut providerCheckOut;
+  late ProviderCheckOut providerCheckOut;
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                 margin: EdgeInsets.only(left: 20, right: 20),
                                 width: double.infinity,
                                 child: ListView.builder(
-                                    itemCount: this.addresses.length ?? 0,
+                                    itemCount: this.addresses.length,
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder:
@@ -128,8 +128,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
           var decodeJSON = jsonDecode(user);
           GetAddressResponse data = GetAddressResponse.fromJson(decodeJSON);
 
-          if (data.status) {
-            for (var address in data.data.addresses) {
+          if (data.status!) {
+            for (var address in data.data!.addresses!) {
               this.addresses.add(address);
             }
             Navigator.pop(context);
@@ -141,7 +141,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
           loading = false;
         }, onError: (error) {
-          print("Ocurrio un error: ${error}");
+          print("Ocurrio un error: $error");
           loading = false;
           Navigator.pop(context);
         });
@@ -164,9 +164,9 @@ class _MyAddressPageState extends State<MyAddressPage> {
           ChangeStatusAddressResponse data =
               ChangeStatusAddressResponse.fromJson(decodeJSON);
 
-          if (data.status) {
+          if (data.status!) {
             Navigator.pop(context);
-            utils.showSnackBarGood(context, data.message);
+            utils.showSnackBarGood(context, data.message!);
             serviceGetAddAddressUser();
           } else {
             Navigator.pop(context);
@@ -174,7 +174,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
             utils.showSnackBarError(context, data.message);
           }
         }, onError: (error) {
-          print("Ocurrio un error: ${error}");
+          print("Ocurrio un error: $error");
 
           Navigator.pop(context);
         });
@@ -185,9 +185,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
   }
 
   openAddAddress() async {
-    var data =
-        await Navigator.push(context, customPageTransition(AddAddressPage()));
-    if (data) {
+    dynamic data = await Navigator.push(context, customPageTransition(AddAddressPage()));
+    if (data as bool) {
       serviceGetAddAddressUser();
     }
   }
@@ -196,7 +195,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
     var data = await Navigator.push(
         context,
         PageTransition(
-            type: PageTransitionType.slideInLeft,
+            type: PageTransitionType.leftToRight,
             child: AddAddressPage(),
             duration: Duration(milliseconds: 500)));
     if (data) {
@@ -209,7 +208,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
     var data = await Navigator.push(
         context,
         PageTransition(
-            type: PageTransitionType.slideInLeft,
+            type: PageTransitionType.leftToRight,
             child: AddAddressPage(flagAddress: "update", address: address),
             duration: Duration(milliseconds: 500)));
     if (data) {

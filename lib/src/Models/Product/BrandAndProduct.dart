@@ -14,16 +14,16 @@ class BrandAndProduct {
     this.brandProvider,
   });
 
-  int id;
-  String sku;
-  String product;
-  String characteristics;
-  String linkVideo;
-  String conditions;
-  bool featured;
-  String weight;
-  String volume;
-  BrandProvider brandProvider;
+  int? id;
+  String? sku;
+  String? product;
+  String? characteristics;
+  String? linkVideo;
+  String? conditions;
+  bool? featured;
+  String? weight;
+  String? volume;
+  BrandProvider? brandProvider;
 
   factory BrandAndProduct.fromJson(Map<String, dynamic> json) => BrandAndProduct(
     id: json["id"],
@@ -48,6 +48,6 @@ class BrandAndProduct {
     "featured": featured,
     "weight": weight,
     "volume": volume,
-    "brandProvider": brandProvider.toJson(),
+    "brandProvider": brandProvider!.toJson(),
   };
 }

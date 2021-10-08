@@ -6,8 +6,8 @@ class ProductOffer {
     this.reference,
   });
 
-  int id;
-  Reference reference;
+  int? id;
+  Reference? reference;
 
   factory ProductOffer.fromJson(Map<String, dynamic> json) => ProductOffer(
     id: json["id"],
@@ -16,6 +16,6 @@ class ProductOffer {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "reference": reference.toJson(),
+    "reference": reference!.toJson(),
   };
 }

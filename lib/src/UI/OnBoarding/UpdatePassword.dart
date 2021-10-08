@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
-import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
@@ -26,8 +24,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   bool obscureTextConfirmPass = true;
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  NotifyVariablesBloc notifyVariables;
-  OnboardingProvider providerOnboarding;
+  late NotifyVariablesBloc notifyVariables;
+  late OnboardingProvider providerOnboarding;
   String msgError = '';
 
   @override
@@ -150,7 +148,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: notifyVariables.intUpdatePass.validPass
+                  color: notifyVariables.intUpdatePass.validPass!
                       ? CustomColors.blueSplash
                       : CustomColors.gray.withOpacity(.3),
                   width: 1),
@@ -164,7 +162,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   Image(
                     width: 35,
                     height: 35,
-                    image: notifyVariables.intUpdatePass.validPass
+                    image: notifyVariables.intUpdatePass.validPass!
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
                   ),
@@ -238,7 +236,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: notifyVariables.intUpdatePass.validConfirmPass
+                  color: notifyVariables.intUpdatePass.validConfirmPass!
                       ? CustomColors.blueSplash
                       : CustomColors.gray.withOpacity(.3),
                   width: 1),
@@ -252,7 +250,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   Image(
                     width: 35,
                     height: 35,
-                    image: notifyVariables.intUpdatePass.validConfirmPass
+                    image: notifyVariables.intUpdatePass.validConfirmPass!
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
                   ),

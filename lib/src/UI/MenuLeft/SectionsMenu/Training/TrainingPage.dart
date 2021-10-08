@@ -21,7 +21,7 @@ class TrainingPage extends StatefulWidget {
 class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderStateMixin{
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshTraining = RefreshController(initialRefresh: false);
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   int pageOffset = 0;
 
   @override
@@ -47,7 +47,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
             children: [
               Column(
                 children: [
-                  titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState.openDrawer()),
+                  titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
                   SizedBox(height: 20,),
                   Expanded(child: SmartRefresher(
                       controller: _refreshTraining,
@@ -74,7 +74,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
 
   Widget itemTraining(Training training){
     return InkWell(
-      onTap: ()=>launch(training.url),
+      onTap: ()=>launch(training.url!),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
         child: Container(
@@ -89,7 +89,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
               children: [
                 Expanded(
                   child: Text(
-                    training?.training??'',
+                    training.training??'',
                     style: TextStyle(
                         fontFamily: Strings.fontMedium,
                         color: CustomColors.blackLetter

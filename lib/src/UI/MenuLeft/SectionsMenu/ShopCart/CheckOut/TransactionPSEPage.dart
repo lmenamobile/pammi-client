@@ -21,7 +21,7 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   final prefs = SharePreference();
-  ProviderCheckOut providerCheckOut;
+  ProviderCheckOut? providerCheckOut;
 
   @override
   Widget build(BuildContext context) {

@@ -20,11 +20,11 @@ class _AddTargetPageState extends State<AddTargetPage> {
   final numberTargetController = TextEditingController();
   final cvcTargetController = TextEditingController();
 
-  ProfileProvider profileProvider;
-  List<DropdownMenuItem<String>> _dropdownMenuItemsYears;
-  String selectedYear;
-  List<DropdownMenuItem<String>> _dropdownMenuItemsMonths;
-  String selectedMonth;
+  late ProfileProvider profileProvider;
+  List<DropdownMenuItem<String>>? _dropdownMenuItemsYears;
+  String? selectedYear;
+  List<DropdownMenuItem<String>>? _dropdownMenuItemsMonths;
+  String? selectedMonth;
   var maskFormatter = new MaskTextInputFormatter(
       mask: '####  ####  ####  ####', filter: {"#": RegExp(r'[0-9]')});
   var maskMountFormatter =
@@ -34,7 +34,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       _dropdownMenuItemsMonths = buildDropItems(utils.listMonths());
       _dropdownMenuItemsYears = buildDropItems(utils.listYears());
     });
@@ -208,7 +208,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
             color: CustomColors.gray7.withOpacity(.4)),
         textAlign: TextAlign.center,
       ),
-      onChanged: (option) {
+      onChanged: (dynamic option) {
         setState(() {
           selectedYear = option;
         });
@@ -235,7 +235,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
             color: CustomColors.gray7.withOpacity(.4)),
         textAlign: TextAlign.center,
       ),
-      onChanged: (option) {
+      onChanged: (dynamic option) {
         setState(() {
           selectedMonth = option;
         });
@@ -244,7 +244,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
   }
 
   List<DropdownMenuItem<String>> buildDropItems(List items) {
-    List<DropdownMenuItem<String>> list = List();
+    List<DropdownMenuItem<String>> list = [];
     items.forEach((item) {
       list.add(DropdownMenuItem(
         child: Text(
@@ -315,7 +315,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                       ? Strings.hintDate
                       : selectedYear == null
                           ? Strings.hintDate
-                          : selectedMonth + "/" + selectedYear,
+                          : selectedMonth! + "/" + selectedYear!,
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontRegular,

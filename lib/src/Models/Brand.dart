@@ -6,9 +6,9 @@ class Brand {
     this.image,
   });
 
-  int id;
-  String brand;
-  String image;
+  int? id;
+  String? brand;
+  String? image;
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
     id: json["id"],

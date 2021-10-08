@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -42,13 +40,13 @@ class _MyDatesPageState extends State<MyDatesPage>
   final phoneController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
-  AnimationController _controller;
-  ImagePickerHandler imagePicker;
-  NotifyVariablesBloc notifyVariables;
+  AnimationController? _controller;
+  late ImagePickerHandler imagePicker;
+  NotifyVariablesBloc? notifyVariables;
   String msgError = '';
   GlobalVariables globalVariables = GlobalVariables();
-  ProfileProvider profileProvider;
-  ProviderSettings providerSettings;
+  ProfileProvider? profileProvider;
+  ProviderSettings? providerSettings;
 
   @override
   void initState() {
@@ -77,7 +75,7 @@ class _MyDatesPageState extends State<MyDatesPage>
               child: _body(context),
             ),
             Visibility(
-                visible: profileProvider.isLoading, child: LoadingProgress()),
+                visible: profileProvider!.isLoading, child: LoadingProgress()),
           ],
         ),
       ),
@@ -110,7 +108,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             ),
                           ),
                           onTap: (){Navigator.pop(context);
-                          profileProvider.isEditProfile = false;},
+                          profileProvider!.isEditProfile = false;},
                         ),
                         Expanded(
                             child: Center(
@@ -168,7 +166,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                               image: profileProvider?.user !=
                                                       null
                                                   ? NetworkImage(profileProvider
-                                                      ?.user?.photoUrl)
+                                                      ?.user?.photoUrl??'')
                                                   : NetworkImage(''),
                                               fit: BoxFit.cover,
                                               placeholder: AssetImage(
@@ -200,7 +198,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                   height: 15,
                                 ),
                                 Visibility(
-                                  visible: profileProvider.isEditProfile,
+                                  visible: profileProvider!.isEditProfile,
                                   child: Container(
                                       width: 130,
                                       child: btnRoundedCustom(
@@ -212,7 +210,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       })),
                                 ),
                                 Visibility(
-                                  visible: !profileProvider.isEditProfile,
+                                  visible: !profileProvider!.isEditProfile,
                                   child: Container(
                                       width: 100,
                                       child: btnRoundedCustom(
@@ -220,7 +218,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                           CustomColors.white,
                                           CustomColors.gray7,
                                           Strings.edit, () {
-                                        profileProvider.isEditProfile = true;
+                                        profileProvider!.isEditProfile = true;
                                       })),
                                 )
                               ],
@@ -286,7 +284,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             right: 0,
                             top: 0,
                             child: Visibility(
-                                visible: !profileProvider.isEditProfile,
+                                visible: !profileProvider!.isEditProfile,
                                 child: Container(
                                   color: Colors.transparent,
                                   width: double.infinity,
@@ -315,25 +313,25 @@ class _MyDatesPageState extends State<MyDatesPage>
 
   openSelectCountry()async{
     await Navigator.push(context, customPageTransition(SelectCountryPage()));
-    countryController.text = providerSettings?.countrySelected?.country;
+    countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
   openSelectCityByState(){
     if(providerSettings?.countrySelected!=null) {
       Navigator.push(context, customPageTransition(SelectStatesPage()));
-      cityController.text = providerSettings?.citySelected?.name;
+      cityController.text = providerSettings?.citySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
     }
   }
 
   void setDataProfile() {
-    nameController.text = profileProvider?.user?.fullname;
-    typeDocumentController.text = profileProvider?.user?.documentType;
-    numberIdentityController.text = profileProvider?.user?.document;
-    countryController.text = profileProvider?.user?.city?.countryUser?.country;
-    cityController.text = profileProvider?.user?.city?.name;
-    phoneController.text = profileProvider?.user?.phone;
+    nameController.text = profileProvider?.user?.fullname??'';
+    typeDocumentController.text = profileProvider?.user?.documentType??'';
+    numberIdentityController.text = profileProvider?.user?.document??'';
+    countryController.text = profileProvider?.user?.city?.countryUser?.country??'';
+    cityController.text = profileProvider?.user?.city?.name??'';
+    phoneController.text = profileProvider?.user?.phone??'';
     globalVariables.cityId = profileProvider?.user?.city?.id;
   }
 
@@ -389,14 +387,14 @@ class _MyDatesPageState extends State<MyDatesPage>
     FocusScope.of(context).unfocus();
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = profileProvider.updateUser(
+        Future callUser = profileProvider!.updateUser(
             nameController.text,
             typeDocumentController.text,
             numberIdentityController.text,
             phoneController.text,
             globalVariables.cityId.toString());
         await callUser.then((msg) {
-          profileProvider.isEditProfile = false;
+          profileProvider!.isEditProfile = false;
           getUser();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
@@ -411,7 +409,7 @@ class _MyDatesPageState extends State<MyDatesPage>
   serviceUpdatePhoto(File picture) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = profileProvider.serviceUpdatePhoto(picture);
+        Future callUser = profileProvider!.serviceUpdatePhoto(picture);
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
@@ -426,11 +424,11 @@ class _MyDatesPageState extends State<MyDatesPage>
   getUser() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = profileProvider.getDataUser();
+        Future callUser = profileProvider!.getDataUser();
         await callUser.then((msg) {
           setDataProfile();
         }, onError: (error) {
-          profileProvider.isLoading = false;
+          profileProvider!.isLoading = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -440,9 +438,9 @@ class _MyDatesPageState extends State<MyDatesPage>
   }
 
   @override
-  userImage(File imageFile) {
+  userImage(File? imageFile) {
     if (imageFile != null) {
-      profileProvider.imageUserFile = imageFile;
+      profileProvider!.imageUserFile = imageFile;
       serviceUpdatePhoto(imageFile);
     } else {
       utils.showSnackBar(context, Strings.internetError);

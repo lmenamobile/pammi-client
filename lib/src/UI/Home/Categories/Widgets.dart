@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -35,10 +35,10 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
                   height: 50,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: convertColor(category.color),
+                      color: convertColor(category.color!),
                       boxShadow: [
                         BoxShadow(
-                            color: convertColor(category.color).withOpacity(.4),
+                            color: convertColor(category.color!).withOpacity(.4),
                             blurRadius: 7,
                             offset: Offset(2, 3))
                       ]),
@@ -46,14 +46,14 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
                     child: FadeInImage(
                       height: 25,
                       fit: BoxFit.fill,
-                      image: NetworkImage(category.image),
+                      image: NetworkImage(category.image!),
                       placeholder: AssetImage("Assets/images/spinner.gif"),
                     ),
                   ),
                 ),
                 SizedBox(width: 15),
                 Text(
-                  category.category,
+                  category.category!,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
@@ -93,7 +93,7 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
             Container(
               margin: EdgeInsets.only(left: 20),
               child: Text(
-                subCategory.subcategory,
+                subCategory.subcategory!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
@@ -139,7 +139,7 @@ Widget itemProductRelations(Product product, Function openDetail){
               height: 100,
               child: FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(product?.references[0]?.images[0]?.url),
+                image: NetworkImage(product.references?[0].images?[0].url??""),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
               ),
             ),
@@ -150,7 +150,7 @@ Widget itemProductRelations(Product product, Function openDetail){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product?.brandProvider?.brand?.brand??'',
+                    product.brandProvider?.brand?.brand??'',
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
@@ -158,7 +158,7 @@ Widget itemProductRelations(Product product, Function openDetail){
                     ),
                   ),
                   Text(
-                    product?.references[0]?.reference??'',
+                    product.references?[0].reference??'',
                     maxLines: 2,
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
@@ -167,7 +167,7 @@ Widget itemProductRelations(Product product, Function openDetail){
                     ),
                   ),
                   Text(
-                    formatMoney( product?.references[0]?.price??'0'),
+                    formatMoney( product.references?[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       color: CustomColors.orange,
@@ -184,7 +184,7 @@ Widget itemProductRelations(Product product, Function openDetail){
 }
 
 Widget itemProductCategory(Product product, Function openDetail,Function callFavorite){
-  int position = getRandomPosition(product?.references?.length??0);
+  int position = getRandomPosition(product.references?.length??0);
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -212,7 +212,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(product?.references[0]?.images[0]?.url),
+                    image: NetworkImage(product.references?[0].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                   ),
                 ),
@@ -223,7 +223,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product?.brandProvider?.brand?.brand??'',
+                        product.brandProvider?.brand?.brand??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
@@ -231,7 +231,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                         ),
                       ),
                       Text(
-                        product?.references[0]?.reference??'',
+                        product.references?[0].reference??'',
                         maxLines: 2,
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
@@ -240,7 +240,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                         ),
                       ),
                       Text(
-                        formatMoney( product?.references[0]?.price??'0'),
+                        formatMoney( product.references?[0].price??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           color: CustomColors.orange,
@@ -256,8 +256,8 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
               top: 3,
                 right: 3,
                 child: InkWell(
-                  onTap: ()=>callFavorite(product?.references[position]),
-                    child: favorite(product?.references[position]?.isFavorite)))
+                  onTap: ()=>callFavorite(product.references?[position]),
+                    child: favorite(product.references?[position].isFavorite??false)))
           ],
         ),
       ),

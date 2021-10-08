@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -8,7 +8,7 @@ import '../WidgetsGeneric.dart';
 
 class DialogCustomAlert extends StatelessWidget {
   final String title, msgText;
-  const DialogCustomAlert({@required this.title, @required this.msgText});
+  const DialogCustomAlert({required this.title, required this.msgText});
   @override
   Widget build(BuildContext context) {
     return Dialog(

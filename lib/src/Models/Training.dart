@@ -7,11 +7,11 @@ class Training {
     this.status,
   });
 
-  int id;
-  String training;
-  String url;
-  String moduleType;
-  String status;
+  int? id;
+  String? training;
+  String? url;
+  String? moduleType;
+  String? status;
 
   factory Training.fromJson(Map<String, dynamic> json) => Training(
     id: json["id"],

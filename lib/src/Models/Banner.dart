@@ -12,13 +12,13 @@ class Banners {
     this.offerHighlights
   });
 
-  int id;
-  String name;
-  String url;
-  int position;
-  String image;
-  String type;
-  OfferHighlights offerHighlights;
+  int? id;
+  String? name;
+  String? url;
+  int? position;
+  String? image;
+  String? type;
+  OfferHighlights? offerHighlights;
 
   factory Banners.fromJson(Map<String, dynamic> json) => Banners(
     id: json["id"],

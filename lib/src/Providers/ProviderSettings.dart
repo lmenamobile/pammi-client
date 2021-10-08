@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wawamko/src/Models/Bank.dart';
@@ -26,64 +27,64 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
-  CountryUser _countrySelected;
-  CountryUser get countrySelected => this._countrySelected;
-  set countrySelected(CountryUser value) {
+  CountryUser? _countrySelected;
+  CountryUser? get countrySelected => this._countrySelected;
+  set countrySelected(CountryUser? value) {
     this._countrySelected = value;
     this.ltsStatesCountries.clear();
-    if(value!=null)getStates("", 0, this.countrySelected.id);
+    if(value!=null)getStates("", 0, this.countrySelected!.id);
     notifyListeners();
   }
 
-  List<CountryUser> _ltsCountries = List();
+  List<CountryUser> _ltsCountries = [];
   List<CountryUser> get ltsCountries => this._ltsCountries;
   set ltsCountries(List<CountryUser> value) {
     this._ltsCountries.addAll(value);
     notifyListeners();
   }
 
-  StatesCountry _stateCountrySelected;
-  StatesCountry get stateCountrySelected => this._stateCountrySelected;
-  set stateCountrySelected(StatesCountry value) {
+  StatesCountry? _stateCountrySelected;
+  StatesCountry? get stateCountrySelected => this._stateCountrySelected;
+  set stateCountrySelected(StatesCountry? value) {
     this._stateCountrySelected = value;
     this.ltsCities.clear();
-    if(value!=null)getCities("", 0, this.stateCountrySelected);
+    if(value!=null)getCities("", 0, this.stateCountrySelected!);
     notifyListeners();
   }
 
-  List<StatesCountry> _ltsStatesCountries = List();
+  List<StatesCountry> _ltsStatesCountries = [];
   List<StatesCountry> get ltsStatesCountries => this._ltsStatesCountries;
   set ltsStatesCountries(List<StatesCountry> value) {
     this._ltsStatesCountries.addAll(value);
     notifyListeners();
   }
 
-  List<Training> _ltsTraining = List();
+  List<Training> _ltsTraining = [];
   List<Training> get ltsTraining => this._ltsTraining;
   set ltsTraining(List<Training> value) {
     this._ltsTraining.addAll(value);
     notifyListeners();
   }
 
-  City _citySelected;
-  City get citySelected => this._citySelected;
-  set citySelected(City value) {
+  City? _citySelected;
+  City? get citySelected => this._citySelected;
+  set citySelected(City? value) {
     this._citySelected = value;
     notifyListeners();
   }
 
-  List<City> _ltsCities = List();
+  List<City> _ltsCities = [];
   List<City> get ltsCities => this._ltsCities;
   set ltsCities(List<City> value) {
     this._ltsCities.addAll(value);
     notifyListeners();
   }
 
- Category _selectCategory;
-  Category get selectCategory => this._selectCategory;
-  set selectCategory(Category value) {
+ Category? _selectCategory;
+  Category? get selectCategory => this._selectCategory;
+  set selectCategory(Category? value) {
     this._selectCategory = value;
-    _ltsCategories.firstWhere((element) => element==value?element.isSelected=true:element.isSelected=false,orElse: ()=> null);
+    _ltsCategories.firstWhereOrNull((element) => element==value?element.isSelected=true:element.isSelected=false);
      ltsCategories.forEach((category) {
        if(category!=value)
          category.isSelected = false;
@@ -91,42 +92,42 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
-  List<Category> _ltsCategories = List();
+  List<Category> _ltsCategories = [];
   List<Category> get ltsCategories => this._ltsCategories;
   set ltsCategories(List<Category> value) {
     this._ltsCategories.addAll(value);
     notifyListeners();
   }
 
-  List<SubCategory> _ltsSubCategories = List();
+  List<SubCategory> _ltsSubCategories = [];
   List<SubCategory> get ltsSubCategories => this._ltsSubCategories;
   set ltsSubCategories(List<SubCategory> value) {
     this._ltsSubCategories.addAll(value);
     notifyListeners();
   }
 
-  List<Banners> _ltsBannersHighlights = List();
+  List<Banners> _ltsBannersHighlights = [];
   List<Banners> get ltsBannersHighlights => this._ltsBannersHighlights;
   set ltsBannersHighlights(List<Banners> value) {
     this._ltsBannersHighlights.addAll(value);
     notifyListeners();
   }
 
-  List<Campaign> _ltsBannersCampaign = List();
+  List<Campaign> _ltsBannersCampaign = [];
   List<Campaign> get ltsBannersCampaign => this._ltsBannersCampaign;
   set ltsBannersCampaign(List<Campaign> value) {
     this._ltsBannersCampaign.addAll(value);
     notifyListeners();
   }
 
-  List<Bank> _ltsBanks = List();
+  List<Bank> _ltsBanks = [];
   List<Bank> get ltsBanks => this._ltsBanks;
   set ltsBanks(List<Bank> value) {
     this._ltsBanks = value;
     notifyListeners();
   }
 
-  List<Notifications> _ltsNotifications = List();
+  List<Notifications> _ltsNotifications = [];
   List<Notifications> get ltsNotifications => this._ltsNotifications;
   set ltsNotifications(List<Notifications> value) {
     this._ltsNotifications.addAll(value);
@@ -152,7 +153,7 @@ class ProviderSettings with ChangeNotifier{
       "status": "active"
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "location/get-countries",
+    final response = await http.post(Uri.parse(Constants.baseURL + "location/get-countries"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -160,10 +161,10 @@ class ProviderSettings with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<CountryUser> listCountry = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<CountryUser> listCountry = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final country = CountryUser.fromJson(item);
           listCountry.add(country);
@@ -177,12 +178,12 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
 
-  Future<dynamic> getStates(String filter, int offset, String countryId) async {
+  Future<dynamic> getStates(String filter, int offset, String? countryId) async {
     this.isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
@@ -196,17 +197,17 @@ class ProviderSettings with ChangeNotifier{
       "countryId": countryId
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "location/get-states",
+    final response = await http.post(Uri.parse(Constants.baseURL + "location/get-states"),
         headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<StatesCountry> listStates = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<StatesCountry> listStates = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final state = StatesCountry.fromJson(item);
           listStates.add(state);
@@ -220,7 +221,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
 
@@ -240,17 +241,17 @@ class ProviderSettings with ChangeNotifier{
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "location/get-cities",
+        .post(Uri.parse(Constants.baseURL + "location/get-cities"),
         headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<City> listCities = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<City> listCities = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final city = City.fromJson(item);
           listCities.add(city);
@@ -264,7 +265,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -283,16 +284,16 @@ class ProviderSettings with ChangeNotifier{
     };
     var body = jsonEncode(jsonData);
 
-    final response = await http.post(Constants.baseURL+"category/get-categories", headers: header, body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL+"category/get-categories"), headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<Category> listCategories = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Category> listCategories = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final category = Category.fromJson(item);
           listCategories.add(category);
@@ -306,7 +307,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -325,16 +326,16 @@ class ProviderSettings with ChangeNotifier{
       "categoryId":idCategory
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL+"category/get-subcategories", headers: header, body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL+"category/get-subcategories"), headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<SubCategory> listSubCategories = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<SubCategory> listSubCategories = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final subcategory = SubCategory.fromJson(item);
           listSubCategories.add(subcategory);
@@ -348,12 +349,12 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
   Future<dynamic> saveCategories(List<Category> myCategories) async {
-    List<int> idCats = List();
+    List<int?> idCats = [];
     myCategories.forEach((element) {
       idCats.add(element.id);
     });
@@ -365,15 +366,15 @@ class ProviderSettings with ChangeNotifier{
       "categories": idCats,
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL+"profile/save-interests",headers: header, body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL+"profile/save-interests"),headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         this.isLoadingSettings = false;
@@ -381,7 +382,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -396,16 +397,16 @@ class ProviderSettings with ChangeNotifier{
       "description": comment
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL+"system/notify-product-not-found",headers: header, body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL+"system/notify-product-not-found"),headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoadingSettings = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         this.isLoadingSettings = false;
@@ -414,7 +415,7 @@ class ProviderSettings with ChangeNotifier{
     } else {
       this.isLoadingSettings = false;
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -433,17 +434,17 @@ class ProviderSettings with ChangeNotifier{
       "type": Constants.bannerOffer
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "home/get-banners",
+    final response = await http.post(Uri.parse(Constants.baseURL + "home/get-banners"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<Banners> listBanner = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Banners> listBanner = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final banner = Banners.fromJson(item);
           listBanner.add(banner);
@@ -457,7 +458,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -476,17 +477,17 @@ class ProviderSettings with ChangeNotifier{
       "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "campaign/get-campaigns",
+    final response = await http.post(Uri.parse(Constants.baseURL + "campaign/get-campaigns"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<Campaign> listBanner = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Campaign> listBanner = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final banner = Campaign.fromJson(item);
           listBanner.add(banner);
@@ -500,7 +501,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -519,16 +520,16 @@ class ProviderSettings with ChangeNotifier{
       "countryId": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL+"system/get-trainings", headers: header, body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL+"system/get-trainings"), headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<Training> listTrainings = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Training> listTrainings = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final training = Training.fromJson(item);
           listTrainings.add(training);
@@ -542,7 +543,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -553,7 +554,7 @@ class ProviderSettings with ChangeNotifier{
       "X-WA-Auth-Token": prefs.authToken.toString(),
       "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
-    final response = await http.get(Constants.baseURL + "payment/get-banks",
+    final response = await http.get(Uri.parse(Constants.baseURL + "payment/get-banks"),
         headers: header)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -561,10 +562,10 @@ class ProviderSettings with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Bank> listBanks = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Bank> listBanks = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']) {
           final bank = Bank.fromJson(item);
           if(bank.bankCode!="0")
@@ -579,7 +580,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -597,7 +598,7 @@ class ProviderSettings with ChangeNotifier{
       "state": "send"
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "notification/get-notifications",
+    final response = await http.post(Uri.parse(Constants.baseURL + "notification/get-notifications"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -605,10 +606,10 @@ class ProviderSettings with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Notifications> listNotifications = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Notifications> listNotifications = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final notification = Notifications.fromJson(item);
           listNotifications.add(notification);
@@ -622,7 +623,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -642,17 +643,17 @@ class ProviderSettings with ChangeNotifier{
       "notifications": dataIDS
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "notification/delete-notifications",
+    final response = await http.post(Uri.parse(Constants.baseURL + "notification/delete-notifications"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoadingSettings = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoadingSettings = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         this.isLoadingSettings = false;
@@ -660,7 +661,7 @@ class ProviderSettings with ChangeNotifier{
       }
     } else {
       this.isLoadingSettings = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }

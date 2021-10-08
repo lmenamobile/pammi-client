@@ -1,23 +1,16 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
-import 'package:credit_card/credit_card_widget.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/Widgets/DialogLoading.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
 
 class _Utils {
   final prefs = SharePreference();
@@ -58,7 +51,7 @@ class _Utils {
     return "a";
   }
 
-  double getLatitude() {
+  double? getLatitude() {
     var singleton = GlobalVariables();
     if (singleton.latitude == 0.0 && singleton.longitude == 0.0) {
       return 4.6287835;
@@ -66,7 +59,7 @@ class _Utils {
     return singleton.latitude;
   }
 
-  double getLongitude() {
+  double? getLongitude() {
     var singleton = GlobalVariables();
     if (singleton.longitude == 0.0 && singleton.longitude == 0.0) {
       return -74.0695618;
@@ -78,7 +71,7 @@ class _Utils {
     return Flushbar(
       animationDuration: Duration(milliseconds: 500),
       margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
-      borderRadius: 15.0,
+      borderRadius: BorderRadius.all(Radius.circular(15)),
       backgroundColor: CustomColors.splashColor,
       icon: Padding(
         padding: const EdgeInsets.only(left: 15),
@@ -107,7 +100,7 @@ class _Utils {
     return Flushbar(
       animationDuration: Duration(milliseconds: 500),
       margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
-      borderRadius: 15.0,
+      borderRadius: BorderRadius.all(Radius.circular(15)),
       backgroundColor: CustomColors.greenValid,
       icon: Padding(
         padding: const EdgeInsets.only(left: 15),
@@ -132,12 +125,12 @@ class _Utils {
     )..show(context);
   }
 
-  Widget showSnackBarError(BuildContext context, String message) {
+  Widget showSnackBarError(BuildContext context, String? message) {
     return IgnorePointer(
       child: Flushbar(
         animationDuration: Duration(milliseconds: 500),
         margin: EdgeInsets.only(left: 17, right: 17),
-        borderRadius: 15.0,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
         backgroundColor: CustomColors.red,
         icon: Image(
           image: AssetImage("assets/images/ic_whiteclose.png"),
@@ -148,116 +141,8 @@ class _Utils {
     );
   }
 
-  List<String> getbtnPromos(String btnPromos) {
-    var s1 = btnPromos.replaceAll("[", "");
-    var s2 = s1.replaceAll("]", "");
-    var listPromosImages = s2.split(",");
-    return listPromosImages;
-  }
 
-  String getSessionId(Map<String, dynamic> header) {
-    var cad = header['set-cookie'].split("3A");
-    var cad2 = cad[1].split(".");
-
-    var sesionId = cad2[0];
-    //&print("Session ID ${seesionId}");
-    //this._prefs.token = seesionId;
-    return sesionId;
-  }
-
-  Map<CardType, Set<List<String>>> cardNumPatterns =
-      <CardType, Set<List<String>>>{
-    CardType.visa: <List<String>>{
-      <String>['4'],
-    },
-    CardType.americanExpress: <List<String>>{
-      <String>['34'],
-      <String>['37'],
-    },
-    CardType.discover: <List<String>>{
-      <String>['6011'],
-      <String>['622126', '622925'],
-      <String>['644', '649'],
-      <String>['65']
-    },
-    CardType.mastercard: <List<String>>{
-      <String>['51', '55'],
-      <String>['2221', '2229'],
-      <String>['223', '229'],
-      <String>['23', '26'],
-      <String>['270', '271'],
-      <String>['2720'],
-    },
-  };
-
-  CardType detectCCType(String cardNumber) {
-    //Default card type is other
-    CardType cardType = CardType.otherBrand;
-
-    if (cardNumber.isEmpty) {
-      return cardType;
-    }
-
-    cardNumPatterns.forEach(
-      (CardType type, Set<List<String>> patterns) {
-        for (List<String> patternRange in patterns) {
-          // Remove any spaces
-          String ccPatternStr =
-              cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
-          final int rangeLen = patternRange[0].length;
-          // Trim the Credit Card number string to match the pattern prefix length
-          if (rangeLen < cardNumber.length) {
-            ccPatternStr = ccPatternStr.substring(0, rangeLen);
-          }
-
-          if (patternRange.length > 1) {
-            // Convert the prefix range into numbers then make sure the
-            // Credit Card num is in the pattern range.
-            // Because Strings don't have '>=' type operators
-            final int ccPrefixAsInt = int.parse(ccPatternStr);
-            final int startPatternPrefixAsInt = int.parse(patternRange[0]);
-            final int endPatternPrefixAsInt = int.parse(patternRange[1]);
-            if (ccPrefixAsInt >= startPatternPrefixAsInt &&
-                ccPrefixAsInt <= endPatternPrefixAsInt) {
-              // Found a match
-              cardType = type;
-              break;
-            }
-          } else {
-            // Just compare the single pattern prefix with the Credit Card prefix
-            if (ccPatternStr == patternRange[0]) {
-              // Found a match
-              cardType = type;
-              break;
-            }
-          }
-        }
-      },
-    );
-
-    return cardType;
-  }
-
-  String decimalFormat(int number) {
-    var f = new NumberFormat("###,###.###", "es_CO");
-    //print("________"+f.format(number));
-    return f.format(number);
-  }
-
-  int priceToInt(String price) {
-    int price2 = 0;
-    if (price.contains(".")) {
-      var priceArray = price.split(".");
-      if (priceArray.length == 2) {
-        price2 = int.parse(priceArray[0]);
-      }
-    } else {
-      price2 = int.parse(price);
-    }
-    return price2;
-  }
-
-  Future<bool> startCustomAlertMessage(BuildContext context, String titleAlert, String image,
+  Future<bool?> startCustomAlertMessage(BuildContext context, String titleAlert, String image,
       String textAlert, Function action, Function actionNegative) async{
    return   await showDialog(
         context: context,
@@ -273,7 +158,7 @@ class _Utils {
         builder: (BuildContext context) => LoadingProgress());
   }
 
-  startOpenSlideUp(BuildContext context, String email, String name) {
+  startOpenSlideUp(BuildContext context, String? email, String? name) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -293,7 +178,7 @@ class _Utils {
     return false;
   }
 
-  dynamic checkInternet2(Function func, BuildContext context) {
+  dynamic checkInternet2(Function func, BuildContext? context) {
     check().then((internet) {
       if (internet != null && internet) {
         func(true, context);
@@ -394,7 +279,7 @@ class _Utils {
   }
 
   List<String> listMonths() {
-    List<String> lts = List();
+    List<String> lts = [];
     for (int i = 1; i <= 12; i++) {
       if (i <= 9) {
         lts.add("0$i");
@@ -406,7 +291,7 @@ class _Utils {
   }
 
   List<String> listYears() {
-    List<String> lts = List();
+    List<String> lts = [];
     var aux = DateTime.now();
     for (int i = aux.year; i <= aux.year + 10; i++) {
       lts.add('$i');

@@ -18,7 +18,7 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
   final emailController = TextEditingController();
   final commentController = TextEditingController();
   String msgError = '';
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
 
   @override
   Widget build(BuildContext context) {

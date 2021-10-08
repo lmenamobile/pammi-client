@@ -33,7 +33,7 @@ Widget itemProductFavorite(ProductFavorite product, Function openDetail,Function
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(product?.reference?.images[0]?.url),
+                    image: NetworkImage(product.reference?.images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                   ),
                 ),
@@ -44,7 +44,7 @@ Widget itemProductFavorite(ProductFavorite product, Function openDetail,Function
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                        product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
@@ -52,7 +52,7 @@ Widget itemProductFavorite(ProductFavorite product, Function openDetail,Function
                         ),
                       ),
                       Text(
-                        product?.reference?.reference??'',
+                        product.reference?.reference??'',
                         maxLines: 2,
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
@@ -61,7 +61,7 @@ Widget itemProductFavorite(ProductFavorite product, Function openDetail,Function
                         ),
                       ),
                       Text(
-                        formatMoney( product?.reference?.price??'0'),
+                        formatMoney( product.reference?.price??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           color: CustomColors.orange,
@@ -75,7 +75,7 @@ Widget itemProductFavorite(ProductFavorite product, Function openDetail,Function
             Positioned(
                 top: 3,
                 right: 3,
-                child: favorite(true,product?.reference?.id.toString(),removeFavorite))
+                child: favorite(true,product.reference?.id.toString()??'',removeFavorite))
           ],
         ),
       ),

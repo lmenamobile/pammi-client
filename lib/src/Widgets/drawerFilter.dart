@@ -14,7 +14,7 @@ class DrawerFilterPage extends StatefulWidget {
 
 class _DrawerFilterPageState extends State<DrawerFilterPage> {
 
-  NotifyVariablesBloc notifyVariables;
+  late NotifyVariablesBloc notifyVariables;
 
   @override
   Widget build(BuildContext context) {

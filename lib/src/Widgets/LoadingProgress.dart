@@ -8,7 +8,7 @@ class LoadingProgress extends StatefulWidget{
 }
 
 class _LoadingProgressState extends State<LoadingProgress> with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void dispose() {

@@ -16,14 +16,14 @@ class ProductProvider {
     this.giftCard
   });
 
-  int id;
-  String name;
-  String qty;
-  String price;
-  String total;
-  Reference reference;
-  OfferOrder offerOrder;
-  GiftCard giftCard;
+  int? id;
+  String? name;
+  String? qty;
+  String? price;
+  String? total;
+  Reference? reference;
+  OfferOrder? offerOrder;
+  GiftCard? giftCard;
 
   factory ProductProvider.fromJson(Map<String, dynamic> json) => ProductProvider(
     id: json["id"],

@@ -34,18 +34,18 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              itemImageOffer(offer?.baseProducts[getRandomPosition(offer?.baseProducts?.length??0)].reference.images[0].url),
+              itemImageOffer(offer.baseProducts![getRandomPosition(offer.baseProducts?.length??0)].reference!.images![0].url!),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 width: 1,
                 height:120,
                 color: CustomColors.grayBackground,
               ),
-              itemImageOffer(offer?.promotionProducts[getRandomPosition(offer?.promotionProducts?.length??0)].reference.images[0].url)],
+              itemImageOffer(offer.promotionProducts![getRandomPosition(offer.promotionProducts?.length??0)].reference!.images![0].url!)],
           ),
           customDivider(),
           Text(
-            offer?.name??'',
+            offer.name??'',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -59,8 +59,8 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: itemDescriptionOffer(Strings.products, offer?.baseProducts)),
-              Expanded(child: itemDescriptionOffer(Strings.productsGift, offer?.promotionProducts))
+              Expanded(child: itemDescriptionOffer(Strings.products, offer.baseProducts!)),
+              Expanded(child: itemDescriptionOffer(Strings.productsGift, offer.promotionProducts!))
             ],
           ),
           customDivider(),
@@ -76,7 +76,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                     CustomColors.blue,
                     Colors.white,
                     (){
-                      addOffer(offer?.id.toString());
+                      addOffer(offer.id.toString());
                     }),
               ),
               InkWell(
@@ -130,7 +130,7 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts){
         physics: NeverScrollableScrollPhysics(),
         itemCount: ltsProducts.isEmpty?0:ltsProducts.length>=1?1:ltsProducts.length,
         itemBuilder: (BuildContext context, int index) {
-          return charactersOffers(ltsProducts[index].reference);
+          return charactersOffers(ltsProducts[index].reference!);
         },
       )
     ],
@@ -151,7 +151,7 @@ Widget charactersOffers(Reference reference){
         ),
       ),
       Text(
-        formatMoney(reference?.price??'0'),
+        formatMoney(reference.price??'0'),
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontMedium,
@@ -162,7 +162,7 @@ Widget charactersOffers(Reference reference){
   );
 }
 
-Widget itemBrandOffer(String url){
+Widget itemBrandOffer(String? url){
   return  Padding(
     padding: const EdgeInsets.all(8.0),
     child: Container(
@@ -184,7 +184,7 @@ Widget itemBrandOffer(String url){
             ],
             image: DecorationImage(
                 fit: BoxFit.contain,
-                image: url == "" ? AssetImage("Assets/images/spinner.gif") : NetworkImage(url)
+                image: (url == "" ? AssetImage("Assets/images/spinner.gif") : NetworkImage(url!)) as ImageProvider<Object>
             )
         )
     ),

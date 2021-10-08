@@ -4,8 +4,8 @@ class Warranty {
     this.warrantyProduct,
   });
 
-  int id;
-  String warrantyProduct;
+  int? id;
+  String? warrantyProduct;
 
   factory Warranty.fromJson(Map<String, dynamic> json) => Warranty(
     id: json["id"],

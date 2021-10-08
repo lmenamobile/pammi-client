@@ -9,17 +9,17 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class QualificationPage extends StatefulWidget {
-  final String subOrderId, idQualification,data;
+  final String? subOrderId, idQualification,data;
   final int optionView;
   const QualificationPage(
-      {@required this.optionView,@required this.subOrderId, @required this.idQualification,this.data});
+      {required this.optionView,required this.subOrderId, required this.idQualification,this.data});
 
   @override
   _QualificationPageState createState() => _QualificationPageState();
 }
 
 class _QualificationPageState extends State<QualificationPage> {
-  ProviderOrder providerOrder;
+  ProviderOrder? providerOrder;
   var valueRating = '1';
   final commentController = TextEditingController();
 
@@ -43,13 +43,13 @@ class _QualificationPageState extends State<QualificationPage> {
     switch (option) {
       case 0:
         return qualificationProvider();
-        break;
+
       case 1:
         return viewQualificationProduct();
-        break;
+
       case 2:
         return viewQualificationSeller();
-        break;
+
       default:
         return qualificationProvider();
     }
@@ -162,7 +162,7 @@ class _QualificationPageState extends State<QualificationPage> {
                 height: 90,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(widget?.data??''),
+                  image: NetworkImage(widget.data??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -296,7 +296,7 @@ class _QualificationPageState extends State<QualificationPage> {
               height: 90,
               child: FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(widget?.data??''),
+                image: NetworkImage(widget.data??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
               ),
             ),
@@ -379,14 +379,14 @@ class _QualificationPageState extends State<QualificationPage> {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: providerOrder?.lstImagesBrands==null?0:providerOrder.lstImagesBrands.length,
+        itemCount: providerOrder?.lstImagesBrands==null?0:providerOrder!.lstImagesBrands.length,
         itemBuilder: (_, int index) {
           return CircleAvatar(
             radius: 30,
             backgroundColor: Colors.white,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(50)),
-                child: Image.network(providerOrder.lstImagesBrands[index])),
+                child: Image.network(providerOrder!.lstImagesBrands[index]!)),
           );
         },
       ),
@@ -396,7 +396,7 @@ class _QualificationPageState extends State<QualificationPage> {
   qualificationUserProvider() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrders = providerOrder.qualificationProvider(
+        Future callOrders = providerOrder!.qualificationProvider(
             widget.idQualification, valueRating, widget.subOrderId);
         await callOrders.then((msg) {
           Navigator.pop(context);
@@ -413,7 +413,7 @@ class _QualificationPageState extends State<QualificationPage> {
   qualificationProduct() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrders = providerOrder.qualificationProduct(
+        Future callOrders = providerOrder!.qualificationProduct(
             widget.idQualification,
             valueRating,
             widget.subOrderId,
@@ -433,7 +433,7 @@ class _QualificationPageState extends State<QualificationPage> {
   qualificationSeller() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrders = providerOrder.qualificationSeller(
+        Future callOrders = providerOrder!.qualificationSeller(
             widget.idQualification, valueRating, widget.subOrderId);
         await callOrders.then((msg) {
           Navigator.pop(context);

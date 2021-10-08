@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -22,10 +22,10 @@ Widget itemCategory(Category category) {
           height: 60,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: convertColor(category.color),
+              color: convertColor(category.color!),
               boxShadow: [
                 BoxShadow(
-                    color: convertColor(category.color).withOpacity(.4),
+                    color: convertColor(category.color!).withOpacity(.4),
                     blurRadius: 7,
                     offset: Offset(2, 3))
               ]),
@@ -33,14 +33,14 @@ Widget itemCategory(Category category) {
             child: FadeInImage(
               height: 40,
               fit: BoxFit.fill,
-              image: NetworkImage(category.image),
+              image: NetworkImage(category.image!),
               placeholder: AssetImage("Assets/images/spinner.gif"),
             ),
           ),
         ),
         SizedBox(height: 15),
         Text(
-          category.category,
+          category.category!,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: Strings.fontRegular,
@@ -98,7 +98,7 @@ Widget boxSearchNextPage( TextEditingController searchController,Function search
 }
 
 
-Widget boxSearchHome( TextEditingController searchController,Function searchElements) {
+Widget boxSearchHome( TextEditingController searchController,Function? searchElements) {
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -121,7 +121,7 @@ Widget boxSearchHome( TextEditingController searchController,Function searchElem
           child: TextField(
             controller: searchController,
             onChanged: (value){
-              searchElements(value);
+              searchElements!(value);
             },
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
@@ -169,36 +169,38 @@ Widget itemBrand(Brand brand){
     ),
     child: FadeInImage(
       fit: BoxFit.fill,
-      image: NetworkImage(brand.image),
+      image: NetworkImage(brand.image!),
       placeholder: AssetImage(""),
     ),
   );
 }
 
-Widget sliderBanner(int indexSlider,Function updateIndex, List<Banners> banners){
+Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners){
   return Stack(
     children: [
-      Swiper(
-          itemBuilder: (_, int index) {
-            return FadeInImage(
-                fit: BoxFit.fill,
-                image: NetworkImage(banners.isEmpty?"":banners[index]?.image),
-                placeholder: AssetImage("Assets/images/preloader.gif"),
-              );
-          },
-          autoplay: false,
-          itemCount: banners.isEmpty?0:banners.length,
-          duration: 4000,
-          onIndexChanged: (index) {
-            updateIndex(index);
-          }),
+      CarouselSlider.builder(
+        itemCount: banners.isEmpty?0:banners.length,
+        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+            FadeInImage(
+              fit: BoxFit.fill,
+              image: NetworkImage(banners[itemIndex].image??''),
+              placeholder: AssetImage("Assets/images/preloader.gif"),
+            ), options: CarouselOptions(
+      autoPlay: true,
+      autoPlayAnimationDuration: Duration(seconds: 4),
+      onPageChanged: (index,changeType){
+        updateIndex(index);
+      }
+  )
+       ,
+      ),
       banners.isEmpty?Container():Positioned(
         bottom: 25,
         left: 0,
         right: 0,
         child: DotsIndicator(
           dotsCount: banners.length,
-          position: indexSlider.toDouble(),
+          position: indexSlider!.toDouble(),
           decorator: DotsDecorator(
             activeColor: CustomColors.redTour,
             size: const Size.square(9),
@@ -213,7 +215,7 @@ Widget sliderBanner(int indexSlider,Function updateIndex, List<Banners> banners)
 }
 
 Widget itemProduct(Product product){
-  int position = getRandomPosition(product?.references?.length??0);
+  int position = getRandomPosition(product.references?.length??0);
   return Container(
     width: 150,
     decoration: BoxDecoration(
@@ -256,7 +258,7 @@ Widget itemProduct(Product product){
                     height: 30,
                     child: FadeInImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(product?.brandProvider?.brand?.image),
+                      image: NetworkImage(product.brandProvider?.brand?.image??''),
                       placeholder: AssetImage("Assets/images/preloader.gif"),
               ),
                   ),
@@ -269,7 +271,7 @@ Widget itemProduct(Product product){
               height: 90,
               child: FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(product?.references[position].images[getRandomPosition(product?.references[position].images.length)].url??''),
+                image: NetworkImage(product.references![position].images![getRandomPosition(product.references![position].images!.length)].url??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
               ),
             ),
@@ -315,7 +317,7 @@ Widget itemProduct(Product product){
                       ),
                     ),
                     Text(
-                      product.references.isNotEmpty?formatMoney(product?.references[position].price):formatMoney("0"),
+                      product.references!.isNotEmpty?formatMoney(product.references![position].price):formatMoney("0"),
                       style: TextStyle(
                           fontSize: 13,
                           fontFamily: Strings.fontBold,
@@ -332,13 +334,13 @@ Widget itemProduct(Product product){
             top: 3,
             right: 3,
             child: Visibility(
-              visible: product?.references[position].totalProductOffer.status??false,
+              visible: product.references![position].totalProductOffer!.status??false,
               child: CircleAvatar(
                 radius: 11,
                 backgroundColor: CustomColors.redTour,
                 child: Center(
                   child: Text(
-                    product?.references[position].totalProductOffer.discountValue+"%"??'0',
+                    product.references![position].totalProductOffer!.discountValue!+"%",
                     style: TextStyle(
                         fontSize: 10,
                         color: Colors.white

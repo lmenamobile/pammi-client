@@ -1,9 +1,9 @@
 
 class StatesCountry{
-  int id;
-  String name;
-  int totalCities;
-  String status;
+  int? id;
+  String? name;
+  int? totalCities;
+  String? status;
 
   StatesCountry({
     this.id,

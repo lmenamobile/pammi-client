@@ -1,4 +1,3 @@
-import 'package:wawamko/src/Models/Order/OfferOrder.dart';
 import 'package:wawamko/src/Models/Order/ProductProvider.dart';
 import 'package:wawamko/src/Models/ShopCart/ProviderProduct.dart';
 
@@ -16,16 +15,16 @@ class PackageProvider {
     this.providerProduct,
   });
 
-  int id;
-  String subtotal;
-  String tax;
-  String total;
-  String discountCoupon;
-  String discountGiftCard;
-  String shippingValue;
-  String status;
-  ProviderProduct providerProduct;
-  List<ProductProvider> productsProvider;
+  int? id;
+  String? subtotal;
+  String? tax;
+  String? total;
+  String? discountCoupon;
+  String? discountGiftCard;
+  String? shippingValue;
+  String? status;
+  ProviderProduct? providerProduct;
+  List<ProductProvider>? productsProvider;
 
 
   factory PackageProvider.fromJson(Map<String, dynamic> json) => PackageProvider(

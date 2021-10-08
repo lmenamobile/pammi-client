@@ -24,20 +24,20 @@ class Reference {
 
   });
 
-  int id;
-  String sku;
-  String reference;
-  String price;
-  String iva;
-  String qty;
-  String color;
-  String qualification;
-  List<ImageProduct> images;
-  List<CommentProduct> ltsComments;
-  bool isSelected = false;
-  bool isFavorite = false;
-  BrandAndProduct brandAndProduct;
-  TotalProductOffer totalProductOffer;
+  int? id;
+  String? sku;
+  String? reference;
+  String? price;
+  String? iva;
+  String? qty;
+  String? color;
+  String? qualification;
+  List<ImageProduct>? images;
+  List<CommentProduct>? ltsComments;
+  bool? isSelected = false;
+  bool? isFavorite = false;
+  BrandAndProduct? brandAndProduct;
+  TotalProductOffer? totalProductOffer;
 
 
 
@@ -66,6 +66,6 @@ class Reference {
     "iva": iva,
     "qty": qty,
     "color": color,
-    "images": List<dynamic>.from(images.map((x) => x.toJson())),
+    "images": List<dynamic>.from(images!.map((x) => x.toJson())),
   };
 }

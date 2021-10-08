@@ -15,9 +15,9 @@ import '../Widgets.dart';
 
 
 class RegisterSocialNetworkPage extends StatefulWidget {
-  final String name, email, typeRegister;
+  final String? name, email, typeRegister;
 
-  const RegisterSocialNetworkPage({@required this.name, @required this.email, @required this.typeRegister});
+  const RegisterSocialNetworkPage({required this.name, required this.email, required this.typeRegister});
   @override
   _RegisterSocialNetworkPageState createState() => _RegisterSocialNetworkPageState();
 }
@@ -27,8 +27,8 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   final countryController = TextEditingController();
   final cityController = TextEditingController();
   final phoneController = TextEditingController();
-  ProviderSettings providerSettings;
-  OnboardingProvider providerOnBoarding;
+  ProviderSettings? providerSettings;
+  late OnboardingProvider providerOnBoarding;
   String msgError = '';
 
   @override
@@ -38,9 +38,9 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     providerOnBoarding.stateTerms = false;
     providerOnBoarding.stateDates = false;
     providerOnBoarding.stateCentrals = false;
-    providerSettings.countrySelected = null;
-    providerSettings.stateCountrySelected = null;
-    providerSettings.citySelected = null;
+    providerSettings!.countrySelected = null;
+    providerSettings!.stateCountrySelected = null;
+    providerSettings!.citySelected = null;
     super.initState();
   }
 
@@ -50,7 +50,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
-    cityController.text = providerSettings?.citySelected?.name;
+    cityController.text = providerSettings?.citySelected?.name??'';
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
       body: SafeArea(
@@ -215,7 +215,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
 
   openSelectCountry()async{
      await Navigator.push(context, customPageTransition(SelectCountryPage()));
-     countryController.text = providerSettings?.countrySelected?.country;
+     countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
   openSelectCityByState(){
@@ -257,7 +257,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerOnBoarding.createAccountSocialNetwork(widget.name, widget.email, phoneController.text,
-            providerSettings?.citySelected?.id.toString(), referredController.text??'',providerOnBoarding.stateContactCommercial,widget.typeRegister);
+            providerSettings?.citySelected?.id.toString()??'', referredController.text,providerOnBoarding.stateContactCommercial,widget.typeRegister);
         await callUser.then((user) {
           Navigator.pushAndRemoveUntil(
               context,

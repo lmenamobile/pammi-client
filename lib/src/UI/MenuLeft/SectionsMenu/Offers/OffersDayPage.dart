@@ -26,9 +26,9 @@ class _OffersDayPageState extends State<OffersDayPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   final searchController = TextEditingController();
   RefreshController _refreshView = RefreshController(initialRefresh: false);
-  ProviderProducts providerProducts;
-  ProviderHome providerHome;
-  ProviderShopCart providerShopCart;
+  late ProviderProducts providerProducts;
+  late ProviderHome providerHome;
+  late ProviderShopCart providerShopCart;
   int pageOffsetUnits = 0;
   int pageOffsetMix = 0;
 
@@ -63,7 +63,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
               Strings.offersDay,
               "ic_blue_arrow.png",
               "ic_car.png",
-                  () =>keyMenuLeft.currentState.openDrawer(),
+                  () =>keyMenuLeft.currentState!.openDrawer(),
                   ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
               Visibility(
                 visible: providerHome.ltsBrands.isNotEmpty,
@@ -185,7 +185,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                       image: AssetImage("Assets/images/ic_backward_arrow.png"),
                     ),
                   ),
-                  onTap: () => keyMenuLeft.currentState.openDrawer(),
+                  onTap: () => keyMenuLeft.currentState!.openDrawer(),
                 ),
                 Text(
                   Strings.offersDay,

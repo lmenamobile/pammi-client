@@ -29,7 +29,6 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:http/http.dart' as http;
-import '../SearchCountryAndCity/selectCountry.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -40,10 +39,10 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   SharePreference prefs = SharePreference();
-  NotifyVariablesBloc notifyVariables;
+  NotifyVariablesBloc? notifyVariables;
   GlobalVariables globalVariables = GlobalVariables();
-  OnboardingProvider providerOnboarding;
-  ProviderSettings providerSettings;
+  late OnboardingProvider providerOnboarding;
+  ProviderSettings? providerSettings;
   var obscureTextPass = true;
   String msgError = '';
 
@@ -53,8 +52,8 @@ class _LoginPageState extends State<LoginPage> {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () async => showAlertActions(
-        context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)),
+        onWillPop: (() async => showAlertActions(
+        context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)) as Future<bool>),
         child: SafeArea(
           child:  Stack(
               children: [
@@ -223,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: notifyVariables.intLogin.validatePassword
+                  color: notifyVariables!.intLogin.validatePassword!
                       ? CustomColors.blueSplash
                       : CustomColors.gray.withOpacity(.3),
                   width: 1),
@@ -238,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: 35,
                     height: 35,
                     fit: BoxFit.fill,
-                    image: notifyVariables.intLogin.validatePassword
+                    image: notifyVariables!.intLogin.validatePassword!
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
                   ),
@@ -273,10 +272,10 @@ class _LoginPageState extends State<LoginPage> {
                         onChanged: (value) {
                           if (validatePwd(value)) {
                             print("true");
-                            notifyVariables.intLogin.validatePassword = true;
+                            notifyVariables!.intLogin.validatePassword = true;
                             setState(() {});
                           } else {
-                            notifyVariables.intLogin.validatePassword = false;
+                            notifyVariables!.intLogin.validatePassword = false;
                             setState(() {});
                           }
                           // bloc.changePassword(value);
@@ -443,7 +442,7 @@ class _LoginPageState extends State<LoginPage> {
     await fb.logOut();
    switch (result.status) {
       case FacebookLoginStatus.success:
-        getUserInfoFB(result.accessToken.token);
+        getUserInfoFB(result.accessToken!.token);
         break;
      case FacebookLoginStatus.cancel:
        utils.showSnackBar(context, Strings.errorFacebook);
@@ -457,7 +456,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
   void getUserInfoFB(String token) async {
-    final response = await http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token');
+    final response = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
     final profile = json.decode(response.body);
     print(profile.toString());
     if (profile['email'] != null && profile['name'] != null) {

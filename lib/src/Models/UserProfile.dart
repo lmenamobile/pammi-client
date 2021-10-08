@@ -18,18 +18,18 @@ class UserProfile {
     this.city
   });
 
-  String id;
-  String fullname;
-  String email;
-  String documentType;
-  String document;
-  String photoUrl;
-  String phone;
-  String identyIos;
-  bool verifyedAccount;
-  String type;
-  String verificationCode;
-  City city;
+  String? id;
+  String? fullname;
+  String? email;
+  String? documentType;
+  String? document;
+  String? photoUrl;
+  String? phone;
+  String? identyIos;
+  bool? verifyedAccount;
+  String? type;
+  String? verificationCode;
+  City? city;
 
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -60,6 +60,6 @@ class UserProfile {
     "verifyedAccount": verifyedAccount,
     "type": type,
     "verificationCode": verificationCode,
-    "city": city.toJson(),
+    "city": city!.toJson(),
   };
 }

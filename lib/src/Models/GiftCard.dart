@@ -7,11 +7,11 @@ class GiftCard {
     this.total
   });
 
-  int id;
-  String name;
-  String value;
-  String type;
-  String total;
+  int? id;
+  String? name;
+  String? value;
+  String? type;
+  String? total;
 
   factory GiftCard.fromJson(Map<String, dynamic> json) => GiftCard(
     id: json["id"],

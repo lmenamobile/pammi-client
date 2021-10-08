@@ -23,9 +23,9 @@ class ShopCartPage extends StatefulWidget {
 }
 
 class _ShopCartPageState extends State<ShopCartPage> {
-  ProviderShopCart providerShopCart;
-  ProviderProducts providerProducts;
-  ProviderUser providerUser;
+  ProviderShopCart? providerShopCart;
+  late ProviderProducts providerProducts;
+  late ProviderUser providerUser;
   int pageOffsetProductsRelations = 0;
 
   @override
@@ -33,8 +33,8 @@ class _ShopCartPageState extends State<ShopCartPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context, listen: false);
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     providerProducts.ltsProductsRelationsByReference.clear();
-    providerShopCart.shopCart = null;
-    providerShopCart.totalProductsCart = "0";
+    providerShopCart!.shopCart = null;
+    providerShopCart!.totalProductsCart = "0";
     getShopCart();
     super.initState();
   }
@@ -78,7 +78,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                           : SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  providerShopCart.shopCart.packagesProvider.isEmpty? sectionGiftCard():listProductsByProvider() ,
+                                  providerShopCart!.shopCart!.packagesProvider!.isEmpty? sectionGiftCard():listProductsByProvider() ,
                                   itemSubtotalCart(
                                       providerShopCart?.shopCart?.totalCart,
                                       () => Navigator.push(
@@ -133,7 +133,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
             : providerShopCart?.shopCart?.packagesProvider?.length,
         itemBuilder: (BuildContext context, int index) {
           return cardListProductsByProvider(
-              providerShopCart?.shopCart?.packagesProvider[index],
+              providerShopCart!.shopCart!.packagesProvider![index],
               updateOfferOrProduct,
               deleteProduct,
               saveProduct);
@@ -172,7 +172,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   callIsFavorite(Reference reference){
-    if(reference.isFavorite){
+    if(reference.isFavorite!){
       removeFavoriteProduct(reference);
     }else{
       saveFavoriteProduct(reference);
@@ -182,13 +182,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getShopCart();
+        Future callCart = providerShopCart!.getShopCart();
         await callCart.then((msg) {
-          if(providerShopCart.shopCart!=null)
+          if(providerShopCart!.shopCart!=null)
           getProductsRelations();
         }, onError: (error) {
-          providerShopCart.shopCart = null;
-          providerShopCart.isLoadingCart = false;
+          providerShopCart!.shopCart = null;
+          providerShopCart!.isLoadingCart = false;
          // utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -200,7 +200,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   updateProductCart(int quantity, String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.updateQuantityProductCart(
+        Future callCart = providerShopCart!.updateQuantityProductCart(
             idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
@@ -218,7 +218,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart =
-            providerShopCart.addGiftCard(idReference, quantity.toString());
+            providerShopCart!.addGiftCard(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -235,7 +235,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart =
-            providerShopCart.addOfferCart(idOffer, quantity.toString());
+            providerShopCart!.addOfferCart(idOffer, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -257,18 +257,17 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   deleteProduct(String idProduct) async {
-    bool status = await showDialogDoubleAction(
-        context, Strings.delete, Strings.deleteProduct, "ic_trash_big.png");
-    if (status)
+    bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteProduct, "ic_trash_big.png");
+    if (status??false)
       utils.checkInternet().then((value) async {
         if (value) {
-          Future callCart = providerShopCart.deleteProductCart(idProduct);
+          Future callCart = providerShopCart!.deleteProductCart(idProduct);
           await callCart.then((msg) {
-            providerShopCart.shopCart = null;
+            providerShopCart!.shopCart = null;
             getShopCart();
             utils.showSnackBarGood(context, msg.toString());
           }, onError: (error) {
-            providerShopCart.isLoadingCart = false;
+            providerShopCart!.isLoadingCart = false;
             utils.showSnackBar(context, error.toString());
           });
         } else {
@@ -279,18 +278,17 @@ class _ShopCartPageState extends State<ShopCartPage> {
 
   deleteCart() async {
     if(providerShopCart?.shopCart != null) {
-      bool status = await showDialogDoubleAction(
-          context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
-      if (status)
+      bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
+      if (status??false)
         utils.checkInternet().then((value) async {
           if (value) {
-            Future callCart = providerShopCart.deleteCart();
+            Future callCart = providerShopCart!.deleteCart();
             await callCart.then((msg) {
               //getShopCart();
-              providerShopCart.shopCart = null;
+              providerShopCart!.shopCart = null;
               utils.showSnackBarGood(context, msg.toString());
             }, onError: (error) {
-              providerShopCart.isLoadingCart = false;
+              providerShopCart!.isLoadingCart = false;
               utils.showSnackBar(context, error.toString());
             });
           } else {
@@ -303,12 +301,12 @@ class _ShopCartPageState extends State<ShopCartPage> {
   saveProduct(String idReference, String quantity, String idProduct) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.saveReference(idReference, quantity);
+        Future callCart = providerShopCart!.saveReference(idReference, quantity);
         await callCart.then((msg) {
           deleteProduct(idProduct);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          providerShopCart.isLoadingCart = false;
+          providerShopCart!.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -321,10 +319,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callProducts = providerProducts.getProductsRelationByReference(
-            pageOffsetProductsRelations,
-            providerShopCart
-                ?.shopCart?.packagesProvider[0].products[0].reference?.id
-                .toString());
+            pageOffsetProductsRelations, providerShopCart?.shopCart?.packagesProvider?[0].products?[0].reference?.id?.toString()??'');
         await callProducts.then((list) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
@@ -18,7 +18,7 @@ customPageTransition(Widget page) {
   return PageTransition(
       curve: Curves.decelerate,
       child: page,
-      type: PageTransitionType.slideInLeft,
+      type: PageTransitionType.rightToLeft,
       duration: Duration(milliseconds: 600));
 }
 
@@ -77,8 +77,8 @@ Widget titleBar(String title, String icon, Function action) {
   );
 }
 
-Widget btnCustom(double width,String nameButton, Color colorBackground, Color colorText,
-    Function action) {
+Widget btnCustom(double? width,String nameButton, Color colorBackground, Color colorText,
+    Function? action) {
   return Container(
     width: width??200,
     height: 40,
@@ -201,7 +201,7 @@ Widget btnCustomSize(double height, String nameButton, Color colorBackground,
 }
 
 Widget itemProductGeneric(Product product, Function openDetail){
-  int position = getRandomPosition(product?.references?.length??0);
+  int position = getRandomPosition(product.references?.length??0);
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -229,7 +229,7 @@ Widget itemProductGeneric(Product product, Function openDetail){
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(product?.references[position]?.images[0]?.url),
+                    image: NetworkImage(product.references?[position].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                   ),
                 ),
@@ -240,7 +240,7 @@ Widget itemProductGeneric(Product product, Function openDetail){
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product?.brandProvider?.brand?.brand??'',
+                        product.brandProvider?.brand?.brand??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
@@ -248,7 +248,7 @@ Widget itemProductGeneric(Product product, Function openDetail){
                         ),
                       ),
                       Text(
-                        product?.references[position]?.reference??'',
+                        product.references?[position].reference??'',
                         maxLines: 2,
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
@@ -257,7 +257,7 @@ Widget itemProductGeneric(Product product, Function openDetail){
                         ),
                       ),
                       Text(
-                        formatMoney( product?.references[position]?.price??'0'),
+                        formatMoney( product.references?[position].price??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           color: CustomColors.orange,
@@ -700,9 +700,9 @@ Future<dynamic> openSelectBank(
 }
 
 
-Future<bool> showCustomAlertDialog(
+Future<bool?> showCustomAlertDialog(
     BuildContext context, String title, String msg) async {
-  bool state = await showDialog(
+  bool? state = await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) =>
@@ -711,9 +711,9 @@ Future<bool> showCustomAlertDialog(
   return state;
 }
 
-Future<bool> showAlertActions(BuildContext context, String title, String msg,
+Future<bool?> showAlertActions(BuildContext context, String title, String msg,
     String asset, Function positive, Function negative) async {
-  bool state = await showDialog(
+  bool? state = await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) =>
@@ -722,9 +722,9 @@ Future<bool> showAlertActions(BuildContext context, String title, String msg,
   return state;
 }
 
-Future<bool> showDialogDoubleAction(BuildContext context, String title, String msg,
+Future<bool?> showDialogDoubleAction(BuildContext context, String title, String msg,
     String asset) async {
-  bool state = await showDialog(
+  bool? state = await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) =>

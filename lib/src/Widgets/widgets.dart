@@ -2,16 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
+
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address.dart';
-import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
-import 'package:wawamko/src/UI/ProductsCampaigns.dart';
 
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -22,19 +19,19 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'ExpansionWidget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
-NotifyVariablesBloc notifyVariables;
+NotifyVariablesBloc? notifyVariables;
 
 
 
 Widget customBoxEmailLogin(TextEditingController emailController,
-    NotifyVariablesBloc notifyVariables, Function refresh) {
+    NotifyVariablesBloc? notifyVariables, Function refresh) {
   return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           border: Border.all(
-              color: !notifyVariables.intLogin.validateEmail
+              color: !notifyVariables!.intLogin.validateEmail!
                   ? CustomColors.gray.withOpacity(.3)
                   : CustomColors.blueSplash,
               width: 1),
@@ -48,7 +45,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
               Image(
                 width: 35,
                 height: 35,
-                image: !notifyVariables.intLogin.validateEmail
+                image: !notifyVariables.intLogin.validateEmail!
                     ? AssetImage("Assets/images/ic_email.png")
                     : AssetImage("Assets/images/ic_email_blue.png"),
               ),
@@ -98,14 +95,14 @@ Widget customBoxEmailLogin(TextEditingController emailController,
 }
 
 Widget customBoxEmailForgotPass(TextEditingController emailController,
-    NotifyVariablesBloc notifyVariables, Function refresh) {
+    NotifyVariablesBloc? notifyVariables, Function refresh) {
   return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           border: Border.all(
-              color: !notifyVariables.intForPass.validateEmail
+              color: !notifyVariables!.intForPass.validateEmail!
                   ? CustomColors.gray.withOpacity(.3)
                   : CustomColors.blueSplash,
               width: 1),
@@ -119,7 +116,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
               Image(
                 width: 35,
                 height: 35,
-                image: !notifyVariables.intForPass.validateEmail
+                image: !notifyVariables.intForPass.validateEmail!
                     ? AssetImage("Assets/images/ic_email.png")
                     : AssetImage("Assets/images/ic_email_blue.png"),
               ),
@@ -169,7 +166,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
 }
 
 Widget customBoxEmailRegister(TextEditingController emailController,
-    NotifyVariablesBloc notifyVariables, Function refresh) {
+    NotifyVariablesBloc? notifyVariables, Function refresh) {
   return StreamBuilder(
       // stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -221,10 +218,10 @@ Widget customBoxEmailRegister(TextEditingController emailController,
                         ),
                         onChanged: (value) {
                           if (validateEmail(value)) {
-                            notifyVariables.intRegister.validateEmail = true;
+                            notifyVariables!.intRegister.validateEmail = true;
                             refresh();
                           } else {
-                            notifyVariables.intRegister.validateEmail = false;
+                            notifyVariables!.intRegister.validateEmail = false;
                             refresh();
                           }
                         },
@@ -420,14 +417,14 @@ Widget itemAddress(Address address, Function delete, Function selectAddress) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  address.address,
+                  address.address!,
                   style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 16,
                       color: CustomColors.blackLetter),
                 ),
                 Text(
-                  address.complement,
+                  address.complement!,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
@@ -671,7 +668,7 @@ Widget itemHelpCenterExpanded(
                   child: Container(
                       width: double.infinity,
                       child: Text(
-                        question.question,
+                        question.question!,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: Strings.fontBold,
@@ -924,54 +921,7 @@ Widget itemInfoShopCar() {
   );
 }
 
-Widget itemBannerCampaign(BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(bottom: 10, top: 5),
-      height: 127,
-      width: double.infinity,
-      child: Stack(
-        children: <Widget>[
-          Container(
-              height: 127,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(11)),
-                child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("Assets/images/banner.png")),
-              )),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Image(
-              width: 42,
-              height: 42,
-              image: AssetImage("Assets/images/ic_orange_arrow.png"),
-            ),
-          ),
-          Positioned(
-              left: 22,
-              bottom: 9,
-              right: 190,
-              child: Text(
-                "Aqui nombre de la campaña",
-                style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 15,
-                    color: CustomColors.white),
-              )),
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: ProductsCampaignsPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
+
 
 Widget headerMenu(
     BuildContext context, String title, GlobalKey<ScaffoldState> _drawerKey) {
@@ -1005,7 +955,7 @@ Widget headerMenu(
                 ),
               ),
               onTap: () {
-                _drawerKey.currentState.openDrawer();
+                _drawerKey.currentState!.openDrawer();
               },
             ),
           ),
@@ -1186,7 +1136,7 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: category.isSelected?convertColor(category.color):Colors.white.withOpacity(.3)
+                    color: category.isSelected?convertColor(category.color!):Colors.white.withOpacity(.3)
                   ),
                 ),
               ),
@@ -1195,7 +1145,7 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                 bottom: 10,
                 child: FadeInImage(
                   height:60,
-                  image: NetworkImage(category.image),
+                  image: NetworkImage(category.image!),
                   placeholder: AssetImage("Assets/images/ic_sport.png"),
                   fit: BoxFit.fill,
                 ),
@@ -1205,7 +1155,7 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
         ),
         SizedBox(height: 10,),
         Text(
-          category?.category??'',
+          category.category??'',
           style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 16,

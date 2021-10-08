@@ -22,15 +22,15 @@ class InterestCategoriesUser extends StatefulWidget {
 class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   RefreshController _refreshCategories =
       RefreshController(initialRefresh: false);
-  List<Category> categoriesSelected = List();
-  ProviderSettings providerSettings;
+  List<Category> categoriesSelected = [];
+  ProviderSettings? providerSettings;
   SharePreference prefs = SharePreference();
   int pageOffset = 0;
 
   @override
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
-    providerSettings.ltsCategories.clear();
+    providerSettings!.ltsCategories.clear();
     serviceGetCategories();
     super.initState();
   }
@@ -115,10 +115,10 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
                                 itemCount:
-                                    providerSettings?.ltsCategories?.length ?? 0,
+                                    providerSettings?.ltsCategories.length ?? 0,
                                 itemBuilder: (BuildContext context, int index) {
                                   return itemCategoryInteresting(
-                                      providerSettings?.ltsCategories[index],
+                                      providerSettings!.ltsCategories[index],
                                       selectCategory);
                                 },
                                 staggeredTileBuilder: (int index) =>
@@ -157,7 +157,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
 
   void clearForRefresh() {
     pageOffset = 0;
-    providerSettings.ltsCategories.clear();
+    providerSettings!.ltsCategories.clear();
     categoriesSelected.clear();
     serviceGetCategories();
   }
@@ -172,7 +172,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   serviceGetCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callSettings = providerSettings.getCategoriesInterest(
+        Future callSettings = providerSettings!.getCategoriesInterest(
             "", pageOffset, prefs.countryIdUser);
         await callSettings.then((list) {}, onError: (error) {
           //utils.showSnackBar(context, error.toString());
@@ -210,7 +210,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callSettings =
-            providerSettings.saveCategories(categoriesSelected);
+            providerSettings!.saveCategories(categoriesSelected);
         await callSettings.then((msg) {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => MyHomePage()),

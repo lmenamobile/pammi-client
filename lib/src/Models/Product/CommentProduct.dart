@@ -1,5 +1,4 @@
 import 'package:wawamko/src/Models/Product/UserComment.dart';
-import 'package:wawamko/src/Models/User.dart';
 
 class CommentProduct {
   CommentProduct({
@@ -10,11 +9,11 @@ class CommentProduct {
     this.user
   });
 
-  int id;
-  String comment;
-  String qualification;
-  DateTime date;
-  UserComment user;
+  int? id;
+  String? comment;
+  String? qualification;
+  DateTime? date;
+  UserComment? user;
 
   factory CommentProduct.fromJson(Map<String, dynamic> json) => CommentProduct(
     id: json["id"],
@@ -28,6 +27,6 @@ class CommentProduct {
     "id": id,
     "comment": comment,
     "qualification": qualification,
-    "date": date.toIso8601String(),
+    "date": date!.toIso8601String(),
   };
 }

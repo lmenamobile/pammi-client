@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Banner.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
@@ -25,8 +24,8 @@ class HighlightsPage extends StatefulWidget {
 
 class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProviderStateMixin{
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
-  ProviderSettings providerSettings;
-  ProviderProducts providerProducts;
+  late ProviderSettings providerSettings;
+  late ProviderProducts providerProducts;
   RefreshController _refreshHighlights = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
@@ -56,7 +55,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
           color: CustomColors.whiteBackGround,
           child: Column(
               children: [
-                titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState.openDrawer()),
+                titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
                 SizedBox(height: 20,),
                 Expanded(child: SmartRefresher(
                     controller: _refreshHighlights,
@@ -141,9 +140,9 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   }
 
   openPageByTypeHighlights(Banners bannerHighlight){
-    if(bannerHighlight.offerHighlights.offerType=="percent"&&bannerHighlight.offerHighlights.reference!=null){
-      getProduct(bannerHighlight.offerHighlights.reference.brandAndProduct.id.toString());
-    }else if(bannerHighlight.offerHighlights.offerType=="units"||bannerHighlight.offerHighlights.offerType=="mixed"){
+    if(bannerHighlight.offerHighlights!.offerType=="percent"&&bannerHighlight.offerHighlights!.reference!=null){
+      getProduct(bannerHighlight.offerHighlights!.reference!.brandAndProduct!.id.toString());
+    }else if(bannerHighlight.offerHighlights!.offerType=="units"||bannerHighlight.offerHighlights!.offerType=="mixed"){
       openDetailOffer(bannerHighlight);
     }else {
       openProductsBySubCategory(bannerHighlight);
@@ -151,12 +150,12 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   }
 
   openDetailOffer(Banners bannerHighlight){
-    Navigator.push(context, customPageTransition(OfferDetail(nameOffer: bannerHighlight.offerHighlights.name,idOffer: bannerHighlight.offerHighlights.id.toString(),)));
+    Navigator.push(context, customPageTransition(OfferDetail(nameOffer: bannerHighlight.offerHighlights!.name,idOffer: bannerHighlight.offerHighlights!.id.toString(),)));
   }
 
   openProductsBySubCategory(Banners bannerHighlight){
     Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: "",
-      idSubcategory: bannerHighlight.offerHighlights.subcategory.id.toString(),
-      idBrandProvider: bannerHighlight.offerHighlights.brandProvider.toString()??null,)));
+      idSubcategory: bannerHighlight.offerHighlights?.subcategory?.id.toString(),
+      idBrandProvider: bannerHighlight.offerHighlights?.brandProvider.toString()??null,)));
   }
 }

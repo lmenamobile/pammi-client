@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
+
 
 
 class CoupondsPage extends StatefulWidget {

@@ -1,45 +1,39 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/Offer.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
-import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/CheckOutPage.dart';
-import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class OfferDetail extends StatefulWidget {
-  final String nameOffer, idOffer;
+  final String? nameOffer, idOffer;
 
-  const OfferDetail({@required this.nameOffer, @required this.idOffer});
+  const OfferDetail({required this.nameOffer, required this.idOffer});
 
   @override
   _OfferDetailState createState() => _OfferDetailState();
 }
 
 class _OfferDetailState extends State<OfferDetail> {
-  ProviderOffer providerOffer;
-  ProviderShopCart providerShopCart;
+  ProviderOffer? providerOffer;
+  late ProviderShopCart providerShopCart;
 
   @override
   void initState() {
     providerOffer = Provider.of<ProviderOffer>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      providerOffer.totalUnits = 1;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      providerOffer!.totalUnits = 1;
       getDetailOffer(widget.idOffer);
     });
     super.initState();
@@ -74,7 +68,7 @@ class _OfferDetailState extends State<OfferDetail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               rowButtonsMoreAndLess(
-                                  providerOffer.totalUnits.toString(),
+                                  providerOffer!.totalUnits.toString(),
                                   addProduct,
                                   removeProduct),
                             ],
@@ -135,7 +129,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                           "ic_pay_add.png",
                                           Strings.addCartShop,
                                           CustomColors.blue,
-                                          Colors.white, (){addOfferCart(providerOffer.detailOffer.id.toString());}),
+                                          Colors.white, (){addOfferCart(providerOffer!.detailOffer.id.toString());}),
                                     ),
                                   )
                                 ],
@@ -155,7 +149,7 @@ class _OfferDetailState extends State<OfferDetail> {
     );
   }
 
-  Widget itemSliderOffer(Reference reference) {
+  Widget itemSliderOffer(Reference? reference) {
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -193,7 +187,7 @@ class _OfferDetailState extends State<OfferDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      providerOffer?.detailOffer?.name ?? '',
+                      providerOffer?.detailOffer.name ?? '',
                       style: TextStyle(
                           fontSize: 22,
                           fontFamily: Strings.fontBold,
@@ -237,17 +231,19 @@ class _OfferDetailState extends State<OfferDetail> {
   Widget sliderProductOffer() {
     return Container(
       height: 390,
-      child: Swiper(
-        itemBuilder: (_, int index) {
-          return itemSliderOffer(providerOffer?.detailOffer?.baseProducts[index].reference);
-        },
-        itemCount: providerOffer?.detailOffer?.baseProducts == null ? 0 : providerOffer.detailOffer.baseProducts.length,
+      child:
+      CarouselSlider.builder(
+        itemCount: providerOffer?.detailOffer.baseProducts == null ? 0 : providerOffer!.detailOffer.baseProducts!.length,
+        itemBuilder: (_, int itemIndex, int pageViewIndex) => itemSliderOffer(providerOffer?.detailOffer.baseProducts![itemIndex].reference),
+          options: CarouselOptions(
+              autoPlay: false,
+          )
       ),
     );
   }
 
-  Widget itemProductOffer(Reference reference, String brand) {
-    int position = getRandomPosition(reference.images.length ?? 0);
+  Widget itemProductOffer(Reference reference, String? brand) {
+    int position = getRandomPosition(reference.images?.length ?? 0);
     return Container(
       width: 160,
       decoration: BoxDecoration(
@@ -273,7 +269,7 @@ class _OfferDetailState extends State<OfferDetail> {
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(reference?.images[position].url),
+                    image: NetworkImage(reference.images?[position].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                   ),
                 ),
@@ -321,22 +317,17 @@ class _OfferDetailState extends State<OfferDetail> {
   Widget listItemsImagesReferences() {
     return ListView.builder(
       itemCount:
-          providerOffer?.detailOffer?.baseProducts[0]?.reference?.images == null
+          providerOffer?.detailOffer.baseProducts?[0].reference?.images == null
               ? 0
-              : providerOffer
-                  ?.detailOffer?.baseProducts[0]?.reference?.images?.length,
+              : providerOffer!.detailOffer.baseProducts![0].reference!.images!.length,
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.only(right: 5),
           child: InkWell(
-              onTap: () => setImageReference(providerOffer
-                  ?.detailOffer?.baseProducts[0]?.reference?.images[index].url),
-              child: itemImageReference(
-                  50,
-                  providerOffer?.detailOffer?.baseProducts[0]?.reference
-                      ?.images[index].url)),
+              onTap: () => setImageReference(providerOffer?.detailOffer.baseProducts?[0].reference?.images?[index].url??''),
+              child: itemImageReference(50, providerOffer?.detailOffer.baseProducts?[0].reference?.images?[index].url??'')),
         );
       },
     );
@@ -344,21 +335,21 @@ class _OfferDetailState extends State<OfferDetail> {
 
   Widget listProductsGiftOffer() {
     return ListView.builder(
-      itemCount: providerOffer?.detailOffer?.promotionProducts == null
+      itemCount: providerOffer?.detailOffer.promotionProducts == null
           ? 0
-          : providerOffer?.detailOffer?.promotionProducts?.length,
+          : providerOffer?.detailOffer.promotionProducts?.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
             padding: const EdgeInsets.all(8.0),
             child: itemProductOffer(
-                providerOffer?.detailOffer?.promotionProducts[index].reference,
-                providerOffer?.detailOffer?.brandProvider?.brand?.brand));
+                providerOffer!.detailOffer.promotionProducts![index].reference!,
+                providerOffer?.detailOffer.brandProvider?.brand?.brand));
       },
     );
   }
 
-  setImageReference(String asset) {
+  setImageReference(String? asset) {
     providerOffer?.imageSelected = asset;
   }
 
@@ -372,18 +363,18 @@ class _OfferDetailState extends State<OfferDetail> {
 
 
   addProduct() {
-    providerOffer?.totalUnits = providerOffer.totalUnits + 1;
+    providerOffer?.totalUnits = providerOffer!.totalUnits + 1;
   }
 
   removeProduct() {
-    if (providerOffer.totalUnits > 1)
-      providerOffer?.totalUnits = providerOffer.totalUnits - 1;
+    if (providerOffer!.totalUnits > 1)
+      providerOffer?.totalUnits = providerOffer!.totalUnits - 1;
   }
 
-  getDetailOffer(String idOffer) async {
+  getDetailOffer(String? idOffer) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOffer = providerOffer.getDetailOffer(idOffer);
+        Future callOffer = providerOffer!.getDetailOffer(idOffer);
         await callOffer.then((offer) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -396,7 +387,7 @@ class _OfferDetailState extends State<OfferDetail> {
   addOfferCart(String idOffer) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(idOffer, providerOffer?.totalUnits.toString());
+        Future callCart = providerShopCart.addOfferCart(idOffer, providerOffer?.totalUnits.toString()??'');
         await callCart.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
@@ -411,7 +402,7 @@ class _OfferDetailState extends State<OfferDetail> {
   paymentNow() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(providerOffer.detailOffer.id.toString(), providerOffer?.totalUnits.toString());
+        Future callCart = providerShopCart.addOfferCart(providerOffer!.detailOffer.id.toString(), providerOffer?.totalUnits.toString()??'');
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());

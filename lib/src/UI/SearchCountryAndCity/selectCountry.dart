@@ -22,8 +22,8 @@ class SelectCountryPage extends StatefulWidget {
 class _SelectCountryPageState extends State<SelectCountryPage> {
   final countryController = TextEditingController();
   RefreshController _refreshCountries = RefreshController(initialRefresh: false);
-  ProviderSettings providerSettings;
-  OnboardingProvider providerOnBoarding;
+  late ProviderSettings providerSettings;
+  OnboardingProvider? providerOnBoarding;
   int pageOffset = 0;
 
   @override
@@ -179,7 +179,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getCountries(countryController.text??'');
+    getCountries(countryController.text);
     _refreshCountries.loadComplete();
   }
 

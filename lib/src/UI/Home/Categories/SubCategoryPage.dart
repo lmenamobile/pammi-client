@@ -16,13 +16,13 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 class SubCategoryPage extends StatefulWidget{
   final Category category;
 
-  const SubCategoryPage({@required this.category});
+  const SubCategoryPage({required this.category});
   @override
   _SubCategoryPageState createState() => _SubCategoryPageState();
 }
 
 class _SubCategoryPageState extends State<SubCategoryPage> {
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   SharePreference prefs = SharePreference();
   RefreshController _refreshSubCategories =
   RefreshController(initialRefresh: false);
@@ -33,7 +33,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context,listen: false);
     providerSettings.ltsSubCategories.clear();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       getSubCategories(widget.category.id.toString());
     });
     super.initState();
@@ -51,7 +51,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
             children: [
               Column(
                 children: [
-                  titleBar(widget.category.category,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
+                  titleBar(widget.category.category!,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshSubCategories,

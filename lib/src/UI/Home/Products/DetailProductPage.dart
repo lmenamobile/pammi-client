@@ -21,23 +21,23 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 class DetailProductPage extends StatefulWidget {
   final Product product;
 
-  const DetailProductPage({@required this.product});
+  const DetailProductPage({required this.product});
 
   @override
   _DetailProductPageState createState() => _DetailProductPageState();
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
-  ProviderProducts providerProducts;
-  ProviderShopCart providerShopCart;
+  ProviderProducts? providerProducts;
+  late ProviderShopCart providerShopCart;
 
   @override
   void initState() {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      providerProducts.productDetail = widget.product;
-      providerProducts.referenceProductSelected = widget.product.references[0];
-      providerProducts.unitsProduct = 1;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      providerProducts!.productDetail = widget.product;
+      providerProducts!.referenceProductSelected = widget.product.references![0];
+      providerProducts!.unitsProduct = 1;
     });
     super.initState();
   }
@@ -54,7 +54,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
           child: Column(
             children: [
               titleBarWithDoubleAction(
-                  widget.product.product,
+                  widget.product.product!,
                   "ic_blue_arrow.png",
                   "ic_car.png",
                   () => Navigator.pop(context),
@@ -139,7 +139,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                                   35,
                                                   providerProducts
                                                           ?.referenceProductSelected
-                                                          ?.images[0]
+                                                          ?.images![0]
                                                           .url ??
                                                       ''),
                                               SizedBox(
@@ -208,7 +208,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     color: CustomColors.orange),
                               ),
                               rowButtonsMoreAndLess(
-                                  providerProducts.unitsProduct.toString(),
+                                  providerProducts!.unitsProduct.toString(),
                                   addProduct,
                                   removeProduct),
                               customDivider(),
@@ -382,11 +382,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
           padding: const EdgeInsets.only(right: 5),
           child: InkWell(
               onTap: () => setImageReference(providerProducts
-                  ?.referenceProductSelected?.images[index].url),
+                  ?.referenceProductSelected?.images![index].url),
               child: itemImageReference(
                   50,
-                  providerProducts
-                      ?.referenceProductSelected?.images[index].url)),
+                  providerProducts?.referenceProductSelected?.images?[index].url??'')),
         );
       },
     );
@@ -401,13 +400,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
       itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.only(right: 5,bottom: 5),
-          child: itemComment(providerProducts?.referenceProductSelected?.ltsComments[index]),
+          child: itemComment(providerProducts!.referenceProductSelected!.ltsComments![index]),
         );
       },
     );
   }
 
-  setImageReference(String asset) {
+  setImageReference(String? asset) {
     providerProducts?.imageReferenceProductSelected = asset;
   }
 
@@ -433,8 +432,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.updateQuantityProductCart(
-            providerProducts?.referenceProductSelected?.id.toString(),
-            providerProducts.unitsProduct.toString());
+            providerProducts!.referenceProductSelected!.id!.toString(),
+            providerProducts!.unitsProduct.toString());
         await callCart.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context, msg.toString());
@@ -451,7 +450,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.updateQuantityProductCart(
-            providerProducts?.referenceProductSelected?.id.toString(), providerProducts.unitsProduct.toString());
+            providerProducts!.referenceProductSelected!.id.toString(), providerProducts!.unitsProduct.toString());
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -481,11 +480,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   addProduct() {
-    providerProducts.unitsProduct = providerProducts.unitsProduct + 1;
+    providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
   }
 
   removeProduct() {
-    if (providerProducts.unitsProduct > 1)
-      providerProducts.unitsProduct = providerProducts.unitsProduct - 1;
+    if (providerProducts!.unitsProduct > 1)
+      providerProducts!.unitsProduct = providerProducts!.unitsProduct - 1;
   }
 }

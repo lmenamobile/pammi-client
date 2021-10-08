@@ -1,5 +1,5 @@
 
-import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 
@@ -13,23 +13,21 @@ class GlobalVariables {
   }
   String countrySelected = "";
   bool bandLoadingAutocomplete = false;
-  double latitude = 0.0;
-  double longitude = 0.0;
+  double? latitude = 0.0;
+  double? longitude = 0.0;
   String email = "";
   String typeDocument = "";
   bool getOrder = false;
-  BuildContext contextAutocomplete;
-  BuildContext contextGlobal;
+  BuildContext? contextAutocomplete;
+  BuildContext? contextGlobal;
   bool edit = false;
   String addressSelected = "";
   String tokenVerify = "";
-  Map<String,dynamic> userModel;
+  Map<String,dynamic>? userModel;
   String emailRecoverPass = "";
-  int cityId;
+  int? cityId;
 
 
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
- 
 
    
 

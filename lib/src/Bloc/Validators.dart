@@ -10,7 +10,7 @@ class Validators{
   final validateEmail = StreamTransformer<String,String>.fromHandlers(
       handleData: (email,sink){
         Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-        RegExp regExp = new RegExp(pattern);
+        RegExp regExp = new RegExp(pattern as String);
         if (regExp.hasMatch(email)){
           sink.add(email);
         }else{
@@ -26,7 +26,7 @@ class Validators{
   final validatePassword = StreamTransformer<String,String>.fromHandlers(
       handleData: (password,sink){
         Pattern pattern = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*)[a-zA-Z\d\W\_].{5,}$';
-        RegExp regExp = new RegExp(pattern);
+        RegExp regExp = new RegExp(pattern as String);
 
 
         if (regExp.hasMatch(password)){
@@ -66,7 +66,7 @@ class Validators{
 
 
         Pattern pattern = r'^[0-9]{0,}$';
-        RegExp regExp = new RegExp(pattern);
+        RegExp regExp = new RegExp(pattern as String);
 
 
         if (phone.length ==10  && regExp.hasMatch(phone)){

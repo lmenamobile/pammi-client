@@ -9,27 +9,27 @@ import 'image_picker_handler.dart';
 
 class ImagePickerDialog extends StatelessWidget {
   ImagePickerHandler _listener;
-  AnimationController _controller;
-  BuildContext context;
+  AnimationController? _controller;
+  late BuildContext context;
 
   ImagePickerDialog(this._listener, this._controller);
 
-  Animation<double> _drawerContentsOpacity;
-  Animation<Offset> _drawerDetailsPosition;
+  Animation<double>? _drawerContentsOpacity;
+  Animation<Offset>? _drawerDetailsPosition;
 
   bool statePermissionsPhotos = false;
   bool statePermissionsGallery = false;
 
   void initState() {
     _drawerContentsOpacity = new CurvedAnimation(
-      parent: new ReverseAnimation(_controller),
+      parent: new ReverseAnimation(_controller!),
       curve: Curves.fastOutSlowIn,
     );
     _drawerDetailsPosition = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: Curves.fastOutSlowIn,
     ));
   }
@@ -40,13 +40,13 @@ class ImagePickerDialog extends StatelessWidget {
         _drawerContentsOpacity == null) {
       return;
     }
-    _controller.forward();
+    _controller!.forward();
     showDialog(
       context: context,
       builder: (BuildContext context) => new SlideTransition(
-        position: _drawerDetailsPosition,
+        position: _drawerDetailsPosition!,
         child: new FadeTransition(
-          opacity: new ReverseAnimation(_drawerContentsOpacity),
+          opacity: new ReverseAnimation(_drawerContentsOpacity!),
           child: this,
         ),
       ),
@@ -54,7 +54,7 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
   }
 
   startTime() async {
@@ -67,7 +67,7 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   dismissDialog() {
-    _controller.reverse();
+    _controller!.reverse();
     startTime();
   }
 
@@ -172,13 +172,12 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   validateGallery() async {
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     final status = await Permission.photos.request();
     validateStatusPermission(status);
   }
 
   Widget _btnCustom(
-      String nameBottom, Color color, String icon, Function action) {
+      String nameBottom, Color? color, String icon, Function action) {
     return GestureDetector(
       child: Container(
         width: double.infinity,
@@ -224,7 +223,6 @@ class ImagePickerDialog extends StatelessWidget {
         }
         break;
       case PermissionStatus.restricted:
-      case PermissionStatus.undetermined:
       case PermissionStatus.permanentlyDenied:
       case PermissionStatus.limited:
         //bool aux = await showAlert(context, Strings.alertTextPhotos);

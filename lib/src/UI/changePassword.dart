@@ -22,7 +22,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final passwordCurrentController = TextEditingController();
   final passwordConfirmController = TextEditingController();
   String msgError = '';
-  ProfileProvider profileProvider;
+  late ProfileProvider profileProvider;
 
   @override
   Widget build(BuildContext context) {

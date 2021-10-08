@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
+
 
 class ProductsCampaignsPage extends StatefulWidget {
   @override
@@ -100,7 +100,7 @@ class _ProductsCampaignsPageState extends State<ProductsCampaignsPage> {
 
                     itemCount: 20,
 
-                    itemBuilder: (BuildContext context, int index) =>null,
+                    itemBuilder: ((BuildContext context, int index) =>null) as Widget Function(BuildContext, int),
                     staggeredTileBuilder: (int index) =>
                     new StaggeredTile.count(1,1.2),
                     mainAxisSpacing: 8,

@@ -22,7 +22,7 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   final searchController = TextEditingController();
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   SharePreference prefs = SharePreference();
   RefreshController _refreshCategories =
       RefreshController(initialRefresh: false);
@@ -218,7 +218,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callSettings = providerSettings.getCategoriesInterest(
-            text ?? '', pageOffset, prefs.countryIdUser);
+            text, pageOffset, prefs.countryIdUser);
         await callSettings.then((list) {}, onError: (error) {
           //utils.showSnackBar(context, error.toString());
         });

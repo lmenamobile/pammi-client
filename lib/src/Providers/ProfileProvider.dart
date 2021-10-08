@@ -37,21 +37,21 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  UserProfile _user;
-  UserProfile get user => this._user;
-  set user(UserProfile value) {
+  UserProfile? _user;
+  UserProfile? get user => this._user;
+  set user(UserProfile? value) {
     this._user = value;
     notifyListeners();
   }
 
-  File _imageUserFile;
-  File get imageUserFile => this._imageUserFile;
-  set imageUserFile(File value) {
+  File? _imageUserFile;
+  File? get imageUserFile => this._imageUserFile;
+  set imageUserFile(File? value) {
     this._imageUserFile = value;
     notifyListeners();
   }
 
-  List<CreditCard> _ltsCreditCards = List();
+  List<CreditCard> _ltsCreditCards = [];
   List<CreditCard> get ltsCreditCards => this._ltsCreditCards;
   set ltsCreditCards(List<CreditCard> value) {
     this._ltsCreditCards = value;
@@ -87,16 +87,16 @@ class ProfileProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(Constants.baseURL + 'profile/update-profile',
+        .post(Uri.parse(Constants.baseURL + 'profile/update-profile'),
             headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -105,7 +105,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -118,17 +118,17 @@ class ProfileProvider with ChangeNotifier {
     final url = Uri.parse(Constants.baseURL + 'profile/update-photo');
     final request = http.MultipartRequest("POST", url);
     request.headers.addAll(header);
-    final mimeType = mime(picture.path).split('/');
+    final mimeType = mime(picture.path)!.split('/');
     final multipartFile = await http.MultipartFile.fromPath(
         'photo', picture.path,
         contentType: MediaType(mimeType[0], mimeType[1]));
     request.files.add(multipartFile);
     final streamResponse = await request.send();
     final response = await http.Response.fromStream(streamResponse);
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -137,7 +137,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -148,15 +148,15 @@ class ProfileProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     final response = await http
-        .get(Constants.baseURL + 'profile/get-profile', headers: header)
+        .get(Uri.parse(Constants.baseURL + 'profile/get-profile'), headers: header)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         this.user = UserProfile.fromJson(decodeJson['data']['user']);
         return this.user;
@@ -166,7 +166,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -186,16 +186,16 @@ class ProfileProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(Constants.baseURL + 'profile/change-password',
+        .post(Uri.parse(Constants.baseURL + 'profile/change-password'),
             headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -204,7 +204,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -219,13 +219,13 @@ class ProfileProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     var body = jsonEncode(params);
-    final response = await http.post(Constants.baseURL  + 'profile/get-payment-methods',
+    final response = await http.post(Uri.parse(Constants.baseURL  + 'profile/get-payment-methods'),
         headers: header,body: body)
         .timeout(Duration(seconds: 10)).catchError((value) {this.isLoading = false;throw Strings.errorServeTimeOut;});
-    final List<CreditCard> listCards = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<CreditCard> listCards = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final card = CreditCard.fromJson(item);
           listCards.add(card);
@@ -239,7 +239,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -247,8 +247,8 @@ class ProfileProvider with ChangeNotifier {
   Future addCreditCard(
       String name,
       String numberCard,
-      String month,
-      String year,
+      String? month,
+      String? year,
       String cvc) async {
     this.isLoading = true;
     Map params = {
@@ -264,16 +264,16 @@ class ProfileProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(Constants.baseURL + 'profile/create-payment-method',
+        .post(Uri.parse(Constants.baseURL + 'profile/create-payment-method'),
         headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         this.ltsCreditCards.clear();
         getLtsCreditCards("0");
@@ -284,7 +284,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -296,16 +296,16 @@ class ProfileProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     final response = await http
-        .put(Constants.baseURL + 'profile/change-status-payment-method/$idCreditCard',
+        .put(Uri.parse(Constants.baseURL + 'profile/change-status-payment-method/$idCreditCard'),
         headers: header)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         this.ltsCreditCards.clear();
         getLtsCreditCards("0");
@@ -316,7 +316,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 

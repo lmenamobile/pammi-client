@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Offer.dart';
@@ -34,63 +35,63 @@ class ProviderProducts with ChangeNotifier{
     notifyListeners();
   }
 
-  List<Product> _ltsProductsByCategory = List();
+  List<Product> _ltsProductsByCategory = [];
   List<Product> get ltsProductsByCategory => this._ltsProductsByCategory;
   set ltsProductsByCategory(List<Product> value) {
     this._ltsProductsByCategory.addAll(value);
     notifyListeners();
   }
 
-  List<Product> _ltsProductsRelationsByReference = List();
+  List<Product> _ltsProductsRelationsByReference = [];
   List<Product> get ltsProductsRelationsByReference => this._ltsProductsRelationsByReference;
   set ltsProductsRelationsByReference(List<Product> value) {
     this._ltsProductsRelationsByReference.addAll(value);
     notifyListeners();
   }
 
-  List<Reference> _ltsReferencesProductSelected = List();
-  List<Reference> get ltsReferencesProductSelected => this._ltsReferencesProductSelected;
-  set ltsReferencesProductSelected(List<Reference> value) {
+  List<Reference>? _ltsReferencesProductSelected = [];
+  List<Reference>? get ltsReferencesProductSelected => this._ltsReferencesProductSelected;
+  set ltsReferencesProductSelected(List<Reference>? value) {
     this._ltsReferencesProductSelected = value;
     notifyListeners();
   }
 
-  Product _productDetail;
-  Product get productDetail => this._productDetail;
-  set productDetail(Product value) {
+  Product? _productDetail;
+  Product? get productDetail => this._productDetail;
+  set productDetail(Product? value) {
     this._productDetail = value;
-    this.ltsReferencesProductSelected = this.productDetail.references;
+    this.ltsReferencesProductSelected = this.productDetail!.references;
     notifyListeners();
   }
 
-  Reference _referenceProductSelected;
-  Reference get referenceProductSelected => this._referenceProductSelected;
-  set referenceProductSelected(Reference value) {
+  Reference? _referenceProductSelected;
+  Reference? get referenceProductSelected => this._referenceProductSelected;
+  set referenceProductSelected(Reference? value) {
     this._referenceProductSelected = value;
-    this.referenceProductSelected.isSelected = !this.referenceProductSelected.isSelected;
+    this.referenceProductSelected!.isSelected = !this.referenceProductSelected!.isSelected!;
     //updateListReferences(value);
-    this.imageReferenceProductSelected = this.referenceProductSelected.images[0].url;
+    this.imageReferenceProductSelected = this.referenceProductSelected!.images![0].url;
     notifyListeners();
   }
 
 
-  String _imageReferenceProductSelected = '';
-  String get imageReferenceProductSelected => this._imageReferenceProductSelected;
-  set imageReferenceProductSelected(String value) {
+  String? _imageReferenceProductSelected = '';
+  String? get imageReferenceProductSelected => this._imageReferenceProductSelected;
+  set imageReferenceProductSelected(String? value) {
     this._imageReferenceProductSelected = value;
     notifyListeners();
   }
 
   //no actualiza la vista del bottomShett de referencias
   updateListReferences(Reference referenceSelected){
-    var auxReference = this.ltsReferencesProductSelected.firstWhere((reference) => reference == referenceSelected, orElse: () => null);
-    if(auxReference!=null)this.ltsReferencesProductSelected.firstWhere((reference) => reference == referenceSelected, orElse: () => null)?.isSelected = true;
+    var auxReference = this.ltsReferencesProductSelected!.firstWhereOrNull((reference) => reference == referenceSelected);
+    if(auxReference!=null)this.ltsReferencesProductSelected!.firstWhereOrNull((reference) => reference == referenceSelected)?.isSelected = true;
     notifyListeners();
   }
 
   /*Seccion busqueda de productos home*/
 
-  List<Product> _ltsProductsSearch = List();
+  List<Product> _ltsProductsSearch = [];
   List<Product> get ltsProductsSearch => this._ltsProductsSearch;
   set ltsProductsSearch(List<Product> value) {
     this._ltsProductsSearch.addAll(value);
@@ -100,14 +101,14 @@ class ProviderProducts with ChangeNotifier{
 
   /*Seccion ofertas del dia*/
 
-  List<Offer> _ltsOfferUnits = List();
+  List<Offer> _ltsOfferUnits = [];
   List<Offer> get ltsOfferUnits => this._ltsOfferUnits;
   set ltsOfferUnits(List<Offer> value) {
     this._ltsOfferUnits.addAll(value);
     notifyListeners();
   }
 
-  List<Offer> _ltsOfferMix = List();
+  List<Offer> _ltsOfferMix = [];
   List<Offer> get ltsOfferMix => this._ltsOfferMix;
   set ltsOfferMix(List<Offer> value) {
     this._ltsOfferMix.addAll(value);
@@ -127,11 +128,11 @@ class ProviderProducts with ChangeNotifier{
   Future<dynamic> getProductsSearch(
       String filter,
       int offset,
-      String idBrand,
-      String idCategory,
-      String idSubcategory,
-      String price,
-      String orderBy) async {
+      String? idBrand,
+      String? idCategory,
+      String? idSubcategory,
+      String? price,
+      String? orderBy) async {
     this.isLoadingProducts = true;
     final header = {
       "Content-Type": "application/json",
@@ -150,7 +151,7 @@ class ProviderProducts with ChangeNotifier{
       "userId": prefs.userID
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "product/get-products",
+    final response = await http.post(Uri.parse(Constants.baseURL + "product/get-products"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -158,10 +159,10 @@ class ProviderProducts with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Product> listProducts = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Product> listProducts = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['products']) {
           final product = Product.fromJson(item);
           listProducts.add(product);
@@ -175,7 +176,7 @@ class ProviderProducts with ChangeNotifier{
       }
     } else {
       this.isLoadingProducts = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -183,11 +184,11 @@ class ProviderProducts with ChangeNotifier{
   Future<dynamic> getProductsByCategory(
       String filter,
       int offset,
-      String idBrand,
-      String idCategory,
-      String idSubcategory,
-      String price,
-      String orderBy) async {
+      String? idBrand,
+      String? idCategory,
+      String? idSubcategory,
+      String? price,
+      String? orderBy) async {
     this.isLoadingProducts = true;
     final header = {
       "Content-Type": "application/json",
@@ -206,7 +207,7 @@ class ProviderProducts with ChangeNotifier{
       "userId": prefs.userID
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "product/get-products",
+    final response = await http.post(Uri.parse(Constants.baseURL + "product/get-products"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -214,10 +215,10 @@ class ProviderProducts with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Product> listProducts = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Product> listProducts = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['products']) {
           final product = Product.fromJson(item);
           listProducts.add(product);
@@ -231,7 +232,7 @@ class ProviderProducts with ChangeNotifier{
       }
     } else {
       this.isLoadingProducts = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -251,16 +252,16 @@ class ProviderProducts with ChangeNotifier{
 
     var body = jsonEncode(jsonData);
 
-    final response = await http.post(Constants.baseURL+"product/get-product",headers: header,body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL+"product/get-product"),headers: header,body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoadingProducts = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoadingProducts = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.productDetail = Product.fromJson(decodeJson['data']['product']);
         return Product.fromJson(decodeJson['data']['product']);
       } else {
@@ -269,7 +270,7 @@ class ProviderProducts with ChangeNotifier{
       }
     } else {
       this.isLoadingProducts = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -291,7 +292,7 @@ class ProviderProducts with ChangeNotifier{
       "userId": prefs.userID
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "product/get-relational-products",
+    final response = await http.post(Uri.parse(Constants.baseURL + "product/get-relational-products"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -299,11 +300,11 @@ class ProviderProducts with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Product> listProducts = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Product> listProducts = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
-        for (var item in decodeJson['data']['products']) {
+      if (decodeJson?['code'] == 100) {
+        for (var item in decodeJson?['data']['products']) {
           final product = Product.fromJson(item);
           listProducts.add(product);
         }
@@ -312,11 +313,11 @@ class ProviderProducts with ChangeNotifier{
         return listProducts;
       } else {
         this.isLoadingProducts = false;
-        throw decodeJson['message'];
+        throw decodeJson?['message'];
       }
     } else {
       this.isLoadingProducts = false;
-      throw decodeJson['message'];
+      throw decodeJson?['message'];
     }
 
   }
@@ -335,12 +336,12 @@ class ProviderProducts with ChangeNotifier{
     Map jsonData = {
       'filter': '',
       'offerType':typeOffer,
-      "brandId": brandId??'',
+      "brandId": brandId,
       'offset': offset,
       'limit': 20,
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "offer/get-offers",
+    final response = await http.post(Uri.parse(Constants.baseURL + "offer/get-offers"),
         headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -348,10 +349,10 @@ class ProviderProducts with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Offer> listOffers = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Offer> listOffers = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final offer = Offer.fromJson(item);
           listOffers.add(offer);
@@ -364,7 +365,7 @@ class ProviderProducts with ChangeNotifier{
       }
     } else {
       this.isLoadingProducts = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }

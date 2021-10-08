@@ -16,9 +16,9 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class RegisterStepTwoPage extends StatefulWidget {
-  final UserModel user;
+  final UserModel? user;
 
-  RegisterStepTwoPage({Key key, this.user}) : super(key: key);
+  RegisterStepTwoPage({Key? key, this.user}) : super(key: key);
 
   @override
   _RegisterStepTwoPageState createState() => _RegisterStepTwoPageState();
@@ -31,8 +31,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   final confirmPassController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
-  NotifyVariablesBloc notifyVariables;
-  OnboardingProvider providerOnBoarding;
+  NotifyVariablesBloc? notifyVariables;
+  late OnboardingProvider providerOnBoarding;
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
   String msgError = '';
@@ -295,10 +295,10 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                           ),
                           onChanged: (value) {
                             if (validatePwd(value)) {
-                              notifyVariables.intRegister.validPass = true;
+                              notifyVariables!.intRegister.validPass = true;
                               setState(() {});
                             } else {
-                              notifyVariables.intRegister.validPass = false;
+                              notifyVariables!.intRegister.validPass = false;
                               setState(() {});
                             }
                           },
@@ -396,11 +396,11 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                           ),
                           onChanged: (value) {
                             if (validatePwd(value)) {
-                              notifyVariables.intRegister.validConfirmPass =
+                              notifyVariables!.intRegister.validConfirmPass =
                                   true;
                               setState(() {});
                             } else {
-                              notifyVariables.intRegister.validConfirmPass =
+                              notifyVariables!.intRegister.validConfirmPass =
                                   false;
                               setState(() {});
                             }
@@ -482,8 +482,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
 
   callRegisterUser() {
     if (_validateEmptyFields()) {
-      widget.user.email = emailController.text;
-      widget.user.passWord = passwordController.text;
+      widget.user!.email = emailController.text;
+      widget.user!.passWord = passwordController.text;
       _serviceRegister();
     } else {
       utils.showSnackBar(context, msgError);
@@ -493,7 +493,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   _serviceRegister() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnBoarding.createAccount(widget.user,referredController.text??'',providerOnBoarding.stateContactCommercial);
+        Future callUser = providerOnBoarding.createAccount(widget.user!,referredController.text,providerOnBoarding.stateContactCommercial);
         await callUser.then((user) {
           utils.startOpenSlideUp(context, user.email, user.fullname);
         }, onError: (error) {

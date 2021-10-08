@@ -1,20 +1,12 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wawamko/src/Models/Support/QuestionsModel.dart';
-import 'package:wawamko/src/Models/Support/TermsConditionsModel.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
-import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
-import 'package:wawamko/src/UI/Onboarding/UpdatePassword.dart';
-import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -34,9 +26,9 @@ class SupportHelpPage extends StatefulWidget {
 class _SupportHelpPageState extends State<SupportHelpPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshSupport = RefreshController(initialRefresh: false);
-  SupportProvider supportProvider;
-  ProviderChat providerChat;
-  SocketService socketService;
+  late SupportProvider supportProvider;
+  late ProviderChat providerChat;
+  late SocketService socketService;
   final prefs = SharePreference();
   int pageOffset = 0;
 
@@ -66,7 +58,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           child: Column(
             children: [
               titleBar(Strings.supportAndService, "ic_menu_w.png",
-                  () => keyMenuLeft.currentState.openDrawer()),
+                  () => keyMenuLeft.currentState!.openDrawer()),
               SizedBox(
                 height: 20,
               ),
@@ -215,9 +207,9 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           : supportProvider.lstTermsAndConditions.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
-        return itemHelpCenter(supportProvider.lstTermsAndConditions[index].name,
+        return itemHelpCenter(supportProvider.lstTermsAndConditions[index].name!,
             () {
-          launch(supportProvider.lstTermsAndConditions[index].url);
+          launch(supportProvider.lstTermsAndConditions[index].url!);
         });
       },
     );

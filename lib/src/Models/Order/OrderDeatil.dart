@@ -1,6 +1,5 @@
 import 'package:wawamko/src/Models/Order/PackageProvider.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 
 import 'Seller.dart';
 
@@ -20,18 +19,18 @@ class OrderDetail {
     this.paymentMethod
   });
 
-  int id;
-  String subtotal;
-  String tax;
-  String total;
-  String discountCoupon;
-  String discountGiftCard;
-  String shippingValue;
-  String shippingAddress;
-  String status;
-  Seller seller;
-  PaymentMethod paymentMethod;
-  List<PackageProvider> packagesProvider;
+  int? id;
+  String? subtotal;
+  String? tax;
+  String? total;
+  String? discountCoupon;
+  String? discountGiftCard;
+  String? shippingValue;
+  String? shippingAddress;
+  String? status;
+  Seller? seller;
+  PaymentMethod? paymentMethod;
+  List<PackageProvider>? packagesProvider;
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
     id: json["id"],

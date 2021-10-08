@@ -9,8 +9,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'image_picker_dialog.dart';
 
 class ImagePickerHandler {
-  ImagePickerDialog imagePicker;
-  AnimationController _controller;
+  late ImagePickerDialog imagePicker;
+  AnimationController? _controller;
   ImagePickerListener _listener;
 
 
@@ -18,13 +18,13 @@ class ImagePickerHandler {
 
   openCamera() async {
     imagePicker.dismissDialog();
-    var image = await ImagePicker().getImage(source: ImageSource.camera);
+    var image = await (ImagePicker().getImage(source: ImageSource.camera) as FutureOr<PickedFile>);
     cropImage(File(image.path));
   }
 
   openGallery() async {
     imagePicker.dismissDialog();
-    var image = await ImagePicker().getImage(source: ImageSource.gallery);
+    var image = await (ImagePicker().getImage(source: ImageSource.gallery) as FutureOr<PickedFile>);
     cropImage(File(image.path));
   }
 
@@ -36,7 +36,7 @@ class ImagePickerHandler {
 
 
   Future cropImage(File image) async {
-    File croppedFile = await ImageCropper.cropImage(
+    File? croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       maxWidth: 512,
       maxHeight: 512,
@@ -50,5 +50,5 @@ class ImagePickerHandler {
 }
 
 abstract class ImagePickerListener {
-  userImage(File _image);
+  userImage(File? _image);
 }

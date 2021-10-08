@@ -10,9 +10,9 @@ class ShopCart {
     this.products
   });
 
-  List<PackagesProvider> packagesProvider;
-  List<ProductShopCart> products;
-  TotalCart totalCart;
+  List<PackagesProvider>? packagesProvider;
+  List<ProductShopCart>? products;
+  TotalCart? totalCart;
 
   factory ShopCart.fromJson(Map<String, dynamic> json) => ShopCart(
     packagesProvider: List<PackagesProvider>.from(json["packages"].map((x) => PackagesProvider.fromJson(x))),

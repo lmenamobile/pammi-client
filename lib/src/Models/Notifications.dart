@@ -12,16 +12,16 @@ class Notifications {
     this.isSelected
   });
 
-  int id;
-  String title;
-  String image;
-  String message;
-  String state;
-  String sendTo;
-  String type;
-  String status;
-  DateTime createdAt;
-  bool isSelected = false;
+  int? id;
+  String? title;
+  String? image;
+  String? message;
+  String? state;
+  String? sendTo;
+  String? type;
+  String? status;
+  DateTime? createdAt;
+  bool? isSelected = false;
 
   factory Notifications.fromJson(Map<String, dynamic> json) => Notifications(
     id: json["id"],
@@ -45,6 +45,6 @@ class Notifications {
     "sendTo": sendTo,
     "type": type,
     "status": status,
-    "createdAt": createdAt.toIso8601String(),
+    "createdAt": createdAt!.toIso8601String(),
   };
 }

@@ -25,8 +25,8 @@ class FavoritesPage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritesPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshFavorites = RefreshController(initialRefresh: false);
-  ProviderUser providerUser;
-  ProviderProducts providerProducts;
+  late ProviderUser providerUser;
+  late ProviderProducts providerProducts;
   int pageOffset = 0;
   int pageOffsetProductsRelations = 0;
   int randomReference = 0;
@@ -54,7 +54,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           child: Column(
             children: [
               titleBar(Strings.favorites, "ic_menu_w.png",
-                  () => keyMenuLeft.currentState.openDrawer()),
+                  () => keyMenuLeft.currentState!.openDrawer()),
               Expanded(
                 child: SmartRefresher(
                   controller: _refreshFavorites,
@@ -141,7 +141,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   callIsFavorite(Reference reference){
-    if(reference.isFavorite){
+    if(reference.isFavorite!){
       removeFavoriteProduct(reference.id.toString());
     }else{
       saveFavoriteProduct(reference);
@@ -187,7 +187,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   getProductsRelations() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerProducts.getProductsRelationByReference(pageOffsetProductsRelations,providerUser.ltsProductsFavorite[randomReference].reference.id.toString() );
+        Future callUser = providerProducts.getProductsRelationByReference(pageOffsetProductsRelations,providerUser.ltsProductsFavorite[randomReference].reference!.id.toString() );
         await callUser.then((list) {
 
         }, onError: (error) {

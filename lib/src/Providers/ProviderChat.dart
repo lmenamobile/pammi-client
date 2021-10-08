@@ -23,7 +23,7 @@ class ProviderChat with ChangeNotifier {
     notifyListeners();
   }
 
-  List<MessageChat> _ltsMessages = List();
+  List<MessageChat> _ltsMessages = [];
 
   List<MessageChat> get ltsMessages => this._ltsMessages;
 
@@ -32,7 +32,7 @@ class ProviderChat with ChangeNotifier {
     notifyListeners();
   }
 
-  List<DataMessage> _ltsMessagesChat = List();
+  List<DataMessage> _ltsMessagesChat = [];
 
   List<DataMessage> get ltsMessagesChat => this._ltsMessagesChat;
 
@@ -49,16 +49,16 @@ class ProviderChat with ChangeNotifier {
     final url = Uri.parse(Constants.baseURL + 'chat/upload-file');
     final request = http.MultipartRequest("POST", url);
     request.headers.addAll(header);
-    final mimeType = mime(file.path).split('/');
+    final mimeType = mime(file.path)!.split('/');
     final multipartFile = await http.MultipartFile.fromPath('file', file.path,
         contentType: MediaType(mimeType[0], mimeType[1]));
     request.files.add(multipartFile);
     final streamResponse = await request.send();
     final response = await http.Response.fromStream(streamResponse);
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['data']['path'];
       } else {
@@ -67,7 +67,7 @@ class ProviderChat with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -81,18 +81,18 @@ class ProviderChat with ChangeNotifier {
     Map jsonData = {"sellerId": sellerId, "orderId": idOrder};
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "chat/get-room-by-seller",
+        .post(Uri.parse(Constants.baseURL + "chat/get-room-by-seller"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<DataMessage> listMessages = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<DataMessage> listMessages = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['room']['messageSellerUser']) {
           final data = DataMessage.fromJson(item);
           listMessages.add(data);
@@ -107,7 +107,7 @@ class ProviderChat with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -121,18 +121,18 @@ class ProviderChat with ChangeNotifier {
     Map jsonData = {"providerId": idProvider, "orderPackageId": packageId};
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "chat/get-room-by-provider",
+        .post(Uri.parse(Constants.baseURL + "chat/get-room-by-provider"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<DataMessage> listMessages = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<DataMessage> listMessages = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['room']['messageProviderUser']) {
           final data = DataMessage.fromJson(item);
           listMessages.add(data);
@@ -147,7 +147,7 @@ class ProviderChat with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -159,17 +159,17 @@ class ProviderChat with ChangeNotifier {
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
     final response = await http
-        .get(Constants.baseURL + "chat/get-room-by-admin", headers: header)
+        .get(Uri.parse(Constants.baseURL + "chat/get-room-by-admin"), headers: header)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
-    final List<DataMessage> listMessages = List();
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    final List<DataMessage> listMessages = [];
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['room']['messageAdminUser']) {
           final data = DataMessage.fromJson(item);
           listMessages.add(data);
@@ -184,7 +184,7 @@ class ProviderChat with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -203,7 +203,7 @@ class ProviderChat with ChangeNotifier {
           );
           break;
         case "image":
-          var dataMessage = json.decode(data.message);
+          var dataMessage = json.decode(data.message!);
           this.addMessages = MessageChat(
             uidUser: '1',
             message: dataMessage['url'],
@@ -215,7 +215,7 @@ class ProviderChat with ChangeNotifier {
           );
           break;
         case "file":
-          var dataMessage = json.decode(data.message);
+          var dataMessage = json.decode(data.message!);
           this.addMessages = MessageChat(
             uidUser: '1',
             message: dataMessage['name'],

@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
@@ -19,7 +19,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import '../Widgets.dart';
 
-Widget sectionAddress(Address address) {
+Widget sectionAddress(Address? address) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -99,7 +99,7 @@ Widget sectionAddress(Address address) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        address?.address??'',
+                        address.address??'',
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
@@ -110,7 +110,7 @@ Widget sectionAddress(Address address) {
                         height: 5,
                       ),
                       Text(
-                        address?.complement??'',
+                        address.complement??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           color: CustomColors.gray7,
@@ -129,7 +129,7 @@ Widget sectionAddress(Address address) {
   );
 }
 
-Widget sectionProducts(List<PackagesProvider> packagesProvider) {
+Widget sectionProducts(List<PackagesProvider>? packagesProvider) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -186,7 +186,7 @@ Widget itemProvider(PackagesProvider provider) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                provider?.provider?.businessName??'',
+                provider.provider?.businessName??'',
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 15,
@@ -226,7 +226,7 @@ Widget itemProvider(PackagesProvider provider) {
   );
 }
 
-Widget sectionPayment(PaymentMethod payment) {
+Widget sectionPayment(PaymentMethod? payment) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -437,7 +437,7 @@ Widget fieldCoupon(TextEditingController controller, String hintText) {
   );
 }
 
-Widget sectionTotal( TotalCart totalCart, Function createOrder, String shipping) {
+Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping) {
   var styleRegular = TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blackLetter,);
   var styleBold = TextStyle(fontFamily: Strings.fontBold, fontSize: 19, color: CustomColors.blackLetter,);
 
@@ -519,7 +519,7 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  provider?.provider?.businessName ?? '',
+                  provider.provider?.businessName ?? '',
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: Strings.fontBold,
@@ -567,14 +567,14 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
   );
 }
 
-Widget listProducts(List<ProductShopCart> ltsProducts) {
+Widget listProducts(List<ProductShopCart>? ltsProducts) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
-        if(ltsProducts[index].reference!=null){
+        if(ltsProducts![index].reference!=null){
           return itemProductCart(ltsProducts[index]);
         }else{
           return itemCardGiftProduct(ltsProducts[index]);
@@ -606,7 +606,7 @@ Widget itemProductCart(ProductShopCart product) {
                 height: 100,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product?.reference?.images[getRandomPosition(product?.reference?.images?.length)].url),
+                  image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -617,7 +617,7 @@ Widget itemProductCart(ProductShopCart product) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -625,7 +625,7 @@ Widget itemProductCart(ProductShopCart product) {
                   ),
                 ),
                 Text(
-                  product?.reference?.reference ?? '',
+                  product.reference?.reference ?? '',
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
@@ -660,7 +660,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
         height: 10,
       ),
       Text(
-        product?.offer?.name??'',
+        product.offer?.name??'',
         style: TextStyle(
           fontFamily: Strings.fontBold,
           fontSize: 12,
@@ -677,7 +677,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                 height: 100,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(offer?.reference?.images[getRandomPosition(offer?.reference?.images?.length)].url),
+                  image: NetworkImage(offer.reference?.images?[getRandomPosition(offer.reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -688,7 +688,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  offer?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  offer.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -696,7 +696,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                   ),
                 ),
                 Text(
-                  offer?.reference?.reference ?? '',
+                  offer.reference?.reference ?? '',
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
@@ -714,7 +714,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
   );
 }
 
-Widget itemOfferProductGift(Reference reference){
+Widget itemOfferProductGift(Reference? reference){
   return Container(
 
     child: Column(
@@ -750,7 +750,7 @@ Widget itemOfferProductGift(Reference reference){
                       height: 70,
                       child: FadeInImage(
                         fit: BoxFit.fill,
-                        image: NetworkImage(reference?.images[getRandomPosition(reference?.images?.length)].url),
+                        image: NetworkImage(reference?.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
                       ),
                     ),
@@ -789,18 +789,17 @@ Widget itemOfferProductGift(Reference reference){
   );
 }
 
-Widget sliderProductGift(List<ProductOfferCart> promotionProducts){
+Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
   return Container(
     width: 230,
     height: 110,
-    child: Swiper(
-      itemBuilder: (_, int index) {
-        return itemOfferProductGift(promotionProducts[index].reference);
-      },
-      pagination: new SwiperPagination(
-
-      ),
+    child: CarouselSlider.builder(
       itemCount: promotionProducts==null?0:promotionProducts.length,
+      itemBuilder: (_, int itemIndex, int pageViewIndex) =>
+          itemOfferProductGift(promotionProducts![itemIndex].reference),
+      options: CarouselOptions(
+        autoPlay: false
+      ),
     ),
   );
 }
@@ -811,7 +810,7 @@ Widget itemCardGiftProduct(ProductShopCart product){
       sliderCardOffer(product,),
       Align(
           alignment: Alignment.centerRight,
-          child: sliderProductGift(product.offer.promotionProducts))
+          child: sliderProductGift(product.offer!.promotionProducts))
     ],
   );
 }
@@ -819,20 +818,20 @@ Widget itemCardGiftProduct(ProductShopCart product){
 Widget sliderCardOffer(ProductShopCart product){
   return Container(
     height: 160,
-    child: Swiper(
-      itemBuilder: (_, int index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: itemOfferCart(product, product.offer.baseProducts[index]),
-        );
-      },
-      control: new SwiperControl(size: 20,color: CustomColors.gray5),
-      itemCount: product.offer==null?0:product.offer.baseProducts.length,
+    child: CarouselSlider.builder(
+      itemCount: product.offer==null?0:product.offer!.baseProducts!.length,
+      itemBuilder: (_, int itemIndex, int pageViewIndex) =>
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: itemOfferCart(product, product.offer!.baseProducts![itemIndex])),
+      options: CarouselOptions(
+          autoPlay: false,
+      ),
     ),
   );
 }
 
-Widget listProductsCheckOut(List<PackagesProvider> packagesProvider) {
+Widget listProductsCheckOut(List<PackagesProvider>? packagesProvider) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
     child: ListView.builder(
@@ -840,9 +839,9 @@ Widget listProductsCheckOut(List<PackagesProvider> packagesProvider) {
       physics: NeverScrollableScrollPhysics(),
       itemCount:packagesProvider == null
           ? 0
-          : packagesProvider?.length,
+          : packagesProvider.length,
       itemBuilder: (_, int index) {
-        return cardListProductsCheckOut(packagesProvider[index]);
+        return cardListProductsCheckOut(packagesProvider![index]);
       },
     ),
   );

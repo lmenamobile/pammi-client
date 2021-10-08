@@ -100,7 +100,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
                             itemBuilder: (BuildContext context, int index) {
                               return null;
 
-                            }
+                            } as Widget Function(BuildContext, int)
                         )
                     ),
                     SizedBox(height: 28),
@@ -130,7 +130,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
                               itemCount: 5,
                               itemBuilder: (BuildContext context, int index) {
                                 return null;
-                              },
+                              } as Widget Function(BuildContext, int),
                             ),
                           ),
                         ],

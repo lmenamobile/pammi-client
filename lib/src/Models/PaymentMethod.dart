@@ -6,10 +6,10 @@ class PaymentMethod {
     this.status,
   });
 
-  int id;
-  String methodPayment;
-  String image;
-  String status;
+  int? id;
+  String? methodPayment;
+  String? image;
+  String? status;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
     id: json["id"],

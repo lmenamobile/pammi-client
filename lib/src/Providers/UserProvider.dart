@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:wawamko/src/Models/Address.dart';
-import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +10,7 @@ class UserProvider {
 
   final _prefs = SharePreference();
   static final instance = UserProvider._internal();
-  bool connected;
+  bool? connected;
 
   factory UserProvider() {
     return instance;
@@ -37,7 +36,7 @@ class UserProvider {
     };
     var body = jsonEncode(jsonData);
 
-    final response = await http.post(Constants.baseURL+"profile/create-address",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Uri.parse(Constants.baseURL+"profile/create-address"),headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -66,20 +65,12 @@ class UserProvider {
       'status':"active",
 
     };
-
-
     var body = jsonEncode(jsonData);
-
-    print("Parameters getAddressUser ${jsonData}");
-
-    final response = await http.post(Constants.baseURL+"profile/get-addresses",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Uri.parse(Constants.baseURL+"profile/get-addresses"),headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
     });
-
-    print("Json getAddAddress: ${response.body}");
-
     return response.body;
   }
 
@@ -92,7 +83,7 @@ class UserProvider {
       "X-WA-Auth-Token":_prefs.authToken.toString()
     };
 
-    final response = await http.put(Constants.baseURL+"profile/change-status/${address.id}",headers: header ).timeout(Duration(seconds: 25))
+    final response = await http.put(Uri.parse(Constants.baseURL+"profile/change-status/${address.id}"),headers: header ).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -126,16 +117,12 @@ class UserProvider {
 
     var body = jsonEncode(jsonData);
 
-    print("Parameters updateAddressUser ${jsonData}");
 
-    final response = await http.put(Constants.baseURL+"profile/update-address/${addressModel.id}",headers: header ,body: body).timeout(Duration(seconds: 25))
+
+    final response = await http.put(Uri.parse(Constants.baseURL+"profile/update-address/${addressModel.id}"),headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
-      print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
     });
-
-    print("Json updateAddAddress: ${response.body}");
-
     return response.body;
   }
 }

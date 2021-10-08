@@ -18,23 +18,23 @@ class GetAddressResponse {
     this.data,
   });
 
-  int code;
-  String message;
-  bool status;
-  Data data;
+  int? code;
+  String? message;
+  bool? status;
+  Data? data;
 
   GetAddressResponse.fromJson(Map<String, dynamic> json) {
     code = json["code"];
     message = json["message"];
     status = json["status"];
-    data = status ? Data.fromJson(json["data"]) : null;
+    data = status! ? Data.fromJson(json["data"]) : null;
   }
 
   Map<String, dynamic> toJson() => {
     "code": code,
     "message": message,
     "status": status,
-    "data": data.toJson(),
+    "data": data!.toJson(),
   };
 }
 
@@ -45,9 +45,9 @@ class Data {
     this.addresses,
   });
 
-  int totalPages;
-  int currentPage;
-  List<Address> addresses;
+  int? totalPages;
+  int? currentPage;
+  List<Address>? addresses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     totalPages: json["totalPages"],
@@ -58,7 +58,7 @@ class Data {
   Map<String, dynamic> toJson() => {
     "totalPages": totalPages,
     "currentPage": currentPage,
-    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+    "addresses": List<dynamic>.from(addresses!.map((x) => x.toJson())),
   };
 }
 
@@ -72,9 +72,9 @@ class ChangeStatusAddressResponse {
     this.code
   });
 
-  int code;
-  String message;
-  bool status;
+  int? code;
+  String? message;
+  bool? status;
 
 
   factory ChangeStatusAddressResponse.fromJson(Map<String, dynamic> json) => ChangeStatusAddressResponse(

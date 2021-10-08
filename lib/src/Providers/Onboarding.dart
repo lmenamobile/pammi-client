@@ -49,26 +49,26 @@ class OnboardingProvider with ChangeNotifier {
   }
   Future getAccessToken() async {
     final response = await http
-        .get(Constants.baseURL + "wa/generate-access-token")
+        .get(Uri.parse(Constants.baseURL + "wa/generate-access-token"))
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         _prefs.accessToken = decodeJson['data']['accessToken'];
         return decodeJson['data']['accessToken'];
       } else {
         throw decodeJson['message'];
       }
     } else {
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
   Future loginUserSocialNetWork(
-      String email, String typeLogin) async {
+      String? email, String typeLogin) async {
     this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Map encrypt = utils.encryptPwdIv(Constants.pwdSocialNetwork);
@@ -87,24 +87,24 @@ class OnboardingProvider with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "onboarding/login",
+        .post(Uri.parse(Constants.baseURL + "onboarding/login"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
-        _prefs.authToken = response.authToken;
-        _prefs.nameUser = response.user.fullname;
-        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.authToken = response.authToken!;
+        _prefs.nameUser = response.user!.fullname!;
+        _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
-        _prefs.referredCode = response.user.referredCode;
-        _prefs.userID = response.user.id.toString();
+        _prefs.referredCode = response.user!.referredCode!;
+        _prefs.userID = response.user!.id.toString();
         return response.user;
       } else {
         throw decodeJson['message'];
@@ -114,11 +114,11 @@ class OnboardingProvider with ChangeNotifier {
       return Constants.isRegisterRS;
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
-  Future<UserResponse> loginUser(String email, String password) async {
+  Future<UserResponse?> loginUser(String email, String password) async {
     this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var jsonIV = utils.encryptPwdIv(password);
@@ -137,38 +137,38 @@ class OnboardingProvider with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "onboarding/login",
+        .post(Uri.parse(Constants.baseURL + "onboarding/login"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
-        _prefs.authToken = response.authToken;
-        _prefs.nameUser = response.user.fullname;
-        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.authToken = response.authToken!;
+        _prefs.nameUser = response.user!.fullname!;
+        _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
-        _prefs.referredCode = response.user.referredCode;
-        _prefs.codeShare = response.user.codeShare;
-        _prefs.userID = response.user.id.toString();
+        _prefs.referredCode = response.user!.referredCode!;
+        _prefs.codeShare = response.user!.codeShare!;
+        _prefs.userID = response.user!.id.toString();
         return response.user;
       } else {
         throw decodeJson['message'];
       }
     } else if (response.statusCode == 400) {
       this.isLoading = false;
-      if (decodeJson['code'] == 103) {
+      if (decodeJson!['code'] == 103) {
         //Usuario no validado
         throw 103;
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -187,25 +187,25 @@ class OnboardingProvider with ChangeNotifier {
       'version': packageInfo.version.toString(),
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "onboarding/apple-login",
+    final response = await http.post(Uri.parse(Constants.baseURL + "onboarding/apple-login"),
         headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if(decodeJson['code']==100){
+      if(decodeJson!['code']==100){
         var response = DataUser.fromJsonMap(decodeJson['data']);
-        _prefs.authToken = response.authToken;
-        _prefs.nameUser = response.user.fullname;
-        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.authToken = response.authToken!;
+        _prefs.nameUser = response.user!.fullname!;
+        _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
-        _prefs.referredCode = response.user.referredCode;
-        _prefs.codeShare = response.user.codeShare;
-        _prefs.userID = response.user.id.toString();
+        _prefs.referredCode = response.user!.referredCode!;
+        _prefs.codeShare = response.user!.codeShare!;
+        _prefs.userID = response.user!.id.toString();
         return decodeJson['code'];
       }else {
         Map dataUser = {
@@ -218,7 +218,7 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -233,17 +233,17 @@ class OnboardingProvider with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "onboarding/password-recovery",
+        .post(Uri.parse(Constants.baseURL + "onboarding/password-recovery"),
             headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         this.isLoading = false;
@@ -251,11 +251,11 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
-  Future sendAgainCode(String email) async {
+  Future sendAgainCode(String? email) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -266,7 +266,7 @@ class OnboardingProvider with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "onboarding/send-code-client",
+        .post(Uri.parse(Constants.baseURL + "onboarding/send-code-client"),
             headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
@@ -274,21 +274,21 @@ class OnboardingProvider with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
 
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
-  Future<dynamic> verificationCode(String code, String email) async {
+  Future<dynamic> verificationCode(String code, String? email) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -301,17 +301,17 @@ class OnboardingProvider with ChangeNotifier {
     var body = jsonEncode(jsonData);
 
     final response = await http
-        .post(Constants.baseURL + "onboarding/verify-code",
+        .post(Uri.parse(Constants.baseURL + "onboarding/verify-code"),
             headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         _prefs.authToken = decodeJson['data']['authToken'];
         return decodeJson['message'];
       } else {
@@ -319,7 +319,7 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -335,24 +335,24 @@ class OnboardingProvider with ChangeNotifier {
     var body = jsonEncode(jsonData);
 
     final response = await http
-        .post(Constants.baseURL + "onboarding/update-password",
+        .post(Uri.parse(Constants.baseURL + "onboarding/update-password"),
             headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -363,9 +363,9 @@ class OnboardingProvider with ChangeNotifier {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken.toString(),
     };
-    var jsonEncript = utils.encryptPwdIv(userModel.passWord);
+    var jsonEncript = utils.encryptPwdIv(userModel.passWord!);
     Map jsonData = {
-      'fullname': userModel.name + " " + userModel.lastName,
+      'fullname': userModel.name! + " " + userModel.lastName!,
       'email': userModel.email,
       'phone': userModel.numPhone,
       'password': jsonEncript['encrypted'],
@@ -382,22 +382,22 @@ class OnboardingProvider with ChangeNotifier {
     var body = jsonEncode(jsonData);
     print(body);
     final response = await http
-        .post(Constants.baseURL + "onboarding/create-account",
+        .post(Uri.parse(Constants.baseURL + "onboarding/create-account"),
             headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     print(response.body);
     if (response.statusCode == 201) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
-        _prefs.authToken = response.authToken;
-        _prefs.nameUser = response.user.fullname;
-        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.authToken = response.authToken!;
+        _prefs.nameUser = response.user!.fullname!;
+        _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
         return response.user;
       } else {
@@ -405,18 +405,18 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
   Future<dynamic> createAccountSocialNetwork(
-      String name,
-      String email,
+      String? name,
+      String? email,
       String phone,
       String cityId,
       String codeReferred,
       bool contactCommercial,
-      String typeRegister
+      String? typeRegister
       ) async {
     this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -444,22 +444,22 @@ class OnboardingProvider with ChangeNotifier {
     var body = jsonEncode(jsonData);
     print(body);
     final response = await http
-        .post(Constants.baseURL + "onboarding/create-account",
+        .post(Uri.parse(Constants.baseURL + "onboarding/create-account"),
         headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     print(response.body);
     if (response.statusCode == 201) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
-        _prefs.authToken = response.authToken;
-        _prefs.nameUser = response.user.fullname;
-        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.authToken = response.authToken!;
+        _prefs.nameUser = response.user!.fullname!;
+        _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
         return response.user;
       } else {
@@ -467,7 +467,7 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -500,27 +500,27 @@ class OnboardingProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(Constants.baseURL + "onboarding/create-account",
+        .post(Uri.parse(Constants.baseURL + "onboarding/create-account"),
         headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         var response = DataUser.fromJsonMap(decodeJson['data']);
-        _prefs.authToken = response.authToken;
-        _prefs.nameUser = response.user.fullname;
-        _prefs.countryIdUser = response.user.countryUser.id;
+        _prefs.authToken = response.authToken!;
+        _prefs.nameUser = response.user!.fullname!;
+        _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
         return response.user;
       } else {
         throw decodeJson['message'];
       }
     }  else {
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 

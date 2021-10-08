@@ -14,7 +14,7 @@ class PaymentMethodsPage extends StatefulWidget {
 }
 
 class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
-  ProviderCheckOut providerCheckOut;
+  late ProviderCheckOut providerCheckOut;
 
   @override
   void initState() {
@@ -62,12 +62,12 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
               Container(
                 width: 50,
                 height: 50,
-               child: SvgPicture.network(payment.image),
+               child: SvgPicture.network(payment.image!),
               ),
               SizedBox(width: 15,),
               Expanded(
                 child: Text(
-                  payment.methodPayment,
+                  payment.methodPayment!,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 16,

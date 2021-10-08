@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
-import 'package:wawamko/src/Providers/ProviderProducts.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+
 
 import 'Widgets.dart';
 
 class PhotosProductPage extends StatefulWidget {
-  final String image;
+  final String? image;
 
-  const PhotosProductPage({@required this.image});
+  const PhotosProductPage({required this.image});
   @override
   _PhotosProductPageState createState() => _PhotosProductPageState();
 }

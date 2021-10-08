@@ -1,14 +1,9 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Bank.dart';
-import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 
@@ -20,7 +15,7 @@ class DialogSelectBank extends StatefulWidget {
 }
 
 class _DialogSelectBankState extends State<DialogSelectBank> {
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   final prefs = SharePreference();
 
   @override
@@ -102,11 +97,11 @@ class _DialogSelectBankState extends State<DialogSelectBank> {
   Widget itemBank(Bank bank){
     return Container(
       child: ListTile(
-        title: Text(bank.bankName),
+        title: Text(bank.bankName!),
         leading: Radio(
           value: 1,
           groupValue: bank.valStatus,
-          onChanged: (value) {
+          onChanged: (dynamic value) {
             bank.valStatus = value;
            actionSelectBank(bank);
           },

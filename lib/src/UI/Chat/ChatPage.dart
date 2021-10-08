@@ -16,15 +16,15 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'WidgetsChat/MessageChat.dart';
 
 class ChatPage extends StatefulWidget {
-  final String roomId,orderId,subOrderId,typeChat;
-  const ChatPage({@required this.roomId, this.orderId, this.subOrderId,@required this.typeChat});
+  final String? roomId,orderId,subOrderId,typeChat;
+  const ChatPage({required this.roomId, this.orderId, this.subOrderId,required this.typeChat});
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  ProviderChat providerChat;
-  SocketService socketService;
+  late ProviderChat providerChat;
+  late SocketService socketService;
   final prefs = SharePreference();
   final messageController = TextEditingController();
   final focusMessage = FocusNode();
@@ -172,7 +172,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleImageSelection() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'png'],
     );
@@ -246,31 +246,28 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  messageReceiveType(String type){
+  messageReceiveType(String? type){
     switch (type) {
       case Constants.typeSeller:
-        socketService.socket.on('messageSellerUser', messageReceive);
+        socketService.socket!.on('messageSellerUser', messageReceive);
         break;
       case Constants.typeProvider:
-        socketService.socket.on('messageProviderUser', messageReceive);
+        socketService.socket!.on('messageProviderUser', messageReceive);
         break;
       case Constants.typeAdmin:
-        socketService.socket.on('messageAdminUser', messageReceive);
+        socketService.socket!.on('messageAdminUser', messageReceive);
         break;
     }
   }
 
-  String typeEmit(String type){
+  String typeEmit(String? type){
     switch (type) {
       case Constants.typeSeller:
         return "messageSellerUser";
-        break;
       case Constants.typeProvider:
         return 'messageProviderUser';
-        break;
       case Constants.typeAdmin:
         return "messageAdminUser";
-        break;
       default:
         return "";
     }

@@ -12,8 +12,8 @@ import 'WidgetsGeneric.dart';
 
 class ConfirmationSlidePage extends StatefulWidget {
 
-  final String email,name;
-  ConfirmationSlidePage({Key key,@required this.email,@required this.name}) : super(key: key);
+  final String? email,name;
+  ConfirmationSlidePage({Key? key,required this.email,required this.name}) : super(key: key);
   @override
   _ConfirmationSlidePageState createState() => _ConfirmationSlidePageState();
 }
@@ -77,7 +77,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       ),
                     ),
                     Text(
-                      "¡"+widget.name+"!",
+                      "¡"+widget.name!+"!",
                       style: TextStyle(
                           fontSize: 25,
                           fontFamily: Strings.fontBold,
@@ -106,7 +106,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       padding: const EdgeInsets.only(left: 50,right: 50),
                       child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
-                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email,typeView: Constants.isViewRegister,)) , (route) => false);
+                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email!,typeView: Constants.isViewRegister,)) , (route) => false);
 
                         },context),
                     ),

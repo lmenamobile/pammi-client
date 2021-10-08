@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
@@ -11,7 +10,6 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
 
 class SelectStatesPage extends StatefulWidget {
   @override
@@ -21,7 +19,7 @@ class SelectStatesPage extends StatefulWidget {
 class _SelectStatesPageState extends State<SelectStatesPage> {
   final searchStateController = TextEditingController();
   RefreshController _refreshStates = RefreshController(initialRefresh: false);
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   int pageOffset = 0;
   final prefs = SharePreference();
 
@@ -123,7 +121,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getStatesSearch(searchStateController.text??'');
+    getStatesSearch(searchStateController.text);
     _refreshStates.loadComplete();
   }
 
@@ -156,7 +154,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   getStatesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getStates(search.trim(), 0, providerSettings.countrySelected!=null?providerSettings.countrySelected.id:prefs.countryIdUser);
+        Future callUser = providerSettings.getStates(search.trim(), 0, providerSettings.countrySelected!=null?providerSettings.countrySelected!.id:prefs.countryIdUser);
         await callUser.then((msg) {}, onError: (error) {
          // utils.showSnackBar(context, error.toString());
         });

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -20,8 +18,8 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
       body: WillPopScope(
-        onWillPop: () async => showAlertActions(
-            context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)),
+        onWillPop: (() async => showAlertActions(
+            context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)) as Future<bool>),
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
@@ -71,10 +69,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   padding: const EdgeInsets.only(left: 35, right: 35),
                   child: btnCustomRoundedBorder(CustomColors.blueSplash,
                       CustomColors.white, Strings.login, () {
-                    Navigator.of(context).push(PageTransition(
-                        type: PageTransitionType.slideInLeft,
-                        child: LoginPage(),
-                        duration: Duration(milliseconds: 700)));
+                    Navigator.of(context).push(customPageTransition(
+                       LoginPage()));
                   }, context, CustomColors.white),
                 ),
                 SizedBox(height: 20),

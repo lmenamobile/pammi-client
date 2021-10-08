@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
@@ -23,7 +21,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
-  ProfileProvider profileProvider;
+  ProfileProvider? profileProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           onTap: () {
-                            _drawerKey.currentState.openDrawer();
+                            _drawerKey.currentState!.openDrawer();
                           },
                         ),
                         Expanded(
@@ -121,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         image: profileProvider?.user !=
                                             null
                                             ? NetworkImage(profileProvider
-                                            ?.user?.photoUrl)
+                                            ?.user?.photoUrl??'')
                                             : NetworkImage(''),
                                         fit: BoxFit.cover,
                                         placeholder: AssetImage(
@@ -137,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(width: 20),
                         Expanded(
                           child: Text(
-                            profileProvider?.user==null?_prefs.nameUser:profileProvider?.user?.fullname,
+                            profileProvider!.user==null?_prefs.nameUser:profileProvider?.user?.fullname??'',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
@@ -185,10 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 }),
                                 itemProfile(context, "Assets/images/ic_place.png",
                                     Strings.myAddress, true, true, true, () {
-                                  Navigator.of(context).push(PageTransition(
-                                      type: PageTransitionType.slideInLeft,
-                                      child: MyAddressPage(),
-                                      duration: Duration(milliseconds: 700)));
+                                  Navigator.of(context).push(customPageTransition( MyAddressPage()));
                                 }),
                               ],
                             ),
@@ -197,10 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: <Widget>[
                                 itemProfile(context, "Assets/images/ic_target.png",
                                     Strings.methodsPay, false, false, false, () {
-                                  Navigator.of(context).push(PageTransition(
-                                      type: PageTransitionType.slideInLeft,
-                                      child: MyCreditCards(),
-                                      duration: Duration(milliseconds: 700)));
+                                  Navigator.of(context).push(customPageTransition(MyCreditCards()));
                                 }),
                                 itemProfile(context, "Assets/images/ic_order_history.png",
                                     Strings.myOrders, true, false, true, () {
@@ -254,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 10,),
                 InkWell(
-                  onTap: ()=>profileProvider.isOpenLink = !profileProvider.isOpenLink,
+                  onTap: ()=>profileProvider!.isOpenLink = !profileProvider!.isOpenLink,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -262,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child:Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(profileProvider.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: CustomColors.blueSplash,),
+                      child: Icon(profileProvider!.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: CustomColors.blueSplash,),
                     ),
                   ),
                 )
@@ -271,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         Visibility(
-          visible: profileProvider.isOpenLink,
+          visible: profileProvider!.isOpenLink,
           child: BounceInDown(
             child: Container(
               margin: EdgeInsets.only(left: 30,right: 30,top: 10),
@@ -285,7 +277,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     Text(
-                      _prefs.referredCode??'',
+                      _prefs.referredCode,
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: Strings.fontBold

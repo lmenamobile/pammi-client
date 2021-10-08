@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -23,7 +24,7 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshNotifications = RefreshController(initialRefresh: false);
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   int pageOffset = 0;
 
   @override
@@ -51,7 +52,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       Strings.notifications,
                       "ic_menu_w.png",
                       "ic_remove_white.png",
-                          () => keyMenuLeft.currentState.openDrawer(),
+                          () => keyMenuLeft.currentState!.openDrawer(),
                           () => validateActionDelete(),false,""),
                   SizedBox(height: 10,),
                   Expanded(child: SmartRefresher(
@@ -78,7 +79,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   Widget itemNotification(Notifications notification,Function select) {
     return Container(
-      color: notification.isSelected?CustomColors.gray9:Colors.transparent,
+      color: notification.isSelected!?CustomColors.gray9:Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -111,7 +112,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       ),
                       SizedBox(height: 8,),
                       Text(
-                        formatDate(notification?.createdAt, "dd-MM-yyyy", Constants.localeES),
+                        formatDate(notification.createdAt??DateTime.now(), "dd-MM-yyyy", Constants.localeES),
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
                             color: CustomColors.gray8
@@ -119,7 +120,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       ),
                       SizedBox(height: 5,),
                       Text(
-                       notification?.message??'',
+                       notification.message??'',
                         maxLines: 4,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
@@ -135,7 +136,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     margin: EdgeInsets.only(right: 10),
                     child: CircleAvatar(
                       radius: 7,
-                      backgroundColor: notification.isSelected?CustomColors.orange:CustomColors.gray5,
+                      backgroundColor: notification.isSelected!?CustomColors.orange:CustomColors.gray5,
                     ),
                   ),
                 )
@@ -179,7 +180,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  actionOpenNotification(String typeNotification){
+  actionOpenNotification(String? typeNotification){
     switch (typeNotification) {
       case Constants.notificationOrder:
         Navigator.push(context, customPageTransition(MyOrdersPage()));
@@ -191,9 +192,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   validateActionDelete()async{
-    if(providerSettings.ltsNotifications.firstWhere((element) => element.isSelected == true,orElse: ()=>null)!=null) {
-      bool status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteNotifications, "ic_trash_big.png");
-      if (status)
+    if(providerSettings.ltsNotifications.firstWhereOrNull((element) => element.isSelected == true)!=null) {
+      bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteNotifications, "ic_trash_big.png");
+      if (status??false)
         deleteNotifications();
     }else{
       utils.showSnackBar(context, Strings.notSelectedNotification);

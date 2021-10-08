@@ -78,7 +78,7 @@ Widget itemProductSearch(Product product, Function openDetail){
               height: 100,
               child: FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(product?.references[0]?.images[0]?.url),
+                image: NetworkImage(product.references?[0].images?[0].url??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
               ),
             ),
@@ -89,7 +89,7 @@ Widget itemProductSearch(Product product, Function openDetail){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product?.brandProvider?.brand?.brand??'',
+                    product.brandProvider?.brand?.brand??'',
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
@@ -97,7 +97,7 @@ Widget itemProductSearch(Product product, Function openDetail){
                     ),
                   ),
                   Text(
-                    product?.references[0]?.reference??'',
+                    product.references?[0].reference??'',
                     maxLines: 2,
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
@@ -106,7 +106,7 @@ Widget itemProductSearch(Product product, Function openDetail){
                     ),
                   ),
                   Text(
-                    formatMoney( product?.references[0]?.price??'0'),
+                    formatMoney( product.references?[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       color: CustomColors.orange,

@@ -76,7 +76,7 @@ Widget itemCountrySelect(CountryUser country, Function action) {
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                           child: SvgPicture.network(
-                            country.flag,
+                            country.flag!,
                             height: 30,
                             width: 30,
                             fit: BoxFit.fitHeight,
@@ -84,7 +84,7 @@ Widget itemCountrySelect(CountryUser country, Function action) {
                         )),
                     SizedBox(width: 15),
                     Text(
-                      country.country,
+                      country.country!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 15,
@@ -128,7 +128,7 @@ Widget itemCountry(CountryUser country, Function action) {
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   child: SvgPicture.network(
-                    country.flag,
+                    country.flag!,
                     height: 30,
                     width: 30,
                     fit: BoxFit.fitHeight,
@@ -136,7 +136,7 @@ Widget itemCountry(CountryUser country, Function action) {
                 )),
             SizedBox(width: 15),
             Text(
-              country.country,
+              country.country!,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: 18,
@@ -169,7 +169,7 @@ Widget itemStateCountry(StatesCountry state, Function action) {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  state.name,
+                  state.name!,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: 18,
@@ -202,7 +202,7 @@ Widget cityItem(City city, Function action) {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  city.name,
+                  city.name!,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: 18,

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 class AnimateButton extends StatefulWidget {
-  final Function pressEvent;
-  final Widget body;
-  final IconData icon;
+  final Function? pressEvent;
+  final Widget? body;
+  final IconData? icon;
   final double width;
   final bool isFixedHeight;
-  final Color color;
+  final Color? color;
 
   const AnimateButton(
-      {@required this.pressEvent,
+      {required this.pressEvent,
         this.body,
         this.icon,
         this.color,
@@ -21,7 +21,7 @@ class AnimateButton extends StatefulWidget {
 }
 
 class _AnimateButtonState extends State<AnimateButton> with AnimationMixin {
-  Animation<double> _scale;
+  late Animation<double> _scale;
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _AnimateButtonState extends State<AnimateButton> with AnimationMixin {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.pressEvent();
+        widget.pressEvent!();
         //  _controller.forward();
       },
       onTapDown: _onTapDown,
@@ -61,12 +61,12 @@ class _AnimateButtonState extends State<AnimateButton> with AnimationMixin {
       },
       child: Transform.scale(
         scale: _scale.value,
-        child: _AnimateButtonUI,
+        child: _animateButtonUI,
       ),
     );
   }
 
-  Widget get _AnimateButtonUI => Container(
+  Widget get _animateButtonUI => Container(
     height: widget.isFixedHeight ? 50.0 : null,
     width: widget.width,
     child: widget.body,

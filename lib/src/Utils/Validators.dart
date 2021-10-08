@@ -4,7 +4,7 @@ Pattern patternPassword = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*)[a-zA-Z\d\W\_].{5,}$';/
 Pattern validateNum = r'^[0-9]{0,}$';
 
 bool validateEmail(String email) {
-  RegExp regExp = RegExp(patternEmail);
+  RegExp regExp = RegExp(patternEmail as String);
   if (regExp.hasMatch(email)) {
     return true;
   } else {
@@ -13,7 +13,7 @@ bool validateEmail(String email) {
 }
 
 bool validatePwd(String password) {
-  RegExp regExp = RegExp(patternPassword);
+  RegExp regExp = RegExp(patternPassword as String);
   if(password.isEmpty)return false;
   if(regExp.hasMatch(password)){
     return true;
@@ -24,7 +24,7 @@ bool validatePwd(String password) {
 
 
 bool validatePhone(String phone) {
-  RegExp regExp = RegExp(validateNum);
+  RegExp regExp = RegExp(validateNum as String);
   if(phone.isEmpty)return false;
   if(regExp.hasMatch(phone) && phone.length == 10){
     return true;

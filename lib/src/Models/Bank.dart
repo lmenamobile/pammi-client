@@ -5,9 +5,9 @@ class Bank {
     this.valStatus
   });
 
-  String bankCode;
-  String bankName;
-  int valStatus = -1;
+  String? bankCode;
+  String? bankName;
+  int? valStatus = -1;
 
   factory Bank.fromJson(Map<String, dynamic> json) => Bank(
     bankCode: json["bankCode"],

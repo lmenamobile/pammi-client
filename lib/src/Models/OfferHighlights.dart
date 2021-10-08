@@ -1,4 +1,3 @@
-import 'package:wawamko/src/Models/Product/BrandProvider.dart';
 
 import 'Product/Reference.dart';
 import 'SubCategory.dart';
@@ -15,14 +14,14 @@ class OfferHighlights {
     this.subcategory,
   });
 
-  int id;
-  String name;
-  String offerType;
-  String discountValue;
-  String imageBanner;
-  String brandProvider;
-  Reference reference;
-  SubCategory subcategory;
+  int? id;
+  String? name;
+  String? offerType;
+  String? discountValue;
+  String? imageBanner;
+  String? brandProvider;
+  Reference? reference;
+  SubCategory? subcategory;
 
   factory OfferHighlights.fromJson(Map<String, dynamic> json) => OfferHighlights(
     id: json["id"],
@@ -41,7 +40,7 @@ class OfferHighlights {
     "offerType": offerType,
     "discountValue": discountValue,
     "imageBanner": imageBanner,
-    "reference": reference.toJson(),
-    "subcategory": subcategory.toJson(),
+    "reference": reference!.toJson(),
+    "subcategory": subcategory!.toJson(),
   };
 }

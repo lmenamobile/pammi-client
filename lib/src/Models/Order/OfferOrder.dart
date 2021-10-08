@@ -10,11 +10,11 @@ class OfferOrder {
     this.brandProvider,
   });
 
-  int id;
-  String name;
-  String offerType;
-  List<ProductOfferCart> baseProducts;
-  BrandProvider brandProvider;
+  int? id;
+  String? name;
+  String? offerType;
+  List<ProductOfferCart>? baseProducts;
+  BrandProvider? brandProvider;
 
   factory OfferOrder.fromJson(Map<String, dynamic> json) => OfferOrder(
     id: json["id"],
@@ -28,7 +28,7 @@ class OfferOrder {
     "id": id,
     "name": name,
     "offerType": offerType,
-    "baseProducts": List<dynamic>.from(baseProducts.map((x) => x.toJson())),
-    "brandProvider": brandProvider.toJson(),
+    "baseProducts": List<dynamic>.from(baseProducts!.map((x) => x.toJson())),
+    "brandProvider": brandProvider!.toJson(),
   };
 }

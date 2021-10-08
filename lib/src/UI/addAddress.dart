@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +29,9 @@ import 'SearchCountryAndCity/SelectStates.dart';
 
 class AddAddressPage extends StatefulWidget {
   final flagAddress;
-  model.Address address;
+  model.Address? address;
 
-  AddAddressPage({Key key, this.flagAddress, this.address}) : super(key: key);
+  AddAddressPage({Key? key, this.flagAddress, this.address}) : super(key: key);
 
   @override
   _AddAddressPageState createState() => _AddAddressPageState();
@@ -44,30 +45,30 @@ class _AddAddressPageState extends State<AddAddressPage>
   final cityController = TextEditingController();
   final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
-  NotifyVariablesBloc notifyVariables;
+  late NotifyVariablesBloc notifyVariables;
 
-  GooglePlaces googlePlaces;
+  late GooglePlaces googlePlaces;
   var location2 = loc.Location();
-  LocationData location;
+  LocationData? location;
   var focusNode = FocusNode();
   var editAddress = false;
   bool enableGeoCode = false;
   bool bandLoadingText = false;
-  var locationAddress = "";
-  var namePlace = "";
+  String? locationAddress = "";
+  String? namePlace = "";
   var lat = 0.0;
   var lon = -0.0;
-  var latLocation = 0.0;
-  var lonLocation = -0.0;
+  double? latLocation = 0.0;
+  double? lonLocation = -0.0;
 
   var cityPlace = "";
-  var city = '';
+  String? city = '';
 
-  GoogleMapController mapController;
-  CameraPosition _initialPosition;
+  late GoogleMapController mapController;
+  CameraPosition? _initialPosition;
 
   Completer<GoogleMapController> _controller = Completer();
-  ProviderSettings providerSettings;
+  ProviderSettings? providerSettings;
 
   getPermissionGps() async {
     loc.Location location = new loc.Location();
@@ -102,18 +103,18 @@ class _AddAddressPageState extends State<AddAddressPage>
     singleton.latitude = locationData.latitude;
     singleton.longitude = locationData.longitude;
     CameraPosition updateCamera =
-        CameraPosition(target: LatLng(latLocation, lonLocation), zoom: 16.5);
+        CameraPosition(target: LatLng(latLocation!, lonLocation!), zoom: 16.5);
     mapController.moveCamera(CameraUpdate.newCameraPosition(updateCamera));
     setState(() {});
     _geocodeFirstFromCorToAddress();
   }
 
   loadFieldsAddress() {
-    addressController.text = widget.address.address;
-    complementController.text = widget.address.complement;
-    nameAddressController.text = widget.address.name;
-    latLocation = double.parse(widget.address.latitude);
-    lonLocation = double.parse(widget.address.longitude);
+    addressController.text = widget.address!.address!;
+    complementController.text = widget.address!.complement!;
+    nameAddressController.text = widget.address!.name!;
+    latLocation = double.parse(widget.address!.latitude!);
+    lonLocation = double.parse(widget.address!.longitude!);
   }
 
   @override
@@ -140,7 +141,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
-    cityController.text = providerSettings?.citySelected?.name;
+    cityController.text = providerSettings?.citySelected?.name??'';
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -235,18 +236,18 @@ class _AddAddressPageState extends State<AddAddressPage>
         utils.startProgress(context);
         Future callResponse = UserProvider.instance.updateAddress(
             context,
-            addressController.text ?? "",
+            addressController.text ,
             latLocation.toString(),
             lonLocation.toString(),
-            complementController.text ?? "",
+            complementController.text ,
             nameAddressController.text,
-            widget.address);
+            widget.address!);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           ChangeStatusAddressResponse data =
               ChangeStatusAddressResponse.fromJson(decodeJSON);
 
-          if (data.status) {
+          if (data.status!) {
             Navigator.pop(context);
             Navigator.pop(context, true);
           } else {
@@ -550,7 +551,7 @@ class _AddAddressPageState extends State<AddAddressPage>
         enableGeoCode = true;
       },
       initialCameraPosition:
-          CameraPosition(target: LatLng(latLocation, lonLocation), zoom: 16.5),
+          CameraPosition(target: LatLng(latLocation!, lonLocation!), zoom: 16.5),
       compassEnabled: true,
       rotateGesturesEnabled: false,
       zoomGesturesEnabled: true,
@@ -572,8 +573,8 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   openSelectCityByState()async{
     if(providerSettings?.countrySelected!=null||prefs.countryIdUser!="0") {
-      providerSettings.ltsStatesCountries.clear();
-      await providerSettings.getStates("", 0, providerSettings?.countrySelected!=null?providerSettings.countrySelected.id:prefs.countryIdUser);
+      providerSettings!.ltsStatesCountries.clear();
+      await providerSettings!.getStates("", 0, providerSettings?.countrySelected!=null?providerSettings!.countrySelected!.id:prefs.countryIdUser);
       Navigator.push(context, customPageTransition(SelectStatesPage()));
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
@@ -611,14 +612,14 @@ class _AddAddressPageState extends State<AddAddressPage>
             this.addressController.text,
             this.latLocation.toString(),
             this.lonLocation.toString(),
-            complementController.text ?? "",
-            nameAddressController.text ?? "",
-            providerSettings?.citySelected?.id.toString()
+            complementController.text ,
+            nameAddressController.text,
+            providerSettings?.citySelected?.id?.toString()??''
         );
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           AddressResponse data = AddressResponse.fromJson(decodeJSON);
-          if (data.status) {
+          if (data.status!) {
             Navigator.pop(context);
             Navigator.pop(context, true);
           } else {
@@ -636,23 +637,21 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
   void _geocodeFromCorToAddress() async {
     if (enableGeoCode) {
-      final coordinates = new Coordinates(lat, lon);
-      var addresses =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+      var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
       var result = addresses.first;
-      locationAddress = result.addressLine;
-      var pos = locationAddress.indexOf(',');
-      locationAddress = locationAddress.substring(0, pos);
+      locationAddress = result.street;
+      var pos = locationAddress!.indexOf(',');
+      locationAddress = locationAddress!.substring(0, pos);
 
       city = result.locality;
       namePlace = result.thoroughfare;
-      latLocation = result.coordinates.latitude;
-      lonLocation = result.coordinates.longitude;
+
 
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         setState(() {
-          addressController.text = locationAddress;
+          addressController.text = locationAddress!;
           bandLoadingText = false;
         });
       });
@@ -662,24 +661,21 @@ class _AddAddressPageState extends State<AddAddressPage>
 
   void _geocodeFirstFromCorToAddress() async {
     // if(enableGeoCode){
-    final coordinates = new Coordinates(latLocation, lonLocation);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+    var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
     var result = addresses.first;
-    locationAddress = result.addressLine;
-    var pos = locationAddress.indexOf(',');
-    locationAddress = locationAddress.substring(0, pos);
+    locationAddress = result.street;
+    var pos = locationAddress!.indexOf(',');
+    locationAddress = locationAddress!.substring(0, pos);
 
     city = result.locality;
     //var arrayName = result.
     namePlace = result.thoroughfare;
-    latLocation = result.coordinates.latitude;
-    lonLocation = result.coordinates.longitude;
-    print("Result: ${result.addressLine} ");
+
 
     Future.delayed(const Duration(milliseconds: 1500), () {
       setState(() {
-        addressController.text = locationAddress;
+        addressController.text = locationAddress!;
 
         //bandLoadingText = false;
       });
@@ -689,31 +685,30 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   @override
-  selectedLocation(double lat, double lng, String address, String name,
+  selectedLocation(double lat, double lng, String? address, String name,
       String photoReference) {
     setState(() {
 
 
       locationAddress = address;
       if (lat != 0.0 && lng != 0.0 && address != '') {
-        int indexChar = address.indexOf(",");
+        int indexChar = address!.indexOf(",");
         var addressSubtitle = address.replaceRange(0, indexChar + 2, "");
         addressController.text = name + " " + cityPlace;
         namePlace = name;
         cityPlace = addressSubtitle;
         city = cityPlace;
 
-        print(namePlace + "city" + cityPlace);
+        print(namePlace! + "city" + cityPlace);
 
         latLocation = lat;
         lonLocation = lng;
 
-        print("Lat ${latLocation})");
-        print("Lng ${lonLocation}");
+
         enableGeoCode = false;
         FocusScope.of(context).unfocus();
         mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(latLocation, lonLocation),
+          target: LatLng(latLocation!, lonLocation!),
           //bearing: location.heading,
           zoom: 16.5,
           tilt: 37.0,

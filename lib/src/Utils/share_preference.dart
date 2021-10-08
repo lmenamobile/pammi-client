@@ -10,7 +10,7 @@ class SharePreference {
 
   SharePreference._internal();
 
-  SharedPreferences _prefs;
+  late SharedPreferences _prefs;
 
   initPrefs() async {
     this._prefs = await SharedPreferences.getInstance();
@@ -20,7 +20,7 @@ class SharePreference {
     await this._prefs.clear();
   }
 
-  get userID {
+  String get userID {
     return _prefs.getString('userID') ?? "";
   }
 
@@ -28,7 +28,7 @@ class SharePreference {
     _prefs.setString('userID', value);
   }
 
-  get referredCode {
+  String get referredCode {
     return _prefs.getString('referredCode') ?? "";
   }
 
@@ -36,7 +36,7 @@ class SharePreference {
     _prefs.setString('referredCode', value);
   }
 
-  get codeShare {
+  String get codeShare {
     return _prefs.getString('code') ?? "";
   }
 
@@ -44,7 +44,7 @@ class SharePreference {
     _prefs.setString('code', value);
   }
 
-  get countryIdUser {
+  String get countryIdUser {
     return _prefs.getString('countryIdUser') ?? "0";
   }
 
@@ -52,7 +52,7 @@ class SharePreference {
     _prefs.setString('countryIdUser', value);
   }
 
-  get nameUser {
+  String get nameUser {
     return _prefs.getString('nameUser') ?? "0";
   }
 
@@ -60,7 +60,7 @@ class SharePreference {
     _prefs.setString('nameUser', value);
   }
 
-  get token {
+  String get token {
     return _prefs.getString('token') ?? "0";
   }
 
@@ -68,7 +68,7 @@ class SharePreference {
     _prefs.setString('token', value);
   }
 
-  get pushToken {
+  String get pushToken {
     return _prefs.getString('pushToken') ??'';
   }
 
@@ -76,7 +76,7 @@ class SharePreference {
     _prefs.setString('pushToken', value);
   }
 
-  get dataUser {
+  String get dataUser {
     return _prefs.getString('dataUser') ?? "0";
   }
 
@@ -87,7 +87,7 @@ class SharePreference {
 
 
 
-  get enableTour {
+ bool get enableTour {
     return _prefs.getBool('enableTour') ?? true;
   }
 
@@ -95,7 +95,7 @@ class SharePreference {
     _prefs.setBool('enableTour', value);
   }
 
-  get authToken {
+  String get authToken {
     return _prefs.getString('authToken') ?? "0";
   }
 
@@ -103,7 +103,7 @@ class SharePreference {
     _prefs.setString('authToken', value);
   }
 
-  get accessToken {
+  String get accessToken {
     return _prefs.getString('accessToken') ?? "0";
   }
 

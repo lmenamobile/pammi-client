@@ -11,14 +11,14 @@ class TermsAndConditions {
     this.createdAt,
   });
 
-  int id;
-  String name;
-  String fileType;
-  String moduleType;
-  String url;
-  bool visible;
-  String status;
-  DateTime createdAt;
+  int? id;
+  String? name;
+  String? fileType;
+  String? moduleType;
+  String? url;
+  bool? visible;
+  String? status;
+  DateTime? createdAt;
 
   factory TermsAndConditions.fromJson(Map<String, dynamic> json) => TermsAndConditions(
     id: json["id"],

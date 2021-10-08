@@ -25,8 +25,8 @@ class GiftCartPage extends StatefulWidget {
 class _GiftCartPageState extends State<GiftCartPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshGiftCard = RefreshController(initialRefresh: false);
-  ProviderShopCart providerShopCart;
-  ProviderSettings providerSettings;
+  late ProviderShopCart providerShopCart;
+  late ProviderSettings providerSettings;
   int pageOffset = 0;
 
   @override
@@ -57,7 +57,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                       Strings.giftCards,
                       "ic_menu_w.png",
                       "ic_car.png",
-                          () => keyMenuLeft.currentState.openDrawer(),
+                          () => keyMenuLeft.currentState!.openDrawer(),
                           ()=>Navigator.push(context, customPageTransition(ShopCartPage())),false,""),
                   Text(
                     Strings.buyGiftCard,
@@ -205,7 +205,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                         child: Image.asset("Assets/images/ic_giftcard.png")),
                     Center(
                       child: Text(
-                        formatMoney(gift?.value ?? '0'),
+                        formatMoney(gift.value ?? '0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 18,
@@ -224,7 +224,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  gift?.name ?? '',
+                  gift.name ?? '',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -235,7 +235,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   height: 5,
                 ),
                 Text(
-                  formatMoney(gift?.value ?? '0'),
+                  formatMoney(gift.value ?? '0'),
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
@@ -292,7 +292,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
 
   updateDataFilter(){
     Navigator.push(context, customPageTransition(FilterGiftCartPage())).then((value) =>{
-      if(value){
+      if(value as bool){
         providerShopCart.ltsGiftCard.clear(),
         getLtsGiftCarts()
       }
@@ -303,7 +303,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.getGiftCards(pageOffset, providerSettings.selectCategory==null?null:
-            providerSettings.selectCategory.id.toString(), null);
+            providerSettings.selectCategory!.id.toString(), null);
         await callCart.then((msg) {}, onError: (error) {
           providerShopCart.isLoadingCart = false;
           //utils.showSnackBar(context, error.toString());

@@ -17,21 +17,21 @@ class Seller {
     this.qualification,
   });
 
-  String id;
-  String fullName;
-  String identification;
-  String email;
-  String photoUrl;
-  String societyType;
-  String legalRepresentative;
-  String document;
-  String address;
-  String latitude;
-  String longitude;
-  String phoneNumber;
-  String type;
-  String typeSeller;
-  String qualification;
+  String? id;
+  String? fullName;
+  String? identification;
+  String? email;
+  String? photoUrl;
+  String? societyType;
+  String? legalRepresentative;
+  String? document;
+  String? address;
+  String? latitude;
+  String? longitude;
+  String? phoneNumber;
+  String? type;
+  String? typeSeller;
+  String? qualification;
 
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
     id: json["id"],

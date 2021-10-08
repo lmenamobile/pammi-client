@@ -20,14 +20,14 @@ class SupportProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Question> _lstQuestion = List();
+  List<Question> _lstQuestion = [];
   List<Question> get lstQuestion => this._lstQuestion;
   set lstQuestion(List<Question> value) {
     this._lstQuestion.addAll(value);
     notifyListeners();
   }
 
-  List<TermsAndConditions> _lstTermsAndConditions = List();
+  List<TermsAndConditions> _lstTermsAndConditions = [];
   List<TermsAndConditions> get lstTermsAndConditions => this._lstTermsAndConditions;
   set lstTermsAndConditions(List<TermsAndConditions> value) {
     this._lstTermsAndConditions.addAll(value);
@@ -46,24 +46,24 @@ class SupportProvider with ChangeNotifier {
     };
     var body = jsonEncode(params);
     final response = await http
-        .post(Constants.baseURL + 'profile/become-seller',
+        .post(Uri.parse(Constants.baseURL + 'profile/become-seller'),
             headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -74,23 +74,23 @@ class SupportProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
     final response = await http
-        .get(Constants.baseURL + 'profile/become-seller', headers: header)
+        .get(Uri.parse(Constants.baseURL + 'profile/become-seller'), headers: header)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -108,16 +108,16 @@ class SupportProvider with ChangeNotifier {
       "countryId": prefs.countryIdUser
     };
     var body = jsonEncode(jsonData);
-    final response = await http.post(Constants.baseURL + "system/get-conditions", headers: header, body: body).timeout(Duration(seconds: 25)).catchError((value) {
+    final response = await http.post(Uri.parse(Constants.baseURL + "system/get-conditions"), headers: header, body: body).timeout(Duration(seconds: 25)).catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
 
-    final List<TermsAndConditions> listTerms = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<TermsAndConditions> listTerms = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final term = TermsAndConditions.fromJson(item);
           listTerms.add(term);
@@ -131,7 +131,7 @@ class SupportProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }
@@ -153,17 +153,17 @@ class SupportProvider with ChangeNotifier {
 
     var body = jsonEncode(jsonData);
 
-    final response = await http.post(Constants.baseURL + "system/get-frequent-questions", headers: header, body: body)
+    final response = await http.post(Uri.parse(Constants.baseURL + "system/get-frequent-questions"), headers: header, body: body)
         .timeout(Duration(seconds: 25)).catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Question> listQuestions = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Question> listQuestions = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final question = Question.fromJson(item);
           listQuestions.add(question);
@@ -177,7 +177,7 @@ class SupportProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 }

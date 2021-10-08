@@ -8,12 +8,12 @@ class DataMessage {
     this.dates,
   });
 
-  int id;
-  String state;
-  String type;
-  String message;
-  String typeUser;
-  Dates dates;
+  int? id;
+  String? state;
+  String? type;
+  String? message;
+  String? typeUser;
+  Dates? dates;
 
   factory DataMessage.fromJson(Map<String, dynamic> json) => DataMessage(
     id: json["id"],
@@ -31,13 +31,13 @@ class Dates {
     this.createdAt,
   });
 
-  DateTime createdAt;
+  DateTime? createdAt;
 
   factory Dates.fromJson(Map<String, dynamic> json) => Dates(
     createdAt: DateTime.parse(json["createdAt"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "createdAt": createdAt.toIso8601String(),
+    "createdAt": createdAt!.toIso8601String(),
   };
 }

@@ -16,7 +16,7 @@ class ProductsSavePage extends StatefulWidget {
 
 class _ProductsSavePageState extends State<ProductsSavePage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
-  ProviderShopCart providerShopCart;
+  late ProviderShopCart providerShopCart;
   RefreshController _refreshProductsSave = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 

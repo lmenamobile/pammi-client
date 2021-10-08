@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +10,6 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/Qualificati
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -20,15 +18,15 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 class DetailOrderPage extends StatefulWidget {
   final String idOrder;
   final bool isActiveOrder;
-  const DetailOrderPage({@required this.idOrder, @required this.isActiveOrder});
+  const DetailOrderPage({required this.idOrder, required this.isActiveOrder});
   @override
   _DetailOrderPageState createState() => _DetailOrderPageState();
 }
 
 class _DetailOrderPageState extends State<DetailOrderPage> {
-  ProviderOrder providerOrder;
-  ProviderChat providerChat;
-  SocketService socketService;
+  ProviderOrder? providerOrder;
+  late ProviderChat providerChat;
+  late SocketService socketService;
   final prefs = SharePreference();
 
   @override
@@ -57,7 +55,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
-                          providerOrder?.orderDetail!=null? providerOrder.orderDetail.packagesProvider[0].providerProduct==null?listGiftCards():listProviders():Container(),
+                          providerOrder?.orderDetail!=null? providerOrder!.orderDetail!.packagesProvider![0].providerProduct==null?listGiftCards():listProviders():Container(),
                           providerOrder?.orderDetail?.seller!=null?
                           sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
                           Container(),
@@ -71,7 +69,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                 ],
               ),
               Visibility(
-                  visible: providerOrder.isLoading, child: LoadingProgress()),
+                  visible: providerOrder!.isLoading, child: LoadingProgress()),
             ],
           ),
         ),
@@ -85,9 +83,9 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(horizontal: 20),
         physics: NeverScrollableScrollPhysics(),
-        itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder.orderDetail.packagesProvider.length,
+        itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder!.orderDetail!.packagesProvider!.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(providerOrder?.orderDetail?.packagesProvider[index],widget.isActiveOrder,openQualificationPage,openChat);
+          return itemProductsProvider(providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat);
         },
       ),
     );
@@ -99,9 +97,9 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
       child: ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder.orderDetail.packagesProvider[0].productsProvider.length,
+        itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder!.orderDetail!.packagesProvider![0].productsProvider!.length,
         itemBuilder: (_, int index) {
-          return itemGift(providerOrder.orderDetail.packagesProvider[0].productsProvider[index].giftCard);
+          return itemGift(providerOrder!.orderDetail!.packagesProvider![0].productsProvider![index].giftCard);
         },
       ),
     );
@@ -128,9 +126,9 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
   }
 
   saveImagesBrands(PackageProvider providerPackage){
-    providerOrder.lstImagesBrands.clear();
-    providerPackage.productsProvider.forEach((element) {
-      providerOrder.setImageBrand = element.reference.brandAndProduct.brandProvider.brand.image;
+    providerOrder!.lstImagesBrands.clear();
+    providerPackage.productsProvider!.forEach((element) {
+      providerOrder!.setImageBrand = element.reference!.brandAndProduct!.brandProvider!.brand!.image;
     });
 
   }
@@ -142,7 +140,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
   getDetailOrder(String idOrder) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrder = providerOrder.getOrderDetail(idOrder);
+        Future callOrder = providerOrder!.getOrderDetail(idOrder);
         await callOrder.then((product) {
 
         }, onError: (error) {

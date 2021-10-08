@@ -7,7 +7,7 @@ import '../WidgetsGeneric.dart';
 class DialogCustomTwoOptions extends StatelessWidget {
   final String title, msgText, asset;
 
-  const DialogCustomTwoOptions({@required this.title, @required this.msgText, @required this.asset});
+  const DialogCustomTwoOptions({required this.title, required this.msgText, required this.asset});
 
   @override
   Widget build(BuildContext context) {

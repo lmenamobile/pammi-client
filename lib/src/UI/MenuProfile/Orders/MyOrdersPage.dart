@@ -13,7 +13,7 @@ class MyOrdersPage extends StatefulWidget {
 
 class _MyOrdersPageState extends State<MyOrdersPage>
     with SingleTickerProviderStateMixin {
-  TabController tabControllerPages;
+  TabController? tabControllerPages;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
 
   @override
   void dispose() {
-    tabControllerPages.dispose();
+    tabControllerPages!.dispose();
     super.dispose();
   }
 

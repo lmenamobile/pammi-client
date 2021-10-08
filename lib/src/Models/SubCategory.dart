@@ -5,9 +5,9 @@ class SubCategory {
     this.status,
   });
 
-  int id;
-  String subcategory;
-  String status;
+  int? id;
+  String? subcategory;
+  String? status;
 
   factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
     id: json["id"],

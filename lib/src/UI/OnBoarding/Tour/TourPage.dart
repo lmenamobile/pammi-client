@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -9,7 +9,7 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'WelcomePage.dart';
 
 class TourPage extends StatefulWidget {
-  TourPage({Key key}) : super(key: key);
+  TourPage({Key? key}) : super(key: key);
 
   _FirstPageTourState createState() => _FirstPageTourState();
 }
@@ -37,16 +37,16 @@ class _FirstPageTourState extends State<TourPage> {
     ];
     return Stack(
       children: <Widget>[
-        Swiper(
-          loop: false,
-          itemBuilder: (BuildContext context, int index) {
-            return widgetsTour[index];
-          },
-          onIndexChanged: (index) {
-            this.position = index.toInt();
-            setState(() {});
-          },
+
+        CarouselSlider.builder(
           itemCount: widgetsTour.length,
+          itemBuilder: (_, int itemIndex, int pageViewIndex){
+            this.position = pageViewIndex;
+            return widgetsTour[itemIndex];
+          },
+          options: CarouselOptions(
+            autoPlay: false
+          ),
         ),
         Container(
           alignment: Alignment.bottomCenter,
@@ -68,7 +68,7 @@ class _FirstPageTourState extends State<TourPage> {
             onTap: () {
               prefs.enableTour = false;
               Navigator.of(context).pushReplacement(PageTransition(
-                  type: PageTransitionType.slideInLeft,
+                  type: PageTransitionType.leftToRight,
                   child: WelcomePage(),
                   duration: Duration(milliseconds: 700)));
             },

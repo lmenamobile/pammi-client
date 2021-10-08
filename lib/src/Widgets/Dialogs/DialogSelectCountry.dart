@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,6 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 
@@ -21,7 +19,7 @@ class DialogSelectCountry extends StatefulWidget {
 
 class _DialogSelectCountryState extends State<DialogSelectCountry> {
   RefreshController _refreshCountries = RefreshController(initialRefresh: false);
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   final prefs = SharePreference();
   int pageOffset = 0;
 
@@ -135,7 +133,7 @@ class _DialogSelectCountryState extends State<DialogSelectCountry> {
 
   actionSelectCountry(CountryUser country) {
     providerSettings.countrySelected = country;
-    prefs.countryIdUser = providerSettings.countrySelected.id;
+    prefs.countryIdUser = providerSettings.countrySelected!.id!;
     Navigator.pop(context,true);
   }
 

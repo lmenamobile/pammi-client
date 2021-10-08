@@ -1,8 +1,8 @@
 class CountriesResponse {
-  int code;
-  String message;
-  bool status;
-  DataCountries data;
+  int? code;
+  String? message;
+  bool? status;
+  DataCountries? data;
 
 
   CountriesResponse({
@@ -17,16 +17,16 @@ class CountriesResponse {
     code = json["code"];
     message= json["message"];
     status =json["status"];
-    data = status ? DataCountries.fromJsonMap(json["data"]):null;
+    data = status! ? DataCountries.fromJsonMap(json["data"]):null;
 
   }
 
 }
 
 class DataCountries{
-  int totalPages;
-  int currentPage;
-  List<Country> countries;
+  int? totalPages;
+  int? currentPage;
+  List<Country>? countries;
 
   DataCountries({
     this.totalPages,
@@ -45,12 +45,12 @@ class DataCountries{
 }
 
 class Country{
-  String id;
-  String country;
-  String callingCode;
-  String flag;
-  String currency;
-  String status;
+  String? id;
+  String? country;
+  String? callingCode;
+  String? flag;
+  String? currency;
+  String? status;
 
   Country({
     this.id,
@@ -75,10 +75,10 @@ class Country{
 
 
 class StatesResponse {
-  int code;
-  String message;
-  bool status;
-  DataStates data;
+  int? code;
+  String? message;
+  bool? status;
+  DataStates? data;
 
 
   StatesResponse({
@@ -93,7 +93,7 @@ class StatesResponse {
     code = json["code"];
     message= json["message"];
     status =json["status"];
-    data = status ? DataStates.fromJsonMap(json["data"]):null;
+    data = status! ? DataStates.fromJsonMap(json["data"]):null;
 
   }
 
@@ -101,9 +101,9 @@ class StatesResponse {
 
 
 class DataStates{
-  int totalPages;
-  int currentPage;
-  List<States> states;
+  int? totalPages;
+  int? currentPage;
+  List<States>? states;
 
   DataStates({
     this.totalPages,
@@ -123,10 +123,10 @@ class DataStates{
 
 
 class States{
-  int id;
-  String name;
-  int totalCities;
-  String status;
+  int? id;
+  String? name;
+  int? totalCities;
+  String? status;
 
   States({
     this.id,
@@ -149,10 +149,10 @@ class States{
 
 
 class CitiesResponse {
-  int code;
-  String message;
-  bool status;
-  DataCities data;
+  int? code;
+  String? message;
+  bool? status;
+  DataCities? data;
 
 
   CitiesResponse({
@@ -167,7 +167,7 @@ class CitiesResponse {
     code = json["code"];
     message= json["message"];
     status =json["status"];
-    data = status ? DataCities.fromJsonMap(json["data"]):null;
+    data = status! ? DataCities.fromJsonMap(json["data"]):null;
 
   }
 
@@ -175,9 +175,9 @@ class CitiesResponse {
 
 
 class DataCities{
-  int totalPages;
-  int currentPage;
-  List<City> cities;
+  int? totalPages;
+  int? currentPage;
+  List<City>? cities;
 
   DataCities({
     this.totalPages,
@@ -197,11 +197,11 @@ class DataCities{
 
 
 class City{
-  int id;
-  String name;
-  String name2;
-  int totalZones;
-  String status;
+  int? id;
+  String? name;
+  String? name2;
+  int? totalZones;
+  String? status;
 
   City({
     this.id,

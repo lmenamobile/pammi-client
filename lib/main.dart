@@ -27,8 +27,8 @@ import 'src/Utils/Strings.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = SharePreference();
-
   await prefs.initPrefs();
+  await PushNotificationService.initNotifications();
   runApp(MyApp());
 }
 
@@ -39,18 +39,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
+  void initState(){
     super.initState();
+    PushNotificationService.dataNotification.listen((message) {
 
-    final pushProvider = PushNotificationService();
-    pushProvider.initNotifications();
-    pushProvider.dataNotification.listen((data) {
-      print('infomarcion notificacion $data');
-      if(data['isLocal']) {
-
-      }else{
-
-      }
     });
   }
 

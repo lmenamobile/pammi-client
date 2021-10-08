@@ -6,8 +6,8 @@ class ProductFavorite {
     this.reference,
   });
 
-  int id;
-  Reference reference;
+  int? id;
+  Reference? reference;
 
   factory ProductFavorite.fromJson(Map<String, dynamic> json) => ProductFavorite(
     id: json["id"],
@@ -16,6 +16,6 @@ class ProductFavorite {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "reference": reference.toJson(),
+    "reference": reference!.toJson(),
   };
 }

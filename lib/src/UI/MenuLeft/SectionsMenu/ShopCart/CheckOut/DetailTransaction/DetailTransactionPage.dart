@@ -18,8 +18,8 @@ class DetailTransactionPage extends StatefulWidget{
 }
 
 class _DetailTransactionPageState extends State<DetailTransactionPage> {
-  ProviderShopCart providerShopCart;
-  ProviderCheckOut providerCheckOut;
+  ProviderShopCart? providerShopCart;
+  ProviderCheckOut? providerCheckOut;
   @override
   Widget build(BuildContext context) {
     providerShopCart = Provider.of<ProviderShopCart>(context);

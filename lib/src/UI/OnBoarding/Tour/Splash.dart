@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart' as GPS;
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -11,7 +10,6 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
 import 'TourPage.dart';
 import 'WelcomePage.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -24,16 +22,16 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, WidgetsBindingObserver {
   final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
-  OnboardingProvider providerOnboarding;
-  AnimationController _controller;
-  Animation<double> _animation;
+  late OnboardingProvider providerOnboarding;
+  late AnimationController _controller;
+  late Animation<double> _animation;
   var location = GPS.Location();
   bool stateGps = false;
   bool permissionGps = false;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     callAccessToken();
     Future.delayed(Duration(milliseconds: 2000), () {validatePermissions();});
     _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
@@ -44,7 +42,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
 
   @override
   dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
@@ -120,10 +118,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       final status = await Permission.location.request();
       statusPermissionsGPS(status);
     }else{
-      bool status = await showCustomAlertDialog(context,Strings.titleGPS,Strings.textInformationGPS);
+      bool? status = await showCustomAlertDialog(context,Strings.titleGPS,Strings.textInformationGPS);
 
       Future.delayed(Duration(seconds: 2), () {
-        if(!status)validatePermissions();});
+        if(!status!)validatePermissions();});
 
     }
   }
@@ -136,7 +134,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       case PermissionStatus.denied:
       case PermissionStatus.restricted:
       case PermissionStatus.permanentlyDenied:
-      case PermissionStatus.undetermined:
+      case PermissionStatus.limited:
         openAppSettings();
         break;
     }

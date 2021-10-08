@@ -10,14 +10,14 @@ class CreditCard {
     this.status,
   });
 
-  int id;
-  String cardHolder;
-  String cardNumber;
-  String expirationMonth;
-  String expirationYear;
-  String token;
-  String franchise;
-  String status;
+  int? id;
+  String? cardHolder;
+  String? cardNumber;
+  String? expirationMonth;
+  String? expirationYear;
+  String? token;
+  String? franchise;
+  String? status;
 
   factory CreditCard.fromJson(Map<String, dynamic> json) => CreditCard(
     id: json["id"],

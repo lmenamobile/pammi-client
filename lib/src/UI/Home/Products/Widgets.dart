@@ -1,6 +1,6 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:wawamko/src/Models/Product/CommentProduct.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
@@ -202,21 +202,18 @@ Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> ima
       Container(
         width: 300,
         height: 300,
-        child: Swiper(
-            itemBuilder:
-                (BuildContext context, int index) {
-              return zoomImage(context, images.isEmpty?"http://via.placeholder.com/200x150":images[index].url);/*FadeInImage(
-                image: NetworkImage(
-                  images.isEmpty?"http://via.placeholder.com/200x150":images[index].url,
-                ),
-                fit: BoxFit.fill,
-                placeholder: AssetImage("Assets/images/spinner.gif"),
-              );*/
-            },
-            itemCount: images.isEmpty?0:images.length,
-            onIndexChanged: (index) {
-              updateIndex(index);
-            }),
+        child: CarouselSlider.builder(
+          itemCount: images.isEmpty?0:images.length,
+          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex){
+            return zoomImage(context, images.isEmpty?"http://via.placeholder.com/200x150":images[itemIndex].url!);
+          },
+          options: CarouselOptions(
+            autoPlay: false,
+              onPageChanged: (index,changeType){
+                updateIndex(index);
+              }
+          ),
+        ),
       ),
       SizedBox(height: 20,),
       images.isEmpty?Container():DotsIndicator(
@@ -234,7 +231,7 @@ Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> ima
   );
 }
 
-openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<Reference> ltsReferences) {
+openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<Reference>? ltsReferences) {
   return showModalBottomSheet(
       context: context,
       elevation: 0,
@@ -279,8 +276,8 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: InkWell(
-                            onTap: ()=>selectReference(ltsReferences[index]),
-                              child: itemReference(ltsReferences[index].images[0].url, ltsReferences[index].reference,ltsReferences[index].isSelected)),
+                            onTap: ()=>selectReference(ltsReferences![index]),
+                              child: itemReference(ltsReferences![index].images![0].url!, ltsReferences[index].reference!,ltsReferences[index].isSelected!)),
                         );
                       },
                     ),
@@ -319,7 +316,7 @@ itemComment(CommentProduct commentProduct){
             width: 50,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: Image.network(commentProduct?.user?.photoUrl),
+              child: Image.network(commentProduct.user?.photoUrl??''),
             ),
           ),
           SizedBox(
@@ -330,7 +327,7 @@ itemComment(CommentProduct commentProduct){
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  commentProduct?.user?.fullName,
+                  commentProduct.user?.fullName??'',
                   style: TextStyle(
                     color: CustomColors.blue,
                     fontSize: 13,
@@ -338,7 +335,7 @@ itemComment(CommentProduct commentProduct){
                   ),
                 ),
                 Text(
-                  commentProduct?.comment,
+                  commentProduct.comment??'',
                   maxLines: 2,
                   style: TextStyle(
                       color: CustomColors.gray7,
@@ -347,7 +344,7 @@ itemComment(CommentProduct commentProduct){
                   ),
                 ),
                 Text(
-                  formatDate(commentProduct?.date, "dd-MM-yyyy", "es_CO"),
+                  formatDate(commentProduct.date??DateTime.now(), "dd-MM-yyyy", "es_CO"),
                   style: TextStyle(
                       color: CustomColors.gray7,
                       fontSize: 13,

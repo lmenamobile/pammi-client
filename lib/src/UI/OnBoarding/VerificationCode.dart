@@ -1,11 +1,10 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
+
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/User.dart';
+
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/Onboarding/Login.dart';
@@ -22,10 +21,10 @@ import 'package:wawamko/src/Widgets/widgets.dart';
 import '../Home/HomePage.dart';
 
 class VerificationCodePage extends StatefulWidget {
-  final String email;
+  final String? email;
   final int typeView;
 
-  VerificationCodePage({this.email, @required this.typeView});
+  VerificationCodePage({this.email, required this.typeView});
 
   @override
   _VerificationCodePageState createState() => _VerificationCodePageState();
@@ -33,7 +32,7 @@ class VerificationCodePage extends StatefulWidget {
 
 class _VerificationCodePageState extends State<VerificationCodePage> {
   SharePreference prefs = SharePreference();
-  OnboardingProvider providerOnboarding;
+  late OnboardingProvider providerOnboarding;
   String code = '';
 
   @override

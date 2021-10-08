@@ -34,9 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   RefreshController _refreshHome = RefreshController(initialRefresh: false);
   RefreshController _refreshCategories = RefreshController(initialRefresh: false);
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  ProviderSettings providerSettings;
-  ProviderHome providerHome;
-  ProviderShopCart  providerShopCart;
+  late ProviderSettings providerSettings;
+  ProviderHome? providerHome;
+  late ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
 
 
@@ -44,15 +44,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
-    providerHome.ltsBrands.clear();
-    providerHome.ltsBanners.clear();
-    providerHome.ltsBannersOffer.clear();
+    providerHome!.ltsBrands.clear();
+    providerHome!.ltsBanners.clear();
+    providerHome!.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
-    providerHome.ltsMostSelledProducts.clear();
+    providerHome!.ltsMostSelledProducts.clear();
     if (prefs.countryIdUser != "0") {
       serviceGetCategories();
     } else {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         selectCountryUserNotLogin();
       });
     }
@@ -71,9 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       backgroundColor: CustomColors.redTour,
       body: WillPopScope(
-        onWillPop:()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
             "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
-              Navigator.pop(context,true), ()=>Navigator.pop(context,false)),
+              Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
               color: CustomColors.grayBackground, child: _body(context)),
@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      onTap: () => _drawerKey.currentState.openDrawer(),
+                      onTap: () => _drawerKey.currentState!.openDrawer(),
                     ),
                     Image(
                       height: 25,
@@ -179,12 +179,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                       height: 200,
                       width: double.infinity,
-                      child: providerHome.ltsBanners.isEmpty
+                      child: providerHome!.ltsBanners.isEmpty
                           ? Center(
                               child: loadingWidgets(70),
                             )
                           : sliderBanner(providerHome?.indexBannerHeader,
-                              updateIndexBannerHeader, providerHome?.ltsBanners)),
+                              updateIndexBannerHeader, providerHome!.ltsBanners)),
                   Container(
                     margin: EdgeInsets.only(top: 185),
                     decoration: BoxDecoration(
@@ -198,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         sectionCategories(),
                         sectionsBrands(),
-                        providerHome.ltsBannersOffer.isEmpty
+                        providerHome!.ltsBannersOffer.isEmpty
                             ? Container()
                             : sectionHighlight(),
                         sectionBestSellers(),
@@ -294,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sectionsBrands() {
-    return providerHome.ltsBrands.isEmpty?Container():Container(
+    return providerHome!.ltsBrands.isEmpty?Container():Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -408,10 +408,10 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
               height: 200,
               width: double.infinity,
-              child: providerHome.ltsBannersOffer.isEmpty
+              child: providerHome!.ltsBannersOffer.isEmpty
                   ? Center(child: loadingWidgets(70),)
-                  : sliderBanner(providerHome.indexBannerFooter,
-                      updateIndexBannerFooter, providerHome.ltsBannersOffer)),
+                  : sliderBanner(providerHome!.indexBannerFooter,
+                      updateIndexBannerFooter, providerHome!.ltsBannersOffer)),
           SizedBox(
             height: 10,
           ),
@@ -464,12 +464,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget listItemsBrands() {
     return ListView.builder(
       itemCount:
-          providerHome.ltsBrands.length > 6 ? 6 : providerHome.ltsBrands.length,
+          providerHome!.ltsBrands.length > 6 ? 6 : providerHome!.ltsBrands.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemBrand(providerHome.ltsBrands[index]),
+          child: itemBrand(providerHome!.ltsBrands[index]),
         );
       },
     );
@@ -477,14 +477,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget listBestSellers() {
     return ListView.builder(
-      itemCount: providerHome.ltsMostSelledProducts.length??0,
+      itemCount: providerHome?.ltsMostSelledProducts.length??0,
       scrollDirection: Axis.horizontal,
       itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
-            onTap: ()=>openDetailProduct(providerHome.ltsMostSelledProducts[index]),
-              child: itemProduct(providerHome.ltsMostSelledProducts[index])),
+            onTap: ()=>openDetailProduct(providerHome!.ltsMostSelledProducts[index]),
+              child: itemProduct(providerHome!.ltsMostSelledProducts[index])),
         );
       },
     );
@@ -514,20 +514,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   updateIndexBannerFooter(int index) {
-    providerHome.indexBannerFooter = index;
+    providerHome!.indexBannerFooter = index;
   }
 
   updateIndexBannerHeader(int index) {
-    providerHome.indexBannerHeader = index;
+    providerHome!.indexBannerHeader = index;
   }
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
-    providerHome.ltsBrands.clear();
-    providerHome.ltsBanners.clear();
-    providerHome.ltsBannersOffer.clear();
+    providerHome!.ltsBrands.clear();
+    providerHome!.ltsBanners.clear();
+    providerHome!.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
-    providerHome.ltsMostSelledProducts.clear();
+    providerHome!.ltsMostSelledProducts.clear();
     serviceGetCategories();
     getProductsMoreSelled();
     _refreshHome.refreshCompleted();
@@ -553,7 +553,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getBrands() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callHome = providerHome.getBrands("0");
+        Future callHome = providerHome!.getBrands("0");
         await callHome.then((list) {
           getBanners();
         }, onError: (error) {
@@ -569,7 +569,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getBanners() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callHome = providerHome.getBannersGeneral("0");
+        Future callHome = providerHome!.getBannersGeneral("0");
         await callHome.then((list) {
           getBannersOffer();
         }, onError: (error) {
@@ -584,7 +584,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getBannersOffer() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callHome = providerHome.getBannersOffer("0");
+        Future callHome = providerHome!.getBannersOffer("0");
         await callHome.then((list) {}, onError: (error) {
           //utils.showSnackBar(context, error.toString());
         });
@@ -597,7 +597,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getProductsMoreSelled() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callHome = providerHome.getProductsMostSelled();
+        Future callHome = providerHome!.getProductsMostSelled();
         await callHome.then((list) {}, onError: (error) {
 
         });

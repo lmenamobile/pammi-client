@@ -8,11 +8,11 @@ class Category {
     this.status,
   });
 
-  int id;
-  String category;
-  String color;
-  String image;
-  String status;
+  int? id;
+  String? category;
+  String? color;
+  String? image;
+  String? status;
   bool isSelected = false;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(

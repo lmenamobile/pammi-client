@@ -17,21 +17,21 @@ class ResponsePse {
     this.ticketId,
   });
 
-  String refPayco;
-  String factura;
-  String descripcion;
-  String valor;
-  String iva;
-  String baseiva;
-  String moneda;
-  String estado;
-  String respuesta;
-  String autorizacion;
-  String recibo;
-  String fecha;
-  String urlbanco;
-  String transactionId;
-  String ticketId;
+  String? refPayco;
+  String? factura;
+  String? descripcion;
+  String? valor;
+  String? iva;
+  String? baseiva;
+  String? moneda;
+  String? estado;
+  String? respuesta;
+  String? autorizacion;
+  String? recibo;
+  String? fecha;
+  String? urlbanco;
+  String? transactionId;
+  String? ticketId;
 
   factory ResponsePse.fromJson(Map<String, dynamic> json) => ResponsePse(
     refPayco: json["ref_payco"].toString(),

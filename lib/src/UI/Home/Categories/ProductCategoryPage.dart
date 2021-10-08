@@ -17,18 +17,18 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class ProductCategoryPage extends StatefulWidget {
-  final String idCategory, idSubcategory, idBrandProvider;
+  final String? idCategory, idSubcategory, idBrandProvider;
 
-  const ProductCategoryPage({@required this.idCategory,@required this.idSubcategory,this.idBrandProvider});
+  const ProductCategoryPage({required this.idCategory,required this.idSubcategory,this.idBrandProvider});
   @override
   _ProductCategoryPageState createState() => _ProductCategoryPageState();
 }
 
 class _ProductCategoryPageState extends State<ProductCategoryPage> {
   final searchController = TextEditingController();
-  ProviderProducts providerProducts;
-  ProviderUser providerUser;
-  ProviderShopCart providerShopCart;
+  late ProviderProducts providerProducts;
+  late ProviderUser providerUser;
+  late ProviderShopCart providerShopCart;
   int pageOffset = 0;
 
   @override
@@ -206,7 +206,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   getProducts() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callProducts = providerProducts.getProductsByCategory("", pageOffset, widget?.idBrandProvider==null?null:widget?.idBrandProvider, widget.idCategory.isEmpty?null:widget.idCategory, widget.idSubcategory, null, null);
+        Future callProducts = providerProducts.getProductsByCategory("", pageOffset, widget.idBrandProvider==null?null:widget.idBrandProvider, widget.idCategory!.isEmpty?null:widget.idCategory, widget.idSubcategory, null, null);
         await callProducts.then((list) {
 
         }, onError: (error) {
@@ -220,7 +220,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   }
 
   callIsFavorite(Reference reference){
-    if(reference.isFavorite){
+    if(reference.isFavorite!){
       removeFavoriteProduct(reference);
     }else{
       saveFavoriteProduct(reference);

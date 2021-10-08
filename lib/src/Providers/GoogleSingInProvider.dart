@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -12,8 +12,8 @@ class GoogleSingInProvider {
 
   static Future<dynamic> singInWithGoogle() async{
     try {
-      final account = await _googleSignIn.signIn();
-      final googleKey = await account.authentication;
+      final account = await (_googleSignIn.signIn());
+      final googleKey = await account!.authentication;
       print(account);
       print(googleKey.idToken);
       //return googleKey.idToken;

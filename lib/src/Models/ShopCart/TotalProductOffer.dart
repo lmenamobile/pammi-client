@@ -6,10 +6,10 @@ class TotalProductOffer {
     this.discountValue
   });
 
-  bool status;
-  String price;
-  String priceWithDiscount;
-  String discountValue;
+  bool? status;
+  String? price;
+  String? priceWithDiscount;
+  String? discountValue;
 
   factory TotalProductOffer.fromJson(Map<String, dynamic> json) => TotalProductOffer(
     status: json["status"],

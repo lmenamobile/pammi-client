@@ -18,18 +18,18 @@ class Product {
     this.references,
   });
 
-  int id;
-  String sku;
-  String product;
-  String characteristics;
-  String linkVideo;
-  String conditions;
-  bool featured;
-  String weight;
-  String volume;
-  BrandProvider brandProvider;
-  Warranty warranty;
-  List<Reference> references;
+  int? id;
+  String? sku;
+  String? product;
+  String? characteristics;
+  String? linkVideo;
+  String? conditions;
+  bool? featured;
+  String? weight;
+  String? volume;
+  BrandProvider? brandProvider;
+  Warranty? warranty;
+  List<Reference>? references;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
@@ -56,8 +56,8 @@ class Product {
     "featured": featured,
     "weight": weight,
     "volume": volume,
-    "brandProvider": brandProvider.toJson(),
-    "warranty": warranty.toJson(),
-    "references": List<dynamic>.from(references.map((x) => x.toJson())),
+    "brandProvider": brandProvider!.toJson(),
+    "warranty": warranty!.toJson(),
+    "references": List<dynamic>.from(references!.map((x) => x.toJson())),
   };
 }

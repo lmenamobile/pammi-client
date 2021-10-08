@@ -4,7 +4,7 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
+
 
 
 class DayOferstPage extends StatefulWidget {
@@ -64,7 +64,7 @@ class _DayOferstPageState extends State<DayOferstPage> {
       ),
       ),
       onTap: (){
-    _drawerKey.currentState.openDrawer();
+    _drawerKey.currentState!.openDrawer();
       },
       ),
       Expanded(
@@ -107,8 +107,8 @@ class _DayOferstPageState extends State<DayOferstPage> {
 
                   itemCount: 20,
 
-                  itemBuilder: (BuildContext context, int index) =>
-                     null,
+                  itemBuilder: ((BuildContext context, int index) =>
+                     null) as Widget Function(BuildContext, int),
                   staggeredTileBuilder: (int index) =>
                   new StaggeredTile.count( 1, index == 0 ? 1.2:1.2),
                   mainAxisSpacing: 28,

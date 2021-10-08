@@ -16,14 +16,14 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 class SearchProductHome extends StatefulWidget {
   final String textSearch;
 
-  const SearchProductHome({@required this.textSearch});
+  const SearchProductHome({required this.textSearch});
   @override
   _SearchProductHomeState createState() => _SearchProductHomeState();
 }
 
 class _SearchProductHomeState extends State<SearchProductHome> {
   final searchController = TextEditingController();
-  ProviderProducts providerProducts;
+  late ProviderProducts providerProducts;
   int pageOffset = 0;
 
   @override

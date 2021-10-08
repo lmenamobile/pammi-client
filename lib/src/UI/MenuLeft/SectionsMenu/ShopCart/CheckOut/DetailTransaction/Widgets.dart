@@ -50,7 +50,7 @@ Widget cardItems(PackagesProvider provider) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          provider?.provider?.businessName ?? '',
+          provider.provider?.businessName ?? '',
           style: TextStyle(
               fontFamily: Strings.fontBold, color: CustomColors.gray7),
         ),
@@ -63,7 +63,7 @@ Widget cardItems(PackagesProvider provider) {
   );
 }
 
-Widget itemProduct(Reference reference) {
+Widget itemProduct(Reference? reference) {
   return Container(
     margin: EdgeInsets.only(bottom: 6),
     child: Column(
@@ -84,39 +84,39 @@ Widget itemProduct(Reference reference) {
   );
 }
 
-Widget listProducts(List<ProductShopCart> ltsProducts) {
+Widget listProducts(List<ProductShopCart>? ltsProducts) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (_, int index) {
-        if (ltsProducts[index].reference != null) {
+        if (ltsProducts![index].reference != null) {
           return itemProduct(ltsProducts[index].reference);
         } else {
           return itemProduct(
-              ltsProducts[index].offer.promotionProducts[0].reference);
+              ltsProducts[index].offer!.promotionProducts![0].reference);
         }
       },
     ),
   );
 }
 
-Widget listProductsOrder(List<PackagesProvider> packagesProvider) {
+Widget listProductsOrder(List<PackagesProvider>? packagesProvider) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: packagesProvider == null ? 0 : packagesProvider?.length,
+      itemCount: packagesProvider == null ? 0 : packagesProvider.length,
       itemBuilder: (_, int index) {
-        return cardItems(packagesProvider[index]);
+        return cardItems(packagesProvider![index]);
       },
     ),
   );
 }
 
-Widget containerExpansion(List<PackagesProvider> packagesProvider) {
+Widget containerExpansion(List<PackagesProvider>? packagesProvider) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 30),
     child: Padding(

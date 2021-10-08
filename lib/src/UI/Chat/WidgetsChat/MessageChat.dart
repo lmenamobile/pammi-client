@@ -4,10 +4,10 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
 class MessageChat extends StatelessWidget {
-  final String message, date, photo, urlFile;
-  final String uidUser;
-  final int typeMessage;
-  final bool isLocal;
+  final String? message, date, photo, urlFile;
+  final String? uidUser;
+  final int? typeMessage;
+  final bool? isLocal;
 
   const MessageChat(
       {this.message,
@@ -23,7 +23,7 @@ class MessageChat extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        hourMessage(date),
+        hourMessage(date!),
         Container(
           child: typeWidget(typeMessage, message, photo,isLocal,urlFile),
         ),
@@ -31,43 +31,39 @@ class MessageChat extends StatelessWidget {
     );
   }
 
-  Widget typeWidget(int type, String message, String photo,bool isLocal,String urlFile) {
+  Widget typeWidget(int? type, String? message, String? photo,bool? isLocal,String? urlFile) {
     switch (type) {
       case 1:
         return Container(
             margin: EdgeInsets.only(right: 10),
-            child: messageLocal(message, photo));
-        break;
+            child: messageLocal(message!, photo));
       case 2:
         return Container(
             margin: EdgeInsets.only(left: 10),
-            child: messageReceived(message, photo));
-        break;
+            child: messageReceived(message!, photo));
       case 3:
         return Container(
-            margin: EdgeInsets.only(left: isLocal?0:10,right:isLocal?10:0),
+            margin: EdgeInsets.only(left: isLocal!?0:10,right:isLocal?10:0),
             child: InkWell(
               onTap: (){
-                launch(urlFile);
+                launch(urlFile!);
               },
                 child: messageFile(message, photo, isLocal, 3)));
-        break;
       case 4:
         return Container(
-            margin: EdgeInsets.only(left: isLocal?0:10,right:isLocal?10:0),
+            margin: EdgeInsets.only(left: isLocal!?0:10,right:isLocal?10:0),
             child: InkWell(
               onTap: (){
-                  launch(urlFile);
+                  launch(urlFile!);
               },
                 child: messageFile(message, photo, isLocal, 4)));
-        break;
       default:
         return Container();
     }
   }
 }
 
-Widget messageLocal(String message, String photo) {
+Widget messageLocal(String message, String? photo) {
   return Align(
       alignment: Alignment.centerRight,
       child: Stack(
@@ -97,7 +93,7 @@ Widget messageLocal(String message, String photo) {
       ));
 }
 
-Widget messageReceived(String message, String photo) {
+Widget messageReceived(String message, String? photo) {
   return Align(
       alignment: Alignment.centerLeft,
       child: Stack(
@@ -144,14 +140,14 @@ Widget messageReceived(String message, String photo) {
                   ],
                   image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: photo == ""
+                      image: (photo == ""
                           ? AssetImage("assets/images/ic_profile_default.png")
-                          : NetworkImage(photo)))),
+                          : NetworkImage(photo!)) as ImageProvider<Object>))),
         ],
       ));
 }
 
-Widget messageFile(String data, String photo, bool isLocal, int type) {
+Widget messageFile(String? data, String? photo, bool isLocal, int type) {
   return Align(
       alignment: isLocal ? Alignment.centerRight : Alignment.centerLeft,
       child: Stack(
@@ -180,7 +176,7 @@ Widget messageFile(String data, String photo, bool isLocal, int type) {
                         ),
                         Expanded(
                           child: Text(
-                            data,
+                            data!,
                             maxLines: 2,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
@@ -211,7 +207,7 @@ Widget messageFile(String data, String photo, bool isLocal, int type) {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: FadeInImage(
                         fit: BoxFit.fill,
-                        image: NetworkImage(data),
+                        image: NetworkImage(data!),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
                       ),
                     ),
@@ -246,9 +242,9 @@ Widget messageFile(String data, String photo, bool isLocal, int type) {
                     ],
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: photo == ""
+                        image: (photo == ""
                             ? AssetImage("Assets/images/ic_profile_default.png")
-                            : NetworkImage(photo)))),
+                            : NetworkImage(photo!)) as ImageProvider<Object>))),
           ),
         ],
       ));

@@ -1,7 +1,6 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
-import 'package:wawamko/src/Models/Product/ProductOffer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductOfferCart.dart';
@@ -36,7 +35,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                 height: 100,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product?.reference?.images[0].url),
+                  image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -47,7 +46,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -55,7 +54,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                   ),
                 ),
                 Text(
-                  product?.reference?.reference ?? '',
+                  product.reference?.reference ?? '',
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
@@ -68,8 +67,8 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                   children: [
                     InkWell(
                       onTap: (){
-                        if(int.parse(product?.qty)>1)
-                          updateQuantity(int.parse(product?.qty)-1,product?.reference?.id.toString(),true);
+                        if(int.parse(product.qty!)>1)
+                          updateQuantity(int.parse(product.qty!)-1,product.reference?.id.toString(),true);
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
@@ -77,14 +76,14 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                       )),
                     ),
                     containerCustom(Text(
-                      product?.qty??'0',
+                      product.qty??'0',
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,product?.reference?.id.toString(),true),
+                      onTap: ()=>updateQuantity(int.parse(product.qty!)+1,product.reference?.id.toString(),true),
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -108,7 +107,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
         children: [
           Expanded(
               child: customButton("ic_save.png", Strings.saveProduct,
-                  CustomColors.gray7, (){saveProduct(product?.reference?.id.toString(), product?.qty, product?.id.toString());})),
+                  CustomColors.gray7, (){saveProduct(product.reference?.id.toString(), product.qty, product.id.toString());})),
           Container(
             height: 40,
             width: 1,
@@ -116,7 +115,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
           ),
           Expanded(
               child: customButton("ic_remove.png", Strings.delete,
-                  CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
+                  CustomColors.redTour, (){deleteProduct(product.id.toString());})),
         ],
       )
     ],
@@ -136,7 +135,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
         height: 10,
       ),
       Text(
-        product?.offer?.name??'',
+        product.offer?.name??'',
         style: TextStyle(
           fontFamily: Strings.fontBold,
           fontSize: 12,
@@ -153,7 +152,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                 height: 100,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(offer?.reference?.images[0].url),
+                  image: NetworkImage(offer.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -164,7 +163,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  offer?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  offer.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -172,7 +171,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   ),
                 ),
                 Text(
-                  offer?.reference?.reference ?? '',
+                  offer.reference?.reference ?? '',
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
@@ -185,8 +184,8 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   children: [
                     InkWell(
                       onTap: (){
-                        if(int.parse(product?.qty)>1)
-                          updateQuantity(int.parse(product?.qty)-1,offer?.id.toString(),false);
+                        if(int.parse(product.qty!)>1)
+                          updateQuantity(int.parse(product.qty!)-1,offer.id.toString(),false);
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
@@ -194,14 +193,14 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                       )),
                     ),
                     containerCustom(Text(
-                      product?.qty??'0',
+                      product.qty??'0',
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product?.qty)+1,offer?.id.toString(),false),
+                      onTap: ()=>updateQuantity(int.parse(product.qty!)+1,offer.id.toString(),false),
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -231,14 +230,14 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
           ),
           Container(
             width: 100,
-              child: customButton("ic_remove.png", Strings.delete, CustomColors.redTour, (){deleteProduct(product?.id.toString());})),
+              child: customButton("ic_remove.png", Strings.delete, CustomColors.redTour, (){deleteProduct(product.id.toString());})),
         ],
       )
     ],
   );
 }
 
-Widget itemGiftCart(ProductShopCart product,GiftCard giftCard,Function updateQuantity,Function deleteProduct) {
+Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQuantity,Function deleteProduct) {
   return Container(
     margin: EdgeInsets.only(bottom: 10),
     decoration: BoxDecoration(
@@ -301,8 +300,8 @@ Widget itemGiftCart(ProductShopCart product,GiftCard giftCard,Function updateQua
                       children: [
                         InkWell(
                           onTap: (){
-                            if(int.parse(product?.qty)>1)
-                              updateQuantity(int.parse(product?.qty)-1,giftCard.id.toString());
+                            if(int.parse(product.qty!)>1)
+                              updateQuantity(int.parse(product.qty!)-1,giftCard!.id.toString());
                           },
                           child: containerCustom(Icon(
                             Icons.remove,
@@ -310,14 +309,14 @@ Widget itemGiftCart(ProductShopCart product,GiftCard giftCard,Function updateQua
                           )),
                         ),
                         containerCustom(Text(
-                          product?.qty??'0',
+                          product.qty??'0',
                           style: TextStyle(
                               fontFamily: Strings.fontBold,
                               fontSize: 15,
                               color: CustomColors.black2),
                         )),
                         InkWell(
-                          onTap: ()=>updateQuantity(int.parse(product?.qty)+1,giftCard.id.toString()),
+                          onTap: ()=>updateQuantity(int.parse(product.qty!)+1,giftCard!.id.toString()),
                           child: containerCustom(Icon(
                             Icons.add,
                             color: CustomColors.black2,
@@ -337,7 +336,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard giftCard,Function updateQua
               Container(
                 width: 100,
                 child: customButton("ic_remove.png", Strings.delete,
-                    CustomColors.redTour, (){deleteProduct(product?.id.toString());}),
+                    CustomColors.redTour, (){deleteProduct(product.id.toString());}),
               ),
             ],
           )
@@ -347,7 +346,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard giftCard,Function updateQua
   );
 }
 
-Widget itemOfferProductGift(Reference reference){
+Widget itemOfferProductGift(Reference? reference){
   return Container(
 
     child: Column(
@@ -383,7 +382,7 @@ Widget itemOfferProductGift(Reference reference){
                       height: 70,
                       child: FadeInImage(
                         fit: BoxFit.fill,
-                        image: NetworkImage(reference?.images[getRandomPosition(reference?.images?.length)].url),
+                        image: NetworkImage(reference?.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
                       ),
                     ),
@@ -422,18 +421,15 @@ Widget itemOfferProductGift(Reference reference){
   );
 }
 
-Widget sliderProductGift(List<ProductOfferCart> promotionProducts){
+Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
   return Container(
     width: 230,
     height: 110,
-    child: Swiper(
-      itemBuilder: (_, int index) {
-        return itemOfferProductGift(promotionProducts[index].reference);
-      },
-      pagination: new SwiperPagination(
-
-      ),
+    child:CarouselSlider.builder(
       itemCount: promotionProducts==null?0:promotionProducts.length,
+      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+          itemOfferProductGift(promotionProducts![itemIndex].reference),
+      options: CarouselOptions(),
     ),
   );
 }
@@ -444,7 +440,7 @@ Widget itemCardGiftProduct(ProductShopCart product,Function updateQuantity,Funct
       sliderCardOffer(product, updateQuantity, deleteProduct, saveProduct),
       Align(
         alignment: Alignment.centerRight,
-          child: sliderProductGift(product.offer.promotionProducts))
+          child: sliderProductGift(product.offer!.promotionProducts))
     ],
   );
 }
@@ -452,16 +448,15 @@ Widget itemCardGiftProduct(ProductShopCart product,Function updateQuantity,Funct
 Widget sliderCardOffer(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct){
   return Container(
     height: 195,
-    child: Swiper(
-        itemBuilder: (_, int index) {
-          return Padding(
+    child:CarouselSlider.builder(
+      itemCount: product.offer==null?0:product.offer!.baseProducts!.length,
+      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+          Padding(
             padding: const EdgeInsets.all(8.0),
-            child: itemOfferCart(product, product.offer.baseProducts[index], updateQuantity, deleteProduct, saveProduct),
-          );
-        },
-        control: new  SwiperControl(size: 20,color: CustomColors.gray5),
-        itemCount: product.offer==null?0:product.offer.baseProducts.length,
-        ),
+            child: itemOfferCart(product, product.offer!.baseProducts![itemIndex], updateQuantity, deleteProduct, saveProduct),
+          ),
+      options: CarouselOptions(),
+    ),
   );
 }
 
@@ -499,7 +494,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                     height: 100,
                     child: FadeInImage(
                       fit: BoxFit.fill,
-                      image: NetworkImage(product?.reference?.images[getRandomPosition(product?.reference?.images?.length)].url),
+                      image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??''),
                       placeholder: AssetImage("Assets/images/spinner.gif"),
                     ),
                   ),
@@ -510,7 +505,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                      product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 12,
@@ -518,7 +513,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                       ),
                     ),
                     Text(
-                      product?.reference?.reference ?? '',
+                      product.reference?.reference ?? '',
                       maxLines: 2,
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
@@ -543,7 +538,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
             children: [
               Expanded(
                   child: customButton("ic_shopping_white.png", Strings.addCartShop,
-                      CustomColors.gray7, (){addCart(int.parse(product?.qty),product?.reference?.id.toString());})),
+                      CustomColors.gray7, (){addCart(int.parse(product.qty!),product.reference?.id.toString());})),
               Container(
                 height: 40,
                 width: 1,
@@ -551,7 +546,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
               ),
               Expanded(
                   child: customButton("ic_remove.png", Strings.delete,
-                      CustomColors.redTour, (){deleteProduct(product?.reference?.id.toString());})),
+                      CustomColors.redTour, (){deleteProduct(product.reference?.id.toString());})),
             ],
           )
         ],
@@ -561,15 +556,15 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
 }
 
 Widget viewPrice(ProductShopCart product) {
-  return product?.reference?.totalProductOffer != null
+  return product.reference?.totalProductOffer != null
       ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: product?.reference?.totalProductOffer?.status,
+              visible: product.reference?.totalProductOffer?.status??false,
               child: Text(
                 formatMoney(
-                    product?.reference?.totalProductOffer?.price ?? '0'),
+                    product.reference?.totalProductOffer?.price ?? '0'),
                 style: TextStyle(
                   decoration: TextDecoration.lineThrough,
                   fontFamily: Strings.fontBold,
@@ -578,7 +573,7 @@ Widget viewPrice(ProductShopCart product) {
               ),
             ),
             Text(
-              formatMoney(product?.reference?.price ?? '0'),
+              formatMoney(product.reference?.price ?? '0'),
               style: TextStyle(
                 fontFamily: Strings.fontBold,
                 color: CustomColors.orange,
@@ -587,7 +582,7 @@ Widget viewPrice(ProductShopCart product) {
           ],
         )
       : Text(
-          formatMoney(product?.reference?.price ?? '0'),
+          formatMoney(product.reference?.price ?? '0'),
           style: TextStyle(
             fontFamily: Strings.fontBold,
             color: CustomColors.orange,
@@ -596,12 +591,12 @@ Widget viewPrice(ProductShopCart product) {
 }
 
 Widget viewPriceOffer(ProductOfferCart offer) {
-  return offer?.reference != null
+  return offer.reference != null
       ? Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        formatMoney(offer?.reference?.price ??
+        formatMoney(offer.reference?.price ??
             '0'),
         style: TextStyle(
           fontFamily: Strings.fontBold,
@@ -644,7 +639,7 @@ Widget containerCustom(Widget item) {
 
 Widget customButton(String icon, String text, Color colorText, Function action) {
   return InkWell(
-    onTap: action,
+    onTap: action as void Function()?,
     child: Container(
       width: double.infinity,
       height: 40,
@@ -699,7 +694,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  provider?.provider?.businessName ?? '',
+                  provider.provider?.businessName ?? '',
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: Strings.fontBold,
@@ -747,27 +742,27 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
   );
 }
 
-Widget listGiftCard(List<ProductShopCart> ltsProducts, Function updateQuantity, Function delete) {
+Widget listGiftCard(List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (_, int index) {
-      return itemGiftCart(ltsProducts[index], ltsProducts[index].giftCard, updateQuantity, delete);
+      return itemGiftCart(ltsProducts![index], ltsProducts[index].giftCard, updateQuantity, delete);
       },
     ),
   );
 }
 
-Widget listProducts(List<ProductShopCart> ltsProducts, Function updateQuantity, Function delete, Function save) {
+Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
-        if(ltsProducts[index].reference!=null){
+        if(ltsProducts![index].reference!=null){
           return itemProductCart(ltsProducts[index],updateQuantity,delete,save);
         }else{
           return itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save);
@@ -778,7 +773,7 @@ Widget listProducts(List<ProductShopCart> ltsProducts, Function updateQuantity, 
   );
 }
 
-Widget itemSubtotalCart(TotalCart total, Function openProductsSave, Function openCheckOut){
+Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function openCheckOut){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 15),
     decoration: BoxDecoration(

@@ -28,34 +28,34 @@ class ProviderOffer with ChangeNotifier {
   Offer get detailOffer => this._detailOffer;
   set detailOffer(Offer value) {
     this._detailOffer = value;
-    this.imageSelected = value.baseProducts[0].reference.images[0].url;
+    this.imageSelected = value.baseProducts![0].reference!.images![0].url;
     notifyListeners();
   }
 
-  String _imageSelected = '';
-  String get imageSelected => this._imageSelected;
-  set imageSelected(String value) {
+  String? _imageSelected = '';
+  String? get imageSelected => this._imageSelected;
+  set imageSelected(String? value) {
     this._imageSelected = value;
     notifyListeners();
   }
 
-  Future<dynamic> getDetailOffer(String idOffer) async {
+  Future<dynamic> getDetailOffer(String? idOffer) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),
       "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
     };
-    final response = await http.get(Constants.baseURL + "offer/get-offer/$idOffer",
+    final response = await http.get(Uri.parse(Constants.baseURL + "offer/get-offer/$idOffer"),
         headers: header)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.detailOffer = Offer.fromJson(decodeJson['data']['offer']);
         this.isLoading = false;
         return Offer.fromJson(decodeJson['data']['offer']);
@@ -65,7 +65,7 @@ class ProviderOffer with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
 
   }

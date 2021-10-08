@@ -14,7 +14,7 @@ class ListProductByCategories extends StatefulWidget {
 class _ListProductByCategoriesState extends State<ListProductByCategories> {
 
   final searchController = TextEditingController();
-  NotifyVariablesBloc notifyVariables;
+  late NotifyVariablesBloc notifyVariables;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

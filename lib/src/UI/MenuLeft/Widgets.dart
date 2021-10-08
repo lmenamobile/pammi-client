@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
@@ -165,7 +164,7 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              code??'',
+                              code,
                               style: TextStyle(
                                 color: CustomColors.blueSplash,
                                 fontFamily: Strings.fontBold,),

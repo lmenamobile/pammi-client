@@ -1,65 +1,53 @@
 
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
 class  PushNotificationService {
-  final prefsUser = SharePreference();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final _messageNotificationStreamController = StreamController.broadcast();
-  Stream<dynamic> get dataNotification => _messageNotificationStreamController.stream;
 
-  static Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) async {
-    if (message.containsKey('data')) {
-      // Handle data message
-      final dynamic data = message['data'];
-    }
+  static FirebaseMessaging messaging = FirebaseMessaging.instance;
+  static late final String? token;
+  static StreamController<dynamic> _messageStream = new StreamController.broadcast();
+  static Stream<dynamic> get dataNotification => _messageStream.stream;
 
-    if (message.containsKey('notification')) {
-      // Handle notification message
-      final dynamic notification = message['notification'];
-    }
+  static Future initNotifications() async{
+    await Firebase.initializeApp();
+    token = await FirebaseMessaging.instance.getToken();
+    print("Este es el token $token");
+    final prefsUser = SharePreference();
+    prefsUser.pushToken = token??'';
+
+    FirebaseMessaging.onMessage.listen(onMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(onLaunch);
+    FirebaseMessaging.onBackgroundMessage(onResume);
   }
 
-  initNotifications() async{
-
-    await _firebaseMessaging.requestNotificationPermissions();
-    final tokenPush = await _firebaseMessaging.getToken();
-    prefsUser.pushToken = tokenPush;
-    print("========FCM Token ==========");
-    print('TOKEN:$tokenPush');
-    _firebaseMessaging.configure(
-      onMessage:onMessage,
-      onBackgroundMessage: onBackgroundMessage,
-      onLaunch: onLaunch,
-      onResume: onResume,
-    );
-  }
-
-  Future<dynamic> onMessage(Map<String, dynamic> message) async {
+   static Future<dynamic> onMessage(RemoteMessage message) async {
     print("========ON Message ==========");
-    Map dataNotification = message['data'];
+    Map dataNotification = message.data;
     dataNotification.addAll({'isLocal':true});
-    _messageNotificationStreamController.sink.add(dataNotification);
+    _messageStream.add(dataNotification);
   }
 
-  Future<dynamic> onLaunch(Map<String, dynamic> message) async {
+  static Future<dynamic> onLaunch(RemoteMessage message) async {
     print("========ON Launch ==========");
 
-    Map dataNotification = message['data'];
+    Map dataNotification = message.data;
     dataNotification.addAll({'isLocal':false});
-    _messageNotificationStreamController.sink.add(dataNotification);
+    _messageStream.add(dataNotification);
   }
 
-  Future<dynamic> onResume(Map<String, dynamic> message) async {
+  static Future<dynamic> onResume(RemoteMessage message) async {
     print("========ON Resume ==========");
-    Map dataNotification = message['data'];
+    Map dataNotification = message.data;
     dataNotification.addAll({'isLocal':false});
-    _messageNotificationStreamController.sink.add(dataNotification);
+    _messageStream.add(dataNotification);
   }
 
-  dispose(){
-    _messageNotificationStreamController?.close();
+  static closeStream(){
+    _messageStream.close();
   }
+
 }

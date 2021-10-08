@@ -5,9 +5,9 @@ class ImageProduct {
     this.type,
   });
 
-  int id;
-  String url;
-  String type;
+  int? id;
+  String? url;
+  String? type;
 
   factory ImageProduct.fromJson(Map<String, dynamic> json) => ImageProduct(
     id: json["id"],

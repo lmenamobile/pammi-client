@@ -9,11 +9,11 @@ class Campaign {
     this.ltsProducts
   });
 
-  int id;
-  String campaign;
-  String image;
-  String type;
-  List<Product> ltsProducts;
+  int? id;
+  String? campaign;
+  String? image;
+  String? type;
+  List<Product>? ltsProducts;
 
   factory Campaign.fromJson(Map<String, dynamic> json) => Campaign(
     id: json["id"],

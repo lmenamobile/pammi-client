@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/style.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -25,10 +24,10 @@ Widget categoryItem(Category category){
                 height: 40,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: convertColor(category.color),
+                    color: convertColor(category.color!),
                     boxShadow: [
                       BoxShadow(
-                          color: convertColor(category.color).withOpacity(.4),
+                          color: convertColor(category.color!).withOpacity(.4),
                           blurRadius: 7,
                           offset: Offset(2, 3))
                     ]),
@@ -36,14 +35,14 @@ Widget categoryItem(Category category){
                   child: FadeInImage(
                     height: 30,
                     fit: BoxFit.fill,
-                    image: NetworkImage(category.image),
+                    image: NetworkImage(category.image!),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                   ),
                 ),
               ),
               SizedBox(width: 15,),
               Text(
-                category?.category??'',
+                category.category??'',
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   color: CustomColors.blackLetter

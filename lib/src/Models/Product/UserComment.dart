@@ -4,8 +4,8 @@ class UserComment {
     this.photoUrl,
   });
 
-  String fullName;
-  String photoUrl;
+  String? fullName;
+  String? photoUrl;
 
   factory UserComment.fromJson(Map<String, dynamic> json) => UserComment(
     fullName: json["fullname"],

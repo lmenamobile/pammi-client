@@ -9,11 +9,11 @@ class Offer {
     this.promotionProducts,
   });
 
-  int id;
-  String name;
-  String offerType;
-  List<ProductOfferCart> baseProducts;
-  List<ProductOfferCart> promotionProducts;
+  int? id;
+  String? name;
+  String? offerType;
+  List<ProductOfferCart>? baseProducts;
+  List<ProductOfferCart>? promotionProducts;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
     id: json["id"],
@@ -27,7 +27,7 @@ class Offer {
     "id": id,
     "name": name,
     "offerType": offerType,
-    "baseProducts": List<dynamic>.from(baseProducts.map((x) => x.toJson())),
-    "promotionProducts": List<dynamic>.from(promotionProducts.map((x) => x.toJson())),
+    "baseProducts": List<dynamic>.from(baseProducts!.map((x) => x.toJson())),
+    "promotionProducts": List<dynamic>.from(promotionProducts!.map((x) => x.toJson())),
   };
 }

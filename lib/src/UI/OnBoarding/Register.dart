@@ -17,7 +17,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -32,9 +32,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   UserModel userModel = UserModel();
   GlobalVariables globalVariables = GlobalVariables();
-  NotifyVariablesBloc notifyVariables;
-  ProviderSettings providerSettings;
-  OnboardingProvider providerOnBoarding;
+  NotifyVariablesBloc? notifyVariables;
+  ProviderSettings? providerSettings;
+  late OnboardingProvider providerOnBoarding;
   String msgError = '';
 
   @override
@@ -44,9 +44,9 @@ class _RegisterPageState extends State<RegisterPage> {
     providerOnBoarding.stateTerms = false;
     providerOnBoarding.stateDates = false;
     providerOnBoarding.stateCentrals = false;
-    providerSettings.countrySelected = null;
-    providerSettings.stateCountrySelected = null;
-    providerSettings.citySelected = null;
+    providerSettings!.countrySelected = null;
+    providerSettings!.stateCountrySelected = null;
+    providerSettings!.citySelected = null;
     super.initState();
   }
 
@@ -56,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
-    cityController.text = providerSettings?.citySelected?.name;
+    cityController.text = providerSettings?.citySelected?.name??'';
 
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
@@ -189,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   openSelectCountry()async{
      await Navigator.push(context, customPageTransition(SelectCountryPage()));
-     countryController.text = providerSettings?.countrySelected?.country;
+     countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
   openSelectCityByState(){
@@ -230,7 +230,7 @@ class _RegisterPageState extends State<RegisterPage> {
       userModel.name = nameController.text;
       userModel.lastName = lastNameController.text;
       userModel.numPhone = phoneController.text;
-      userModel.cityId = providerSettings.citySelected.id;
+      userModel.cityId = providerSettings!.citySelected!.id;
       Navigator.push(context,customPageTransition(RegisterStepTwoPage(user: userModel)));
     }else{
       utils.showSnackBar(context, msgError);

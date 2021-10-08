@@ -46,7 +46,7 @@ Widget itemOrder(Order order) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      Strings.orderId + " ${order?.id}",
+                      Strings.orderId + " ${order.id}",
                       style: TextStyle(
                           color: CustomColors.blue,
                           fontFamily: Strings.fontBold),
@@ -59,7 +59,7 @@ Widget itemOrder(Order order) {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 8),
                         child: Text(
-                          order?.status ?? '',
+                          order.status ?? '',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
@@ -71,12 +71,12 @@ Widget itemOrder(Order order) {
                 ),
                 customDivider(),
                 itemDescription(Icons.access_time, Strings.orderDateRequest,
-                    formatDate(order?.createdAt, 'd MMMM yyyy', 'es_CO')),
+                    formatDate(order.createdAt??DateTime.now(), 'd MMMM yyyy', 'es_CO')),
                 SizedBox(
                   height: 5,
                 ),
                 itemDescription(Icons.add_shopping_cart, Strings.valueOrder,
-                    formatMoney(order?.total)),
+                    formatMoney(order.total)),
               ],
             ),
           ),
@@ -98,7 +98,7 @@ Widget itemOrder(Order order) {
                   Container(
                     width: 50,
                     height: 50,
-                    child: SvgPicture.network(order?.paymentMethod?.image),
+                    child: SvgPicture.network(order.paymentMethod?.image??''),
                   ),
                   Container(
                       decoration: BoxDecoration(
@@ -153,7 +153,7 @@ Widget itemDescription(IconData icon, String text, String price) {
   );
 }
 
-Widget itemGift(GiftCard gift){
+Widget itemGift(GiftCard? gift){
   return Container(
     width: 100,
     height: 100,
@@ -206,7 +206,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Strings.subOrder +" ${ providerPackage?.id.toString()}",
+                Strings.subOrder +" ${ providerPackage.id.toString()}",
                 style: TextStyle(
                     color: CustomColors.blue, fontFamily: Strings.fontBold),
               ),
@@ -218,7 +218,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Text(
-                    providerPackage?.status??'',
+                    providerPackage.status??'',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -237,7 +237,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    providerPackage?.providerProduct?.businessName??'',
+                    providerPackage.providerProduct?.businessName??'',
                     style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 15,
@@ -268,10 +268,10 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
               Visibility(
                 visible: isActive,
                 child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProvider,providerPackage?.providerProduct?.id.toString(),providerPackage?.id.toString(),"",providerPackage),
+                  onTap: ()=>qualification(Constants.qualificationProvider,providerPackage.providerProduct?.id.toString(),providerPackage.id.toString(),"",providerPackage),
                   child: Row(
                     children: [
-                      Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct.qualification=='0'?CustomColors.gray5:Colors.amber,),
+                      Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct!.qualification=='0'?CustomColors.gray5:Colors.amber,),
                       SizedBox(width: 5,),
                       Text(
                        Strings.qualification,
@@ -289,7 +289,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             ],
           ),
           customDivider(),
-          listProducts(providerPackage,providerPackage?.productsProvider,isActive,qualification),
+          listProducts(providerPackage,providerPackage.productsProvider,isActive,qualification),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -303,7 +303,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 ),
               ),
               Text(
-                formatMoney(providerPackage?.shippingValue??'0'),
+                formatMoney(providerPackage.shippingValue??'0'),
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
@@ -325,7 +325,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 ),
               ),
               Text(
-                formatMoney(providerPackage?.total??'0'),
+                formatMoney(providerPackage.total??'0'),
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontBold,
@@ -348,7 +348,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 Expanded(
                   child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
                       Colors.white, (){
-                    openChat(providerPackage?.providerProduct?.id.toString(),providerPackage?.id.toString());
+                    openChat(providerPackage.providerProduct?.id.toString(),providerPackage.id.toString());
                       }),
                 )
               ],
@@ -377,7 +377,7 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
                 height: 90,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product?.reference?.images[getRandomPosition(product.reference.images.length)].url),
+                  image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??'0'),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -388,7 +388,7 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product?.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -396,7 +396,7 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
                   ),
                 ),
                 Text(
-                 product?.reference?.reference??''+product?.qty.toString(),
+                 product.reference?.reference??''+product.qty.toString(),
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -405,7 +405,7 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
                   ),
                 ),
                 Text(
-                  formatMoney(product?.price??''),
+                  formatMoney(product.price??''),
                   maxLines: 1,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -419,8 +419,8 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
           Visibility(
             visible: isActive,
               child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProduct,product?.reference?.id.toString(),providerPackage?.id.toString(),product?.reference?.images[0].url,null),
-                  child: Image.asset("Assets/images/ic_star.png", width: 20,color:product?.reference?.qualification=='0'?CustomColors.gray5:Colors.amber))),
+                  onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,null),
+                  child: Image.asset("Assets/images/ic_star.png", width: 20,color:product.reference?.qualification=='0'?CustomColors.gray5:Colors.amber))),
         ],
       ),
       customDivider()
@@ -441,7 +441,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                 height: 90,
                 child: FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product?.offerOrder?.baseProducts[0].reference.images[getRandomPosition(product?.offerOrder?.baseProducts[0].reference.images.length)].url),
+                  image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[getRandomPosition(product.offerOrder?.baseProducts?[0].reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
                 ),
               ),
@@ -451,7 +451,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(product?.offerOrder?.baseProducts[0].reference.brandAndProduct?.brandProvider?.brand?.brand??'',
+                Text(product.offerOrder?.baseProducts?[0].reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -459,7 +459,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                   ),
                 ),
                 Text(
-                  product?.offerOrder?.baseProducts[0].reference.reference??''+product?.qty,
+                  product.offerOrder?.baseProducts?[0].reference?.reference??''+product.qty!,
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -468,7 +468,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                   ),
                 ),
                 Text(
-                  formatMoney(product?.price??''),
+                  formatMoney(product.price??''),
                   maxLines: 1,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -487,14 +487,14 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
 }
 
 
-Widget listProducts(PackageProvider providerPackage,List<ProductProvider> productsProvider,bool isActive,Function qualification) {
+Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,Function qualification) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: productsProvider==null?0:productsProvider.length,
       itemBuilder: (_, int index) {
-        if(productsProvider[index].reference != null){
+        if(productsProvider![index].reference != null){
           return itemProduct(providerPackage,productsProvider[index],isActive,qualification);
         }else {
           return itemProductOffer(providerPackage,productsProvider[index],isActive,qualification);
@@ -504,7 +504,7 @@ Widget listProducts(PackageProvider providerPackage,List<ProductProvider> produc
   );
 }
 
-Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool isActive,Function openChat){
+Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bool isActive,Function openChat){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
     decoration: BoxDecoration(
@@ -569,7 +569,7 @@ Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool
                 Visibility(
                   visible: isActive,
                   child: InkWell(
-                    onTap: ()=>qualification(Constants.qualificationSeller,seller.id.toString(),order.id.toString(),seller?.photoUrl??'',null),
+                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',null),
                     child: Row(
                       children: [
                         Text(
@@ -590,7 +590,7 @@ Widget sectionSeller(OrderDetail order,Seller seller,Function qualification,bool
             ),
           ),
           InkWell(
-            onTap: ()=>openChat(seller.id.toString(),order.id.toString()),
+            onTap: ()=>openChat(seller!.id.toString(),order!.id.toString()),
             child: CircleAvatar(
               radius: 20,
               backgroundColor: CustomColors.orange,
@@ -636,7 +636,7 @@ Widget sectionAddressOrder(String address){
           ),
           customDivider(),
           Text(
-            address??'',
+            address,
             style: TextStyle(
               fontFamily: Strings.fontRegular,
               fontSize: 15,
@@ -649,7 +649,7 @@ Widget sectionAddressOrder(String address){
   );
 }
 
-Widget sectionTotalOrder(OrderDetail order) {
+Widget sectionTotalOrder(OrderDetail? order) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
     decoration: BoxDecoration(

@@ -8,12 +8,12 @@ class TotalCart {
     this.discountGiftCard
   });
 
-  String subtotal;
-  String iva;
-  String total;
-  String discount;
-  String discountCoupon;
-  String discountGiftCard;
+  String? subtotal;
+  String? iva;
+  String? total;
+  String? discount;
+  String? discountCoupon;
+  String? discountGiftCard;
 
   factory TotalCart.fromJson(Map<String, dynamic> json) => TotalCart(
     subtotal: json["subtotal"].toString(),

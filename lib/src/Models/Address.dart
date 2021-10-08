@@ -10,14 +10,14 @@ class Address {
     this.name
   });
 
-  int id;
-  String address;
-  String latitude;
-  String longitude;
-  String status;
-  String complement;
-  String name;
-  DateTime createdAt;
+  int? id;
+  String? address;
+  String? latitude;
+  String? longitude;
+  String? status;
+  String? complement;
+  String? name;
+  DateTime? createdAt;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
     id: json["id"],
@@ -36,6 +36,6 @@ class Address {
     "latitude": latitude,
     "longitude": longitude,
     "status": status,
-    "createdAt": createdAt.toIso8601String(),
+    "createdAt": createdAt!.toIso8601String(),
   };
 }

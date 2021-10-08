@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
@@ -31,7 +31,7 @@ import 'SectionsMenu/GiftCards/GiftCartPage.dart';
 class DrawerMenuPage extends StatefulWidget {
   final rollOverActive;
 
-  DrawerMenuPage({Key key, this.rollOverActive}) : super(key: key);
+  DrawerMenuPage({Key? key, this.rollOverActive}) : super(key: key);
 
   _DrawerMenuPageState createState() => _DrawerMenuPageState();
 }
@@ -39,8 +39,8 @@ class DrawerMenuPage extends StatefulWidget {
 class _DrawerMenuPageState extends State<DrawerMenuPage> {
   var hideMenu = false;
   SharePreference _prefs = SharePreference();
-  ProfileProvider profileProvider;
-  OnboardingProvider providerOnBoarding;
+  ProfileProvider? profileProvider;
+  late OnboardingProvider providerOnBoarding;
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +172,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     }
   }
 
-  Widget itemProfile(String nameUser) {
+  Widget itemProfile(String? nameUser) {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
@@ -250,7 +250,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
           widget.rollOverActive == "profile"
               ? Navigator.pop(context)
               : Navigator.of(context).pushReplacement(PageTransition(
-                  type: PageTransitionType.slideInLeft,
+                  type: PageTransitionType.leftToRight,
                   child: ProfilePage(),
                   duration: Duration(milliseconds: 700)));
         }

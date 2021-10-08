@@ -16,8 +16,8 @@ class MyCreditCards extends StatefulWidget {
 }
 
 class _MyCreditCardsState extends State<MyCreditCards> {
-  ProfileProvider profileProvider;
-  ProviderCheckOut providerCheckOut;
+  late ProfileProvider profileProvider;
+  late ProviderCheckOut providerCheckOut;
   int pageOffset = 0;
 
   @override
@@ -108,7 +108,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        creditCard.cardNumber,
+                        creditCard.cardNumber!,
                         style: TextStyle(
                             fontFamily: Strings.fontBold,
                             fontSize: 17,

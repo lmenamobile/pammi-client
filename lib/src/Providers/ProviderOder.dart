@@ -20,29 +20,29 @@ class ProviderOrder with ChangeNotifier {
     notifyListeners();
   }
 
-  OrderDetail _orderDetail;
+  OrderDetail? _orderDetail;
 
-  OrderDetail get orderDetail => this._orderDetail;
+  OrderDetail? get orderDetail => this._orderDetail;
 
-  set orderDetail(OrderDetail value) {
+  set orderDetail(OrderDetail? value) {
     this._orderDetail = value;
     notifyListeners();
   }
 
-  List<Order> _lstOrders = List();
+  List<Order> _lstOrders = [];
   List<Order> get lstOrders => this._lstOrders;
   set lstOrders(List<Order> value) {
     this._lstOrders.addAll(value);
     notifyListeners();
   }
 
-  List<String> _lstImagesBrands= List();
-  List<String> get lstImagesBrands => this._lstImagesBrands;
-  set setImageBrand(String value) {
+  List<String?> _lstImagesBrands= [];
+  List<String?> get lstImagesBrands => this._lstImagesBrands;
+  set setImageBrand(String? value) {
     this._lstImagesBrands.add(value);
   }
 
-  List<Order> _lstOrdersFinish = List();
+  List<Order> _lstOrdersFinish = [];
 
   List<Order> get lstOrdersFinish => this._lstOrdersFinish;
 
@@ -65,7 +65,7 @@ class ProviderOrder with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "order/get-orders",
+        .post(Uri.parse(Constants.baseURL + "order/get-orders"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -73,10 +73,10 @@ class ProviderOrder with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Order> listOrders = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Order> listOrders = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final order = Order.fromJson(item);
           listOrders.add(order);
@@ -90,7 +90,7 @@ class ProviderOrder with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -108,7 +108,7 @@ class ProviderOrder with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "order/get-orders",
+        .post(Uri.parse(Constants.baseURL + "order/get-orders"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -116,10 +116,10 @@ class ProviderOrder with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
 
-    final List<Order> listOrders = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<Order> listOrders = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final order = Order.fromJson(item);
           listOrders.add(order);
@@ -132,7 +132,7 @@ class ProviderOrder with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -143,16 +143,16 @@ class ProviderOrder with ChangeNotifier {
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
     final response = await http
-        .get(Constants.baseURL + "order/get-order/$idOrder", headers: header)
+        .get(Uri.parse(Constants.baseURL + "order/get-order/$idOrder"), headers: header)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       this.isLoading = false;
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.orderDetail = OrderDetail.fromJson(decodeJson['data']['order']);
         return OrderDetail.fromJson(decodeJson['data']['order']);
       } else {
@@ -161,12 +161,12 @@ class ProviderOrder with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
   Future<dynamic> qualificationProvider(
-      String providerId, String qualification, String suborderId) async {
+      String? providerId, String qualification, String? suborderId) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -179,7 +179,7 @@ class ProviderOrder with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "provider/rate-provider",
+        .post(Uri.parse(Constants.baseURL + "provider/rate-provider"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -187,9 +187,9 @@ class ProviderOrder with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
 
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -198,12 +198,12 @@ class ProviderOrder with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
-  Future<dynamic> qualificationProduct(String idReference, String qualification,
-      String suborderId, String comment) async {
+  Future<dynamic> qualificationProduct(String? idReference, String qualification,
+      String? suborderId, String comment) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -217,7 +217,7 @@ class ProviderOrder with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "product/rate-product",
+        .post(Uri.parse(Constants.baseURL + "product/rate-product"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -225,9 +225,9 @@ class ProviderOrder with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
 
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -236,12 +236,12 @@ class ProviderOrder with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
   Future<dynamic> qualificationSeller(
-      String sellerID, String qualification, String suborderId) async {
+      String? sellerID, String qualification, String? suborderId) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -254,7 +254,7 @@ class ProviderOrder with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "product/rate-product",
+        .post(Uri.parse(Constants.baseURL + "product/rate-product"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {
@@ -262,9 +262,9 @@ class ProviderOrder with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
 
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -273,7 +273,7 @@ class ProviderOrder with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 }

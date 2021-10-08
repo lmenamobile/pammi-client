@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class SelectCityPage extends StatefulWidget {
 
 class _SelectCityPageState extends State<SelectCityPage> {
   final cityController = TextEditingController();
-  ProviderSettings providerSettings;
+  late ProviderSettings providerSettings;
   RefreshController _refreshCities = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
@@ -125,7 +125,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getCitiesSearch(cityController.text??'');
+    getCitiesSearch(cityController.text);
     _refreshCities.loadComplete();
   }
 
@@ -143,7 +143,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerSettings.getCities(
-            search.trim(), 0, providerSettings.stateCountrySelected);
+            search.trim(), 0, providerSettings.stateCountrySelected!);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

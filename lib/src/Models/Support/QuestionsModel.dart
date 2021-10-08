@@ -9,12 +9,12 @@ class Question {
     this.createdAt,
   });
 
-  int id;
-  String question;
-  String answer;
-  String moduleType;
-  String status;
-  DateTime createdAt;
+  int? id;
+  String? question;
+  String? answer;
+  String? moduleType;
+  String? status;
+  DateTime? createdAt;
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
     id: json["id"],
@@ -31,7 +31,7 @@ class Question {
     "answer": answer,
     "moduleType": moduleType,
     "status": status,
-    "createdAt": createdAt.toIso8601String(),
+    "createdAt": createdAt!.toIso8601String(),
   };
 }
 

@@ -25,8 +25,8 @@ class CheckOutPage extends StatefulWidget {
 class _CheckOutPageState extends State<CheckOutPage> {
   TextEditingController controllerGift = TextEditingController();
   TextEditingController controllerCoupon = TextEditingController();
-  ProviderCheckOut providerCheckOut;
-  ProviderShopCart providerShopCart;
+  late ProviderCheckOut providerCheckOut;
+  ProviderShopCart? providerShopCart;
   String msgError = '';
 
   @override
@@ -93,13 +93,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
       msgError = Strings.errorSelectPayment;
       return false;
     }
-    if(providerCheckOut.paymentSelected.id== 1){
+    if(providerCheckOut.paymentSelected!.id== 1){
       if(providerCheckOut.creditCardSelected==null){
         msgError = Strings.errorSelectedCreditCard;
         return false;
       }
     }
-    if(providerCheckOut.paymentSelected.id== 6){
+    if(providerCheckOut.paymentSelected!.id== 6){
       if(providerCheckOut.bankSelected  ==null){
         msgError = Strings.errorSelectedBank;
         return false;
@@ -116,7 +116,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   openCreateOrder(){
     if(validateCheckOut()){
-      actionsByTypePayment(providerCheckOut.paymentSelected);
+      actionsByTypePayment(providerCheckOut.paymentSelected!);
     }else{
       utils.showSnackBar(context, msgError);
     }
@@ -124,9 +124,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   openPaymentMethods(){
     Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value)async{
-      if(providerCheckOut.paymentSelected.id== 1){
+      if(providerCheckOut.paymentSelected!.id== 1){
         Navigator.push(context, customPageTransition(MyCreditCards()));
-      }else if(providerCheckOut.paymentSelected.id== 6){
+      }else if(providerCheckOut.paymentSelected!.id== 6){
         var bank = await openSelectBank(context);
         if(bank!=null)
           providerCheckOut.bankSelected = bank;
@@ -162,32 +162,32 @@ class _CheckOutPageState extends State<CheckOutPage> {
   actionsByTypePayment(PaymentMethod paymentMethod){
     switch (paymentMethod.id) {
       case 1:
-          createOrder(providerCheckOut.paymentSelected.id.toString(),
-              providerCheckOut.addressSelected.id.toString(), "",
-              providerCheckOut.creditCardSelected.id.toString(),providerCheckOut.shippingPrice);
+          createOrder(providerCheckOut.paymentSelected!.id.toString(),
+              providerCheckOut.addressSelected!.id.toString(), "",
+              providerCheckOut.creditCardSelected!.id.toString(),providerCheckOut.shippingPrice);
         break;
       case 2:
         createOrder(
-            providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.paymentSelected!.id.toString(),
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
         break;
       case 3:
         utils.showSnackBar(context, Strings.errorPaymentMethod);
         break;
       case 4:
         createOrder(
-            providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.paymentSelected!.id.toString(),
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
         break;
       case 5:
         createOrder(
-            providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.paymentSelected!.id.toString(),
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
         break;
       case 6:
         createOrder(
-            providerCheckOut.paymentSelected.id.toString(),
-            providerCheckOut.addressSelected.id.toString(), providerCheckOut.bankSelected.bankCode,"",providerCheckOut.shippingPrice);
+            providerCheckOut.paymentSelected!.id.toString(),
+            providerCheckOut.addressSelected!.id.toString(), providerCheckOut.bankSelected!.bankCode,"",providerCheckOut.shippingPrice);
         break;
     }
   }
@@ -265,11 +265,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getShopCart();
+        Future callCart = providerShopCart!.getShopCart();
         await callCart.then((msg) {
 
         }, onError: (error) {
-          providerShopCart.isLoadingCart = false;
+          providerShopCart!.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -281,11 +281,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
   getShippingPrice() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected.id.toString());
+        Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected!.id.toString());
         await callCart.then((msg) {
           print("valor $msg");
         }, onError: (error) {
-          providerShopCart.isLoadingCart = false;
+          providerShopCart!.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -296,7 +296,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   createOrder( String paymentMethodId,
       String addressId,
-      String bankId,
+      String? bankId,
       String creditCardId,
       String shippingValue) async {
     utils.checkInternet().then((value) async {

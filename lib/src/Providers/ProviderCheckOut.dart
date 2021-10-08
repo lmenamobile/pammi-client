@@ -42,61 +42,61 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
-  Bank _bankSelected;
+  Bank? _bankSelected;
 
-  Bank get bankSelected => this._bankSelected;
+  Bank? get bankSelected => this._bankSelected;
 
-  set bankSelected(Bank value) {
+  set bankSelected(Bank? value) {
     this._bankSelected = value;
     notifyListeners();
   }
 
-  PaymentMethod _paymentSelected;
+  PaymentMethod? _paymentSelected;
 
-  PaymentMethod get paymentSelected => this._paymentSelected;
+  PaymentMethod? get paymentSelected => this._paymentSelected;
 
-  set paymentSelected(PaymentMethod value) {
+  set paymentSelected(PaymentMethod? value) {
     this._paymentSelected = value;
     notifyListeners();
   }
 
-  ResponseEfecty _efecty;
+  ResponseEfecty? _efecty;
 
-  ResponseEfecty get efecty => this._efecty;
+  ResponseEfecty? get efecty => this._efecty;
 
-  set efecty(ResponseEfecty value) {
+  set efecty(ResponseEfecty? value) {
     this._efecty = value;
     notifyListeners();
   }
 
-  ResponsePse _paymentPSE;
+  ResponsePse? _paymentPSE;
 
-  ResponsePse get paymentPSE => this._paymentPSE;
+  ResponsePse? get paymentPSE => this._paymentPSE;
 
-  set paymentPSE(ResponsePse value) {
+  set paymentPSE(ResponsePse? value) {
     this._paymentPSE = value;
     notifyListeners();
   }
 
-  CreditCard _creditCardSelected;
+  CreditCard? _creditCardSelected;
 
-  CreditCard get creditCardSelected => this._creditCardSelected;
+  CreditCard? get creditCardSelected => this._creditCardSelected;
 
-  set creditCardSelected(CreditCard value) {
+  set creditCardSelected(CreditCard? value) {
     this._creditCardSelected = value;
     notifyListeners();
   }
 
-  Address _addressSelected;
+  Address? _addressSelected;
 
-  Address get addressSelected => this._addressSelected;
+  Address? get addressSelected => this._addressSelected;
 
-  set addressSelected(Address value) {
+  set addressSelected(Address? value) {
     this._addressSelected = value;
     notifyListeners();
   }
 
-  List<PaymentMethod> _ltsPaymentMethod = List();
+  List<PaymentMethod> _ltsPaymentMethod = [];
 
   List<PaymentMethod> get ltsPaymentMethod => this._ltsPaymentMethod;
 
@@ -124,16 +124,16 @@ class ProviderCheckOut with ChangeNotifier {
           : prefs.countryIdUser.toString(),
     };
     final response = await http
-        .get(Constants.baseURL + "system/get-methods-payment", headers: header)
+        .get(Uri.parse(Constants.baseURL + "system/get-methods-payment"), headers: header)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<PaymentMethod> listPayments = List();
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    final List<PaymentMethod> listPayments = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final payment = PaymentMethod.fromJson(item);
           listPayments.add(payment);
@@ -147,7 +147,7 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -166,16 +166,16 @@ class ProviderCheckOut with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "cart/apply-coupon",
+        .post(Uri.parse(Constants.baseURL + "cart/apply-coupon"),
             headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -184,7 +184,7 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -198,15 +198,15 @@ class ProviderCheckOut with ChangeNotifier {
           : prefs.countryIdUser.toString(),
     };
     final response = await http
-        .delete(Constants.baseURL + "cart/delete-coupon", headers: header)
+        .delete(Uri.parse(Constants.baseURL + "cart/delete-coupon"), headers: header)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -215,7 +215,7 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -234,16 +234,16 @@ class ProviderCheckOut with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "cart/apply-giftcard",
+        .post(Uri.parse(Constants.baseURL + "cart/apply-giftcard"),
         headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -252,7 +252,7 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -266,15 +266,15 @@ class ProviderCheckOut with ChangeNotifier {
           : prefs.countryIdUser.toString(),
     };
     final response = await http
-        .delete(Constants.baseURL + "cart/delete-giftcard", headers: header)
+        .delete(Uri.parse(Constants.baseURL + "cart/delete-giftcard"), headers: header)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         return decodeJson['message'];
       } else {
@@ -283,11 +283,11 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
-  Future createOrder(String paymentMethodId, String addressId, String bankId,
+  Future createOrder(String paymentMethodId, String addressId, String? bankId,
       String creditCardId,String shippingValue) async {
     this.isLoading = true;
     final header = {
@@ -306,16 +306,16 @@ class ProviderCheckOut with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "payment/create-order",
+        .post(Uri.parse(Constants.baseURL + "payment/create-order"),
             headers: header, body: body)
         .timeout(Duration(seconds: 30))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         if (paymentMethodId == "1") {
           return decodeJson['message'];
@@ -339,7 +339,7 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
@@ -355,15 +355,15 @@ class ProviderCheckOut with ChangeNotifier {
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Constants.baseURL + "payment/get-shipping-value", headers: header,body: body)
+        .post(Uri.parse(Constants.baseURL + "payment/get-shipping-value"), headers: header,body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
-    Map<String, dynamic> decodeJson = json.decode(response.body);
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson['code'] == 100) {
+      if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         this.shippingPrice = decodeJson['data']['shippingValue'].toString();
         return decodeJson['data']['shippingValue'].toString();
@@ -373,7 +373,7 @@ class ProviderCheckOut with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson['message'];
+      throw decodeJson!['message'];
     }
   }
 
