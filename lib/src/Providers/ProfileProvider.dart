@@ -159,6 +159,8 @@ class ProfileProvider with ChangeNotifier {
       if (decodeJson!['code'] == 100) {
         this.isLoading = false;
         this.user = UserProfile.fromJson(decodeJson['data']['user']);
+        prefsUser.referredCode = user?.referredCode??'';
+        prefsUser.codeShare = user?.codeShare??'';
         return this.user;
       } else {
         this.isLoading = false;

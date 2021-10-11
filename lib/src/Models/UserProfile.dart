@@ -15,7 +15,9 @@ class UserProfile {
     this.verifyedAccount,
     this.type,
     this.verificationCode,
-    this.city
+    this.city,
+    this.referredCode,
+    this.codeShare
   });
 
   String? id;
@@ -30,6 +32,8 @@ class UserProfile {
   String? type;
   String? verificationCode;
   City? city;
+  String? codeShare;
+  String? referredCode;
 
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -44,6 +48,8 @@ class UserProfile {
     verifyedAccount: json["verifyedAccount"],
     type: json["type"],
     verificationCode: json["verificationCode"],
+      referredCode:json["referredCode"],
+      codeShare: json["referrerCode"],
     city:json["city"]==null?null: City.fromJson(json["city"]),
 
   );

@@ -103,7 +103,8 @@ class OnboardingProvider with ChangeNotifier {
         _prefs.nameUser = response.user!.fullname!;
         _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
-        _prefs.referredCode = response.user!.referredCode!;
+        _prefs.referredCode = response.user?.referredCode??'';
+        _prefs.codeShare = response.user?.codeShare??'';
         _prefs.userID = response.user!.id.toString();
         return response.user;
       } else {
@@ -399,6 +400,8 @@ class OnboardingProvider with ChangeNotifier {
         _prefs.nameUser = response.user!.fullname!;
         _prefs.countryIdUser = response.user!.countryUser!.id!;
         _prefs.dataUser = jsonEncode(response.user);
+        _prefs.referredCode = response.user?.referredCode??'';
+        _prefs.codeShare = response.user?.codeShare??'';
         return response.user;
       } else {
         throw decodeJson['message'];

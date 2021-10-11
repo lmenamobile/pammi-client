@@ -17,15 +17,13 @@ class TourPage extends StatefulWidget {
 class _FirstPageTourState extends State<TourPage> {
   var position = 0;
   final prefs = SharePreference();
+  double heightView = 0;
 
   @override
   Widget build(BuildContext context) {
+    heightView = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: CustomColors.white,
-          child: _body(context)),
+      body: Container(color: CustomColors.white, child: _body(context)),
     );
   }
 
@@ -37,15 +35,23 @@ class _FirstPageTourState extends State<TourPage> {
     ];
     return Stack(
       children: <Widget>[
-
-        CarouselSlider.builder(
-          itemCount: widgetsTour.length,
-          itemBuilder: (_, int itemIndex, int pageViewIndex){
-            this.position = pageViewIndex;
-            return widgetsTour[itemIndex];
-          },
-          options: CarouselOptions(
-            autoPlay: false
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: CarouselSlider.builder(
+            itemCount: widgetsTour.length,
+            itemBuilder: (_, int itemIndex, int pageViewIndex) {
+              return widgetsTour[itemIndex];
+            },
+            options: CarouselOptions(
+                height: heightView,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                onPageChanged: (index, changeType) {
+                  setState(() {
+                    position = index;
+                  });
+                }),
           ),
         ),
         Container(
@@ -58,7 +64,7 @@ class _FirstPageTourState extends State<TourPage> {
           margin: EdgeInsets.only(bottom: 40),
           child: GestureDetector(
             child: Text(
-             position==2? Strings.nextBtn: Strings.skip,
+              position == 2 ? Strings.nextBtn : Strings.skip,
               style: TextStyle(
                 fontFamily: Strings.fontBold,
                 color: CustomColors.redTour,
@@ -95,45 +101,53 @@ class _FirstPageTourState extends State<TourPage> {
   }
 
   Widget firstPageTour(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            margin: EdgeInsets.only(left: 20),
-            child: Image(
-              image: AssetImage("Assets/images/ic_tour1.png"),
-              fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              margin: EdgeInsets.only(left: 20),
+              child: Image(
+                image: AssetImage("Assets/images/ic_tour1.png"),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        Expanded(child: Container(),),
-        Container(
-          padding: EdgeInsets.only(left: 40, right: 40,bottom: 70),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                Strings.welcome,
-                style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: Strings.fontBold,
-                    color: CustomColors.blueTitle),
-              ),
-              SizedBox(height: 9),
-              Text(
-                Strings.welcomeDescription,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: Strings.fontRegular,
-                    color: CustomColors.gray7),
-                textAlign: TextAlign.center,
-              )
-            ],
+          Expanded(
+            child: Container(),
           ),
-        ),
-        Expanded(child: Container(),),
-      ],
+          Container(
+            padding: EdgeInsets.only(left: 40, right: 40, bottom: 70),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  Strings.welcome,
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.blueTitle),
+                ),
+                SizedBox(height: 9),
+                Text(
+                  Strings.welcomeDescription,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: Strings.fontRegular,
+                      color: CustomColors.gray7),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -147,9 +161,11 @@ class _FirstPageTourState extends State<TourPage> {
             fit: BoxFit.cover,
           ),
         ),
-        Expanded(child: Container(),),
+        Expanded(
+          child: Container(),
+        ),
         Container(
-          padding: EdgeInsets.only(left: 40, right: 40,bottom: 70),
+          padding: EdgeInsets.only(left: 40, right: 40, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -172,7 +188,9 @@ class _FirstPageTourState extends State<TourPage> {
             ],
           ),
         ),
-        Expanded(child: Container(),),
+        Expanded(
+          child: Container(),
+        ),
       ],
     );
   }
@@ -190,9 +208,11 @@ class _FirstPageTourState extends State<TourPage> {
             ),
           ),
         ),
-        Expanded(child: Container(),),
+        Expanded(
+          child: Container(),
+        ),
         Container(
-          padding: EdgeInsets.only(left: 40, right: 40,bottom: 70),
+          padding: EdgeInsets.only(left: 40, right: 40, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -216,7 +236,9 @@ class _FirstPageTourState extends State<TourPage> {
             ],
           ),
         ),
-        Expanded(child: Container(),),
+        Expanded(
+          child: Container(),
+        ),
       ],
     );
   }
