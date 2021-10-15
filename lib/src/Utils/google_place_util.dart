@@ -45,10 +45,10 @@ class GooglePlaces {
       final lng = detail.result.geometry!.location.lng;
       if(detail.result.photos!=null){
         print("__");
-        _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name, detail.result.photos[0].photoReference);
+        _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name);
       }else{
         print("__!!");
-        _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name, '-');
+        _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name);
       }
 
     }
@@ -60,5 +60,5 @@ class GooglePlaces {
 }
 
 abstract class GooglePlacesListener {
-  selectedLocation(double lat, double long, String? address, String name, String photoReference);
+  selectedLocation(double lat, double long, String? address, String name);
 }

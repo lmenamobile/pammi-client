@@ -117,7 +117,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
         await callSettings.then((list) {
 
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

@@ -208,7 +208,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
         await callSettings.then((product) {
 
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

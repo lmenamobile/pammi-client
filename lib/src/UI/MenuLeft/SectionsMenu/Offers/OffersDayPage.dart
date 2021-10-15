@@ -297,7 +297,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
         await callProducts.then((list) {
           providerProducts.ltsOfferUnits = list;
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+        //  utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -313,7 +313,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
         await callProducts.then((list) {
           providerProducts.ltsOfferMix = list;
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

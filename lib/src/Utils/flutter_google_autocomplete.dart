@@ -10,6 +10,7 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'Constants.dart';
 
 class GooglePlacesAutocompleteWidget extends StatefulWidget {
@@ -155,11 +156,10 @@ class _GooglePlacesAutocompleteOverlayState
           height: MediaQuery.of(context).size.height,
           color: CustomColors.white,
           child:  new Column(children: <Widget>[
-
-            headerAddress(context, Strings.selectYouAddress),
-            //Container(width: double.infinity,height: 10,color: CustomColors.whiteBackGround,),
+            titleBar(Strings.selectYouAddress, "ic_blue_arrow.png",
+                    () => Navigator.pop(context)),
             new Material(
-              color: Colors.white,
+              color: CustomColors.whiteBackGround,
               child: Container(
                   height: 41,
 
@@ -528,9 +528,8 @@ abstract class GooglePlacesAutocompleteState
           location: widget.location,
           radius: widget.radius,
           language: widget.language,
-          types: widget.types!,
           components: widget.components!,
-          strictbounds: widget.strictbounds!);
+          );
 
       if (res.errorMessage?.isNotEmpty == true ||
           res.status == "REQUEST_DENIED") {

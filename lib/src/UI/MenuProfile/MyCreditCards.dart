@@ -157,7 +157,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
       if (value) {
         Future callUser = profileProvider.getLtsCreditCards(pageOffset.toString());
       await callUser.then((lts) {}, onError: (error) {
-        utils.showSnackBar(context, error.toString());
+        //utils.showSnackBar(context, error.toString());
       });
       } else {
         utils.showSnackBar(context, Strings.internetError);      }

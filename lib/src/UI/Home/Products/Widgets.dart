@@ -49,15 +49,18 @@ Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
               ),
               onTap: () => action(),
             ),
-            Center(
-              child: Container(
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: Strings.fontRegular,
-                      color: Colors.white),
+            Expanded(
+              child: Center(
+                child: Container(
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: Strings.fontRegular,
+                        color: Colors.white),
+                  ),
                 ),
               ),
             ),

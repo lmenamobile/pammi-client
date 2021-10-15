@@ -154,7 +154,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
         await callSettings.then((list) {
 
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

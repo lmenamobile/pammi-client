@@ -225,6 +225,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
               children: [
                 Text(
                   gift.name ?? '',
+                  maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -254,10 +255,11 @@ class _GiftCartPageState extends State<GiftCartPage> {
                             color: CustomColors.blue,
                             borderRadius: BorderRadius.all(Radius.circular(10))),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(5),
                           child: Icon(
                             Icons.shopping_cart,
                             color: Colors.white,
+                            size: 20,
                           ),
                         )),
                   ),

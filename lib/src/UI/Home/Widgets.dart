@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
@@ -120,7 +121,8 @@ Widget boxSearchHome( TextEditingController searchController,Function? searchEle
         Expanded(
           child: TextField(
             controller: searchController,
-            onChanged: (value){
+            textInputAction: TextInputAction.search,
+            onSubmitted: (value){
               searchElements!(value);
             },
             style: TextStyle(

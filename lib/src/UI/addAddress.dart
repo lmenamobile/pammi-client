@@ -161,7 +161,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   Widget boxAddress() {
     return Container(
       width: double.infinity,
-      height: 42.7,
+      height: 42,
       padding: EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -190,7 +190,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                       fontSize: 15,
                       color: CustomColors.blackLetter),
                   onTap: () {
-                    !editAddress ? openSuggestAddress() : print("is editing");
+                  openSuggestAddress();
                   },
                   controller: addressController,
                   decoration: InputDecoration(
@@ -256,8 +256,6 @@ class _AddAddressPageState extends State<AddAddressPage>
             utils.showSnackBarError(context, data.message);
           }
         }, onError: (error) {
-          print("Ocurrio un error: ${error}");
-
           Navigator.pop(context);
         });
       } else {
@@ -270,45 +268,8 @@ class _AddAddressPageState extends State<AddAddressPage>
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return Column(
       children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: 70,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("Assets/images/ic_header_reds.png"),
-                  fit: BoxFit.fill)),
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                left: 15,
-                top: 15,
-                child: GestureDetector(
-                  child: Image(
-                    width: 40,
-                    height: 40,
-                    color: Colors.white,
-                    image: AssetImage("Assets/images/ic_blue_arrow.png"),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Center(
-                child: Container(
-                  child: Text(
-                    Strings.addAddres,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: Strings.fontRegular,
-                        color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        titleBar(Strings.addAddres, "ic_blue_arrow.png",
+                () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -641,52 +602,32 @@ class _AddAddressPageState extends State<AddAddressPage>
       var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
       var result = addresses.first;
       locationAddress = result.street;
-      var pos = locationAddress!.indexOf(',');
-      locationAddress = locationAddress!.substring(0, pos);
-
       city = result.locality;
       namePlace = result.thoroughfare;
-
-
-
       Future.delayed(const Duration(milliseconds: 1500), () {
         setState(() {
           addressController.text = locationAddress!;
           bandLoadingText = false;
         });
       });
-      setState(() {});
     }
   }
 
   void _geocodeFirstFromCorToAddress() async {
-    // if(enableGeoCode){
-
     var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
     var result = addresses.first;
     locationAddress = result.street;
-    var pos = locationAddress!.indexOf(',');
-    locationAddress = locationAddress!.substring(0, pos);
-
     city = result.locality;
-    //var arrayName = result.
     namePlace = result.thoroughfare;
-
-
     Future.delayed(const Duration(milliseconds: 1500), () {
       setState(() {
         addressController.text = locationAddress!;
-
-        //bandLoadingText = false;
       });
     });
-
-    setState(() {});
   }
 
   @override
-  selectedLocation(double lat, double lng, String? address, String name,
-      String photoReference) {
+  selectedLocation(double lat, double lng, String? address, String name) {
     setState(() {
 
 
@@ -709,7 +650,6 @@ class _AddAddressPageState extends State<AddAddressPage>
         FocusScope.of(context).unfocus();
         mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target: LatLng(latLocation!, lonLocation!),
-          //bearing: location.heading,
           zoom: 16.5,
           tilt: 37.0,
         )));

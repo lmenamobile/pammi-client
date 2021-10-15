@@ -8,6 +8,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/PaymentMe
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/TransactionPSEPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import '../CheckOut/Widgets.dart';
@@ -59,7 +60,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               },
                               child: sectionAddress(providerCheckOut.addressSelected)),
                           SizedBox(height: 8,),
-                          sectionProducts(providerShopCart?.shopCart?.packagesProvider),
+                          providerShopCart!.shopCart!.packagesProvider!.isEmpty? listGiftCards():sectionProducts(providerShopCart?.shopCart?.packagesProvider),
                           SizedBox(height: 8,),
                           InkWell(
                             onTap: ()=>openPaymentMethods(),
@@ -81,6 +82,20 @@ class _CheckOutPageState extends State<CheckOutPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget listGiftCards() {
+    return Container(
+      width: 180,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: providerShopCart?.shopCart?.products==null?0:providerShopCart?.shopCart?.products!.length,
+        itemBuilder: (_, int index) {
+          return itemGift(providerShopCart?.shopCart?.products![index].giftCard);
+        },
       ),
     );
   }

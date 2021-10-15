@@ -193,8 +193,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           : supportProvider.lstQuestion.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
-        return itemHelpCenterExpanded(
-            supportProvider.lstQuestion[index], context);
+        return Container(
+          margin: EdgeInsets.only(bottom: 5),
+          child: itemHelpCenterExpanded(
+              supportProvider.lstQuestion[index], context),
+        );
       },
     );
   }
@@ -242,7 +245,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
         await callSupport.then((list) {
           serviceGetTerms();
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

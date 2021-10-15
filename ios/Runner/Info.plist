@@ -101,5 +101,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>La aplicación requiere este permiso para darte una mejor experiencia.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>La aplicación requiere este permiso para darte una mejor experiencia.</string>
 </dict>
 </plist>

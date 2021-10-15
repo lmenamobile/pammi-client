@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
@@ -19,7 +20,11 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 class ProductCategoryPage extends StatefulWidget {
   final String? idCategory, idSubcategory, idBrandProvider;
 
-  const ProductCategoryPage({required this.idCategory,required this.idSubcategory,this.idBrandProvider});
+  const ProductCategoryPage(
+      {required this.idCategory,
+      required this.idSubcategory,
+      this.idBrandProvider});
+
   @override
   _ProductCategoryPageState createState() => _ProductCategoryPageState();
 }
@@ -30,12 +35,13 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   late ProviderUser providerUser;
   late ProviderShopCart providerShopCart;
   int pageOffset = 0;
+  RefreshController _refreshProducts = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
-    providerProducts = Provider.of<ProviderProducts>(context,listen: false);
+    providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     providerProducts.ltsProductsByCategory.clear();
-    getProducts();
+    getProducts("");
     super.initState();
   }
 
@@ -62,7 +68,10 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: <Color>[CustomColors.redTour, CustomColors.redOne],
+                        colors: <Color>[
+                          CustomColors.redTour,
+                          CustomColors.redOne
+                        ],
                       ),
                     ),
                     child: Container(
@@ -100,14 +109,19 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                                     Container(
                                       width: 30,
                                       child: Image(
-                                        image: AssetImage("Assets/images/ic_car.png"),
+                                        image: AssetImage(
+                                            "Assets/images/ic_car.png"),
                                       ),
                                     ),
                                     Positioned(
                                       right: 0,
                                       top: 0,
                                       child: Visibility(
-                                        visible: providerShopCart.totalProductsCart!="0"?true:false,
+                                        visible: providerShopCart
+                                                    .totalProductsCart !=
+                                                "0"
+                                            ? true
+                                            : false,
                                         child: CircleAvatar(
                                           radius: 6,
                                           backgroundColor: Colors.white,
@@ -115,15 +129,15 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                                             providerShopCart.totalProductsCart,
                                             style: TextStyle(
                                                 fontSize: 8,
-                                                color: CustomColors.redTour
-                                            ),
+                                                color: CustomColors.redTour),
                                           ),
                                         ),
                                       ),
                                     )
                                   ],
                                 ),
-                                onTap: ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
+                                onTap: () => Navigator.push(context,
+                                    customPageTransition(ShopCartPage())),
                               ),
                             ],
                           ),
@@ -136,15 +150,16 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
-                                    child: boxSearchHome(searchController, null)),
+                                    child: boxSearchHome(
+                                        searchController, callSearchProducts)),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 IconButton(
                                     icon: Icon(
                                       Icons.menu,
-                                      color:
-                                          CustomColors.graySearch.withOpacity(.3),
+                                      color: CustomColors.graySearch
+                                          .withOpacity(.3),
                                     ),
                                     onPressed: null)
                               ],
@@ -156,39 +171,64 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                   ),
                   Expanded(
                     child: Container(
-                      child:  providerProducts.ltsProductsByCategory.isEmpty
-                          ? Center(
-                        child: SingleChildScrollView(
-                            child: emptyData("ic_empty_notification.png",
-                                Strings.sorry, Strings.emptyCategories)),
-                      ) : AnimationLimiter(
-                        child: GridView.builder(
-                          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: .77,
-                            crossAxisSpacing: 15,
-                          ),
-                          padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
-                          itemCount: providerProducts.ltsProductsByCategory.isEmpty?0:
-                          providerProducts.ltsProductsByCategory.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                duration: const Duration(milliseconds: 375),
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                    child: FadeInAnimation(child: itemProductCategory(providerProducts.ltsProductsByCategory[index],openDetailProduct,callIsFavorite))));
-                          },
-                        ),
-                      ),
+                      child:SmartRefresher(
+                              controller: _refreshProducts,
+                              enablePullDown: true,
+                              enablePullUp: true,
+                              onLoading: _onLoadingToRefresh,
+                              footer: footerRefreshCustom(),
+                              header: headerRefresh(),
+                              onRefresh: _pullToRefresh,
+                              child:  providerProducts.ltsProductsByCategory.isEmpty
+                                  ? Center(
+                                child: SingleChildScrollView(
+                                    child: emptyData("ic_empty_notification.png",
+                                        Strings.sorry, Strings.emptyCategories)),
+                              )
+                                  : AnimationLimiter(
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      new SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10,
+                                    childAspectRatio: .77,
+                                    crossAxisSpacing: 15,
+                                  ),
+                                  physics: NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.only(
+                                      top: 20, bottom: 10, left: 10, right: 10),
+                                  itemCount: providerProducts
+                                          .ltsProductsByCategory.isEmpty
+                                      ? 0
+                                      : providerProducts
+                                          .ltsProductsByCategory.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return AnimationConfiguration.staggeredGrid(
+                                        position: index,
+                                        duration:
+                                            const Duration(milliseconds: 375),
+                                        columnCount: 2,
+                                        child: ScaleAnimation(
+                                            child: FadeInAnimation(
+                                                child: itemProductCategory(
+                                                    providerProducts
+                                                            .ltsProductsByCategory[
+                                                        index],
+                                                    openDetailProduct,
+                                                    callIsFavorite))));
+                                  },
+                                ),
+                              ),
+                            ),
                     ),
                   )
                 ],
               ),
               Visibility(
-                  visible: providerProducts.isLoadingProducts, child: LoadingProgress()),
+                  visible: providerProducts.isLoadingProducts,
+                  child: LoadingProgress()),
             ],
           ),
         ),
@@ -196,22 +236,44 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     );
   }
 
-
-
-  openDetailProduct(Product product){
-    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+  openDetailProduct(Product product) {
+    Navigator.push(
+        context, customPageTransition(DetailProductPage(product: product)));
   }
 
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshProducts.refreshCompleted();
+  }
 
-  getProducts() async {
+  void clearForRefresh() {
+    pageOffset = 0;
+    providerProducts.ltsProductsByCategory.clear();
+    getProducts("");
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+    getProducts(searchController.text);
+    _refreshProducts.loadComplete();
+  }
+
+  getProducts(String searchProduct) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callProducts = providerProducts.getProductsByCategory("", pageOffset, widget.idBrandProvider==null?null:widget.idBrandProvider, widget.idCategory!.isEmpty?null:widget.idCategory, widget.idSubcategory, null, null);
-        await callProducts.then((list) {
-
-        }, onError: (error) {
+        Future callProducts = providerProducts.getProductsByCategory(
+            searchProduct,
+            pageOffset,
+            widget.idBrandProvider == null ? null : widget.idBrandProvider,
+            widget.idCategory!.isEmpty ? null : widget.idCategory,
+            widget.idSubcategory,
+            null,
+            null);
+        await callProducts.then((list) {}, onError: (error) {
           providerProducts.isLoadingProducts = false;
-          utils.showSnackBar(context, error.toString());
+         // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -219,10 +281,10 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     });
   }
 
-  callIsFavorite(Reference reference){
-    if(reference.isFavorite!){
+  callIsFavorite(Reference reference) {
+    if (reference.isFavorite!) {
       removeFavoriteProduct(reference);
-    }else{
+    } else {
       saveFavoriteProduct(reference);
     }
   }
@@ -234,7 +296,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
           providerProducts.ltsProductsByCategory.clear();
-          getProducts();
+          getProducts("");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -251,7 +313,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
           providerProducts.ltsProductsByCategory.clear();
-          getProducts();
+          getProducts("");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -261,5 +323,13 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     });
   }
 
-
+  callSearchProducts(String value) {
+    FocusScope.of(context).unfocus();
+    providerProducts.ltsProductsByCategory.clear();
+    if (value.isNotEmpty) {
+      getProducts(value);
+    } else {
+      getProducts("");
+    }
+  }
 }
