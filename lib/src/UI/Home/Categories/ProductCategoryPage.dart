@@ -237,8 +237,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   }
 
   openDetailProduct(Product product) {
-    Navigator.push(
-        context, customPageTransition(DetailProductPage(product: product)));
+    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
 
   void _pullToRefresh() async {

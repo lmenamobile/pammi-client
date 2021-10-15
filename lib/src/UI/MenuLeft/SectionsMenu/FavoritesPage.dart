@@ -13,6 +13,7 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import '../DrawerMenu.dart';
@@ -51,71 +52,77 @@ class _FavoritesPageState extends State<FavoritesPage> {
       body: SafeArea(
         child: Container(
           color: CustomColors.whiteBackGround,
-          child: Column(
+          child: Stack(
             children: [
-              titleBar(Strings.favorites, "ic_menu_w.png",
-                  () => keyMenuLeft.currentState!.openDrawer()),
-              Expanded(
-                child: SmartRefresher(
-                  controller: _refreshFavorites,
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  onLoading: _onLoadingToRefresh,
-                  footer: footerRefreshCustom(),
-                  header: headerRefresh(),
-                  onRefresh: _pullToRefresh,
-                  child: providerUser.ltsProductsFavorite.isEmpty
-                      ? emptyData("ic_favorite_empty.png",
-                          Strings.sorryFavorites, Strings.emptyFavorites)
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              GridView.builder(
-                                gridDelegate:
-                                    new SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio: .77,
-                                  crossAxisSpacing: 15,
-                                ),
-                                padding: EdgeInsets.only(
-                                    top: 20, bottom: 10, left: 10, right: 10),
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: providerUser.ltsProductsFavorite.isEmpty
-                                    ? 0
-                                    : providerUser.ltsProductsFavorite.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return itemProductFavorite(
-                                      providerUser.ltsProductsFavorite[index],
-                                      openDetailProduct,
-                                      removeFavoriteProduct);
-                                },
-                              ),
-                              customDivider(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                children: [
+                  titleBar(Strings.favorites, "ic_menu_w.png",
+                      () => keyMenuLeft.currentState!.openDrawer()),
+                  Expanded(
+                    child: SmartRefresher(
+                      controller: _refreshFavorites,
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      onLoading: _onLoadingToRefresh,
+                      footer: footerRefreshCustom(),
+                      header: headerRefresh(),
+                      onRefresh: _pullToRefresh,
+                      child: providerUser.ltsProductsFavorite.isEmpty
+                          ? emptyData("ic_favorite_empty.png",
+                              Strings.sorryFavorites, Strings.emptyFavorites)
+                          : SingleChildScrollView(
+                              child: Column(
                                 children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                                    child: Text(
-                                      Strings.productsRelations,
-                                      style:TextStyle(
-                                        fontFamily: Strings.fontBold,
-                                        color: CustomColors.blackLetter
-                                      ) ,
+                                  GridView.builder(
+                                    gridDelegate:
+                                        new SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 10,
+                                      childAspectRatio: .77,
+                                      crossAxisSpacing: 15,
                                     ),
+                                    padding: EdgeInsets.only(
+                                        top: 20, bottom: 10, left: 10, right: 10),
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: providerUser.ltsProductsFavorite.isEmpty
+                                        ? 0
+                                        : providerUser.ltsProductsFavorite.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return itemProductFavorite(
+                                          providerUser.ltsProductsFavorite[index],
+                                          getProduct,
+                                          removeFavoriteProduct);
+                                    },
                                   ),
-                                  Container(
-                                      height: 217,
-                                      child: listItemsProductsRelations()),
+                                  customDivider(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                        child: Text(
+                                          Strings.productsRelations,
+                                          style:TextStyle(
+                                            fontFamily: Strings.fontBold,
+                                            color: CustomColors.blackLetter
+                                          ) ,
+                                        ),
+                                      ),
+                                      Container(
+                                          height: 217,
+                                          child: listItemsProductsRelations()),
+                                    ],
+                                  )
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                ),
-              )
+                              ),
+                            ),
+                    ),
+                  )
+                ],
+              ),
+              Visibility(
+                  visible: providerProducts.isLoadingProducts, child: LoadingProgress()),
             ],
           ),
         ),
@@ -225,6 +232,20 @@ class _FavoritesPageState extends State<FavoritesPage> {
           utils.showSnackBarGood(context, msg.toString());
           providerUser.ltsProductsFavorite.clear();
           getProductsFavorites();
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+  getProduct(String idProduct) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callProducts = providerProducts.getProduct(idProduct);
+        await callProducts.then((product) {
+          Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
