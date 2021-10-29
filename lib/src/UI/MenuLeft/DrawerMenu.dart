@@ -193,10 +193,18 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   color: CustomColors.grayBackground,
                 ),
-                child: Center(
-                  child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("Assets/images/ic_img_profile.png"),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(100)),
+                  child: FadeInImage(
+                    image: profileProvider?.user !=
+                        null
+                        ? NetworkImage(profileProvider
+                        ?.user?.photoUrl??'')
+                        : NetworkImage(_prefs.photoUser),
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage(
+                        "Assets/images/ic_img_profile.png"),
                   ),
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
@@ -28,6 +29,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   RefreshController _refreshFavorites = RefreshController(initialRefresh: false);
   late ProviderUser providerUser;
   late ProviderProducts providerProducts;
+  late ProviderSettings providerSettings;
   int pageOffset = 0;
   int pageOffsetProductsRelations = 0;
   int randomReference = 0;
@@ -43,6 +45,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     providerUser = Provider.of<ProviderUser>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -67,7 +70,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       footer: footerRefreshCustom(),
                       header: headerRefresh(),
                       onRefresh: _pullToRefresh,
-                      child: providerUser.ltsProductsFavorite.isEmpty
+                      child: providerSettings.hasConnection?providerUser.ltsProductsFavorite.isEmpty
                           ? emptyData("ic_favorite_empty.png",
                               Strings.sorryFavorites, Strings.emptyFavorites)
                           : SingleChildScrollView(
@@ -116,7 +119,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                   )
                                 ],
                               ),
-                            ),
+                            ):notConnectionInternet(),
                     ),
                   )
                 ],

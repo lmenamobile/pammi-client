@@ -161,6 +161,7 @@ class ProfileProvider with ChangeNotifier {
         this.user = UserProfile.fromJson(decodeJson['data']['user']);
         prefsUser.referredCode = user?.referredCode??'';
         prefsUser.codeShare = user?.codeShare??'';
+        prefsUser.photoUser = user?.photoUrl??'';
         return this.user;
       } else {
         this.isLoading = false;

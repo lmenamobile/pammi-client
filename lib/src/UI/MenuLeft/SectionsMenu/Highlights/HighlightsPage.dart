@@ -65,10 +65,10 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
                     footer: footerRefreshCustom(),
                     header: headerRefresh(),
                     onRefresh: _pullToRefresh,
-                    child:  providerSettings.ltsBannersHighlights.isEmpty
+                    child: providerSettings.hasConnection? providerSettings.ltsBannersHighlights.isEmpty
                         ? emptyData("ic_highlights_empty.png",
                         Strings.sorryHighlights, Strings.emptyHighlights)
-                        : listHighlights()))
+                        : listHighlights():notConnectionInternet()))
               ],
           ),
         ),

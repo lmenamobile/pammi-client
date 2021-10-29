@@ -27,6 +27,13 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
+  bool _hasConnection = true;
+  bool get hasConnection => this._hasConnection;
+  set hasConnection(bool value) {
+    this._hasConnection = value;
+    notifyListeners();
+  }
+
   CountryUser? _countrySelected;
   CountryUser? get countrySelected => this._countrySelected;
   set countrySelected(CountryUser? value) {

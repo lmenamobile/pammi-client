@@ -10,6 +10,7 @@ class Constants {
   static const String googleApyKey = "AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ";//'AIzaSyA3J8--0OAj3E-z5nRG35U1JHpyDI1cOzY';
   static const String pwdSocialNetwork = 'Kubo123*';
   static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
+  static const String urlGuide = 'https://www.servientrega.com/wps/portal/Colombia/transacciones-personas/rastreo-envios/detalle?id=';
 
   static const String urlBlog = 'http://devblog.pamii.com/';
 
@@ -39,7 +40,7 @@ class Constants {
   static const String typeAdmin = 'admin';
 
   /*urls transaction*/
-  static const String finishTransaction = "http://devwebclient.pamii.com/";
+  static const String finishTransaction = "pamii.com";
 
   /*Opciones Menu izquierdo*/
   static const String menuFavorites     = 'favorites';

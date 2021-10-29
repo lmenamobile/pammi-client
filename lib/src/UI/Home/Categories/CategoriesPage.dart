@@ -137,13 +137,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   footer: footerRefreshCustom(),
                   header: headerRefresh(),
                   onRefresh: _pullToRefresh,
-                  child: providerSettings.ltsCategories.isEmpty
-                      ? Center(
+                  child: providerSettings.hasConnection?providerSettings.ltsCategories.isEmpty ? Center(
                           child: SingleChildScrollView(
                               child: emptyData("ic_empty_notification.png",
                                   Strings.sorry, Strings.emptyCategories)),
                         )
-                      : SingleChildScrollView(child: listCategories()),
+                      : SingleChildScrollView(child: listCategories()):notConnectionInternet(),
                 ),
               ),
             ],

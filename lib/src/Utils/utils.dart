@@ -129,11 +129,11 @@ class _Utils {
     return IgnorePointer(
       child: Flushbar(
         animationDuration: Duration(milliseconds: 500),
-        margin: EdgeInsets.only(left: 17, right: 17),
+        margin: EdgeInsets.only(left: 60, right: 60,bottom: 40),
           borderRadius: BorderRadius.all(Radius.circular(15)),
         backgroundColor: CustomColors.red,
         icon: Image(
-          image: AssetImage("assets/images/ic_whiteclose.png"),
+          image: AssetImage("Assets/images/ic_error.png"),
         ),
         message: message,
         duration: Duration(seconds: 3),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -16,9 +17,11 @@ class OrderConfirmationPage extends StatefulWidget {
 class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   final prefs = SharePreference();
   ProviderCheckOut? providerCheckOut;
+  late ProviderSettings providerSettings;
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -33,7 +36,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                           (Route<dynamic> route) => false)),
               SizedBox(height: 20,),
               Expanded(
-                child: SingleChildScrollView(
+                child: providerSettings.hasConnection?SingleChildScrollView(
                   child: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -103,9 +106,8 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                       ],
                     ),
                   ),
-                ),
+                ):notConnectionInternet(),
               ),
-
             ],
           ),
         ),

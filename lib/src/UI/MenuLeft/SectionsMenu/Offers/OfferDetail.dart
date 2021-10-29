@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
@@ -28,6 +29,7 @@ class OfferDetail extends StatefulWidget {
 class _OfferDetailState extends State<OfferDetail> {
   ProviderOffer? providerOffer;
   late ProviderShopCart providerShopCart;
+  late ProviderSettings providerSettings;
 
   @override
   void initState() {
@@ -42,6 +44,7 @@ class _OfferDetailState extends State<OfferDetail> {
   @override
   Widget build(BuildContext context) {
     providerOffer = Provider.of<ProviderOffer>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -53,7 +56,7 @@ class _OfferDetailState extends State<OfferDetail> {
               titleBarWithDoubleAction(widget.nameOffer ?? '',
                   "ic_blue_arrow.png", "", () => Navigator.pop(context), () {},false,""),
               Expanded(
-                child: SingleChildScrollView(
+                child: providerSettings.hasConnection?SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -140,7 +143,7 @@ class _OfferDetailState extends State<OfferDetail> {
                       ),
                     ],
                   ),
-                ),
+                ):notConnectionInternet(),
               )
             ],
           ),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
@@ -26,6 +27,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   ProviderShopCart? providerShopCart;
   late ProviderProducts providerProducts;
   late ProviderUser providerUser;
+  late ProviderSettings providerSettings;
   int pageOffsetProductsRelations = 0;
 
   @override
@@ -41,6 +43,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
     providerUser = Provider.of<ProviderUser>(context);
@@ -70,7 +73,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           )),
-                      child: providerShopCart?.shopCart == null ||  providerShopCart?.shopCart?.packagesProvider?.length==0 && providerShopCart?.shopCart?.products?.length==0
+                      child: providerSettings.hasConnection?providerShopCart?.shopCart == null ||  providerShopCart?.shopCart?.packagesProvider?.length==0 && providerShopCart?.shopCart?.products?.length==0
                           ? emptyData(
                               "ic_highlights_empty.png",
                               Strings.sorryHighlights,
@@ -110,7 +113,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                                   )
                                 ],
                               ),
-                            ),
+                            ):notConnectionInternet(),
                     ),
                   ),
                 ],

@@ -32,7 +32,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
               titleBarWithDoubleAction(Strings.filter, "ic_back.png",
                   "ic_remove_white.png", () => Navigator.pop(context), ()=>clearFilter(),false,""),
               Expanded(
-                child: SingleChildScrollView(
+                child: providerSettings.hasConnection?SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: Container(
@@ -82,7 +82,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                       ],
                     ),
                   ),
-                ),
+                ):notConnectionInternet(),
               )
             ],
           ),

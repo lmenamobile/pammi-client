@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -22,8 +23,8 @@ class MyAddressPage extends StatefulWidget {
 class _MyAddressPageState extends State<MyAddressPage> {
   List<Address> addresses = [];
   bool loading = true;
-  bool hasInternet = true;
   late ProviderCheckOut providerCheckOut;
+  late ProviderSettings providerSettings;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -54,7 +56,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
           height: 20,
         ),
         Container(
-          child: hasInternet
+          child:providerSettings.hasConnection
               ? !this.loading
                   ? this.addresses.isEmpty
                       ? Expanded(
@@ -101,17 +103,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                           ),
                       )
                   : Container()
-              : Container(
-                  child: Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height - 90,
-                      child: notifyInternet(
-                          "Assets/images/ic_img_internet.png",
-                          Strings.titleAmSorry,
-                          Strings.loseInternet,
-                          context, () {
-                        serviceGetAddAddressUser();
-                      }))),
+              : notConnectionInternet(),
         ),
       ],
     );
@@ -121,7 +113,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
     this.addresses = [];
     utils.checkInternet().then((value) async {
       if (value) {
-        hasInternet = true;
+
         utils.startProgress(context);
         Future callResponse = UserProvider.instance.getAddress(context, 0);
         await callResponse.then((user) {
@@ -146,7 +138,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
           Navigator.pop(context);
         });
       } else {
-        hasInternet = false;
+
         setState(() {});
         //utils.showSnackBarError(context,Strings.loseInternet);
       }

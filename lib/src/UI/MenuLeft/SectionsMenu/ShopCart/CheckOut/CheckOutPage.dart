@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/DetailTransaction/DetailTransactionPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/PaymentMethodsPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/TransactionADDIPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/TransactionPSEPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
@@ -27,11 +29,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
   TextEditingController controllerGift = TextEditingController();
   TextEditingController controllerCoupon = TextEditingController();
   late ProviderCheckOut providerCheckOut;
+  late ProviderSettings providerSettings;
   ProviderShopCart? providerShopCart;
   String msgError = '';
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
@@ -50,7 +54,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       Strings.sorryHighlights,
                       Strings.emptyProductsSave)
                       :Expanded(
-                    child: SingleChildScrollView(
+                    child: providerSettings.hasConnection?SingleChildScrollView(
                       child: Column(
                         children: [
                           InkWell(
@@ -73,7 +77,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder,providerCheckOut.shippingPrice)
                         ],
                       ),
-                    ),
+                    ):notConnectionInternet(),
                   )
                 ],
               ),
@@ -204,6 +208,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
             providerCheckOut.paymentSelected!.id.toString(),
             providerCheckOut.addressSelected!.id.toString(), providerCheckOut.bankSelected!.bankCode,"",providerCheckOut.shippingPrice);
         break;
+      case 7:
+        createOrder(
+            providerCheckOut.paymentSelected!.id.toString(),
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
+        break;
     }
   }
 
@@ -326,6 +335,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
             Navigator.push(context, customPageTransition(DetailTransactionPage()));
           }else if(paymentMethodId == "6"){
             Navigator.push(context, customPageTransition(TransactionPSEPage()));
+          }else if(paymentMethodId == "7"){
+            Navigator.push(context, customPageTransition(TransactionADDIPage()));
           }
           utils.showSnackBarGood(context, msg);
         }, onError: (error) {

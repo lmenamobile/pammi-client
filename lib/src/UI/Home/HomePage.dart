@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
+import 'package:wawamko/src/Providers/ConectionStatus.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ProviderHome? providerHome;
   late ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
+  ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
 
 
   @override
@@ -49,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     providerHome!.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
     providerHome!.ltsMostSelledProducts.clear();
+    connectionStatus.initialize('www.google.com');
     if (prefs.countryIdUser != "0") {
       serviceGetCategories();
     } else {
@@ -64,6 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    connectionStatus.connectionListen.listen((value){
+      providerSettings.hasConnection = value;
+    });
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
@@ -173,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
             header: headerRefresh(),
             footer: footerRefreshCustom(),
             onRefresh: _pullToRefresh,
-            child: SingleChildScrollView(
+            child: providerSettings.hasConnection?SingleChildScrollView(
               child: Stack(
                 children: <Widget>[
                   Container(
@@ -208,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-            ),
+            ):notConnectionInternet(),
           ),
         ),
       ],

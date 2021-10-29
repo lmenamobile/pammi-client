@@ -189,7 +189,7 @@ class ProviderChat with ChangeNotifier {
   }
 
   setMessagesListAdmin() {
-    this.ltsMessages.clear();
+   // this.ltsMessages.clear();
     this.ltsMessagesChat.forEach((data) {
       switch (data.type) {
         case "text":

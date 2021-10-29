@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -17,6 +18,7 @@ class ProductsSavePage extends StatefulWidget {
 class _ProductsSavePageState extends State<ProductsSavePage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   late ProviderShopCart providerShopCart;
+  late ProviderSettings providerSettings;
   RefreshController _refreshProductsSave = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
@@ -31,6 +33,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -49,10 +52,10 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
                   footer: footerRefreshCustom(),
                   header: headerRefresh(),
                   onRefresh: _pullToRefresh,
-                  child:  providerShopCart.ltsProductsSave.isEmpty
+                  child:  providerSettings.hasConnection?providerShopCart.ltsProductsSave.isEmpty
                       ? emptyData("ic_highlights_empty.png",
                       Strings.sorryHighlights, Strings.emptyProductsSave)
-                      : listReferencesSave()))
+                      : listReferencesSave():notConnectionInternet()))
             ],
           ),
         ),

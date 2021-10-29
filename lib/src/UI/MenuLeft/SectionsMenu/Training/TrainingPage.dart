@@ -57,10 +57,10 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
                       footer: footerRefreshCustom(),
                       header: headerRefresh(),
                       onRefresh: _pullToRefresh,
-                      child:  providerSettings.ltsTraining.isEmpty
+                      child: providerSettings.hasConnection? providerSettings.ltsTraining.isEmpty
                           ? emptyData("ic_highlights_empty.png",
                           Strings.sorryHighlights, Strings.emptyTraining)
-                          : listTraining()))
+                          : listTraining():notConnectionInternet()))
                 ],
               ),
               Visibility(

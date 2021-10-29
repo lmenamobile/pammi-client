@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -15,6 +16,7 @@ class PaymentMethodsPage extends StatefulWidget {
 
 class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
   late ProviderCheckOut providerCheckOut;
+  late ProviderSettings providerSettings;
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -34,7 +37,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
           child: Column(
             children: [
               titleBar(Strings.paymentMethods, "ic_blue_arrow.png", () => Navigator.pop(context)),
-              Expanded(child: listPayments())
+              Expanded(child: providerSettings.hasConnection?listPayments():notConnectionInternet())
 
             ],
           ),

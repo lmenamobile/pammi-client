@@ -76,6 +76,14 @@ class SharePreference {
     _prefs.setString('pushToken', value);
   }
 
+  String get photoUser {
+    return _prefs.getString('photoUser') ??'';
+  }
+
+  set photoUser(String value) {
+    _prefs.setString('photoUser', value);
+  }
+
   String get dataUser {
     return _prefs.getString('dataUser') ?? "0";
   }

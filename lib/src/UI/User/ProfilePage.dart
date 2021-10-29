@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
@@ -22,10 +23,12 @@ class _ProfilePageState extends State<ProfilePage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
   ProfileProvider? profileProvider;
+  late ProviderSettings providerSettings;
 
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
@@ -159,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
                 child: Container(
-                  child: SingleChildScrollView(
+                  child:  providerSettings.hasConnection?SingleChildScrollView(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
@@ -204,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                  ),
+                  ):notConnectionInternet(),
                 ),
               ),
             ),

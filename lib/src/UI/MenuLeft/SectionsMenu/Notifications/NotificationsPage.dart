@@ -63,10 +63,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       footer: footerRefreshCustom(),
                       header: headerRefresh(),
                       onRefresh: _pullToRefresh,
-                      child: providerSettings.ltsNotifications.isEmpty
+                      child:providerSettings.hasConnection? providerSettings.ltsNotifications.isEmpty
                           ? emptyData("ic_empty_notification.png",
                           Strings.sorry, Strings.emptyNotifications)
-                          : listNotifications()))
+                          : listNotifications():notConnectionInternet()))
                 ],
               )
             ],

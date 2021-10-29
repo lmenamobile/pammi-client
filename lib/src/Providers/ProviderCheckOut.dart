@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Bank.dart';
 import 'package:wawamko/src/Models/CreditCard.dart';
+import 'package:wawamko/src/Models/Payment/ResponseAddi.dart';
 import 'package:wawamko/src/Models/Payment/ResponseEfecty.dart';
 import 'package:wawamko/src/Models/Payment/ResponsePSE.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
@@ -75,6 +76,15 @@ class ProviderCheckOut with ChangeNotifier {
 
   set paymentPSE(ResponsePse? value) {
     this._paymentPSE = value;
+    notifyListeners();
+  }
+
+  ResponseAddi? _paymentADDI;
+
+  ResponseAddi? get paymentADDI => this._paymentADDI;
+
+  set paymentADDI(ResponseAddi? value) {
+    this._paymentADDI = value;
     notifyListeners();
   }
 
@@ -324,12 +334,13 @@ class ProviderCheckOut with ChangeNotifier {
         } else if (paymentMethodId == "4") {
           return decodeJson['message'];
         } else if (paymentMethodId == "5") {
-          this.efecty =
-              ResponseEfecty.fromJson(decodeJson['data']['response']['data']);
+          this.efecty = ResponseEfecty.fromJson(decodeJson['data']['response']['data']);
           return decodeJson['message'];
         } else if (paymentMethodId == "6") {
-          this.paymentPSE =
-              ResponsePse.fromJson(decodeJson['data']['response']['data']);
+          this.paymentPSE = ResponsePse.fromJson(decodeJson['data']['response']['data']);
+          return decodeJson['message'];
+        } else if (paymentMethodId == "7") {
+          this.paymentADDI = ResponseAddi.fromJson(decodeJson['data']);
           return decodeJson['message'];
         }
         return decodeJson['message'];

@@ -167,7 +167,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                                       null
                                                   ? NetworkImage(profileProvider
                                                       ?.user?.photoUrl??'')
-                                                  : NetworkImage(''),
+                                                  : NetworkImage(prefs.photoUser),
                                               fit: BoxFit.cover,
                                               placeholder: AssetImage(
                                                   "Assets/images/ic_img_profile.png"),
@@ -411,6 +411,7 @@ class _MyDatesPageState extends State<MyDatesPage>
       if (value) {
         Future callUser = profileProvider!.serviceUpdatePhoto(picture);
         await callUser.then((msg) {
+          getUser();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());

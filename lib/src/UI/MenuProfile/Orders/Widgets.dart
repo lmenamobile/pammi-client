@@ -181,7 +181,7 @@ Widget itemGift(GiftCard? gift){
   );
 }
 
-Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat) {
+Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking) {
   return Container(
     margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
@@ -250,7 +250,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                         fontSize: 12,
                         color: CustomColors.gray7),
                   ),
-                  Row(
+                /*  Row(
                     children: [
                       Icon(Icons.calendar_today,color: CustomColors.gray7,size: 15,),
                       SizedBox(width: 5,),
@@ -262,7 +262,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                             color: CustomColors.gray7),
                       ),
                     ],
-                  ),
+                  ),*/
                 ],
               ),
               Visibility(
@@ -357,7 +357,9 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
           customDivider(),
           Align(
             alignment: Alignment.center,
-              child: btnCustom(140, Strings.tracking,CustomColors.orange, Colors.white, null))
+              child: btnCustom(140, Strings.tracking,CustomColors.orange, Colors.white, (){
+                actionTracking( providerPackage.guide);
+              }))
         ],
       ),
     ),

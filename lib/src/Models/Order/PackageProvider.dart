@@ -11,6 +11,7 @@ class PackageProvider {
     this.discountGiftCard,
     this.shippingValue,
     this.status,
+    this.guide,
     this.productsProvider,
     this.providerProduct,
   });
@@ -23,6 +24,7 @@ class PackageProvider {
   String? discountGiftCard;
   String? shippingValue;
   String? status;
+  String? guide;
   ProviderProduct? providerProduct;
   List<ProductProvider>? productsProvider;
 
@@ -36,6 +38,7 @@ class PackageProvider {
     discountGiftCard: json["discountGiftcard"].toString(),
     shippingValue: json["shippingValue"].toString(),
     status: json["status"],
+    guide:  json["guide"],
     providerProduct: json["provider"]==null?null:ProviderProduct.fromJson(json["provider"]),
     productsProvider: List<ProductProvider>.from(json["products"].map((x) => ProductProvider.fromJson(x))),
   );

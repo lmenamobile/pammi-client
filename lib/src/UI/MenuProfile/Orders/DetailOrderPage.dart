@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Order/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
@@ -85,7 +86,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder!.orderDetail!.packagesProvider!.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat);
+          return itemProductsProvider(providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat,openGuide);
         },
       ),
     );
@@ -135,6 +136,14 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
   openChatSeller(String sellerId,String orderId){
     getRoomSeller(sellerId, orderId);
+  }
+
+  openGuide(String guide){
+    if(guide.isNotEmpty) {
+      launch(Constants.urlGuide + "$guide&tipo=0");
+    }else{
+      utils.showSnackBar(context, Strings.errorNotGuideOrder);
+    }
   }
 
   getDetailOrder(String idOrder) async {

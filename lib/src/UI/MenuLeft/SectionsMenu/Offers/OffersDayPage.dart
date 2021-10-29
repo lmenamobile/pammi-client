@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
@@ -29,6 +30,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   late ProviderProducts providerProducts;
   late ProviderHome providerHome;
   late ProviderShopCart providerShopCart;
+  late ProviderSettings providerSettings;
   int pageOffsetUnits = 0;
   int pageOffsetMix = 0;
 
@@ -48,6 +50,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -82,7 +85,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                   footer: footerRefreshCustom(),
                   header: headerRefresh(),
                   onRefresh: _pullToRefresh,
-                  child:providerProducts.ltsOfferMix.isEmpty&&providerProducts.ltsOfferUnits.isEmpty?
+                  child:providerSettings.hasConnection?providerProducts.ltsOfferMix.isEmpty&&providerProducts.ltsOfferUnits.isEmpty?
                   emptyView("ic_percentage.png", "", Strings.offersEmpty):SingleChildScrollView(
                     child: Column(
                       children: [
@@ -143,7 +146,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                         ),
                       ],
                     ),
-                  ),
+                  ):notConnectionInternet(),
                 ),
               )
             ],

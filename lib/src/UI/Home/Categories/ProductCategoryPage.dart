@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
@@ -34,6 +35,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   late ProviderProducts providerProducts;
   late ProviderUser providerUser;
   late ProviderShopCart providerShopCart;
+  late ProviderSettings providerSettings;
   int pageOffset = 0;
   RefreshController _refreshProducts = RefreshController(initialRefresh: false);
 
@@ -50,6 +52,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerUser = Provider.of<ProviderUser>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -170,59 +173,57 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      child:SmartRefresher(
-                              controller: _refreshProducts,
-                              enablePullDown: true,
-                              enablePullUp: true,
-                              onLoading: _onLoadingToRefresh,
-                              footer: footerRefreshCustom(),
-                              header: headerRefresh(),
-                              onRefresh: _pullToRefresh,
-                              child:  providerProducts.ltsProductsByCategory.isEmpty
-                                  ? Center(
-                                child: SingleChildScrollView(
-                                    child: emptyData("ic_empty_notification.png",
-                                        Strings.sorry, Strings.emptyCategories)),
-                              )
-                                  : AnimationLimiter(
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      new SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 10,
-                                    childAspectRatio: .77,
-                                    crossAxisSpacing: 15,
-                                  ),
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.only(
-                                      top: 20, bottom: 10, left: 10, right: 10),
-                                  itemCount: providerProducts
-                                          .ltsProductsByCategory.isEmpty
-                                      ? 0
-                                      : providerProducts
-                                          .ltsProductsByCategory.length,
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return AnimationConfiguration.staggeredGrid(
-                                        position: index,
-                                        duration:
-                                            const Duration(milliseconds: 375),
-                                        columnCount: 2,
-                                        child: ScaleAnimation(
-                                            child: FadeInAnimation(
-                                                child: itemProductCategory(
-                                                    providerProducts
-                                                            .ltsProductsByCategory[
-                                                        index],
-                                                    openDetailProduct,
-                                                    callIsFavorite))));
-                                  },
+                    child: SmartRefresher(
+                            controller: _refreshProducts,
+                            enablePullDown: true,
+                            enablePullUp: true,
+                            onLoading: _onLoadingToRefresh,
+                            footer: footerRefreshCustom(),
+                            header: headerRefresh(),
+                            onRefresh: _pullToRefresh,
+                            child:  providerSettings.hasConnection?providerProducts.ltsProductsByCategory.isEmpty
+                                ? Center(
+                              child: SingleChildScrollView(
+                                  child: emptyData("ic_empty_notification.png",
+                                      Strings.sorry, Strings.emptyCategories)),
+                            )
+                                : AnimationLimiter(
+                              child: GridView.builder(
+                                gridDelegate:
+                                    new SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: .77,
+                                  crossAxisSpacing: 15,
                                 ),
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.only(
+                                    top: 20, bottom: 10, left: 10, right: 10),
+                                itemCount: providerProducts
+                                        .ltsProductsByCategory.isEmpty
+                                    ? 0
+                                    : providerProducts
+                                        .ltsProductsByCategory.length,
+                                shrinkWrap: true,
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                  return AnimationConfiguration.staggeredGrid(
+                                      position: index,
+                                      duration:
+                                          const Duration(milliseconds: 375),
+                                      columnCount: 2,
+                                      child: ScaleAnimation(
+                                          child: FadeInAnimation(
+                                              child: itemProductCategory(
+                                                  providerProducts
+                                                          .ltsProductsByCategory[
+                                                      index],
+                                                  openDetailProduct,
+                                                  callIsFavorite))));
+                                },
                               ),
-                            ),
-                    ),
+                            ):notConnectionInternet(),
+                          ),
                   )
                 ],
               ),

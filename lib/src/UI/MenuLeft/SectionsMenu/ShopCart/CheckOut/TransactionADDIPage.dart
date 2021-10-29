@@ -13,12 +13,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'OrderConfirmationPage.dart';
 
-class TransactionPSEPage extends StatefulWidget {
+class TransactionADDIPage extends StatefulWidget {
   @override
-  _TransactionPSEPageState createState() => _TransactionPSEPageState();
+  _TransactionADDIPageState createState() => _TransactionADDIPageState();
 }
 
-class _TransactionPSEPageState extends State<TransactionPSEPage> {
+class _TransactionADDIPageState extends State<TransactionADDIPage> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   final prefs = SharePreference();
@@ -40,14 +40,14 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
                   () => Navigator.pop(context)),
               Expanded(
                 child: providerSettings.hasConnection?WebView(
-                  initialUrl: providerCheckOut?.paymentPSE?.urlbanco ?? '',
+                  initialUrl: providerCheckOut?.paymentADDI?.urlRedirectLocation ?? '',
                   javascriptMode: JavascriptMode.unrestricted,
                   onWebViewCreated: (WebViewController webViewController) {
                     _controller.complete(webViewController);
                   },
                   navigationDelegate: (NavigationRequest request) {
-                    print(request.url);
-                    if (request.url == Constants.finishTransaction) {
+                    print(".............url ADDI"+request.url);
+                    if (request.url.contains(Constants.finishTransaction)) {
                       Navigator.pushReplacement(context,
                           customPageTransition(OrderConfirmationPage()));
                     }

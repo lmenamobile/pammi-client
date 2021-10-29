@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
@@ -30,6 +31,7 @@ class DetailProductPage extends StatefulWidget {
 class _DetailProductPageState extends State<DetailProductPage> {
   ProviderProducts? providerProducts;
   late ProviderShopCart providerShopCart;
+  late ProviderSettings providerSettings;
 
   @override
   void initState() {
@@ -46,6 +48,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -63,7 +66,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   true,
                   providerShopCart.totalProductsCart),
               Expanded(
-                child: SingleChildScrollView(
+                child: providerSettings.hasConnection?SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -261,7 +264,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       sectionDescriptionProduct()
                     ],
                   ),
-                ),
+                ):notConnectionInternet(),
               )
             ],
           ),

@@ -63,7 +63,7 @@ class Strings {
   static const String textResgister = '¡Disfruta de un acceso rápido a tu historial y un pedido más rápido!';
   static const String AuthorizeDates = 'Autorizo el tratamiento de mis datos personales y declaro que conozco mis derechos';
   static const String sendCode = ' Te hemos enviado un correo electrónico para la verificación del mismo.';
-  static const String challengePassword= 'Debe ser mínimo de 6 caracteres, contener al menos un número, una mayúscula y una minúscula.';
+  static const String challengePassword= 'Debe ser mínimo de 6 caracteres, contener al menos un número y una minúscula.';
 
   //offerDetail
   static const String productsPerPurchase = 'Productos por compra';
@@ -462,6 +462,8 @@ class Strings {
   static const String errorPaymentMethod                   = "Medio de pago no disponible";
   static const String errorSelectedCreditCard              = "Debes seleccionar una tarjeta de credito";
   static const String errorSelectedBank                   = "Debes seleccionar un banco para pagar con PSE";
+  static const String errorConnection                     = "No tienes conexión a internet";
+  static const String errorNotGuideOrder                    = "La orden no tiene guía generada.";
 
   //Fonts
   static const String fontBold = 'FontBold';

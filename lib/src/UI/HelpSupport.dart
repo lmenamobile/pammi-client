@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
@@ -29,6 +30,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
   late SupportProvider supportProvider;
   late ProviderChat providerChat;
   late SocketService socketService;
+  late ProviderSettings providerSettings;
   final prefs = SharePreference();
   int pageOffset = 0;
 
@@ -46,6 +48,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     supportProvider = Provider.of<SupportProvider>(context);
     providerChat = Provider.of<ProviderChat>(context);
     socketService = Provider.of<SocketService>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -119,7 +122,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                       footer: footerRefreshCustom(),
                       header: headerRefresh(),
                       onRefresh: _pullToRefresh,
-                      child: listQuestion()))
+                      child: providerSettings.hasConnection?listQuestion():notConnectionInternet()))
             ],
           ),
         ),

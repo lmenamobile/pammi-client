@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -20,8 +21,10 @@ class DetailTransactionPage extends StatefulWidget{
 class _DetailTransactionPageState extends State<DetailTransactionPage> {
   ProviderShopCart? providerShopCart;
   ProviderCheckOut? providerCheckOut;
+  late ProviderSettings providerSettings;
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
    return WillPopScope(
@@ -44,7 +47,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                 children: [
                   SizedBox(height: 30,),
                   Expanded(
-                    child: SingleChildScrollView(
+                    child: providerSettings.hasConnection?SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
@@ -108,9 +111,8 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                           SizedBox(height: 20,),
                         ],
                       ),
-                    ),
+                    ):notConnectionInternet(),
                   )
-
                 ],
               ),
            ),

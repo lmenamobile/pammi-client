@@ -125,12 +125,12 @@ class _GiftCartPageState extends State<GiftCartPage> {
                           footer: footerRefreshCustom(),
                           header: headerRefresh(),
                           onRefresh: _pullToRefresh,
-                          child: providerShopCart.ltsGiftCard.isEmpty
+                          child:providerSettings.hasConnection? providerShopCart.ltsGiftCard.isEmpty
                               ? emptyData(
                                   "ic_highlights_empty.png",
                                   Strings.sorryHighlights,
                                   Strings.emptyGiftCards)
-                              : SingleChildScrollView(child: gridViewItems())),
+                              : SingleChildScrollView(child: gridViewItems()):notConnectionInternet()),
                     ),
                   ),
                 ],

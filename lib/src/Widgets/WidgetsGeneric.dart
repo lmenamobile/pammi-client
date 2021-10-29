@@ -766,3 +766,44 @@ Widget btnSheet( String btnTextAction,Function action){
     ),
   );
 }
+
+Widget notConnectionInternet(){
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(
+          "Assets/images/ic_internet.png",
+          width: 200,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15,right: 15),
+          child: Text(
+            Strings.sorry,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: CustomColors.gray7,
+                fontFamily: Strings.fontBold,
+                fontSize: 20
+            ),
+          ),
+        ),
+        SizedBox(height: 10,),
+        Padding(
+          padding: const EdgeInsets.only(left: 15,right: 15),
+          child: Text(
+            Strings.errorConnection,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: CustomColors.gray7,
+                fontFamily: Strings.fontRegular,
+                fontSize: 15
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
