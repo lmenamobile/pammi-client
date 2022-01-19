@@ -6,6 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -312,13 +313,13 @@ class _MyDatesPageState extends State<MyDatesPage>
   }
 
   openSelectCountry()async{
-    await Navigator.push(context, customPageTransition(SelectCountryPage()));
+     await Navigator.push(context, customPageTransition(SelectCountryPage()));
     countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
-  openSelectCityByState(){
+  openSelectCityByState()async{
     if(providerSettings?.countrySelected!=null) {
-      Navigator.push(context, customPageTransition(SelectStatesPage()));
+      await Navigator.push(context, customPageTransition(SelectStatesPage()));
       cityController.text = providerSettings?.citySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
@@ -389,10 +390,10 @@ class _MyDatesPageState extends State<MyDatesPage>
       if (value) {
         Future callUser = profileProvider!.updateUser(
             nameController.text,
-            typeDocumentController.text,
+            getTypeDocument(typeDocumentController.text),
             numberIdentityController.text,
             phoneController.text,
-            globalVariables.cityId.toString());
+            providerSettings!.citySelected ==null?globalVariables.cityId.toString() :providerSettings!.citySelected!.id.toString());
         await callUser.then((msg) {
           profileProvider!.isEditProfile = false;
           getUser();

@@ -236,6 +236,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
           providerUser.ltsProductsFavorite.clear();
           getProductsFavorites();
         }, onError: (error) {
+          providerUser.ltsProductsFavorite.clear();
+          getProductsFavorites();
           utils.showSnackBar(context, error.toString());
         });
       } else {

@@ -157,6 +157,7 @@ class OnboardingProvider with ChangeNotifier {
         _prefs.referredCode = response.user!.referredCode!;
         _prefs.codeShare = response.user!.codeShare!;
         _prefs.userID = response.user!.id.toString();
+        _prefs.photoUser = response.user!.photoUrl??'';
         return response.user;
       } else {
         throw decodeJson['message'];

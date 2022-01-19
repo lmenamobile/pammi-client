@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 class Constants {
   //dev
-  //static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';//
+  //static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
   //staging
-  static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+    static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+  //pre-production
+  //static const String baseURL = 'https://apiappclient.pamii.com/v1/';
   static const String key_encrypt = 'ebfe48f81df787193c75c1ffacd88a07';
   static const String googleApyKey = "AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ";//'AIzaSyA3J8--0OAj3E-z5nRG35U1JHpyDI1cOzY';
   static const String pwdSocialNetwork = 'Kubo123*';
@@ -34,6 +36,16 @@ class Constants {
   static const String offersUnits = 'units';
   static const String offersMix = 'mixed';
 
+    /*Status order*/
+    static const String create = 'Creado';
+    static const String cancel = 'Cancelado';
+    static const String completed = 'Completado';
+    static const String processing = 'Procesando';
+    static const String restored = 'Devuelto';
+    static const String send = 'Enviado';
+    static const String finish = 'Finalizado';
+
+
   /*Tipos de chat*/
   static const String typeSeller = 'seller';
   static const String typeProvider = 'provider';
@@ -55,6 +67,11 @@ class Constants {
 
   /*Tipo de notificacion*/
   static const String notificationOrder     = 'order';
+
+    /*Tipo de documento*/
+    static const String cc           = 'cc';
+    static const String passport     = 'pa';
+    static const String ce           = 'ce';
 
   /*Locale*/
   static const String localeES = 'es_CO';

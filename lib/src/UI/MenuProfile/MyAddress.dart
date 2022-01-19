@@ -146,16 +146,14 @@ class _MyAddressPageState extends State<MyAddressPage> {
   }
 
   serviceChangeAddressUser(Address address) async {
-    utils.checkInternet().then((value) async {
+    bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteAddress, "ic_trash_big.png");
+    if(status!)utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callResponse =
-            UserProvider.instance.changeStatusAddress(context, address);
+        Future callResponse = UserProvider.instance.changeStatusAddress(context, address);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
-          ChangeStatusAddressResponse data =
-              ChangeStatusAddressResponse.fromJson(decodeJSON);
-
+          ChangeStatusAddressResponse data = ChangeStatusAddressResponse.fromJson(decodeJSON);
           if (data.status!) {
             Navigator.pop(context);
             utils.showSnackBarGood(context, data.message!);
@@ -166,8 +164,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
             utils.showSnackBarError(context, data.message);
           }
         }, onError: (error) {
-          print("Ocurrio un error: $error");
-
           Navigator.pop(context);
         });
       } else {

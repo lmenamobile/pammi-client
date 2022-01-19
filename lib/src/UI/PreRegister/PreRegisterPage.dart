@@ -153,7 +153,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                           SizedBox(height: 15),
                           customTextField(Strings.phone, phoneController, TextInputType.number, <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(15)
+                            LengthLimitingTextInputFormatter(10)
                           ]),
                           SizedBox(height: 15),
                           customTextField(Strings.email, emailController, TextInputType.emailAddress, []),

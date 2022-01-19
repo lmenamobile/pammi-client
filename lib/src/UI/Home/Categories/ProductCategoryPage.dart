@@ -22,8 +22,8 @@ class ProductCategoryPage extends StatefulWidget {
   final String? idCategory, idSubcategory, idBrandProvider;
 
   const ProductCategoryPage(
-      {required this.idCategory,
-      required this.idSubcategory,
+      { this.idCategory,
+       this.idSubcategory,
       this.idBrandProvider});
 
   @override
@@ -100,7 +100,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                                 onTap: () => Navigator.pop(context),
                               ),
                               Text(
-                                Strings.categories,
+                                Strings.products,
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.white,
@@ -267,7 +267,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
             searchProduct,
             pageOffset,
             widget.idBrandProvider == null ? null : widget.idBrandProvider,
-            widget.idCategory!.isEmpty ? null : widget.idCategory,
+            widget.idCategory==null ? null : widget.idCategory,
             widget.idSubcategory,
             null,
             null);
@@ -283,8 +283,10 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
 
   callIsFavorite(Reference reference) {
     if (reference.isFavorite!) {
+      reference.isFavorite = false;
       removeFavoriteProduct(reference);
     } else {
+      reference.isFavorite = true;
       saveFavoriteProduct(reference);
     }
   }
@@ -295,8 +297,8 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         Future callUser = providerUser.saveAsFavorite(reference.id.toString());
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
-          providerProducts.ltsProductsByCategory.clear();
-          getProducts("");
+        //  providerProducts.ltsProductsByCategory.clear();
+         // getProducts("");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -312,8 +314,8 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         Future callUser = providerUser.deleteFavorite(reference.id.toString());
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
-          providerProducts.ltsProductsByCategory.clear();
-          getProducts("");
+          //providerProducts.ltsProductsByCategory.clear();
+          //getProducts("");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

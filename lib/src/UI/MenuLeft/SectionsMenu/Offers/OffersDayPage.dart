@@ -64,7 +64,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
             children: [
               titleBarWithDoubleAction(
               Strings.offersDay,
-              "ic_blue_arrow.png",
+              "ic_menu_w.png",
               "ic_car.png",
                   () =>keyMenuLeft.currentState!.openDrawer(),
                   ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
@@ -109,7 +109,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                                 ),
                               ),
                               Container(
-                                  height: 320,
+                                  height: 335,
                                   width: double.infinity,
                                   child: listOffersUnits()),
                             ],
@@ -138,7 +138,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                                 ),
                               ),
                               Container(
-                                  height: 320,
+                                  height: 335,
                                   width: double.infinity,
                                   child: listOffersMix())
                             ],
@@ -256,8 +256,11 @@ class _OffersDayPageState extends State<OffersDayPage> {
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
-          onTap: ()=>getOffersByBrand(providerHome.ltsBrands[index].id.toString()),
-            child: itemBrandOffer(providerHome.ltsBrands[index].image));
+          onTap: (){
+            providerHome.selectedBrand = providerHome.ltsBrands[index];
+            getOffersByBrand(providerHome.ltsBrands[index].id.toString());
+          },
+            child: itemBrandOffer(providerHome.selectedBrand,providerHome.ltsBrands[index]));
       },
     );
   }

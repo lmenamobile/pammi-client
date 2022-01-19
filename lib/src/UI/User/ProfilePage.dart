@@ -195,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: <Widget>[
                                 itemProfile(context, "Assets/images/ic_target.png",
                                     Strings.methodsPay, false, false, false, () {
-                                  Navigator.of(context).push(customPageTransition(MyCreditCards()));
+                                  Navigator.of(context).push(customPageTransition(MyCreditCards(isActiveSelectCard: false,)));
                                 }),
                                 itemProfile(context, "Assets/images/ic_order_history.png",
                                     Strings.myOrders, true, false, true, () {

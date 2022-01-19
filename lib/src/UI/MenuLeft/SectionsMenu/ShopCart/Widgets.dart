@@ -33,7 +33,7 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
               child: Container(
                 width: 100,
                 height: 100,
-                child: FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -142,6 +142,9 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
           color: CustomColors.blackLetter,
         ),
       ),
+      SizedBox(
+        height: 2,
+      ),
       Row(
         children: [
           Container(
@@ -180,6 +183,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   ),
                 ),
                 viewPriceOffer(offer),
+                //update Quantity
                 Row(
                   children: [
                     InkWell(
@@ -429,7 +433,10 @@ Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
       itemCount: promotionProducts==null?0:promotionProducts.length,
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
           itemOfferProductGift(promotionProducts![itemIndex].reference),
-      options: CarouselOptions(),
+      options: CarouselOptions(
+        viewportFraction: 1.0,
+        enableInfiniteScroll: false
+      ),
     ),
   );
 }
@@ -455,7 +462,10 @@ Widget sliderCardOffer(ProductShopCart product,Function updateQuantity,Function 
             padding: const EdgeInsets.all(8.0),
             child: itemOfferCart(product, product.offer!.baseProducts![itemIndex], updateQuantity, deleteProduct, saveProduct),
           ),
-      options: CarouselOptions(),
+      options: CarouselOptions(
+          viewportFraction: 1.0,
+          enableInfiniteScroll: false
+      ),
     ),
   );
 }

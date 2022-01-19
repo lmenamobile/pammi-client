@@ -59,7 +59,7 @@ Widget itemOrder(Order order) {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 8),
                         child: Text(
-                          order.status ?? '',
+                          getStatusOrder(order.status ?? ''),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
@@ -218,7 +218,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Text(
-                    providerPackage.status??'',
+                    getStatusOrder(providerPackage.status??''),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -421,7 +421,8 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
           Visibility(
             visible: isActive,
               child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,null),
+
+                  onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,providerPackage),
                   child: Image.asset("Assets/images/ic_star.png", width: 20,color:product.reference?.qualification=='0'?CustomColors.gray5:Colors.amber))),
         ],
       ),
@@ -571,7 +572,7 @@ Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bo
                 Visibility(
                   visible: isActive,
                   child: InkWell(
-                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',null),
+                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',order),
                     child: Row(
                       children: [
                         Text(

@@ -94,6 +94,7 @@ class Strings {
   static const String apply = 'Aplicar';
   static const String campaigns = 'Campañas';
 
+
   /*Comment*/
   static const String comment = 'Comentario';
   static const String informationProduct = 'Información del producto';
@@ -120,6 +121,7 @@ class Strings {
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
   static const String deleteCart = "¿Estás seguro de eliminar tu carrito de compras?";
   static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
+  static const String deleteAddress = "¿Estás seguro de eliminar esta dirección?";
   static const String notSelectedNotification = "Por favor seleccione una notificación";
 
   /*fotos*/
@@ -418,6 +420,14 @@ class Strings {
   static const String  textCloseApp = '¿Estas seguro que deseas salir de Pamii?';
   static const String  selectBank = 'Selecciona tu banco';
 
+  static const String statusCreate = 'created';
+  static const String statusCancel = 'canceled';
+  static const String statusCompleted = 'completed';
+  static const String statusProcessing = 'processing';
+  static const String statusRestored = 'restored';
+  static const String statusSend = 'send';
+  static const String statusFinish = 'finished';
+
 
   /*Errors*/
   static const String errorServeTimeOut                   = "Ha ocurrido un error de parte nuestra, por favor vuelve a intentarlo.";
@@ -457,6 +467,7 @@ class Strings {
   static const String emptyNotifications                   = "Aún no hay notificaciones que mostrar aquí.";
   static const String emptyCategories                      = "No se encontraron categorias.";
   static const String emptySubCategories                      = "No se encontraron Subcategorias.";
+  static const String emptyBrands                    = "No se encontraron marcas.";
   static const String errorSelectAddress                   = "Debes seleccionar una dirección de envío";
   static const String errorSelectPayment                   = "Debes seleccionar un medio de pago";
   static const String errorPaymentMethod                   = "Medio de pago no disponible";

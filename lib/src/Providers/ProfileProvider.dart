@@ -71,8 +71,7 @@ class ProfileProvider with ChangeNotifier {
       params.addAll({"fullname": name});
     }
     if (typeIdentification.isNotEmpty && numberIdentification.isNotEmpty) {
-      // params.addAll({'documentType': typeIdentification}); ojo cambiar por los de servicio
-      params.addAll({'documentType': 'cc'});
+      params.addAll({'documentType': typeIdentification});
       params.addAll({'document': numberIdentification});
     }
     if (phone.isNotEmpty) {
@@ -211,7 +210,7 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
-  Future<List<CreditCard>> getLtsCreditCards(String page) async {
+  Future getLtsCreditCards(String page) async {
     this.isLoading = true;
     Map params = {
       "limit":"20",
@@ -226,9 +225,10 @@ class ProfileProvider with ChangeNotifier {
         headers: header,body: body)
         .timeout(Duration(seconds: 10)).catchError((value) {this.isLoading = false;throw Strings.errorServeTimeOut;});
     final List<CreditCard> listCards = [];
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
+      this.isLoading = false;
+      if (decodeJson['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final card = CreditCard.fromJson(item);
           listCards.add(card);
@@ -242,7 +242,7 @@ class ProfileProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
-      throw decodeJson!['message'];
+      throw decodeJson['message'];
     }
 
   }
@@ -269,7 +269,7 @@ class ProfileProvider with ChangeNotifier {
     final response = await http
         .post(Uri.parse(Constants.baseURL + 'profile/create-payment-method'),
         headers: header, body: body)
-        .timeout(Duration(seconds: 10))
+        .timeout(Duration(seconds: 20))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;

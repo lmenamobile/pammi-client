@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/ProductOffer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
@@ -41,7 +42,26 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                 height:120,
                 color: CustomColors.grayBackground,
               ),
-              itemImageOffer(offer.promotionProducts![getRandomPosition(offer.promotionProducts?.length??0)].reference!.images![0].url!)],
+              Stack(
+                children: [
+                  itemImageOffer(offer.promotionProducts![getRandomPosition(offer.promotionProducts?.length??0)].reference!.images![0].url!),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.redAccent,
+                      child: Text(
+                          offer.offerType=="units"?unitsDiscount(offer.baseProducts!, offer.promotionProducts!):percentDiscount(offer.discountValue!),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )],
           ),
           customDivider(),
           Text(
@@ -59,8 +79,8 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: itemDescriptionOffer(Strings.products, offer.baseProducts!)),
-              Expanded(child: itemDescriptionOffer(Strings.productsGift, offer.promotionProducts!))
+              Expanded(child: itemDescriptionOffer(Strings.products, offer.baseProducts!,offer,true)),
+              Expanded(child: itemDescriptionOffer(Strings.productsGift, offer.promotionProducts!,offer,false))
             ],
           ),
           customDivider(),
@@ -111,7 +131,7 @@ Widget itemImageOffer(String url) {
   );
 }
 
-Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts){
+Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts,Offer offer,bool isBaseProducts){
   return Column(
     mainAxisSize: MainAxisSize.min,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -130,9 +150,43 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts){
         physics: NeverScrollableScrollPhysics(),
         itemCount: ltsProducts.isEmpty?0:ltsProducts.length>=1?1:ltsProducts.length,
         itemBuilder: (BuildContext context, int index) {
-          return charactersOffers(ltsProducts[index].reference!);
+          return isBaseProducts?charactersOffers(ltsProducts[index].reference!):charactersProductsOffers(ltsProducts[index].reference!, offer);
         },
       )
+    ],
+  );
+}
+
+Widget charactersProductsOffers(Reference reference,Offer offer){
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        reference.reference??'',
+        style: TextStyle(
+            fontSize: 13,
+            fontFamily: Strings.fontBold,
+            color: CustomColors.blackLetter
+        ),
+      ),
+      Text(
+        formatMoney(reference.price??'0'),
+        style: TextStyle(
+          decoration: TextDecoration.lineThrough,
+            fontSize: 13,
+            fontFamily: Strings.fontMedium,
+            color: CustomColors.gray
+        ),
+      ),
+      Text(
+        offer.offerType=="units"?formatMoney('0'):formatMoney(priceDiscount(reference.price??'0', offer.discountValue!)),
+        style: TextStyle(
+            fontSize: 13,
+            fontFamily: Strings.fontMedium,
+            color: CustomColors.orange
+        ),
+      ),
     ],
   );
 }
@@ -162,7 +216,7 @@ Widget charactersOffers(Reference reference){
   );
 }
 
-Widget itemBrandOffer(String? url){
+Widget itemBrandOffer(Brand brandSelected, Brand brand){
   return  Padding(
     padding: const EdgeInsets.all(8.0),
     child: Container(
@@ -173,7 +227,7 @@ Widget itemBrandOffer(String? url){
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color:  Colors.black38.withOpacity(0.2),
+                color: brandSelected==brand?Colors.redAccent.withOpacity(.4): Colors.black38.withOpacity(0.2),
                 blurRadius: 5.0,
                 spreadRadius: 1.0,
                 offset: Offset(
@@ -184,7 +238,7 @@ Widget itemBrandOffer(String? url){
             ],
             image: DecorationImage(
                 fit: BoxFit.contain,
-                image: (url == "" ? AssetImage("Assets/images/spinner.gif") : NetworkImage(url!)) as ImageProvider<Object>
+                image: (brand.image == "" ? AssetImage("Assets/images/spinner.gif") : NetworkImage(brand.image!)) as ImageProvider<Object>
             )
         )
     ),

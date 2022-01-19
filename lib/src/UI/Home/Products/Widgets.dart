@@ -120,7 +120,7 @@ Widget itemImageReference(double size, String asset) {
         border: Border.all(color: CustomColors.orange)),
     child: Padding(
       padding: const EdgeInsets.all(3),
-      child: FadeInImage(
+      child: asset.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
         fit: BoxFit.fill,
         image: NetworkImage(asset),
         placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -161,7 +161,7 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
               Container(
                 width: 35,
                 height: 35,
-                child: FadeInImage(
+                child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(asset),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -280,7 +280,8 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                           padding: const EdgeInsets.only(bottom: 5),
                           child: InkWell(
                             onTap: ()=>selectReference(ltsReferences![index]),
-                              child: itemReference(ltsReferences![index].images![0].url!, ltsReferences[index].reference!,ltsReferences[index].isSelected!)),
+                              child: itemReference(ltsReferences![index].images!.isEmpty?'':
+                                  ltsReferences[index].images![0].url!, ltsReferences[index].reference!,ltsReferences[index].isSelected!)),
                         );
                       },
                     ),

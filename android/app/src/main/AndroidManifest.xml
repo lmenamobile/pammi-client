@@ -30,6 +30,10 @@
                 android:resource="@style/NormalTheme" />
 
             <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@mipmap/icon_circle" />
+
+            <meta-data
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
                 android:resource="@drawable/launch_background" />
 
@@ -38,9 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@mipmap/icon_circle" />
 
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -10,6 +11,7 @@ import 'package:wawamko/src/UI/Home/Products/PhotosProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/CheckOutPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -53,15 +55,22 @@ class _OfferDetailState extends State<OfferDetail> {
           color: CustomColors.whiteBackGround,
           child: Column(
             children: [
-              titleBarWithDoubleAction(widget.nameOffer ?? '',
-                  "ic_blue_arrow.png", "", () => Navigator.pop(context), () {},false,""),
+              titleBarWithDoubleAction(
+                  widget.nameOffer ?? '',
+                  "ic_blue_arrow.png",
+                  "",
+                  () => Navigator.pop(context),
+                      ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
+                  true,
+                  providerShopCart.totalProductsCart),
               Expanded(
-                child: providerSettings.hasConnection?SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      sliderProductOffer(),
-                      Align(
+                child: providerSettings.hasConnection
+                    ? SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            sliderProductOffer(),
+                             Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
                           margin: EdgeInsets.symmetric(
@@ -141,9 +150,10 @@ class _OfferDetailState extends State<OfferDetail> {
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ):notConnectionInternet(),
+                          ],
+                        ),
+                      )
+                    : notConnectionInternet(),
               )
             ],
           ),
@@ -155,11 +165,9 @@ class _OfferDetailState extends State<OfferDetail> {
   Widget itemSliderOffer(Reference? reference) {
     return Container(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             width: double.infinity,
-            height: 250,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -167,12 +175,12 @@ class _OfferDetailState extends State<OfferDetail> {
                   bottomRight: Radius.circular(15),
                 )),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 InkWell(
                   onTap: () => openZoomImages(),
-                  child: imageReference(170, providerOffer?.imageSelected ?? ''),
+                  child:
+                      imageReference(170, providerOffer?.imageSelected ?? ''),
                 ),
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
@@ -181,50 +189,37 @@ class _OfferDetailState extends State<OfferDetail> {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      providerOffer?.detailOffer.name ?? '',
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      Strings.productsPerPurchase,
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.gray7),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      reference?.reference ?? '',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter),
-                    ),
-                    Text(
-                      formatMoney(reference?.price ?? '0'),
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: Strings.fontMedium,
-                          color: CustomColors.orange),
-                    ),
-                  ]),
-            ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    providerOffer?.detailOffer.name ?? '',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: Strings.fontBold,
+                        color: CustomColors.blackLetter),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    reference?.reference ?? '',
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontFamily: Strings.fontMedium,
+                        color: CustomColors.blackLetter),
+                  ),
+                  Text(
+                    formatMoney(reference?.price ?? '0'),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: Strings.fontMedium,
+                        color: CustomColors.orange),
+                  ),
+                ]),
           ),
         ],
       ),
@@ -233,19 +228,21 @@ class _OfferDetailState extends State<OfferDetail> {
 
   Widget sliderProductOffer() {
     return Container(
-      height: 390,
-      child:
-      CarouselSlider.builder(
-        itemCount: providerOffer?.detailOffer.baseProducts == null ? 0 : providerOffer!.detailOffer.baseProducts!.length,
-        itemBuilder: (_, int itemIndex, int pageViewIndex) => itemSliderOffer(providerOffer?.detailOffer.baseProducts![itemIndex].reference),
+      child: CarouselSlider.builder(
+          itemCount: providerOffer?.detailOffer.baseProducts == null
+              ? 0
+              : providerOffer!.detailOffer.baseProducts!.length,
+          itemBuilder: (_, int itemIndex, int pageViewIndex) => itemSliderOffer(
+              providerOffer?.detailOffer.baseProducts![itemIndex].reference),
           options: CarouselOptions(
-              autoPlay: false,
-          )
-      ),
+            height: 360,
+            enableInfiniteScroll: false,
+            autoPlay: false,
+          )),
     );
   }
 
-  Widget itemProductOffer(Reference reference, String? brand) {
+  Widget itemProductOffer(Reference reference, String? brand,Offer offer) {
     int position = getRandomPosition(reference.images?.length ?? 0);
     return Container(
       width: 160,
@@ -272,7 +269,7 @@ class _OfferDetailState extends State<OfferDetail> {
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(reference.images?[position].url??''),
+                    image: NetworkImage(reference.images?[position].url ?? ''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                   ),
                 ),
@@ -300,10 +297,20 @@ class _OfferDetailState extends State<OfferDetail> {
                         ),
                       ),
                       Text(
-                        formatMoney(reference.price ?? '0'),
+                        formatMoney(reference.price??'0'),
                         style: TextStyle(
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.orange,
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 13,
+                            fontFamily: Strings.fontMedium,
+                            color: CustomColors.gray
+                        ),
+                      ),
+                      Text(
+                        offer.offerType=="units"?formatMoney('0'):formatMoney(priceDiscount(reference.price??'0', offer.discountValue!)),
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: Strings.fontMedium,
+                            color: CustomColors.orange
                         ),
                       )
                     ],
@@ -322,15 +329,22 @@ class _OfferDetailState extends State<OfferDetail> {
       itemCount:
           providerOffer?.detailOffer.baseProducts?[0].reference?.images == null
               ? 0
-              : providerOffer!.detailOffer.baseProducts![0].reference!.images!.length,
+              : providerOffer!
+                  .detailOffer.baseProducts![0].reference!.images!.length,
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.only(right: 5),
           child: InkWell(
-              onTap: () => setImageReference(providerOffer?.detailOffer.baseProducts?[0].reference?.images?[index].url??''),
-              child: itemImageReference(50, providerOffer?.detailOffer.baseProducts?[0].reference?.images?[index].url??'')),
+              onTap: () => setImageReference(providerOffer?.detailOffer
+                      .baseProducts?[0].reference?.images?[index].url ??
+                  ''),
+              child: itemImageReference(
+                  50,
+                  providerOffer?.detailOffer.baseProducts?[0].reference
+                          ?.images?[index].url ??
+                      '')),
         );
       },
     );
@@ -347,7 +361,7 @@ class _OfferDetailState extends State<OfferDetail> {
             padding: const EdgeInsets.all(8.0),
             child: itemProductOffer(
                 providerOffer!.detailOffer.promotionProducts![index].reference!,
-                providerOffer?.detailOffer.brandProvider?.brand?.brand));
+                providerOffer?.detailOffer.brandProvider?.brand?.brand,providerOffer!.detailOffer));
       },
     );
   }
@@ -363,7 +377,6 @@ class _OfferDetailState extends State<OfferDetail> {
               image: providerOffer?.imageSelected,
             )));
   }
-
 
   addProduct() {
     providerOffer?.totalUnits = providerOffer!.totalUnits + 1;
@@ -390,7 +403,8 @@ class _OfferDetailState extends State<OfferDetail> {
   addOfferCart(String idOffer) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(idOffer, providerOffer?.totalUnits.toString()??'');
+        Future callCart = providerShopCart.addOfferCart(
+            idOffer, providerOffer?.totalUnits.toString() ?? '');
         await callCart.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
@@ -405,7 +419,9 @@ class _OfferDetailState extends State<OfferDetail> {
   paymentNow() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(providerOffer!.detailOffer.id.toString(), providerOffer?.totalUnits.toString()??'');
+        Future callCart = providerShopCart.addOfferCart(
+            providerOffer!.detailOffer.id.toString(),
+            providerOffer?.totalUnits.toString() ?? '');
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());

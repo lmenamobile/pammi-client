@@ -286,7 +286,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
               height: 30,
             ),
             Text(
-              '******** 0000',
+              numberTargetController.text.isEmpty?'******** 0000':"******** "+numberTargetController.text.substring(numberTargetController.text.length>4?numberTargetController.text.length-4:0),
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: Strings.fontBold,

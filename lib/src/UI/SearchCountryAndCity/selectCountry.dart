@@ -196,9 +196,9 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     );
   }
 
-  actionSelectCountry(CountryUser country) {
+  actionSelectCountry(CountryUser country) async {
     providerSettings.countrySelected = country;
-    Navigator.pop(context);
+     Navigator.pop(context);
   }
 
   getCountries(String search) async {

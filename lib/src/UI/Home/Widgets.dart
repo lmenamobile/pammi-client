@@ -271,7 +271,7 @@ Widget itemProduct(Product product){
             Container(
               width: 120,
               height: 90,
-              child: FadeInImage(
+              child: product.references![position].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                 fit: BoxFit.fill,
                 image: NetworkImage(product.references![position].images![getRandomPosition(product.references![position].images!.length)].url??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),

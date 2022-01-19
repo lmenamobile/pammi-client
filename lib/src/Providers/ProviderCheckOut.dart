@@ -318,7 +318,7 @@ class ProviderCheckOut with ChangeNotifier {
     final response = await http
         .post(Uri.parse(Constants.baseURL + "payment/create-order"),
             headers: header, body: body)
-        .timeout(Duration(seconds: 30))
+        .timeout(Duration(seconds: 40))
         .catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;

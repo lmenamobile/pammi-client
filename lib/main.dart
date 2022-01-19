@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,8 +25,23 @@ import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
 import 'src/UI/Onboarding/Tour/Splash.dart';
 import 'src/Utils/Strings.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+
 
 void main() async{
+  HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = SharePreference();
   await prefs.initPrefs();
@@ -41,6 +58,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState(){
     super.initState();
+
     PushNotificationService.dataNotification.listen((message) {
 
     });
@@ -96,6 +114,43 @@ class _MyAppState extends State<MyApp> {
         home: MyHomePage(),
       ),
     );
+  }
+
+  void flutterInitLocalNotification() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_push');
+
+    final IOSInitializationSettings initializationSettingsIOS =
+    IOSInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true);
+
+    final InitializationSettings initializationSettings =
+    InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS);
+
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String? payload) async {
+          if (payload != null) {
+            debugPrint('notification payload: $payload');
+          }
+        });
+  }
+
+  void _showNotification(String title, String description) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'your channel id', 'your channel name', channelDescription: 'your channel description',
+        importance: Importance.max, priority: Priority.high);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+        presentAlert: true, presentBadge: true, presentSound: true);
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, title, description, platformChannelSpecifics,
+        payload: 'Default_Sound');
   }
 }
 

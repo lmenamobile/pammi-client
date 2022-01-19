@@ -106,17 +106,18 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     );
   }
 
-  openQualificationPage(int optionView,String idQualification,String idSubOrder,String data,PackageProvider providerPackage)async{
+   openQualificationPage(int optionView,String idQualification,String idSubOrder,String data,PackageProvider providerPackage)async{
     switch (optionView) {
       case 0:
         await saveImagesBrands(providerPackage);
-        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,)));
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,))).
+        then((value) => getDetailOrder(widget.idOrder));
         break;
       case 1:
-        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,)));
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,))).then((value) => getDetailOrder(widget.idOrder));
         break;
       case 2:
-        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,)));
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,))).then((value) => getDetailOrder(widget.idOrder));
         break;
 
     }

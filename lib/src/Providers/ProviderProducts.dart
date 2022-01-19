@@ -200,7 +200,7 @@ class ProviderProducts with ChangeNotifier{
       'offset': offset,
       'limit': 20,
       "brandProviderId": idBrand??'',
-      "subcategoryId": idSubcategory,
+      "subcategoryId": idSubcategory??'',
       "categoryId": idCategory??'',
       "price": price??'',
       "orderBy": orderBy??'',

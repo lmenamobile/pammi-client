@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 String formatMoney(String? money){
   String cash = '';
-  var formatPesos = new NumberFormat.currency(locale: "es_CO", symbol: r"", decimalDigits: 0);
-  cash = formatPesos.format(double.parse(money??'0'));
+  var formatPesos = new NumberFormat.currency(locale: "es_CO", symbol: r"", decimalDigits: money!.contains(".")?1:0);
+  cash = formatPesos.format(double.parse(money));
   return r"$ "+cash;
 }
 

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
+import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/SubCategory.dart';
@@ -113,6 +114,45 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
   );
 }
 
+Widget itemBrandRow(Brand brand, Function openProducts){
+  return InkWell(
+    onTap: ()=>openProducts(brand),
+    child: Container(
+      margin: EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(9)),
+        border: Border.all(color: CustomColors.grayBackground,width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              child: Text(
+                brand.brand!,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: Strings.fontRegular,
+                  fontSize: 13,
+                  color: CustomColors.blackLetter,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_right,
+              color: CustomColors.gray4,
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 Widget itemProductRelations(Product product, Function openDetail){
   return InkWell(
     onTap: ()=>openDetail(product),
@@ -137,7 +177,7 @@ Widget itemProductRelations(Product product, Function openDetail){
             Container(
               width: 100,
               height: 100,
-              child: FadeInImage(
+              child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                 fit: BoxFit.fill,
                 image: NetworkImage(product.references?[0].images?[0].url??""),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -210,7 +250,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                 Container(
                   width: 100,
                   height: 100,
-                  child: FadeInImage(
+                  child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(product.references?[0].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),

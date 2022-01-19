@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
@@ -144,7 +144,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   openPaymentMethods(){
     Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value)async{
       if(providerCheckOut.paymentSelected!.id== 1){
-        Navigator.push(context, customPageTransition(MyCreditCards()));
+        Navigator.push(context, customPageTransition(MyCreditCards(isActiveSelectCard: true,)));
       }else if(providerCheckOut.paymentSelected!.id== 6){
         var bank = await openSelectBank(context);
         if(bank!=null)

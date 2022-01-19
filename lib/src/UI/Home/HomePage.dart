@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ConectionStatus.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
+import 'package:wawamko/src/UI/Home/Brands/BrandsPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
+import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
@@ -326,19 +329,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontFamily: Strings.fontBold,
                     color: CustomColors.blueSplash),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: CustomColors.blue.withOpacity(.2),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                  child: Text(
-                    Strings.moreAll,
-                    style: TextStyle(
-                        color: CustomColors.blueOne,
-                        fontSize: 12,
-                        fontFamily: Strings.fontBold),
+              InkWell(
+                onTap: ()=>openAllBrands(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: CustomColors.blue.withOpacity(.2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                    child: Text(
+                      Strings.moreAll,
+                      style: TextStyle(
+                          color: CustomColors.blueOne,
+                          fontSize: 12,
+                          fontFamily: Strings.fontBold),
+                    ),
                   ),
                 ),
               ),
@@ -475,7 +481,9 @@ class _MyHomePageState extends State<MyHomePage> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: itemBrand(providerHome!.ltsBrands[index]),
+          child: InkWell(
+            onTap: ()=>openProductsByBrand(providerHome!.ltsBrands[index]),
+              child: itemBrand(providerHome!.ltsBrands[index])),
         );
       },
     );
@@ -494,6 +502,14 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  openProductsByBrand(Brand brand){
+    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrandProvider:brand.id.toString())));
+  }
+
+  openAllBrands(){
+    Navigator.push(context, customPageTransition(BrandsPage()));
   }
 
   openDetailProduct(Product product){

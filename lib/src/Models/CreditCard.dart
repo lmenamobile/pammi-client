@@ -8,6 +8,7 @@ class CreditCard {
     this.token,
     this.franchise,
     this.status,
+    this.iconCart
   });
 
   int? id;
@@ -18,6 +19,7 @@ class CreditCard {
   String? token;
   String? franchise;
   String? status;
+  String? iconCart;
 
   factory CreditCard.fromJson(Map<String, dynamic> json) => CreditCard(
     id: json["id"],
@@ -28,6 +30,7 @@ class CreditCard {
     token: json["token"],
     franchise: json["franchise"],
     status: json["status"],
+    iconCart: json["image"],
   );
 
   Map<String, dynamic> toJson() => {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
@@ -11,6 +12,8 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class MyCreditCards extends StatefulWidget {
+  final bool isActiveSelectCard;
+  const MyCreditCards({required this.isActiveSelectCard}) ;
   @override
   _MyCreditCardsState createState() => _MyCreditCardsState();
 }
@@ -75,77 +78,78 @@ class _MyCreditCardsState extends State<MyCreditCards> {
   }
 
   selectCreditCard(CreditCard creditCard){
-    providerCheckOut.creditCardSelected = creditCard;
-    Navigator.pop(context);
+    if(widget.isActiveSelectCard) {
+      providerCheckOut.creditCardSelected = creditCard;
+      Navigator.pop(context);
+    }
   }
 
   Widget itemPayMethod(CreditCard creditCard) {
-    return GestureDetector(
-      child: Container(
-        margin: EdgeInsets.only(bottom: 10),
-        height: 70,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            border: Border.all(color: CustomColors.gray.withOpacity(.1), width: 1),
-            color: CustomColors.white),
-        child: Center(
-          child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20),
-            width: double.infinity,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Image(
-                    width: 70,
-                    height: 70,
-                    fit: BoxFit.fill,
-                    image: AssetImage("Assets/images/ic_express.png")),
-                SizedBox(width: 17),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        creditCard.cardNumber!,
-                        style: TextStyle(
-                            fontFamily: Strings.fontBold,
-                            fontSize: 17,
-                            color: CustomColors.blackLetter),
-                      ),
-                      Text(
-                        Strings.masterCard,
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: CustomColors.purpleOpacity,
-                            fontFamily: Strings.fontRegular),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  child: Container(
-                    child: Image(
-                      width: 20,
-                      height: 20,
-                      image: AssetImage("Assets/images/ic_garbage.png"),
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      height: 70,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: CustomColors.gray.withOpacity(.1), width: 1),
+          color: CustomColors.white),
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.only(left: 20, right: 20),
+          width: double.infinity,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                width: 70,
+                height: 70,
+                child:  SvgPicture.network(creditCard.iconCart!),
+              ),
+              SizedBox(width: 17),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      creditCard.cardNumber!,
+                      style: TextStyle(
+                          fontFamily: Strings.fontBold,
+                          fontSize: 17,
+                          color: CustomColors.blackLetter),
                     ),
-                  ),
-                  onTap: () {
-                    utils.startCustomAlertMessage(
-                        context,
-                        Strings.titleDeleteCreditCard,
-                        "Assets/images/ic_trash_big.png",
-                        Strings.msgDeleteCreditCard, () {
-                      Navigator.pop(context);
-                    }, () {
-                      Navigator.pop(context);
-                    });
-                  },
+                    Text(
+                     creditCard.franchise!,
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: CustomColors.purpleOpacity,
+                          fontFamily: Strings.fontRegular),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              GestureDetector(
+                child: Container(
+                  child: Image(
+                    width: 20,
+                    height: 20,
+                    image: AssetImage("Assets/images/ic_garbage.png"),
+                  ),
+                ),
+                onTap: () {
+                  utils.startCustomAlertMessage(
+                      context,
+                      Strings.titleDeleteCreditCard,
+                      "Assets/images/ic_trash_big.png",
+                      Strings.msgDeleteCreditCard, () {
+                    Navigator.pop(context);
+                   changeStatusCreditCart(creditCard);
+                  }, () {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -161,6 +165,20 @@ class _MyCreditCardsState extends State<MyCreditCards> {
       });
       } else {
         utils.showSnackBar(context, Strings.internetError);      }
+    });
+  }
+
+  changeStatusCreditCart(CreditCard creditCard) async {
+   utils.checkInternet().then((value) async {
+      if (value) {
+        Future callResponse = profileProvider.deleteCreditCard(creditCard.id.toString());
+        await callResponse.then((user) {
+
+        }, onError: (error) {
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
     });
   }
 }

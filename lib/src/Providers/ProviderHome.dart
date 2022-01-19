@@ -40,6 +40,13 @@ class ProviderHome with ChangeNotifier {
     notifyListeners();
   }
 
+  Brand _selectedBrand = Brand();
+  Brand get selectedBrand => this._selectedBrand;
+  set selectedBrand(Brand value) {
+    this._selectedBrand = value;
+    notifyListeners();
+  }
+
   List<Banners> _ltsBanners = [];
   List<Banners> get ltsBanners => this._ltsBanners;
   set ltsBanners(List<Banners> value) {
@@ -61,6 +68,8 @@ class ProviderHome with ChangeNotifier {
     notifyListeners();
   }
 
+
+
   Future<dynamic> getBrands(String offset) async {
     this.isLoadingHome = true;
     final header = {
@@ -70,7 +79,7 @@ class ProviderHome with ChangeNotifier {
     };
     Map jsonData = {
       'filter': "",
-      'offset': offset,
+      'offset': int.parse(offset),
       'limit': 20,
     };
     var body = jsonEncode(jsonData);
@@ -157,7 +166,7 @@ class ProviderHome with ChangeNotifier {
     };
     Map jsonData = {
       'filter': "",
-      'offset': offset,
+      'offset': int.parse(offset),
       'limit': 30,
       "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
       "type": Constants.bannerOffer

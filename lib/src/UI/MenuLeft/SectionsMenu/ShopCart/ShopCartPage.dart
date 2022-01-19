@@ -138,7 +138,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           return cardListProductsByProvider(
               providerShopCart!.shopCart!.packagesProvider![index],
               updateOfferOrProduct,
-              deleteProduct,
+              callDeleteProduct,
               saveProduct);
         },
       ),
@@ -151,7 +151,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
         : Container(
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: listGiftCard(providerShopCart?.shopCart?.products,
-                updateGiftCard, deleteProduct));
+                updateGiftCard, callDeleteProduct));
   }
 
   Widget listItemsProductsRelations() {
@@ -259,9 +259,14 @@ class _ShopCartPageState extends State<ShopCartPage> {
     }
   }
 
-  deleteProduct(String idProduct) async {
+  callDeleteProduct(String idProduct)async{
     bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteProduct, "ic_trash_big.png");
     if (status??false)
+      deleteProduct(idProduct);
+  }
+
+
+  deleteProduct(String idProduct) async {
       utils.checkInternet().then((value) async {
         if (value) {
           Future callCart = providerShopCart!.deleteProductCart(idProduct);
@@ -309,6 +314,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           deleteProduct(idProduct);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
+          deleteProduct(idProduct);
           providerShopCart!.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });

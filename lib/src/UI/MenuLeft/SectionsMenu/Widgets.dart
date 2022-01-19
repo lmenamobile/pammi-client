@@ -32,7 +32,7 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                 Container(
                   width: 100,
                   height: 100,
-                  child: FadeInImage(
+                  child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(product.reference?.images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
