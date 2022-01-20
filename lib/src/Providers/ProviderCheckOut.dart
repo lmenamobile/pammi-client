@@ -327,19 +327,17 @@ class ProviderCheckOut with ChangeNotifier {
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         this.isLoading = false;
-        if (paymentMethodId == "1") {
+        if (paymentMethodId == Constants.paymentCreditCard.toString()) {
           return decodeJson['message'];
-        } else if (paymentMethodId == "2") {
+        } else if (paymentMethodId == Constants.paymentCash.toString()) {
           return decodeJson['message'];
-        } else if (paymentMethodId == "4") {
-          return decodeJson['message'];
-        } else if (paymentMethodId == "5") {
+        }  else if (paymentMethodId == Constants.paymentEfecty.toString()||paymentMethodId == Constants.paymentBaloto.toString()) {
           this.efecty = ResponseEfecty.fromJson(decodeJson['data']['response']['data']);
           return decodeJson['message'];
-        } else if (paymentMethodId == "6") {
+        } else if (paymentMethodId == Constants.paymentPSE.toString()) {
           this.paymentPSE = ResponsePse.fromJson(decodeJson['data']['response']['data']);
           return decodeJson['message'];
-        } else if (paymentMethodId == "7") {
+        } else if (paymentMethodId == Constants.paymentADDI.toString()) {
           this.paymentADDI = ResponseAddi.fromJson(decodeJson['data']);
           return decodeJson['message'];
         }

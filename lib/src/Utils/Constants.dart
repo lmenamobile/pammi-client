@@ -36,6 +36,14 @@ class Constants {
   static const String offersUnits = 'units';
   static const String offersMix = 'mixed';
 
+    /*payment methods*/
+    static const int paymentCreditCard = 1;
+    static const int paymentCash = 2;
+    static const int paymentBaloto = 3;
+    static const int paymentEfecty = 4;
+    static const int paymentPSE = 5;
+    static const int paymentADDI = 6;
+
     /*Status order*/
     static const String create = 'Creado';
     static const String cancel = 'Cancelado';
