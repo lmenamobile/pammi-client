@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
@@ -31,6 +34,18 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
   bool checkDates = false;
   bool bandAllFields = false;
   String msgError = "";
+  late UserResponse user;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = UserResponse.fromJsonMap(jsonDecode(_prefs.dataUser));
+    nameController.text = user.fullname??'';
+    emailController.text = user.email??'';
+    phoneController.text = user.phone??'';
+  }
 
   @override
   void dispose() {
