@@ -14,6 +14,22 @@ class  PushNotificationService {
 
   static Future initNotifications() async{
     await Firebase.initializeApp();
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
     token = await FirebaseMessaging.instance.getToken();
     print("Este es el token $token");
     final prefsUser = SharePreference();

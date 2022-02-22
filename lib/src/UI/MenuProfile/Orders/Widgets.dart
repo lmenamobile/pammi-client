@@ -290,7 +290,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
           ),
           customDivider(),
           listProducts(providerPackage,providerPackage.productsProvider,isActive,qualification),
-          Row(
+          /*Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -311,7 +311,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 ),
               ),
             ],
-          ),
+          ),*/
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -377,7 +377,7 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
               child: Container(
                 width: 90,
                 height: 90,
-                child: FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??'0'),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -442,7 +442,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
               child: Container(
                 width: 90,
                 height: 90,
-                child: FadeInImage(
+                child: product.offerOrder!.baseProducts![0].reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[getRandomPosition(product.offerOrder?.baseProducts?[0].reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -507,7 +507,7 @@ Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? produ
   );
 }
 
-Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bool isActive,Function openChat){
+Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? seller,Function qualification,bool isActive,Function openChat){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
     decoration: BoxDecoration(
@@ -572,7 +572,7 @@ Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bo
                 Visibility(
                   visible: isActive,
                   child: InkWell(
-                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',order),
+                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',providerPackage),
                     child: Row(
                       children: [
                         Text(
@@ -685,6 +685,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
           rowTotal(Strings.subtotal, formatMoney(order?.subtotal??'0')),
           rowTotal(Strings.send, formatMoney(order?.shippingValue??'0')),
           rowTotal(Strings.coupon, formatMoney(order?.discountCoupon??'0')),
+          rowTotal(Strings.giftCard, formatMoney(order?.discountGiftCard??'0')),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,

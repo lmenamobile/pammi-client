@@ -221,8 +221,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       if (value) {
         Future callSettings = providerSettings.deleteNotifications(providerSettings.ltsNotifications);
         await callSettings.then((product) {
-          providerSettings.ltsNotifications.clear();
-            getNotifications();
+          clearForRefresh();
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

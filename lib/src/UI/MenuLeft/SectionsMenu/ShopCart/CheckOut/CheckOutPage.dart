@@ -35,10 +35,20 @@ class _CheckOutPageState extends State<CheckOutPage> {
   String msgError = '';
 
   @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      providerCheckOut = Provider.of<ProviderCheckOut>(context,listen: false);
+      providerCheckOut.clearValuesPayment();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(

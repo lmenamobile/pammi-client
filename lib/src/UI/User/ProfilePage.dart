@@ -123,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             null
                                             ? NetworkImage(profileProvider
                                             ?.user?.photoUrl??'')
-                                            : NetworkImage(''),
+                                            : NetworkImage(_prefs.photoUser),
                                         fit: BoxFit.cover,
                                         placeholder: AssetImage(
                                             "Assets/images/ic_img_profile.png"),

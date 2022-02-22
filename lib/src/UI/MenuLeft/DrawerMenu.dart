@@ -148,6 +148,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           });
                         }, context),
                       ),
+                      Text(
+                        "Versión:${Constants.versionApp}"
+                      ),
                       SizedBox(height: 16),
                     ],
                   ),

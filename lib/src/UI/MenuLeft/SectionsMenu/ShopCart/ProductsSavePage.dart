@@ -114,9 +114,8 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
         Future callCart = providerShopCart.updateQuantityProductCart(
             idReference,
             quantity.toString());
-        await callCart.then((msg) {
-          getShopCart();
-          deleteReference(idReference);
+        await callCart.then((msg){
+         deleteReference(idReference);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           //utils.showSnackBar(context, error.toString());
@@ -132,8 +131,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
       if (value) {
         Future callCart = providerShopCart.deleteReference(idReference);
         await callCart.then((msg) {
-          providerShopCart.ltsProductsSave.clear();
-          getLtsProductsSave();
+          clearForRefresh();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;

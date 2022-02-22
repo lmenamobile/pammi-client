@@ -362,7 +362,7 @@ class _QualificationPageState extends State<QualificationPage> {
                           Strings.send,
                           CustomColors.blue,
                           Colors.white,
-                          () => {qualificationUserProvider()})),
+                          () => {qualificationSeller()})),
                 ],
               ),
             )
@@ -433,8 +433,7 @@ class _QualificationPageState extends State<QualificationPage> {
   qualificationSeller() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrders = providerOrder!.qualificationSeller(
-            widget.idQualification, valueRating, widget.subOrderId);
+        Future callOrders = providerOrder!.qualificationSeller(widget.idQualification, valueRating, widget.subOrderId);
         await callOrders.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context, msg);

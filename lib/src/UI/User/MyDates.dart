@@ -334,6 +334,7 @@ class _MyDatesPageState extends State<MyDatesPage>
     cityController.text = profileProvider?.user?.city?.name??'';
     phoneController.text = profileProvider?.user?.phone??'';
     globalVariables.cityId = profileProvider?.user?.city?.id;
+    prefs.photoUser = profileProvider?.user?.photoUrl??'';
   }
 
   bool validateFormProfile() {

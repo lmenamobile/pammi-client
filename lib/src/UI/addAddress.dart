@@ -99,11 +99,9 @@ class _AddAddressPageState extends State<AddAddressPage>
   void getLocation(LocationData locationData) async {
     latLocation = locationData.latitude;
     lonLocation = locationData.longitude;
-
     singleton.latitude = locationData.latitude;
     singleton.longitude = locationData.longitude;
-    CameraPosition updateCamera =
-        CameraPosition(target: LatLng(latLocation!, lonLocation!), zoom: 16.5);
+    CameraPosition updateCamera = CameraPosition(target: LatLng(latLocation!, lonLocation!), zoom: 16.5);
     mapController.moveCamera(CameraUpdate.newCameraPosition(updateCamera));
     setState(() {});
     _geocodeFirstFromCorToAddress();
@@ -613,7 +611,7 @@ class _AddAddressPageState extends State<AddAddressPage>
     }
   }
 
-  void                                                                                                                                           _geocodeFirstFromCorToAddress() async {
+  void _geocodeFirstFromCorToAddress() async {
     var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
     var result = addresses.first;
     locationAddress = result.street;

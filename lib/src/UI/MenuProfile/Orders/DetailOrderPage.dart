@@ -58,7 +58,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                         children: [
                           providerOrder?.orderDetail!=null? providerOrder!.orderDetail!.packagesProvider![0].providerProduct==null?listGiftCards():listProviders():Container(),
                           providerOrder?.orderDetail?.seller!=null?
-                          sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
+                          sectionSeller(providerOrder!.orderDetail!.packagesProvider![0],providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
                           Container(),
                           sectionAddressOrder(providerOrder?.orderDetail?.shippingAddress??''),
                           sectionTotalOrder(providerOrder?.orderDetail),

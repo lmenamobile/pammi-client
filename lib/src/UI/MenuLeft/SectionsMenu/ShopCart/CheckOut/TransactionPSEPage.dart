@@ -19,8 +19,7 @@ class TransactionPSEPage extends StatefulWidget {
 }
 
 class _TransactionPSEPageState extends State<TransactionPSEPage> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  final Completer<WebViewController> _controller = Completer<WebViewController>();
   final prefs = SharePreference();
   ProviderCheckOut? providerCheckOut;
   late ProviderSettings providerSettings;
@@ -47,7 +46,7 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
                   },
                   navigationDelegate: (NavigationRequest request) {
                     print(request.url);
-                    if (request.url == Constants.finishTransaction) {
+                    if (request.url.contains(Constants.finishTransaction)) {
                       Navigator.pushReplacement(context,
                           customPageTransition(OrderConfirmationPage()));
                     }

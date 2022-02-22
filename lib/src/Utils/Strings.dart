@@ -35,7 +35,7 @@ class Strings {
   static const String createAccount = 'Crear cuenta';
   static const String registerMsg = '¡Completa la siguiente información de tu perfil!';
 
-  static const String send = 'Enviar';
+  static const String send = 'Envío';
   static const String textLogin = 'Ingresa tu correo electrónico y \ncontraseña';
   static const String email = 'Correo electrónico';
   static const String password= 'Contraseña';
@@ -118,6 +118,7 @@ class Strings {
   static const String cedulaCiudadania = 'Cédula de Ciudadanía';
   static const String tipeDocument = 'Tipo de documento';
   static const String delete = 'Eliminar';
+  static const String titleDeleteProduct = 'Eliminar producto';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
   static const String deleteCart = "¿Estás seguro de eliminar tu carrito de compras?";
   static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
@@ -462,7 +463,7 @@ class Strings {
   static const String emptyCampaigns                       = "Aún no hay campañas que mostrar aquí.";
   static const String emptyTraining                        = "Aún no hay capacitaciones que mostrar aquí.";
   static const String emptyGiftCards                       = "Aún no hay tarjetas de regalo que mostrar aquí.";
-  static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
+  static const String emptyProductsSave                    = "Aún no tienes productos en tu carrito.";
   static const String emptyOrders                          = "Aún no hay ordenes que mostrar aquí.";
   static const String emptyNotifications                   = "Aún no hay notificaciones que mostrar aquí.";
   static const String emptyCategories                      = "No se encontraron categorias.";

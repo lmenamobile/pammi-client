@@ -241,7 +241,7 @@ class ProviderOrder with ChangeNotifier {
   }
 
   Future<dynamic> qualificationSeller(
-      String? sellerID, String qualification, String? suborderId) async {
+      String? sellerID, String qualification, String? orderId) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -250,11 +250,11 @@ class ProviderOrder with ChangeNotifier {
     Map jsonData = {
       "sellerId": sellerID,
       "qualification": qualification,
-      "suborderId": suborderId
+      "orderId": orderId
     };
     var body = jsonEncode(jsonData);
     final response = await http
-        .post(Uri.parse(Constants.baseURL + "product/rate-product"),
+        .post(Uri.parse(Constants.baseURL + "seller/rate-seller"),
             headers: header, body: body)
         .timeout(Duration(seconds: 25))
         .catchError((value) {

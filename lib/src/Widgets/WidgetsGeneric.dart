@@ -465,6 +465,7 @@ Widget emptyData(
   String text,
 ) {
   return Container(
+    width: double.infinity,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -478,6 +479,8 @@ Widget emptyData(
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 title,

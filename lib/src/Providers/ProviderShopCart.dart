@@ -142,7 +142,7 @@ class ProviderShopCart with ChangeNotifier{
     if (response.statusCode == 200) {
       this.isLoadingCart = false;
       if (decodeJson!['code'] == 100) {
-        getShopCart();
+        //getShopCart();
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
