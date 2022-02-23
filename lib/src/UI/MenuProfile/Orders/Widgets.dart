@@ -335,23 +335,27 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             ],
           ),
           customDivider(),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
-                      ,Colors.white, null),
-                ),
-                SizedBox(width: 30,),
-                Expanded(
-                  child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
-                      Colors.white, (){
-                    openChat(providerPackage.providerProduct?.id.toString(),providerPackage.id.toString());
-                      }),
-                )
-              ],
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                /*  Expanded(
+                    child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
+                        ,Colors.white, null),
+                  ),
+                  SizedBox(width: 30,),*/
+                  Container(
+                    width: 150,
+                    child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
+                        Colors.white, (){
+                      openChat(providerPackage.providerProduct?.id.toString(),providerPackage.id.toString());
+                        }),
+                  )
+                ],
+              ),
             ),
           ),
           customDivider(),

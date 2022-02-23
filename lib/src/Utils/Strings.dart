@@ -476,6 +476,7 @@ class Strings {
   static const String errorSelectedBank                   = "Debes seleccionar un banco para pagar con PSE";
   static const String errorConnection                     = "No tienes conexión a internet";
   static const String errorNotGuideOrder                    = "La orden no tiene guía generada.";
+  static const String errorPhoto                    = "No fue posible cargar la foto";
 
   //Fonts
   static const String fontBold = 'FontBold';

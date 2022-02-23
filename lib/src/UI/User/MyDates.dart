@@ -109,6 +109,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             ),
                           ),
                           onTap: (){Navigator.pop(context);
+                          profileProvider!.imageUserFile = null;
                           profileProvider!.isEditProfile = false;},
                         ),
                         Expanded(
@@ -163,16 +164,13 @@ class _MyDatesPageState extends State<MyDatesPage>
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(100)),
-                                            child: FadeInImage(
-                                              image: profileProvider?.user !=
-                                                      null
-                                                  ? NetworkImage(profileProvider
-                                                      ?.user?.photoUrl??'')
-                                                  : NetworkImage(prefs.photoUser),
+                                            child: profileProvider!.imageUserFile==null?FadeInImage(
+                                              image: profileProvider?.user != null ? NetworkImage(profileProvider?.user?.photoUrl??'') : NetworkImage(prefs.photoUser)
+                                              ,
                                               fit: BoxFit.cover,
                                               placeholder: AssetImage(
                                                   "Assets/images/ic_img_profile.png"),
-                                            ),
+                                            ):Image.file(profileProvider!.imageUserFile!),
                                           ),
                                         ),
                                       ),
@@ -397,7 +395,8 @@ class _MyDatesPageState extends State<MyDatesPage>
             providerSettings!.citySelected ==null?globalVariables.cityId.toString() :providerSettings!.citySelected!.id.toString());
         await callUser.then((msg) {
           profileProvider!.isEditProfile = false;
-          getUser();
+          //getUser();
+          serviceUpdatePhoto(profileProvider!.imageUserFile!);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -416,6 +415,7 @@ class _MyDatesPageState extends State<MyDatesPage>
           getUser();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
+          getUser();
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -444,9 +444,9 @@ class _MyDatesPageState extends State<MyDatesPage>
   userImage(File? imageFile) {
     if (imageFile != null) {
       profileProvider!.imageUserFile = imageFile;
-      serviceUpdatePhoto(imageFile);
+
     } else {
-      utils.showSnackBar(context, Strings.internetError);
+      utils.showSnackBar(context, Strings.errorPhoto);
     }
   }
 }
