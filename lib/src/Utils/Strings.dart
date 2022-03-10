@@ -411,6 +411,9 @@ class Strings {
   static const String pwdActuallyEmpty = "La contraseña actual es requerida.";
   static const String pwdNewEmpty      = "La nueva contraseña es requerida.";
 
+  /*Catalogo*/
+  static const String  catalog = 'Catalogo emprendedor';
+
   /*Dialogs*/
   static const String  btnAccept = 'Aceptar';
   static const String  btnCancel = 'Cancelar';
@@ -477,6 +480,7 @@ class Strings {
   static const String errorConnection                     = "No tienes conexión a internet";
   static const String errorNotGuideOrder                    = "La orden no tiene guía generada.";
   static const String errorPhoto                    = "No fue posible cargar la foto";
+  static const String emptyCatalog                    = "Aún no hay productos en el catalogo.";
 
   //Fonts
   static const String fontBold = 'FontBold';

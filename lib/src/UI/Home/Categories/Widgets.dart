@@ -224,7 +224,7 @@ Widget itemProductRelations(Product product, Function openDetail){
 }
 
 Widget itemProductCategory(Product product, Function openDetail,Function callFavorite){
-  int position = getRandomPosition(product.references?.length??0);
+  //int position = getRandomPosition(product.references?.length??0);
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -296,8 +296,28 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
               top: 3,
                 right: 3,
                 child: InkWell(
-                  onTap: ()=>callFavorite(product.references?[position]),
-                    child: favorite(product.references?[position].isFavorite??false)))
+                  onTap: ()=>callFavorite(product.references?[0]),
+                    child: favorite(product.references?[0].isFavorite??false))),
+
+            Positioned(
+                top: 3,
+                left: 3,
+                child: Visibility(
+                  visible: product.references![0].totalProductOffer!.status??false,
+                  child: CircleAvatar(
+                    radius: 11,
+                    backgroundColor: CustomColors.redTour,
+                    child: Center(
+                      child: Text(
+                        product.references![0].totalProductOffer!.discountValue!+"%",
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
           ],
         ),
       ),

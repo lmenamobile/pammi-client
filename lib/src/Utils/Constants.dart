@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class Constants {
   //dev
-  //static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
+  static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
   //staging
- static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+ //static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
   //pre-production
 
   //static const String baseURL = 'https://apiappclient.pamii.com/v1/';
@@ -18,7 +18,7 @@ class Constants {
   static const String urlBlog = 'http://devblog.pamii.com/';
 
   static const String loginGMAIL = 'gm';
-  static const String versionApp = '1.0.6';
+  static const String versionApp = '1.0.8';
   static const String loginFacebook = 'fb';
   static const String codeAccountNotValidate = '103';
 

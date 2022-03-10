@@ -19,13 +19,18 @@ import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
 import 'src/UI/Onboarding/Tour/Splash.dart';
 import 'src/Utils/Strings.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'package:uni_links/uni_links.dart';
+import 'package:flutter/services.dart' show PlatformException;
 
 
 
@@ -55,13 +60,25 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
   @override
   void initState(){
     super.initState();
-
+    initUniLinks();
     PushNotificationService.dataNotification.listen((message) {
 
     });
+  }
+
+  Future<void> initUniLinks() async {
+    try {
+      final initialLink = await getInitialLink();
+      if(initialLink!=null){
+        navigatorKey.currentState?.push(customPageTransition(ProductsCatalog(idSeller: initialLink.substring(17))));
+      }
+    } on PlatformException {
+    }
   }
 
   @override
@@ -99,6 +116,7 @@ class _MyAppState extends State<MyApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+        navigatorKey: navigatorKey,
         supportedLocales: [
           const Locale('es'),
         ],

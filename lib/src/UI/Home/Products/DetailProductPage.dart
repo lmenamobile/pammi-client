@@ -197,9 +197,21 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                       ?.referenceProductSelected
                                       ?.qualification ??
                                   '0')),
+                              Visibility(
+                                visible:providerProducts?.referenceProductSelected?.totalProductOffer?.status??false,
+                                child: Text(
+                                  formatMoney(providerProducts?.referenceProductSelected?.price ?? '0'),
+                                  style: TextStyle(
+                                    decoration:TextDecoration.lineThrough ,
+                                      fontSize: 18,
+                                      fontFamily: Strings.fontMedium,
+                                      color: CustomColors.gray4),
+                                ),
+                              ),
                               Text(
-                                formatMoney(providerProducts
-                                        ?.referenceProductSelected?.price ??
+                                formatMoney(providerProducts?.referenceProductSelected?.totalProductOffer?.status==true?
+                                providerProducts?.referenceProductSelected?.totalProductOffer?.priceWithDiscount:
+                                    providerProducts?.referenceProductSelected?.price ??
                                     '0'),
                                 style: TextStyle(
                                     fontSize: 22,
@@ -211,21 +223,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                   addProduct,
                                   removeProduct),
                               customDivider(),
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    "Assets/images/ic_address_green.png",
-                                    width: 30,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    "A ca falta el tipo de entrega",
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontRegular,
-                                        color: CustomColors.blackLetter),
-                                  )
-                                ],
-                              ),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 child: Row(

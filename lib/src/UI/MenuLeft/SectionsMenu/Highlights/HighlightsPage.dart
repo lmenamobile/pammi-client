@@ -156,6 +156,6 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   openProductsBySubCategory(Banners bannerHighlight){
     Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: "",
       idSubcategory: bannerHighlight.offerHighlights?.subcategory?.id.toString(),
-      idBrandProvider: bannerHighlight.offerHighlights?.brandProvider.toString()??null,)));
+      idBrandProvider: "",)));
   }
 }

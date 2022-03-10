@@ -370,12 +370,11 @@ class _ShopCartPageState extends State<ShopCartPage> {
   saveProduct(String idReference, String quantity, String idProduct) async {
     bool? state = await utils.startCustomAlertMessage(context, Strings.titleDeleteProduct, "Assets/images/ic_trash_big.png", Strings.deleteProduct,
             ()=>Navigator.pop(context, true), ()=>Navigator.pop(context, false));
-    utils.checkInternet().then((value) async {
+   if(state!=null) utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart =
-            providerShopCart!.saveReference(idReference, quantity);
+        Future callCart = providerShopCart!.saveReference(idReference, quantity);
         await callCart.then((msg) {
-          if(state??false)deleteProduct(idProduct);
+          if(state)deleteProduct(idProduct);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           deleteProduct(idProduct);
