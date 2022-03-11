@@ -62,12 +62,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
             Container(
               margin: EdgeInsets.only(top: 35, bottom: 10),
               child: GestureDetector(
-                child: Image(
-                  image: AssetImage("Assets/images/ic_closed.png"),
-                  width: 35,
-                ),
-                onTap: () => Navigator.pop(context),
-              ),
+                child: Image(image: AssetImage("Assets/images/ic_closed.png"), width: 35,),
+                onTap: () => Navigator.pop(context),),
             ),
             Expanded(
               child: Container(
@@ -83,70 +79,60 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      itemProfile(
-                        profileProvider?.user == null
-                            ? _prefs.nameUser
-                            : profileProvider?.user?.fullname,
-                      ),
+                      itemProfile(profileProvider?.user == null ? _prefs.nameUser : profileProvider?.user?.fullname,),
                       SizedBox(height: 23),
                       BounceInDown(
-                          child: itemBtnReferred(() => openBottomSheet(
-                              context,
-                              openReferredCode,
-                              _prefs.codeShare.toString()))),
-                      itemMenu(
-                          "ic_start.png",
+                          child: itemBtnReferred(() => userIsLogged()?openBottomSheet(context, openReferredCode, _prefs.codeShare.toString()):
+                          validateSession(context))),
+
+                      itemMenu("ic_start.png",
                           () => widget.rollOverActive != Constants.menuHome
-                              ? pushToPage(MyHomePage())
-                              : Navigator.pop(context),
-                          Strings.start),
+                              ? pushToPage(MyHomePage()) : Navigator.pop(context), Strings.start),
+
                       itemMenu("ic_offers_day.png",  () => widget.rollOverActive != Constants.menuOffersTheDay
-                          ? pushToPage(OffersDayPage())
-                          : Navigator.pop(context), Strings.dayOferts),
+                          ? pushToPage(OffersDayPage()) : Navigator.pop(context), Strings.dayOferts),
+
                       itemMenu(
                           "ic_highlight.png",
-                          () =>
-                              widget.rollOverActive != Constants.menuHighlights
-                                  ? pushToPage(HighlightsPage())
-                                  : Navigator.pop(context),
-                          Strings.destacados),
+                          () => widget.rollOverActive != Constants.menuHighlights
+                                  ? pushToPage(HighlightsPage()) : Navigator.pop(context), Strings.destacados),
+                      
                       itemMenu(
                           "ic_favorite.png",
                           () => widget.rollOverActive != Constants.menuFavorites
-                              ? pushToPage(FavoritesPage())
-                              : Navigator.pop(context),
-                          Strings.wishes),
+                              ? userIsLogged()?pushToPage(FavoritesPage()):validateSession(context) : Navigator.pop(context), Strings.wishes),
+
                       itemMenu("ic_gif_card.png",() => widget.rollOverActive != Constants.menuGiftCard
-                          ? pushToPage(GiftCartPage())
-                          : Navigator.pop(context), Strings.giftCards),
+                          ? pushToPage(GiftCartPage()) : Navigator.pop(context), Strings.giftCards),
+
                       itemMenu("ic_orders.png", ()=>launch(Constants.urlBlog), Strings.blog),
+                      
                       itemMenu("ic_trainings.png", () => widget.rollOverActive != Constants.menuTraining
-                          ? pushToPage(TrainingPage())
-                          : Navigator.pop(context), Strings.trainings),
+                          ? pushToPage(TrainingPage()) : Navigator.pop(context), Strings.trainings),
                       itemMenu("ic_notification.png", () => widget.rollOverActive != Constants.menuNotifications
-                          ? pushToPage(NotificationsPage())
-                          : Navigator.pop(context), Strings.notifications),
+                          ? pushToPage(NotificationsPage()) : Navigator.pop(context), Strings.notifications),
                       itemMenu("ic_support.png", () {
-                        widget.rollOverActive != "support"
-                            ? pushToPage(SupportHelpPage())
-                            : Navigator.pop(context);
+                        widget.rollOverActive != "support" ? pushToPage(SupportHelpPage()) : Navigator.pop(context);
                       }, Strings.supportservices),
                       SizedBox(height: 17),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 39, right: 39),
-                        child: btnCustomRounded(CustomColors.orange,
-                            CustomColors.white, Strings.closeSesion, () {
-                          utils.startCustomAlertMessage(
-                              context,
-                              Strings.closeSesion,
-                              "Assets/images/ic_sign_off.png",
-                              Strings.closeSesionText, () async{
-                            await _prefs.clearPrefs();
-                            await callAccessToken();
-                          }, () {
-                            Navigator.pop(context);
-                          });
-                        }, context),
+                      Opacity(
+                        opacity: userIsLogged()?1:0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 39, right: 39),
+                          child: btnCustomRounded(CustomColors.orange,
+                              CustomColors.white, Strings.closeSesion, () {
+                            utils.startCustomAlertMessage(
+                                context,
+                                Strings.closeSesion,
+                                "Assets/images/ic_sign_off.png",
+                                Strings.closeSesionText, () async{
+                              await _prefs.clearPrefs();
+                              await callAccessToken();
+                            }, () {
+                              Navigator.pop(context);
+                            });
+                          }, context),
+                        ),
                       ),
                       Text(
                         "Versión:${Constants.versionApp}"
@@ -165,14 +151,16 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
       ),
     );
   }
+  
+  
 
   void openReferredCode() {
-    if (_prefs.codeShare.toString().isNotEmpty) {
-      Navigator.pop(context);
-      openShareLink(_prefs.codeShare.toString());
-    } else {
-      utils.showSnackBar(context, Strings.errorCodeReferred);
-    }
+      if (_prefs.codeShare.toString().isNotEmpty) {
+        Navigator.pop(context);
+        openShareLink(_prefs.codeShare.toString());
+      } else {
+        utils.showSnackBar(context, Strings.errorCodeReferred);
+      }
   }
 
   Widget itemProfile(String? nameUser) {
@@ -248,24 +236,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
           ),
         ),
       ),
-      onTap: () {
-        if (_prefs.authToken == "0") {
-          utils.startCustomAlertMessage(context, Strings.sessionClose,
-              "Assets/images/ic_sign_off.png", Strings.sessionText, () {
-            Navigator.pop(context);
-            Navigator.push(context, customPageTransition(LoginPage()));
-          }, () {
-            Navigator.pop(context);
-          });
-        } else {
-          widget.rollOverActive == "profile"
-              ? Navigator.pop(context)
-              : Navigator.of(context).pushReplacement(PageTransition(
-                  type: PageTransitionType.leftToRight,
-                  child: ProfilePage(),
-                  duration: Duration(milliseconds: 700)));
-        }
-      },
+      onTap: ()=>  widget.rollOverActive == "profile" ? Navigator.pop(context)
+          : userIsLogged()?Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.leftToRight,
+          child: ProfilePage(), duration: Duration(milliseconds: 700))):validateSession(context),
     );
   }
 

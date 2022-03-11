@@ -115,6 +115,7 @@ class ProviderCheckOut with ChangeNotifier {
     this.addressSelected = null;
     this.creditCardSelected = null;
     this.paymentSelected = null;
+    this.shippingPrice = '0';
   }
 
   set ltsPaymentMethod(List<PaymentMethod> value) {

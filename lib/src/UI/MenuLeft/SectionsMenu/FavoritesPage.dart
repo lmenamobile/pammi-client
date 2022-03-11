@@ -52,81 +52,86 @@ class _FavoritesPageState extends State<FavoritesPage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuFavorites,
       ),
-      body: SafeArea(
-        child: Container(
-          color: CustomColors.whiteBackGround,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  titleBar(Strings.favorites, "ic_menu_w.png",
-                      () => keyMenuLeft.currentState!.openDrawer()),
-                  Expanded(
-                    child: SmartRefresher(
-                      controller: _refreshFavorites,
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      onLoading: _onLoadingToRefresh,
-                      footer: footerRefreshCustom(),
-                      header: headerRefresh(),
-                      onRefresh: _pullToRefresh,
-                      child: providerSettings.hasConnection?providerUser.ltsProductsFavorite.isEmpty
-                          ? emptyData("ic_favorite_empty.png",
-                              Strings.sorryFavorites, Strings.emptyFavorites)
-                          : SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  GridView.builder(
-                                    gridDelegate:
-                                        new SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 10,
-                                      childAspectRatio: .77,
-                                      crossAxisSpacing: 15,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                        top: 20, bottom: 10, left: 10, right: 10),
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: providerUser.ltsProductsFavorite.isEmpty
-                                        ? 0
-                                        : providerUser.ltsProductsFavorite.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return itemProductFavorite(
-                                          providerUser.ltsProductsFavorite[index],
-                                          getProduct,
-                                          removeFavoriteProduct);
-                                    },
-                                  ),
-                                  customDivider(),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                                        child: Text(
-                                          Strings.productsRelations,
-                                          style:TextStyle(
-                                            fontFamily: Strings.fontBold,
-                                            color: CustomColors.blackLetter
-                                          ) ,
-                                        ),
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            color: CustomColors.whiteBackGround,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    titleBar(Strings.favorites, "ic_menu_w.png",
+                        () => keyMenuLeft.currentState!.openDrawer()),
+                    Expanded(
+                      child: SmartRefresher(
+                        controller: _refreshFavorites,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        onLoading: _onLoadingToRefresh,
+                        footer: footerRefreshCustom(),
+                        header: headerRefresh(),
+                        onRefresh: _pullToRefresh,
+                        child: providerSettings.hasConnection?providerUser.ltsProductsFavorite.isEmpty
+                            ? emptyData("ic_favorite_empty.png",
+                                Strings.sorryFavorites, Strings.emptyFavorites)
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    GridView.builder(
+                                      gridDelegate:
+                                          new SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 10,
+                                        childAspectRatio: .77,
+                                        crossAxisSpacing: 15,
                                       ),
-                                      Container(
-                                          height: 217,
-                                          child: listItemsProductsRelations()),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ):notConnectionInternet(),
-                    ),
-                  )
-                ],
-              ),
-              Visibility(
-                  visible: providerProducts.isLoadingProducts, child: LoadingProgress()),
-            ],
+                                      padding: EdgeInsets.only(
+                                          top: 20, bottom: 10, left: 10, right: 10),
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: providerUser.ltsProductsFavorite.isEmpty
+                                          ? 0
+                                          : providerUser.ltsProductsFavorite.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return itemProductFavorite(
+                                            providerUser.ltsProductsFavorite[index],
+                                            getProduct,
+                                            removeFavoriteProduct);
+                                      },
+                                    ),
+                                    customDivider(),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                          child: Text(
+                                            Strings.productsRelations,
+                                            style:TextStyle(
+                                              fontFamily: Strings.fontBold,
+                                              color: CustomColors.blackLetter
+                                            ) ,
+                                          ),
+                                        ),
+                                        Container(
+                                            height: 217,
+                                            child: listItemsProductsRelations()),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ):notConnectionInternet(),
+                      ),
+                    )
+                  ],
+                ),
+                Visibility(
+                    visible: providerProducts.isLoadingProducts, child: LoadingProgress()),
+              ],
+            ),
           ),
         ),
       ),

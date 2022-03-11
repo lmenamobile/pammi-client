@@ -50,26 +50,31 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuHighlights,
       ),
-      body: SafeArea(
-        child: Container(
-          color: CustomColors.whiteBackGround,
-          child: Column(
-              children: [
-                titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
-                SizedBox(height: 20,),
-                Expanded(child: SmartRefresher(
-                    controller: _refreshHighlights,
-                    enablePullDown: true,
-                    enablePullUp: true,
-                    onLoading: _onLoadingToRefresh,
-                    footer: footerRefreshCustom(),
-                    header: headerRefresh(),
-                    onRefresh: _pullToRefresh,
-                    child: providerSettings.hasConnection? providerSettings.ltsBannersHighlights.isEmpty
-                        ? emptyData("ic_highlights_empty.png",
-                        Strings.sorryHighlights, Strings.emptyHighlights)
-                        : listHighlights():notConnectionInternet()))
-              ],
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            color: CustomColors.whiteBackGround,
+            child: Column(
+                children: [
+                  titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
+                  SizedBox(height: 20,),
+                  Expanded(child: SmartRefresher(
+                      controller: _refreshHighlights,
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      onLoading: _onLoadingToRefresh,
+                      footer: footerRefreshCustom(),
+                      header: headerRefresh(),
+                      onRefresh: _pullToRefresh,
+                      child: providerSettings.hasConnection? providerSettings.ltsBannersHighlights.isEmpty
+                          ? emptyData("ic_highlights_empty.png",
+                          Strings.sorryHighlights, Strings.emptyHighlights)
+                          : listHighlights():notConnectionInternet()))
+                ],
+            ),
           ),
         ),
       ),
@@ -156,6 +161,6 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   openProductsBySubCategory(Banners bannerHighlight){
     Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: "",
       idSubcategory: bannerHighlight.offerHighlights?.subcategory?.id.toString(),
-      idBrandProvider: "",)));
+      idBrand: "",)));
   }
 }

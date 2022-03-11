@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 
 class Constants {
   //dev
-  static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
+  //static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
   //staging
- //static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+ static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
   //pre-production
 
   //static const String baseURL = 'https://apiappclient.pamii.com/v1/';
   static const String key_encrypt = 'ebfe48f81df787193c75c1ffacd88a07';
   static const String googleApyKey = "AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ";//'AIzaSyA3J8--0OAj3E-z5nRG35U1JHpyDI1cOzY';
   static const String pwdSocialNetwork = 'Kubo123*';
-  static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
   static const String urlGuide = 'https://www.servientrega.com/wps/portal/Colombia/transacciones-personas/rastreo-envios/detalle?id=';
-
-  static const String urlBlog = 'http://devblog.pamii.com/';
+  //dev
+  //static const String urlBlog = 'http://devblog.pamii.com/';
+ // static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
+  //staging
+ static const String urlBlog = 'http://stagingblog.pamii.com/';
+ static const String urlSocket = 'http://stagingapisupersocket.pamii.com:50010';
 
   static const String loginGMAIL = 'gm';
   static const String versionApp = '1.0.8';

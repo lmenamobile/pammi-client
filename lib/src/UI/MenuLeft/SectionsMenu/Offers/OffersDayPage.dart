@@ -57,99 +57,104 @@ class _OffersDayPageState extends State<OffersDayPage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuOffersTheDay,
       ),
-      body: SafeArea(
-        child: Container(
-          color: CustomColors.whiteBackGround,
-          child: Column(
-            children: [
-              titleBarWithDoubleAction(
-              Strings.offersDay,
-              "ic_menu_w.png",
-              "ic_car.png",
-                  () =>keyMenuLeft.currentState!.openDrawer(),
-                  ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
-              Visibility(
-                visible: providerHome.ltsBrands.isNotEmpty,
-                child: Container(
-                  height: 100,
-                    child: listBrands()),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: SmartRefresher(
-                  controller: _refreshView,
-                  enablePullDown: true,
-                  enablePullUp: false,
-                  footer: footerRefreshCustom(),
-                  header: headerRefresh(),
-                  onRefresh: _pullToRefresh,
-                  child:providerSettings.hasConnection?providerProducts.ltsOfferMix.isEmpty&&providerProducts.ltsOfferUnits.isEmpty?
-                  emptyView("ic_percentage.png", "", Strings.offersEmpty):SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Visibility(
-                          visible: providerProducts.ltsOfferUnits.isNotEmpty,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 37,
-                                width: double.infinity,
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, top: 10, bottom: 10),
-                                  child: Text(
-                                    Strings.offersForUnits,
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontBold,
-                                        color: CustomColors.blackLetter),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                  height: 335,
-                                  width: double.infinity,
-                                  child: listOffersUnits()),
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                          visible: providerProducts.ltsOfferMix.isNotEmpty,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                height: 37,
-                                width: double.infinity,
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, top: 10, bottom: 10),
-                                  child: Text(
-                                    Strings.offersForMix,
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontBold,
-                                        color: CustomColors.blackLetter),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                  height: 335,
-                                  width: double.infinity,
-                                  child: listOffersMix())
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ):notConnectionInternet(),
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            color: CustomColors.whiteBackGround,
+            child: Column(
+              children: [
+                titleBarWithDoubleAction(
+                Strings.offersDay,
+                "ic_menu_w.png",
+                "ic_car.png",
+                    () =>keyMenuLeft.currentState!.openDrawer(),
+                    ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
+                Visibility(
+                  visible: providerHome.ltsBrands.isNotEmpty,
+                  child: Container(
+                    height: 100,
+                      child: listBrands()),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: SmartRefresher(
+                    controller: _refreshView,
+                    enablePullDown: true,
+                    enablePullUp: false,
+                    footer: footerRefreshCustom(),
+                    header: headerRefresh(),
+                    onRefresh: _pullToRefresh,
+                    child:providerSettings.hasConnection?providerProducts.ltsOfferMix.isEmpty&&providerProducts.ltsOfferUnits.isEmpty?
+                    emptyView("ic_percentage.png", "", Strings.offersEmpty):SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Visibility(
+                            visible: providerProducts.ltsOfferUnits.isNotEmpty,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 37,
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 10, bottom: 10),
+                                    child: Text(
+                                      Strings.offersForUnits,
+                                      style: TextStyle(
+                                          fontFamily: Strings.fontBold,
+                                          color: CustomColors.blackLetter),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                    height: 335,
+                                    width: double.infinity,
+                                    child: listOffersUnits()),
+                              ],
+                            ),
+                          ),
+                          Visibility(
+                            visible: providerProducts.ltsOfferMix.isNotEmpty,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  height: 37,
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 10, bottom: 10),
+                                    child: Text(
+                                      Strings.offersForMix,
+                                      style: TextStyle(
+                                          fontFamily: Strings.fontBold,
+                                          color: CustomColors.blackLetter),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                    height: 335,
+                                    width: double.infinity,
+                                    child: listOffersMix())
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ):notConnectionInternet(),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

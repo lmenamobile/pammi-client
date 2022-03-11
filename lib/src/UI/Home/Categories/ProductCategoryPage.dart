@@ -19,12 +19,12 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class ProductCategoryPage extends StatefulWidget {
-  final String? idCategory, idSubcategory, idBrandProvider;
+  final String? idCategory, idSubcategory, idBrand;
 
   const ProductCategoryPage(
       { this.idCategory,
        this.idSubcategory,
-      this.idBrandProvider});
+      this.idBrand});
 
   @override
   _ProductCategoryPageState createState() => _ProductCategoryPageState();
@@ -266,7 +266,8 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         Future callProducts = providerProducts.getProductsByCategory(
             searchProduct,
             pageOffset,
-            widget.idBrandProvider == null ? null : widget.idBrandProvider,
+            widget.idBrand==null ? null : widget.idBrand,
+           null,
             widget.idCategory==null ? null : widget.idCategory,
             widget.idSubcategory,
             null,
@@ -297,8 +298,6 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         Future callUser = providerUser.saveAsFavorite(reference.id.toString());
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
-        //  providerProducts.ltsProductsByCategory.clear();
-         // getProducts("");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -314,8 +313,6 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
         Future callUser = providerUser.deleteFavorite(reference.id.toString());
         await callUser.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
-          //providerProducts.ltsProductsByCategory.clear();
-          //getProducts("");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

@@ -51,23 +51,19 @@ class _LoginPageState extends State<LoginPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
-      body: WillPopScope(
-        onWillPop: (() async => showAlertActions(
-        context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)) as Future<bool>),
-        child: SafeArea(
-          child:  Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Container(
-                    color: CustomColors.white,
-                    child: _body(context),
-                  ),
+      body: SafeArea(
+        child:  Stack(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                  color: CustomColors.white,
+                  child: _body(context),
                 ),
-                Visibility(
-                    visible: providerOnboarding.isLoading, child: LoadingProgress()),
-              ],
-            ),
-        ),
+              ),
+              Visibility(
+                  visible: providerOnboarding.isLoading, child: LoadingProgress()),
+            ],
+          ),
       ),
     );
   }

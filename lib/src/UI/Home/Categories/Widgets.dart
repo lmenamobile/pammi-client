@@ -295,9 +295,12 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
             Positioned(
               top: 3,
                 right: 3,
-                child: InkWell(
-                  onTap: ()=>callFavorite(product.references?[0]),
-                    child: favorite(product.references?[0].isFavorite??false))),
+                child: Visibility(
+                  visible: userIsLogged()?true:false,
+                  child: InkWell(
+                    onTap: ()=>callFavorite(product.references?[0]),
+                      child: favorite(product.references?[0].isFavorite??false)),
+                )),
 
             Positioned(
                 top: 3,

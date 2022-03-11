@@ -479,10 +479,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget listItemsBrands() {
     return ListView.builder(
-      itemCount:
-          providerHome!.ltsBrands.length > 6 ? 6 : providerHome!.ltsBrands.length,
+      itemCount: providerHome!.ltsBrands.length > 6 ? 6 : providerHome!.ltsBrands.length,
       scrollDirection: Axis.horizontal,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -509,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   openProductsByBrand(Brand brand){
-    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrandProvider:brand.id.toString())));
+    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString())));
   }
 
   openAllBrands(){

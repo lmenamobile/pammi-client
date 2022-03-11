@@ -4,7 +4,7 @@ class Strings {
   //Tour
   static const String nextBtn = 'Siguiente';
   static const String skip = 'Omitir';
-  static const String verifyCode = 'Verificar codigo';
+  static const String verifyCode = 'Verificar código';
   static const String welcome = '¡Bienvenido!';
   static const String next = 'Continuar';
   static const String selectYouAddress = 'Selecciona tu dirección';
@@ -410,6 +410,7 @@ class Strings {
   static const String  dontSamePass = 'Las contraseñas no coinciden';
   static const String pwdActuallyEmpty = "La contraseña actual es requerida.";
   static const String pwdNewEmpty      = "La nueva contraseña es requerida.";
+  static const String userNotLogIn      = "Para acceder a esta función debes iniciar sesión";
 
   /*Catalogo*/
   static const String  catalog = 'Catalogo emprendedor';
@@ -458,7 +459,7 @@ class Strings {
   static const String sorry                                = "¡Lo sentimos!";
   static const String emptyBanks                           = "No hay ningun banco disponible";
   static const String emptySearchProducts                  = "No encontramos resultados para esta busqueda. Notifica al administrador el producto que estas buscando.";
-  static const String errorCodeReferred                    = "No tienes un codigo de referido aun";
+  static const String errorCodeReferred                    = "No tienes un código de referido aun";
   static const String sorryFavorites                       = "Aún no tienes productos en tus deseos";
   static const String emptyFavorites                       = "Tenemos miles de productos que te encantarán ¡explora la app y súmalos a tu lista de deseos!";
   static const String sorryHighlights                      = "¡Lo sentimos!";

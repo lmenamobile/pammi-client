@@ -609,6 +609,16 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+
+                        Container(
+                          child: btnCustomSize(
+                              35,
+                              Strings.btnNot,
+                              CustomColors.gray2,
+                              CustomColors.blackLetter,
+                              actionNegative),
+                          width: 100,
+                        ),
                         Container(
                           child: btnCustomSize(
                               35,
@@ -618,15 +628,6 @@ Widget alertMessageWithActions(String titleAlert, String image,
                               action),
                           width: 100,
                         ),
-                        Container(
-                          child: btnCustomSize(
-                              35,
-                              Strings.btnNot,
-                              CustomColors.gray2,
-                              CustomColors.blackLetter,
-                              actionNegative),
-                          width: 100,
-                        )
                       ],
                     ),
                   ),

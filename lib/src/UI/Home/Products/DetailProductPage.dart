@@ -13,6 +13,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/CheckOutPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -38,7 +39,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       providerProducts!.productDetail = widget.product;
-      providerProducts!.referenceProductSelected = widget.product.references![0];
+      providerProducts!.referenceProductSelected =
+      widget.product.references![0];
       providerProducts!.unitsProduct = 1;
     });
     super.initState();
@@ -60,13 +62,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   widget.product.product!,
                   "ic_blue_arrow.png",
                   "ic_car.png",
-                  () => Navigator.pop(context),
-                  () => Navigator.push(
-                      context, customPageTransition(ShopCartPage())),
+                      () => Navigator.pop(context),
+                      () =>
+                      Navigator.push(
+                          context, customPageTransition(ShopCartPage())),
                   true,
                   providerShopCart.totalProductsCart),
               Expanded(
-                child: providerSettings.hasConnection?SingleChildScrollView(
+                child: providerSettings.hasConnection ? SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -87,7 +90,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               child: imageReference(
                                   170,
                                   providerProducts
-                                          ?.imageReferenceProductSelected ??
+                                      ?.imageReferenceProductSelected ??
                                       ''),
                             ),
                             Container(
@@ -116,11 +119,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 10,
                               ),
                               InkWell(
-                                onTap: () => openBottomSheetLtsReferences(
-                                    context,
-                                    setReference,
-                                    providerProducts
-                                        ?.ltsReferencesProductSelected),
+                                onTap: () =>
+                                    openBottomSheetLtsReferences(
+                                        context,
+                                        setReference,
+                                        providerProducts
+                                            ?.ltsReferencesProductSelected),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: CustomColors.gray6,
@@ -131,7 +135,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         horizontal: 23, vertical: 8),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Expanded(
@@ -139,22 +143,27 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               itemImageReference(
-                                                  35,providerProducts!.referenceProductSelected!.images!.isEmpty?'':
-                                                  providerProducts?.referenceProductSelected?.images![0].url ??''),
+                                                  35, providerProducts!
+                                                  .referenceProductSelected!
+                                                  .images!.isEmpty ? '' :
+                                              providerProducts
+                                                  ?.referenceProductSelected
+                                                  ?.images![0].url ?? ''),
                                               SizedBox(
                                                 width: 13,
                                               ),
                                               Expanded(
                                                 child: Text(
                                                   providerProducts
-                                                          ?.referenceProductSelected
-                                                          ?.reference ??
+                                                      ?.referenceProductSelected
+                                                      ?.reference ??
                                                       '',
                                                   maxLines: 2,
                                                   style: TextStyle(
                                                       fontFamily:
-                                                          Strings.fontRegular,
-                                                      color: CustomColors.gray7),
+                                                      Strings.fontRegular,
+                                                      color: CustomColors
+                                                          .gray7),
                                                 ),
                                               )
                                             ],
@@ -174,7 +183,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               ),
                               Text(
                                 providerProducts?.productDetail?.brandProvider
-                                        ?.brand?.brand ??
+                                    ?.brand?.brand ??
                                     '',
                                 style: TextStyle(
                                     fontSize: 15,
@@ -186,7 +195,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               ),
                               Text(
                                 providerProducts
-                                        ?.referenceProductSelected?.reference ??
+                                    ?.referenceProductSelected?.reference ??
                                     '',
                                 style: TextStyle(
                                     fontSize: 20,
@@ -194,25 +203,33 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     color: CustomColors.blackLetter),
                               ),
                               rowStars(double.parse(providerProducts
-                                      ?.referenceProductSelected
-                                      ?.qualification ??
+                                  ?.referenceProductSelected
+                                  ?.qualification ??
                                   '0')),
                               Visibility(
-                                visible:providerProducts?.referenceProductSelected?.totalProductOffer?.status??false,
+                                visible: providerProducts
+                                    ?.referenceProductSelected
+                                    ?.totalProductOffer?.status ?? false,
                                 child: Text(
-                                  formatMoney(providerProducts?.referenceProductSelected?.price ?? '0'),
+                                  formatMoney(
+                                      providerProducts?.referenceProductSelected
+                                          ?.price ?? '0'),
                                   style: TextStyle(
-                                    decoration:TextDecoration.lineThrough ,
+                                      decoration: TextDecoration.lineThrough,
                                       fontSize: 18,
                                       fontFamily: Strings.fontMedium,
                                       color: CustomColors.gray4),
                                 ),
                               ),
                               Text(
-                                formatMoney(providerProducts?.referenceProductSelected?.totalProductOffer?.status==true?
-                                providerProducts?.referenceProductSelected?.totalProductOffer?.priceWithDiscount:
-                                    providerProducts?.referenceProductSelected?.price ??
-                                    '0'),
+                                formatMoney(
+                                    providerProducts?.referenceProductSelected
+                                        ?.totalProductOffer?.status == true ?
+                                    providerProducts?.referenceProductSelected
+                                        ?.totalProductOffer?.priceWithDiscount :
+                                    providerProducts?.referenceProductSelected
+                                        ?.price ??
+                                        '0'),
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: Strings.fontMedium,
@@ -232,7 +249,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         Strings.paymentNow,
                                         CustomColors.orange,
                                         Colors.white,
-                                        () => paymentNow()),
+                                            () => paymentNow()),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -244,7 +261,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             Strings.addCartShop,
                                             CustomColors.blue,
                                             Colors.white,
-                                            () => addProductCart()),
+                                                () => addProductCart()),
                                       ),
                                     )
                                   ],
@@ -257,7 +274,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       sectionDescriptionProduct()
                     ],
                   ),
-                ):notConnectionInternet(),
+                ) : notConnectionInternet(),
               )
             ],
           ),
@@ -377,11 +394,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
         return Padding(
           padding: const EdgeInsets.only(right: 5),
           child: InkWell(
-              onTap: () => setImageReference(providerProducts
-                  ?.referenceProductSelected?.images![index].url),
+              onTap: () =>
+                  setImageReference(providerProducts
+                      ?.referenceProductSelected?.images![index].url),
               child: itemImageReference(
                   50,
-                  providerProducts?.referenceProductSelected?.images?[index].url??'')),
+                  providerProducts?.referenceProductSelected?.images?[index]
+                      .url ?? '')),
         );
       },
     );
@@ -395,8 +414,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
       shrinkWrap: true,
       itemBuilder: (_, int index) {
         return Padding(
-          padding: const EdgeInsets.only(right: 5,bottom: 5),
-          child: itemComment(providerProducts!.referenceProductSelected!.ltsComments![index]),
+          padding: const EdgeInsets.only(right: 5, bottom: 5),
+          child: itemComment(
+              providerProducts!.referenceProductSelected!.ltsComments![index]),
         );
       },
     );
@@ -419,44 +439,54 @@ class _DetailProductPageState extends State<DetailProductPage> {
   openZoomImages() {
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
-        pageBuilder: (BuildContext context, _, __) => PhotosProductPage(
+        pageBuilder: (BuildContext context, _, __) =>
+            PhotosProductPage(
               image: providerProducts?.imageReferenceProductSelected,
             )));
   }
 
   addProductCart() async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callCart = providerShopCart.updateQuantityProductCart(
-            providerProducts!.referenceProductSelected!.id!.toString(),
-            providerProducts!.unitsProduct.toString());
-        await callCart.then((msg) {
-          Navigator.pop(context);
-          utils.showSnackBarGood(context, msg.toString());
-        }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
+    if (providerProducts!.prefs.authToken != "0") {
+      utils.checkInternet().then((value) async {
+        if (value) {
+          Future callCart = providerShopCart.updateQuantityProductCart(
+              providerProducts!.referenceProductSelected!.id!.toString(),
+              providerProducts!.unitsProduct.toString());
+          await callCart.then((msg) {
+            Navigator.pop(context);
+            utils.showSnackBarGood(context, msg.toString());
+          }, onError: (error) {
+            utils.showSnackBar(context, error.toString());
+          });
+        } else {
+          utils.showSnackBarError(context, Strings.loseInternet);
+        }
+      });
+    }else{
+      validateSession(context);
+    }
   }
 
   paymentNow() async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callCart = providerShopCart.updateQuantityProductCart(
-            providerProducts!.referenceProductSelected!.id.toString(), providerProducts!.unitsProduct.toString());
-        await callCart.then((msg) {
-          getShopCart();
-          utils.showSnackBarGood(context, msg.toString());
-        }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
+    if (providerProducts!.prefs.authToken != "0") {
+      utils.checkInternet().then((value) async {
+        if (value) {
+          Future callCart = providerShopCart.updateQuantityProductCart(
+              providerProducts!.referenceProductSelected!.id.toString(),
+              providerProducts!.unitsProduct.toString());
+          await callCart.then((msg) {
+            getShopCart();
+            utils.showSnackBarGood(context, msg.toString());
+          }, onError: (error) {
+            utils.showSnackBar(context, error.toString());
+          });
+        } else {
+          utils.showSnackBarError(context, Strings.loseInternet);
+        }
+      });
+    }else{
+      validateSession(context);
+    }
   }
 
   getShopCart() async {
@@ -476,11 +506,19 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   addProduct() {
-    providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
+    if (providerProducts!.prefs.authToken != "0") {
+      providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
+    } else {
+      validateSession(context);
+    }
   }
 
   removeProduct() {
-    if (providerProducts!.unitsProduct > 1)
-      providerProducts!.unitsProduct = providerProducts!.unitsProduct - 1;
+    if (providerProducts!.prefs.authToken != "0") {
+      if (providerProducts!.unitsProduct > 1)
+        providerProducts!.unitsProduct = providerProducts!.unitsProduct - 1;
+    } else {
+      validateSession(context);
+    }
   }
 }

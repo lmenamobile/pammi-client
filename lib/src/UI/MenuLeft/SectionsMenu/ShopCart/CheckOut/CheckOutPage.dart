@@ -141,6 +141,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   changeValueValidateDiscount(){
     controllerCoupon.clear();
     controllerGift.clear();
+    providerCheckOut.isValidateDiscount = false;
     providerCheckOut.isValidateGift = !providerCheckOut.isValidateGift;
   }
 
@@ -165,6 +166,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   callApplyDiscount(){
+
     if(providerCheckOut.isValidateGift){
       if(controllerGift.text.isNotEmpty){
         applyGiftCard(controllerGift.text.trim());
@@ -347,6 +349,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
             Navigator.push(context, customPageTransition(TransactionADDIPage()));
           }
           utils.showSnackBarGood(context, msg);
+          providerShopCart!.totalProductsCart = "0";
+          providerCheckOut.isValidateDiscount = false;
         }, onError: (error) {
           providerCheckOut.isLoading = false;
           utils.showSnackBar(context, error.toString());
