@@ -16,8 +16,8 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'WidgetsChat/MessageChat.dart';
 
 class ChatPage extends StatefulWidget {
-  final String? roomId,orderId,subOrderId,typeChat;
-  const ChatPage({required this.roomId, this.orderId, this.subOrderId,required this.typeChat});
+  final String? roomId,orderId,subOrderId,typeChat,imageProfile;
+  const ChatPage({required this.roomId, this.orderId, this.subOrderId,required this.typeChat,required this.imageProfile});
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -36,7 +36,7 @@ class _ChatPageState extends State<ChatPage> {
     socketService = Provider.of<SocketService>(context,listen: false);
     providerChat = Provider.of<ProviderChat>(context,listen: false);
     providerChat.ltsMessages.clear();
-    providerChat.setMessagesListAdmin();
+    providerChat.setMessagesListAdmin(widget.imageProfile??'');
     messageReceiveType(widget.typeChat);
   }
 

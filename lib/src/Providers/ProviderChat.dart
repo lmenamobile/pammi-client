@@ -188,7 +188,7 @@ class ProviderChat with ChangeNotifier {
     }
   }
 
-  setMessagesListAdmin() {
+  setMessagesListAdmin(String urlPhoto) {
    // this.ltsMessages.clear();
     this.ltsMessagesChat.forEach((data) {
       switch (data.type) {
@@ -198,7 +198,7 @@ class ProviderChat with ChangeNotifier {
             message: data.message,
             date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
             typeMessage: data.typeUser == "user" ? 1 : 2,
-            photo: '',
+            photo: urlPhoto,
             isLocal: false,
           );
           break;
@@ -209,7 +209,7 @@ class ProviderChat with ChangeNotifier {
             message: dataMessage['url'],
             date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
             typeMessage: 3,
-            photo: '',
+            photo: urlPhoto,
             isLocal: data.typeUser == "user" ? true : false,
             urlFile: dataMessage['url'],
           );
@@ -221,7 +221,7 @@ class ProviderChat with ChangeNotifier {
             message: dataMessage['name'],
             date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
             typeMessage: 4,
-            photo: '',
+            photo: urlPhoto,
             isLocal: data.typeUser == "user" ? true : false,
             urlFile: dataMessage['url'],
           );

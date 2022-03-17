@@ -597,7 +597,7 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
             ),
           ),
           InkWell(
-            onTap: ()=>openChat(seller!.id.toString(),order!.id.toString()),
+            onTap: ()=>openChat(seller!.id.toString(),order!.id.toString(),seller.photoUrl??''),
             child: CircleAvatar(
               radius: 20,
               backgroundColor: CustomColors.orange,

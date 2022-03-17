@@ -135,8 +135,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
   }
 
-  openChatSeller(String sellerId,String orderId){
-    getRoomSeller(sellerId, orderId);
+  openChatSeller(String sellerId,String orderId, String imageSeller){
+    getRoomSeller(sellerId, orderId,imageSeller);
   }
 
   openGuide(String guide){
@@ -171,7 +171,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeProvider, id,subOrderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -181,7 +181,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     });
   }
 
-  getRoomSeller(String sellerId,String orderId) async {
+  getRoomSeller(String sellerId,String orderId,String imageSeller) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callChat = providerChat.getRomSeller(sellerId, orderId);
@@ -189,7 +189,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeSeller, id,orderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,imageProfile: imageSeller,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
