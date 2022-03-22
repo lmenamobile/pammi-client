@@ -1,15 +1,38 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/UI/OnBoarding/Login.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
+import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import 'Strings.dart';
 SharePreference _prefs = SharePreference();
+
+Widget isImageYoutube(String url,Widget itemImage){
+  return url.contains("youtube")?Container(
+      child: Image.asset("Assets/images/video.png",fit: BoxFit.fill,)):itemImage;
+}
+
+Widget isImageYoutubeAction(String url,Widget itemImage){
+  return url.contains("youtube")?InkWell(
+    onTap: ()=>launch(url),
+      child: Container(
+        width: 170,
+        height: 170,
+        child: Center(
+          child: Container(
+            width: 50,
+              height: 50,
+              child: Image.asset("Assets/images/video.png",fit: BoxFit.fill,)),
+        ),
+      )):itemImage;
+}
 
 Color convertColor(String color) {
   var auxColor = "0xff" + color;
@@ -73,6 +96,27 @@ String getStatusOrder(String type) {
       return Constants.finish;
     default:
       return Constants.create;
+  }
+}
+
+Color getStatusColorOrder(String type) {
+  switch (type) {
+    case Strings.statusCreate:
+      return CustomColors.blue4;
+    case Strings.statusProcessing:
+      return CustomColors.orangeOne;
+    case Strings.statusCancel:
+      return CustomColors.redTwo;
+    case Strings.statusCompleted:
+      return CustomColors.greenOne;
+    case Strings.statusRestored:
+      return CustomColors.yellowTwo;
+    case Strings.statusSend:
+      return CustomColors.blue5;
+    case Strings.statusFinish:
+      return CustomColors.greenOne;
+    default:
+      return CustomColors.blue4;
   }
 }
 

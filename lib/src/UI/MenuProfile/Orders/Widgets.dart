@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Models/Order.dart';
@@ -53,7 +54,7 @@ Widget itemOrder(Order order) {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: CustomColors.blue,
+                          color: getStatusColorOrder(order.status ?? ''),
                           borderRadius: BorderRadius.all(Radius.circular(4))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -181,6 +182,19 @@ Widget itemGift(GiftCard? gift){
   );
 }
 
+Widget barQualifications(String value){
+  return  RatingBarIndicator(
+    rating: double.parse(value),
+    direction: Axis.horizontal,
+    itemCount: 5,
+    itemSize: 13,
+    itemBuilder: (context, _) => Icon(
+      Icons.star,
+      color: Colors.amber,
+    ),
+  );
+}
+
 Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking) {
   return Container(
     margin: EdgeInsets.only(bottom: 5),
@@ -212,7 +226,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: CustomColors.blueSplash,
+                    color: getStatusColorOrder(providerPackage.status??''),
                     borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: Padding(
                   padding:
@@ -233,37 +247,40 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    providerPackage.providerProduct?.businessName??'',
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 15,
-                        color: CustomColors.blackLetter),
-                  ),
-                  Text(
-                    Strings.provider,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        fontSize: 12,
-                        color: CustomColors.gray7),
-                  ),
-                /*  Row(
-                    children: [
-                      Icon(Icons.calendar_today,color: CustomColors.gray7,size: 15,),
-                      SizedBox(width: 5,),
-                      Text(
-                        "Aca fecha de entrega",
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 12,
-                            color: CustomColors.gray7),
-                      ),
-                    ],
-                  ),*/
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      providerPackage.providerProduct?.businessName??'',
+                      maxLines: 2,
+                      style: TextStyle(
+                          fontFamily: Strings.fontBold,
+                          fontSize: 15,
+                          color: CustomColors.blackLetter),
+                    ),
+                    Text(
+                      Strings.provider,
+                      style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 12,
+                          color: CustomColors.gray7),
+                    ),
+                  /*  Row(
+                      children: [
+                        Icon(Icons.calendar_today,color: CustomColors.gray7,size: 15,),
+                        SizedBox(width: 5,),
+                        Text(
+                          "Aca fecha de entrega",
+                          style: TextStyle(
+                              fontFamily: Strings.fontRegular,
+                              fontSize: 12,
+                              color: CustomColors.gray7),
+                        ),
+                      ],
+                    ),*/
+                  ],
+                ),
               ),
               Visibility(
                 visible: isActive,
@@ -271,7 +288,8 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                   onTap: ()=>qualification(Constants.qualificationProvider,providerPackage.providerProduct?.id.toString(),providerPackage.id.toString(),"",providerPackage),
                   child: Row(
                     children: [
-                      Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct!.qualification=='0'?CustomColors.gray5:Colors.amber,),
+                      barQualifications(providerPackage.providerProduct?.qualification??'0'),
+                      //Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct!.qualification=='0'?CustomColors.gray5:Colors.amber,),
                       SizedBox(width: 5,),
                       Text(
                        Strings.qualification,
@@ -381,11 +399,12 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
               child: Container(
                 width: 90,
                 height: 90,
-                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??'0'),
+                  image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),
@@ -425,9 +444,8 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
           Visibility(
             visible: isActive,
               child: InkWell(
-
                   onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,providerPackage),
-                  child: Image.asset("Assets/images/ic_star.png", width: 20,color:product.reference?.qualification=='0'?CustomColors.gray5:Colors.amber))),
+                  child: barQualifications(product.reference?.qualification??'0'))),
         ],
       ),
       customDivider()
@@ -446,11 +464,12 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
               child: Container(
                 width: 90,
                 height: 90,
-                child: product.offerOrder!.baseProducts![0].reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                child: product.offerOrder!.baseProducts![0].reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??'', FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[getRandomPosition(product.offerOrder?.baseProducts?[0].reference?.images?.length??0)].url??''),
+                  image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),
@@ -544,11 +563,14 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                       offset: Offset(2, 3))
                 ]),
             child: Center(
-              child: FadeInImage(
-                height: 30,
-                fit: BoxFit.fill,
-                image: NetworkImage(seller?.photoUrl??''),
-                placeholder: AssetImage("Assets/images/spinner.gif"),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                child: FadeInImage(
+                  height: 30,
+                  fit: BoxFit.fill,
+                  image: NetworkImage(seller?.photoUrl??''),
+                  placeholder: AssetImage("Assets/images/spinner.gif"),
+                ),
               ),
             ),
           ),

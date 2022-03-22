@@ -85,6 +85,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            isImageYoutubeAction(providerProducts
+                                ?.imageReferenceProductSelected ??
+                                '',
                             InkWell(
                               onTap: () => openZoomImages(),
                               child: imageReference(
@@ -92,7 +95,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                   providerProducts
                                       ?.imageReferenceProductSelected ??
                                       ''),
-                            ),
+                            )),
                             Container(
                                 margin: EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 30),
@@ -397,10 +400,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
               onTap: () =>
                   setImageReference(providerProducts
                       ?.referenceProductSelected?.images![index].url),
-              child: itemImageReference(
-                  50,
-                  providerProducts?.referenceProductSelected?.images?[index]
-                      .url ?? '')),
+              child: itemImageReference(50, providerProducts?.referenceProductSelected?.images?[index].url ?? '')),
         );
       },
     );

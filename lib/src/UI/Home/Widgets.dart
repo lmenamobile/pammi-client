@@ -217,7 +217,6 @@ Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners
 }
 
 Widget itemProduct(Product product){
-  int position = getRandomPosition(product.references?.length??0);
   return Container(
     width: 150,
     decoration: BoxDecoration(
@@ -271,11 +270,12 @@ Widget itemProduct(Product product){
             Container(
               width: 120,
               height: 90,
-              child: product.references![position].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+              child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+              isImageYoutube(product.references![0].images![0].url??'',FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(product.references![position].images![getRandomPosition(product.references![position].images!.length)].url??''),
+                image: NetworkImage(product.references![0].images![0].url??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
-              ),
+              )),
             ),
             customDivider(),
             Align(
@@ -319,7 +319,7 @@ Widget itemProduct(Product product){
                       ),
                     ),
                     Text(
-                      product.references!.isNotEmpty?formatMoney(product.references![position].price):formatMoney("0"),
+                      product.references!.isNotEmpty?formatMoney(product.references![0].price):formatMoney("0"),
                       style: TextStyle(
                           fontSize: 13,
                           fontFamily: Strings.fontBold,
@@ -336,13 +336,13 @@ Widget itemProduct(Product product){
             top: 3,
             right: 3,
             child: Visibility(
-              visible: product.references![position].totalProductOffer!.status??false,
+              visible: product.references![0].totalProductOffer!.status??false,
               child: CircleAvatar(
                 radius: 11,
                 backgroundColor: CustomColors.redTour,
                 child: Center(
                   child: Text(
-                    product.references![position].totalProductOffer!.discountValue!+"%",
+                    product.references![0].totalProductOffer!.discountValue!+"%",
                     style: TextStyle(
                         fontSize: 10,
                         color: Colors.white

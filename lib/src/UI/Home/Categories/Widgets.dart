@@ -177,10 +177,11 @@ Widget itemProductRelations(Product product, Function openDetail){
             Container(
               width: 100,
               height: 100,
-              child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+              child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+              isImageYoutube(product.references?[0].images?[0].url??"",FadeInImage(
                 fit: BoxFit.fill,
                 image: NetworkImage(product.references?[0].images?[0].url??""),
-                placeholder: AssetImage("Assets/images/spinner.gif"),
+                placeholder: AssetImage("Assets/images/spinner.gif")),
               ),
             ),
             customDivider(),
@@ -250,11 +251,13 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                 Container(
                   width: 100,
                   height: 100,
-                  child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                  child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                      isImageYoutube(product.references?[0].images?[0].url??'',
+                  FadeInImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(product.references?[0].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
-                  ),
+                  )),
                 ),
                 customDivider(),
                 Align(

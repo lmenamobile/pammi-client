@@ -604,11 +604,12 @@ Widget itemProductCart(ProductShopCart product) {
               child: Container(
                 width: 100,
                 height: 100,
-                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??''),
+                  image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),

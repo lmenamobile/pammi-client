@@ -73,6 +73,14 @@ class CustomColors {
   static final redBackground = const Color(0xffFFF4E8);
   static final purpleOpacity = const Color(0xff787994);
 
+  static var greenOne = const Color(0xff3DC291);
+  static var redTwo = const Color (0xFFF16B6C);
+  static var orangeOne = const Color (0xFFE67248);
+  static var grayTwo = const Color (0xFF767676);
+  static var yellowTwo = const Color (0xFFF3A444);
+  static var blue4 = const Color (0xFF166AC9);
+  static var blue5 = const Color(0xff07213E);
+
 
 
 }

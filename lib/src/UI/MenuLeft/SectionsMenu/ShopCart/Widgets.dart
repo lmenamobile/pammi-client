@@ -33,11 +33,12 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
               child: Container(
                 width: 100,
                 height: 100,
-                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),
@@ -502,11 +503,12 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                   child: Container(
                     width: 100,
                     height: 100,
-                    child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                    child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                    isImageYoutube(product.reference?.images?[0].url??'', FadeInImage(
                       fit: BoxFit.fill,
                       image: NetworkImage(product.reference?.images?[0].url??''),
                       placeholder: AssetImage("Assets/images/spinner.gif"),
-                    ),
+                    )),
                   ),
                 ),
               ),
