@@ -452,9 +452,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
           Future callCart = providerShopCart.updateQuantityProductCart(
               providerProducts!.referenceProductSelected!.id!.toString(),
               providerProducts!.unitsProduct.toString());
-          await callCart.then((msg) {
+          await callCart.then((msg) async{
             Navigator.pop(context);
             utils.showSnackBarGood(context, msg.toString());
+            await providerShopCart.getShopCart();
           }, onError: (error) {
             utils.showSnackBar(context, error.toString());
           });

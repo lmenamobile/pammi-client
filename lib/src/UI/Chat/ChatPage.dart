@@ -36,7 +36,9 @@ class _ChatPageState extends State<ChatPage> {
     socketService = Provider.of<SocketService>(context,listen: false);
     providerChat = Provider.of<ProviderChat>(context,listen: false);
     providerChat.ltsMessages.clear();
-    providerChat.setMessagesListAdmin(widget.imageProfile??'');
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      providerChat.setMessagesListAdmin(widget.imageProfile??'');
+    });
     messageReceiveType(widget.typeChat);
   }
 
