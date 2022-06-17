@@ -7,6 +7,7 @@ import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/QualificationPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -86,7 +87,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder!.orderDetail!.packagesProvider!.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat,openGuide);
+          return itemProductsProvider(context,providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat,openGuide,openClaimOrder);
         },
       ),
     );
@@ -134,6 +135,11 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     });
 
   }
+
+  openClaimOrder(){
+    Navigator.push(context, customPageTransition(ClaimPage()));
+  }
+
 
   openChatSeller(String sellerId,String orderId, String imageSeller){
     getRoomSeller(sellerId, orderId,imageSeller);

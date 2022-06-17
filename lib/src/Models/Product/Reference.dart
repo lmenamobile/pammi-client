@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:wawamko/src/Models/Product/BrandAndProduct.dart';
 import 'package:wawamko/src/Models/Product/CommentProduct.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
@@ -17,6 +19,7 @@ class Reference {
     this.images,
     this.ltsComments,
     this.qualification,
+    this.applyDevolution,
     this.isSelected,
     this.brandAndProduct,
     this.isFavorite,
@@ -32,6 +35,7 @@ class Reference {
   String? qty;
   String? color;
   String? qualification;
+  bool? applyDevolution;
   List<ImageProduct>? images;
   List<CommentProduct>? ltsComments;
   bool? isSelected = false;
@@ -52,6 +56,7 @@ class Reference {
     isSelected: false,
     isFavorite: json["liked"],
     qualification: json["qualification"]==null?'0':json["qualification"].toString(),
+    applyDevolution:json["applyDevolution"],
     images:json["images"]==null?null: List<ImageProduct>.from(json["images"].map((x) => ImageProduct.fromJson(x))),
     ltsComments:json["comments"]==null?null: List<CommentProduct>.from(json["comments"].map((x) => CommentProduct.fromJson(x))),
     brandAndProduct: json["brandProviderProduct"]==null?null:BrandAndProduct.fromJson(json["brandProviderProduct"]),

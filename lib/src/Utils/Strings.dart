@@ -433,6 +433,13 @@ class Strings {
   static const String statusSend = 'send';
   static const String statusFinish = 'finished';
 
+  static const String quantity = 'Cantidad';
+  static const String warranty= 'Garantia';
+  static const String makeClaim= 'Hacer reclamo';
+  static const String claim= 'Reclamo';
+  static const String textInformationClaim = 'Tienes la posibilidad de hacer el reclamo de algún producto durante los 30 días posteriores a la entrega. Recuerda que algunos productos no aplican al derecho de reclamo, para ello consulta los términos y condiciones.';
+  static const String reasonClaim= 'Razón del reclamo';
+  static const String selectReasonClaim= 'Selecciona la razón del reclamo';
 
   /*Errors*/
   static const String errorServeTimeOut                   = "Ha ocurrido un error de parte nuestra, por favor vuelve a intentarlo.";

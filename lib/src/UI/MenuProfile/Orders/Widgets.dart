@@ -13,6 +13,7 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogAlertClaim.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 Widget itemOrder(Order order) {
@@ -195,7 +196,7 @@ Widget barQualifications(String value){
   );
 }
 
-Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking) {
+Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
   return Container(
     margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
@@ -307,7 +308,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             ],
           ),
           customDivider(),
-          listProducts(providerPackage,providerPackage.productsProvider,isActive,qualification),
+          listProducts(context,providerPackage,providerPackage.productsProvider,isActive,qualification,actionClaim),
           /*Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -388,7 +389,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
   );
 }
 
-Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification){
+Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification,Function callClaim){
   return Column(
     children: [
       Row(
@@ -437,6 +438,40 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
                     fontSize: 13,
                     color: CustomColors.orange,
                   ),
+                ),
+                Visibility(
+                  visible: true,//product.reference?.applyDevolution??false,
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: ()=>callClaim(),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: CustomColors.red)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                             Strings.makeClaim,
+                              style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 13,
+                                color: CustomColors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: ()=> startAlertClaim(context),
+                            child: Image.asset("Assets/images/ic_information.png",fit: BoxFit.fill,width: 20,)),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -448,8 +483,74 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
                   child: barQualifications(product.reference?.qualification??'0'))),
         ],
       ),
+      SizedBox(height: 10,),
+      Row(
+        children: [
+          Expanded(
+            child: DataTable(
+              checkboxHorizontalMargin: 0.0,
+              horizontalMargin: 0.0,
+              columnSpacing: 15,
+              dataRowHeight: 25,
+              headingRowHeight: 25,
+              headingRowColor: MaterialStateProperty.resolveWith(
+                      (states) => CustomColors.greyBackground
+              ),
+              columns: <DataColumn>[
+                DataColumn(label:    Center(
+                  child: Text(Strings.quantity,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 13,
+                      color: CustomColors.blueTitle,
+                    ),
+                  ),
+                ),),
+                DataColumn(label:    Text(Strings.warranty,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.blueTitle,
+                  ),
+                ),),
+                DataColumn(label:    Text(Strings.total,
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.blueTitle,
+                  ),
+                ),),
+              ],
+              rows: [DataRow(cells: <DataCell>[
+                    cellTableText(product.qty??'0',CustomColors.blackLetter),
+                    cellTableText("2",CustomColors.blackLetter),
+                    cellTableText( formatMoney(product.total??'0'),CustomColors.orange),
+                  ])],
+            ),
+          ),
+        ],
+      ),
       customDivider()
     ],
+  );
+}
+
+DataCell cellTableText(String text,Color color) {
+  return DataCell(
+      Center(
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          style: TextStyle(
+            fontFamily: Strings.fontBold,
+            fontSize: 13,
+            color: color,
+          ),
+        ),
+      )
   );
 }
 
@@ -513,7 +614,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
 }
 
 
-Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,Function qualification) {
+Widget listProducts(BuildContext context,PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,Function qualification,Function callClaim) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -521,7 +622,7 @@ Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? produ
       itemCount: productsProvider==null?0:productsProvider.length,
       itemBuilder: (_, int index) {
         if(productsProvider![index].reference != null){
-          return itemProduct(providerPackage,productsProvider[index],isActive,qualification);
+          return itemProduct(context,providerPackage,productsProvider[index],isActive,qualification,callClaim);
         }else {
           return itemProductOffer(providerPackage,productsProvider[index],isActive,qualification);
         }
@@ -763,4 +864,11 @@ Widget rowTotal(String textLabel,String textData ){
       ),
     ],
   );
+}
+
+Future<bool?> startAlertClaim(BuildContext context) async{
+  return   await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogAlertClaim(title: "hola",msgText: "hola2"));
 }
