@@ -100,7 +100,7 @@ class _BrandsPageState extends State<BrandsPage> {
   }
 
   openProductsByBrand(Brand brand){
-    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrandProvider:brand.id.toString())));
+    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString())));
   }
 
   getBrands(String page) async {

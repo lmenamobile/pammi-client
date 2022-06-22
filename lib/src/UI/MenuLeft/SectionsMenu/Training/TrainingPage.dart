@@ -40,32 +40,37 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuTraining,
       ),
-      body: SafeArea(
-        child: Container(
-          color: CustomColors.grayBackground,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
-                  SizedBox(height: 20,),
-                  Expanded(child: SmartRefresher(
-                      controller: _refreshTraining,
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      onLoading: _onLoadingToRefresh,
-                      footer: footerRefreshCustom(),
-                      header: headerRefresh(),
-                      onRefresh: _pullToRefresh,
-                      child: providerSettings.hasConnection? providerSettings.ltsTraining.isEmpty
-                          ? emptyData("ic_highlights_empty.png",
-                          Strings.sorryHighlights, Strings.emptyTraining)
-                          : listTraining():notConnectionInternet()))
-                ],
-              ),
-              Visibility(
-                  visible: providerSettings.isLoading, child: LoadingProgress()),
-            ],
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            color: CustomColors.grayBackground,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
+                    SizedBox(height: 20,),
+                    Expanded(child: SmartRefresher(
+                        controller: _refreshTraining,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        onLoading: _onLoadingToRefresh,
+                        footer: footerRefreshCustom(),
+                        header: headerRefresh(),
+                        onRefresh: _pullToRefresh,
+                        child: providerSettings.hasConnection? providerSettings.ltsTraining.isEmpty
+                            ? emptyData("ic_highlights_empty.png",
+                            Strings.sorryHighlights, Strings.emptyTraining)
+                            : listTraining():notConnectionInternet()))
+                  ],
+                ),
+                Visibility(
+                    visible: providerSettings.isLoading, child: LoadingProgress()),
+              ],
+            ),
           ),
         ),
       ),

@@ -4,7 +4,7 @@ class Strings {
   //Tour
   static const String nextBtn = 'Siguiente';
   static const String skip = 'Omitir';
-  static const String verifyCode = 'Verificar codigo';
+  static const String verifyCode = 'Verificar código';
   static const String welcome = '¡Bienvenido!';
   static const String next = 'Continuar';
   static const String selectYouAddress = 'Selecciona tu dirección';
@@ -35,7 +35,7 @@ class Strings {
   static const String createAccount = 'Crear cuenta';
   static const String registerMsg = '¡Completa la siguiente información de tu perfil!';
 
-  static const String send = 'Enviar';
+  static const String send = 'Envío';
   static const String textLogin = 'Ingresa tu correo electrónico y \ncontraseña';
   static const String email = 'Correo electrónico';
   static const String password= 'Contraseña';
@@ -118,6 +118,7 @@ class Strings {
   static const String cedulaCiudadania = 'Cédula de Ciudadanía';
   static const String tipeDocument = 'Tipo de documento';
   static const String delete = 'Eliminar';
+  static const String titleDeleteProduct = 'Eliminar producto';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
   static const String deleteCart = "¿Estás seguro de eliminar tu carrito de compras?";
   static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
@@ -409,6 +410,10 @@ class Strings {
   static const String  dontSamePass = 'Las contraseñas no coinciden';
   static const String pwdActuallyEmpty = "La contraseña actual es requerida.";
   static const String pwdNewEmpty      = "La nueva contraseña es requerida.";
+  static const String userNotLogIn      = "Para acceder a esta función debes iniciar sesión";
+
+  /*Catalogo*/
+  static const String  catalog = 'Catalogo emprendedor';
 
   /*Dialogs*/
   static const String  btnAccept = 'Aceptar';
@@ -428,6 +433,32 @@ class Strings {
   static const String statusSend = 'send';
   static const String statusFinish = 'finished';
 
+  static const String quantity = 'Cantidad';
+  static const String warranty= 'Garantia';
+  static const String makeClaim= 'Hacer reclamo';
+  static const String claim= 'Reclamo';
+  static const String textInformationClaim = 'Tienes la posibilidad de hacer el reclamo de algún producto durante los 30 días posteriores a la entrega. Recuerda que algunos productos no aplican al derecho de reclamo, para ello consulta los términos y condiciones.';
+  static const String reasonClaim= 'Razón del reclamo';
+  static const String selectReasonClaim= 'Selecciona la razón del reclamo';
+
+  static const String typeClaim= 'Tipo de reclamo';
+  static const String selectTypeClaim= '¿Qué desea hacer?';
+
+  static const String devolutionClaim= 'Preferencia de devolución';
+  static const String selectDevolutionClaim= '¿Cuál es tu preferencia para devolver el producto?';
+
+  static const String messageClaim= 'Mensaje';
+  static const String messageInformationClaim = 'Puedes darnos más detalles del reclamo';
+  static const String optional = '*opcional';
+  static const String messageLoadFile = 'Subir una imagen que no supere un peso de 800 KB.';
+  static const String loadFile = 'Subir foto';
+
+  static const String claimOpen = 'Abiertos';
+  static const String claimClose = 'Cerrados';
+  static const String myClaims = 'Mis reclamos';
+
+  static const String claimCreate = 'Reclamo creado';
+  static const String claimTextInfo = 'Para hacer seguimiento al reclamo diríjase al módulo de “mis reclamos”';
 
   /*Errors*/
   static const String errorServeTimeOut                   = "Ha ocurrido un error de parte nuestra, por favor vuelve a intentarlo.";
@@ -454,7 +485,7 @@ class Strings {
   static const String sorry                                = "¡Lo sentimos!";
   static const String emptyBanks                           = "No hay ningun banco disponible";
   static const String emptySearchProducts                  = "No encontramos resultados para esta busqueda. Notifica al administrador el producto que estas buscando.";
-  static const String errorCodeReferred                    = "No tienes un codigo de referido aun";
+  static const String errorCodeReferred                    = "No tienes un código de referido aun";
   static const String sorryFavorites                       = "Aún no tienes productos en tus deseos";
   static const String emptyFavorites                       = "Tenemos miles de productos que te encantarán ¡explora la app y súmalos a tu lista de deseos!";
   static const String sorryHighlights                      = "¡Lo sentimos!";
@@ -462,7 +493,7 @@ class Strings {
   static const String emptyCampaigns                       = "Aún no hay campañas que mostrar aquí.";
   static const String emptyTraining                        = "Aún no hay capacitaciones que mostrar aquí.";
   static const String emptyGiftCards                       = "Aún no hay tarjetas de regalo que mostrar aquí.";
-  static const String emptyProductsSave                    = "Aún no tienes productos guardados en tu carrito.";
+  static const String emptyProductsSave                    = "Aún no tienes productos en tu carrito.";
   static const String emptyOrders                          = "Aún no hay ordenes que mostrar aquí.";
   static const String emptyNotifications                   = "Aún no hay notificaciones que mostrar aquí.";
   static const String emptyCategories                      = "No se encontraron categorias.";
@@ -475,6 +506,13 @@ class Strings {
   static const String errorSelectedBank                   = "Debes seleccionar un banco para pagar con PSE";
   static const String errorConnection                     = "No tienes conexión a internet";
   static const String errorNotGuideOrder                    = "La orden no tiene guía generada.";
+  static const String errorPhoto                    = "No fue posible cargar la foto";
+  static const String emptyCatalog                    = "Aún no hay productos en el catalogo.";
+
+  static const String errorSelectTypeReason                   = "Debes seleccionar la razon del reclamo";
+  static const String errorSelectTypeClaim                   = "Debes seleccionar el tipo de reclamo";
+  static const String errorCommentClaim                   = "Debes agregar un comentario para realizar el reclamo";
+  static const String errorMethodReturnClaim                   = "Debes selecionar el metodo de devolucion";
 
   //Fonts
   static const String fontBold = 'FontBold';

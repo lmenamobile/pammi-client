@@ -3,6 +3,7 @@ import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/ProductFavorite.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
@@ -32,11 +33,12 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                 Container(
                   width: 100,
                   height: 100,
-                  child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+                  child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                  isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(product.reference?.images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
-                  ),
+                  )),
                 ),
                 customDivider(),
                 Align(

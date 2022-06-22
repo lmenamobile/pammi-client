@@ -35,6 +35,13 @@ class ProviderProducts with ChangeNotifier{
     notifyListeners();
   }
 
+  List<Product> _ltsProductsByCatalog = [];
+  List<Product> get ltsProductsByCatalog => this._ltsProductsByCatalog;
+  set ltsProductsByCatalog(List<Product> value) {
+    this._ltsProductsByCatalog.addAll(value);
+    notifyListeners();
+  }
+
   List<Product> _ltsProductsByCategory = [];
   List<Product> get ltsProductsByCategory => this._ltsProductsByCategory;
   set ltsProductsByCategory(List<Product> value) {
@@ -181,10 +188,55 @@ class ProviderProducts with ChangeNotifier{
 
   }
 
+  Future<dynamic> getProductsByCatalogSeller(
+      String idSeller,int page) async {
+    this.isLoadingProducts = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      'sellerId': idSeller,
+      'offset': page,
+      'limit': 20,
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Uri.parse(Constants.baseURL + "seller/get-products"),
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoadingProducts = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    final List<Product> listProducts = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson!['code'] == 100) {
+        for (var item in decodeJson['data']['items']) {
+          final product = Product.fromJson(item);
+          listProducts.add(product);
+        }
+        this.isLoadingProducts = false;
+        this.ltsProductsByCatalog = listProducts;
+        return listProducts;
+      } else {
+        this.isLoadingProducts = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoadingProducts = false;
+      throw decodeJson!['message'];
+    }
+
+  }
+
   Future<dynamic> getProductsByCategory(
       String filter,
       int offset,
-      String? idBrand,
+      String? brandId,
+      String? idBrandProvider,
       String? idCategory,
       String? idSubcategory,
       String? price,
@@ -199,7 +251,8 @@ class ProviderProducts with ChangeNotifier{
       'filter': filter,
       'offset': offset,
       'limit': 20,
-      "brandProviderId": idBrand??'',
+      "brandId":brandId??'',
+      "brandProviderId": idBrandProvider??'',
       "subcategoryId": idSubcategory??'',
       "categoryId": idCategory??'',
       "price": price??'',

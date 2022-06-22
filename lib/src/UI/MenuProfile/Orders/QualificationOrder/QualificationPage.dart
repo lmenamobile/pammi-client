@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -160,11 +161,11 @@ class _QualificationPageState extends State<QualificationPage> {
               Container(
                 width: 90,
                 height: 90,
-                child: FadeInImage(
+                child: isImageYoutube(widget.data??'', FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(widget.data??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40),
@@ -362,7 +363,7 @@ class _QualificationPageState extends State<QualificationPage> {
                           Strings.send,
                           CustomColors.blue,
                           Colors.white,
-                          () => {qualificationUserProvider()})),
+                          () => {qualificationSeller()})),
                 ],
               ),
             )
@@ -433,8 +434,7 @@ class _QualificationPageState extends State<QualificationPage> {
   qualificationSeller() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callOrders = providerOrder!.qualificationSeller(
-            widget.idQualification, valueRating, widget.subOrderId);
+        Future callOrders = providerOrder!.qualificationSeller(widget.idQualification, valueRating, widget.subOrderId);
         await callOrders.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context, msg);

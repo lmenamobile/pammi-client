@@ -49,7 +49,7 @@ class DialogCustomTwoOptions extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   height: 1.2,
-                    color: Colors.black,
+                    color: Colors.black.withOpacity(.7),
                     fontSize: 16,
                     fontFamily: Strings.fontRegular),
               ),
@@ -64,8 +64,8 @@ class DialogCustomTwoOptions extends StatelessWidget {
                   Expanded(
                     child: btnCustom(null,
                             Strings.btnCancel,
-                            CustomColors.splashColor,
-                            Colors.white,
+                            CustomColors.grayBackground,
+                            Colors.grey,
                             () => Navigator.pop(context, false)),
                   ),
 

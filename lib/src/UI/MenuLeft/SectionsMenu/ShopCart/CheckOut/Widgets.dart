@@ -604,11 +604,12 @@ Widget itemProductCart(ProductShopCart product) {
               child: Container(
                 width: 100,
                 height: 100,
-                child: FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??''),
+                  image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),
@@ -675,7 +676,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
               child: Container(
                 width: 100,
                 height: 100,
-                child: FadeInImage(
+                child: offer.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(offer.reference?.images?[getRandomPosition(offer.reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -748,9 +749,9 @@ Widget itemOfferProductGift(Reference? reference){
                     child: Container(
                       width: 70,
                       height: 70,
-                      child: FadeInImage(
+                      child: reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
                         fit: BoxFit.fill,
-                        image: NetworkImage(reference?.images?[getRandomPosition(reference.images?.length??0)].url??''),
+                        image: NetworkImage(reference.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
                       ),
                     ),
@@ -761,7 +762,7 @@ Widget itemOfferProductGift(Reference? reference){
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                        reference.brandAndProduct?.brandProvider?.brand?.brand??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
@@ -769,7 +770,7 @@ Widget itemOfferProductGift(Reference? reference){
                         ),
                       ),
                       Text(
-                        reference?.reference ?? '',
+                        reference.reference ?? '',
                         maxLines: 2,
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,

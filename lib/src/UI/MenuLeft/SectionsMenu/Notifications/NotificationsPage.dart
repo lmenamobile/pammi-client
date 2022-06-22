@@ -42,34 +42,39 @@ class _NotificationsPageState extends State<NotificationsPage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuNotifications,
       ),
-      body: SafeArea(
-        child: Container(
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  titleBarWithDoubleAction(
-                      Strings.notifications,
-                      "ic_menu_w.png",
-                      "ic_remove_white.png",
-                          () => keyMenuLeft.currentState!.openDrawer(),
-                          () => validateActionDelete(),false,""),
-                  SizedBox(height: 10,),
-                  Expanded(child: SmartRefresher(
-                      controller: _refreshNotifications,
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      onLoading: _onLoadingToRefresh,
-                      footer: footerRefreshCustom(),
-                      header: headerRefresh(),
-                      onRefresh: _pullToRefresh,
-                      child:providerSettings.hasConnection? providerSettings.ltsNotifications.isEmpty
-                          ? emptyData("ic_empty_notification.png",
-                          Strings.sorry, Strings.emptyNotifications)
-                          : listNotifications():notConnectionInternet()))
-                ],
-              )
-            ],
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    titleBarWithDoubleAction(
+                        Strings.notifications,
+                        "ic_menu_w.png",
+                        "ic_remove_white.png",
+                            () => keyMenuLeft.currentState!.openDrawer(),
+                            () => validateActionDelete(),false,""),
+                    SizedBox(height: 10,),
+                    Expanded(child: SmartRefresher(
+                        controller: _refreshNotifications,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        onLoading: _onLoadingToRefresh,
+                        footer: footerRefreshCustom(),
+                        header: headerRefresh(),
+                        onRefresh: _pullToRefresh,
+                        child:providerSettings.hasConnection? providerSettings.ltsNotifications.isEmpty
+                            ? emptyData("ic_empty_notification.png",
+                            Strings.sorry, Strings.emptyNotifications)
+                            : listNotifications():notConnectionInternet()))
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -221,8 +226,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
       if (value) {
         Future callSettings = providerSettings.deleteNotifications(providerSettings.ltsNotifications);
         await callSettings.then((product) {
-          providerSettings.ltsNotifications.clear();
-            getNotifications();
+          clearForRefresh();
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

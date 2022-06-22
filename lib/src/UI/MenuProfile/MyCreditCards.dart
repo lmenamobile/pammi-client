@@ -143,7 +143,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                       "Assets/images/ic_trash_big.png",
                       Strings.msgDeleteCreditCard, () {
                     Navigator.pop(context);
-                   changeStatusCreditCart(creditCard);
+                   deleteCreditCart(creditCard);
                   }, () {
                     Navigator.pop(context);
                   });
@@ -168,13 +168,14 @@ class _MyCreditCardsState extends State<MyCreditCards> {
     });
   }
 
-  changeStatusCreditCart(CreditCard creditCard) async {
+  deleteCreditCart(CreditCard creditCard) async {
    utils.checkInternet().then((value) async {
       if (value) {
         Future callResponse = profileProvider.deleteCreditCard(creditCard.id.toString());
         await callResponse.then((user) {
 
         }, onError: (error) {
+          utils.showSnackBarError(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

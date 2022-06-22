@@ -6,6 +6,7 @@ import 'package:wawamko/src/Models/Product/CommentProduct.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -120,10 +121,11 @@ Widget itemImageReference(double size, String asset) {
         border: Border.all(color: CustomColors.orange)),
     child: Padding(
       padding: const EdgeInsets.all(3),
-      child: asset.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+      child: asset.isEmpty?Image.asset("Assets/images/spinner.gif"):
+      isImageYoutube(asset,FadeInImage(
         fit: BoxFit.fill,
         image: NetworkImage(asset),
-        placeholder: AssetImage("Assets/images/spinner.gif"),
+        placeholder: AssetImage("Assets/images/spinner.gif")),
       ),
     ),
   );
@@ -161,11 +163,11 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
               Container(
                 width: 35,
                 height: 35,
-                child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): FadeInImage(
+                child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): isImageYoutube(asset,FadeInImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(asset),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
               SizedBox(
                 width: 13,

@@ -8,6 +8,7 @@ import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ConectionStatus.dart';
+import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
@@ -40,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   late ProviderSettings providerSettings;
   ProviderHome? providerHome;
+  ProfileProvider? profileProvider;
   late ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
   ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
@@ -49,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
+    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     providerHome!.ltsBrands.clear();
     providerHome!.ltsBanners.clear();
     providerHome!.ltsBannersOffer.clear();
@@ -62,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
         selectCountryUserNotLogin();
       });
     }
+    profileProvider?.user?.photoUrl = prefs.photoUser;
     super.initState();
   }
 
@@ -475,10 +479,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget listItemsBrands() {
     return ListView.builder(
-      itemCount:
-          providerHome!.ltsBrands.length > 6 ? 6 : providerHome!.ltsBrands.length,
+      itemCount: providerHome!.ltsBrands.length > 6 ? 6 : providerHome!.ltsBrands.length,
       scrollDirection: Axis.horizontal,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -505,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   openProductsByBrand(Brand brand){
-    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrandProvider:brand.id.toString())));
+    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString())));
   }
 
   openAllBrands(){

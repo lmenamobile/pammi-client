@@ -3,6 +3,9 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
+import 'package:wawamko/src/Models/Order/TypeClaim.dart';
+import 'package:wawamko/src/Models/Order/TypeReason.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -147,7 +150,7 @@ class _Utils {
    return   await showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => alertCustomMessage(
+        builder: (BuildContext context) => alertCustomMessage(context,
             titleAlert, image, textAlert, action, actionNegative));
   }
 
@@ -188,7 +191,7 @@ class _Utils {
     });
   }
 
-  Widget alertCustomMessage(String titleAlert, String image, String textAlert,
+  Widget alertCustomMessage(BuildContext context,String titleAlert, String image, String textAlert,
       Function action, Function actionNegative) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -204,72 +207,87 @@ class _Utils {
                   borderRadius: BorderRadius.all(Radius.circular(19)),
                   color: CustomColors.white,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    Center(
-                      child: Image.asset(
-                        image,
-                        fit: BoxFit.fill,
-                        height: 50,
-                        width: 50,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Center(
-                      child: Text(
-                        titleAlert,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: Strings.fontBold,
-                            color: CustomColors.blackLetter,
-                            fontSize: 18),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Text(
-                        textAlert,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            color: CustomColors.gray7,
-                            fontSize: 15),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            child: btnCustomSize(
-                                35,
-                                Strings.btnNot,
-                                CustomColors.gray2,
-                                CustomColors.blackLetter,
-                                actionNegative),
-                            width: 100,
+                child: Stack(
+                  children:[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: 20),
+                        Center(
+                          child: Image.asset(
+                            image,
+                            fit: BoxFit.fill,
+                            height: 50,
+                            width: 50,
                           ),
-                          Container(
-                            child: btnCustomSize(
-                                35,
-                                Strings.btnYes,
-                                CustomColors.blueSplash,
-                                CustomColors.white,
-                                action),
-                            width: 100,
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: Text(
+                            titleAlert,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                color: CustomColors.blackLetter,
+                                fontSize: 18),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Text(
+                            textAlert,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: Strings.fontRegular,
+                                color: CustomColors.gray7,
+                                fontSize: 15),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: btnCustomSize(
+                                    35,
+                                    Strings.btnNot,
+                                    CustomColors.gray2,
+                                    CustomColors.blackLetter,
+                                    actionNegative),
+                                width: 100,
+                              ),
+                              Container(
+                                child: btnCustomSize(
+                                    35,
+                                    Strings.btnYes,
+                                    CustomColors.blueSplash,
+                                    CustomColors.white,
+                                    action),
+                                width: 100,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                      ],
                     ),
-                    SizedBox(height: 16),
-                  ],
-                ),
+                    Positioned(
+                      right:10,
+                      top: 15,
+                      child:IconButton(
+                          padding: EdgeInsets.all(0),
+                          icon: Icon(
+                            Icons.close,
+                            color: CustomColors.gray,
+                          ),
+                          onPressed: () => Navigator.pop(context))
+                    )
+                  ]
+                )
               ),
             ],
           ),
@@ -298,6 +316,28 @@ class _Utils {
     }
     return lts;
   }
+
+  List<TypeReason> getLtsTypeReason() {
+    List<TypeReason> lts = [];
+    lts.add(TypeReason(typeReason: "Me arrepenti de la compra",valueTypeReason: "regretted"));
+    lts.add(TypeReason(typeReason: "Inconformidad con el pedido",valueTypeReason: "nonconformity"));
+    lts.add(TypeReason(typeReason: "No es lo que esperaba",valueTypeReason: "unxespected"));
+    lts.add(TypeReason(typeReason: "El producto tiene algun daño",valueTypeReason: "damage"));
+    lts.add(TypeReason(typeReason: "Otro",valueTypeReason: "other"));
+    return lts;
+  }
+
+  List<TypeClaim> getLtsTypeClaim = [
+    TypeClaim(typeClaim: "Devolución",valueTypeClaim: "devolution"),
+    TypeClaim(typeClaim: "Reembolso",valueTypeClaim: "repayment"),
+    TypeClaim(typeClaim: "Garantia",valueTypeClaim: "warranty")
+  ];
+
+  List<MethodDevolution> getLtsMethodDevolution = [
+    MethodDevolution(methodDevolution: "Punto fisico de servientrega",valueMethodDevolution: "physicalPoint"),
+    MethodDevolution(methodDevolution: "A domicilio",valueMethodDevolution: "domicile")
+  ];
+
 }
 
 final utils = _Utils();

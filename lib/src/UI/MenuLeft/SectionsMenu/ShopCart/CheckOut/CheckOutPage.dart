@@ -35,10 +35,20 @@ class _CheckOutPageState extends State<CheckOutPage> {
   String msgError = '';
 
   @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      providerCheckOut = Provider.of<ProviderCheckOut>(context,listen: false);
+      providerCheckOut.clearValuesPayment();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -131,6 +141,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   changeValueValidateDiscount(){
     controllerCoupon.clear();
     controllerGift.clear();
+    providerCheckOut.isValidateDiscount = false;
     providerCheckOut.isValidateGift = !providerCheckOut.isValidateGift;
   }
 
@@ -155,6 +166,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   callApplyDiscount(){
+
     if(providerCheckOut.isValidateGift){
       if(controllerGift.text.isNotEmpty){
         applyGiftCard(controllerGift.text.trim());
@@ -337,6 +349,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
             Navigator.push(context, customPageTransition(TransactionADDIPage()));
           }
           utils.showSnackBarGood(context, msg);
+          providerShopCart!.totalProductsCart = "0";
+          providerCheckOut.isValidateDiscount = false;
         }, onError: (error) {
           providerCheckOut.isLoading = false;
           utils.showSnackBar(context, error.toString());

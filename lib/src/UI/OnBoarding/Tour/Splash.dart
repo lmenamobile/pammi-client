@@ -119,7 +119,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       statusPermissionsGPS(status);
     }else{
       bool? status = await showCustomAlertDialog(context,Strings.titleGPS,Strings.textInformationGPS);
-
       Future.delayed(Duration(seconds: 2), () {
         if(!status!)validatePermissions();});
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Models/Order.dart';
@@ -12,6 +13,7 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogAlertClaim.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 Widget itemOrder(Order order) {
@@ -53,7 +55,7 @@ Widget itemOrder(Order order) {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: CustomColors.blue,
+                          color: getStatusColorOrder(order.status ?? ''),
                           borderRadius: BorderRadius.all(Radius.circular(4))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -181,7 +183,20 @@ Widget itemGift(GiftCard? gift){
   );
 }
 
-Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking) {
+Widget barQualifications(String value){
+  return  RatingBarIndicator(
+    rating: double.parse(value),
+    direction: Axis.horizontal,
+    itemCount: 5,
+    itemSize: 13,
+    itemBuilder: (context, _) => Icon(
+      Icons.star,
+      color: Colors.amber,
+    ),
+  );
+}
+
+Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
   return Container(
     margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
@@ -212,7 +227,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: CustomColors.blueSplash,
+                    color: getStatusColorOrder(providerPackage.status??''),
                     borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: Padding(
                   padding:
@@ -233,37 +248,40 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    providerPackage.providerProduct?.businessName??'',
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 15,
-                        color: CustomColors.blackLetter),
-                  ),
-                  Text(
-                    Strings.provider,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        fontSize: 12,
-                        color: CustomColors.gray7),
-                  ),
-                /*  Row(
-                    children: [
-                      Icon(Icons.calendar_today,color: CustomColors.gray7,size: 15,),
-                      SizedBox(width: 5,),
-                      Text(
-                        "Aca fecha de entrega",
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 12,
-                            color: CustomColors.gray7),
-                      ),
-                    ],
-                  ),*/
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      providerPackage.providerProduct?.businessName??'',
+                      maxLines: 2,
+                      style: TextStyle(
+                          fontFamily: Strings.fontBold,
+                          fontSize: 15,
+                          color: CustomColors.blackLetter),
+                    ),
+                    Text(
+                      Strings.provider,
+                      style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 12,
+                          color: CustomColors.gray7),
+                    ),
+                  /*  Row(
+                      children: [
+                        Icon(Icons.calendar_today,color: CustomColors.gray7,size: 15,),
+                        SizedBox(width: 5,),
+                        Text(
+                          "Aca fecha de entrega",
+                          style: TextStyle(
+                              fontFamily: Strings.fontRegular,
+                              fontSize: 12,
+                              color: CustomColors.gray7),
+                        ),
+                      ],
+                    ),*/
+                  ],
+                ),
               ),
               Visibility(
                 visible: isActive,
@@ -271,7 +289,8 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                   onTap: ()=>qualification(Constants.qualificationProvider,providerPackage.providerProduct?.id.toString(),providerPackage.id.toString(),"",providerPackage),
                   child: Row(
                     children: [
-                      Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct!.qualification=='0'?CustomColors.gray5:Colors.amber,),
+                      barQualifications(providerPackage.providerProduct?.qualification??'0'),
+                      //Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct!.qualification=='0'?CustomColors.gray5:Colors.amber,),
                       SizedBox(width: 5,),
                       Text(
                        Strings.qualification,
@@ -289,8 +308,8 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             ],
           ),
           customDivider(),
-          listProducts(providerPackage,providerPackage.productsProvider,isActive,qualification),
-          Row(
+          listProducts(context,providerPackage,providerPackage.productsProvider,isActive,qualification,actionClaim),
+          /*Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -311,7 +330,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
                 ),
               ),
             ],
-          ),
+          ),*/
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -335,23 +354,27 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
             ],
           ),
           customDivider(),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
-                      ,Colors.white, null),
-                ),
-                SizedBox(width: 30,),
-                Expanded(
-                  child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
-                      Colors.white, (){
-                    openChat(providerPackage.providerProduct?.id.toString(),providerPackage.id.toString());
-                      }),
-                )
-              ],
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                /*  Expanded(
+                    child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
+                        ,Colors.white, null),
+                  ),
+                  SizedBox(width: 30,),*/
+                  Container(
+                    width: 150,
+                    child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
+                        Colors.white, (){
+                      openChat(providerPackage.providerProduct?.id.toString(),providerPackage.id.toString());
+                        }),
+                  )
+                ],
+              ),
             ),
           ),
           customDivider(),
@@ -366,7 +389,7 @@ Widget itemProductsProvider(PackageProvider providerPackage,bool isActive,Functi
   );
 }
 
-Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification){
+Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification,Function callClaim){
   return Column(
     children: [
       Row(
@@ -377,11 +400,12 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
               child: Container(
                 width: 90,
                 height: 90,
-                child: FadeInImage(
+                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product.reference?.images?[getRandomPosition(product.reference?.images?.length??0)].url??'0'),
+                  image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),
@@ -414,6 +438,40 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
                     fontSize: 13,
                     color: CustomColors.orange,
                   ),
+                ),
+                Visibility(
+                  visible: true,//product.reference?.applyDevolution??false,
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: ()=>callClaim(product.id.toString()),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: CustomColors.red)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                             Strings.makeClaim,
+                              style: TextStyle(
+                                fontFamily: Strings.fontBold,
+                                fontSize: 13,
+                                color: CustomColors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: ()=> startAlertClaim(context),
+                            child: Image.asset("Assets/images/ic_information.png",fit: BoxFit.fill,width: 20,)),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -421,13 +479,78 @@ Widget itemProduct(PackageProvider providerPackage,ProductProvider product, bool
           Visibility(
             visible: isActive,
               child: InkWell(
-
                   onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,providerPackage),
-                  child: Image.asset("Assets/images/ic_star.png", width: 20,color:product.reference?.qualification=='0'?CustomColors.gray5:Colors.amber))),
+                  child: barQualifications(product.reference?.qualification??'0'))),
+        ],
+      ),
+      SizedBox(height: 10,),
+      Row(
+        children: [
+          Expanded(
+            child: DataTable(
+              checkboxHorizontalMargin: 0.0,
+              horizontalMargin: 0.0,
+              columnSpacing: 15,
+              dataRowHeight: 25,
+              headingRowHeight: 25,
+              headingRowColor: MaterialStateProperty.resolveWith(
+                      (states) => CustomColors.greyBackground
+              ),
+              columns: <DataColumn>[
+                DataColumn(label:    Center(
+                  child: Text(Strings.quantity,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 13,
+                      color: CustomColors.blueTitle,
+                    ),
+                  ),
+                ),),
+                DataColumn(label:    Text(Strings.warranty,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.blueTitle,
+                  ),
+                ),),
+                DataColumn(label:    Text(Strings.total,
+                  style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 13,
+                    color: CustomColors.blueTitle,
+                  ),
+                ),),
+              ],
+              rows: [DataRow(cells: <DataCell>[
+                    cellTableText(product.qty??'0',CustomColors.blackLetter),
+                    cellTableText("2",CustomColors.blackLetter),
+                    cellTableText( formatMoney(product.total??'0'),CustomColors.orange),
+                  ])],
+            ),
+          ),
         ],
       ),
       customDivider()
     ],
+  );
+}
+
+DataCell cellTableText(String text,Color color) {
+  return DataCell(
+      Center(
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          style: TextStyle(
+            fontFamily: Strings.fontBold,
+            fontSize: 13,
+            color: color,
+          ),
+        ),
+      )
   );
 }
 
@@ -442,11 +565,12 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
               child: Container(
                 width: 90,
                 height: 90,
-                child: FadeInImage(
+                child: product.offerOrder!.baseProducts![0].reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                isImageYoutube(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??'', FadeInImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[getRandomPosition(product.offerOrder?.baseProducts?[0].reference?.images?.length??0)].url??''),
+                  image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                ),
+                )),
               ),
             ),
           ),
@@ -490,7 +614,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
 }
 
 
-Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,Function qualification) {
+Widget listProducts(BuildContext context,PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,Function qualification,Function callClaim) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -498,7 +622,7 @@ Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? produ
       itemCount: productsProvider==null?0:productsProvider.length,
       itemBuilder: (_, int index) {
         if(productsProvider![index].reference != null){
-          return itemProduct(providerPackage,productsProvider[index],isActive,qualification);
+          return itemProduct(context,providerPackage,productsProvider[index],isActive,qualification,callClaim);
         }else {
           return itemProductOffer(providerPackage,productsProvider[index],isActive,qualification);
         }
@@ -507,7 +631,7 @@ Widget listProducts(PackageProvider providerPackage,List<ProductProvider>? produ
   );
 }
 
-Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bool isActive,Function openChat){
+Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? seller,Function qualification,bool isActive,Function openChat){
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
     decoration: BoxDecoration(
@@ -540,11 +664,14 @@ Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bo
                       offset: Offset(2, 3))
                 ]),
             child: Center(
-              child: FadeInImage(
-                height: 30,
-                fit: BoxFit.fill,
-                image: NetworkImage(seller?.photoUrl??''),
-                placeholder: AssetImage("Assets/images/spinner.gif"),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                child: FadeInImage(
+                  height: 30,
+                  fit: BoxFit.fill,
+                  image: NetworkImage(seller?.photoUrl??''),
+                  placeholder: AssetImage("Assets/images/spinner.gif"),
+                ),
               ),
             ),
           ),
@@ -572,7 +699,7 @@ Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bo
                 Visibility(
                   visible: isActive,
                   child: InkWell(
-                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',order),
+                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',providerPackage),
                     child: Row(
                       children: [
                         Text(
@@ -593,7 +720,7 @@ Widget sectionSeller(OrderDetail? order,Seller? seller,Function qualification,bo
             ),
           ),
           InkWell(
-            onTap: ()=>openChat(seller!.id.toString(),order!.id.toString()),
+            onTap: ()=>openChat(seller!.id.toString(),order!.id.toString(),seller.photoUrl??''),
             child: CircleAvatar(
               radius: 20,
               backgroundColor: CustomColors.orange,
@@ -685,6 +812,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
           rowTotal(Strings.subtotal, formatMoney(order?.subtotal??'0')),
           rowTotal(Strings.send, formatMoney(order?.shippingValue??'0')),
           rowTotal(Strings.coupon, formatMoney(order?.discountCoupon??'0')),
+          rowTotal(Strings.giftCard, formatMoney(order?.discountGiftCard??'0')),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -736,4 +864,11 @@ Widget rowTotal(String textLabel,String textData ){
       ),
     ],
   );
+}
+
+Future<bool?> startAlertClaim(BuildContext context) async{
+  return   await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogAlertClaim(title: "hola",msgText: "hola2"));
 }

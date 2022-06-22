@@ -55,75 +55,80 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
       drawer: DrawerMenuPage(
         rollOverActive: "support",
       ),
-      body: SafeArea(
-        child: Container(
-          color: CustomColors.whiteBackGround,
-          child: Column(
-            children: [
-              titleBar(Strings.supportAndService, "ic_menu_w.png",
-                  () => keyMenuLeft.currentState!.openDrawer()),
-              SizedBox(
-                height: 20,
-              ),
-              Image(
-                width: 135,
-                height: 135,
-                image: AssetImage("Assets/images/ic_customer.png"),
-              ),
-              SizedBox(height: 10),
-              Text(
-                Strings.support,
-                style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: Strings.fontBold,
-                    color: CustomColors.blackLetter),
-              ),
-              SizedBox(height: 20),
-              btnChatSupport(),
-              SizedBox(height: 20),
-              InkWell(
-                onTap: () => Navigator.of(context)
-                    .push(customPageTransition(PreRegisterPage())),
-                child: Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(
-                          color: CustomColors.greyBorder, width: .5)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        Strings.preRegister,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontFamily: Strings.fontBold,
-                            fontSize: 15,
-                            color: CustomColors.blackLetter),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: CustomColors.gray7,
-                        size: 15,
-                      ),
-                    ],
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            color: CustomColors.whiteBackGround,
+            child: Column(
+              children: [
+                titleBar(Strings.supportAndService, "ic_menu_w.png",
+                    () => keyMenuLeft.currentState!.openDrawer()),
+                SizedBox(
+                  height: 20,
+                ),
+                Image(
+                  width: 135,
+                  height: 135,
+                  image: AssetImage("Assets/images/ic_customer.png"),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  Strings.support,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.blackLetter),
+                ),
+                SizedBox(height: 20),
+                btnChatSupport(),
+                SizedBox(height: 20),
+                InkWell(
+                  onTap: () => Navigator.of(context)
+                      .push(customPageTransition(PreRegisterPage())),
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(
+                            color: CustomColors.greyBorder, width: .5)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          Strings.preRegister,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontFamily: Strings.fontBold,
+                              fontSize: 15,
+                              color: CustomColors.blackLetter),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: CustomColors.gray7,
+                          size: 15,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Expanded(
-                  child: SmartRefresher(
-                      controller: _refreshSupport,
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      onLoading: _onLoadingToRefresh,
-                      footer: footerRefreshCustom(),
-                      header: headerRefresh(),
-                      onRefresh: _pullToRefresh,
-                      child: providerSettings.hasConnection?listQuestion():notConnectionInternet()))
-            ],
+                SizedBox(height: 10),
+                Expanded(
+                    child: SmartRefresher(
+                        controller: _refreshSupport,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        onLoading: _onLoadingToRefresh,
+                        footer: footerRefreshCustom(),
+                        header: headerRefresh(),
+                        onRefresh: _pullToRefresh,
+                        child: providerSettings.hasConnection?listQuestion():notConnectionInternet()))
+              ],
+            ),
           ),
         ),
       ),
@@ -277,7 +282,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeAdmin, id,"");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

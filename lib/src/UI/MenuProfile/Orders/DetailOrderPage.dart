@@ -7,6 +7,7 @@ import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/QualificationPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -58,7 +59,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                         children: [
                           providerOrder?.orderDetail!=null? providerOrder!.orderDetail!.packagesProvider![0].providerProduct==null?listGiftCards():listProviders():Container(),
                           providerOrder?.orderDetail?.seller!=null?
-                          sectionSeller(providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
+                          sectionSeller(providerOrder!.orderDetail!.packagesProvider![0],providerOrder?.orderDetail,providerOrder?.orderDetail?.seller,openQualificationPage,widget.isActiveOrder,openChatSeller):
                           Container(),
                           sectionAddressOrder(providerOrder?.orderDetail?.shippingAddress??''),
                           sectionTotalOrder(providerOrder?.orderDetail),
@@ -86,7 +87,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder!.orderDetail!.packagesProvider!.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat,openGuide);
+          return itemProductsProvider(context,providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat,openGuide,openClaimOrder);
         },
       ),
     );
@@ -135,8 +136,13 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
   }
 
-  openChatSeller(String sellerId,String orderId){
-    getRoomSeller(sellerId, orderId);
+  openClaimOrder(String idPackage){
+    Navigator.push(context, customPageTransition(ClaimPage(idPackage: idPackage,)));
+  }
+
+
+  openChatSeller(String sellerId,String orderId, String imageSeller){
+    getRoomSeller(sellerId, orderId,imageSeller);
   }
 
   openGuide(String guide){
@@ -171,7 +177,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeProvider, id,subOrderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -181,7 +187,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     });
   }
 
-  getRoomSeller(String sellerId,String orderId) async {
+  getRoomSeller(String sellerId,String orderId,String imageSeller) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callChat = providerChat.getRomSeller(sellerId, orderId);
@@ -189,7 +195,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeSeller, id,orderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,imageProfile: imageSeller,)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

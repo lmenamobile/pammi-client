@@ -46,99 +46,104 @@ class _GiftCartPageState extends State<GiftCartPage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuGiftCard,
       ),
-      body: SafeArea(
-        child: Container(
-          color: CustomColors.whiteBackGround,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  titleBarWithDoubleAction(
-                      Strings.giftCards,
-                      "ic_menu_w.png",
-                      "ic_car.png",
-                          () => keyMenuLeft.currentState!.openDrawer(),
-                          ()=>Navigator.push(context, customPageTransition(ShopCartPage())),false,""),
-                  Text(
-                    Strings.buyGiftCard,
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 17,
-                      color: CustomColors.blackLetter,
-                    ),
-                  ),
-                  Text(
-                    Strings.textGiftCard,
-                    style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter,
-                    ),
-                  ),
-                  SizedBox(height: 13,),
-                  InkWell(
-                    onTap: ()=>updateDataFilter(),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: CustomColors.blueSplash,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5)
-                        )
+      body: WillPopScope(
+        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
+            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
+                Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+        child: SafeArea(
+          child: Container(
+            color: CustomColors.whiteBackGround,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    titleBarWithDoubleAction(
+                        Strings.giftCards,
+                        "ic_menu_w.png",
+                        "ic_car.png",
+                            () => keyMenuLeft.currentState!.openDrawer(),
+                            ()=>Navigator.push(context, customPageTransition(ShopCartPage())),false,""),
+                    Text(
+                      Strings.buyGiftCard,
+                      style: TextStyle(
+                        fontFamily: Strings.fontBold,
+                        fontSize: 17,
+                        color: CustomColors.blackLetter,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              Strings.filter,
-                              style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                color: Colors.white,
+                    ),
+                    Text(
+                      Strings.textGiftCard,
+                      style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        color: CustomColors.blackLetter,
+                      ),
+                    ),
+                    SizedBox(height: 13,),
+                    InkWell(
+                      onTap: ()=>updateDataFilter(),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: CustomColors.blueSplash,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5)
+                          )
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                Strings.filter,
+                                style: TextStyle(
+                                  fontFamily: Strings.fontRegular,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 8,),
-                            Text(
-                              "0",
-                              style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                color: Colors.white,
+                              SizedBox(width: 8,),
+                              Text(
+                                "0",
+                                style: TextStyle(
+                                  fontFamily: Strings.fontRegular,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: CustomColors.whiteBackGround,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          )),
-                      child: SmartRefresher(
-                          controller: _refreshGiftCard,
-                          enablePullDown: true,
-                          enablePullUp: true,
-                          onLoading: _onLoadingToRefresh,
-                          footer: footerRefreshCustom(),
-                          header: headerRefresh(),
-                          onRefresh: _pullToRefresh,
-                          child:providerSettings.hasConnection? providerShopCart.ltsGiftCard.isEmpty
-                              ? emptyData(
-                                  "ic_highlights_empty.png",
-                                  Strings.sorryHighlights,
-                                  Strings.emptyGiftCards)
-                              : SingleChildScrollView(child: gridViewItems()):notConnectionInternet()),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: CustomColors.whiteBackGround,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            )),
+                        child: SmartRefresher(
+                            controller: _refreshGiftCard,
+                            enablePullDown: true,
+                            enablePullUp: true,
+                            onLoading: _onLoadingToRefresh,
+                            footer: footerRefreshCustom(),
+                            header: headerRefresh(),
+                            onRefresh: _pullToRefresh,
+                            child:providerSettings.hasConnection? providerShopCart.ltsGiftCard.isEmpty
+                                ? emptyData(
+                                    "ic_highlights_empty.png",
+                                    Strings.sorryHighlights,
+                                    Strings.emptyGiftCards)
+                                : SingleChildScrollView(child: gridViewItems()):notConnectionInternet()),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Visibility(
-                  visible: providerShopCart.isLoadingCart,
-                  child: LoadingProgress()),
-            ],
+                  ],
+                ),
+                Visibility(
+                    visible: providerShopCart.isLoadingCart,
+                    child: LoadingProgress()),
+              ],
+            ),
           ),
         ),
       ),

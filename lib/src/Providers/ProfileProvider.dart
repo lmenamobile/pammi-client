@@ -299,7 +299,7 @@ class ProfileProvider with ChangeNotifier {
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
     final response = await http
-        .put(Uri.parse(Constants.baseURL + 'profile/change-status-payment-method/$idCreditCard'),
+        .delete(Uri.parse(Constants.baseURL + 'profile/delete-payment-method/$idCreditCard'),
         headers: header)
         .timeout(Duration(seconds: 10))
         .catchError((value) {

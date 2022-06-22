@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogAlertCustomImage.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomTwoOptions.dart';
@@ -465,6 +466,7 @@ Widget emptyData(
   String text,
 ) {
   return Container(
+    width: double.infinity,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -478,6 +480,8 @@ Widget emptyData(
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 title,
@@ -606,6 +610,16 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+
+                        Container(
+                          child: btnCustomSize(
+                              35,
+                              Strings.btnNot,
+                              CustomColors.gray2,
+                              CustomColors.blackLetter,
+                              actionNegative),
+                          width: 100,
+                        ),
                         Container(
                           child: btnCustomSize(
                               35,
@@ -615,15 +629,6 @@ Widget alertMessageWithActions(String titleAlert, String image,
                               action),
                           width: 100,
                         ),
-                        Container(
-                          child: btnCustomSize(
-                              35,
-                              Strings.btnNot,
-                              CustomColors.gray2,
-                              CustomColors.blackLetter,
-                              actionNegative),
-                          width: 100,
-                        )
                       ],
                     ),
                   ),
@@ -806,4 +811,11 @@ Widget notConnectionInternet(){
       ],
     ),
   );
+}
+
+Future<bool?> startAlertCustomImage(BuildContext context,String title, String text,String asset) async{
+  return   await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogAlertCustomImage(title: title,msgText: text,asset:asset ,));
 }

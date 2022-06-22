@@ -110,6 +110,14 @@ class ProviderCheckOut with ChangeNotifier {
 
   List<PaymentMethod> get ltsPaymentMethod => this._ltsPaymentMethod;
 
+  clearValuesPayment(){
+    this.bankSelected = null;
+    this.addressSelected = null;
+    this.creditCardSelected = null;
+    this.paymentSelected = null;
+    this.shippingPrice = '0';
+  }
+
   set ltsPaymentMethod(List<PaymentMethod> value) {
     this._ltsPaymentMethod = value;
     notifyListeners();
