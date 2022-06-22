@@ -99,6 +99,36 @@ String getStatusOrder(String type) {
   }
 }
 
+String getStatusClaim(String type) {
+  switch (type) {
+    case Strings.statusOpen:
+      return Constants.open;
+    case Strings.statusClose:
+      return Constants.close;
+    case Strings.statusApproved:
+      return Constants.approved;
+    case Strings.statusReject:
+      return Constants.reject;
+    default:
+      return Constants.open;
+  }
+}
+
+Color getStatusColorClaim(String type) {
+  switch (type) {
+    case Strings.statusOpen:
+      return CustomColors.blue4;
+    case Strings.statusClose:
+      return CustomColors.orangeOne;
+    case Strings.statusApproved:
+      return CustomColors.greenOne;
+    case Strings.statusReject:
+      return CustomColors.redTwo;
+    default:
+      return CustomColors.blue4;
+  }
+}
+
 Color getStatusColorOrder(String type) {
   switch (type) {
     case Strings.statusCreate:

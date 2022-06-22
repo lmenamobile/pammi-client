@@ -4,6 +4,7 @@ import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -170,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                        linkUser(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Column(
                               mainAxisSize: MainAxisSize.min,
@@ -185,9 +186,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Navigator.of(context).push(customPageTransition(MyDatesPage()));
                                 }),
                                 itemProfile(context, "Assets/images/ic_place.png",
-                                    Strings.myAddress, true, true, true, () {
+                                    Strings.myAddress, false, true, true, () {
                                   Navigator.of(context).push(customPageTransition( MyAddressPage()));
                                 }),
+                                itemProfile(context, "Assets/images/ic_my_claims.png",
+                                    Strings.myClaims, true, true, false, () {
+                                      Navigator.of(context).push(customPageTransition( MyClaimPage()));
+                                    }),
                               ],
                             ),
                             Column(
@@ -202,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                  Navigator.push(context, customPageTransition(MyOrdersPage()));
                                 }),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ],
@@ -327,7 +332,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
               child: Center(
-                child: Image(width: 50, height: 50, image: AssetImage(icon)),
+                child: Image.asset(icon,width: 40,height: 40,fit: BoxFit.fill,),
               ),
             ),
             SizedBox(

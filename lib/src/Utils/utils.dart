@@ -3,9 +3,10 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Models/Claim/ReasonClose.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
-import 'package:wawamko/src/Models/Order/TypeClaim.dart';
-import 'package:wawamko/src/Models/Order/TypeReason.dart';
+import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
+import 'package:wawamko/src/Models/Claim/TypeReason.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -317,20 +318,26 @@ class _Utils {
     return lts;
   }
 
-  List<TypeReason> getLtsTypeReason() {
-    List<TypeReason> lts = [];
-    lts.add(TypeReason(typeReason: "Me arrepenti de la compra",valueTypeReason: "regretted"));
-    lts.add(TypeReason(typeReason: "Inconformidad con el pedido",valueTypeReason: "nonconformity"));
-    lts.add(TypeReason(typeReason: "No es lo que esperaba",valueTypeReason: "unxespected"));
-    lts.add(TypeReason(typeReason: "El producto tiene algun daño",valueTypeReason: "damage"));
-    lts.add(TypeReason(typeReason: "Otro",valueTypeReason: "other"));
-    return lts;
-  }
+  List<TypeReason> getLtsTypeReason =[
+
+    TypeReason(typeReason: "Me arrepenti de la compra",valueTypeReason: "regretted"),
+    TypeReason(typeReason: "Inconformidad con el pedido",valueTypeReason: "nonconformity"),
+    TypeReason(typeReason: "No es lo que esperaba",valueTypeReason: "unxespected"),
+    TypeReason(typeReason: "El producto tiene algun daño",valueTypeReason: "damage"),
+    TypeReason(typeReason: "Otro",valueTypeReason: "other")
+];
 
   List<TypeClaim> getLtsTypeClaim = [
     TypeClaim(typeClaim: "Devolución",valueTypeClaim: "devolution"),
     TypeClaim(typeClaim: "Reembolso",valueTypeClaim: "repayment"),
     TypeClaim(typeClaim: "Garantia",valueTypeClaim: "warranty")
+  ];
+
+  List<ReasonClose> getLtsReasonClose= [
+    ReasonClose(reasonClose: "Me equivoqué, no quería reclamar",valueReason: "equivocated"),
+    ReasonClose(reasonClose: "Arreglé con el proveedor",valueReason: "agreementWithProvider"),
+    ReasonClose(reasonClose: "Acepté una giftcard",valueReason: "acceptGiftcard"),
+    ReasonClose(reasonClose: "Reversión de pago exitosa",valueReason: "revertPayment"),
   ];
 
   List<MethodDevolution> getLtsMethodDevolution = [

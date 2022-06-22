@@ -433,6 +433,11 @@ class Strings {
   static const String statusSend = 'send';
   static const String statusFinish = 'finished';
 
+  static const String statusOpen = 'open';
+  static const String statusClose = 'close';
+  static const String statusApproved = 'approved';
+  static const String statusReject = 'reject';
+
   static const String quantity = 'Cantidad';
   static const String warranty= 'Garantia';
   static const String makeClaim= 'Hacer reclamo';
@@ -443,6 +448,9 @@ class Strings {
 
   static const String typeClaim= 'Tipo de reclamo';
   static const String selectTypeClaim= '¿Qué desea hacer?';
+
+  static const String claimType= 'Tipo';
+  static const String reason= 'Razon';
 
   static const String devolutionClaim= 'Preferencia de devolución';
   static const String selectDevolutionClaim= '¿Cuál es tu preferencia para devolver el producto?';
@@ -456,8 +464,15 @@ class Strings {
   static const String claimOpen = 'Abiertos';
   static const String claimClose = 'Cerrados';
   static const String myClaims = 'Mis reclamos';
+  static const String closeClaim = 'Cerrar reclamo';
+  static const String ID = 'ID';
 
   static const String claimCreate = 'Reclamo creado';
+  static const String claimFinish = 'Reclamo cerrado';
+  static const String reasonClose = 'Razón del cierre';
+  static const String reasonCloseApproved = 'El reclamo se ha cerrado exitosamente';
+  static const String messageClosereason = 'Para hacer seguimiento al reclamo diríjase al módulo de “mis reclamos”';
+  static const String becauseReasonClose = 'Por qué razón desea cerrar el reclamo';
   static const String claimTextInfo = 'Para hacer seguimiento al reclamo diríjase al módulo de “mis reclamos”';
 
   /*Errors*/
@@ -513,7 +528,7 @@ class Strings {
   static const String errorSelectTypeClaim                   = "Debes seleccionar el tipo de reclamo";
   static const String errorCommentClaim                   = "Debes agregar un comentario para realizar el reclamo";
   static const String errorMethodReturnClaim                   = "Debes selecionar el metodo de devolucion";
-
+  static const String errorReasonClaim                   = "Debes selecionar la razon de cierre del reclamo";
   //Fonts
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';

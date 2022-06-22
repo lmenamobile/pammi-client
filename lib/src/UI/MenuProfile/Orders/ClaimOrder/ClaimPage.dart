@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
-import 'package:wawamko/src/Models/Order/TypeClaim.dart';
-import 'package:wawamko/src/Models/Order/TypeReason.dart';
+import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
+import 'package:wawamko/src/Models/Claim/TypeReason.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
@@ -289,13 +289,13 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(horizontal: 20),
         physics: NeverScrollableScrollPhysics(),
-        itemCount: utils.getLtsTypeReason().length,
+        itemCount: utils.getLtsTypeReason.length,
         itemBuilder: (_, int index) {
           return InkWell(
               onTap: () => selectReasonClaim(
-                  utils.getLtsTypeReason().elementAt(index)),
+                  utils.getLtsTypeReason.elementAt(index)),
               child: itemReasonClaim(
-                  utils.getLtsTypeReason().elementAt(index).typeReason ?? '',
+                  utils.getLtsTypeReason.elementAt(index).typeReason ?? '',
                   providerClaimOrder.typeReasonSelected?.typeReason ?? ''));
         },
       ),

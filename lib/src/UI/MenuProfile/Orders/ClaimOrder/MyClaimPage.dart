@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimsCloseTab.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimsOpenTab.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/OrdersActiveTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -62,7 +64,8 @@ class _MyClaimPageState extends State<MyClaimPage>
                 child: TabBarView(
                   controller: tabControllerPages,
                   children: [
-
+                    ClaimsOpenTab(),
+                    ClaimsCloseTab()
                   ],
                 ),
               )

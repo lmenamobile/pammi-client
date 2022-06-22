@@ -63,6 +63,12 @@ class Constants {
     static const String send = 'Enviado';
     static const String finish = 'Finalizado';
 
+  /*Status claim*/
+  static const String open = 'Abierto';
+  static const String close = 'Cerrado';
+  static const String approved = 'Aprovado';
+  static const String reject = 'Rechazado';
+
 
   /*Tipos de chat*/
   static const String typeSeller = 'seller';
