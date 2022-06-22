@@ -444,7 +444,7 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   child: Row(
                     children: [
                       InkWell(
-                        onTap: ()=>callClaim(),
+                        onTap: ()=>callClaim(product.id.toString()),
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(

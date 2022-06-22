@@ -3,6 +3,9 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
+import 'package:wawamko/src/Models/Order/TypeClaim.dart';
+import 'package:wawamko/src/Models/Order/TypeReason.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -313,6 +316,28 @@ class _Utils {
     }
     return lts;
   }
+
+  List<TypeReason> getLtsTypeReason() {
+    List<TypeReason> lts = [];
+    lts.add(TypeReason(typeReason: "Me arrepenti de la compra",valueTypeReason: "regretted"));
+    lts.add(TypeReason(typeReason: "Inconformidad con el pedido",valueTypeReason: "nonconformity"));
+    lts.add(TypeReason(typeReason: "No es lo que esperaba",valueTypeReason: "unxespected"));
+    lts.add(TypeReason(typeReason: "El producto tiene algun daño",valueTypeReason: "damage"));
+    lts.add(TypeReason(typeReason: "Otro",valueTypeReason: "other"));
+    return lts;
+  }
+
+  List<TypeClaim> getLtsTypeClaim = [
+    TypeClaim(typeClaim: "Devolución",valueTypeClaim: "devolution"),
+    TypeClaim(typeClaim: "Reembolso",valueTypeClaim: "repayment"),
+    TypeClaim(typeClaim: "Garantia",valueTypeClaim: "warranty")
+  ];
+
+  List<MethodDevolution> getLtsMethodDevolution = [
+    MethodDevolution(methodDevolution: "Punto fisico de servientrega",valueMethodDevolution: "physicalPoint"),
+    MethodDevolution(methodDevolution: "A domicilio",valueMethodDevolution: "domicile")
+  ];
+
 }
 
 final utils = _Utils();

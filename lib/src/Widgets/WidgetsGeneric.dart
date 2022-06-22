@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/Dialogs/DialogAlertCustomImage.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomTwoOptions.dart';
@@ -810,4 +811,11 @@ Widget notConnectionInternet(){
       ],
     ),
   );
+}
+
+Future<bool?> startAlertCustomImage(BuildContext context,String title, String text,String asset) async{
+  return   await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogAlertCustomImage(title: title,msgText: text,asset:asset ,));
 }

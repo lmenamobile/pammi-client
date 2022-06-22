@@ -441,6 +441,25 @@ class Strings {
   static const String reasonClaim= 'Razón del reclamo';
   static const String selectReasonClaim= 'Selecciona la razón del reclamo';
 
+  static const String typeClaim= 'Tipo de reclamo';
+  static const String selectTypeClaim= '¿Qué desea hacer?';
+
+  static const String devolutionClaim= 'Preferencia de devolución';
+  static const String selectDevolutionClaim= '¿Cuál es tu preferencia para devolver el producto?';
+
+  static const String messageClaim= 'Mensaje';
+  static const String messageInformationClaim = 'Puedes darnos más detalles del reclamo';
+  static const String optional = '*opcional';
+  static const String messageLoadFile = 'Subir una imagen que no supere un peso de 800 KB.';
+  static const String loadFile = 'Subir foto';
+
+  static const String claimOpen = 'Abiertos';
+  static const String claimClose = 'Cerrados';
+  static const String myClaims = 'Mis reclamos';
+
+  static const String claimCreate = 'Reclamo creado';
+  static const String claimTextInfo = 'Para hacer seguimiento al reclamo diríjase al módulo de “mis reclamos”';
+
   /*Errors*/
   static const String errorServeTimeOut                   = "Ha ocurrido un error de parte nuestra, por favor vuelve a intentarlo.";
   static const String emailEmpty                            = "El correo es requerido.";
@@ -489,6 +508,11 @@ class Strings {
   static const String errorNotGuideOrder                    = "La orden no tiene guía generada.";
   static const String errorPhoto                    = "No fue posible cargar la foto";
   static const String emptyCatalog                    = "Aún no hay productos en el catalogo.";
+
+  static const String errorSelectTypeReason                   = "Debes seleccionar la razon del reclamo";
+  static const String errorSelectTypeClaim                   = "Debes seleccionar el tipo de reclamo";
+  static const String errorCommentClaim                   = "Debes agregar un comentario para realizar el reclamo";
+  static const String errorMethodReturnClaim                   = "Debes selecionar el metodo de devolucion";
 
   //Fonts
   static const String fontBold = 'FontBold';

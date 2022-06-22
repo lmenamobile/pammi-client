@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
-Widget itemReasonClaim(){
+Widget itemReasonClaim(String label,String labelSelected){
   return Container(
     margin: EdgeInsets.symmetric(vertical: 8),
     decoration: BoxDecoration(
@@ -12,7 +12,7 @@ Widget itemReasonClaim(){
       borderRadius: BorderRadius.all(Radius.circular(12)),
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
+          color: label!=labelSelected?Colors.grey.withOpacity(0.2):CustomColors.blue.withOpacity(.3),
           spreadRadius: 2,
           blurRadius: 3,
           offset: Offset(0, 2), // changes position of shadow
@@ -27,13 +27,45 @@ Widget itemReasonClaim(){
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              Strings.reasonClaim,
+              label,
               style: TextStyle(
                   color: Colors.black, fontFamily: Strings.fontMedium,fontSize: 16),
             ),
           ),
         ),
       ],
+    ),
+  );
+}
+
+Widget headerClaim(String title,String subtitle){
+  return Container(
+    width: double.infinity,
+    height: 180,
+    decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10
+            )
+        )
+    ),
+    child: Center(
+      child: Column(
+        mainAxisSize:MainAxisSize.min,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                color: CustomColors.blackLetter, fontFamily: Strings.fontMedium,fontSize: 16),
+          ),
+          Text(
+            subtitle,
+            style: TextStyle(
+                color: CustomColors.blue, fontFamily: Strings.fontMedium,fontSize: 16),
+          ),
+        ],
+      ),
     ),
   );
 }
