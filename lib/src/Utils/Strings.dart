@@ -466,6 +466,12 @@ class Strings {
   static const String myClaims = 'Mis reclamos';
   static const String closeClaim = 'Cerrar reclamo';
   static const String ID = 'ID';
+  static const String noApplyClaim = 'No aplica reclamo';
+  static const String image = 'Imagen';
+  static const String guideDevolution = 'Guía de devolución';
+  static const String textGuideDevolution = 'En los próximos días se generará una guía de devolución. Podrás encontrarla en esta sección y/o en tu correo para continuar con el proceso de devolución.';
+  static const String messageClaimStatusNotCompleted = 'El reclamo solo puede hacerse cuando el estado del pedido sea entregado';
+  static const String messageClaimTime = 'Ya se venció el plazo de tiempo para poder hacer un reclamo en este pedido. Si tienes alguna duda, comunícate con el proveedor por el chat.';
 
   static const String claimCreate = 'Reclamo creado';
   static const String claimFinish = 'Reclamo cerrado';

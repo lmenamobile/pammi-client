@@ -89,7 +89,7 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
 
   openDetailOrder(String id){
     print("id de la orden $id");
-    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: false,)));
+    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: false,isOrderFinish: false)));
   }
 
   getOrders() async {

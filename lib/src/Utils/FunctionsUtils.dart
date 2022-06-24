@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/UI/OnBoarding/Login.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -147,6 +148,23 @@ Color getStatusColorOrder(String type) {
       return CustomColors.greenOne;
     default:
       return CustomColors.blue4;
+  }
+}
+
+
+
+Widget validateStatusClaim(BuildContext context,String messageState,String messageTime,String stateSubOrder,bool timeInvalidateClaim,Function makeClaim) {
+  switch (stateSubOrder) {
+    case Strings.statusCreate:
+      return timeInvalidateClaim?btnNotMakeClaim(context,messageTime):btnNotMakeClaim(context,messageState);
+    case Strings.statusCompleted:
+      return timeInvalidateClaim?btnNotMakeClaim(context,messageTime):InkWell(
+        onTap: ()=>makeClaim,
+          child: btnMakeClaim());
+    case Strings.statusSend:
+      return timeInvalidateClaim?btnNotMakeClaim(context,messageTime):btnNotMakeClaim(context,messageState);
+    default:
+      return Container();
   }
 }
 

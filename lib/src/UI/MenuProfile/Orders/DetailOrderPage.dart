@@ -20,7 +20,8 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 class DetailOrderPage extends StatefulWidget {
   final String idOrder;
   final bool isActiveOrder;
-  const DetailOrderPage({required this.idOrder, required this.isActiveOrder});
+  final bool isOrderFinish;
+  const DetailOrderPage({required this.idOrder, required this.isActiveOrder,required this.isOrderFinish});
   @override
   _DetailOrderPageState createState() => _DetailOrderPageState();
 }
@@ -87,7 +88,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerOrder?.orderDetail?.packagesProvider==null?0:providerOrder!.orderDetail!.packagesProvider!.length,
         itemBuilder: (_, int index) {
-          return itemProductsProvider(context,providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,openQualificationPage,openChat,openGuide,openClaimOrder);
+          return itemProductsProvider(context,providerOrder!.orderDetail!.packagesProvider![index],widget.isActiveOrder,widget.isOrderFinish,openQualificationPage,openChat,openGuide,openClaimOrder);
         },
       ),
     );

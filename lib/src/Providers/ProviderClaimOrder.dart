@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:mime_type/mime_type.dart';
 import 'package:wawamko/src/Models/Claim/Claim.dart';
+import 'package:wawamko/src/Models/Claim/DetailClaim.dart';
 import 'package:wawamko/src/Models/Claim/ReasonClose.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
 import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
@@ -51,6 +52,13 @@ class ProviderClaimOrder with ChangeNotifier {
   MethodDevolution? get methodDevolution => this._methodDevolutionSelected;
   set selectMethodDevolution(MethodDevolution? value) {
     this._methodDevolutionSelected = value;
+    notifyListeners();
+  }
+
+  DetailClaim? _detailClaim;
+  DetailClaim? get detailClaim => this._detailClaim;
+  set setDetailClaim(DetailClaim? value) {
+    this._detailClaim = value;
     notifyListeners();
   }
 
@@ -246,6 +254,34 @@ class ProviderClaimOrder with ChangeNotifier {
       this.isLoading = false;
       if (decodeJson!['code'] == 100) {
         return decodeJson['message'];
+      } else {
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson!['message'];
+    }
+  }
+
+  Future<dynamic> getClaimDetail(String idClaim) async {
+    this.isLoading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Auth-Token": prefs.authToken.toString()
+    };
+    final response = await http
+        .get(Uri.parse(Constants.baseURL + "claim/get-claim/$idClaim"), headers: header)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      this.isLoading = false;
+      if (decodeJson!['code'] == 100) {
+        this.setDetailClaim = DetailClaim.fromJson(decodeJson['data']['claim']);
+        return this.detailClaim!;
       } else {
         throw decodeJson['message'];
       }

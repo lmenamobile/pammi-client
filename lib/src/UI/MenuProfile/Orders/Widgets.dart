@@ -16,6 +16,8 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogAlertClaim.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import 'ClaimOrder/WidgetsClaim.dart';
+
 Widget itemOrder(Order order) {
   return Container(
     margin: EdgeInsets.only(bottom: 10),
@@ -196,7 +198,7 @@ Widget barQualifications(String value){
   );
 }
 
-Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
+Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,bool isOrderFinish,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
   return Container(
     margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
@@ -308,7 +310,7 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
             ],
           ),
           customDivider(),
-          listProducts(context,providerPackage,providerPackage.productsProvider,isActive,qualification,actionClaim),
+          listProducts(context,providerPackage,providerPackage.productsProvider,isActive,isOrderFinish,qualification,actionClaim),
           /*Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -389,7 +391,7 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
   );
 }
 
-Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification,Function callClaim){
+Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductProvider product, bool isActive,bool isOrderFinish,Function qualification,Function callClaim){
   return Column(
     children: [
       Row(
@@ -443,27 +445,13 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   visible: true,//product.reference?.applyDevolution??false,
                   child: Row(
                     children: [
-                      InkWell(
-                        onTap: ()=>callClaim(product.id.toString()),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: CustomColors.red)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                             Strings.makeClaim,
-                              style: TextStyle(
-                                fontFamily: Strings.fontBold,
-                                fontSize: 13,
-                                color: CustomColors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      product.reference?.brandAndProduct?.applyDevolution==Constants.applyClaim?validateStatusClaim(
+                        context,
+                          Strings.messageClaimStatusNotCompleted,
+                          Strings.messageClaimTime,
+                          providerPackage.status!,
+                              product.invalidateTimeClaim??true,
+                              (){callClaim(product.id.toString());}):noApplyClaim(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
@@ -476,13 +464,13 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
               ],
             ),
           ),
-          Visibility(
-            visible: isActive,
-              child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,providerPackage),
-                  child: barQualifications(product.reference?.qualification??'0'))),
         ],
       ),
+      Visibility(
+          visible: isActive,
+          child: InkWell(
+              onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,providerPackage),
+              child: barQualifications(product.reference?.qualification??'0'))),
       SizedBox(height: 10,),
       Row(
         children: [
@@ -614,7 +602,9 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
 }
 
 
-Widget listProducts(BuildContext context,PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,Function qualification,Function callClaim) {
+Widget listProducts(BuildContext context,PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,
+bool isOrderFinish,
+    Function qualification,Function callClaim) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -622,7 +612,7 @@ Widget listProducts(BuildContext context,PackageProvider providerPackage,List<Pr
       itemCount: productsProvider==null?0:productsProvider.length,
       itemBuilder: (_, int index) {
         if(productsProvider![index].reference != null){
-          return itemProduct(context,providerPackage,productsProvider[index],isActive,qualification,callClaim);
+          return itemProduct(context,providerPackage,productsProvider[index],isActive,isOrderFinish,qualification,callClaim);
         }else {
           return itemProductOffer(providerPackage,productsProvider[index],isActive,qualification);
         }

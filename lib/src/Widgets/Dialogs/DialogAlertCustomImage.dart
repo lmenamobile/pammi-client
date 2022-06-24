@@ -42,12 +42,18 @@ class DialogAlertCustomImage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text(
-              title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontFamily: Strings.fontMedium),
+            Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontFamily: Strings.fontMedium),
+                ),
+              ),
             ),
             SizedBox(
               height: 10,

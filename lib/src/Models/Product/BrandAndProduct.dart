@@ -1,3 +1,5 @@
+import 'package:wawamko/src/Models/Claim/DetailClaim.dart';
+
 import 'BrandProvider.dart';
 
 class BrandAndProduct {
@@ -11,6 +13,8 @@ class BrandAndProduct {
     this.featured,
     this.weight,
     this.volume,
+    this.applyDevolution,
+    this.warranty,
     this.brandProvider,
   });
 
@@ -23,6 +27,8 @@ class BrandAndProduct {
   bool? featured;
   String? weight;
   String? volume;
+  String? applyDevolution;
+  Warranty? warranty;
   BrandProvider? brandProvider;
 
   factory BrandAndProduct.fromJson(Map<String, dynamic> json) => BrandAndProduct(
@@ -35,6 +41,8 @@ class BrandAndProduct {
     featured: json["featured"],
     weight: json["weight"].toString(),
     volume: json["volume"].toString(),
+    applyDevolution: json["applyDevolution"]??'',
+    warranty: json["warranty"]==null?null:Warranty.fromJson(json["warranty"]),
     brandProvider:json["brandProvider"]==null?null: BrandProvider.fromJson(json["brandProvider"]),
   );
 

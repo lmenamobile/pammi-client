@@ -68,6 +68,7 @@ class Constants {
   static const String close = 'Cerrado';
   static const String approved = 'Aprovado';
   static const String reject = 'Rechazado';
+  static const String applyClaim = 'apply';
 
 
   /*Tipos de chat*/

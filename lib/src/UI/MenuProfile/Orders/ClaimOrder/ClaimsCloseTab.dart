@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
+import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/DetailClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/DetailOrderPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
@@ -90,8 +91,8 @@ class _ClaimsCloseTabState extends State<ClaimsCloseTab> {
   }
 
   openDetailClaim(String id){
-    print("id de la orden $id");
-    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: false,)));
+    print("id reclamo $id");
+    Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id)));
   }
 
   getClaimsClose() async {
