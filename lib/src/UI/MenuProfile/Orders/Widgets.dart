@@ -338,6 +338,28 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
+                Strings.delivery,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: Strings.fontRegular,
+                    color: CustomColors.grayTwo
+                ),
+              ),
+              Text(
+                formatMoney(providerPackage.shippingValue??'0'),
+                style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: Strings.fontRegular,
+                    color: CustomColors.blackLetter
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 Strings.total,
                 style: TextStyle(
                     fontSize: 16,
