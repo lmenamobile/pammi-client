@@ -294,6 +294,9 @@ class Strings {
   static const String  giftProducts = 'Productos de regalo';
   static const String  giftCard = 'Tarjeta de regalo';
   static const String  order = 'Orden';
+  static const String  add = 'Agrega ';
+  static const String  addTxt = 'y el envío será gratis';
+
 
   /*checkOut*/
   static const String  yourOrder = 'Tu pedido';
@@ -310,6 +313,8 @@ class Strings {
   static const String  discount = 'Descuentos';
   static const String  subTotal = 'SubTotal';
   static const String  delivery = 'Envio';
+  static const String  delivery2 = 'Envío';
+  static const String  free = 'gratis';
   static const String  IVA = 'IVA';
   static const String  total = 'Total';
   static const String  payment = 'Pagar';

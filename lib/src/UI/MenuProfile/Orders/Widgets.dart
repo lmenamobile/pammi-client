@@ -199,6 +199,9 @@ Widget barQualifications(String value){
 }
 
 Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,bool isOrderFinish,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
+
+  var deliverCost = double.parse(providerPackage.shippingValue??'0') - double.parse(providerPackage.discountShipping??'0');
+
   return Container(
     margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
@@ -346,7 +349,7 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
                 ),
               ),
               Text(
-                formatMoney(providerPackage.shippingValue??'0'),
+                formatMoney((deliverCost.toInt()).toString()),
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
