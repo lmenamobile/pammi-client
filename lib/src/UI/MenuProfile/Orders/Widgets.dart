@@ -826,6 +826,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
           rowTotal(Strings.paymentMethod, order?.paymentMethod?.methodPayment??''),
           rowTotal(Strings.subtotal, formatMoney(order?.subtotal??'0')),
           rowTotal(Strings.send, formatMoney(order?.shippingValue??'0')),
+          rowTotal(Strings.discountShipping, '- ${formatMoney((order?.discountShipping??0).toString())}'),
           rowTotal(Strings.coupon, formatMoney(order?.discountCoupon??'0')),
           rowTotal(Strings.giftCard, formatMoney(order?.discountGiftCard??'0')),
           Row(

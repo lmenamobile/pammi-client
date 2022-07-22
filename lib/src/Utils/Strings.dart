@@ -36,6 +36,7 @@ class Strings {
   static const String registerMsg = '¡Completa la siguiente información de tu perfil!';
 
   static const String send = 'Envío';
+  static const String discountShipping = 'Descuento Envío';
   static const String textLogin = 'Ingresa tu correo electrónico y \ncontraseña';
   static const String email = 'Correo electrónico';
   static const String password= 'Contraseña';

@@ -5,9 +5,9 @@ class PackageCart {
     this.tax,
   });
 
-  int? total;
-  int? subtotal;
-  int? tax;
+  num? total;
+  num? subtotal;
+  num? tax;
 
   factory PackageCart.fromJson(Map<String, dynamic> json) => PackageCart(
     total: json["total"] == null ? null : json["total"],

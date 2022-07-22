@@ -781,11 +781,13 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                             ),
                           ),
                           TextSpan(
-                            text: provider.shippingValue != 0
-                                ? formatMoney((provider.shippingValue??0).toString())
-                                : Strings.free,
+                            text: (provider.provider?.minPurchase??0) > 0
+                                ? (provider.freeShipping??0) == 0
+                                ? Strings.free
+                                : formatMoney((provider.shippingValue??0).toString())
+                                : formatMoney((provider.shippingValue??0).toString()),
                             style: TextStyle(
-                              fontFamily: provider.shippingValue != 0
+                              fontFamily: provider.freeShipping != 0
                                   ? Strings.fontRegular
                                   : Strings.fontBold,
                               color: CustomColors.gray7,
@@ -799,13 +801,12 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
               ),
               SizedBox(height: 5),
               Visibility(
-                //TODO: validate freeShipping
-                visible: (provider.provider?.minPurchase??0) > 0,
+                visible: (provider.provider?.minPurchase??0) > 0 && (provider.freeShipping != 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      Strings.add + formatMoney((provider.shippingValue??0).toString()) + Strings.addTxt,
+                      Strings.add + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
                       style: TextStyle(
                         fontSize: 13,
                         color: CustomColors.blueOne,

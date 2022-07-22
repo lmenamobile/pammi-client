@@ -72,6 +72,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               onTap: ()async{
                                 await Navigator.push(context, customPageTransition(MyAddressPage()));
                                 getShippingPrice();
+                                getShopCart();
                               },
                               child: sectionAddress(providerCheckOut.addressSelected)),
                           SizedBox(height: 8,),
@@ -196,32 +197,32 @@ class _CheckOutPageState extends State<CheckOutPage> {
       case Constants.paymentCreditCard:
           createOrder(providerCheckOut.paymentSelected!.id!,
               providerCheckOut.addressSelected!.id.toString(), "",
-              providerCheckOut.creditCardSelected!.id.toString(),providerCheckOut.shippingPrice);
+              providerCheckOut.creditCardSelected!.id.toString(),providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
         break;
       case Constants.paymentCash:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
         break;
       case Constants.paymentBaloto:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
         break;
       case Constants.paymentEfecty:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
         break;
       case Constants.paymentPSE:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), providerCheckOut.bankSelected!.bankCode,"",providerCheckOut.shippingPrice);
+            providerCheckOut.addressSelected!.id.toString(), providerCheckOut.bankSelected!.bankCode,"",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
         break;
       case Constants.paymentADDI:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice);
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice, providerShopCart?.discountShipping??'0');
         break;
     }
   }
@@ -332,10 +333,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
       String addressId,
       String? bankId,
       String creditCardId,
-      String shippingValue) async {
+      String shippingValue,
+      String discountShipping) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerCheckOut.createOrder(paymentMethodId.toString(), addressId, bankId,creditCardId,shippingValue);
+        Future callCart = providerCheckOut.createOrder(paymentMethodId.toString(), addressId, bankId,creditCardId,shippingValue, discountShipping);
         await callCart.then((msg) {
           if(paymentMethodId == Constants.paymentCreditCard){
             Navigator.push(context, customPageTransition(OrderConfirmationPage()));

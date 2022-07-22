@@ -31,7 +31,7 @@ class UserProvider {
       'longitude':long,
       'complement':complement,
       'name':nameAddress,
-      "principal" : false,
+      "principal" : true,
       'cityId':cityId
     };
     var body = jsonEncode(jsonData);
@@ -94,7 +94,7 @@ class UserProvider {
     return response.body;
   }
 
-  Future<dynamic> updateAddress(BuildContext context,String address,String lat, String long,String complement,String nameAddress,Address addressModel) async {
+  Future<dynamic> updateAddress(BuildContext context,String address,String lat, String long,String complement,String nameAddress, String cityId, Address addressModel ) async {
 
 
     final header = {
@@ -111,7 +111,8 @@ class UserProvider {
       'complement':complement,
       'latitude':lat,
       'longitude':long,
-
+      "principal" : true,
+      'cityId': cityId
     };
 
 

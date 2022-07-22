@@ -391,7 +391,9 @@ Widget itemAddress(Address address, Function delete, Function selectAddress) {
       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: CustomColors.greyBorder, width: 1),
+          border: !(address.principal??false)
+              ? Border.all(color: CustomColors.greyBorder, width: 1)
+              : Border.all(color: CustomColors.red2, width: 1),
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
