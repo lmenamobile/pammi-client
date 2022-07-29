@@ -221,6 +221,7 @@ class Strings {
   static const String wishes = 'Deseos';
   static const String notifications = 'Notificaciones';
   static const String supportservices = 'Soporte y servicios';
+  static const String customerService = 'Servicio al cliente';
   static const String closeSesion = 'Cerrar sesión';
   static const String closeSesionText = '¿Estás seguro de cerrar sesión?';
   static const String sessionClose = '¡Upps!';
@@ -414,6 +415,11 @@ class Strings {
 
   /*Catalogo*/
   static const String  catalog = 'Catalogo emprendedor';
+
+  /*PQRS*/
+  static const String  contactUs = 'Contáctanos';
+  static const String  communicateOperator = 'Comunícate con un operador';
+  static const String  pqrs = 'PQRS';
 
   /*Dialogs*/
   static const String  btnAccept = 'Aceptar';

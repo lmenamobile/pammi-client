@@ -9,6 +9,7 @@ import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
+import 'package:wawamko/src/Providers/ProviderCustomerService.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
@@ -110,6 +111,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => SupportProvider()),
         ChangeNotifierProvider(create: (_) => ProviderOffer()),
         ChangeNotifierProvider(create: (_) => ProviderClaimOrder()),
+        ChangeNotifierProvider(create: (_) => ProviderCustomerService()),
       ],
       child: MaterialApp(
         title: Strings.appName,

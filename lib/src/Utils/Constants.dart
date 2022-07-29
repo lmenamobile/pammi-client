@@ -89,6 +89,7 @@ class Constants {
   static const String menuSupport       = 'support';
   static const String menuGiftCard       = 'giftCard';
   static const String menuTraining       = 'training';
+  static const String menuCustomerService = 'customerService';
 
   /*Tipo de notificacion*/
   static const String notificationOrder     = 'order';

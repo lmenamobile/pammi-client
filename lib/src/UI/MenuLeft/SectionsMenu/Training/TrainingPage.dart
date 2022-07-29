@@ -113,7 +113,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
                   child: Center(
                     child: Icon(Icons.arrow_forward_ios_rounded,color: Colors.white,size: 20),
                   ),
-                )
+                ),
               ],
             ),
           ),

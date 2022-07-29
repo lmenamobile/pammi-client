@@ -309,7 +309,7 @@ class _LoginPageState extends State<LoginPage> {
     if (emailController.text.isEmpty) {
       validateForm = false;
       msgError = Strings.emailEmpty;
-    } else if (!validateEmail(emailController.text)) {
+    } else if (!validateEmail(emailController.text.trim())) {
       validateForm = false;
       msgError = Strings.emailInvalidate;
     } else if (passwordController.text.isEmpty) {

@@ -9,6 +9,7 @@ import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/CustomerServicePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/FavoritesPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Notifications/NotificationsPage.dart';
@@ -114,6 +115,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       itemMenu("ic_support.png", () {
                         widget.rollOverActive != "support" ? pushToPage(SupportHelpPage()) : Navigator.pop(context);
                       }, Strings.supportservices),
+                      itemMenu("ic_inf.png", () {
+                        widget.rollOverActive != Constants.menuCustomerService ? pushToPage(CustomerServicePage()) : Navigator.pop(context);
+                      }, Strings.customerService),
                       SizedBox(height: 17),
                       Opacity(
                         opacity: userIsLogged()?1:0,
