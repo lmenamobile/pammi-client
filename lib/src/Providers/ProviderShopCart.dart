@@ -26,6 +26,14 @@ class ProviderShopCart with ChangeNotifier{
     notifyListeners();
   }
 
+  String _discountShipping = "0";
+  String get discountShipping => this._discountShipping;
+
+  set discountShipping(String value) {
+    this._discountShipping = value;
+    notifyListeners();
+  }
+
   ShopCart? _shopCart;
   ShopCart? get shopCart => this._shopCart;
   set shopCart(ShopCart? value) {
@@ -71,6 +79,7 @@ class ProviderShopCart with ChangeNotifier{
       if (decodeJson!['code'] == 100) {
         this.isLoadingCart = false;
         this.shopCart = ShopCart.fromJson(decodeJson['data']['cart']);
+        this.discountShipping = decodeJson['data']['cart']['cart']['discountShipping'].toString();
         return this.shopCart;
       } else {
         this.isLoadingCart = false;

@@ -14,7 +14,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct) {
+Widget itemProductCart(ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
   return Column(
     children: [
       Container(
@@ -212,14 +212,14 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                       )),
                     )
                   ],
-                )
+                ),
+                SizedBox(height: 5),
               ],
             ),
           )
         ],
       ),
       Container(
-        margin: EdgeInsets.only(top: 10),
         height: 1,
         width: double.infinity,
         color: CustomColors.grayBackground,
@@ -742,10 +742,90 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 10,
+              //TODO: Change position
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: Strings.total + ' ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.gray7,
+                              fontSize: 13,
+                            ),
+                          ),
+                          TextSpan(
+                            text: formatMoney((provider.cart?.total??0).toString()),
+                            style: TextStyle(
+                              fontFamily: Strings.fontRegular,
+                              color: CustomColors.gray7,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ]
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: Strings.delivery2 + ' ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.gray7,
+                              fontSize: 13,
+                            ),
+                          ),
+                          TextSpan(
+                            text: (provider.provider?.minPurchase??0) > 0
+                                ? (provider.freeShipping??0) == 0
+                                ? Strings.free
+                                : formatMoney((provider.shippingValue??0).toString())
+                                : formatMoney((provider.shippingValue??0).toString()),
+                            style: TextStyle(
+                              fontFamily: provider.freeShipping != 0
+                                  ? Strings.fontRegular
+                                  : Strings.fontBold,
+                              color: CustomColors.gray7,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ]
+                    ),
+                  ),
+                ],
               ),
-              listProducts(provider.products,updateQuantity,delete,save)
+              SizedBox(height: 5),
+              Visibility(
+                visible: (provider.provider?.minPurchase??0) > 0 && (provider.freeShipping != 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Strings.add + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: CustomColors.blueOne,
+                        fontFamily: Strings.fontRegular,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    LinearProgressIndicator(
+                      value: (provider.provider?.minPurchase??0) > 0
+                          ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) 
+                          : 0,
+                      minHeight: 3,
+                      color: CustomColors.blue6,
+                      backgroundColor: CustomColors.gray9,
+                    )
+                  ],
+                ),
+              ),
+              listProducts(provider.products, updateQuantity,delete,save)
             ],
           )
         ],
@@ -775,7 +855,7 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
         if(ltsProducts![index].reference!=null){
-          return itemProductCart(ltsProducts[index],updateQuantity,delete,save);
+          return itemProductCart(ltsProducts[index], updateQuantity,delete,save);
         }else{
           return itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save);
         }

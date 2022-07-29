@@ -56,7 +56,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
           height: 20,
         ),
         Container(
-          child:providerSettings.hasConnection
+          child: providerSettings.hasConnection
               ? !this.loading
                   ? this.addresses.isEmpty
                       ? Expanded(
@@ -68,7 +68,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                               () => openAddAddress()),
                         )
                       : SingleChildScrollView(
-                        child: Column(
+                          child: Column(
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.only(left: 20, right: 20),
@@ -80,13 +80,15 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return itemAddress(
-                                          this.addresses[index],
-                                          () {
-                                            serviceChangeAddressUser(this.addresses[index]);
-                                          },
-                                          () {
-                                            selectAddress(this.addresses[index]);
-                                          });
+                                        this.addresses[index],
+                                        () {
+                                          serviceChangeAddressUser(
+                                              this.addresses[index]);
+                                        },
+                                        () {
+                                          selectAddress(this.addresses[index]);
+                                        },
+                                      );
                                     }),
                               ),
                               SizedBox(height: 20),
@@ -101,7 +103,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                               SizedBox(height: 25),
                             ],
                           ),
-                      )
+                        )
                   : Container()
               : notConnectionInternet(),
         ),
@@ -113,7 +115,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
     this.addresses = [];
     utils.checkInternet().then((value) async {
       if (value) {
-
         utils.startProgress(context);
         Future callResponse = UserProvider.instance.getAddress(context, 0);
         await callResponse.then((user) {
@@ -138,7 +139,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
           Navigator.pop(context);
         });
       } else {
-
         setState(() {});
         //utils.showSnackBarError(context,Strings.loseInternet);
       }
@@ -146,34 +146,39 @@ class _MyAddressPageState extends State<MyAddressPage> {
   }
 
   serviceChangeAddressUser(Address address) async {
-    bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteAddress, "ic_trash_big.png");
-    if(status!)utils.checkInternet().then((value) async {
-      if (value) {
-        utils.startProgress(context);
-        Future callResponse = UserProvider.instance.changeStatusAddress(context, address);
-        await callResponse.then((user) {
-          var decodeJSON = jsonDecode(user);
-          ChangeStatusAddressResponse data = ChangeStatusAddressResponse.fromJson(decodeJSON);
-          if (data.status!) {
+    bool? status = await showDialogDoubleAction(
+        context, Strings.delete, Strings.deleteAddress, "ic_trash_big.png");
+    if (status!)
+      utils.checkInternet().then((value) async {
+        if (value) {
+          utils.startProgress(context);
+          Future callResponse =
+              UserProvider.instance.changeStatusAddress(context, address);
+          await callResponse.then((user) {
+            var decodeJSON = jsonDecode(user);
+            ChangeStatusAddressResponse data =
+                ChangeStatusAddressResponse.fromJson(decodeJSON);
+            if (data.status!) {
+              Navigator.pop(context);
+              utils.showSnackBarGood(context, data.message!);
+              serviceGetAddAddressUser();
+            } else {
+              Navigator.pop(context);
+              setState(() {});
+              utils.showSnackBarError(context, data.message);
+            }
+          }, onError: (error) {
             Navigator.pop(context);
-            utils.showSnackBarGood(context, data.message!);
-            serviceGetAddAddressUser();
-          } else {
-            Navigator.pop(context);
-            setState(() {});
-            utils.showSnackBarError(context, data.message);
-          }
-        }, onError: (error) {
-          Navigator.pop(context);
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
+          });
+        } else {
+          utils.showSnackBarError(context, Strings.loseInternet);
+        }
+      });
   }
 
   openAddAddress() async {
-    dynamic data = await Navigator.push(context, customPageTransition(AddAddressPage()));
+    dynamic data =
+        await Navigator.push(context, customPageTransition(AddAddressPage()));
     if (data as bool) {
       serviceGetAddAddressUser();
     }
@@ -207,8 +212,39 @@ class _MyAddressPageState extends State<MyAddressPage> {
     }
   }
 
-  selectAddress(Address address){
-      providerCheckOut.addressSelected = address;
-      Navigator.pop(context,true);
+  selectAddress(Address address) {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        utils.startProgress(context);
+        Future callResponse = UserProvider.instance.updateAddress(
+            context,
+            address.address ?? '',
+            address.latitude ?? '',
+            address.longitude ?? '',
+            address.complement ?? '',
+            address.name ?? '',
+            (address.city?.id??0).toString(),
+            address);
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          ChangeStatusAddressResponse data =
+              ChangeStatusAddressResponse.fromJson(decodeJSON);
+
+          if (data.status!) {
+            Navigator.pop(context);
+            Navigator.pop(context, true);
+          } else {
+            Navigator.pop(context);
+            setState(() {});
+            utils.showSnackBarError(context, data.message);
+          }
+        }, onError: (error) {
+          Navigator.pop(context);
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+    providerCheckOut.addressSelected = address;
   }
 }

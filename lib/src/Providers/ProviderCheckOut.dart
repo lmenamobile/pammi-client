@@ -306,7 +306,7 @@ class ProviderCheckOut with ChangeNotifier {
   }
 
   Future createOrder(String paymentMethodId, String addressId, String? bankId,
-      String creditCardId,String shippingValue) async {
+      String creditCardId,String shippingValue, String discountShipping) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -320,7 +320,8 @@ class ProviderCheckOut with ChangeNotifier {
       "addressId": addressId,
       "userPaymentMethodId": creditCardId,
       "bankId": bankId,
-      "shippingValue": shippingValue
+      "shippingValue": shippingValue,
+      "discountShipping": discountShipping,
     };
     var body = jsonEncode(jsonData);
     final response = await http

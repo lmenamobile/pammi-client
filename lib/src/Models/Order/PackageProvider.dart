@@ -10,6 +10,7 @@ class PackageProvider {
     this.discountCoupon,
     this.discountGiftCard,
     this.shippingValue,
+    this.discountShipping,
     this.status,
     this.guide,
     this.productsProvider,
@@ -23,6 +24,7 @@ class PackageProvider {
   String? discountCoupon;
   String? discountGiftCard;
   String? shippingValue;
+  String? discountShipping;
   String? status;
   String? guide;
   ProviderProduct? providerProduct;
@@ -37,6 +39,7 @@ class PackageProvider {
     discountCoupon: json["discountCoupon"].toString(),
     discountGiftCard: json["discountGiftcard"].toString(),
     shippingValue: json["shippingValue"].toString(),
+    discountShipping: json["discountShipping"].toString(),
     status: json["status"],
     guide:  json["guide"],
     providerProduct: json["provider"]==null?null:ProviderProduct.fromJson(json["provider"]),

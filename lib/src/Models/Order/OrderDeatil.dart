@@ -12,6 +12,7 @@ class OrderDetail {
     this.discountCoupon,
     this.discountGiftCard,
     this.shippingValue,
+    this.discountShipping,
     this.shippingAddress,
     this.status,
     this.seller,
@@ -26,6 +27,7 @@ class OrderDetail {
   String? discountCoupon;
   String? discountGiftCard;
   String? shippingValue;
+  num? discountShipping;
   String? shippingAddress;
   String? status;
   Seller? seller;
@@ -40,6 +42,7 @@ class OrderDetail {
     discountCoupon: json["discountCoupon"].toString(),
     discountGiftCard: json["discountGiftcard"].toString(),
     shippingValue: json["shippingValue"].toString(),
+    discountShipping: json["discountShipping"] == null ? null : json["discountShipping"],
     shippingAddress: json["shippingAddress"] == null ? null : json["shippingAddress"],
     status: json["status"],
     seller: json["seller"] == null ? null : Seller.fromJson( json["seller"]),

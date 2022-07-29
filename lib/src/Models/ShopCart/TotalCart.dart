@@ -5,7 +5,8 @@ class TotalCart {
     this.total,
     this.discount,
     this.discountCoupon,
-    this.discountGiftCard
+    this.discountGiftCard,
+    this.discountShipping,
   });
 
   String? subtotal;
@@ -14,6 +15,7 @@ class TotalCart {
   String? discount;
   String? discountCoupon;
   String? discountGiftCard;
+  String? discountShipping;
 
   factory TotalCart.fromJson(Map<String, dynamic> json) => TotalCart(
     subtotal: json["subtotal"].toString(),
@@ -22,6 +24,7 @@ class TotalCart {
     discount: json["discount"].toString(),
     discountCoupon: json["discountCoupon"].toString(),
     discountGiftCard: json["discountGiftcard"].toString(),
+    discountShipping: json["discountShipping"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,5 +33,6 @@ class TotalCart {
     "total": total,
     "discount": discount,
     "discountCoupon": discountCoupon,
+    "discountShipping": discountShipping,
   };
 }

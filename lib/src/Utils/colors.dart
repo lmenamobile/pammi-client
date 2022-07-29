@@ -38,6 +38,7 @@ class CustomColors {
   static final blueDarkSplash = const Color(0xff0D0D0D);
   static final redTour = const Color(0xffE73638);
   static final redOne = const Color(0xffB23139);
+  static final red2 = const Color(0xffFF5C5C);
   static final redSplash2 = const Color.fromRGBO(221, 54, 54, 1);
 
   static final grayLetter2 = const Color(0xffA0A0A0);
@@ -60,6 +61,7 @@ class CustomColors {
   static final blueOne = const Color(0xff0078C4);
   static final blueTwo = const Color(0xffF2F7FA);
   static final blue3 = const Color(0xff166AC9);
+  static final blue6 = const Color(0xff3677BE);
 
  
   static final blueTitle = const Color(0xff121D3A);

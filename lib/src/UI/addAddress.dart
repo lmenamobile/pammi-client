@@ -239,6 +239,7 @@ class _AddAddressPageState extends State<AddAddressPage>
             lonLocation.toString(),
             complementController.text ,
             nameAddressController.text,
+            providerSettings?.citySelected?.id?.toString()??'',
             widget.address!);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
