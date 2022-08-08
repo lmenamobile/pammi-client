@@ -70,6 +70,7 @@ class _AnimateButtonState extends State<AnimateButton> with AnimationMixin {
     height: widget.isFixedHeight ? 50.0 : null,
     width: widget.width,
     child: widget.body,
+    color: widget.color,
   );
 
 }

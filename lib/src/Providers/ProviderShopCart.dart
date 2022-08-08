@@ -43,8 +43,7 @@ class ProviderShopCart with ChangeNotifier{
       //value!.packagesProvider[
       totalProductsCart = value!.products!.length.toString();
     }
-      notifyListeners();
-
+    notifyListeners();
   }
 
   List<GiftCard> _ltsGiftCard = [];
@@ -77,9 +76,9 @@ class ProviderShopCart with ChangeNotifier{
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
-        this.isLoadingCart = false;
         this.shopCart = ShopCart.fromJson(decodeJson['data']['cart']);
         this.discountShipping = decodeJson['data']['cart']['cart']['discountShipping'].toString();
+        this.isLoadingCart = false;
         return this.shopCart;
       } else {
         this.isLoadingCart = false;

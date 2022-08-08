@@ -194,7 +194,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                             )),
                       ),
                       SizedBox(height: 10),
-                      itemCheck(
+                      /*itemCheck(
                               () => providerOnBoarding.stateCentrals =
                           !providerOnBoarding.stateCentrals,
                           providerOnBoarding.stateCentrals,
@@ -214,7 +214,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                             fontSize: 12,
                             color: CustomColors.blackLetter),
                       )),
-                      SizedBox(height: 10),
+                      SizedBox(height: 10),*/
                       itemCheck(() => providerOnBoarding.stateTerms =
                       !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
                       SizedBox(height: 32),
@@ -469,10 +469,11 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
       msgError = Strings.dontCheckDates;
       return false;
     }
-    else if (!providerOnBoarding.stateCentrals) {
+    /*else if (!providerOnBoarding.stateCentrals) {
       msgError = Strings.notCheckCentral;
       return false;
-    }else if (!providerOnBoarding.stateTerms) {
+    }*/
+    else if (!providerOnBoarding.stateTerms) {
       msgError = Strings.dontCheckTerms;
       return false;
     }
@@ -493,7 +494,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   _serviceRegister() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnBoarding.createAccount(widget.user!,referredController.text,providerOnBoarding.stateContactCommercial);
+        Future callUser = providerOnBoarding.createAccount(widget.user!,referredController.text);
         await callUser.then((user) {
           utils.startOpenSlideUp(context, user.email, user.fullname);
         }, onError: (error) {

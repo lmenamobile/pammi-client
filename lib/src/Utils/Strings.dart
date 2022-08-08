@@ -298,6 +298,7 @@ class Strings {
   static const String  order = 'Orden';
   static const String  add = 'Agrega ';
   static const String  addTxt = 'y el envío será gratis';
+  static const String  continueShopping = 'Seguir comprando';
 
 
   /*checkOut*/

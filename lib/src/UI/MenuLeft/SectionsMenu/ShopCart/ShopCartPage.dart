@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
@@ -13,6 +15,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ProductsSavePage.d
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import 'CheckOut/CheckOutPage.dart';
@@ -71,103 +74,129 @@ class _ShopCartPageState extends State<ShopCartPage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                          color: CustomColors.whiteBackGround,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          )),
+                        color: CustomColors.whiteBackGround,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
                       child: providerSettings.hasConnection
-                          ? providerShopCart?.shopCart == null ||
-                                  providerShopCart?.shopCart?.packagesProvider
-                                              ?.length ==
-                                          0 &&
-                                      providerShopCart
-                                              ?.shopCart?.products?.length ==
-                                          0
+                          ? !(providerShopCart?.isLoadingCart??false)
+                            ? providerShopCart?.shopCart == null || providerShopCart?.shopCart?.packagesProvider?.length == 0 && providerShopCart?.shopCart?.products?.length == 0
                               ? Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    emptyData(
-                                        "ic_highlights_empty.png",
-                                        Strings.sorryHighlights,
-                                        Strings.emptyProductsSave),
-                                    SizedBox(height: 10,),
-                                    Stack(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: InkWell(
-                                            onTap: ()=>openProductsSave(),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: CustomColors.orange,
-                                                  borderRadius: BorderRadius.all(Radius.circular(5))
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
-                                                child: Image.asset("Assets/images/ic_box.png",height: 40,),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: CircleAvatar(
-                                            radius: 5,
-                                            backgroundColor: Colors.redAccent,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            emptyData(
+                                "ic_highlights_empty.png",
+                                Strings.sorryHighlights,
+                                Strings.emptyProductsSave),
+                            SizedBox(height: 10,),
+                            Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: InkWell(
+                                    onTap: ()=>openProductsSave(),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: CustomColors.orange,
+                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
+                                        child: Image.asset("Assets/images/ic_box.png",height: 40,),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              )
-                              : SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      providerShopCart!.shopCart!
-                                              .packagesProvider!.isEmpty
-                                          ? sectionGiftCard()
-                                          : listProductsByProvider(),
-                                      itemSubtotalCart(
-                                          providerShopCart?.shopCart?.totalCart,
-                                          () =>  openProductsSave(),
-                                          () => Navigator.push(
-                                              context,
-                                              customPageTransition(
-                                                  CheckOutPage()))),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 10),
-                                            child: Text(
-                                              Strings.productsRelations,
-                                              style: TextStyle(
-                                                  fontFamily: Strings.fontBold,
-                                                  color:
-                                                      CustomColors.blackLetter),
-                                            ),
-                                          ),
-                                          Container(
-                                              height: 217,
-                                              child:
-                                                  listItemsProductsRelations()),
-                                        ],
-                                      )
-                                    ],
+
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: Colors.redAccent,
                                   ),
                                 )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                              : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            providerShopCart!.shopCart!
+                                .packagesProvider!.isEmpty
+                                ? sectionGiftCard()
+                                : listProductsByProvider(),
+                            itemSubtotalCart(
+                                providerShopCart?.shopCart?.totalCart,
+                                    () =>  openProductsSave(),
+                                    () => Navigator.push(
+                                    context,
+                                    customPageTransition(
+                                        CheckOutPage()))),
+                            Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
+                                  child: Text(
+                                    Strings.productsRelations,
+                                    style: TextStyle(
+                                        fontFamily: Strings.fontBold,
+                                        color:
+                                        CustomColors.blackLetter),
+                                  ),
+                                ),
+                                Container(
+                                    height: 217,
+                                    child:
+                                    listItemsProductsRelations()),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                            : LoadingProgress()
                           : notConnectionInternet(),
                     ),
                   ),
                 ],
-              )
+              ),
+              Visibility(
+                visible: providerSettings.hasConnection
+                    ? providerShopCart?.shopCart != null || (providerShopCart?.shopCart?.packagesProvider?.isNotEmpty??false) && (providerShopCart?.shopCart?.products?.isNotEmpty??false)
+                    : false,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimateButton(
+                    pressEvent: (){
+                      Navigator.pop(context);
+                    },
+                    color: CustomColors.blue,
+                    width: double.infinity,
+                    body: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('Assets/images/ic_cartback.svg'),
+                        Text(
+                          Strings.continueShopping,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: Strings.fontMedium,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ),
+              ),
             ],
           ),
         ),
