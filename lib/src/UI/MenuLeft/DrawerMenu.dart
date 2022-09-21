@@ -115,9 +115,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       itemMenu("ic_support.png", () {
                         widget.rollOverActive != "support" ? pushToPage(SupportHelpPage()) : Navigator.pop(context);
                       }, Strings.supportservices),
-                      /*itemMenu("ic_inf.png", () {
+                      itemMenu("ic_inf.png", () {
                         widget.rollOverActive != Constants.menuCustomerService ? pushToPage(CustomerServicePage()) : Navigator.pop(context);
-                      }, Strings.customerService),*/
+                      }, Strings.customerService),
                       SizedBox(height: 17),
                       Opacity(
                         opacity: userIsLogged()?1:0,
