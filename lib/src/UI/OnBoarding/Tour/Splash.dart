@@ -56,10 +56,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
+    prefs.sizeHeightHeader = MediaQuery.of(context).padding.top;
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

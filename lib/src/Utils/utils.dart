@@ -3,6 +3,8 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Claim/ReasonClose.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
 import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
@@ -12,6 +14,7 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Widgets/Dialogs/dialog_create_pqrs.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
@@ -99,6 +102,90 @@ class _Utils {
       duration: Duration(seconds: 3),
     )..show(context);
   }
+
+  double getSizeNavBar(){
+    final prefs = SharePreference();
+    if(prefs.sizeHeightHeader == 0.0){
+      if (Platform.isAndroid) {
+        return 25.0;
+      }else{
+        return 40.0;
+      }
+    }else{
+      return prefs.sizeHeightHeader;
+    }
+  }
+
+  String formatDate(DateTime date,String pattern,String locale){
+    String dateReturn = '';
+    final formatDateFirst = new DateFormat(pattern,locale);
+    var num = date.millisecondsSinceEpoch/1000.toInt();
+    var date2 = DateTime.fromMillisecondsSinceEpoch(num.toInt()*1000);
+    dateReturn = formatDateFirst.format(date2);
+    return dateReturn;
+  }
+
+
+
+  double getSizeHeader(){
+    return getSizeNavBar() + 50.0;
+  }
+
+  showDialogCreatePqrs(BuildContext context,String idTicket,Function action) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>DialogCreatePqrs(idTicket: idTicket,action: action,)
+    );
+  }
+
+  openWhatsapp({required BuildContext context,required String text,required String number}) async {
+    var url = "https://api.whatsapp.com/send?phone=$number&text=$text";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Whatsapp not installed")));
+    }
+  }
+
+  openEmail(String email,String subject){
+
+    String? encodeQueryParameters(Map<String, String> params) {
+      return params.entries
+          .map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+          .join('&');
+    }
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: encodeQueryParameters(<String, String>{
+        'subject': subject
+      }),
+    );
+
+    launch(emailLaunchUri.toString());
+  }
+
+
+  openDial(String number){
+    final Uri phoneLaunchUri = Uri(
+      scheme: 'tel',
+      path: number,
+    );
+
+    launch(phoneLaunchUri.toString());
+  }
+
+  openUrl(String url){
+    final Uri phoneLaunchUri = Uri(
+      scheme: 'http',
+      path: url,
+    );
+
+    launch(phoneLaunchUri.toString());
+  }
+
 
   Widget showSnackBarGood(BuildContext context, String message) {
     return Flushbar(

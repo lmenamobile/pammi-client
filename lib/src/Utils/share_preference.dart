@@ -44,6 +44,15 @@ class SharePreference {
     _prefs.setString('code', value);
   }
 
+
+  double get sizeHeightHeader {
+    return _prefs.getDouble('sizeHeightHeader') ?? 0.0;
+  }
+
+  set sizeHeightHeader (double value ) {
+    _prefs.setDouble('sizeHeightHeader', value);
+  }
+
   String get countryIdUser {
     return _prefs.getString('countryIdUser') ?? "0";
   }

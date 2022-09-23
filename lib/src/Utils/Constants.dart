@@ -10,7 +10,6 @@ class Constants {
   static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
   /*------------*/
 
-
   //static const Str /*------staging------*/
 /*   static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
      static const String urlBlog = 'http://stagingblog.pamii.com/';
@@ -31,7 +30,6 @@ class Constants {
   static const String googleApyKey = "AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ";
   static const String pwdSocialNetwork = 'Kubo123*';
   static const String urlGuide = 'https://www.servientrega.com/wps/portal/Colombia/transacciones-personas/rastreo-envios/detalle?id=';
-
 
   static const String loginGMAIL = 'gm';
   static const String versionApp = '1.1.1';
@@ -109,5 +107,11 @@ class Constants {
 
   /*Locale*/
   static const String localeES = 'es_CO';
+
+
+  static const String apiGetThemes = '';
+  static const String apiGetPqrs = 'pqrs/get-pqrs';
+  static const String apiCreatePqrs = 'pqrs/create-pqrs';
+  static const String apiGetQuestionsBySubtheme = baseURL+'system-client-service/get-questions';
 
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Support/Themes.dart';
 import 'package:wawamko/src/Providers/ProviderCustomerService.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/contactPage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/pqrs/pqrs.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/subthemes_questions.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -53,13 +57,13 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
       body: WillPopScope(
         onWillPop: (() => utils
             .startCustomAlertMessage(
-              context,
-              Strings.sessionClose,
-              "Assets/images/ic_sign_off.png",
-              Strings.closeAppText,
+          context,
+          Strings.sessionClose,
+          "Assets/images/ic_sign_off.png",
+          Strings.closeAppText,
               () => Navigator.pop(context, true),
               () => Navigator.pop(context, false),
-            )
+        )
             .then((value) => value!)),
         child: SafeArea(
           child: Container(
@@ -71,60 +75,78 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                     titleBar(
                       Strings.customerService,
                       "ic_menu_w.png",
-                      () => keyMenuLeft.currentState!.openDrawer(),
+                          () => keyMenuLeft.currentState!.openDrawer(),
                     ),
                     Expanded(
                       child: !providerCustomerService.isLoading
                           ? SmartRefresher(
-                              controller: _refreshControllerThemes,
-                              enablePullUp: true,
-                              enablePullDown: true,
-                              physics: const BouncingScrollPhysics(),
-                              footer: footerRefreshCustom(),
-                              header: headerRefresh(),
-                              onLoading: _onLoadingOpen,
-                              onRefresh: _pullToRefreshOpen,
-                              child: providerSettings.hasConnection
-                                  ? providerCustomerService.ltsThemes.isNotEmpty
-                                      ? Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            _themeLabel(
-                                              Strings.customerService,
-                                            ),
-                                            _itemSubTheme(
-                                              false,
-                                              title: Strings.contactUs,
-                                              pathImage:
-                                                  'Assets/images/ic_contact.svg',
-                                            ),
-                                            _itemSubTheme(
-                                              false,
-                                              title: Strings.pqrs,
-                                              pathImage:
-                                                  'Assets/images/ic_question.svg',
-                                            ),
-                                            ListView.builder(
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              itemCount: providerCustomerService
-                                                  .ltsThemes.length,
-                                              itemBuilder: (context, index) {
-                                                return itemTheme(
-                                                  providerCustomerService
-                                                      .ltsThemes[index],
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        )
-                                      : emptyData(
-                                          "ic_highlights_empty.png",
-                                          Strings.sorryHighlights,
-                                          Strings.emptyTraining,
-                                        )
-                                  : notConnectionInternet(),
-                            )
+                        controller: _refreshControllerThemes,
+                        enablePullUp: true,
+                        enablePullDown: true,
+                        physics: const BouncingScrollPhysics(),
+                        footer: footerRefreshCustom(),
+                        header: headerRefresh(),
+                        onLoading: _onLoadingOpen,
+                        onRefresh: _pullToRefreshOpen,
+                        child: providerSettings.hasConnection
+                            ? providerCustomerService.ltsThemes.isNotEmpty
+                            ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _themeLabel(
+                              Strings.customerService,
+                            ),
+                            _itemSubTheme(
+                              false,
+                              title: Strings.contactUs,
+                              pathImage:
+                              'Assets/images/ic_contact.svg',
+                              action: (){
+                                Navigator.of(context).push(
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: ContactPage(),
+                                    duration: Duration(milliseconds: 700),
+                                  ),
+                                );
+                              }
+                            ),
+                            _itemSubTheme(
+                              false,
+                              title: Strings.pqrs,
+                              pathImage:
+                              'Assets/images/ic_question.svg',
+                              action: (){
+                                Navigator.of(context).push(
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: PqrsPage(),
+                                    duration: Duration(milliseconds: 700),
+                                  ),
+                                );
+                              }
+                            ),
+                            ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: providerCustomerService
+                                  .ltsThemes.length,
+                              itemBuilder: (context, index) {
+                                return itemTheme(
+                                  providerCustomerService
+                                      .ltsThemes[index],
+                                );
+                              },
+                            ),
+                          ],
+                        )
+                            : emptyData(
+                          "ic_highlights_empty.png",
+                          Strings.sorryHighlights,
+                          Strings.emptyTraining,
+                        )
+                            : notConnectionInternet(),
+                      )
                           : LoadingProgress(),
                     ),
                   ],
@@ -166,7 +188,18 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
           itemCount: theme.subthemes?.length ?? 0,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            return _itemSubTheme(true, subtheme: theme.subthemes?[index]);
+            return _itemSubTheme(true, subtheme: theme.subthemes?[index],action: (){
+              Navigator.of(context).push(
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: SubthemesQuestionsPage(
+                    id: theme.subthemes?[index].id ?? 0,
+                    subtheme: theme.subthemes?[index].subtheme ?? '',
+                  ),
+                  duration: Duration(milliseconds: 700),
+                ),
+              );
+            });
           },
         )
       ],
@@ -190,44 +223,49 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
     );
   }
 
-  Container _itemSubTheme(bool isDynamic,
-      {Subtheme? subtheme, String pathImage = '', String title = ''}) {
+  Widget _itemSubTheme(bool isDynamic,
+      {Subtheme? subtheme, String pathImage = '', String title = '',required Function action}) {
     //TODO: fix padding
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      padding: EdgeInsets.only(left: 5, right: 15, top: 5, bottom: 5),
-      height: 65,
-      child: Row(
-        children: [
-          isDynamic
-              ? Image.network(subtheme?.image ?? '')
-              : Container(
-                  width: 30,
-                  height: 30,
-                  child: SvgPicture.asset(pathImage),
+    return GestureDetector(
+      onTap: (){
+        action();
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        padding: EdgeInsets.only(left: 5, right: 15, top: 5, bottom: 5),
+        height: 65,
+        child: Row(
+          children: [
+            isDynamic
+                ? Image.network(subtheme?.image ?? '')
+                : Container(
+              width: 30,
+              height: 30,
+              child: SvgPicture.asset(pathImage),
+            ),
+            Expanded(
+              child: Text(
+                isDynamic ? subtheme?.subtheme ?? '' : title,
+                style: TextStyle(
+                  color: CustomColors.blackLetter,
+                  fontFamily: Strings.fontRegular,
+                  fontSize: 16,
                 ),
-          Expanded(
-            child: Text(
-              isDynamic ? subtheme?.subtheme ?? '' : title,
-              style: TextStyle(
-                color: CustomColors.blackLetter,
-                fontFamily: Strings.fontRegular,
-                fontSize: 16,
               ),
             ),
-          ),
-          Center(
-            child: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: CustomColors.gray11,
-              size: 15,
+            Center(
+              child: Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: CustomColors.gray11,
+                size: 15,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -236,7 +274,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callThemes =
-            providerCustomerService.getThemes(pageOffset, scrolling);
+        providerCustomerService.getThemes(pageOffset, scrolling);
         await callThemes.then((value) => null);
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

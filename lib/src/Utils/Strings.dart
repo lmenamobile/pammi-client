@@ -553,6 +553,36 @@ class Strings {
   static const String fontRegular = 'FontRegular';
   static const String fontMedium = 'FontMedium';
 
+  static const String opened = 'Abierto';
+  static const String closed = 'Cerrado';
+  static const String error = "Error";
+  static const String errorTryAgain = "Error, intentalo de nuevo más tarde";
+  static const String  ticket = 'Ticket';
+  static const String locale = "es_CO";
+  static const String thisIsEmpty = "Esto está vacío";
+  static var thisIsSoEmpty = "Esto está muy vacío";
+  static const String thisIsSoEmptyDescription = "Actualmente no tenemos datos que mostrar aquí, por favor, regresa más tarde.";
+  static String supportType = "Tipo de soporte";
+  static String topic = "Asunto";
+  static const String message = 'Mensaje';
+  static String understood = "Entendido";
+  static const String  create = 'Crear';
+  static const String  frecuensQuestion  = 'Preguntas frecuentes';
+
+  static int pageTransitionDuration = 400;
+
+  static const String whatsApp = 'WhatsApp';
+  static const String pamiiChat = 'Pamii Chat';
+  static const String telegram = 'Telegram';
+  static const String email2 = 'Correo';
+  static const String call = 'Llamada';
+
+  static String notRevealIdentity = "No revelar mi identidad";
+  static String inputTypeSupport = "Ingresa el tipo de soporte.";
+  static String inputMessage = "Ingresa el mensaje.";
+  static String inputTopic = "Ingresa el asunto.";
+  static String noReceiveTopology = "No se ha encontrado un destino.";
+
 }
 
 
