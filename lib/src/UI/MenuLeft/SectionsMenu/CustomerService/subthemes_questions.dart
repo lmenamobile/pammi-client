@@ -16,6 +16,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../FavoritesPage.dart';
@@ -52,10 +53,12 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
   Widget build(BuildContext context) { 
     pqrsProvider = Provider.of<PQRSProvider>(context);
     return Scaffold(
-      body: Container(
-        color: CustomColors.whiteBackGround,
-        width: double.infinity,
-        child: _body(),
+      body: SafeArea(
+        child: Container(
+          color: CustomColors.whiteBackGround,
+          width: double.infinity,
+          child: _body(),
+        ),
       ),
     );
   }
@@ -63,7 +66,9 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
   Widget _body() {
     return Column(
       children: [
-        simpleHeader(context, _childHeader(context)),
+        titleBar(widget.subtheme, "ic_back.png",
+                () => Navigator.pop(context)),
+
         SizedBox(height: 30),
 
         Expanded(
@@ -178,39 +183,7 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
     );
   }
 
-  Widget _childHeader(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            widget.subtheme,//widget.itemTheme.theme ?? "",
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: Strings.fontRegular,
-              color: CustomColors.white,
-            ),
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          alignment: Alignment.centerLeft,
-          child: InkWell(
-            child: Container(
-              width: 45,
-              height: 45,
-              child: Image(
-                image: AssetImage("Assets/images/ic_arrow.png"),
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-      ],
-    );
-  }
+
 
   getQuestionsBySubTheme() {
     utils.check().then((value) async {

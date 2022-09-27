@@ -32,7 +32,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(context),
+      body: SafeArea(child: _body(context)),
     );
   }
 
@@ -40,7 +40,8 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
     pqrsProvider = Provider.of<PQRSProvider>(context);
     return Column(
       children: [
-        simpleHeaderComplete(context, Strings.pqrs),
+        titleBar(Strings.pqrs, "ic_back.png",
+                () => Navigator.pop(context)),
         SizedBox(height: 20),
         Expanded(
           child: SingleChildScrollView(
@@ -69,7 +70,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
                 SizedBox(height: 60),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: btnCustom(double.infinity, "Continuar", CustomColors.blue, Colors.black, _continueSelectTypeSupport)
+                  child: btnCustom(double.infinity,Strings.continue1, CustomColors.blueSplash, Colors.white, _continueSelectTypeSupport)
                 ),
                 SizedBox(height: 40),
 

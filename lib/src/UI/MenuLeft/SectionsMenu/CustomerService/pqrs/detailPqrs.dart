@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -20,7 +21,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(context),
+      body: SafeArea(child: _body(context)),
     );
   }
 
@@ -28,7 +29,8 @@ class _DetailPqrsState extends State<DetailPqrs> {
 
     return Column(
       children: [
-        simpleHeaderComplete(context, Strings.pqrs),
+        titleBar(Strings.pqrs, "ic_back.png",
+                () => Navigator.pop(context)),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),

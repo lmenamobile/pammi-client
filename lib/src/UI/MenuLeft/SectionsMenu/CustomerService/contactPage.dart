@@ -32,7 +32,7 @@ class ContactPage extends StatelessWidget {
       body: Container(
         color: CustomColors.whiteBackGround,
         width: double.infinity,
-        child: _body(context),
+        child: SafeArea(child: _body(context)),
       ),
     );
   }
@@ -40,7 +40,9 @@ class ContactPage extends StatelessWidget {
   Widget _body(BuildContext context) {
     return Column(
       children: [
-        simpleHeader(context, _childHeader(context)),
+        //simpleHeader(context, _childHeader(context)),
+        titleBar(Strings.contactUs, "ic_back.png",
+                () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

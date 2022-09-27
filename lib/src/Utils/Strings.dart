@@ -481,6 +481,7 @@ class Strings {
   static const String ID = 'ID';
   static const String noApplyClaim = 'No aplica reclamo';
   static const String image = 'Imagen';
+  static const String continue1 = 'Continuar';
   static const String guideDevolution = 'Guía de devolución';
   static const String textGuideDevolution = 'En los próximos días se generará una guía de devolución. Podrás encontrarla en esta sección y/o en tu correo para continuar con el proceso de devolución.';
   static const String messageClaimStatusNotCompleted = 'El reclamo solo puede hacerse cuando el estado del pedido sea entregado';

@@ -31,7 +31,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
   Widget build(BuildContext context) {
     pqrsProvider = Provider.of<PQRSProvider>(context);
     return Scaffold(
-      body: _body(context),
+      body: SafeArea(child: _body(context)),
     );
   }
 
@@ -47,7 +47,8 @@ class _CreatePqrsState extends State<CreatePqrs> {
             )),
         Column(
           children: [
-            simpleHeaderComplete(context,Strings.pqrs),
+            titleBar(Strings.pqrs, "ic_back.png",
+                    () => Navigator.pop(context)),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
@@ -143,7 +144,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
                       ],
                     ),
                     SizedBox(height: 24),
-                    btnCustom(double.infinity, "Crear", CustomColors.blue, Colors.white, _createPQRS),
+                    btnCustom(double.infinity, Strings.create, CustomColors.blueSplash, Colors.white, _createPQRS),
                     SizedBox(height: 20),
                   ],
                 ),

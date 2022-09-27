@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Themes/subtheme_response.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -29,7 +30,7 @@ class _SubThemeResponseState extends State<SubThemeResponse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _body(context)
+        body: SafeArea(child: _body(context))
     );
   }
 
@@ -38,19 +39,21 @@ class _SubThemeResponseState extends State<SubThemeResponse> {
       children: [
         Container(
           width: double.infinity,
-            color: CustomColors.blue,
+            color: Colors.transparent,
             child: Column(
           children: [
-            simpleHeaderComplete(context, Strings.frecuensQuestion),
+            titleBar(Strings.frecuensQuestion, "ic_back.png",
+                    () => Navigator.pop(context)),
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+
               child: Text(
                 widget.itemQuestionsSubTheme.question ?? "",
                 style: TextStyle(
                     fontSize: 15,
                     fontFamily: Strings.fontMedium,
-                    color: Colors.white
+                    color: CustomColors.blackLetter
                 ),
               ),
             )

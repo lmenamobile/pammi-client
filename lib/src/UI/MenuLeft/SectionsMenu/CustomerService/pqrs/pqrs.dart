@@ -10,6 +10,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -77,7 +78,8 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
   Widget _body(BuildContext context){
     return Column(
       children: [
-        simpleHeader(context, _childHeader(context)),
+        titleBar(Strings.pqrs, "ic_back.png",
+                () => Navigator.pop(context)),
         SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -88,7 +90,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 18,
-                  color: CustomColors.red
+                  color: CustomColors.blackLetter
                 ),
               ),
               Expanded(
@@ -100,10 +102,10 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
                   padding: EdgeInsets.symmetric(horizontal: 32,vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
-                    color: CustomColors.blue
+                    color: CustomColors.blueSplash
                   ),
                   child: Text(
-                    Strings.fontBold,
+                    Strings.create,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,

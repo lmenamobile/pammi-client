@@ -223,8 +223,12 @@ class _Utils {
         margin: EdgeInsets.only(left: 60, right: 60,bottom: 40),
           borderRadius: BorderRadius.all(Radius.circular(15)),
         backgroundColor: CustomColors.red,
-        icon: Image(
-          image: AssetImage("Assets/images/ic_error.png"),
+        icon: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Image(
+            image: AssetImage("Assets/images/ic_error.png"),
+            color: Colors.white,
+          ),
         ),
         message: message,
         duration: Duration(seconds: 3),
