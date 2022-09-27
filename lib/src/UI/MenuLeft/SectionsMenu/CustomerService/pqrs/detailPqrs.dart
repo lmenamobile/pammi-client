@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -28,6 +29,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
   Widget _body(BuildContext context){
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         titleBar(Strings.pqrs, "ic_back.png",
                 () => Navigator.pop(context)),
@@ -100,6 +102,24 @@ class _DetailPqrsState extends State<DetailPqrs> {
                 SizedBox(height: 11),
                 Text(
                   widget.itemPqrs.message ?? "",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: Strings.fontRegular,
+                      color: CustomColors.blackLetter
+                  ),
+                ),
+                SizedBox(height: 37),
+                Text(
+                  Strings.status,
+                  style: TextStyle(
+                      fontFamily: Strings.fontMedium,
+                      fontSize: 15,
+                      color: CustomColors.blue
+                  ),
+                ),
+                SizedBox(height: 11),
+                Text(
+                  getStatusPqrs(widget.itemPqrs.status ?? ""),
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,

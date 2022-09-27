@@ -115,6 +115,19 @@ String getStatusClaim(String type) {
   }
 }
 
+String getStatusPqrs(String type) {
+  switch (type) {
+    case Strings.open:
+      return Strings.openShow;
+    case Strings.close:
+      return Strings.closeShow;
+    case Strings.inProgress:
+      return Strings.inProgressShow;
+    default:
+      return "";
+  }
+}
+
 Color getStatusColorClaim(String type) {
   switch (type) {
     case Strings.statusOpen:

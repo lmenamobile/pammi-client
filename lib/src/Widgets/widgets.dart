@@ -1258,6 +1258,14 @@ Widget itemPqrs(ItemPqrs itemPqrs,BuildContext context,Function action){
                       color: CustomColors.orange
                   ),
                 ),
+                Text(
+                    getStatusPqrs(itemPqrs.status ?? ""),
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.blueSplash
+                  ),
+                ),
                 SizedBox(height: 4),
                 Text(
                   "${Strings.ticket} ${itemPqrs.id} - ${utils.formatDate(itemPqrs.createdAt!, "dd-MM-yyyy", Strings.locale)}",

@@ -105,7 +105,7 @@ class PQRSProvider with ChangeNotifier {
   initTypesSupport(){
     List<TypeSupport> typesSupportTemp = [];
     typesSupportTemp.addAll([
-      TypeSupport(sendTypeSupport: "petition",typeSupport: "petition",selected: false),
+      TypeSupport(sendTypeSupport: "petition",typeSupport: "Petición",selected: false),
       TypeSupport(sendTypeSupport: "complaint",typeSupport: "Quejas",selected: false),
       TypeSupport(sendTypeSupport: "claim",typeSupport: "Reclamos",selected: false),
       TypeSupport(sendTypeSupport: "suggestion",typeSupport: "Sugerencias",selected: false),
@@ -131,7 +131,8 @@ class PQRSProvider with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken,
-      "X-WA-Auth-Token": _prefs.authToken
+      "X-WA-Auth-Token": _prefs.authToken,
+      "country": _prefs.countryIdUser
     };
 
     Map body = {
@@ -184,7 +185,8 @@ class PQRSProvider with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken,
-      "X-WA-Auth-Token": _prefs.authToken
+      "X-WA-Auth-Token": _prefs.authToken,
+      "country": _prefs.countryIdUser
     };
 
     Map body = {
@@ -205,7 +207,6 @@ class PQRSProvider with ChangeNotifier {
     });
 
     Map<String, dynamic> decodedJson = json.decode(response.body);
-
 
     if (response.statusCode == 200) {
       if (decodedJson['code'] == 100) {
@@ -243,7 +244,8 @@ class PQRSProvider with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken,
-      "X-WA-Auth-Token": _prefs.authToken
+      "X-WA-Auth-Token": _prefs.authToken,
+      "country": _prefs.countryIdUser
     };
 
     Map body = {
@@ -290,7 +292,8 @@ class PQRSProvider with ChangeNotifier {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken,
-      "X-WA-Auth-Token": _prefs.authToken
+      "X-WA-Auth-Token": _prefs.authToken,
+      "country": _prefs.countryIdUser
     };
     Map body = {
       "offset": offset,

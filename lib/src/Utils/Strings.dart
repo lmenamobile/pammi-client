@@ -215,6 +215,7 @@ class Strings {
   //DrawerMenu
   static const String seeProfile = 'Ver perfil';
   static const String start = 'Inicio';
+  static const String status = 'Estado';
   static const String dayOferts = 'Ofertas del día';
   static const String destacados = 'Destacados';
   static const String giftCards = 'Tarjetas de regalo';
@@ -583,6 +584,13 @@ class Strings {
   static String inputMessage = "Ingresa el mensaje.";
   static String inputTopic = "Ingresa el asunto.";
   static String noReceiveTopology = "No se ha encontrado un destino.";
+
+  static const String open = "open";
+  static const String openShow = "Abierto";
+  static const String close = "close";
+  static const String closeShow = "Cerrado";
+  static const String inProgress = "inProgress";
+  static const String inProgressShow = "En progreso";
 
 }
 

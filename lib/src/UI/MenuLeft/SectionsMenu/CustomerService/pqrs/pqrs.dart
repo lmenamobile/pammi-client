@@ -12,6 +12,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import 'package:webview_flutter/platform_interface.dart';
 
 
 class PqrsPage extends StatefulWidget {
@@ -194,8 +195,6 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
     );
   }
 
-
-
   _createPQRS(){
     Navigator.of(context).push(
       PageTransition(
@@ -205,7 +204,14 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
       ),
     ).then((value) {
       if(value == "update"){
-        getPqrs("open");
+        this.offset = 0;
+        print("Tap Position ${_tabController.index}");
+        if(_tabController.index == 0){
+          getPqrs("open");
+        }else{
+          getPqrs("close");
+        }
+
       }
     });
   }
