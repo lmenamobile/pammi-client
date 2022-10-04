@@ -66,7 +66,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               children: [
                 Container(
                   child: Image(
-                    width: 120,
+                    width: 220,
                     image: AssetImage("Assets/images/ic_logo_login.png"),
                   ),
                 ),

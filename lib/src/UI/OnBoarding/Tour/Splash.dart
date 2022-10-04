@@ -92,7 +92,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
               padding: const EdgeInsets.only(left: 70, right: 70),
               child: Image(
                 height: 60,
-                image: AssetImage("Assets/images/ic_logo_email.png"),
+                image: AssetImage("Assets/images/ic_logo.png"),
                 fit: BoxFit.contain,
               ),
             ),

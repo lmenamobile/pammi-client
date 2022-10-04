@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image(
-                    width: 120,
+                    width: 220,
                     image: AssetImage("Assets/images/ic_logo_login.png"),
                   ),
                   SizedBox(
