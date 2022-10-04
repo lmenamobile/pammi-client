@@ -68,88 +68,91 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
         child: SafeArea(
           child: Container(
             color: CustomColors.grayBackground,
-            child: Stack(
+            child:  Column(
               children: [
-                Column(
-                  children: [
-                    titleBar(
-                      Strings.customerService,
-                      "ic_menu_w.png",
-                          () => keyMenuLeft.currentState!.openDrawer(),
-                    ),
-                    Expanded(
-                      child: !providerCustomerService.isLoading
-                          ? SmartRefresher(
-                        controller: _refreshControllerThemes,
-                        enablePullUp: true,
-                        enablePullDown: true,
-                        physics: const BouncingScrollPhysics(),
-                        footer: footerRefreshCustom(),
-                        header: headerRefresh(),
-                        onLoading: _onLoadingOpen,
-                        onRefresh: _pullToRefreshOpen,
-                        child: providerSettings.hasConnection
-                            ? providerCustomerService.ltsThemes.isNotEmpty
-                            ? Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _themeLabel(
-                              Strings.customerService,
-                            ),
-                            _itemSubTheme(
-                              false,
-                              title: Strings.contactUs,
-                              pathImage:
-                              'Assets/images/ic_contact.svg',
-                              action: (){
-                                Navigator.of(context).push(
-                                  PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: ContactPage(),
-                                    duration: Duration(milliseconds: 700),
-                                  ),
-                                );
-                              }
-                            ),
-                            _itemSubTheme(
-                              false,
-                              title: Strings.pqrs,
-                              pathImage:
-                              'Assets/images/ic_question.svg',
-                              action: (){
-                                Navigator.of(context).push(
-                                  PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: PqrsPage(),
-                                    duration: Duration(milliseconds: 700),
-                                  ),
-                                );
-                              }
-                            ),
-                            ListView.builder(
-                              primary: false,
-                              shrinkWrap: true,
-                              itemCount: providerCustomerService
-                                  .ltsThemes.length,
-                              itemBuilder: (context, index) {
-                                return itemTheme(
-                                  providerCustomerService
-                                      .ltsThemes[index],
-                                );
-                              },
-                            ),
-                          ],
-                        )
-                            : emptyData(
-                          "ic_highlights_empty.png",
-                          Strings.sorryHighlights,
-                          Strings.emptyTraining,
-                        )
-                            : notConnectionInternet(),
-                      )
-                          : LoadingProgress(),
-                    ),
-                  ],
+                titleBar(
+                  Strings.customerService,
+                  "ic_menu_w.png",
+                      () => keyMenuLeft.currentState!.openDrawer(),
+                ),
+                Expanded(
+                  child: !providerCustomerService.isLoading
+                      ? SmartRefresher(
+                    controller: _refreshControllerThemes,
+                    enablePullUp: true,
+                    enablePullDown: true,
+                    physics: const BouncingScrollPhysics(),
+                    footer: footerRefreshCustom(),
+                    header: headerRefresh(),
+                    onLoading: _onLoadingOpen,
+                    onRefresh: _pullToRefreshOpen,
+                    child: providerSettings.hasConnection
+                        ? SingleChildScrollView(
+                      child: Column(
+
+                        children: [
+
+                          ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: providerCustomerService
+                                .ltsThemes.length,
+                            itemBuilder: (context, index) {
+                              return itemTheme(
+                                providerCustomerService
+                                    .ltsThemes[index],
+                              );
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          Column(
+                            children: [
+                              _themeLabel(
+                                Strings.customerService,
+                              ),
+                              _itemSubTheme(
+                                  false,
+                                  title: Strings.contactUs,
+                                  pathImage:
+                                  'Assets/images/ic_contact.svg',
+                                  action: (){
+                                    Navigator.of(context).push(
+                                      PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: ContactPage(),
+                                        duration: Duration(milliseconds: 700),
+                                      ),
+                                    );
+                                  }
+                              ),
+                              _itemSubTheme(
+                                  false,
+                                  title: Strings.pqrs,
+                                  pathImage:
+                                  'Assets/images/ic_question.svg',
+                                  action: (){
+                                    Navigator.of(context).push(
+                                      PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: PqrsPage(),
+                                        duration: Duration(milliseconds: 700),
+                                      ),
+                                    );
+                                  }
+                              ),
+                            ],
+                          )
+
+
+
+                        ],
+                      ),
+                    )
+                        :notConnectionInternet()
+                    ,
+                  )
+                      : LoadingProgress(),
                 ),
               ],
             ),

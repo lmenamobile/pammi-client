@@ -1,11 +1,13 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Notifications.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/pqrs/pqrs.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
@@ -82,7 +84,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
 
-  Widget itemNotification(Notifications notification,Function select) {
+  Widget itemNotification
+      (Notifications notification,Function select) {
     return Container(
       color: notification.isSelected!?CustomColors.gray9:Colors.transparent,
       child: Column(
@@ -190,8 +193,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
       case Constants.notificationOrder:
         Navigator.push(context, customPageTransition(MyOrdersPage()));
         break;
-      case "":
-
+      case "pqrs":
+        Navigator.of(context).push(
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: PqrsPage(),
+            duration: Duration(milliseconds: 700),
+          ),
+        );
         break;
     }
   }
