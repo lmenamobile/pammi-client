@@ -628,8 +628,6 @@ class _AddAddressPageState extends State<AddAddressPage>
   @override
   selectedLocation(double lat, double lng, String? address, String name) {
     setState(() {
-
-
       locationAddress = address;
       if (lat != 0.0 && lng != 0.0 && address != '') {
         int indexChar = address!.indexOf(",");

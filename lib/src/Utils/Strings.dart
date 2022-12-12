@@ -592,6 +592,9 @@ class Strings {
   static const String inProgress = "inProgress";
   static const String inProgressShow = "En progreso";
 
+  static const String product = "producto";
+  static const String service = "servicio";
+
 }
 
 

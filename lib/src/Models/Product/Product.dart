@@ -16,6 +16,7 @@ class Product {
     this.brandProvider,
     this.warranty,
     this.references,
+    this.service
   });
 
   int? id;
@@ -29,6 +30,7 @@ class Product {
   String? volume;
   BrandProvider? brandProvider;
   Warranty? warranty;
+  bool? service;
   List<Reference>? references;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -39,6 +41,7 @@ class Product {
     linkVideo: json["linkVideo"],
     conditions: json["conditions"],
     featured: json["featured"],
+    service: json["service"],
     weight: json["weight"].toString(),
     volume: json["volume"].toString(),
     brandProvider: BrandProvider.fromJson(json["brandProvider"]),
@@ -59,5 +62,6 @@ class Product {
     "brandProvider": brandProvider!.toJson(),
     "warranty": warranty!.toJson(),
     "references": List<dynamic>.from(references!.map((x) => x.toJson())),
+    "service": service
   };
 }

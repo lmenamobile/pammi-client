@@ -66,13 +66,25 @@ class ProviderShopCart with ChangeNotifier{
       "Content-Type": "application/json".toString(),
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
+
+    Map jsonData = {
+      "methodPaymentId": 2,
+      "userId" : prefs.userID,
+    };
+
+
+    var body = jsonEncode(jsonData);
+
+
     final response = await http
-        .get(Uri.parse(Constants.baseURL + 'cart/get-cart'), headers: header)
+        .post(Uri.parse(Constants.baseURL + 'cart/get-cart'), headers: header,body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoadingCart = false;
       throw Strings.errorServeTimeOut;
     });
+
+
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {

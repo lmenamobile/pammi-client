@@ -203,7 +203,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColors.blackLetter),
+                                    color: CustomColors.blueSplash),
+                              ),
+                              Text(
+                                widget.product.service ?? false ? "${Strings.type}: ${Strings.service}" : "${Strings.type}: ${Strings.product}",
+                                style:TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: Strings.fontBold,
+                                    color: CustomColors.blackLetter)
                               ),
                               rowStars(double.parse(providerProducts
                                   ?.referenceProductSelected
