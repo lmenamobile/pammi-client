@@ -170,6 +170,9 @@ class _MyDatesPageState extends State<MyDatesPage>
                                               fit: BoxFit.cover,
                                               placeholder: AssetImage(
                                                   "Assets/images/ic_img_profile.png"),
+                                              imageErrorBuilder: (_,__,___){
+                                                return Container();
+                                              },
                                             ):Image.file(profileProvider!.imageUserFile!),
                                           ),
                                         ),

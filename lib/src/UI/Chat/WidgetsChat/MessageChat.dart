@@ -209,6 +209,9 @@ Widget messageFile(String? data, String? photo, bool isLocal, int type) {
                         fit: BoxFit.fill,
                         image: NetworkImage(data!),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
+                        imageErrorBuilder: (_,__,___){
+                          return Container();
+                        },
                       ),
                     ),
                   ),

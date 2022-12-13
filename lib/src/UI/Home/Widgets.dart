@@ -36,6 +36,9 @@ Widget itemCategory(Category category) {
               fit: BoxFit.fill,
               image: NetworkImage(category.image!),
               placeholder: AssetImage("Assets/images/spinner.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
             ),
           ),
         ),
@@ -173,6 +176,9 @@ Widget itemBrand(Brand brand){
       fit: BoxFit.fill,
       image: NetworkImage(brand.image!),
       placeholder: AssetImage(""),
+      imageErrorBuilder: (_,__,___){
+        return Container();
+      },
     ),
   );
 }
@@ -187,6 +193,9 @@ Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners
               fit: BoxFit.fill,
               image: NetworkImage(banners[itemIndex].image??''),
               placeholder: AssetImage("Assets/images/preloader.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
             ), options: CarouselOptions(
       autoPlay: true,
       autoPlayAnimationDuration: Duration(seconds: 4),
@@ -261,6 +270,9 @@ Widget itemProduct(Product product){
                       fit: BoxFit.cover,
                       image: NetworkImage(product.brandProvider?.brand?.image??''),
                       placeholder: AssetImage("Assets/images/preloader.gif"),
+                      imageErrorBuilder: (_,__,___){
+                        return Container();
+                      },
               ),
                   ),
                 )
@@ -275,6 +287,9 @@ Widget itemProduct(Product product){
                 fit: BoxFit.fill,
                 image: NetworkImage(product.references![0].images![0].url??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
+                imageErrorBuilder: (_,__,___){
+                  return Container();
+                },
               )),
             ),
             customDivider(),

@@ -362,6 +362,9 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
                   fit: BoxFit.fill,
                   image: NetworkImage(detail.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),

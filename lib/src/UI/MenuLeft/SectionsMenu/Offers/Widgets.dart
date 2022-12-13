@@ -127,6 +127,9 @@ Widget itemImageOffer(String url) {
       fit: BoxFit.fill,
       image: NetworkImage(url),
       placeholder: AssetImage("Assets/images/spinner.gif"),
+      imageErrorBuilder: (_,__,___){
+        return Container();
+      },
     ),
   );
 }

@@ -1194,6 +1194,9 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                   image: NetworkImage(category.image!),
                   placeholder: AssetImage("Assets/images/ic_sport.png"),
                   fit: BoxFit.fill,
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               )
             ],

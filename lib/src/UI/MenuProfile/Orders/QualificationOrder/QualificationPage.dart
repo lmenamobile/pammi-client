@@ -165,6 +165,9 @@ class _QualificationPageState extends State<QualificationPage> {
                   fit: BoxFit.fill,
                   image: NetworkImage(widget.data??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
               Container(
@@ -299,6 +302,9 @@ class _QualificationPageState extends State<QualificationPage> {
                 fit: BoxFit.fill,
                 image: NetworkImage(widget.data??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
+                imageErrorBuilder: (_,__,___){
+                  return Container();
+                },
               ),
             ),
             SizedBox(

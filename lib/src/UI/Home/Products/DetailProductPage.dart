@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
@@ -33,6 +34,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   ProviderProducts? providerProducts;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
+  late ProviderCheckOut providerCheckOut;
 
   @override
   void initState() {
@@ -51,6 +53,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
+
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -462,7 +466,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
           await callCart.then((msg) async{
             Navigator.pop(context);
             utils.showSnackBarGood(context, msg.toString());
-            await providerShopCart.getShopCart();
+            await providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
           }, onError: (error) {
             utils.showSnackBar(context, error.toString());
           });
@@ -500,7 +504,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getShopCart();
+        Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           Navigator.push(context, customPageTransition(CheckOutPage()));
         }, onError: (error) {

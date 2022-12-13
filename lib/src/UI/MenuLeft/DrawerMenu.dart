@@ -201,6 +201,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     fit: BoxFit.cover,
                     placeholder: AssetImage(
                         "Assets/images/ic_img_profile.png"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   ),
                 ),
               ),

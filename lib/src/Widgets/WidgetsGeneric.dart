@@ -232,6 +232,9 @@ Widget itemProductGeneric(Product product, Function openDetail){
                     fit: BoxFit.fill,
                     image: NetworkImage(product.references?[position].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   ),
                 ),
                 customDivider(),

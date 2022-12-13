@@ -104,6 +104,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     fit: BoxFit.fill,
                     image: NetworkImage(notification.image??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   ),
                 ),
                 SizedBox(width: 15,),

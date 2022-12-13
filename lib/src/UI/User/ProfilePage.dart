@@ -128,6 +128,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fit: BoxFit.cover,
                                         placeholder: AssetImage(
                                             "Assets/images/ic_img_profile.png"),
+                                        imageErrorBuilder: (_,__,___){
+                                          return Container();
+                                        },
                                       ),
                                     ),
                                   ),

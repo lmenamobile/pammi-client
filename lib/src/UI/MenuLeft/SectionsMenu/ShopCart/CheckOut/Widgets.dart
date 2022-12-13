@@ -179,6 +179,9 @@ Widget itemProvider(PackagesProvider provider) {
               fit: BoxFit.fill,
               image: NetworkImage(""),
               placeholder: AssetImage("Assets/images/spinner.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
             ),
           ),
         ),
@@ -465,6 +468,31 @@ Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping
           customDivider(),
           itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping, totalCart?.discountShipping??'0')),
           SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Nota: ",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontFamily: Strings.fontBold
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  Strings.note,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontFamily: Strings.fontRegular
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 20,),
           Align(
               alignment: Alignment.center,
               child: btnCustom(230,Strings.payment,CustomColors.blueSplash,Colors.white,createOrder)),
@@ -614,6 +642,9 @@ Widget itemProductCart(ProductShopCart product) {
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -685,6 +716,9 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                   fit: BoxFit.fill,
                   image: NetworkImage(offer.reference?.images?[getRandomPosition(offer.reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               ),
             ),
@@ -758,6 +792,9 @@ Widget itemOfferProductGift(Reference? reference){
                         fit: BoxFit.fill,
                         image: NetworkImage(reference.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
+                        imageErrorBuilder: (_,__,___){
+                          return Container();
+                        },
                       ),
                     ),
                   ),

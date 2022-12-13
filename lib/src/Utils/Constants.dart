@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 
 class Constants {
   /*------DEV------*/
-  static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
+ /* static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
   static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
   static const String profileProvider = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-  static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
+  static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
   /*------------*/
 
   //static const Str /*------staging------*/
-     /*static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+     static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
      static const String urlBlog = 'http://stagingblog.pamii.com/';
      static const String urlSocket = 'http://stagingapisupersocket.pamii.com:50010';
      static const String profileProvider = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
+     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
   // /*------------*/ing baseURL = 'https://apiappclient.pamii.com/v1/';
 
      /*------Prod------*/
- /* static const String baseURL = 'https://apiappclient.pamii.com/v1/';
+  /*static const String baseURL = 'https://apiappclient.pamii.com/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
   static const String urlSocket = 'https://apisupersocket.pamii.com';
   static const String profileProvider = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_proveedor.png';
   static const String profileAdmin = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_pami.png';
-  */   /*------------*/
+     /*------------*/*/
 
   static const String key_encrypt = 'ebfe48f81df787193c75c1ffacd88a07';
   static const String googleApyKey = "AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ";
@@ -32,7 +32,7 @@ class Constants {
   static const String urlGuide = 'https://www.servientrega.com/wps/portal/Colombia/transacciones-personas/rastreo-envios/detalle?id=';
 
   static const String loginGMAIL = 'gm';
-  static const String versionApp = '1.1.1';
+  static const String versionApp = '1.1.3';
   static const String loginFacebook = 'fb';
   static const String codeAccountNotValidate = '103';
 

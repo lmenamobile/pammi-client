@@ -20,6 +20,7 @@ import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
+import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
@@ -114,6 +115,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderClaimOrder()),
         ChangeNotifierProvider(create: (_) => ProviderCustomerService()),
         ChangeNotifierProvider(create: (_) => PQRSProvider()),
+
       ],
       child: MaterialApp(
         title: Strings.appName,

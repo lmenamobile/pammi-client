@@ -13,9 +13,18 @@ class ProviderShopCart with ChangeNotifier{
   final prefs = SharePreference();
 
   bool _isLoadingCart = false;
+  bool _loading = true;
   bool get isLoadingCart => this._isLoadingCart;
   set isLoadingCart(bool value) {
     this._isLoadingCart = value;
+    notifyListeners();
+  }
+
+
+  bool get loading => _loading;
+
+  set loading(bool value) {
+    _loading = value;
     notifyListeners();
   }
 
@@ -60,45 +69,50 @@ class ProviderShopCart with ChangeNotifier{
   }
 
 
-  Future getShopCart() async {
+  Future getShopCart(int idPaymentmethod) async {
     this.isLoadingCart = true;
+    loading = true;
     var header = {
       "Content-Type": "application/json".toString(),
       "X-WA-Auth-Token": prefs.authToken.toString()
     };
 
     Map jsonData = {
-      "methodPaymentId": 2,
+      "methodPaymentId": idPaymentmethod,
       "userId" : prefs.userID,
     };
 
-
     var body = jsonEncode(jsonData);
-
 
     final response = await http
         .post(Uri.parse(Constants.baseURL + 'cart/get-cart'), headers: header,body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoadingCart = false;
+      loading = false;
       throw Strings.errorServeTimeOut;
     });
 
 
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
+      if (decodeJson['code'] == 100) {
         this.shopCart = ShopCart.fromJson(decodeJson['data']['cart']);
         this.discountShipping = decodeJson['data']['cart']['cart']['discountShipping'].toString();
         this.isLoadingCart = false;
+        loading = false;
         return this.shopCart;
       } else {
+        this.shopCart = null;
         this.isLoadingCart = false;
+        loading = false;
         throw decodeJson['message'];
       }
     } else {
+      this.shopCart = null;
+      loading = false;
       this.isLoadingCart = false;
-      throw decodeJson!['message'];
+      throw decodeJson['message'];
     }
   }
 
@@ -309,10 +323,10 @@ class ProviderShopCart with ChangeNotifier{
       this.isLoadingCart = false;
       throw Strings.errorServeTimeOut;
     });
-    final List<ProductShopCart> listProductsSave = [];
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
+     List<ProductShopCart> listProductsSave = [];
+    Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
+      if (decodeJson['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
           final reference = ProductShopCart.fromJson(item);
           listProductsSave.add(reference);
@@ -326,12 +340,12 @@ class ProviderShopCart with ChangeNotifier{
       }
     } else {
       this.isLoadingCart = false;
-      throw decodeJson!['message'];
+      //throw decodeJson['message'].toString();
     }
   }
 
 
-  Future addOfferCart(String offerId,String units) async {
+  Future addOfferCart(String offerId,String units,int idPaymentMethod) async {
     this.isLoadingCart = true;
     final header = {
       "Content-Type": "application/json",
@@ -353,7 +367,7 @@ class ProviderShopCart with ChangeNotifier{
     if (response.statusCode == 200) {
       this.isLoadingCart = false;
       if (decodeJson!['code'] == 100) {
-        getShopCart();
+        getShopCart(idPaymentMethod);
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];

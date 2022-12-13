@@ -32,6 +32,9 @@ Widget itemProductCatalog(Product product){
               fit: BoxFit.fill,
               image: NetworkImage(product.references?[0].images?[0].url??''),
               placeholder: AssetImage("Assets/images/spinner.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
             ),
           ),
           customDivider(),

@@ -38,6 +38,9 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                     fit: BoxFit.fill,
                     image: NetworkImage(product.reference?.images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   )),
                 ),
                 customDivider(),

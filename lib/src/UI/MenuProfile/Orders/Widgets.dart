@@ -432,6 +432,9 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -583,6 +586,9 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                   fit: BoxFit.fill,
                   image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -686,6 +692,9 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                   fit: BoxFit.fill,
                   image: NetworkImage(seller?.photoUrl??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               ),
             ),

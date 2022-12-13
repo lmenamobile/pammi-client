@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Offer.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
@@ -31,6 +32,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   late ProviderHome providerHome;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
+  late ProviderCheckOut providerCheckOut;
   int pageOffsetUnits = 0;
   int pageOffsetMix = 0;
 
@@ -38,6 +40,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   void initState() {
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
+
     providerProducts.ltsOfferUnits.clear();
     providerProducts.ltsOfferMix.clear();
     getOffersUnits(Constants.offersUnits, "", pageOffsetUnits);
@@ -51,6 +54,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
@@ -335,7 +339,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
   addOfferCart(String idOffer) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(idOffer, "1");
+        Future callCart = providerShopCart.addOfferCart(idOffer, "1",providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {

@@ -38,6 +38,9 @@ Widget itemProductCart(ProductShopCart product, Function updateQuantity, Functio
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -158,6 +161,9 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   fit: BoxFit.fill,
                   image: NetworkImage(offer.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               ),
             ),
@@ -389,6 +395,9 @@ Widget itemOfferProductGift(Reference? reference){
                         fit: BoxFit.fill,
                         image: NetworkImage(reference.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
+                        imageErrorBuilder: (_,__,___){
+                          return Container();
+                        },
                       ),
                     ),
                   ),
@@ -508,6 +517,9 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                       fit: BoxFit.fill,
                       image: NetworkImage(product.reference?.images?[0].url??''),
                       placeholder: AssetImage("Assets/images/spinner.gif"),
+                      imageErrorBuilder: (_,__,___){
+                        return Container();
+                      },
                     )),
                   ),
                 ),
@@ -866,71 +878,76 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
 }
 
 Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function openCheckOut){
-  return Container(
-    margin: EdgeInsets.symmetric(horizontal: 15),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(5)),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
-          spreadRadius: 2,
-          blurRadius: 3,
-          offset: Offset(0, 2), // changes position of shadow
+  return Column(
+    children: [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 3,
+              offset: Offset(0, 2), // changes position of shadow
+            ),
+          ],
         ),
-      ],
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
             children: [
-              Text(
-                Strings.subtotal,
-                style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 15,
-                  color: CustomColors.blackLetter,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Strings.subtotal,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 15,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                  Text(
+                    formatMoney(total?.subtotal??'0'),
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 15,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                formatMoney(total?.subtotal??'0'),
-                style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 15,
-                  color: CustomColors.blackLetter,
-                ),
-              ),
+              customDivider(),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  InkWell(
+                    onTap: ()=>openProductsSave(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: CustomColors.orange,
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
+                        child: Image.asset("Assets/images/ic_box.png",height: 40,),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  Expanded(
+                      child: btnCustomSize(47,Strings.makePurchase,CustomColors.blueSplash,Colors.white,openCheckOut))
+                ],
+              )
             ],
           ),
-          customDivider(),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              InkWell(
-                onTap: ()=>openProductsSave(),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: CustomColors.orange,
-                    borderRadius: BorderRadius.all(Radius.circular(5))
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
-                    child: Image.asset("Assets/images/ic_box.png",height: 40,),
-                  ),
-                ),
-              ),
-              SizedBox(width: 20,),
-              Expanded(
-                  child: btnCustomSize(47,Strings.makePurchase,CustomColors.blueSplash,Colors.white,openCheckOut))
-            ],
-          )
-        ],
+        ),
       ),
-    ),
+
+    ],
   );
 }
 

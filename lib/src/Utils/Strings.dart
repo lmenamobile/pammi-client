@@ -250,6 +250,8 @@ class Strings {
   static const String  couponEmpty  = 'Debes ingresar un cupón valido';
   static const String  giftEmpty  = 'Debes ingresar una gift card valida';
 
+  static const String  inputAddressSelected  = 'Selecciona tu dirección de destino.';
+
   /*Menu drawer*/
   static const String  wingsReferred = r'¡Gana $10.000 por referir a un amigo!';
   static const String  shareAndEnjoy = '¡Comparte, invita y disfruta!';
@@ -591,7 +593,7 @@ class Strings {
   static const String closeShow = "Cerrado";
   static const String inProgress = "inProgress";
   static const String inProgressShow = "En progreso";
-
+  static const String note = "El valor del envío esta sujeto al método de pago.";
   static const String product = "producto";
   static const String service = "servicio";
 

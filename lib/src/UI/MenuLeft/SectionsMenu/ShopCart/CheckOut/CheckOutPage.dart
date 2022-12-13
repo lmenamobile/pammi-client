@@ -1,9 +1,15 @@
- import 'package:flutter/material.dart';
+ import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
+import 'package:wawamko/src/Models/UserProfile.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
+import 'package:wawamko/src/Providers/ProviderUser.dart';
+import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/DetailTransaction/DetailTransactionPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/PaymentMethodsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/TransactionADDIPage.dart';
@@ -31,6 +37,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   TextEditingController controllerCoupon = TextEditingController();
   late ProviderCheckOut providerCheckOut;
   late ProviderSettings providerSettings;
+
   ProviderShopCart? providerShopCart;
   String msgError = '';
 
@@ -39,7 +46,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       providerCheckOut = Provider.of<ProviderCheckOut>(context,listen: false);
       providerCheckOut.clearValuesPayment();
-    });
+      serviceGetAddAddressUser();
+     });
+
     super.initState();
   }
 
@@ -48,6 +57,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+
 
     return Scaffold(
       backgroundColor: CustomColors.redTour,
@@ -79,15 +89,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           providerShopCart!.shopCart!.packagesProvider!.isEmpty? listGiftCards():sectionProducts(providerShopCart?.shopCart?.packagesProvider),
                           SizedBox(height: 8,),
                           InkWell(
-                            onTap: ()=>openPaymentMethods(),
-                              child: sectionPayment(providerCheckOut.paymentSelected)),
+                            onTap: ()=>openPaymentMethods((){
+                              getShippingPrice();
+                              getShopCart();
+                            }),
+                          child: sectionPayment(providerCheckOut.paymentSelected)),
                           SizedBox(height: 8,),
                           sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
                               changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,callDeleteDiscount
                           ),
                           SizedBox(height: 15,),
                           sectionTotal(providerShopCart?.shopCart?.totalCart,openCreateOrder,providerCheckOut.shippingPrice)
-                        ],
+                             ],
                       ),
                     ):notConnectionInternet(),
                   )
@@ -101,6 +114,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
       ),
     );
   }
+
+
 
   Widget listGiftCards() {
     return Container(
@@ -154,7 +169,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     }
   }
 
-  openPaymentMethods(){
+  openPaymentMethods(Function refreshPriceShipping){
     Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value)async{
       if(providerCheckOut.paymentSelected!.id== Constants.paymentCreditCard){
         Navigator.push(context, customPageTransition(MyCreditCards(isActiveSelectCard: true,)));
@@ -163,7 +178,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
         if(bank!=null)
           providerCheckOut.bankSelected = bank;
       }
+      refreshPriceShipping();
     });
+
   }
 
   callApplyDiscount(){
@@ -300,7 +317,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart!.getShopCart();
+        Future callCart = providerShopCart!.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
 
         }, onError: (error) {
@@ -316,7 +333,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   getShippingPrice() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected!.id.toString());
+        Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected!.id.toString(),providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           print("valor $msg");
         }, onError: (error) {
@@ -359,6 +376,40 @@ class _CheckOutPageState extends State<CheckOutPage> {
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+
+  serviceGetAddAddressUser() async {
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        providerCheckOut.isLoading = true;
+        Future callResponse = UserProvider.instance.getAddress(context, 0);
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          GetAddressResponse data = GetAddressResponse.fromJson(decodeJSON);
+
+          if (data.status ?? false) {
+            for (var address in data.data!.addresses!) {
+              if(address.principal ?? false){
+                providerCheckOut.addressSelected = address;
+              }
+            }
+
+          }
+          providerCheckOut.isLoading = false;
+          getShippingPrice();
+
+
+
+        }, onError: (error) {
+          providerCheckOut.isLoading = false;
+          print("Ocurrio un error: $error");
+        });
+      } else {
+        utils.showSnackBarError(context,Strings.loseInternet);
       }
     });
   }
