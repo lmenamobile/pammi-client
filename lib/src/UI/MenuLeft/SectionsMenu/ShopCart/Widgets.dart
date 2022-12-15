@@ -688,7 +688,7 @@ Widget customButton(String icon, String text, Color colorText, Function action) 
   );
 }
 
-Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete, Function save) {
+Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -756,60 +756,75 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
             children: [
               //TODO: Change position
               SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RichText(
-                    text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: Strings.total + ' ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.gray7,
-                              fontSize: 13,
+              RichText(
+                text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: Strings.total + ' ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.gray7,
+                          fontSize: 13,
+                        ),
+                      ),
+                      TextSpan(
+                        text: formatMoney((provider.cart?.total??0).toString()),
+                        style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          color: CustomColors.gray7,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ]
+                ),
+              ),
+              Visibility(
+                visible: hasPrincipalAddress,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    RichText(
+                      text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: Strings.delivery2 + ' ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: CustomColors.gray7,
+                                fontSize: 13,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: formatMoney((provider.cart?.total??0).toString()),
-                            style: TextStyle(
-                              fontFamily: Strings.fontRegular,
-                              color: CustomColors.gray7,
-                              fontSize: 13,
+                            TextSpan(
+                              text: (provider.provider?.minPurchase??0) > 0
+                                  ? (provider.freeShipping??0) == 0
+                                  ? Strings.free
+                                  : formatMoney((provider.shippingValue??0).toString())
+                                  : formatMoney((provider.shippingValue??0).toString()),
+                              style: TextStyle(
+                                fontFamily: provider.freeShipping != 0
+                                    ? Strings.fontRegular
+                                    : Strings.fontBold,
+                                color: CustomColors.gray7,
+                                fontSize: 13,
+                              ),
                             ),
-                          ),
-                        ]
+                          ]
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: !hasPrincipalAddress,
+                child: Text(
+                  Strings.principalConfigured,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontFamily: Strings.fontBold
                   ),
-                  RichText(
-                    text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: Strings.delivery2 + ' ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.gray7,
-                              fontSize: 13,
-                            ),
-                          ),
-                          TextSpan(
-                            text: (provider.provider?.minPurchase??0) > 0
-                                ? (provider.freeShipping??0) == 0
-                                ? Strings.free
-                                : formatMoney((provider.shippingValue??0).toString())
-                                : formatMoney((provider.shippingValue??0).toString()),
-                            style: TextStyle(
-                              fontFamily: provider.freeShipping != 0
-                                  ? Strings.fontRegular
-                                  : Strings.fontBold,
-                              color: CustomColors.gray7,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ]
-                    ),
-                  ),
-                ],
+                ),
               ),
               SizedBox(height: 5),
               Visibility(

@@ -596,6 +596,9 @@ class Strings {
   static const String note = "El valor del envío esta sujeto al método de pago.";
   static const String product = "producto";
   static const String service = "servicio";
+  static const String principalConfigured = "No tienes una dirección principal configurada.";
+
+
 
 }
 

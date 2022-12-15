@@ -21,6 +21,17 @@ class ProviderShopCart with ChangeNotifier{
   }
 
 
+
+  bool _hasPrincipalAddress = false;
+
+
+  bool get hasPrincipalAddress => _hasPrincipalAddress;
+
+  set hasPrincipalAddress(bool value) {
+    _hasPrincipalAddress = value;
+    notifyListeners();
+  }
+
   bool get loading => _loading;
 
   set loading(bool value) {
@@ -63,11 +74,12 @@ class ProviderShopCart with ChangeNotifier{
   }
   List<ProductShopCart> _ltsProductsSave = [];
   List<ProductShopCart> get ltsProductsSave => this._ltsProductsSave;
+
+
   set ltsProductsSave(List<ProductShopCart> value) {
     this._ltsProductsSave.addAll(value);
     notifyListeners();
   }
-
 
   Future getShopCart(int idPaymentmethod) async {
     this.isLoadingCart = true;

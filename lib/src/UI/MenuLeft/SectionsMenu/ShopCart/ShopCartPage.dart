@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
+import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
@@ -9,6 +12,7 @@ import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
+import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
@@ -46,9 +50,8 @@ class _ShopCartPageState extends State<ShopCartPage> {
       providerShopCart.totalProductsCart = "0";
       providerShopCart.getLtsReferencesSave(0);
       getShopCart();
+
     });
-
-
     super.initState();
   }
 
@@ -243,6 +246,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
               providerShopCart.shopCart!.packagesProvider![index],
               updateOfferOrProduct,
               callDeleteProduct,
+              providerShopCart.hasPrincipalAddress,
               saveProduct);
         },
       ),
@@ -305,6 +309,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
         await callCart.then((msg) {
           print("finish called shoCar..........");
           if (providerShopCart.shopCart != null) getProductsRelations();
+          serviceGetAddAddressUser();
         }, onError: (error) {
          // providerShopCart?.shopCart = null;
 
@@ -347,6 +352,34 @@ class _ShopCartPageState extends State<ShopCartPage> {
       }
     });
   }
+
+  serviceGetAddAddressUser() async {
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        providerCheckOut.isLoading = true;
+        Future callResponse = UserProvider.instance.getAddress(context, 0);
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          GetAddressResponse data = GetAddressResponse.fromJson(decodeJSON);
+          var indexAddress = data.data?.addresses?.indexWhere((element) => element.principal ?? false);
+          if(indexAddress == -1){
+            providerShopCart.hasPrincipalAddress = false;
+            utils.showSnackBarError(context, Strings.principalConfigured);
+          }else{
+            providerShopCart.hasPrincipalAddress = true;
+          }
+        }, onError: (error) {
+
+          print("Ocurrio un error: $error");
+        });
+      } else {
+        utils.showSnackBarError(context,Strings.loseInternet);
+      }
+    });
+  }
+
+
 
   updateGiftCard(int quantity, String idReference) async {
     utils.checkInternet().then((value) async {
@@ -468,8 +501,10 @@ class _ShopCartPageState extends State<ShopCartPage> {
                     ?.toString() ??
                 '');
         await callProducts.then((list) {
+          serviceGetAddAddressUser();
       //    providerShopCart.isLoadingCart =false;
         }, onError: (error) {
+          serviceGetAddAddressUser();
         //  providerShopCart.isLoadingCart =false;
           utils.showSnackBar(context, error.toString());
         });
