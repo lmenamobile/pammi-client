@@ -14,7 +14,7 @@ class ProductProvider {
     this.reference,
     this.offerOrder,
     this.giftCard,
-    this.invalidateTimeClaim
+    this.validateTimeClaim
   });
 
   int? id;
@@ -25,7 +25,7 @@ class ProductProvider {
   Reference? reference;
   OfferOrder? offerOrder;
   GiftCard? giftCard;
-  bool? invalidateTimeClaim;
+  bool? validateTimeClaim;
 
   factory ProductProvider.fromJson(Map<String, dynamic> json) => ProductProvider(
     id: json["id"],
@@ -36,7 +36,7 @@ class ProductProvider {
     reference: json["reference"] == null ? null : Reference.fromJson(json["reference"]),
     offerOrder: json["offer"] == null ? null : OfferOrder.fromJson(json["offer"]),
     giftCard: json["giftcard"] == null ? null : GiftCard.fromJson(json["giftcard"]),
-      invalidateTimeClaim:json["withdrawalTime"]
+      validateTimeClaim:json["withdrawalTime"]
   );
 
 

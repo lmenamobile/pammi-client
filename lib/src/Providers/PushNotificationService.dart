@@ -10,7 +10,7 @@ class  PushNotificationService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static late final String? token;
   static StreamController<dynamic> _messageStream = new StreamController.broadcast();
-  static Stream<dynamic> get dataNotification => _messageStream.stream;
+  static Stream<dynamic> get dataNotifications => _messageStream.stream;
 
   static Future initNotifications() async{
     await Firebase.initializeApp();

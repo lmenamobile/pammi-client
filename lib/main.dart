@@ -67,7 +67,8 @@ class _MyAppState extends State<MyApp> {
   void initState(){
     super.initState();
     initUniLinks();
-    PushNotificationService.dataNotification.listen((message) {
+
+    PushNotificationService.dataNotifications.listen((message) {
 
     });
   }

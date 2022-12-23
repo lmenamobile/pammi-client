@@ -473,9 +473,19 @@ class Strings {
   static const String messageClaimStatusNotCompleted = 'El reclamo solo puede hacerse cuando el estado del pedido sea entregado';
   static const String messageClaimTime = 'Ya se venció el plazo de tiempo para poder hacer un reclamo en este pedido. Si tienes alguna duda, comunícate con el proveedor por el chat.';
 
+  static const String serviceClient = 'Servicio al cliente';
   static const String claimCreate = 'Reclamo creado';
   static const String claimFinish = 'Reclamo cerrado';
   static const String reasonClose = 'Razón del cierre';
+  static const String claimNotCheck = 'Reclamo sin revisar';
+  static const String textClaimNotCheck = 'El proveedor aún no aprueba o rechaza este reclamo';
+  static const String claimCheck = 'Reclamo aprobado';
+  static const String claimReject = 'Reclamo rechazado';
+  static const String textClaimReject = 'El proveedor ha rechazado el reclamo';
+  static const String claimClos = 'Reclamo cerrado';
+  static const String textClaimClose = 'El proveedor ha cerrado el reclamo';
+  static const String textClaimClose1 = 'El proveedor ha cerrado el reclamo';
+  static const String textClaimCheck = 'A la espera de que el proveedor solicite una guía de devolución';
   static const String reasonCloseApproved = 'El reclamo se ha cerrado exitosamente';
   static const String messageClosereason = 'Para hacer seguimiento al reclamo diríjase al módulo de “mis reclamos”';
   static const String becauseReasonClose = 'Por qué razón desea cerrar el reclamo';
