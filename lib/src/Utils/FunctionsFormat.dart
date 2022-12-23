@@ -10,6 +10,6 @@ String formatMoney(String? money){
 String formatDate(DateTime date,String pattern,String locale){
   String dateReturn = '';
   final formatDateFirst = new DateFormat(pattern,locale);
-  dateReturn = formatDateFirst.format(date);
+  dateReturn = formatDateFirst.format(date.toLocal());
   return dateReturn;
 }

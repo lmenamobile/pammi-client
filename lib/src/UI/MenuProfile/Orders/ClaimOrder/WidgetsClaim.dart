@@ -285,10 +285,11 @@ Widget itemClaimClose(Claim claimOpen) {
                 itemDescription(Strings.claimType,utils.getLtsTypeClaim.firstWhere((element) => element.valueTypeClaim! ==claimOpen.type!).typeClaim??''),
                 itemDescription(Strings.reason,utils.getLtsTypeReason.firstWhere((element) => element.valueTypeReason! ==claimOpen.reasonOpen!).typeReason??''),
                 customDivider(),
-                itemDescription(Strings.claimCreate, formatDate(claimOpen.optionsDates?.createdAt??DateTime.now(), 'd MMMM yyyy', 'es_CO')),
-                itemDescription(Strings.claimFinish, formatDate(claimOpen.closeDate??DateTime.now(), 'd MMMM yyyy', 'es_CO')),
+                itemDescription(Strings.claimCreate, formatDate(claimOpen.optionsDates?.createdAt??DateTime.now(), 'd MMMM yyyy hh:mm a', 'es_CO')),
+                claimOpen.closeDate==null?Container():itemDescription(Strings.claimFinish, formatDate(claimOpen.closeDate??DateTime.now(), 'd MMMM yyyy hh:mm a', 'es_CO')),
                 customDivider(),
-                itemDescription(Strings.reasonClose,utils.getLtsReasonClose.firstWhere((element) => element.valueReason! ==claimOpen.reasonClose!).reasonClose??''),
+              claimOpen.reasonClose==""?Container():
+                   itemDescription(Strings.reasonClose,utils.getLtsReasonCloseByPamii.firstWhere((element) => element.valueReason! ==claimOpen.reasonClose!).reasonClose??''),
 
 
               ],
@@ -608,6 +609,41 @@ Widget noApplyClaim(){
       fontFamily: Strings.fontBold,
       fontSize: 13,
       color: CustomColors.gray4,
+    ),
+  );
+}
+
+Widget claimNotCheck(String title, String description){
+  return Container(
+    width: double.infinity,
+    margin: EdgeInsets.symmetric(vertical: 5),
+    decoration: BoxDecoration(
+      color: CustomColors.gray2,
+        borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontFamily: Strings.fontBold,
+              color: CustomColors.blueTitle,
+            ),
+          ),
+          SizedBox(height: 10,),
+          Text(
+            description,
+            style: TextStyle(
+              fontFamily: Strings.fontRegular,
+              color: CustomColors.gray4,
+            ),
+          ),
+          SizedBox(height: 10,),
+          btnCustom(150, Strings.serviceClient,CustomColors.blueTitle, Colors.white, null)
+        ],
+      ),
     ),
   );
 }

@@ -411,11 +411,11 @@ class _Utils {
 
   List<TypeReason> getLtsTypeReason =[
 
-    TypeReason(typeReason: "Me arrepenti de la compra",valueTypeReason: "regretted"),
+    TypeReason(typeReason: "Me arrepentí de la compra",valueTypeReason: "regretted"),
     TypeReason(typeReason: "Inconformidad con el pedido",valueTypeReason: "nonconformity"),
-    TypeReason(typeReason: "No es lo que esperaba",valueTypeReason: "unxespected"),
-    TypeReason(typeReason: "El producto tiene algun daño",valueTypeReason: "damage"),
-    TypeReason(typeReason: "Otro",valueTypeReason: "other")
+    TypeReason(typeReason: "No es lo que pedí",valueTypeReason: "unxespected"),
+    TypeReason(typeReason: "Tiene daños",valueTypeReason: "damage"),
+    TypeReason(typeReason: "Otra",valueTypeReason: "other")
 ];
 
   List<TypeClaim> getLtsTypeClaim = [
@@ -427,8 +427,20 @@ class _Utils {
   List<ReasonClose> getLtsReasonClose= [
     ReasonClose(reasonClose: "Me equivoqué, no quería reclamar",valueReason: "equivocated"),
     ReasonClose(reasonClose: "Arreglé con el proveedor",valueReason: "agreementWithProvider"),
+/*    ReasonClose(reasonClose: "Acepté una giftcard",valueReason: "acceptGiftcard"),
+    ReasonClose(reasonClose: "Reversión de pago exitosa",valueReason: "revertPayment"),*/
+  ];
+
+  List<ReasonClose> getLtsReasonCloseByPamii= [
+    ReasonClose(reasonClose: "Rechazado por proveedor",valueReason: "rejectedByProvider"),
+    ReasonClose(reasonClose: "Me equivoqué, no quería reclamar",valueReason: "equivocated"),
+    ReasonClose(reasonClose: "Arreglé con el proveedor",valueReason: "agreementWithProvider"),
     ReasonClose(reasonClose: "Acepté una giftcard",valueReason: "acceptGiftcard"),
     ReasonClose(reasonClose: "Reversión de pago exitosa",valueReason: "revertPayment"),
+    ReasonClose(reasonClose: "Verificación de daño por la transportadora",valueReason: "verificationDamageByTransporter"),
+    ReasonClose(reasonClose: "Verificación de daño por el cliente",valueReason: "verificationDamageByClient"),
+    ReasonClose(reasonClose: "El producto nunca llego",valueReason: "productNotFound"),
+    ReasonClose(reasonClose: "Reclamo no cerrado por el cliente",valueReason: "claimUnclosed"),
   ];
 
   List<MethodDevolution> getLtsMethodDevolution = [

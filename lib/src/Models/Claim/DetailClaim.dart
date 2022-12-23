@@ -43,7 +43,7 @@ class DetailClaim {
     approvalNumber: json["approvalNumber"],
     state: json["state"],
     reasonClose: json["reasonClose"]==null?'':json["reasonClose"],
-    closeDate: json["closeDate"]==null?DateTime.now() :DateTime.parse(json["closeDate"]),
+    closeDate: json["closeDate"]==null?null :DateTime.parse(json["closeDate"]),
     methodDevolution: json["methodDevolution"],
     devolutionState: json["devolutionState"],
     guide: json["guide"]??'',

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 
 class Constants {
-  /*------DEV------*/
+//EstoEsPAmii
+  //*------DEV------*//*
   static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
   static const String urlSocket = 'http://devapisupersocket.pamii.com:50010';
   static const String profileProvider = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
   static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
-  /*------------*/
+  //*------------*/
 
   //static const Str /*------staging------*/
      /*static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
@@ -70,9 +71,9 @@ class Constants {
     static const String finish = 'Finalizado';
 
   /*Status claim*/
-  static const String open = 'Abierto';
+  static const String open = 'Pendiente';
   static const String close = 'Cerrado';
-  static const String approved = 'Aprovado';
+  static const String approved = 'Aprobado';
   static const String reject = 'Rechazado';
   static const String applyClaim = 'apply';
 

@@ -115,6 +115,26 @@ String getStatusClaim(String type) {
   }
 }
 
+
+Widget getCardByStatusClaim(String type,String reasonClose) {
+  switch (type) {
+    case Strings.statusOpen:
+      return claimNotCheck(Strings.claimNotCheck, Strings.textClaimNotCheck);
+    case Strings.statusClose:
+      return reasonClose == "agreementWithProvider" ? claimNotCheck(
+          Strings.claimClos, Strings.claimClos) :
+      reasonClose == "rejectedByProvider" ? claimNotCheck(
+          Strings.claimReject, Strings.textClaimReject) :
+      claimNotCheck(Strings.claimClos, Strings.claimClose);
+    case Strings.statusApproved:
+      return claimNotCheck(Strings.claimCheck, Strings.textClaimCheck);
+    case Strings.statusReject:
+      return claimNotCheck(Strings.claimReject, Strings.textClaimReject);
+    default:
+      return Container();
+  }
+}
+
 String getStatusPqrs(String type) {
   switch (type) {
     case Strings.open:
@@ -166,16 +186,16 @@ Color getStatusColorOrder(String type) {
 
 
 
-Widget validateStatusClaim(BuildContext context,String messageState,String messageTime,String stateSubOrder,bool timeInvalidateClaim,Function makeClaim) {
+Widget validateStatusClaim(BuildContext context,String messageState,String messageTime,String stateSubOrder,bool timeValidateClaim,Function makeClaim, String idPackage) {
   switch (stateSubOrder) {
     case Strings.statusCreate:
-      return timeInvalidateClaim?btnNotMakeClaim(context,messageTime):btnNotMakeClaim(context,messageState);
+      return timeValidateClaim?btnNotMakeClaim(context,messageState):btnNotMakeClaim(context,messageTime);
     case Strings.statusCompleted:
-      return timeInvalidateClaim?btnNotMakeClaim(context,messageTime):InkWell(
-        onTap: ()=>makeClaim,
-          child: btnMakeClaim());
+      return timeValidateClaim?InkWell(
+        onTap: ()=>makeClaim(idPackage),
+          child: btnMakeClaim()):btnNotMakeClaim(context,messageTime);
     case Strings.statusSend:
-      return timeInvalidateClaim?btnNotMakeClaim(context,messageTime):btnNotMakeClaim(context,messageState);
+      return timeValidateClaim?btnNotMakeClaim(context,messageState):btnNotMakeClaim(context,messageTime);
     default:
       return Container();
   }

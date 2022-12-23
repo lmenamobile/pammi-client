@@ -6,6 +6,7 @@ import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -132,11 +133,11 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       itemDescriptionDetailClaim(Strings.claimCreate,
-                                          formatDate(providerClaimOrder.detailClaim?.optionsDates?.createdAt ?? DateTime.now(), 'd MMMM yyyy', 'es_CO')),
+                                          formatDate(providerClaimOrder.detailClaim?.optionsDates?.createdAt ?? DateTime.now(), 'd MMMM yyyy hh:mm a', 'es_CO')),
                                       Visibility(
                                           visible: providerClaimOrder.detailClaim?.closeDate == null ? false : true,
                                           child: itemDescriptionDetailClaim(
-                                              Strings.claimFinish, formatDate(providerClaimOrder.detailClaim?.closeDate ?? DateTime.now(), 'd MMMM yyyy', 'es_CO'))),
+                                              Strings.claimFinish, formatDate(providerClaimOrder.detailClaim?.closeDate ?? DateTime.now(), 'd MMMM yyyy hh:mm a', 'es_CO'))),
                                       Visibility(
                                         visible: getStatusClaim(providerClaimOrder.detailClaim?.state??'')!='Cerrado'?true:false,
                                         child: Center(
@@ -221,8 +222,9 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                             fontFamily: Strings.fontRegular,
                                             color: CustomColors.grayTwo),
                                       ),
+                                      getCardByStatusClaim(providerClaimOrder.detailClaim?.state ?? '',providerClaimOrder.detailClaim?.reasonClose??''),
                                       Visibility(
-                                        visible: providerClaimOrder.detailClaim!.guide!.isEmpty?true:false,
+                                        visible: (providerClaimOrder.detailClaim!.guide!.isEmpty&&(getStatusClaim(providerClaimOrder.detailClaim?.state ?? '')== Constants.approved))?true:false,
                                           child: sectionDataGuide()),
                                       SizedBox(
                                         height: 10,

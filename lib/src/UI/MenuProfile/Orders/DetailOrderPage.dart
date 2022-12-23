@@ -139,6 +139,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
   }
 
   openClaimOrder(String idPackage){
+    print("id orden $idPackage");
     Navigator.push(context, customPageTransition(ClaimPage(idPackage: idPackage,)));
   }
 

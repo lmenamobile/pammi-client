@@ -74,8 +74,11 @@ Widget itemOrder(Order order) {
                   ],
                 ),
                 customDivider(),
-                itemDescription(Icons.access_time, Strings.orderDateRequest,
-                    formatDate(order.createdAt??DateTime.now(), 'd MMMM yyyy', 'es_CO')),
+                itemDescription(
+                    Icons.access_time,
+                    Strings.orderDateRequest,
+                    formatDate(order.createdAt ?? DateTime.now(), 'd MMMM yyyy',
+                        'es_CO')),
                 SizedBox(
                   height: 5,
                 ),
@@ -102,7 +105,7 @@ Widget itemOrder(Order order) {
                   Container(
                     width: 50,
                     height: 50,
-                    child: SvgPicture.network(order.paymentMethod?.image??''),
+                    child: SvgPicture.network(order.paymentMethod?.image ?? ''),
                   ),
                   Container(
                       decoration: BoxDecoration(
@@ -157,7 +160,7 @@ Widget itemDescription(IconData icon, String text, String price) {
   );
 }
 
-Widget itemGift(GiftCard? gift){
+Widget itemGift(GiftCard? gift) {
   return Container(
     width: 100,
     height: 100,
@@ -185,8 +188,8 @@ Widget itemGift(GiftCard? gift){
   );
 }
 
-Widget barQualifications(String value){
-  return  RatingBarIndicator(
+Widget barQualifications(String value) {
+  return RatingBarIndicator(
     rating: double.parse(value),
     direction: Axis.horizontal,
     itemCount: 5,
@@ -198,9 +201,17 @@ Widget barQualifications(String value){
   );
 }
 
-Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,bool isOrderFinish,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
-
-  var deliverCost = double.parse(providerPackage.shippingValue??'0') - double.parse(providerPackage.discountShipping??'0');
+Widget itemProductsProvider(
+    BuildContext context,
+    PackageProvider providerPackage,
+    bool isActive,
+    bool isOrderFinish,
+    Function qualification,
+    Function openChat,
+    Function actionTracking,
+    Function actionClaim) {
+  var deliverCost = double.parse(providerPackage.shippingValue ?? '0') -
+      double.parse(providerPackage.discountShipping ?? '0');
 
   return Container(
     margin: EdgeInsets.only(bottom: 5),
@@ -226,19 +237,19 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Strings.subOrder +" ${ providerPackage.id.toString()}",
+                Strings.subOrder + " ${providerPackage.id.toString()}",
                 style: TextStyle(
                     color: CustomColors.blue, fontFamily: Strings.fontBold),
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: getStatusColorOrder(providerPackage.status??''),
+                    color: getStatusColorOrder(providerPackage.status ?? ''),
                     borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Text(
-                    getStatusOrder(providerPackage.status??''),
+                    getStatusOrder(providerPackage.status ?? ''),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -258,7 +269,7 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      providerPackage.providerProduct?.businessName??'',
+                      providerPackage.providerProduct?.businessName ?? '',
                       maxLines: 2,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
@@ -272,7 +283,7 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
                           fontSize: 12,
                           color: CustomColors.gray7),
                     ),
-                  /*  Row(
+                    /*  Row(
                       children: [
                         Icon(Icons.calendar_today,color: CustomColors.gray7,size: 15,),
                         SizedBox(width: 5,),
@@ -291,21 +302,36 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
               Visibility(
                 visible: isActive,
                 child: InkWell(
-                  onTap: ()=>qualification(Constants.qualificationProvider,providerPackage.providerProduct?.id.toString(),providerPackage.id.toString(),"",providerPackage),
+                  onTap: () => qualification(
+                      Constants.qualificationProvider,
+                      providerPackage.providerProduct?.id.toString(),
+                      providerPackage.id.toString(),
+                      "",
+                      providerPackage),
                   child: Row(
                     children: [
-                      barQualifications(providerPackage.providerProduct?.qualification??'0'),
+                      barQualifications(
+                          providerPackage.providerProduct?.qualification ??
+                              '0'),
                       //Image.asset("Assets/images/ic_star.png", width: 15,color:providerPackage.providerProduct!.qualification=='0'?CustomColors.gray5:Colors.amber,),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Text(
-                       Strings.qualification,
+                        Strings.qualification,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
                             fontSize: 13,
                             color: CustomColors.blue),
                       ),
-                      SizedBox(width: 5,),
-                      Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.blue,size: 15,)
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: CustomColors.blue,
+                        size: 15,
+                      )
                     ],
                   ),
                 ),
@@ -313,7 +339,14 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
             ],
           ),
           customDivider(),
-          listProducts(context,providerPackage,providerPackage.productsProvider,isActive,isOrderFinish,qualification,actionClaim),
+          listProducts(
+              context,
+              providerPackage,
+              providerPackage.productsProvider,
+              isActive,
+              isOrderFinish,
+              qualification,
+              actionClaim),
           /*Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -345,16 +378,14 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.grayTwo
-                ),
+                    color: CustomColors.grayTwo),
               ),
               Text(
                 formatMoney((deliverCost.toInt()).toString()),
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.blackLetter
-                ),
+                    color: CustomColors.blackLetter),
               ),
             ],
           ),
@@ -367,16 +398,14 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontBold,
-                    color: CustomColors.blackLetter
-                ),
+                    color: CustomColors.blackLetter),
               ),
               Text(
-                formatMoney(providerPackage.total??'0'),
+                formatMoney(providerPackage.total ?? '0'),
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontBold,
-                    color: CustomColors.blackLetter
-                ),
+                    color: CustomColors.blackLetter),
               ),
             ],
           ),
@@ -384,21 +413,22 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
           Align(
             alignment: Alignment.center,
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                /*  Expanded(
+                  /*  Expanded(
                     child: btnCustom(double.infinity,Strings.btnCancel, CustomColors.pink
                         ,Colors.white, null),
                   ),
                   SizedBox(width: 30,),*/
                   Container(
                     width: 150,
-                    child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
-                        Colors.white, (){
-                      openChat(providerPackage.providerProduct?.id.toString(),providerPackage.id.toString());
-                        }),
+                    child: btnCustomIconLeft("ic_chat.png", Strings.chat,
+                        CustomColors.blue, Colors.white, () {
+                      openChat(providerPackage.providerProduct?.id.toString(),
+                          providerPackage.id.toString());
+                    }),
                   )
                 ],
               ),
@@ -406,9 +436,10 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
           ),
           customDivider(),
           Align(
-            alignment: Alignment.center,
-              child: btnCustom(140, Strings.tracking,CustomColors.orange, Colors.white, (){
-                actionTracking( providerPackage.guide);
+              alignment: Alignment.center,
+              child: btnCustom(
+                  140, Strings.tracking, CustomColors.orange, Colors.white, () {
+                actionTracking(providerPackage.guide);
               }))
         ],
       ),
@@ -416,7 +447,14 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
   );
 }
 
-Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductProvider product, bool isActive,bool isOrderFinish,Function qualification,Function callClaim){
+Widget itemProduct(
+    BuildContext context,
+    PackageProvider providerPackage,
+    ProductProvider product,
+    bool isActive,
+    bool isOrderFinish,
+    Function qualification,
+    Function callClaim) {
   return Column(
     children: [
       Row(
@@ -427,15 +465,19 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
               child: Container(
                 width: 90,
                 height: 90,
-                child: product.reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
-                isImageYoutube(product.reference?.images?[0].url??'',FadeInImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(product.reference?.images?[0].url??''),
-                  placeholder: AssetImage("Assets/images/spinner.gif"),
-                  imageErrorBuilder: (_,__,___){
-                    return Container();
-                  },
-                )),
+                child: product.reference!.images!.isEmpty
+                    ? Image.asset("Assets/images/spinner.gif")
+                    : isImageYoutube(
+                        product.reference?.images?[0].url ?? '',
+                        FadeInImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              product.reference?.images?[0].url ?? ''),
+                          placeholder: AssetImage("Assets/images/spinner.gif"),
+                          imageErrorBuilder: (_, __, ___) {
+                            return Container();
+                          },
+                        )),
               ),
             ),
           ),
@@ -444,7 +486,9 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  product.reference?.brandAndProduct?.brandProvider?.brand
+                          ?.brand ??
+                      '',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -452,7 +496,7 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   ),
                 ),
                 Text(
-                 product.reference?.reference??''+product.qty.toString(),
+                  product.reference?.reference ?? '' + product.qty.toString(),
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -461,7 +505,7 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   ),
                 ),
                 Text(
-                  formatMoney(product.price??''),
+                  formatMoney(product.price ?? ''),
                   maxLines: 1,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -470,22 +514,32 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   ),
                 ),
                 Visibility(
-                  visible: true,//product.reference?.applyDevolution??false,
+                  visible: true, //product.reference?.applyDevolution??false,
                   child: Row(
                     children: [
-                      product.reference?.brandAndProduct?.applyDevolution==Constants.applyClaim?validateStatusClaim(
-                        context,
-                          Strings.messageClaimStatusNotCompleted,
-                          Strings.messageClaimTime,
-                          providerPackage.status!,
-                              product.invalidateTimeClaim??true,
-                              (){
-                          callClaim(product.id.toString());}):noApplyClaim(),
+                      product.reference?.brandAndProduct?.applyDevolution ==
+                              Constants.applyClaim
+                          ? validateStatusClaim(
+                              context,
+                              Strings.messageClaimStatusNotCompleted,
+                              Strings.messageClaimTime,
+                              providerPackage.status!,
+                              product.validateTimeClaim ??
+                                  product.reference?.brandAndProduct
+                                          ?.applyDevolution ==
+                                      Constants.applyClaim,
+                              callClaim,
+                              product.id.toString())
+                          : noApplyClaim(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
-                          onTap: ()=> startAlertClaim(context),
-                            child: Image.asset("Assets/images/ic_information.png",fit: BoxFit.fill,width: 20,)),
+                            onTap: () => startAlertClaim(context),
+                            child: Image.asset(
+                              "Assets/images/ic_information.png",
+                              fit: BoxFit.fill,
+                              width: 20,
+                            )),
                       ),
                     ],
                   ),
@@ -498,9 +552,17 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
       Visibility(
           visible: isActive,
           child: InkWell(
-              onTap: ()=>qualification(Constants.qualificationProduct,product.reference?.id.toString(),providerPackage.id.toString(),product.reference?.images?[0].url,providerPackage),
-              child: barQualifications(product.reference?.qualification??'0'))),
-      SizedBox(height: 10,),
+              onTap: () => qualification(
+                  Constants.qualificationProduct,
+                  product.reference?.id.toString(),
+                  providerPackage.id.toString(),
+                  product.reference?.images?[0].url,
+                  providerPackage),
+              child:
+                  barQualifications(product.reference?.qualification ?? '0'))),
+      SizedBox(
+        height: 10,
+      ),
       Row(
         children: [
           Expanded(
@@ -511,11 +573,24 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
               dataRowHeight: 25,
               headingRowHeight: 25,
               headingRowColor: MaterialStateProperty.resolveWith(
-                      (states) => CustomColors.greyBackground
-              ),
+                  (states) => CustomColors.greyBackground),
               columns: <DataColumn>[
-                DataColumn(label:    Center(
-                  child: Text(Strings.quantity,
+                DataColumn(
+                  label: Center(
+                    child: Text(
+                      Strings.quantity,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: Strings.fontBold,
+                        fontSize: 13,
+                        color: CustomColors.blueTitle,
+                      ),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    Strings.warranty,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
@@ -523,28 +598,26 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                       color: CustomColors.blueTitle,
                     ),
                   ),
-                ),),
-                DataColumn(label:    Text(Strings.warranty,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 13,
-                    color: CustomColors.blueTitle,
+                ),
+                DataColumn(
+                  label: Text(
+                    Strings.total,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 13,
+                      color: CustomColors.blueTitle,
+                    ),
                   ),
-                ),),
-                DataColumn(label:    Text(Strings.total,
-                  style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 13,
-                    color: CustomColors.blueTitle,
-                  ),
-                ),),
+                ),
               ],
-              rows: [DataRow(cells: <DataCell>[
-                    cellTableText(product.qty??'0',CustomColors.blackLetter),
-                    cellTableText("2",CustomColors.blackLetter),
-                    cellTableText( formatMoney(product.total??'0'),CustomColors.orange),
-                  ])],
+              rows: [
+                DataRow(cells: <DataCell>[
+                  cellTableText(product.qty ?? '0', CustomColors.blackLetter),
+                  cellTableText("2", CustomColors.blackLetter),
+                  cellTableText(
+                      formatMoney(product.total ?? '0'), CustomColors.orange),
+                ])
+              ],
             ),
           ),
         ],
@@ -554,24 +627,23 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
   );
 }
 
-DataCell cellTableText(String text,Color color) {
-  return DataCell(
-      Center(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          style: TextStyle(
-            fontFamily: Strings.fontBold,
-            fontSize: 13,
-            color: color,
-          ),
-        ),
-      )
-  );
+DataCell cellTableText(String text, Color color) {
+  return DataCell(Center(
+    child: Text(
+      text,
+      textAlign: TextAlign.center,
+      maxLines: 1,
+      style: TextStyle(
+        fontFamily: Strings.fontBold,
+        fontSize: 13,
+        color: color,
+      ),
+    ),
+  ));
 }
 
-Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product, bool isActive,Function qualification){
+Widget itemProductOffer(PackageProvider providerPackage,
+    ProductProvider product, bool isActive, Function qualification) {
   return Column(
     children: [
       Row(
@@ -582,15 +654,27 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
               child: Container(
                 width: 90,
                 height: 90,
-                child: product.offerOrder!.baseProducts![0].reference!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
-                isImageYoutube(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??'', FadeInImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??''),
-                  placeholder: AssetImage("Assets/images/spinner.gif"),
-                  imageErrorBuilder: (_,__,___){
-                    return Container();
-                  },
-                )),
+                child: product
+                        .offerOrder!.baseProducts![0].reference!.images!.isEmpty
+                    ? Image.asset("Assets/images/spinner.gif")
+                    : isImageYoutube(
+                        product.offerOrder?.baseProducts?[0].reference
+                                ?.images?[0].url ??
+                            '',
+                        FadeInImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(product
+                                  .offerOrder
+                                  ?.baseProducts?[0]
+                                  .reference
+                                  ?.images?[0]
+                                  .url ??
+                              ''),
+                          placeholder: AssetImage("Assets/images/spinner.gif"),
+                          imageErrorBuilder: (_, __, ___) {
+                            return Container();
+                          },
+                        )),
               ),
             ),
           ),
@@ -598,7 +682,10 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(product.offerOrder?.baseProducts?[0].reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                Text(
+                  product.offerOrder?.baseProducts?[0].reference
+                          ?.brandAndProduct?.brandProvider?.brand?.brand ??
+                      '',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -606,7 +693,8 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                   ),
                 ),
                 Text(
-                  product.offerOrder?.baseProducts?[0].reference?.reference??''+product.qty!,
+                  product.offerOrder?.baseProducts?[0].reference?.reference ??
+                      '' + product.qty!,
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -615,7 +703,7 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                   ),
                 ),
                 Text(
-                  formatMoney(product.price??''),
+                  formatMoney(product.price ?? ''),
                   maxLines: 1,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
@@ -633,29 +721,36 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
   );
 }
 
-
-Widget listProducts(BuildContext context,PackageProvider providerPackage,List<ProductProvider>? productsProvider,bool isActive,
-bool isOrderFinish,
-    Function qualification,Function callClaim) {
+Widget listProducts(
+    BuildContext context,
+    PackageProvider providerPackage,
+    List<ProductProvider>? productsProvider,
+    bool isActive,
+    bool isOrderFinish,
+    Function qualification,
+    Function callClaim) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: productsProvider==null?0:productsProvider.length,
+      itemCount: productsProvider == null ? 0 : productsProvider.length,
       itemBuilder: (_, int index) {
-        if(productsProvider![index].reference != null){
-          return itemProduct(context,providerPackage,productsProvider[index],isActive,isOrderFinish,qualification,callClaim);
-        }else {
-          return itemProductOffer(providerPackage,productsProvider[index],isActive,qualification);
+        if (productsProvider![index].reference != null) {
+          return itemProduct(context, providerPackage, productsProvider[index],
+              isActive, isOrderFinish, qualification, callClaim);
+        } else {
+          return itemProductOffer(providerPackage, productsProvider[index],
+              isActive, qualification);
         }
       },
     ),
   );
 }
 
-Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? seller,Function qualification,bool isActive,Function openChat){
+Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
+    Seller? seller, Function qualification, bool isActive, Function openChat) {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -691,22 +786,24 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                 child: FadeInImage(
                   height: 30,
                   fit: BoxFit.fill,
-                  image: NetworkImage(seller?.photoUrl??''),
+                  image: NetworkImage(seller?.photoUrl ?? ''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
-                  imageErrorBuilder: (_,__,___){
+                  imageErrorBuilder: (_, __, ___) {
                     return Container();
                   },
                 ),
               ),
             ),
           ),
-          SizedBox(width: 15,),
+          SizedBox(
+            width: 15,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                 Strings.seller,
+                  Strings.seller,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 15,
@@ -714,7 +811,7 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                   ),
                 ),
                 Text(
-                  seller?.fullName??'',
+                  seller?.fullName ?? '',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
@@ -724,7 +821,12 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                 Visibility(
                   visible: isActive,
                   child: InkWell(
-                    onTap: ()=>qualification(Constants.qualificationSeller,seller?.id.toString(),order?.id.toString(),seller?.photoUrl??'',providerPackage),
+                    onTap: () => qualification(
+                        Constants.qualificationSeller,
+                        seller?.id.toString(),
+                        order?.id.toString(),
+                        seller?.photoUrl ?? '',
+                        providerPackage),
                     child: Row(
                       children: [
                         Text(
@@ -735,8 +837,14 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                             color: CustomColors.blue,
                           ),
                         ),
-                        SizedBox(width: 10,),
-                        Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.blue,size: 20,)
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: CustomColors.blue,
+                          size: 20,
+                        )
                       ],
                     ),
                   ),
@@ -745,7 +853,8 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
             ),
           ),
           InkWell(
-            onTap: ()=>openChat(seller!.id.toString(),order!.id.toString(),seller.photoUrl??''),
+            onTap: () => openChat(seller!.id.toString(), order!.id.toString(),
+                seller.photoUrl ?? ''),
             child: CircleAvatar(
               radius: 20,
               backgroundColor: CustomColors.orange,
@@ -761,9 +870,9 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
   );
 }
 
-Widget sectionAddressOrder(String address){
+Widget sectionAddressOrder(String address) {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -833,12 +942,15 @@ Widget sectionTotalOrder(OrderDetail? order) {
             ),
           ),
           customDivider(),
-          rowTotal(Strings.paymentMethod, order?.paymentMethod?.methodPayment??''),
-          rowTotal(Strings.subtotal, formatMoney(order?.subtotal??'0')),
-          rowTotal(Strings.send, formatMoney(order?.shippingValue??'0')),
-          rowTotal(Strings.discountShipping, '- ${formatMoney((order?.discountShipping??0).toString())}'),
-          rowTotal(Strings.coupon, formatMoney(order?.discountCoupon??'0')),
-          rowTotal(Strings.giftCard, formatMoney(order?.discountGiftCard??'0')),
+          rowTotal(
+              Strings.paymentMethod, order?.paymentMethod?.methodPayment ?? ''),
+          rowTotal(Strings.subtotal, formatMoney(order?.subtotal ?? '0')),
+          rowTotal(Strings.send, formatMoney(order?.shippingValue ?? '0')),
+          rowTotal(Strings.discountShipping,
+              '- ${formatMoney((order?.discountShipping ?? 0).toString())}'),
+          rowTotal(Strings.coupon, formatMoney(order?.discountCoupon ?? '0')),
+          rowTotal(
+              Strings.giftCard, formatMoney(order?.discountGiftCard ?? '0')),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -852,7 +964,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
                 ),
               ),
               Text(
-                formatMoney(order?.total??'0'),
+                formatMoney(order?.total ?? '0'),
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 15,
@@ -867,7 +979,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
   );
 }
 
-Widget rowTotal(String textLabel,String textData ){
+Widget rowTotal(String textLabel, String textData) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     mainAxisSize: MainAxisSize.max,
@@ -881,7 +993,7 @@ Widget rowTotal(String textLabel,String textData ){
         ),
       ),
       Text(
-       textData,
+        textData,
         style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
@@ -892,9 +1004,10 @@ Widget rowTotal(String textLabel,String textData ){
   );
 }
 
-Future<bool?> startAlertClaim(BuildContext context) async{
-  return   await showDialog(
+Future<bool?> startAlertClaim(BuildContext context) async {
+  return await showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) => DialogAlertClaim(title: "hola",msgText: "hola2"));
+      builder: (BuildContext context) =>
+          DialogAlertClaim(title: "hola", msgText: "hola2"));
 }
