@@ -479,7 +479,8 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                           Strings.messageClaimTime,
                           providerPackage.status!,
                               product.invalidateTimeClaim??true,
-                              (){callClaim(product.id.toString());}):noApplyClaim(),
+                              (){
+                          callClaim(product.id.toString());}):noApplyClaim(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(

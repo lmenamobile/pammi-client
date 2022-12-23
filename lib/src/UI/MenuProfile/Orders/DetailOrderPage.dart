@@ -64,7 +64,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                           Container(),
                           sectionAddressOrder(providerOrder?.orderDetail?.shippingAddress??''),
                           sectionTotalOrder(providerOrder?.orderDetail),
-                          SizedBox(height: 15,),
+                          SizedBox(height: 15),
                         ],
                       ),
                     ),
@@ -72,7 +72,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                 ],
               ),
               Visibility(
-                  visible: providerOrder!.isLoading, child: LoadingProgress()),
+                  visible: providerOrder!.isLoading, child: LoadingProgress()
+              ),
             ],
           ),
         ),
@@ -148,7 +149,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
   openGuide(String guide){
     if(guide.isNotEmpty) {
-      launch(Constants.urlGuide + "$guide&tipo=0");
+      launch(Constants.urlGuide + "$guide");
     }else{
       utils.showSnackBar(context, Strings.errorNotGuideOrder);
     }
