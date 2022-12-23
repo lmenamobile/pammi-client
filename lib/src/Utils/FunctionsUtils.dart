@@ -116,20 +116,28 @@ String getStatusClaim(String type) {
 }
 
 
-Widget getCardByStatusClaim(String type,String reasonClose) {
+Widget getCardByStatusClaim(String type,String reasonClose,Function openChatAdmin) {
   switch (type) {
     case Strings.statusOpen:
-      return claimNotCheck(Strings.claimNotCheck, Strings.textClaimNotCheck);
+      return claimNotCheck(Strings.claimNotCheck, Strings.textClaimNotCheck,(){
+        openChatAdmin();
+      });
     case Strings.statusClose:
       return reasonClose == "agreementWithProvider" ? claimNotCheck(
-          Strings.claimClos, Strings.claimClos) :
+          Strings.claimClos, Strings.claimClos,(){
+        openChatAdmin();
+      }) :
       reasonClose == "rejectedByProvider" ? claimNotCheck(
-          Strings.claimReject, Strings.textClaimReject) :
-      claimNotCheck(Strings.claimClos, Strings.claimClose);
+          Strings.claimReject, Strings.textClaimReject,(){openChatAdmin();}) :
+      claimNotCheck(Strings.claimClos, Strings.claimClose,(){openChatAdmin();});
     case Strings.statusApproved:
-      return claimNotCheck(Strings.claimCheck, Strings.textClaimCheck);
+      return claimNotCheck(Strings.claimCheck, Strings.textClaimCheck,(){
+        openChatAdmin();
+      });
     case Strings.statusReject:
-      return claimNotCheck(Strings.claimReject, Strings.textClaimReject);
+      return claimNotCheck(Strings.claimReject, Strings.textClaimReject,(){
+        openChatAdmin();
+      });
     default:
       return Container();
   }

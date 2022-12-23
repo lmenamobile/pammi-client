@@ -507,7 +507,7 @@ Widget sectionDataGuide(){
     );
 }
 
-Widget sectionProvider(data.DetailClaim claim){
+Widget sectionProvider(data.DetailClaim claim,Function openChat){
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -548,7 +548,7 @@ Widget sectionProvider(data.DetailClaim claim){
             width: 150,
             child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
                 Colors.white, (){
-
+          openChat(claim.orderPackageDetail?.reference?.brandAndProduct?.warranty?.provider?.id.toString(), claim.orderPackageDetail?.orderPackage?.id ?? "");
                 }),
           )
         ],
@@ -613,7 +613,7 @@ Widget noApplyClaim(){
   );
 }
 
-Widget claimNotCheck(String title, String description){
+Widget claimNotCheck(String title, String description,Function openChatAdmin){
   return Container(
     width: double.infinity,
     margin: EdgeInsets.symmetric(vertical: 5),
@@ -641,7 +641,9 @@ Widget claimNotCheck(String title, String description){
             ),
           ),
           SizedBox(height: 10,),
-          btnCustom(150, Strings.serviceClient,CustomColors.blueTitle, Colors.white, null)
+          btnCustom(150, Strings.serviceClient,CustomColors.blueTitle, Colors.white, (){
+            openChatAdmin();
+          })
         ],
       ),
     ),

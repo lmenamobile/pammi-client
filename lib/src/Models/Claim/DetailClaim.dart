@@ -81,6 +81,7 @@ class OrderPackageDetail {
     this.price,
     this.total,
     this.reference,
+    this.orderPackage
   });
 
   String? nameProduct;
@@ -88,6 +89,7 @@ class OrderPackageDetail {
   String? price;
   String? total;
   Reference? reference;
+  OrderPackage? orderPackage;
 
   factory OrderPackageDetail.fromJson(Map<String, dynamic> json) => OrderPackageDetail(
     nameProduct: json["name"],
@@ -95,8 +97,22 @@ class OrderPackageDetail {
     price: json["price"].toString(),
     total: json["total"].toString(),
     reference: Reference.fromJson(json["reference"]),
+    orderPackage: OrderPackage.fromJson(json["orderPackage"])
   );
 
+
+}
+
+class OrderPackage {
+  String? id;
+
+  OrderPackage({
+    this.id
+});
+
+  factory OrderPackage.fromJson(Map<String, dynamic> json) => OrderPackage(
+    id: json["id"].toString()
+  );
 
 }
 

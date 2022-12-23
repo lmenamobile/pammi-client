@@ -91,7 +91,10 @@ class _ClaimsOpenTabState extends State<ClaimsOpenTab> {
 
   openDetailClaim(String id){
     print("id reclamo $id");
-    Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id)));
+    if(mounted){
+      Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id)));
+
+    }
   }
 
   openCloseClaim(String id){

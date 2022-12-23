@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wawamko/src/Models/Claim/DetailClaim.dart' as d;
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
+import 'package:wawamko/src/UI/Chat/ChatPage.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -42,9 +44,57 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
     super.initState();
   }
 
+  openChatProvider(String providerId,String subOrderId){
+    getRoomProvider(providerId, subOrderId);
+  }
+
+  openChatAdmin(){
+    getRoomSupport(context);
+  }
+
+  getRoomSupport(BuildContext context) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomAdmin();
+        await callChat.then((id) async {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeAdmin, id,"");
+          }
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,)));
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+
+
+  getRoomProvider(String providerId,String subOrderId) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomProvider(subOrderId, providerId);
+        await callChat.then((id) {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeProvider, id,subOrderId);
+          }
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,)));
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     providerClaimOrder = Provider.of<ProviderClaimOrder>(context);
+    providerChat = Provider.of<ProviderChat>(context);
+    socketService = Provider.of<SocketService>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -62,7 +112,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(15),
-                            child: sectionProvider(providerClaimOrder.detailClaim!),
+                            child: sectionProvider(providerClaimOrder.detailClaim ?? d.DetailClaim(),openChatProvider),
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 15),
@@ -152,11 +202,11 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                       customDivider(),
                                       itemDescription(
                                           Strings.claimType, utils.getLtsTypeClaim.firstWhere((element) =>
-                                                      element.valueTypeClaim! == providerClaimOrder.detailClaim?.type!).typeClaim ?? ''),
+                                                      element.valueTypeClaim == providerClaimOrder.detailClaim?.type).typeClaim ?? ''),
                                       itemDescription(
                                           Strings.reason,
                                           utils.getLtsTypeReason.firstWhere((element) =>
-                                                      element.valueTypeReason! == providerClaimOrder.detailClaim?.reasonOpen!).typeReason ?? ''),
+                                                      element.valueTypeReason == providerClaimOrder.detailClaim?.reasonOpen).typeReason ?? ''),
                                       Text(
                                         Strings.comment,
                                         style: TextStyle(
@@ -222,7 +272,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                             fontFamily: Strings.fontRegular,
                                             color: CustomColors.grayTwo),
                                       ),
-                                      getCardByStatusClaim(providerClaimOrder.detailClaim?.state ?? '',providerClaimOrder.detailClaim?.reasonClose??''),
+                                      getCardByStatusClaim(providerClaimOrder.detailClaim?.state ?? '',providerClaimOrder.detailClaim?.reasonClose??'',openChatAdmin),
                                       Visibility(
                                         visible: (providerClaimOrder.detailClaim!.guide!.isEmpty&&(getStatusClaim(providerClaimOrder.detailClaim?.state ?? '')== Constants.approved))?true:false,
                                           child: sectionDataGuide()),
