@@ -9,6 +9,7 @@ import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/CustomerServicePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/FavoritesPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Notifications/NotificationsPage.dart';
@@ -114,6 +115,9 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       itemMenu("ic_support.png", () {
                         widget.rollOverActive != "support" ? pushToPage(SupportHelpPage()) : Navigator.pop(context);
                       }, Strings.supportservices),
+                      itemMenu("ic_inf.png", () {
+                        widget.rollOverActive != Constants.menuCustomerService ? pushToPage(CustomerServicePage()) : Navigator.pop(context);
+                      }, Strings.customerService),
                       SizedBox(height: 17),
                       Opacity(
                         opacity: userIsLogged()?1:0,
@@ -134,6 +138,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           }, context),
                         ),
                       ),
+                      SizedBox(height: 15),
                       Text(
                         "Versión:${Constants.versionApp}"
                       ),
@@ -172,7 +177,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
         height: 63,
         margin: EdgeInsets.only(left: 6, right: 6, top: 6),
         child: Padding(
-          padding: EdgeInsets.only(left: 25, right: 25),
+          padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -196,12 +201,13 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     fit: BoxFit.cover,
                     placeholder: AssetImage(
                         "Assets/images/ic_img_profile.png"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   ),
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
+              SizedBox(width: 10),
               _prefs.authToken == "0"? Text(
                 Strings.login,
                 style: TextStyle(
@@ -212,7 +218,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
               ): Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
                       nameUser ?? '',
@@ -220,6 +226,51 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           fontFamily: Strings.fontBold,
                           fontSize: 12,
                           color: CustomColors.letterDarkBlue),
+                    ),
+                    Container(
+                      height: 25,
+                      width: double.infinity,
+                      padding: EdgeInsets.only(left: 5),
+                      decoration: BoxDecoration(
+                        color: CustomColors.whiteBackGround,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              Strings.linkUp,
+                              style: TextStyle(
+                                color: CustomColors.gray7,
+                                fontSize: 12,
+                                fontFamily: Strings.fontRegular,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            child: Container(
+                              height: 25,
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                color: CustomColors.orange.withOpacity(0.2),
+                                borderRadius: BorderRadius.only(bottomRight: Radius.circular(4), topRight: Radius.circular(4))
+                              ),
+                              child: Center(
+                                child: Text(
+                                  _prefs.referredCode,
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: CustomColors.orange,
+                                    fontFamily: Strings.fontRegular,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                       Strings.seeProfile,

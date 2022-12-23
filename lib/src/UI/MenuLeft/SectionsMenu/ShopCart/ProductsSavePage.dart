@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -19,6 +20,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
+  late ProviderCheckOut providerCheckOut;
   RefreshController _refreshProductsSave = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
@@ -35,6 +37,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -146,7 +149,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getShopCart();
+        Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
 
         }, onError: (error) {

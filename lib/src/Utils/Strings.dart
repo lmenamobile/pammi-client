@@ -36,6 +36,7 @@ class Strings {
   static const String registerMsg = '¡Completa la siguiente información de tu perfil!';
 
   static const String send = 'Envío';
+  static const String discountShipping = 'Descuento Envío';
   static const String textLogin = 'Ingresa tu correo electrónico y \ncontraseña';
   static const String email = 'Correo electrónico';
   static const String password= 'Contraseña';
@@ -214,6 +215,7 @@ class Strings {
   //DrawerMenu
   static const String seeProfile = 'Ver perfil';
   static const String start = 'Inicio';
+  static const String status = 'Estado';
   static const String dayOferts = 'Ofertas del día';
   static const String destacados = 'Destacados';
   static const String giftCards = 'Tarjetas de regalo';
@@ -221,6 +223,7 @@ class Strings {
   static const String wishes = 'Deseos';
   static const String notifications = 'Notificaciones';
   static const String supportservices = 'Soporte y servicios';
+  static const String customerService = 'Servicio al cliente';
   static const String closeSesion = 'Cerrar sesión';
   static const String closeSesionText = '¿Estás seguro de cerrar sesión?';
   static const String sessionClose = '¡Upps!';
@@ -246,6 +249,8 @@ class Strings {
   static const String  change  = 'Cambiar';
   static const String  couponEmpty  = 'Debes ingresar un cupón valido';
   static const String  giftEmpty  = 'Debes ingresar una gift card valida';
+
+  static const String  inputAddressSelected  = 'Selecciona tu dirección de destino.';
 
   /*Menu drawer*/
   static const String  wingsReferred = r'¡Gana $10.000 por referir a un amigo!';
@@ -294,6 +299,10 @@ class Strings {
   static const String  giftProducts = 'Productos de regalo';
   static const String  giftCard = 'Tarjeta de regalo';
   static const String  order = 'Orden';
+  static const String  add = 'Agrega ';
+  static const String  addTxt = 'y el envío será gratis';
+  static const String  continueShopping = 'Seguir comprando';
+
 
   /*checkOut*/
   static const String  yourOrder = 'Tu pedido';
@@ -310,6 +319,8 @@ class Strings {
   static const String  discount = 'Descuentos';
   static const String  subTotal = 'SubTotal';
   static const String  delivery = 'Envio';
+  static const String  delivery2 = 'Envío';
+  static const String  free = 'gratis';
   static const String  IVA = 'IVA';
   static const String  total = 'Total';
   static const String  payment = 'Pagar';
@@ -415,6 +426,11 @@ class Strings {
   /*Catalogo*/
   static const String  catalog = 'Catalogo emprendedor';
 
+  /*PQRS*/
+  static const String  contactUs = 'Contáctanos';
+  static const String  communicateOperator = 'Comunícate con un operador';
+  static const String  pqrs = 'PQRS';
+
   /*Dialogs*/
   static const String  btnAccept = 'Aceptar';
   static const String  btnCancel = 'Cancelar';
@@ -468,6 +484,7 @@ class Strings {
   static const String ID = 'ID';
   static const String noApplyClaim = 'No aplica reclamo';
   static const String image = 'Imagen';
+  static const String continue1 = 'Continuar';
   static const String guideDevolution = 'Guía de devolución';
   static const String textGuideDevolution = 'En los próximos días se generará una guía de devolución. Podrás encontrarla en esta sección y/o en tu correo para continuar con el proceso de devolución.';
   static const String messageClaimStatusNotCompleted = 'El reclamo solo puede hacerse cuando el estado del pedido sea entregado';
@@ -549,6 +566,49 @@ class Strings {
   static const String fontBold = 'FontBold';
   static const String fontRegular = 'FontRegular';
   static const String fontMedium = 'FontMedium';
+
+  static const String opened = 'Abierto';
+  static const String closed = 'Cerrado';
+  static const String error = "Error";
+  static const String errorTryAgain = "Error, intentalo de nuevo más tarde";
+  static const String  ticket = 'Ticket';
+  static const String locale = "es_CO";
+  static const String thisIsEmpty = "Esto está vacío";
+  static var thisIsSoEmpty = "Esto está muy vacío";
+  static const String thisIsSoEmptyDescription = "Actualmente no tenemos datos que mostrar aquí, por favor, regresa más tarde.";
+  static String supportType = "Tipo de soporte";
+  static String topic = "Asunto";
+  static const String message = 'Mensaje';
+  static String understood = "Entendido";
+  static const String  create = 'Crear';
+  static const String  frecuensQuestion  = 'Preguntas frecuentes';
+
+  static int pageTransitionDuration = 400;
+
+  static const String whatsApp = 'WhatsApp';
+  static const String pamiiChat = 'Pamii Chat';
+  static const String telegram = 'Telegram';
+  static const String email2 = 'Correo';
+  static const String call = 'Llamada';
+
+  static String notRevealIdentity = "No revelar mi identidad";
+  static String inputTypeSupport = "Ingresa el tipo de soporte.";
+  static String inputMessage = "Ingresa el mensaje.";
+  static String inputTopic = "Ingresa el asunto.";
+  static String noReceiveTopology = "No se ha encontrado un destino.";
+
+  static const String open = "open";
+  static const String openShow = "Abierto";
+  static const String close = "close";
+  static const String closeShow = "Cerrado";
+  static const String inProgress = "inProgress";
+  static const String inProgressShow = "En progreso";
+  static const String note = "El valor del envío esta sujeto al método de pago.";
+  static const String product = "producto";
+  static const String service = "servicio";
+  static const String principalConfigured = "No tienes una dirección principal configurada.";
+
+
 
 }
 

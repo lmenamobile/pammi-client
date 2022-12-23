@@ -9,6 +9,7 @@ import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
+import 'package:wawamko/src/Providers/ProviderCustomerService.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
@@ -19,6 +20,8 @@ import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
+import 'package:wawamko/src/Providers/UserProvider.dart';
+import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -111,6 +114,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => SupportProvider()),
         ChangeNotifierProvider(create: (_) => ProviderOffer()),
         ChangeNotifierProvider(create: (_) => ProviderClaimOrder()),
+        ChangeNotifierProvider(create: (_) => ProviderCustomerService()),
+        ChangeNotifierProvider(create: (_) => PQRSProvider()),
+
       ],
       child: MaterialApp(
         title: Strings.appName,

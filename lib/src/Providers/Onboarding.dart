@@ -358,7 +358,7 @@ class OnboardingProvider with ChangeNotifier {
     }
   }
 
-  Future<dynamic> createAccount(UserModel userModel,String codeReferred,bool contactCommercial) async {
+  Future<dynamic> createAccount(UserModel userModel,String codeReferred) async {
     this.isLoading = true;
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final header = {
@@ -377,7 +377,7 @@ class OnboardingProvider with ChangeNotifier {
       'type': "lc",
       'pushToken': _prefs.pushToken,
       "userReferrerCode":codeReferred,
-      "comercialContact": contactCommercial,
+      "comercialContact": true,
       'version': packageInfo.version.toString(),
     };
 

@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
 
@@ -16,6 +18,7 @@ import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'ExpansionWidget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
@@ -250,6 +253,47 @@ Widget customBoxEmailRegister(TextEditingController emailController,
   });
 }
 
+
+Widget simpleHeaderComplete(BuildContext context, String title) {
+  return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: utils.getSizeNavBar()),
+      height: 90,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: CustomColors.red2),
+      child: Stack(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: Strings.fontRegular,
+                color: CustomColors.white,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              child: Container(
+                width: 45,
+                height: 45,
+                child: Image(
+                  image: AssetImage("Assets/images/ic_arrow.png"),
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],
+      ));
+}
+
 Widget btnCustomRoundedImage(Color backgroungButton, Color textColor,
     String textButton, Function action, BuildContext context, String image) {
   return SpringButton(
@@ -391,7 +435,9 @@ Widget itemAddress(Address address, Function delete, Function selectAddress) {
       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: CustomColors.greyBorder, width: 1),
+          border: !(address.principal??false)
+              ? Border.all(color: CustomColors.greyBorder, width: 1)
+              : Border.all(color: CustomColors.red2, width: 1),
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -1148,6 +1194,9 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                   image: NetworkImage(category.image!),
                   placeholder: AssetImage("Assets/images/ic_sport.png"),
                   fit: BoxFit.fill,
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               )
             ],
@@ -1164,5 +1213,172 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
       ],
     ),
   ),
+  );
+}
+
+Widget itemPqrs(ItemPqrs itemPqrs,BuildContext context,Function action){
+  var typePqrs = "";
+  switch(itemPqrs.supportType){
+    case "suggestion":
+      typePqrs = "Sugerencia";
+      break;
+    case "claim":
+      typePqrs = "Reclamo";
+      break;
+    case "complaint":
+      typePqrs = "Queja";
+      break;
+    case "petition":
+      typePqrs = "Petición";
+      break;
+    default:
+      typePqrs = itemPqrs.supportType ?? "";
+      break;
+  }
+  return GestureDetector(
+    onTap: (){
+      action(itemPqrs);
+    },
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+      padding: EdgeInsets.only(left: 17,right: 19,top: 24,bottom: 22),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          border: Border.all(color: CustomColors.grayBackground,width: 1)
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  typePqrs,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.orange
+                  ),
+                ),
+                Text(
+                    getStatusPqrs(itemPqrs.status ?? ""),
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.blueSplash
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  "${Strings.ticket} ${itemPqrs.id} - ${utils.formatDate(itemPqrs.createdAt!, "dd-MM-yyyy", Strings.locale)}",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontMedium,
+                      color: CustomColors.gray8
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 35,
+            height: 35,
+            decoration: BoxDecoration(
+                color: CustomColors.orange,
+                borderRadius: BorderRadius.circular(8)
+            ),
+            child: Center(
+              child:SvgPicture.asset(
+                'Assets/images/ic_arrow_next.svg',
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget simpleHeader(BuildContext context, Widget child) {
+  return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: utils.getSizeNavBar()),
+      height: 90,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: CustomColors.blue),
+      child: child);
+}
+
+Widget emptyPage(
+    {String image = "ic_error_page.png",
+      String title = Strings.error,
+      String description = Strings.errorTryAgain,
+      EdgeInsets paddingImage = EdgeInsets.zero}) {
+  return Container(
+    padding: EdgeInsets.all(40),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+            padding: paddingImage,
+            child: Image.asset(
+              "Assets/images/" + image,
+            )),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+            width: 200,
+            child: Text(description,
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
+      ],
+    ),
+  );
+}
+
+Widget textFieldAreaCustom(TextEditingController controller, String hintText,Function onChange){
+  return Container(
+    height: 150,
+    width: double.infinity,
+    padding: EdgeInsets.all(12),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(9)),
+        border: Border.all(color:Colors.grey.withOpacity(.5),width: 1)
+    ),
+    child: TextField(
+      controller: controller,
+      inputFormatters: [LengthLimitingTextInputFormatter(500)],
+      maxLines: null,
+      onChanged: (value){
+        onChange(value);
+      },
+      style: TextStyle(
+        fontFamily: Strings.fontRegular,
+        fontSize: 15,
+        color: CustomColors.blackLetter,
+      ),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          fontFamily: Strings.fontRegular,
+          fontSize: 15,
+          color: CustomColors.gray,
+        ),
+
+      ),
+
+      cursorColor: Colors.black,
+
+    ),
   );
 }

@@ -14,7 +14,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct) {
+Widget itemProductCart(ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
   return Column(
     children: [
       Container(
@@ -38,6 +38,9 @@ Widget itemProductCart(ProductShopCart product,Function updateQuantity,Function 
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -158,6 +161,9 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   fit: BoxFit.fill,
                   image: NetworkImage(offer.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               ),
             ),
@@ -212,14 +218,14 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                       )),
                     )
                   ],
-                )
+                ),
+                SizedBox(height: 5),
               ],
             ),
           )
         ],
       ),
       Container(
-        margin: EdgeInsets.only(top: 10),
         height: 1,
         width: double.infinity,
         color: CustomColors.grayBackground,
@@ -389,6 +395,9 @@ Widget itemOfferProductGift(Reference? reference){
                         fit: BoxFit.fill,
                         image: NetworkImage(reference.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
+                        imageErrorBuilder: (_,__,___){
+                          return Container();
+                        },
                       ),
                     ),
                   ),
@@ -508,6 +517,9 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                       fit: BoxFit.fill,
                       image: NetworkImage(product.reference?.images?[0].url??''),
                       placeholder: AssetImage("Assets/images/spinner.gif"),
+                      imageErrorBuilder: (_,__,___){
+                        return Container();
+                      },
                     )),
                   ),
                 ),
@@ -676,7 +688,7 @@ Widget customButton(String icon, String text, Color colorText, Function action) 
   );
 }
 
-Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete, Function save) {
+Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -742,10 +754,105 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 10,
+              //TODO: Change position
+              SizedBox(height: 10),
+              RichText(
+                text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: Strings.total + ' ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.gray7,
+                          fontSize: 13,
+                        ),
+                      ),
+                      TextSpan(
+                        text: formatMoney((provider.cart?.total??0).toString()),
+                        style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          color: CustomColors.gray7,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ]
+                ),
               ),
-              listProducts(provider.products,updateQuantity,delete,save)
+              Visibility(
+                visible: hasPrincipalAddress,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    RichText(
+                      text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: Strings.delivery2 + ' ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: CustomColors.gray7,
+                                fontSize: 13,
+                              ),
+                            ),
+                            TextSpan(
+                              text: (provider.provider?.minPurchase??0) > 0
+                                  ? (provider.freeShipping??0) == 0
+                                  ? Strings.free
+                                  : formatMoney((provider.shippingValue??0).toString())
+                                  : formatMoney((provider.shippingValue??0).toString()),
+                              style: TextStyle(
+                                fontFamily: provider.freeShipping != 0
+                                    ? Strings.fontRegular
+                                    : Strings.fontBold,
+                                color: CustomColors.gray7,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ]
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: !hasPrincipalAddress,
+                child: Text(
+                  Strings.principalConfigured,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontFamily: Strings.fontBold
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+              Visibility(
+                visible: (provider.provider?.minPurchase??0) > 0 && (provider.freeShipping != 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Strings.add + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: CustomColors.blueOne,
+                        fontFamily: Strings.fontRegular,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    LinearProgressIndicator(
+                      value: (provider.provider?.minPurchase??0) > 0
+                          ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) 
+                          : 0,
+                      minHeight: 3,
+                      color: CustomColors.blue6,
+                      backgroundColor: CustomColors.gray9,
+                    )
+                  ],
+                ),
+              ),
+              listProducts(provider.products, updateQuantity,delete,save)
             ],
           )
         ],
@@ -775,7 +882,7 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
         if(ltsProducts![index].reference!=null){
-          return itemProductCart(ltsProducts[index],updateQuantity,delete,save);
+          return itemProductCart(ltsProducts[index], updateQuantity,delete,save);
         }else{
           return itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save);
         }
@@ -786,71 +893,76 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
 }
 
 Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function openCheckOut){
-  return Container(
-    margin: EdgeInsets.symmetric(horizontal: 15),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(5)),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
-          spreadRadius: 2,
-          blurRadius: 3,
-          offset: Offset(0, 2), // changes position of shadow
+  return Column(
+    children: [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 3,
+              offset: Offset(0, 2), // changes position of shadow
+            ),
+          ],
         ),
-      ],
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
             children: [
-              Text(
-                Strings.subtotal,
-                style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 15,
-                  color: CustomColors.blackLetter,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Strings.subtotal,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 15,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                  Text(
+                    formatMoney(total?.subtotal??'0'),
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 15,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                formatMoney(total?.subtotal??'0'),
-                style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 15,
-                  color: CustomColors.blackLetter,
-                ),
-              ),
+              customDivider(),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  InkWell(
+                    onTap: ()=>openProductsSave(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: CustomColors.orange,
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
+                        child: Image.asset("Assets/images/ic_box.png",height: 40,),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  Expanded(
+                      child: btnCustomSize(47,Strings.makePurchase,CustomColors.blueSplash,Colors.white,openCheckOut))
+                ],
+              )
             ],
           ),
-          customDivider(),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              InkWell(
-                onTap: ()=>openProductsSave(),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: CustomColors.orange,
-                    borderRadius: BorderRadius.all(Radius.circular(5))
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
-                    child: Image.asset("Assets/images/ic_box.png",height: 40,),
-                  ),
-                ),
-              ),
-              SizedBox(width: 20,),
-              Expanded(
-                  child: btnCustomSize(47,Strings.makePurchase,CustomColors.blueSplash,Colors.white,openCheckOut))
-            ],
-          )
-        ],
+        ),
       ),
-    ),
+
+    ],
   );
 }
 

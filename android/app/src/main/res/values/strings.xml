@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<!--Key debug facebook VzSiQcXRmi2kyjzcA+mYLEtbGVs=-->
+<!--Key debug facebook VzSiQcXRmi2kyjzcA+mYLEtbGVs=-->
     <string name="app_name">Pamii</string>
-    <string name="facebook_app_id">807036173576277</string>
-    <string name="fb_login_protocol_scheme">fb807036173576277</string>
+    <string name="facebook_app_id">764158855030230</string>
+    <string name="facebook_client_token">a7c98a0db5d5e7786ae319b4980424b0</string>
     <string name="keyGoogle">AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ</string> <!--PRODUCCION AIzaSyCBCHxCQrkJ-E7IVDenbevK0rQnjR7XLFE-->
 
 

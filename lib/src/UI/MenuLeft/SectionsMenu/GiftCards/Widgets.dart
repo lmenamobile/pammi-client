@@ -37,6 +37,9 @@ Widget categoryItem(Category category){
                     fit: BoxFit.fill,
                     image: NetworkImage(category.image!),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   ),
                 ),
               ),

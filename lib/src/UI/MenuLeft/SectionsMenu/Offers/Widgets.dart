@@ -26,7 +26,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
               color: CustomColors.blackLetter
             ),
           ),
-          SizedBox(height: 5,),
+          SizedBox(height: 2,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -127,6 +127,9 @@ Widget itemImageOffer(String url) {
       fit: BoxFit.fill,
       image: NetworkImage(url),
       placeholder: AssetImage("Assets/images/spinner.gif"),
+      imageErrorBuilder: (_,__,___){
+        return Container();
+      },
     ),
   );
 }
@@ -144,7 +147,7 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts,Of
             color: CustomColors.gray7
         ),
       ),
-      SizedBox(height: 8,),
+      SizedBox(height: 2,),
       ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -169,6 +172,8 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
             fontFamily: Strings.fontBold,
             color: CustomColors.blackLetter
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
       ),
       Text(
         formatMoney(reference.price??'0'),
@@ -203,6 +208,8 @@ Widget charactersOffers(Reference reference){
             fontFamily: Strings.fontBold,
             color: CustomColors.blackLetter
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
       ),
       Text(
         formatMoney(reference.price??'0'),

@@ -27,7 +27,7 @@ class _LoadingProgressState extends State<LoadingProgress> with TickerProviderSt
    return WillPopScope(
      onWillPop: () async => false,
      child: Scaffold(
-       backgroundColor: Colors.black.withOpacity(.4),
+       backgroundColor: Colors.black.withOpacity(.1),
        body: Container(
          height: MediaQuery.of(context).size.height,
          child: Center(

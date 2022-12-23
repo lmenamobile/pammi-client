@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Image(
                       height: 25,
-                      image: AssetImage("Assets/images/ic_logo_email.png"),
+                      image: AssetImage("Assets/images/ic_logo.png"),
                     ),
                     GestureDetector(
                       child: Stack(

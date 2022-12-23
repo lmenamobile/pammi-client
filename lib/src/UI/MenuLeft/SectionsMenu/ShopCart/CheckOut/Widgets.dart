@@ -66,60 +66,62 @@ Widget sectionAddress(Address? address) {
               SizedBox(
                 width: 20,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    Strings.mainAddress,
-                    style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      color: CustomColors.gray7,
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Strings.mainAddress,
+                      style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        color: CustomColors.gray7,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  address==null?Row(
-                    children: [
-                      Text(
-                        Strings.selectYouAddress,
-                        style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray7,
+                    SizedBox(
+                      height: 5,
+                    ),
+                    address==null?Row(
+                      children: [
+                        Text(
+                          Strings.selectYouAddress,
+                          style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            color: CustomColors.gray7,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 10,),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: CustomColors.gray7,size: 15,
-                      )
-                    ],
-                  ):
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        address.address??'',
-                        style: TextStyle(
-                          fontFamily: Strings.fontBold,
-                          fontSize: 15,
-                          color: CustomColors.blackLetter,
+                        SizedBox(width: 10,),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: CustomColors.gray7,size: 15,
+                        )
+                      ],
+                    ):
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          address.address??'',
+                          style: TextStyle(
+                            fontFamily: Strings.fontBold,
+                            fontSize: 15,
+                            color: CustomColors.blackLetter,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        address.complement??'',
-                        style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray7,
+                        SizedBox(
+                          height: 5,
                         ),
-                      ),
-                    ],
-                  ),
+                        Text(
+                          address.complement??'',
+                          style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            color: CustomColors.gray7,
+                          ),
+                        ),
+                      ],
+                    ),
 
-                ],
+                  ],
+                ),
               )
             ],
           )
@@ -177,6 +179,9 @@ Widget itemProvider(PackagesProvider provider) {
               fit: BoxFit.fill,
               image: NetworkImage(""),
               placeholder: AssetImage("Assets/images/spinner.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
             ),
           ),
         ),
@@ -453,14 +458,40 @@ Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          itemTotal(styleRegular, Strings.subTotal, totalCart?.subtotal??'0'),
-          itemTotal(styleRegular, Strings.delivery, shipping),
+          itemTotal(styleRegular, Strings.subTotal, totalCart?.subtotal??'0', ),
+          itemTotal(styleRegular, Strings.delivery, shipping, ),
+          itemTotal(styleRegular, Strings.discountShipping, totalCart?.discountShipping??'0', isDiscount: true),
           customDivider(),
-          itemTotal(styleRegular, Strings.IVA, totalCart?.iva??'0'),
-          itemTotal(styleRegular, Strings.coupon, totalCart?.discountCoupon??'0'),
-          itemTotal(styleRegular, Strings.giftCard, totalCart?.discountGiftCard??'0'),
+          itemTotal(styleRegular, Strings.IVA, totalCart?.iva??'0', ),
+          itemTotal(styleRegular, Strings.coupon, totalCart?.discountCoupon??'0', ),
+          itemTotal(styleRegular, Strings.giftCard, totalCart?.discountGiftCard??'0', ),
           customDivider(),
-          itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping)),
+          itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping, totalCart?.discountShipping??'0')),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Nota: ",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontFamily: Strings.fontBold
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  Strings.note,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontFamily: Strings.fontRegular
+                  ),
+                ),
+              )
+            ],
+          ),
           SizedBox(height: 20,),
           Align(
               alignment: Alignment.center,
@@ -472,7 +503,7 @@ Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping
   );
 }
 
-Widget itemTotal(TextStyle style,String text, String value) {
+Widget itemTotal(TextStyle style,String text, String value, {bool isDiscount = false}) {
   return Row(
     mainAxisSize: MainAxisSize.max,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -482,7 +513,9 @@ Widget itemTotal(TextStyle style,String text, String value) {
         style: style,
       ),
       Text(
-        formatMoney(value),
+        !isDiscount
+            ? formatMoney(value)
+            : '- ${formatMoney(value)}',
         style: style,
       ),
     ],
@@ -609,6 +642,9 @@ Widget itemProductCart(ProductShopCart product) {
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -680,6 +716,9 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                   fit: BoxFit.fill,
                   image: NetworkImage(offer.reference?.images?[getRandomPosition(offer.reference?.images?.length??0)].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               ),
             ),
@@ -753,6 +792,9 @@ Widget itemOfferProductGift(Reference? reference){
                         fit: BoxFit.fill,
                         image: NetworkImage(reference.images?[getRandomPosition(reference.images?.length??0)].url??''),
                         placeholder: AssetImage("Assets/images/spinner.gif"),
+                        imageErrorBuilder: (_,__,___){
+                          return Container();
+                        },
                       ),
                     ),
                   ),

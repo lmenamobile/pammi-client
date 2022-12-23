@@ -199,6 +199,9 @@ Widget barQualifications(String value){
 }
 
 Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage,bool isActive,bool isOrderFinish,Function qualification,Function openChat,Function actionTracking,Function actionClaim) {
+
+  var deliverCost = double.parse(providerPackage.shippingValue??'0') - double.parse(providerPackage.discountShipping??'0');
+
   return Container(
     margin: EdgeInsets.only(bottom: 5),
     decoration: BoxDecoration(
@@ -338,6 +341,28 @@ Widget itemProductsProvider(BuildContext context,PackageProvider providerPackage
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
+                Strings.delivery,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: Strings.fontRegular,
+                    color: CustomColors.grayTwo
+                ),
+              ),
+              Text(
+                formatMoney((deliverCost.toInt()).toString()),
+                style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: Strings.fontRegular,
+                    color: CustomColors.blackLetter
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 Strings.total,
                 style: TextStyle(
                     fontSize: 16,
@@ -407,6 +432,9 @@ Widget itemProduct(BuildContext context,PackageProvider providerPackage,ProductP
                   fit: BoxFit.fill,
                   image: NetworkImage(product.reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -558,6 +586,9 @@ Widget itemProductOffer(PackageProvider providerPackage,ProductProvider product,
                   fit: BoxFit.fill,
                   image: NetworkImage(product.offerOrder?.baseProducts?[0].reference?.images?[0].url??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
             ),
@@ -661,6 +692,9 @@ Widget sectionSeller(PackageProvider providerPackage,OrderDetail? order,Seller? 
                   fit: BoxFit.fill,
                   image: NetworkImage(seller?.photoUrl??''),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               ),
             ),
@@ -801,6 +835,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
           rowTotal(Strings.paymentMethod, order?.paymentMethod?.methodPayment??''),
           rowTotal(Strings.subtotal, formatMoney(order?.subtotal??'0')),
           rowTotal(Strings.send, formatMoney(order?.shippingValue??'0')),
+          rowTotal(Strings.discountShipping, '- ${formatMoney((order?.discountShipping??0).toString())}'),
           rowTotal(Strings.coupon, formatMoney(order?.discountCoupon??'0')),
           rowTotal(Strings.giftCard, formatMoney(order?.discountGiftCard??'0')),
           Row(

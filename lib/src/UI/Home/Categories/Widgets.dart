@@ -49,6 +49,9 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
                       fit: BoxFit.fill,
                       image: NetworkImage(category.image!),
                       placeholder: AssetImage("Assets/images/spinner.gif"),
+                      imageErrorBuilder: (_,__,___){
+                        return Container();
+                      },
                     ),
                   ),
                 ),
@@ -181,7 +184,11 @@ Widget itemProductRelations(Product product, Function openDetail){
               isImageYoutube(product.references?[0].images?[0].url??"",FadeInImage(
                 fit: BoxFit.fill,
                 image: NetworkImage(product.references?[0].images?[0].url??""),
-                placeholder: AssetImage("Assets/images/spinner.gif")),
+                placeholder: AssetImage("Assets/images/spinner.gif"),
+                imageErrorBuilder: (_,__,___){
+                  return Container();
+                },),
+
               ),
             ),
             customDivider(),
@@ -257,6 +264,9 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                     fit: BoxFit.fill,
                     image: NetworkImage(product.references?[0].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   )),
                 ),
                 customDivider(),

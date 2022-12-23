@@ -29,6 +29,9 @@ Widget itemHighlights(Banners item){
               image: NetworkImage(item.image!),
               fit: BoxFit.cover,
               placeholder: AssetImage(''),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
             ),
           ),
         ),
@@ -108,6 +111,9 @@ Widget itemCampaigns(Campaign item,Function action){
                 image: NetworkImage(item.image!),
                 fit: BoxFit.cover,
                 placeholder: AssetImage(''),
+                imageErrorBuilder: (_,__,___){
+                  return Container();
+                },
               ),
             ),
           ),

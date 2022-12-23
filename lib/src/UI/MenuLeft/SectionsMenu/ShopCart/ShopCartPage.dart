@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Animations/animate_button.dart';
+import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
+import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
@@ -13,6 +20,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ProductsSavePage.d
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import 'CheckOut/CheckOutPage.dart';
@@ -24,21 +32,26 @@ class ShopCartPage extends StatefulWidget {
 }
 
 class _ShopCartPageState extends State<ShopCartPage> {
-  ProviderShopCart? providerShopCart;
+  late ProviderShopCart providerShopCart;
   late ProviderProducts providerProducts;
   late ProviderUser providerUser;
   late ProviderSettings providerSettings;
+  late ProviderCheckOut providerCheckOut;
   int pageOffsetProductsRelations = 0;
 
   @override
   void initState() {
     providerShopCart = Provider.of<ProviderShopCart>(context, listen: false);
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
-    providerProducts.ltsProductsRelationsByReference.clear();
-    providerShopCart!.shopCart = null;
-    providerShopCart!.totalProductsCart = "0";
-    providerShopCart!.getLtsReferencesSave(0);
-    getShopCart();
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      providerProducts.ltsProductsRelationsByReference.clear();
+      providerShopCart.shopCart = null;
+      providerShopCart.totalProductsCart = "0";
+      providerShopCart.getLtsReferencesSave(0);
+      getShopCart();
+
+    });
     super.initState();
   }
 
@@ -48,6 +61,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
     providerUser = Provider.of<ProviderUser>(context);
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -71,103 +85,48 @@ class _ShopCartPageState extends State<ShopCartPage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                          color: CustomColors.whiteBackGround,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          )),
-                      child: providerSettings.hasConnection
-                          ? providerShopCart?.shopCart == null ||
-                                  providerShopCart?.shopCart?.packagesProvider
-                                              ?.length ==
-                                          0 &&
-                                      providerShopCart
-                                              ?.shopCart?.products?.length ==
-                                          0
-                              ? Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    emptyData(
-                                        "ic_highlights_empty.png",
-                                        Strings.sorryHighlights,
-                                        Strings.emptyProductsSave),
-                                    SizedBox(height: 10,),
-                                    Stack(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: InkWell(
-                                            onTap: ()=>openProductsSave(),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: CustomColors.orange,
-                                                  borderRadius: BorderRadius.all(Radius.circular(5))
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
-                                                child: Image.asset("Assets/images/ic_box.png",height: 40,),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: CircleAvatar(
-                                            radius: 5,
-                                            backgroundColor: Colors.redAccent,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                              : SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      providerShopCart!.shopCart!
-                                              .packagesProvider!.isEmpty
-                                          ? sectionGiftCard()
-                                          : listProductsByProvider(),
-                                      itemSubtotalCart(
-                                          providerShopCart?.shopCart?.totalCart,
-                                          () =>  openProductsSave(),
-                                          () => Navigator.push(
-                                              context,
-                                              customPageTransition(
-                                                  CheckOutPage()))),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 10),
-                                            child: Text(
-                                              Strings.productsRelations,
-                                              style: TextStyle(
-                                                  fontFamily: Strings.fontBold,
-                                                  color:
-                                                      CustomColors.blackLetter),
-                                            ),
-                                          ),
-                                          Container(
-                                              height: 217,
-                                              child:
-                                                  listItemsProductsRelations()),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                          : notConnectionInternet(),
+                        color: CustomColors.whiteBackGround,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      child:_showBody()
                     ),
                   ),
                 ],
-              )
+              ),
+              Visibility(
+                visible: providerSettings.hasConnection
+                    ? providerShopCart.shopCart != null || (providerShopCart.shopCart?.packagesProvider?.isNotEmpty??false) && (providerShopCart.shopCart?.products?.isNotEmpty??false)
+                    : false,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimateButton(
+                    pressEvent: (){
+                      Navigator.pop(context);
+                    },
+                    color: CustomColors.blue,
+                    width: double.infinity,
+                    body: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('Assets/images/ic_cartback.svg'),
+                        Text(
+                          Strings.continueShopping,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: Strings.fontMedium,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ),
+              ),
+
+
             ],
           ),
         ),
@@ -175,20 +134,119 @@ class _ShopCartPageState extends State<ShopCartPage> {
     );
   }
 
+
+  Widget _showBody(){
+    if( providerSettings.hasConnection && providerShopCart.shopCart == null && !providerShopCart.isLoadingCart && !providerProducts.isLoadingProducts && !providerShopCart.loading){
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            emptyData(
+                "ic_highlights_empty.png",
+                Strings.sorryHighlights,
+                Strings.emptyProductsSave),
+            SizedBox(height: 10,),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: InkWell(
+                    onTap: ()=>openProductsSave(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: CustomColors.orange,
+                          borderRadius: BorderRadius.all(Radius.circular(5))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
+                        child: Image.asset("Assets/images/ic_box.png",height: 40,),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: CircleAvatar(
+                    radius: 5,
+                    backgroundColor: Colors.redAccent,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      );
+    }else if(!providerSettings.hasConnection){
+      return notConnectionInternet();
+    }else if(providerShopCart.isLoadingCart || providerShopCart.loading){
+      return LoadingProgress();
+    }else if(providerShopCart.shopCart != null && !providerShopCart.isLoadingCart){
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            providerShopCart.shopCart!
+                .packagesProvider!.isEmpty
+                ? sectionGiftCard()
+                : listProductsByProvider(),
+            itemSubtotalCart(
+              providerShopCart.shopCart?.totalCart,
+                  () =>  openProductsSave(),
+                  () => Navigator.push(
+                  context,
+                  customPageTransition(
+                      CheckOutPage())).then((value) {
+                //getShopCart();
+                //getShippingPrice();
+              }),
+            ),
+            Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 15, vertical: 10),
+                  child: Text(
+                    Strings.productsRelations,
+                    style: TextStyle(
+                        fontFamily: Strings.fontBold,
+                        color:
+                        CustomColors.blackLetter),
+                  ),
+                ),
+                Container(
+                    height: 217,
+                    child:
+                    listItemsProductsRelations()),
+              ],
+            )
+          ],
+        ),
+      );
+    }else {
+        return Container();
+    }
+  }
+
+
   Widget listProductsByProvider() {
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: providerShopCart?.shopCart?.packagesProvider == null
+        itemCount: providerShopCart.shopCart?.packagesProvider == null
             ? 0
-            : providerShopCart?.shopCart?.packagesProvider?.length,
+            : providerShopCart.shopCart?.packagesProvider?.length,
         itemBuilder: (BuildContext context, int index) {
           return cardListProductsByProvider(
-              providerShopCart!.shopCart!.packagesProvider![index],
+              providerShopCart.shopCart!.packagesProvider![index],
               updateOfferOrProduct,
               callDeleteProduct,
+              providerShopCart.hasPrincipalAddress,
               saveProduct);
         },
       ),
@@ -196,11 +254,11 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   Widget sectionGiftCard() {
-    return providerShopCart?.shopCart?.products == null
+    return providerShopCart.shopCart?.products == null
         ? Container()
         : Container(
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: listGiftCard(providerShopCart?.shopCart?.products,
+            child: listGiftCard(providerShopCart.shopCart?.products,
                 updateGiftCard, callDeleteProduct));
   }
 
@@ -247,13 +305,30 @@ class _ShopCartPageState extends State<ShopCartPage> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart!.getShopCart();
+        Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
-          if (providerShopCart!.shopCart != null) getProductsRelations();
+          print("finish called shoCar..........");
+          if (providerShopCart.shopCart != null) getProductsRelations();
+          serviceGetAddAddressUser();
         }, onError: (error) {
-          providerShopCart!.shopCart = null;
-          providerShopCart!.isLoadingCart = false;
-          // utils.showSnackBar(context, error.toString());
+         // providerShopCart?.shopCart = null;
+
+        });
+      } else {
+        utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  getShippingPrice() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCart = providerCheckOut.calculateShippingPrice( providerCheckOut.addressSelected!.id.toString(),providerCheckOut.paymentSelected?.id ?? 2);
+        await callCart.then((msg) {
+          print("valor $msg");
+        }, onError: (error) {
+          providerShopCart.isLoadingCart = false;
+          utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
@@ -264,7 +339,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   updateProductCart(int quantity, String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart!
+        Future callCart = providerShopCart
             .updateQuantityProductCart(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
@@ -278,11 +353,39 @@ class _ShopCartPageState extends State<ShopCartPage> {
     });
   }
 
+  serviceGetAddAddressUser() async {
+
+    utils.checkInternet().then((value) async {
+      if (value) {
+        providerCheckOut.isLoading = true;
+        Future callResponse = UserProvider.instance.getAddress(context, 0);
+        await callResponse.then((user) {
+          var decodeJSON = jsonDecode(user);
+          GetAddressResponse data = GetAddressResponse.fromJson(decodeJSON);
+          var indexAddress = data.data?.addresses?.indexWhere((element) => element.principal ?? false);
+          if(indexAddress == -1){
+            providerShopCart.hasPrincipalAddress = false;
+            utils.showSnackBarError(context, Strings.principalConfigured);
+          }else{
+            providerShopCart.hasPrincipalAddress = true;
+          }
+        }, onError: (error) {
+
+          print("Ocurrio un error: $error");
+        });
+      } else {
+        utils.showSnackBarError(context,Strings.loseInternet);
+      }
+    });
+  }
+
+
+
   updateGiftCard(int quantity, String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart =
-            providerShopCart!.addGiftCard(idReference, quantity.toString());
+            providerShopCart.addGiftCard(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -299,7 +402,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart =
-            providerShopCart!.addOfferCart(idOffer, quantity.toString());
+            providerShopCart.addOfferCart(idOffer, quantity.toString(),providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -329,13 +432,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
   deleteProduct(String idProduct) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart!.deleteProductCart(idProduct);
+        Future callCart = providerShopCart.deleteProductCart(idProduct);
         await callCart.then((msg) {
-          providerShopCart!.shopCart = null;
+          providerShopCart.shopCart = null;
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          providerShopCart!.isLoadingCart = false;
+          providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -345,19 +448,19 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   deleteCart() async {
-    if (providerShopCart?.shopCart != null) {
+    if (providerShopCart.shopCart != null) {
       bool? status = await showDialogDoubleAction(
           context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
       if (status ?? false)
         utils.checkInternet().then((value) async {
           if (value) {
-            Future callCart = providerShopCart!.deleteCart();
+            Future callCart = providerShopCart.deleteCart();
             await callCart.then((msg) {
               //getShopCart();
-              providerShopCart!.shopCart = null;
+              providerShopCart.shopCart = null;
               utils.showSnackBarGood(context, msg.toString());
             }, onError: (error) {
-              providerShopCart!.isLoadingCart = false;
+              providerShopCart.isLoadingCart = false;
               utils.showSnackBar(context, error.toString());
             });
           } else {
@@ -372,13 +475,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
             ()=>Navigator.pop(context, true), ()=>Navigator.pop(context, false));
    if(state!=null) utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart!.saveReference(idReference, quantity);
+        Future callCart = providerShopCart.saveReference(idReference, quantity);
         await callCart.then((msg) {
           if(state)deleteProduct(idProduct);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           deleteProduct(idProduct);
-          providerShopCart!.isLoadingCart = false;
+          providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -390,13 +493,19 @@ class _ShopCartPageState extends State<ShopCartPage> {
   getProductsRelations() async {
     utils.checkInternet().then((value) async {
       if (value) {
+        //providerShopCart.isLoadingCart = true;
         Future callProducts = providerProducts.getProductsRelationByReference(
             pageOffsetProductsRelations,
             providerShopCart
-                    ?.shopCart?.packagesProvider?[0].products?[0].reference?.id
+                    .shopCart?.packagesProvider?[0].products?[0].reference?.id
                     ?.toString() ??
                 '');
-        await callProducts.then((list) {}, onError: (error) {
+        await callProducts.then((list) {
+          serviceGetAddAddressUser();
+      //    providerShopCart.isLoadingCart =false;
+        }, onError: (error) {
+          serviceGetAddAddressUser();
+        //  providerShopCart.isLoadingCart =false;
           utils.showSnackBar(context, error.toString());
         });
       } else {

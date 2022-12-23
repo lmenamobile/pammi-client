@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
@@ -32,6 +33,7 @@ class _OfferDetailState extends State<OfferDetail> {
   ProviderOffer? providerOffer;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
+  late ProviderCheckOut providerCheckOut;
 
   @override
   void initState() {
@@ -48,6 +50,7 @@ class _OfferDetailState extends State<OfferDetail> {
     providerOffer = Provider.of<ProviderOffer>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -271,6 +274,9 @@ class _OfferDetailState extends State<OfferDetail> {
                     fit: BoxFit.fill,
                     image: NetworkImage(reference.images?[position].url ?? ''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
+                    imageErrorBuilder: (_,__,___){
+                      return Container();
+                    },
                   ),
                 ),
                 customDivider(),
@@ -404,7 +410,7 @@ class _OfferDetailState extends State<OfferDetail> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callCart = providerShopCart.addOfferCart(
-            idOffer, providerOffer?.totalUnits.toString() ?? '');
+            idOffer, providerOffer?.totalUnits.toString() ?? '',providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
@@ -421,7 +427,7 @@ class _OfferDetailState extends State<OfferDetail> {
       if (value) {
         Future callCart = providerShopCart.addOfferCart(
             providerOffer!.detailOffer.id.toString(),
-            providerOffer?.totalUnits.toString() ?? '');
+            providerOffer?.totalUnits.toString() ?? '',providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           getShopCart();
           utils.showSnackBarGood(context, msg.toString());
@@ -437,7 +443,7 @@ class _OfferDetailState extends State<OfferDetail> {
   getShopCart() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.getShopCart();
+        Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           Navigator.push(context, customPageTransition(CheckOutPage()));
         }, onError: (error) {

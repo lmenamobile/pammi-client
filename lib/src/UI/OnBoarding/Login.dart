@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image(
-                    width: 120,
+                    width: 220,
                     image: AssetImage("Assets/images/ic_logo_login.png"),
                   ),
                   SizedBox(
@@ -309,7 +309,7 @@ class _LoginPageState extends State<LoginPage> {
     if (emailController.text.isEmpty) {
       validateForm = false;
       msgError = Strings.emailEmpty;
-    } else if (!validateEmail(emailController.text)) {
+    } else if (!validateEmail(emailController.text.trim())) {
       validateForm = false;
       msgError = Strings.emailInvalidate;
     } else if (passwordController.text.isEmpty) {

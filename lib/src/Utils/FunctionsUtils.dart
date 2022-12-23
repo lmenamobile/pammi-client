@@ -62,8 +62,8 @@ int getRandomPosition(int lengthList) {
   }
 }
 
-String addValues(String a, String b) {
-  return (double.parse(a) + double.parse(b)).toString();
+String addValues(String a, String b, String c) {
+  return (double.parse(a) + double.parse(b) - double.parse(c)).toString();
 }
 
 String getTypeDocument(String type) {
@@ -115,20 +115,36 @@ String getStatusClaim(String type) {
   }
 }
 
+
 Widget getCardByStatusClaim(String type,String reasonClose) {
   switch (type) {
     case Strings.statusOpen:
-      return claimNotCheck( Strings.claimNotCheck,Strings.textClaimNotCheck);
+      return claimNotCheck(Strings.claimNotCheck, Strings.textClaimNotCheck);
     case Strings.statusClose:
-      return reasonClose == "agreementWithProvider"? claimNotCheck( Strings.claimClos,Strings.claimClos):
-          reasonClose == "rejectedByProvider"?claimNotCheck( Strings.claimReject,Strings.textClaimReject):
-          claimNotCheck( Strings.claimClos,Strings.claimClose);
+      return reasonClose == "agreementWithProvider" ? claimNotCheck(
+          Strings.claimClos, Strings.claimClos) :
+      reasonClose == "rejectedByProvider" ? claimNotCheck(
+          Strings.claimReject, Strings.textClaimReject) :
+      claimNotCheck(Strings.claimClos, Strings.claimClose);
     case Strings.statusApproved:
-      return claimNotCheck( Strings.claimCheck,Strings.textClaimCheck);
+      return claimNotCheck(Strings.claimCheck, Strings.textClaimCheck);
     case Strings.statusReject:
-      return claimNotCheck( Strings.claimReject,Strings.textClaimReject);
+      return claimNotCheck(Strings.claimReject, Strings.textClaimReject);
     default:
       return Container();
+  }
+}
+
+String getStatusPqrs(String type) {
+  switch (type) {
+    case Strings.open:
+      return Strings.openShow;
+    case Strings.close:
+      return Strings.closeShow;
+    case Strings.inProgress:
+      return Strings.inProgressShow;
+    default:
+      return "";
   }
 }
 

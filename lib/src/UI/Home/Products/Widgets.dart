@@ -125,7 +125,12 @@ Widget itemImageReference(double size, String asset) {
       isImageYoutube(asset,FadeInImage(
         fit: BoxFit.fill,
         image: NetworkImage(asset),
-        placeholder: AssetImage("Assets/images/spinner.gif")),
+        placeholder: AssetImage("Assets/images/spinner.gif"),
+        imageErrorBuilder: (_,__,___){
+          return Container();
+        },
+      ),
+
       ),
     ),
   );
@@ -141,6 +146,9 @@ Widget imageReference(double size, String asset){
         fit: BoxFit.fill,
         image: NetworkImage(asset),
         placeholder: AssetImage("Assets/images/spinner.gif"),
+        imageErrorBuilder: (_,__,___){
+          return Container();
+        },
       ),
     ),
   );
@@ -167,6 +175,9 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
                   fit: BoxFit.fill,
                   image: NetworkImage(asset),
                   placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 )),
               ),
               SizedBox(

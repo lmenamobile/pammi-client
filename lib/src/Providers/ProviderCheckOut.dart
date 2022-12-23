@@ -52,8 +52,7 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
-  PaymentMethod? _paymentSelected;
-
+  PaymentMethod? _paymentSelected = PaymentMethod(image:"https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/methods_payment/ic_upon_delivery.svg",id: 2,methodPayment: "Pago a la entrega del pedido");
   PaymentMethod? get paymentSelected => this._paymentSelected;
 
   set paymentSelected(PaymentMethod? value) {
@@ -112,9 +111,9 @@ class ProviderCheckOut with ChangeNotifier {
 
   clearValuesPayment(){
     this.bankSelected = null;
-    this.addressSelected = null;
+    //this.addressSelected = null;
     this.creditCardSelected = null;
-    this.paymentSelected = null;
+    //this.paymentSelected = null;
     this.shippingPrice = '0';
   }
 
@@ -306,7 +305,7 @@ class ProviderCheckOut with ChangeNotifier {
   }
 
   Future createOrder(String paymentMethodId, String addressId, String? bankId,
-      String creditCardId,String shippingValue) async {
+      String creditCardId,String shippingValue, String discountShipping) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -320,7 +319,8 @@ class ProviderCheckOut with ChangeNotifier {
       "addressId": addressId,
       "userPaymentMethodId": creditCardId,
       "bankId": bankId,
-      "shippingValue": shippingValue
+      "shippingValue": shippingValue,
+      "discountShipping": discountShipping,
     };
     var body = jsonEncode(jsonData);
     final response = await http
@@ -360,7 +360,7 @@ class ProviderCheckOut with ChangeNotifier {
     }
   }
 
-  Future calculateShippingPrice(String addressId)async{
+  Future calculateShippingPrice(String addressId,int idPaymentmethod)async{
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -368,7 +368,8 @@ class ProviderCheckOut with ChangeNotifier {
       "country": prefs.countryIdUser.toString().isEmpty ? "CO" : prefs.countryIdUser.toString(),
     };
     Map jsonData = {
-      "addressId": addressId
+      "addressId": addressId,
+      "methodPaymentId": idPaymentmethod,
     };
     var body = jsonEncode(jsonData);
     final response = await http
