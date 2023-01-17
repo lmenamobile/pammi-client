@@ -13,6 +13,7 @@
 
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+        <package android:name="com.facebook.katana" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
@@ -34,7 +35,7 @@
 
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
+       android:name="${applicationName}"
         android:icon="@mipmap/icon_square"
         android:roundIcon="@mipmap/icon_circle"
         android:usesCleartextTraffic="true"
