@@ -420,7 +420,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         }, onError: (error) {
 
-
+          utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
@@ -438,7 +438,7 @@ class _LoginPageState extends State<LoginPage> {
     await fb.logOut();
    switch (result.status) {
       case FacebookLoginStatus.success:
-        getUserInfoFB(result.accessToken!.token);
+        getUserInfoFB(result.accessToken!.token,fb);
         break;
      case FacebookLoginStatus.cancel:
        utils.showSnackBar(context, Strings.errorFacebook);
@@ -451,9 +451,11 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-  void getUserInfoFB(String token) async {
+  void getUserInfoFB(String token,FacebookLogin fb) async {
     final response = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
     final profile = json.decode(response.body);
+
+
     print(profile.toString());
     if (profile['email'] != null && profile['name'] != null) {
       loginSocialNetwork(profile, Constants.loginFacebook);

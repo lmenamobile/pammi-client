@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
 import 'package:wawamko/src/Models/Claim/TypeClaim.dart';

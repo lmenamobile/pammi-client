@@ -20,21 +20,33 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb807036173576277</string>
-			</array>
-		</dict>
-	</array>
+	
+
+    
+    
+    
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb764158855030230</string>
+      </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>764158855030230</string>
+    <key>FacebookClientToken</key>
+    <string>a7c98a0db5d5e7786ae319b4980424b0</string>
+    <key>FacebookDisplayName</key>
+    <string>Pamii</string>
+    
+    
+    
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>FacebookAppID</key>
-	<string>807036173576277</string>
-	<key>FacebookDisplayName</key>
-	<string>Pamii</string>
+
+
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -105,5 +117,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

@@ -1,3 +1,5 @@
+import 'package:wawamko/src/Models/Product/ImageProduct.dart';
+
 import 'BrandProvider.dart';
 import 'Reference.dart';
 import 'Warranty.dart';
@@ -15,8 +17,9 @@ class Product {
     this.volume,
     this.brandProvider,
     this.warranty,
-    this.references,
-    this.service
+    this.references = const [],
+    this.service,
+    this.images
   });
 
   int? id;
@@ -31,7 +34,8 @@ class Product {
   BrandProvider? brandProvider;
   Warranty? warranty;
   bool? service;
-  List<Reference>? references;
+  List<Reference> references = [];
+  List<ImageProduct>? images;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
@@ -46,7 +50,8 @@ class Product {
     volume: json["volume"].toString(),
     brandProvider: BrandProvider.fromJson(json["brandProvider"]),
     warranty: Warranty.fromJson(json["warranty"]),
-    references:json["references"]==null?null: List<Reference>.from(json["references"].map((x) => x==null?null:Reference.fromJson(x))),
+    images:json["images"]==null?[]:List<ImageProduct>.from(json["images"].map((x) => x==null?null:ImageProduct.fromJson(x))),
+    references:json["references"]==null?[]: List<Reference>.from(json["references"].map((x) => x==null?null:Reference.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -62,6 +67,7 @@ class Product {
     "brandProvider": brandProvider!.toJson(),
     "warranty": warranty!.toJson(),
     "references": List<dynamic>.from(references!.map((x) => x.toJson())),
+    "images": List<dynamic>.from(images!.map((x) => x.toJson())),
     "service": service
   };
 }

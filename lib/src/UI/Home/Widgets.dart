@@ -282,10 +282,10 @@ Widget itemProduct(Product product){
             Container(
               width: 120,
               height: 90,
-              child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
-              isImageYoutube(product.references![0].images![0].url??'',FadeInImage(
+              child: product.references[0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+              isImageYoutube(product.references[0].images![0].url??'',FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(product.references![0].images![0].url??''),
+                image: NetworkImage(product.references[0].images![0].url??''),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
                 imageErrorBuilder: (_,__,___){
                   return Container();

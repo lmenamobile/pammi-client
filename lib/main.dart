@@ -147,8 +147,8 @@ class _MyAppState extends State<MyApp> {
     const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('@mipmap/ic_push');
 
-    final IOSInitializationSettings initializationSettingsIOS =
-    IOSInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIOS =
+    DarwinInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true);
@@ -159,7 +159,7 @@ class _MyAppState extends State<MyApp> {
         iOS: initializationSettingsIOS);
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? payload) async {
+        onDidReceiveNotificationResponse: (NotificationResponse? payload) async {
           if (payload != null) {
             debugPrint('notification payload: $payload');
           }
@@ -170,7 +170,7 @@ class _MyAppState extends State<MyApp> {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', channelDescription: 'your channel description',
         importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+    var iOSPlatformChannelSpecifics = DarwinNotificationDetails(
         presentAlert: true, presentBadge: true, presentSound: true);
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,

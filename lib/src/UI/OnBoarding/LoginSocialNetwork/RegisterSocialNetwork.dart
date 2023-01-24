@@ -38,9 +38,9 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     providerOnBoarding.stateTerms = false;
     providerOnBoarding.stateDates = false;
     providerOnBoarding.stateCentrals = false;
-    providerSettings!.countrySelected = null;
-    providerSettings!.stateCountrySelected = null;
-    providerSettings!.citySelected = null;
+    providerSettings?.countrySelected = null;
+    providerSettings?.stateCountrySelected = null;
+    providerSettings?.citySelected = null;
     super.initState();
   }
 

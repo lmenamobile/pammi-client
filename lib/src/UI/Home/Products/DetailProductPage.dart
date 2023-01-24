@@ -92,14 +92,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             isImageYoutubeAction(providerProducts
                                 ?.imageReferenceProductSelected ??
                                 '',
-                            InkWell(
-                              onTap: () => openZoomImages(),
-                              child: imageReference(
-                                  170,
-                                  providerProducts
-                                      ?.imageReferenceProductSelected ??
-                                      ''),
-                            )),
+                                InkWell(
+                                  onTap: () => openZoomImages(),
+                                  child: imageReference(
+                                      170,
+                                      providerProducts
+                                          ?.imageReferenceProductSelected ??
+                                          ''),
+                                )),
                             Container(
                                 margin: EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 30),
@@ -210,11 +210,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     color: CustomColors.blueSplash),
                               ),
                               Text(
-                                widget.product.service ?? false ? "${Strings.type}: ${Strings.service}" : "${Strings.type}: ${Strings.product}",
-                                style:TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: Strings.fontBold,
-                                    color: CustomColors.blackLetter)
+                                  widget.product.service ?? false ? "${Strings.type}: ${Strings.service}" : "${Strings.type}: ${Strings.product}",
+                                  style:TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: Strings.fontBold,
+                                      color: CustomColors.blackLetter)
                               ),
                               rowStars(double.parse(providerProducts
                                   ?.referenceProductSelected

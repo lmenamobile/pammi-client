@@ -11,6 +11,10 @@ import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+
 import 'OrderConfirmationPage.dart';
 
 class TransactionADDIPage extends StatefulWidget {
@@ -19,11 +23,60 @@ class TransactionADDIPage extends StatefulWidget {
 }
 
 class _TransactionADDIPageState extends State<TransactionADDIPage> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+
+
+  late final WebViewController _controller2;
+
+
+
+
+
   final prefs = SharePreference();
   ProviderCheckOut? providerCheckOut;
   late ProviderSettings providerSettings;
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final WebViewController controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(const Color(0x00000000))
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              // Update loading bar.
+            },
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {},
+            onWebResourceError: (WebResourceError error) {},
+            onNavigationRequest: (NavigationRequest request) {
+              if (request.url.contains(Constants.finishTransaction)) {
+                Navigator.pushReplacement(context,
+                    customPageTransition(OrderConfirmationPage()));
+              }
+              return NavigationDecision.navigate;
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse(providerCheckOut?.paymentADDI?.urlRedirectLocation ?? ''));
+
+
+      if (controller.platform is AndroidWebViewController) {
+        AndroidWebViewController.enableDebugging(true);
+        (controller.platform as AndroidWebViewController)
+            .setMediaPlaybackRequiresUserGesture(false);
+      }
+      // #enddocregion platform_features
+
+      _controller2 = controller;
+    });
+
+
+
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +92,8 @@ class _TransactionADDIPageState extends State<TransactionADDIPage> {
               titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
                   () => Navigator.pop(context)),
               Expanded(
-                child: providerSettings.hasConnection?WebView(
-                  initialUrl: providerCheckOut?.paymentADDI?.urlRedirectLocation ?? '',
-                  javascriptMode: JavascriptMode.unrestricted,
-                  onWebViewCreated: (WebViewController webViewController) {
-                    _controller.complete(webViewController);
-                  },
-                  navigationDelegate: (NavigationRequest request) {
-                    print(".............url ADDI"+request.url);
-                    if (request.url.contains(Constants.finishTransaction)) {
-                      Navigator.pushReplacement(context,
-                          customPageTransition(OrderConfirmationPage()));
-                    }
-                    return NavigationDecision.navigate;
-                  },
+                child: providerSettings.hasConnection?WebViewWidget(
+                 controller: _controller2,
                 ):notConnectionInternet(),
               )
             ],

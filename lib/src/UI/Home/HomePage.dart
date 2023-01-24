@@ -189,17 +189,19 @@ class _MyHomePageState extends State<MyHomePage> {
             child: providerSettings.hasConnection?SingleChildScrollView(
               child: Stack(
                 children: <Widget>[
-                  Container(
+
+                  Visibility(
+                    visible: providerHome!.ltsBanners.isNotEmpty,
+                    child: Container(
                       height: 200,
                       width: double.infinity,
-                      child: providerHome!.ltsBanners.isEmpty
-                          ? Center(
-                              child: loadingWidgets(70),
-                            )
-                          : sliderBanner(providerHome?.indexBannerHeader,
-                              updateIndexBannerHeader, providerHome!.ltsBanners)),
+                      child: sliderBanner(providerHome?.indexBannerHeader,
+                          updateIndexBannerHeader, providerHome!.ltsBanners),
+                    ),
+                  ),
+
                   Container(
-                    margin: EdgeInsets.only(top: 185),
+                    margin: EdgeInsets.only(top:providerHome!.ltsBanners.isNotEmpty ? 185 : 0),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(

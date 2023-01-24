@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 
 import 'flutter_google_autocomplete.dart';
 
@@ -28,8 +29,9 @@ class GooglePlaces {
       language: 'es',
       components: [new Component(Component.country, "co")],
       onError: (res) {
-        homeScaffoldKey.currentState!
-            .showSnackBar(new SnackBar(content: new Text(res.errorMessage!)));
+        utils.showSnackBar(context, res.errorMessage!);
+        /*homeScaffoldKey.currentState!
+            .showSnackBar(new SnackBar(content: new Text(res.errorMessage!)));*/
       },
     );
 

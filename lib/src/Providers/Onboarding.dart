@@ -85,6 +85,7 @@ class OnboardingProvider with ChangeNotifier {
       'version': packageInfo.version,
       'platform': Platform.isIOS ? "i" : "a",
     };
+    print("Json Data LoginSocialNetwork ${jsonData}");
     var body = jsonEncode(jsonData);
     final response = await http
         .post(Uri.parse(Constants.baseURL + "onboarding/login"),
@@ -95,6 +96,8 @@ class OnboardingProvider with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+
+    print("Response decode json loginSoacial ${decodeJson}");
     if (response.statusCode == 200) {
       this.isLoading = false;
       if (decodeJson!['code'] == 100) {

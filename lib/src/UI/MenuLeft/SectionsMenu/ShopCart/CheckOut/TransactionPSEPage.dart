@@ -13,6 +13,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'OrderConfirmationPage.dart';
 
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+
 class TransactionPSEPage extends StatefulWidget {
   @override
   _TransactionPSEPageState createState() => _TransactionPSEPageState();
@@ -21,8 +25,51 @@ class TransactionPSEPage extends StatefulWidget {
 class _TransactionPSEPageState extends State<TransactionPSEPage> {
   final Completer<WebViewController> _controller = Completer<WebViewController>();
   final prefs = SharePreference();
+  late final WebViewController _controller2;
   ProviderCheckOut? providerCheckOut;
   late ProviderSettings providerSettings;
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final WebViewController controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(const Color(0x00000000))
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              // Update loading bar.
+            },
+
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {},
+            onWebResourceError: (WebResourceError error) {},
+            onNavigationRequest: (NavigationRequest request) {
+              if (request.url.contains(Constants.finishTransaction)) {
+                Navigator.pushReplacement(context,
+                    customPageTransition(OrderConfirmationPage()));
+              }
+              return NavigationDecision.navigate;
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse(providerCheckOut?.paymentPSE?.urlbanco ?? '',));
+      if (controller.platform is AndroidWebViewController) {
+        AndroidWebViewController.enableDebugging(true);
+        (controller.platform as AndroidWebViewController)
+            .setMediaPlaybackRequiresUserGesture(false);
+      }
+      // #enddocregion platform_features
+
+      _controller2 = controller;
+    });
+
+
+
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +85,8 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
               titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
                   () => Navigator.pop(context)),
               Expanded(
-                child: providerSettings.hasConnection?WebView(
-                  initialUrl: providerCheckOut?.paymentPSE?.urlbanco ?? '',
-                  javascriptMode: JavascriptMode.unrestricted,
-                  onWebViewCreated: (WebViewController webViewController) {
-                    _controller.complete(webViewController);
-                  },
-                  navigationDelegate: (NavigationRequest request) {
-                    print(request.url);
-                    if (request.url.contains(Constants.finishTransaction)) {
-                      Navigator.pushReplacement(context,
-                          customPageTransition(OrderConfirmationPage()));
-                    }
-                    return NavigationDecision.navigate;
-                  },
+                child: providerSettings.hasConnection?WebViewWidget(
+                 controller: _controller2,
                 ):notConnectionInternet(),
               )
             ],

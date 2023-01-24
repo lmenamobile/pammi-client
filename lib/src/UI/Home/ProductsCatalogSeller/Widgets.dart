@@ -28,9 +28,9 @@ Widget itemProductCatalog(Product product){
           Container(
             width: 100,
             height: 100,
-            child: product.references![0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+            child: product.references[0]!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
               fit: BoxFit.fill,
-              image: NetworkImage(product.references?[0].images?[0].url??''),
+              image: NetworkImage(product.references[0].images![0].url??''),
               placeholder: AssetImage("Assets/images/spinner.gif"),
               imageErrorBuilder: (_,__,___){
                 return Container();

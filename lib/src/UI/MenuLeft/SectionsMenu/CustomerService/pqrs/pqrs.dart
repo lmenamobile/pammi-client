@@ -12,7 +12,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-import 'package:webview_flutter/platform_interface.dart';
+
 
 
 class PqrsPage extends StatefulWidget {
