@@ -24,6 +24,7 @@ class Reference {
     this.brandAndProduct,
     this.isFavorite,
     this.totalProductOffer,
+    this.size
 
   });
 
@@ -42,6 +43,7 @@ class Reference {
   bool? isFavorite = false;
   BrandAndProduct? brandAndProduct;
   TotalProductOffer? totalProductOffer;
+  String? size;
 
 
 
@@ -61,6 +63,7 @@ class Reference {
     ltsComments:json["comments"]==null?null: List<CommentProduct>.from(json["comments"].map((x) => CommentProduct.fromJson(x))),
     brandAndProduct: json["brandProviderProduct"]==null?null:BrandAndProduct.fromJson(json["brandProviderProduct"]),
     totalProductOffer: json["offer"]==null?null:TotalProductOffer.fromJson(json["offer"]),
+    size: json['size'] != null ? json['size'] : ""
   );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +75,6 @@ class Reference {
     "qty": qty,
     "color": color,
     "images": List<dynamic>.from(images!.map((x) => x.toJson())),
+    "size": size
   };
 }

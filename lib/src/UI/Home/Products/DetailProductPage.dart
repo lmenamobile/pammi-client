@@ -209,6 +209,54 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     fontFamily: Strings.fontBold,
                                     color: CustomColors.blueSplash),
                               ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Row(
+                                   // mainAxisAlignment: MainAxisAlignment.,
+                                    children: [
+                                      Text(
+                                          "Color ",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: Strings.fontRegular,
+                                            color: CustomColors.blueSplash),
+                                      ),
+                                      Container(
+                                        width: 30,
+                                        height: 12,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
+                                          color: providerProducts
+                                            ?.referenceProductSelected?.color?.toColor(),
+                                          borderRadius: BorderRadius.circular(10)
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                 Visibility(
+                                   visible: providerProducts
+                                       ?.referenceProductSelected?.size != "",
+                                   child:   Expanded(
+                                       child: Text(
+                                           " - Talla ${providerProducts
+                                               ?.referenceProductSelected?.size}",
+                                         style: TextStyle(
+                                             fontSize: 15,
+                                             fontFamily: Strings.fontRegular,
+                                             color: CustomColors.blueSplash),
+                                       ),
+                                 ),
+
+                                 )
+
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                   widget.product.service ?? false ? "${Strings.type}: ${Strings.service}" : "${Strings.type}: ${Strings.product}",
                                   style:TextStyle(

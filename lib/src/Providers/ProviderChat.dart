@@ -191,12 +191,13 @@ class ProviderChat with ChangeNotifier {
   setMessagesListAdmin(String urlPhoto) {
    // this.ltsMessages.clear();
     this.ltsMessagesChat.forEach((data) {
+
       switch (data.type) {
         case "text":
           this.addMessages = MessageChat(
             uidUser: '1',
             message: data.message,
-            date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
+            date: formatDate(data.dates?.createdAt ?? DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
             typeMessage: data.typeUser == "user" ? 1 : 2,
             photo: urlPhoto,
             isLocal: false,
@@ -207,7 +208,7 @@ class ProviderChat with ChangeNotifier {
           this.addMessages = MessageChat(
             uidUser: '1',
             message: dataMessage['url'],
-            date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
+            date: formatDate(data.dates?.createdAt ?? DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
             typeMessage: 3,
             photo: urlPhoto,
             isLocal: data.typeUser == "user" ? true : false,
@@ -219,7 +220,7 @@ class ProviderChat with ChangeNotifier {
           this.addMessages = MessageChat(
             uidUser: '1',
             message: dataMessage['name'],
-            date: formatDate(DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
+            date: formatDate(data.dates?.createdAt ?? DateTime.now(), 'yyyy-MM-dd h:mm a', "es_CO"),
             typeMessage: 4,
             photo: urlPhoto,
             isLocal: data.typeUser == "user" ? true : false,
