@@ -10,6 +10,7 @@ import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ConectionStatus.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
+import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Brands/BrandsPage.dart';
@@ -42,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late ProviderSettings providerSettings;
   ProviderHome? providerHome;
   ProfileProvider? profileProvider;
+  ProviderProducts? providerProducts;
   late ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
   ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
@@ -74,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerProducts = Provider.of<ProviderProducts>(context);
     connectionStatus.connectionListen.listen((value){
       providerSettings.hasConnection = value;
     });
@@ -518,6 +521,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   openDetailProduct(Product product){
+    providerProducts
+        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
     Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
 

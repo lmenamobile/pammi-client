@@ -43,6 +43,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
       providerProducts!.productDetail = widget.product;
       providerProducts!.referenceProductSelected =
       widget.product.references![0];
+      providerProducts
+          ?.imageReferenceProductSelected = widget.product.references![0]?.images?[0].url ?? "";
       providerProducts!.unitsProduct = 1;
     });
     super.initState();
@@ -229,8 +231,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         height: 12,
                                         decoration: BoxDecoration(
                                           border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
-                                          color: providerProducts
-                                            ?.referenceProductSelected?.color?.toColor(),
+                                          color: HexColor(providerProducts
+                                              ?.referenceProductSelected?.color?.replaceAll("FF", "") ?? ""),
                                           borderRadius: BorderRadius.circular(10)
                                         ),
                                       )

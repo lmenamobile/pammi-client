@@ -122,6 +122,8 @@ class _SearchProductHomeState extends State<SearchProductHome> {
   }
 
   openDetailProduct(Product product){
+    providerProducts
+        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
     Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
 }

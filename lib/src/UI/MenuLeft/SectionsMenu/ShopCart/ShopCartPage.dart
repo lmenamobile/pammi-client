@@ -290,6 +290,8 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   openDetailProduct(Product product) {
+    providerProducts
+        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
     Navigator.push(
         context, customPageTransition(DetailProductPage(product: product)));
   }

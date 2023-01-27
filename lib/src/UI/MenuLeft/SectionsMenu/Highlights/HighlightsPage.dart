@@ -133,6 +133,8 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
       if (value) {
         Future callProducts = providerProducts.getProduct(idProduct);
         await callProducts.then((product) {
+          providerProducts
+              ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
           //providerProducts.referenceProductSelected = referenceOffer;//product.references.firstWhere((reference) => reference.id == referenceOffer.id, orElse: () => referenceOffer.);
           Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
         }, onError: (error) {

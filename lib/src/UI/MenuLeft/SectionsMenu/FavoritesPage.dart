@@ -152,6 +152,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   openDetailProduct(Product product) {
+    providerProducts
+        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
     Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
   }
 
@@ -255,6 +257,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
       if (value) {
         Future callProducts = providerProducts.getProduct(idProduct);
         await callProducts.then((product) {
+          providerProducts
+              ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
           Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
