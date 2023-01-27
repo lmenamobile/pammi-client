@@ -215,46 +215,54 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 5,
                               ),
                               Row(
-                                children: [
-                                  Row(
-                                   // mainAxisAlignment: MainAxisAlignment.,
-                                    children: [
-                                      Text(
-                                          "Color ",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: Strings.fontRegular,
-                                            color: CustomColors.blueSplash),
+                                  children: [
+                                    Visibility(
+                                      visible: providerProducts
+                                          ?.referenceProductSelected?.color != "",
+                                      child: Row(
+                                       // mainAxisAlignment: MainAxisAlignment.,
+                                        children: [
+                                          Text(
+                                              "Color ",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: Strings.fontRegular,
+                                                color: CustomColors.blueSplash),
+                                          ),
+                                          Container(
+                                            width: 30,
+                                            height: 12,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
+                                              color:providerProducts
+                                                  ?.referenceProductSelected?.color != "" ? HexColor(providerProducts
+                                                  ?.referenceProductSelected?.color?.replaceAll("FF", "") ?? "6A1B9A") : Colors.white,
+                                              borderRadius: BorderRadius.circular(10)
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        width: 30,
-                                        height: 12,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
-                                          color: HexColor(providerProducts
-                                              ?.referenceProductSelected?.color?.replaceAll("FF", "") ?? ""),
-                                          borderRadius: BorderRadius.circular(10)
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                 Visibility(
-                                   visible: providerProducts
-                                       ?.referenceProductSelected?.size != "",
-                                   child:   Expanded(
-                                       child: Text(
-                                           " - Talla ${providerProducts
+                                    ),
+                                   Visibility(
+                                     visible: providerProducts
+                                         ?.referenceProductSelected?.size != "",
+                                     child:   Expanded(
+                                         child: Text(
+                                            providerProducts
+                                               ?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts
+                                                 ?.referenceProductSelected?.size}" :  "Talla ${providerProducts
                                                ?.referenceProductSelected?.size}",
-                                         style: TextStyle(
-                                             fontSize: 15,
-                                             fontFamily: Strings.fontRegular,
-                                             color: CustomColors.blueSplash),
-                                       ),
-                                 ),
+                                           style: TextStyle(
+                                               fontSize: 15,
+                                               fontFamily: Strings.fontRegular,
+                                               color: CustomColors.blueSplash),
+                                         ),
+                                   ),
 
-                                 )
+                                   )
 
-                                ],
+                                  ],
+
                               ),
                               SizedBox(
                                 height: 5,

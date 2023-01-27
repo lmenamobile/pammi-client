@@ -54,7 +54,7 @@ class Reference {
     price: json["price"].toString(),
     iva: json["iva"].toString(),
     qty: json["qty"].toString(),
-    color: json["color"],
+    color: json["color"]  ,
     isSelected: false,
     isFavorite: json["liked"],
     qualification: json["qualification"]==null?'0':json["qualification"].toString(),
