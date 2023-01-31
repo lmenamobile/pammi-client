@@ -141,6 +141,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       return true;
     }on PlatformException catch (e){
       var y = e.message;
+      openApp();
       return false;
     }
   }
