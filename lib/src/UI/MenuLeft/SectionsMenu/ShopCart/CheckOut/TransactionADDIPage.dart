@@ -25,7 +25,7 @@ class TransactionADDIPage extends StatefulWidget {
 class _TransactionADDIPageState extends State<TransactionADDIPage> {
 
 
-  late final WebViewController _controller2;
+  WebViewController _controller2 = WebViewController();
 
 
 

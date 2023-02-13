@@ -25,7 +25,7 @@ class TransactionPSEPage extends StatefulWidget {
 class _TransactionPSEPageState extends State<TransactionPSEPage> {
   final Completer<WebViewController> _controller = Completer<WebViewController>();
   final prefs = SharePreference();
-  late final WebViewController _controller2;
+  WebViewController _controller2 = WebViewController();
   ProviderCheckOut? providerCheckOut;
   late ProviderSettings providerSettings;
 
@@ -33,6 +33,7 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
       final WebViewController controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setBackgroundColor(const Color(0x00000000))
@@ -44,7 +45,10 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
 
             onPageStarted: (String url) {},
             onPageFinished: (String url) {},
-            onWebResourceError: (WebResourceError error) {},
+
+            onWebResourceError: (WebResourceError error) {
+              print("ocurrio un error ________________ $error");
+            },
             onNavigationRequest: (NavigationRequest request) {
               if (request.url.contains(Constants.finishTransaction)) {
                 Navigator.pushReplacement(context,
@@ -53,6 +57,13 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
               return NavigationDecision.navigate;
             },
           ),
+        )..addJavaScriptChannel(
+          'Toaster',
+          onMessageReceived: (JavaScriptMessage message) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message.message)),
+            );
+          },
         )
         ..loadRequest(Uri.parse(providerCheckOut?.paymentPSE?.urlbanco ?? '',));
       if (controller.platform is AndroidWebViewController) {
@@ -63,6 +74,10 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
       // #enddocregion platform_features
 
       _controller2 = controller;
+
+      setState(() {
+
+      });
     });
 
 
