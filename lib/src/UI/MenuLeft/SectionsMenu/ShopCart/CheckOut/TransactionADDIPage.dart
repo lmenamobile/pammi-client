@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -25,52 +28,21 @@ class TransactionADDIPage extends StatefulWidget {
 class _TransactionADDIPageState extends State<TransactionADDIPage> {
 
 
-  WebViewController _controller2 = WebViewController();
 
 
+  final GlobalKey webViewKey = GlobalKey();
 
 
 
   final prefs = SharePreference();
   ProviderCheckOut? providerCheckOut;
   late ProviderSettings providerSettings;
+  InAppWebViewController? webViewController;
 
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final WebViewController controller = WebViewController()
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..setBackgroundColor(const Color(0x00000000))
-        ..setNavigationDelegate(
-          NavigationDelegate(
-            onProgress: (int progress) {
-              // Update loading bar.
-            },
-            onPageStarted: (String url) {},
-            onPageFinished: (String url) {},
-            onWebResourceError: (WebResourceError error) {},
-            onNavigationRequest: (NavigationRequest request) {
-              if (request.url.contains(Constants.finishTransaction)) {
-                Navigator.pushReplacement(context,
-                    customPageTransition(OrderConfirmationPage()));
-              }
-              return NavigationDecision.navigate;
-            },
-          ),
-        )
-        ..loadRequest(Uri.parse(providerCheckOut?.paymentADDI?.urlRedirectLocation ?? ''));
 
-
-      if (controller.platform is AndroidWebViewController) {
-        AndroidWebViewController.enableDebugging(true);
-        (controller.platform as AndroidWebViewController)
-            .setMediaPlaybackRequiresUserGesture(false);
-      }
-      // #enddocregion platform_features
-
-      _controller2 = controller;
-    });
 
 
 
@@ -92,8 +64,93 @@ class _TransactionADDIPageState extends State<TransactionADDIPage> {
               titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
                   () => Navigator.pop(context)),
               Expanded(
-                child: providerSettings.hasConnection?WebViewWidget(
-                 controller: _controller2,
+                child: providerSettings.hasConnection?InAppWebView(
+                  key: webViewKey,
+                  initialUrlRequest:
+                  URLRequest(url: Uri.parse(providerCheckOut?.paymentADDI?.urlRedirectLocation ?? '') ),
+                  // initialUrlRequest:
+                  // URLRequest(url: WebUri(Uri.base.toString().replaceFirst("/#/", "/") + 'page.html')),
+                  // initialFile: "assets/index.html",
+                  initialUserScripts: UnmodifiableListView<UserScript>([]),
+
+                  // contextMenu: contextMenu,
+                  // pullToRefreshController: pullToRefreshController,
+                  onWebViewCreated: (controller) async {
+                    webViewController = controller;
+                    print(await controller.getUrl());
+                  },
+                  onLoadStart: (controller, url) async {
+                    setState(() {
+                      //this.url = url.toString();
+                      //urlController.text = this.url;
+                    });
+                  },
+                  /*onPermissionRequest: (controller, request) async {
+                    return PermissionResponse(
+                        resources: request.resources,
+                        action: PermissionResponseAction.GRANT);
+                  },*/
+                  shouldOverrideUrlLoading:
+                      (controller, navigationAction) async {
+
+                    var uri = navigationAction.request.url!;
+
+                    if (![
+                      "http",
+                      "https",
+                      "file",
+                      "chrome",
+                      "data",
+                      "javascript",
+                      "about"
+                    ].contains(uri.scheme)) {
+                      if (await canLaunchUrl(uri)) {
+                        // Launch the App
+                        await launchUrl(
+                          uri,
+                        );
+                        // and cancel the request
+                        return NavigationActionPolicy.CANCEL;
+                      }
+                    }
+
+                    if (uri.toString().contains(Constants.finishTransaction)) {
+                      Navigator.pushReplacement(context,
+                          customPageTransition(OrderConfirmationPage()));
+                    }
+
+                    return NavigationActionPolicy.ALLOW;
+                  },
+                  onLoadStop: (controller, url) async {
+                    //pullToRefreshController?.endRefreshing();
+                    setState(() {
+                      //this.url = url.toString();
+                      //urlController.text = this.url;
+                    });
+                  },
+                  /*onReceivedError: (controller, request, error) {
+                    pullToRefreshController?.endRefreshing();
+                  },*/
+                  onProgressChanged: (controller, progress) {
+                    if (progress == 100) {
+                      //pullToRefreshController?.endRefreshing();
+                    }
+                    setState(() {
+                      //this.progress = progress / 100;
+                      // urlController.text = this.url;
+                    });
+                  },
+
+                  onUpdateVisitedHistory: (controller, url, isReload) {
+                    setState(() {
+                      //this.url = url.toString();
+                      //urlController.text = this.url;
+                    });
+                  },
+
+                  onConsoleMessage: (controller, consoleMessage) {
+                    print(consoleMessage);
+                  },
                 ):notConnectionInternet(),
               )
             ],

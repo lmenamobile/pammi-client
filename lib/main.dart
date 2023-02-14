@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart' as inapWebView;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +57,34 @@ void main() async{
   final prefs = SharePreference();
   await prefs.initPrefs();
   await PushNotificationService.initNotifications();
+
+
+
+
+
+  if (Platform.isAndroid) {
+   // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+
+    var swAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
+        inapWebView.AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+    var swInterceptAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
+        inapWebView.AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      inapWebView.AndroidServiceWorkerController serviceWorkerController =
+      inapWebView.AndroidServiceWorkerController.instance();
+
+      await serviceWorkerController
+          .setServiceWorkerClient(inapWebView.AndroidServiceWorkerClient(
+        shouldInterceptRequest: (request) async {
+          print(request);
+          return null;
+        },
+      ));
+    }
+  }
+
+
   runApp(MyApp());
 }
 
