@@ -42,7 +42,7 @@ import 'package:flutter/services.dart' show PlatformException;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides  {
   @override
   HttpClient createHttpClient(SecurityContext? context){
     return super.createHttpClient(context)
@@ -57,10 +57,6 @@ void main() async{
   final prefs = SharePreference();
   await prefs.initPrefs();
   await PushNotificationService.initNotifications();
-
-
-
-
 
   if (Platform.isAndroid) {
    // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
@@ -100,10 +96,10 @@ class _MyAppState extends State<MyApp> {
   void initState(){
     super.initState();
     initUniLinks();
-
     PushNotificationService.dataNotifications.listen((message) {
 
     });
+
   }
 
   Future<void> initUniLinks() async {
