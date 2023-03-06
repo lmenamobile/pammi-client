@@ -12,18 +12,24 @@ class ImagePickerHandler {
   ImagePickerListener _listener;
 
 
+  final ImagePicker _picker = ImagePicker();
+
+
   ImagePickerHandler(this._listener, this._controller);
 
   openCamera() async {
     imagePicker.dismissDialog();
+    //var image = await _picker.pickImage(source: ImageSource.camera);
     var image = await ImagePicker.platform.pickImage(source: ImageSource.camera);
     cropImage(File(image?.path??''));
   }
 
+
+
   openGallery() async {
     imagePicker.dismissDialog();
+   // var image = await ImagePicker().pla//_picker.pickImage(source: ImageSource.gallery);
     var image = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
-
     cropImage(File(image?.path??''));
   }
 

@@ -34,7 +34,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "30.0.0"
+    ndkVersion flutter.ndkVersion
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }

@@ -109,7 +109,7 @@ Widget itemProductSearch(Product product, Function openDetail){
                     ),
                   ),
                   Text(
-                    formatMoney( product.references?[0].price??'0'),
+                    formatMoney( product.references[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       color: CustomColors.orange,

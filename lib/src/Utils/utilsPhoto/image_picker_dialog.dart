@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import '../../Widgets/Dialogs/dialogPermissionGallery.dart';
 import 'image_picker_handler.dart';
 
 class ImagePickerDialog extends StatelessWidget {
@@ -172,8 +176,20 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   validateGallery() async {
-    final status = await Permission.photos.request();
-    validateStatusPermission(status);
+
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt <= 32) {
+        final status = await Permission.storage.request();
+        validateStatusPermission(status);
+        /// use [Permissions.storage.status]
+      }  else {
+        final status = await Permission.photos.request();
+        validateStatusPermission(status);
+        /// use [Permissions.photos.status]
+      }
+    }
+
   }
 
   Widget _btnCustom(
@@ -217,13 +233,29 @@ class ImagePickerDialog extends StatelessWidget {
         break;
       case PermissionStatus.denied:
         //  bool aux = await showAlert(context, Strings.alertTextPhotos);
-        if (true) {
+       /* if (true) {
           dismissDialog();
           statePermissionsPhotos = false;
+        }*/
+        if (true) {
+          dismissDialog();
+          openAppSettings();
         }
+        /*AwesomeDialog(
+            context: context,
+            animType: AnimType.SCALE,
+            dialogType: DialogType.NO_HEADER,
+            dialogBackgroundColor: Colors.transparent,
+            body: DialogPermissionGallery(context, 'Permisos G')
+        )..show();*/
         break;
       case PermissionStatus.restricted:
       case PermissionStatus.permanentlyDenied:
+      if (true) {
+        dismissDialog();
+        openAppSettings();
+      }
+      break;
       case PermissionStatus.limited:
         //bool aux = await showAlert(context, Strings.alertTextPhotos);
         if (true) {
