@@ -34,6 +34,9 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
   @override
   void initState() {
     providerClaimOrder = Provider.of<ProviderClaimOrder>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      providerClaimOrder.setValueStep = 1;
+    });
     _controller = new AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
     imagePicker = new ImagePickerHandler(this, _controller);
     imagePicker.init();

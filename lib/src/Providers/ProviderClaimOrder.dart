@@ -64,6 +64,7 @@ class ProviderClaimOrder with ChangeNotifier {
 
   int _valueStep = 1;
   int get valueStep => this._valueStep;
+
   set setValueStep(int value) {
     this._valueStep = value;
     notifyListeners();
