@@ -36,6 +36,12 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
     providerClaimOrder = Provider.of<ProviderClaimOrder>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       providerClaimOrder.setValueStep = 1;
+      providerClaimOrder.setImageFile = File('');
+      providerClaimOrder.selectTypeReason = null;
+      providerClaimOrder.selectTypeClaim = null;
+      providerClaimOrder.selectMethodDevolution = null;
+
+
     });
     _controller = new AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
     imagePicker = new ImagePickerHandler(this, _controller);
