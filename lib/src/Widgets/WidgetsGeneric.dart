@@ -290,18 +290,18 @@ Widget customTextFieldIcon(
     List<TextInputFormatter> formatter) {
   return Container(
     margin: EdgeInsets.only(bottom: 20),
-    padding: EdgeInsets.only(left: 10),
+    padding: EdgeInsets.only(left: 20,right: 20),
     height: 50,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(26)),
         border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
         color: CustomColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Image(
-          width: 35,
-          height: 35,
+          width: 18,
+          height: 18,
           fit: BoxFit.fill,
           image: AssetImage("Assets/images/$icon"),
         ),
@@ -349,20 +349,23 @@ Widget textFieldIconSelector(
     ) {
   return Container(
     margin: EdgeInsets.only(bottom: 20),
-    padding: EdgeInsets.only(left: 10),
+    padding: EdgeInsets.only(left:20,right: 20),
     height: 50,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(26)),
         border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
         color: CustomColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Image(
-          width: 35,
-          height: 35,
+          width: 18,
+          height: 18,
           fit: BoxFit.fill,
           image: AssetImage("Assets/images/$icon"),
+        ),
+        SizedBox(
+          width: 5,
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 5),
@@ -405,21 +408,22 @@ Widget textFieldIconSelector(
 Widget textFieldIconPhone(
     String hintText,
     String prefix,
+    String icon,
     TextEditingController controller,
     ) {
   return Container(
     margin: EdgeInsets.only(bottom: 20),
-    padding: EdgeInsets.only(left: 10),
+    padding: EdgeInsets.only(left: 20),
     height: 50,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(26)),
         border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
         color: CustomColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
 
-        Container(
+        /*Container(
           width: 35,
           child: Text(
             prefix,
@@ -427,6 +431,15 @@ Widget textFieldIconPhone(
                 fontFamily: Strings.fontRegular,
                 color: CustomColors.gray7),
           ),
+        ),*/
+        Image(
+          width: 18,
+          height: 18,
+          fit: BoxFit.fill,
+          image: AssetImage("Assets/images/$icon"),
+        ),
+        SizedBox(
+          width: 5,
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 5),

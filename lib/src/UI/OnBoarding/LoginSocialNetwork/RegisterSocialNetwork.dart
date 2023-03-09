@@ -157,7 +157,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                               InkWell(
                                   onTap: ()=>openSelectCityByState(),
                                   child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
-                              textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',phoneController ),
+                              textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
                               customTextFieldIcon("ic_data.png",true, Strings.codeReferred,
                                   referredController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
                               itemCheck(

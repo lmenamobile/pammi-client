@@ -16,7 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.blueSplash,
+      backgroundColor: CustomColors.white,
       body: WillPopScope(
         onWillPop: (() async => showAlertActions(
             context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)) as Future<bool>),
@@ -42,16 +42,16 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           SizedBox(height: 5),
           Padding(
-            padding: const EdgeInsets.only(left: 42, right: 27),
+            padding: const EdgeInsets.only(left: 32, right: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  Strings.welcome,
+                  Strings.welcome3,
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 48,
                     fontFamily: Strings.fontBold,
-                    color: CustomColors.white,
+                    color: CustomColors.blueTitle,
                   ),
                 ),
                 SizedBox(height: 10,),
@@ -61,28 +61,22 @@ class _WelcomePageState extends State<WelcomePage> {
                     height: 1.5,
                     fontSize: 15,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.white,
+                    color: CustomColors.blueTitle,
                   ),
                 ),
                 SizedBox(height: 34),
-                Padding(
-                  padding: const EdgeInsets.only(left: 35, right: 35),
-                  child: btnCustomRoundedBorder(CustomColors.blueSplash,
-                      CustomColors.white, Strings.login, () {
-                    Navigator.of(context).push(customPageTransition(
-                       LoginPage()));
-                  }, context, CustomColors.white),
-                ),
+                btnCustomRoundedBorder(CustomColors.blueSplash,
+                    CustomColors.white, Strings.login, () {
+                      Navigator.of(context).push(customPageTransition(
+                          LoginPage()));
+                    }, context, CustomColors.white),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 35, right: 35),
-                  child: btnCustomRounded(CustomColors.white,
-                      CustomColors.gray7, Strings.begin, () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => MyHomePage()),
-                        (Route<dynamic> route) => false);
-                  }, context),
-                ),
+                btnCustomRounded(CustomColors.gray13,
+                    CustomColors.gray14, Strings.begin, () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                              (Route<dynamic> route) => false);
+                    }, context),
                 SizedBox(height: 20),
               ],
             ),

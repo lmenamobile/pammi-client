@@ -6,6 +6,15 @@ class Strings {
   static const String skip = 'Omitir';
   static const String verifyCode = 'Verificar código';
   static const String welcome = '¡Bienvenido!';
+  static const String welcome3 = 'Bienvenido';
+  static const String titleTour1 = 'En un sólo lugar';
+  static const String titleTour2 = 'A la hora que necesites';
+  static const String nationality = 'Nacionalidad';
+  //static const String selectCountry = 'Selecciona tu país';
+
+  //
+  static const String descTour1 = 'Hemos creado una app donde puedes encontrar los productos de tus marcas favoritas.';
+  static const String descTour2 = 'Te brindamos toda clase de productos para satisfacer tus necesidades';
   static const String next = 'Continuar';
   static const String selectYouAddress = 'Selecciona tu dirección';
   static const String inputAddress = 'Ingresar una nueva dirección';
@@ -23,10 +32,13 @@ class Strings {
   static const String textWelcome = 'Servicio 24/7 para todo tipo de productos y servicios de carácter internacional.';
 
   static const String welcome2 = 'Bienvenid@';
-  static const String welcomeDescription = 'Hemos creado un app donde puedes encontrar los productos de tus marcas favoritas.';
+  static const String welcomeDescription = 'Servicio 24/7 para todo tipo de productos y servicios de carácter internacional.';//'Hemos creado un app donde puedes encontrar los productos de tus marcas favoritas.';
 
   //loGIN
   static const String login = 'Iniciar sesión';
+  static const String optionInput = 'Conéctate con';
+
+  static const String titleLogin = 'Gana sin limites';
   static const String titleAmSorry = '¡Lo sentimos!';
   static const String selectYourCountry = 'Selecciona tu país';
 
@@ -52,7 +64,7 @@ class Strings {
   static const String recoverPass = 'Recuperar contraseña';
   static const String textRecoverPass = 'Escribe tu dirección de correo, nosotros te enviaremos un código para cambiar tu contraseña.';
 
-  static const String sendAgain = 'Volver a enviar';
+  static const String sendAgain = 'Reenviar código';
   static const String retry = 'Reintentar';
   static const String begin = '¡Empezar!';
 
@@ -270,7 +282,7 @@ class Strings {
 
   /*Chat*/
   static const String sendMessage = 'Enviar mensaje';
-
+  static const String sender = 'ENVIAR';
 
 
   /*Orders*/

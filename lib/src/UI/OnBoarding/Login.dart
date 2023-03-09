@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Providers/AppleSingInProvider.dart';
@@ -46,164 +45,173 @@ class _LoginPageState extends State<LoginPage> {
   var obscureTextPass = true;
   String msgError = '';
 
+
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
+      backgroundColor: CustomColors.white,
       body: SafeArea(
-        child:  Stack(
-            children: [
-              SingleChildScrollView(
-                child: Container(
-                  color: CustomColors.white,
-                  child: _body(context),
-                ),
-              ),
-              Visibility(
-                  visible: providerOnboarding.isLoading, child: LoadingProgress()),
-            ],
-          ),
+        child:  _body(context),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return Column(
-      children: <Widget>[
-        Stack(
-          children: [
-            FadeInUpBig(
-              child: Container(
-                margin: EdgeInsets.only(top: 130),
-                child: Image(
-                  image: AssetImage("Assets/images/ic_shape.png"),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 50, left: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image(
+    return Stack(
+      children: [
+        Image(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            fit: BoxFit.fill,
+            image: AssetImage('Assets/images/img_bg_onboarding.png')),
+        Column(
+          children: <Widget>[
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(top: 80, left: 30,right: 30),
+                child: Column(
+                  children: [
+                    Image(
                     width: 220,
                     image: AssetImage("Assets/images/ic_logo_login.png"),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    Strings.login,
+                    ),
+                    SizedBox(
+                    height: 54,
+                    ),
+
+                    Text(
+                    Strings.welcome,
                     style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 25,
-                        color: CustomColors.blackLetter),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    Strings.textLogin,
+                    fontFamily: Strings.fontBold,
+                    fontSize: 36,
+                    color: CustomColors.blueTitle),
+                    ),
+                    SizedBox(height: 17),
+                    Text(
+                    Strings.titleLogin,
                     style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        fontSize: 14,
-                        color: CustomColors.blackLetter),
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 18,
+                    color: Colors.black),
+                    ),
+                    FadeInUp(
+                      delay: Duration(milliseconds: 1200),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            customBoxEmailLogin(emailController, notifyVariables, () {
+                              setState(() {});
+                            }),
+                            SizedBox(height: 20),
+                            customBoxPassword(passwordController),
+                            SizedBox(height: 13),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                GestureDetector(
+                                    child: Container(
+                                      alignment: Alignment.topRight,
+                                      padding: EdgeInsets.only(right: 10, top: 5),
+                                      child: Text(
+                                        Strings.forgotPass,
+                                        style: TextStyle(
+                                            fontFamily: Strings.fontMedium,
+                                            color: CustomColors.blueTitle),
+                                      ),
+                                    ),
+                                    onTap: () => Navigator.of(context).push(
+                                        customPageTransition(ForgotPasswordEmailPage())))
+                              ],
+                            ),
+                            SizedBox(height: 30),
+                            btnCustomRounded(
+                                CustomColors.blueSplash,
+                                CustomColors.white,
+                                Strings.login,
+                                    () => callServiceLogin(),
+                                context),
+                            SizedBox(height: 20),
+                            btnCustomRounded(
+                                CustomColors.gray13,
+                                CustomColors.gray14,
+                                Strings.createAccount,
+                                    () => Navigator.of(context)
+                                    .push(customPageTransition(RegisterPage())),
+                                context),
+                            SizedBox(height: 55),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 1,
+                                    color: CustomColors.grayDot,
+                                  ),
+                                ),
+                                Text(
+                                  Strings.optionInput,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: Strings.fontRegular,
+                                      color: CustomColors.blueTitle
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 1,
+                                    color: CustomColors.grayDot,
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 36),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Visibility(
+                                  visible: platformIsAndroid(),
+                                  child: itemConnectTo("Assets/images/ic_google.png",
+                                          () => validateUserGoogle()),
+                                ),
+                                SizedBox(width: 13),
+                                itemConnectTo("Assets/images/ic_facebook.png",
+                                    requestLoginFacebook),
+                                Visibility(
+                                    visible: !platformIsAndroid(),
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 13),
+                                        child: itemConnectTo(
+                                            "Assets/images/ic_mac.png", ()=>validateUserApple()))),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+
+
                   ),
-                ],
               ),
             ),
+
+
+
           ],
         ),
-        FadeInUp(
-          delay: Duration(milliseconds: 1200),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                customBoxEmailLogin(emailController, notifyVariables, () {
-                  setState(() {});
-                }),
-                SizedBox(height: 28),
-                customBoxPassword(passwordController),
-                SizedBox(height: 13),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(),
-                    ),
-                    GestureDetector(
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          padding: EdgeInsets.only(right: 30, top: 5),
-                          child: Text(
-                            Strings.forgotPass,
-                            style: TextStyle(
-                                fontFamily: Strings.fontMedium,
-                                color: CustomColors.blackLetter),
-                          ),
-                        ),
-                        onTap: () => Navigator.of(context).push(
-                            customPageTransition(ForgotPasswordEmailPage())))
-                  ],
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: btnCustomRounded(
-                      CustomColors.redTour,
-                      CustomColors.white,
-                      Strings.login,
-                      callServiceLogin,
-                      context),
-                ),
-                SizedBox(height: 14),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: btnCustomRounded(
-                      CustomColors.blueSplash,
-                      CustomColors.white,
-                      Strings.createAccount,
-                      () => Navigator.of(context)
-                          .push(customPageTransition(RegisterPage())),
-                      context),
-                ),
-                SizedBox(height: 22),
-                Text(
-                  Strings.connectTo,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 14,
-                      color: CustomColors.gray7),
-                ),
-                SizedBox(height: 23),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Visibility(
-                visible: platformIsAndroid(),
-                      child: itemConnectTo("Assets/images/ic_google.png",
-                          () => validateUserGoogle()),
-                    ),
-                    SizedBox(width: 13),
-                    itemConnectTo("Assets/images/ic_facebook.png",
-                        requestLoginFacebook),
-                    Visibility(
-                        visible: !platformIsAndroid(),
-                        child: Container(
-                            margin: EdgeInsets.only(left: 13),
-                            child: itemConnectTo(
-                                "Assets/images/ic_mac.png", ()=>validateUserApple()))),
-                  ],
-                ),
-                SizedBox(height: 10),
-              ],
-            ),
-          ),
-        ),
+        Visibility(
+            visible: providerOnboarding.isLoading, child: LoadingProgress()),
+
       ],
     );
   }
@@ -216,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
         Container(
           height: 52,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables!.intLogin.validatePassword!
                       ? CustomColors.blueSplash
@@ -225,13 +233,13 @@ class _LoginPageState extends State<LoginPage> {
               color: CustomColors.white),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    width: 35,
-                    height: 35,
+                    width: 25,
+                    height: 25,
                     fit: BoxFit.fill,
                     image: notifyVariables!.intLogin.validatePassword!
                         ? AssetImage("Assets/images/ic_padlock_blue.png")

@@ -42,165 +42,104 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
       body: WillPopScope(
         onWillPop: () async =>false,
         child: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                child: _body(context),
-              ),
-              Visibility(
-                  visible: providerOnboarding.isLoading,
-                  child: LoadingProgress()),
-            ],
-          ),
+          child: _body(context),
         ),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 145),
-                child: Image(
-                  image: AssetImage("Assets/images/ic_shape.png"),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 65, left: 30),
+    return Stack(
+      children: [
+        Column(
+          children: [
+            header(context, Strings.verification, CustomColors.red, ()=> Navigator.pop(context)),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(30),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Image(
-                        width: 220,
-                        image: AssetImage("Assets/images/ic_logo_login.png"),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                  children: <Widget>[
                     Text(
-                      Strings.verification,
+                      Strings.verificationMsg,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: Strings.fontBold,
-                          fontSize: 22,
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 18,
                           color: CustomColors.blackLetter),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 125,
                     ),
-                    Container(
-                      width: 300,
-                      child: Text(
-                        Strings.verificationMsg,
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 14,
-                            color: CustomColors.blackLetter),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: PinCodeTextField(
+                        appContext: context,
+                        backgroundColor: Colors.transparent,
+                        cursorColor: CustomColors.blueSplash,
+                        animationType: AnimationType.slide,
+                        enableActiveFill: true,
+                        keyboardType: TextInputType.number,
+                        length: 4,
+                        onChanged: (String text) {
+                          code = text;
+                        },
+                        obscureText: false,
+                        textStyle: TextStyle(
+                            color: CustomColors.blackLetter,
+                            fontFamily: Strings.fontBold,
+                            fontSize: 22),
+                        //enablePinAutofill: false,
+                        pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(5),
+                            fieldHeight: 63,
+                            fieldWidth: 59,
+                            selectedColor: CustomColors.grayOne,
+                            disabledColor: Colors.white,
+                            activeFillColor: Colors.white,
+                            activeColor: Colors.white,
+                            inactiveFillColor: CustomColors.gray13.withOpacity(.2),
+                            inactiveColor: CustomColors.gray13.withOpacity(.9),
+                            selectedFillColor: Colors.white),
                       ),
                     ),
+                    SizedBox(height: 47),
+                    GestureDetector(
+                      child: Container(
+                        child: Text(
+                          Strings.sendAgain,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: Strings.fontRegular,
+                              color: CustomColors.blueTitle,
+                             // decoration: TextDecoration.underline
+                          ),
+                        ),
+                      ),
+                      onTap: () => _serviceSendAgainCode(),
+                    ),
+
+
+
+
+
                   ],
                 ),
               ),
-              GestureDetector(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    left: 20,top: 15
-                  ),
-                  alignment: Alignment.topLeft,
-                  child: Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage("Assets/images/ic_back.png"),
-                  ),
-                ),
-                onTap: () {
-                  if(Constants.isViewRegister==widget.typeView) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                            (Route<dynamic> route) => false);
-                  }else{
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-            ],
-          ),
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 50),
-                  child: PinCodeTextField(
-                    appContext: context,
-                    backgroundColor: Colors.transparent,
-                    cursorColor: CustomColors.blueSplash,
-                    animationType: AnimationType.slide,
-                    enableActiveFill: true,
-                    keyboardType: TextInputType.number,
-                    length: 4,
-                    onChanged: (String text) {
-                      code = text;
-                    },
-                    obscureText: false,
-                    textStyle: TextStyle(
-                        color: CustomColors.blackLetter,
-                        fontFamily: Strings.fontBold,
-                        fontSize: 22),
-                    enablePinAutofill: false,
-                    pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.box,
-                        borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 50,
-                        fieldWidth: 50,
-                        selectedColor: CustomColors.grayOne,
-                        disabledColor: Colors.white,
-                        activeFillColor: Colors.white,
-                        activeColor: Colors.white,
-                        inactiveFillColor: Colors.white,
-                        inactiveColor: CustomColors.grayOne,
-                        selectedFillColor: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 24),
-                GestureDetector(
-                  child: Container(
-                    child: Text(
-                      Strings.sendAgain,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: Strings.fontRegular,
-                          color: CustomColors.redTour,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                  onTap: () => _serviceSendAgainCode(),
-                ),
-                SizedBox(height: 24),
-                Padding(
-                  padding: EdgeInsets.only(left: 85, right: 85),
-                  child: btnCustomRounded(
-                      CustomColors.blueSplash,
-                      CustomColors.white,
-                      Strings.send,
-                      callServiceCode,
-                      context),
-                ),
-                SizedBox(height: 24),
-              ],
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        Positioned(
+          bottom: 30,
+            left: 30,
+            right: 30,
+            child: btnCustomRounded(
+            CustomColors.blueSplash,
+            CustomColors.white,
+            Strings.sender,
+            callServiceCode,
+            context)),
+        Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
+      ],
     );
   }
 

@@ -32,7 +32,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
     return Container(
       height: 52,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
           border: Border.all(
               color: !notifyVariables!.intLogin.validateEmail!
                   ? CustomColors.gray.withOpacity(.3)
@@ -41,13 +41,13 @@ Widget customBoxEmailLogin(TextEditingController emailController,
           color: CustomColors.white),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 20,right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(
-                width: 35,
-                height: 35,
+                width: 25,
+                height: 25,
                 image: !notifyVariables.intLogin.validateEmail!
                     ? AssetImage("Assets/images/ic_email.png")
                     : AssetImage("Assets/images/ic_email_blue.png"),
@@ -103,7 +103,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
     return Container(
       height: 52,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
           border: Border.all(
               color: !notifyVariables!.intForPass.validateEmail!
                   ? CustomColors.gray.withOpacity(.3)
@@ -112,17 +112,18 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
           color: CustomColors.white),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 20,right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(
-                width: 35,
-                height: 35,
+                width: 25,
+                height: 25,
                 image: !notifyVariables.intForPass.validateEmail!
                     ? AssetImage("Assets/images/ic_email.png")
                     : AssetImage("Assets/images/ic_email_blue.png"),
               ),
+              SizedBox(width: 5,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 width: 1,
@@ -179,7 +180,7 @@ Widget customBoxEmailRegister(TextEditingController emailController,
         Container(
           height: 52,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color:  CustomColors.gray.withOpacity(.3),
                   width: 1),
@@ -359,7 +360,7 @@ Widget btnCustomRounded(Color backgroungButton, Color textColor,
     Container(
       height: 45,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(24)),
           color: backgroungButton),
       child: Center(
         child: Text(
@@ -388,7 +389,7 @@ Widget btnCustomRoundedBorder(
       height: 45,
       decoration: BoxDecoration(
           border: Border.all(color: colorBorder, width: 1.3),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
           color: backgroungButton),
       child: Center(
         child: Text(
@@ -1308,6 +1309,39 @@ Widget simpleHeader(BuildContext context, Widget child) {
       alignment: Alignment.center,
       decoration: BoxDecoration(color: CustomColors.blue),
       child: child);
+}
+
+Widget header(BuildContext context, String title, Color color, Function action) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Stack(
+        children: [
+          Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 24,
+                fontFamily:Strings.fontBold,
+                color: Colors.white
+              ),
+            ),
+          ),
+          Positioned(
+            left: 20,
+             bottom: 0,
+              child: GestureDetector(
+                onTap: ()=> action(),
+                child: Icon(
+                  Icons.arrow_back,
+                  size: 25,
+                  color: Colors.white,
+                ),
+              ))
+        ],
+      ));
 }
 
 Widget emptyPage(

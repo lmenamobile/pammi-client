@@ -83,6 +83,10 @@ class CustomColors {
   static var yellowTwo = const Color (0xFFF3A444);
   static var blue4 = const Color (0xFF166AC9);
   static var blue5 = const Color(0xff07213E);
+  static var redDot = const Color(0xffE73638);
+  static var grayDot = const Color(0xffD8D8D8);
+  static var gray13 = const Color(0xffE5E5E5);
+  static var gray14 = const Color(0xffA2A2A2);
 
 
 

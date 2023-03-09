@@ -113,38 +113,33 @@ Widget itemCountry(CountryUser country, Function action) {
       ),
       child: Container(
         margin: EdgeInsets.all(20),
-        child: Container(
-          margin: EdgeInsets.only(left:50),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-            Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: CustomColors.grayBackground,
-                    borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  child: SvgPicture.network(
-                    country.flag!,
-                    height: 30,
-                    width: 30,
-                    fit: BoxFit.fitHeight,
-                  ),
-                )),
-            SizedBox(width: 15),
-            Text(
-              country.country!,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontSize: 18,
-                  color: CustomColors.blackLetter,
-                  fontFamily: Strings.fontBold),
-            ),
-          ]),
-        ),
+        child: Row(
+            children: <Widget>[
+              Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                      color: CustomColors.grayBackground,
+                      borderRadius: BorderRadius.all(Radius.circular(100))),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    child: SvgPicture.network(
+                      country.flag!,
+                      height: 30,
+                      width: 30,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )),
+              SizedBox(width: 50),
+              Text(
+                country.country!,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 18,
+                    color: CustomColors.blackLetter,
+                    fontFamily: Strings.fontBold),
+              ),
+            ]),
       ),
     ),
     onTap: () => action(country),

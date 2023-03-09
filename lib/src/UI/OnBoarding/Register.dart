@@ -14,6 +14,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -39,14 +40,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-    providerSettings = Provider.of<ProviderSettings>(context,listen: false);
-    providerOnBoarding = Provider.of<OnboardingProvider>(context,listen: false);
-    providerOnBoarding.stateTerms = false;
-    providerOnBoarding.stateDates = false;
-    providerOnBoarding.stateCentrals = false;
-    providerSettings!.countrySelected = null;
-    providerSettings!.stateCountrySelected = null;
-    providerSettings!.citySelected = null;
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      providerOnBoarding.stateTerms = false;
+      providerOnBoarding.stateDates = false;
+      providerOnBoarding.stateCentrals = false;
+      providerSettings!.countrySelected = null;
+      providerSettings!.stateCountrySelected = null;
+      providerSettings!.citySelected = null;
+    });
+
     super.initState();
   }
 
@@ -56,6 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context);
     cityController.text = providerSettings?.citySelected?.name??'';
 
     return Scaffold(
@@ -73,50 +77,8 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: 100,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 0,
-                child: Container(
-                  child: Image(
-                    fit: BoxFit.fill,
-                    height: 100,
-                    image: AssetImage("Assets/images/ic_header_signup.png"),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 15,
-                left: 15,
-                child: GestureDetector(
-                  child: Image(
-                    image: AssetImage("Assets/images/ic_back_w.png"),
-                    width: 40,
-                    height: 40,
-                  ),
-                  onTap: ()=> Navigator.pop(context),
-                ),
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 30),
-                child: Text(
-                  Strings.register,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 18,
-                      color: CustomColors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 15,),
+        header(context, Strings.register,CustomColors.red, ()=> Navigator.pop(context)),
+        const SizedBox(height: 55,),
         Expanded(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -125,29 +87,31 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 children: <Widget>[
                   Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: <Widget>[
                         SizedBox(
                           height: 6,
                         ),
                         Text(
-                          Strings.createAccount,
+                          "¡${Strings.createAccount}!",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: Strings.fontBold,
-                              fontSize: 24,
-                              color: CustomColors.blackLetter),
+                              fontSize: 36,
+                              color: CustomColors.blueTitle),
                         ),
                         SizedBox(
-                          height: 6,
+                          height: 26,
                         ),
                         Text(
                           Strings.registerMsg,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
-                              color: CustomColors.gray7),
+                              fontSize: 18,
+                              color: CustomColors.black1),
                         ),
-                        SizedBox(height: 13),
+                        SizedBox(height: 52),
                          Column(
                               children: AnimationConfiguration.toStaggeredList(
                             duration: const Duration(milliseconds: 600),
@@ -164,17 +128,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                   lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
                               InkWell(
                                 onTap: ()=>openSelectCountry(),
-                                  child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
+                                  child: textFieldIconSelector("ic_country.png",false, Strings.nationality, countryController)),
                               InkWell(
                                   onTap: ()=>openSelectCityByState(),
                                   child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
-                              textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',phoneController ),
+                              textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
                               SizedBox(height: 30),
                             ],
                           )),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 30),
-                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColors.blueSplash, Colors.white, callStepTwoRegister))
+                        btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
                       ],
                     ),
                   SizedBox(height: 15,),

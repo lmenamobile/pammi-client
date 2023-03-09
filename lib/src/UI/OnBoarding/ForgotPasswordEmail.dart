@@ -27,118 +27,60 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              child: _body(context),
-            ),
-            Visibility(
-                visible: providerOnboarding.isLoading,
-                child: LoadingProgress()),
-          ],
-        ),
+        child: _body(context),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 170),
-                child: Image(
-                  image: AssetImage("Assets/images/ic_shape.png"),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 75, left: 30),
+
+    return Stack(
+      children: [
+        Column(
+          children: [
+            header(context, Strings.recoverPass, CustomColors.red, ()=> Navigator.pop(context)),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(30),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Image(
-                        width: 220,
-                        image: AssetImage("Assets/images/ic_logo_login.png"),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                  children: <Widget>[
                     Text(
-                      Strings.recoverPass,
+                      Strings.textRecoverPass,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: Strings.fontBold,
-                          fontSize: 22,
-                          color: CustomColors.blackLetter),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: 300,
-                      child: Text(
-                        Strings.textRecoverPass,
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 14,
-                            color: CustomColors.blackLetter),
+                        fontSize: 18,
+                        color: CustomColors.black1,
+                        fontFamily: Strings.fontRegular
                       ),
                     ),
+                    const SizedBox(height: 42),
+                    customBoxEmailForgotPass(emailController, notifyVariables, () {
+                      setState(() {});
+                    }),
+
+
                   ],
                 ),
               ),
-              GestureDetector(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    left: 20,
-                    top: 10
-                  ),
-                  alignment: Alignment.topLeft,
-                  child: Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage("Assets/images/ic_back.png"),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                customBoxEmailForgotPass(emailController, notifyVariables, () {
-                  setState(() {});
-                }),
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: btnCustomRounded(
-                      CustomColors.blueSplash,
-                      CustomColors.white,
-                      Strings.send,
-                      callServicePassword,
-                      context),
-                ),
-                SizedBox(height: 20),
-              ],
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        Positioned(
+          bottom: 30,
+          left: 30,
+          right: 30,
+          child:btnCustomRounded(
+              CustomColors.blueSplash,
+              CustomColors.white,
+              Strings.sender,
+              callServicePassword,
+              context) ,
+        ),
+        Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
+      ],
     );
   }
 
