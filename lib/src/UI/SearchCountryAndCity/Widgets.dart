@@ -9,22 +9,22 @@ import 'package:wawamko/src/Utils/colors.dart';
 
 Widget boxSearchCountries(TextEditingController controllerSearch,Function search) {
   return Container(
-    height: 40,
+    padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
     width: double.infinity,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: CustomColors.grayBackground),
+        border: Border.all(color: CustomColors.gray4.withOpacity(.3),width: 1),
+        borderRadius: BorderRadius.all(Radius.circular(26)),
+        color: Colors.transparent),
     child: Center(
       child: Row(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Image(
-              width: 20,
-              height: 20,
-              image: AssetImage("Assets/images/ic_seeker.png"),
-            ),
+          Image(
+            width: 20,
+            height: 20,
+            color: CustomColors.blue,
+            image: AssetImage("Assets/images/ic_seeker.png"),
           ),
+          SizedBox(width: 10,),
           Expanded(
             child: TextField(
               onSubmitted: (value) {
@@ -158,7 +158,7 @@ Widget itemStateCountry(StatesCountry state, Function action) {
       child: Container(
         margin: EdgeInsets.all(20),
         child: Container(
-          margin: EdgeInsets.only(left:50),
+          margin: EdgeInsets.only(left:30),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -167,8 +167,8 @@ Widget itemStateCountry(StatesCountry state, Function action) {
                   state.name!,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 18,
-                      color: CustomColors.blackLetter,
+                      fontSize: 16,
+                      color: CustomColors.gray15,
                       fontFamily: Strings.fontBold),
                 ),
               ]),
@@ -191,7 +191,7 @@ Widget cityItem(City city, Function action) {
       child: Container(
         margin: EdgeInsets.all(20),
         child: Container(
-          margin: EdgeInsets.only(left:50),
+          margin: EdgeInsets.only(left:30),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -200,9 +200,9 @@ Widget cityItem(City city, Function action) {
                   city.name!,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 18,
-                      color: CustomColors.blackLetter,
-                      fontFamily: Strings.fontBold),
+                      fontSize: 16,
+                      color: CustomColors.gray15,
+                      fontFamily: Strings.fontRegular),
                 ),
               ]),
         ),

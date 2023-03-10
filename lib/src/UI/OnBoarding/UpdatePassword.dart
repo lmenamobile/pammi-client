@@ -31,111 +31,59 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              child: _body(context),
-            ),
-            Visibility(
-                visible: providerOnboarding.isLoading,
-                child: LoadingProgress()),
-          ],
-        ),
+        child: _body(context),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return SingleChildScrollView(
-        child: Column(children: <Widget>[
-      Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 130),
-            child: Image(
-              image: AssetImage("Assets/images/ic_shape.png"),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 50, left: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Image(
-                    width: 220,
-                    image: AssetImage("Assets/images/ic_logo_login.png"),
+    return Stack(
+      children: [
+        Column(
+            children: <Widget>[
+              header(context, Strings.resetPass, CustomColors.red, ()=> Navigator.pop(context)),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(30),
+                  child: Column(
+                    children: [
+                      Text(
+                        Strings.patternPass,
+                        style: TextStyle(
+                            fontFamily: Strings.fontRegular,
+                            fontSize: 18,
+                            color: CustomColors.black1),
+                      ),
+                      const SizedBox(height: 24),
+                      customBoxPassword(passwordController),
+                      SizedBox(height: 31),
+                      customBoxConfirmPass(confirmPasswordController),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  Strings.newPassword,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: Strings.fontBold,
-                      fontSize: 22,
-                      color: CustomColors.blackLetter),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 300,
-                  child: Text(
-                    Strings.textNewPassword,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        fontSize: 14,
-                        color: CustomColors.blackLetter),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 20,
-              ),
-              alignment: Alignment.topLeft,
-              child: Image(
-                width: 50,
-                height: 50,
-                image: AssetImage("Assets/images/ic_back.png"),
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            customBoxPassword(passwordController),
-            SizedBox(height: 31),
-            customBoxConfirmPass(confirmPasswordController),
-            Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50, top: 35),
-              child: btnCustomRounded(
-                  CustomColors.blueSplash,
-                  CustomColors.white,
-                  Strings.save,
-                  callServiceUpdatePassword,
-                  context),
-            ),
-          ],
+              )
+
+        ]
         ),
-      ),
-    ]));
+        Positioned(
+          bottom: 30,
+          left: 30,
+          right: 30,
+          child: btnCustomRounded(
+            CustomColors.blueSplash,
+            CustomColors.white,
+            Strings.save,
+            callServiceUpdatePassword,
+            context),),
+        Visibility(
+          visible: providerOnboarding.isLoading,
+            child: LoadingProgress())
+      ],
+    );
   }
 
   Widget customBoxPassword(TextEditingController passwordController) {
@@ -146,7 +94,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
         Container(
           height: 52,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validPass!
                       ? CustomColors.blueSplash
@@ -155,13 +103,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               color: CustomColors.white),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    width: 35,
-                    height: 35,
+                    width: 20,
+                    height: 20,
                     image: notifyVariables.intUpdatePass.validPass!
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
@@ -169,8 +117,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
-                    height: 25,
-                    color: CustomColors.gray7.withOpacity(.4),
+                    height: 20,
+                    color: CustomColors.gray7.withOpacity(.2),
                   ),
                   Expanded(
                     child: Container(
@@ -184,7 +132,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.gray7.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.5),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.password,
@@ -203,8 +151,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   ),
                   GestureDetector(
                     child: Image(
-                      width: 35,
-                      height: 35,
+                      width: 30,
+                      height: 30,
                       image: obscureTextPass
                           ? AssetImage("Assets/images/ic_showed.png")
                           : AssetImage("Assets/images/ic_show.png"),
@@ -234,7 +182,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
         Container(
           height: 52,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validConfirmPass!
                       ? CustomColors.blueSplash
@@ -243,13 +191,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               color: CustomColors.white),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    width: 35,
-                    height: 35,
+                    width: 20,
+                    height: 20,
                     image: notifyVariables.intUpdatePass.validConfirmPass!
                         ? AssetImage("Assets/images/ic_padlock_blue.png")
                         : AssetImage("Assets/images/ic_padlock.png"),
@@ -258,7 +206,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.gray7.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.2),
                   ),
                   Expanded(
                     child: Container(
@@ -273,7 +221,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.gray7.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.5),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.confirmPassword,
@@ -294,8 +242,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   ),
                   GestureDetector(
                     child: Image(
-                      width: 35,
-                      height: 35,
+                      width: 30,
+                      height: 30,
                       image: obscureTextConfirmPass
                           ? AssetImage("Assets/images/ic_showed.png")
                           : AssetImage("Assets/images/ic_show.png"),

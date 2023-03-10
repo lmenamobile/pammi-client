@@ -67,6 +67,8 @@ class Strings {
   static const String sendAgain = 'Reenviar código';
   static const String retry = 'Reintentar';
   static const String begin = '¡Empezar!';
+  static const String resetPass = 'Restablecer contraseña';
+
 
   //Register
   static const String registration = 'Registro';
@@ -215,6 +217,7 @@ class Strings {
   static const String ups = '¡Upps!';
   static const String masterCard = 'Master Card';
   static const String emptyCupons = 'En este momento no tienes registro de cupones';
+  static const String seeAll = 'Ver todas';
 
 //MyOrders
   static const String myOrdersTitle = 'Mis ordenes';
@@ -404,6 +407,7 @@ class Strings {
 
   /*Update PAssword*/
   static const String  newPassword  = 'Nueva contraseña';
+  static const String  patternPass  = 'Recuerda que la contraseña debe contener mínimo 8 caracteres alfanuméricos, una mayúscula y una minúscula.';
   static const String  textNewPassword  = 'Escribe una nueva contraseña';
   static const String verificationMsg = 'Enviamos un código a tu correo, por favor escribelo en los siguientes campos';
 

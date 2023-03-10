@@ -43,6 +43,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: _body(context),
       ),
@@ -79,7 +80,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                             child: emptyData("ic_empty_location.png",
                             Strings.sorry, Strings.emptyCountries),
                           )
-                          : listItemsCountry(),
+                          : Expanded(child: listItemsCountry()),
                     ],
                   ),
                 )

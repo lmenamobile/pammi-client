@@ -187,20 +187,20 @@ Widget customBoxEmailRegister(TextEditingController emailController,
               color: CustomColors.white),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 20,right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    width: 35,
-                    height: 35,
+                    width: 25,
+                    height: 25,
                     image:AssetImage("Assets/images/ic_email_blue.png"),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
-                    height: 25,
-                    color: CustomColors.gray7.withOpacity(.4),
+                    height: 20,
+                    color: CustomColors.gray7.withOpacity(.3),
                   ),
                   SizedBox(width: 5,),
                   Expanded(

@@ -63,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
     cityController.text = providerSettings?.citySelected?.name??'';
 
     return Scaffold(
-      backgroundColor: CustomColors.blueSplash,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -81,67 +81,65 @@ class _RegisterPageState extends State<RegisterPage> {
         const SizedBox(height: 55,),
         Expanded(
           child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 30),
             physics: BouncingScrollPhysics(),
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: <Widget>[
-                  Column(
+            child: Column(
+              children: <Widget>[
+                Column(
 
-                      children: <Widget>[
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          "¡${Strings.createAccount}!",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: Strings.fontBold,
-                              fontSize: 36,
-                              color: CustomColors.blueTitle),
-                        ),
-                        SizedBox(
-                          height: 26,
-                        ),
-                        Text(
-                          Strings.registerMsg,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: Strings.fontRegular,
-                              fontSize: 18,
-                              color: CustomColors.black1),
-                        ),
-                        SizedBox(height: 52),
-                         Column(
-                              children: AnimationConfiguration.toStaggeredList(
-                            duration: const Duration(milliseconds: 600),
-                            childAnimationBuilder: (widget) => SlideAnimation(
-                              verticalOffset: 50,
-                              child: FadeInAnimation(
-                                child: widget,
-                              ),
-                            ),
-                            children: <Widget>[
-                              customTextFieldIcon("ic_data.png",true, Strings.nameUser,
-                                  nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
-                              customTextFieldIcon("ic_data.png",true, Strings.lastName,
-                                  lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
-                              InkWell(
-                                onTap: ()=>openSelectCountry(),
-                                  child: textFieldIconSelector("ic_country.png",false, Strings.nationality, countryController)),
-                              InkWell(
-                                  onTap: ()=>openSelectCityByState(),
-                                  child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
-                              textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
-                              SizedBox(height: 30),
-                            ],
-                          )),
-                        btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
-                      ],
+                  children: <Widget>[
+                    SizedBox(
+                      height: 6,
                     ),
-                  SizedBox(height: 15,),
-                ],
-              ),
+                    Text(
+                      "¡${Strings.createAccount}!",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: Strings.fontBold,
+                          fontSize: 36,
+                          color: CustomColors.blueTitle),
+                    ),
+                    SizedBox(
+                      height: 17,
+                    ),
+                    Text(
+                      Strings.registerMsg,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 18,
+                          color: CustomColors.black1),
+                    ),
+                    SizedBox(height: 52),
+                    Column(
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: const Duration(milliseconds: 600),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 50,
+                            child: FadeInAnimation(
+                              child: widget,
+                            ),
+                          ),
+                          children: <Widget>[
+                            customTextFieldIcon("ic_data.png",true, Strings.nameUser,
+                                nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                            customTextFieldIcon("ic_data.png",true, Strings.lastName,
+                                lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
+                            InkWell(
+                                onTap: ()=>openSelectCountry(),
+                                child: textFieldIconSelector("ic_country.png",false, Strings.nationality, countryController)),
+                            InkWell(
+                                onTap: ()=>openSelectCityByState(),
+                                child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
+                            textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
+                            SizedBox(height: 30),
+                          ],
+                        )),
+                    btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
+                  ],
+                ),
+                SizedBox(height: 15,),
+              ],
             ),
           ),
         ),

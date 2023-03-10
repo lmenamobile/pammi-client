@@ -30,6 +30,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
 
     return Scaffold(
+     backgroundColor: Colors.white,
       body: SafeArea(
         child: _body(context),
       ),

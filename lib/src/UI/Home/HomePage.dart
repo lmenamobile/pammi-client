@@ -85,14 +85,14 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuHome,
       ),
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColors.white,
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
             "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
               Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-              color: CustomColors.grayBackground, child: _body(context)),
+              color: Colors.white, child: _body(context)),
         ),
       ),
     );
@@ -102,84 +102,75 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: <Widget>[
         Container(
+          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 37),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: <Color>[CustomColors.redTour, CustomColors.redOne],
-            ),
+            color: Colors.red
           ),
-          child: Container(
-            height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Container(
-                        width: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Center(
-                          child: Image(
-                            image: AssetImage("Assets/images/ic_menu.png"),
-                          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  GestureDetector(
+                    child: Container(
+                      width: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      child: Center(
+                        child: Image(
+                          image: AssetImage("Assets/images/ic_menu.png"),
                         ),
                       ),
-                      onTap: () => _drawerKey.currentState!.openDrawer(),
                     ),
-                    Image(
-                      height: 25,
-                      image: AssetImage("Assets/images/ic_logo.png"),
-                    ),
-                    GestureDetector(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 30,
-                            child: Image(
-                              image: AssetImage("Assets/images/ic_car.png"),
-                            ),
+                    onTap: () => _drawerKey.currentState!.openDrawer(),
+                  ),
+                  Image(
+                    height: 20,
+                    image: AssetImage("Assets/images/ic_logo.png"),
+                  ),
+                  GestureDetector(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          child: Image(
+                            image: AssetImage("Assets/images/ic_car.png"),
                           ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Visibility(
-                              visible: providerShopCart.totalProductsCart!="0"?true:false,
-                              child: CircleAvatar(
-                                radius: 6,
-                                backgroundColor: Colors.white,
-                                child: Text(
-                                  providerShopCart.totalProductsCart,
-                                  style: TextStyle(
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Visibility(
+                            visible: providerShopCart.totalProductsCart!="0"?true:false,
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                providerShopCart.totalProductsCart,
+                                style: TextStyle(
                                     fontSize: 8,
                                     color: CustomColors.redTour
-                                  ),
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                      onTap: () => Navigator.push(
-                          context, customPageTransition(ShopCartPage())),
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 40),
-                    child: boxSearchNextPage(searchController, openPageSearch))
-              ],
-            ),
+                    onTap: () => Navigator.push(
+                        context, customPageTransition(ShopCartPage())),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              boxSearchNextPage(searchController, openPageSearch)
+            ],
           ),
         ),
         Expanded(
@@ -190,19 +181,29 @@ class _MyHomePageState extends State<MyHomePage> {
             footer: footerRefreshCustom(),
             onRefresh: _pullToRefresh,
             child: providerSettings.hasConnection?SingleChildScrollView(
-              child: Stack(
+              child: Column(
                 children: <Widget>[
-
                   Visibility(
                     visible: providerHome!.ltsBanners.isNotEmpty,
                     child: Container(
-                      height: 200,
                       width: double.infinity,
+                      color: Colors.transparent,
                       child: sliderBanner(providerHome?.indexBannerHeader,
                           updateIndexBannerHeader, providerHome!.ltsBanners),
                     ),
                   ),
-
+                  const SizedBox(height: 55),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child:  sectionCategories(),
+                  ),
+                  const SizedBox(height: 55),
+                  sectionsBrands(),
+                  providerHome!.ltsBannersOffer.isEmpty
+                      ? Container()
+                      : sectionHighlight(),
+                  const SizedBox(height: 55),
+                  sectionBestSellers(),
                   Container(
                     margin: EdgeInsets.only(top:providerHome!.ltsBanners.isNotEmpty ? 185 : 0),
                     decoration: BoxDecoration(
@@ -214,12 +215,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        sectionCategories(),
-                        sectionsBrands(),
-                        providerHome!.ltsBannersOffer.isEmpty
-                            ? Container()
-                            : sectionHighlight(),
-                        sectionBestSellers(),
+
+
 
                       ],
                     ),
@@ -234,137 +231,125 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sectionCategories() {
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-      child: Column(
-        children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  Strings.categories,
-                  style: TextStyle(
-                      color: CustomColors.letterDarkBlue,
-                      fontSize: 16,
-                      fontFamily: Strings.fontBold),
-                ),
-                InkWell(
-                  onTap: () => Navigator.push(
-                      context, customPageTransition(CategoriesPage())),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: CustomColors.blue.withOpacity(.1),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                      child: Text(
-                        Strings.moreAll,
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                            color: CustomColors.blueOne,
-                            fontSize: 12,
-                            fontFamily: Strings.fontBold),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 8,),
-          AnimationLimiter(
-            child: GridView.builder(
-              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1,
-                crossAxisSpacing: 5.0,
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              Strings.categories,
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontSize: 24,
+                  color: CustomColors.blueTitle,
+                  fontFamily: Strings.fontBold
               ),
-              padding: EdgeInsets.only(top: 20),
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: providerSettings.ltsCategories.length > 6
-                  ? 6
-                  : providerSettings.ltsCategories.length,
-              shrinkWrap: true,
-              itemBuilder: (_, int index) {
-                return AnimationConfiguration.staggeredGrid(
-                  position: index,
-                  duration: const Duration(milliseconds: 375),
-                  columnCount: 3,
-                  child: ScaleAnimation(
-                    child: FadeInAnimation(
-                      child: InkWell(
-                          onTap: () =>
-                              openSubCategory(providerSettings.ltsCategories[index]),
-                          child: itemCategory(providerSettings.ltsCategories[index])),
-                    ),
-                  ),
-                );
-              },
             ),
+            Expanded(
+              child:GestureDetector(
+                onTap: ()=> Navigator.push(
+                    context, customPageTransition(CategoriesPage())),
+                child: Text(
+                  Strings.seeAll,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: CustomColors.blueTitle,
+                      fontFamily: Strings.fontRegular
+                  ),
+                ),
+              ) ,
+            )
+          ],
+        ),
+        SizedBox(height: 8,),
+        AnimationLimiter(
+          child: GridView.builder(
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              mainAxisSpacing: 30,
+              childAspectRatio: 0.9,
+              crossAxisSpacing: 0,
+            ),
+            padding: EdgeInsets.only(top: 20),
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: providerSettings.ltsCategories.length > 8
+                ? 8
+                : providerSettings.ltsCategories.length,
+            shrinkWrap: true,
+            itemBuilder: (_, int index) {
+              return AnimationConfiguration.staggeredGrid(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                columnCount: 4,
+                child: ScaleAnimation(
+                  child: FadeInAnimation(
+                    child: InkWell(
+                        onTap: () =>
+                            openSubCategory(providerSettings.ltsCategories[index]),
+                        child: itemCategory(providerSettings.ltsCategories[index])),
+                  ),
+                ),
+              );
+            },
           ),
-          customDivider(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget sectionsBrands() {
     return providerHome!.ltsBrands.isEmpty?Container():Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      //margin: EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            Strings.enjoy,
-            style: TextStyle(
-                fontSize: 13,
-                fontFamily: Strings.fontRegular,
-                color: CustomColors.blueOne),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Text(
+              Strings.enjoy,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: Strings.fontRegular,
+                  color: CustomColors.gray15),
+            ),
           ),
           SizedBox(
-            height: 8,
+            height: 6,
           ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                Strings.ourOfficialBrands,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: Strings.fontBold,
-                    color: CustomColors.blueSplash),
-              ),
-              InkWell(
-                onTap: ()=>openAllBrands(),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: CustomColors.blue.withOpacity(.2),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                    child: Text(
-                      Strings.moreAll,
-                      style: TextStyle(
-                          color: CustomColors.blueOne,
-                          fontSize: 12,
-                          fontFamily: Strings.fontBold),
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+             crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    Strings.ourOfficialBrands,
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: Strings.fontBold,
+                        color: CustomColors.blueSplash),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 5,),
+                InkWell(
+                  onTap: ()=>openAllBrands(),
+                  child:  Text(
+                    Strings.moreAll,
+                    style: TextStyle(
+                        color: CustomColors.blueTitle,
+                        fontSize: 14,
+                        fontFamily: Strings.fontRegular),
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 8,),
+          SizedBox(height: 22),
           Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              height: 100,
+              height: 110,
+              padding: EdgeInsets.only(left: 30),
               child: listItemsBrands()),
-          customDivider(),
+
         ],
       ),
     );
@@ -442,43 +427,46 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sectionBestSellers() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: Text(
             Strings.discoverThe,
             style: TextStyle(
-                fontSize: 13,
+                fontSize: 16,
                 fontFamily: Strings.fontRegular,
-                color: CustomColors.blueOne),
+                color: CustomColors.gray15),
           ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(
+        ),
+        SizedBox(
+          height: 6,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 Strings.mostSelledProducts,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 22,
                     fontFamily: Strings.fontBold,
                     color: CustomColors.blueSplash),
               ),
             ],
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              height: 260,
-              child: listBestSellers()),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+            padding: EdgeInsets.only(left: 30),
+            height: 260,
+            child: listBestSellers()),
+      ],
     );
   }
 
@@ -488,7 +476,7 @@ class _MyHomePageState extends State<MyHomePage> {
       scrollDirection: Axis.horizontal,
       itemBuilder: (_, int index) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 10 ),
           child: InkWell(
             onTap: ()=>openProductsByBrand(providerHome!.ltsBrands[index]),
               child: itemBrand(providerHome!.ltsBrands[index])),

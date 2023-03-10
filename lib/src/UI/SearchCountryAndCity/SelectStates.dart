@@ -9,7 +9,10 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+
+import '../../Widgets/widgets.dart';
 
 class SelectStatesPage extends StatefulWidget {
   @override
@@ -34,73 +37,51 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          color: CustomColors.white,
-          child: _body(context),
-        ),
+        child: _body(context),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-          child: GestureDetector(
-            child: Image(
-              width: 40,
-              height: 40,
-              image: AssetImage("Assets/images/ic_back.png"),
-            ),
-            onTap: () => Navigator.pop(context),
-          ),
-        ),
-        Expanded(
-          child: SmartRefresher(
-            controller: _refreshStates,
-            enablePullDown: true,
-            enablePullUp: true,
-            onLoading: _onLoadingToRefresh,
-            footer: footerRefreshCustom(),
-            header: headerRefresh(),
-            onRefresh: _pullToRefresh,
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 35),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              Strings.selectState,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: CustomColors.blackLetter,
-                                  fontFamily: Strings.fontBold),
-                            ),
-                            SizedBox(height: 21),
-                            boxSearchCountries(
-                                searchStateController, searchState),
-                            SizedBox(height: 21),
-                            providerSettings.ltsStatesCountries.isEmpty
-                                ? emptyData("ic_empty_location.png",
-                                    Strings.sorry, Strings.emptyStates)
-                                : listItemsStates()
-                          ]),
-                    ),
+    return Stack(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            header(context, Strings.selectState, CustomColors.red, ()=> Navigator.pop(context)),
+            Expanded(
+              child: SmartRefresher(
+                controller: _refreshStates,
+                enablePullDown: true,
+                enablePullUp: true,
+                onLoading: _onLoadingToRefresh,
+                footer: footerRefreshCustom(),
+                header: headerRefresh(),
+                onRefresh: _pullToRefresh,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 21),
+                      boxSearchCountries(
+                          searchStateController, searchState),
+                      SizedBox(height: 21),
+                      providerSettings.ltsStatesCountries.isEmpty
+                          ? Expanded(
+                            child: emptyData("ic_empty_location.png",
+                            Strings.sorry, Strings.emptyStates),
+                          )
+                          : Expanded(child: listItemsStates())
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
+        Visibility(visible: providerSettings.isLoading, child: LoadingProgress())
       ],
     );
   }

@@ -87,6 +87,7 @@ class CustomColors {
   static var grayDot = const Color(0xffD8D8D8);
   static var gray13 = const Color(0xffE5E5E5);
   static var gray14 = const Color(0xffA2A2A2);
+  static final gray15 = const Color(0xff707070);
 
 
 

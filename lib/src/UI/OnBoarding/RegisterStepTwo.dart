@@ -42,110 +42,50 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   @override
   Widget build(BuildContext context) {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
+    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return Scaffold(
-      backgroundColor: CustomColors.blueSplash,
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              color: CustomColors.white,
-              child: _body(context),
-            ),
-            Visibility(
-                visible: providerOnBoarding.isLoading,
-                child: LoadingProgress()),
-          ],
-        ),
+        child: _body(context),
       ),
     );
   }
 
   Widget _body(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return Column(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: 100,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 0,
-                child: Image(
-                  fit: BoxFit.fill,
-                  height: 100,
-                  image: AssetImage("Assets/images/ic_header_signup.png"),
-                ),
-              ),
-              Positioned(
-                top: 15,
-                left: 15,
-                child: GestureDetector(
-                  child: Image(
-                    image: AssetImage("Assets/images/ic_back_w.png"),
-                    width: 40,
-                    height: 40,
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(top: 25),
-                child: Text(
-                  Strings.register,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 18,
-                      color: CustomColors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
+    return Stack(
+      children: [
+        Column(
+          children: <Widget>[
+            header(context, Strings.register,CustomColors.red, ()=> Navigator.pop(context)),
+            Expanded(child: SingleChildScrollView(
+              padding: EdgeInsets.all(20),
               child: Column(
-                children: <Widget>[
+                children: [
+                  SizedBox(
+                    height: 55,
+                  ),
+                  Text(
+                    "¡${Strings.createAccount}!",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Strings.fontBold,
+                        fontSize: 36,
+                        color: CustomColors.blueTitle),
+                  ),
+                  SizedBox(
+                    height: 17,
+                  ),
+                  Text(
+                    Strings.registerMsg,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: Strings.fontRegular,
+                        fontSize: 18,
+                        color: CustomColors.black1),
+                  ),
+                  SizedBox(height: 52),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        Strings.createAccount,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: Strings.fontBold,
-                            fontSize: 24,
-                            color: CustomColors.blackLetter),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        Strings.registerMsg,
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            color: CustomColors.gray7),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                          children: AnimationConfiguration.toStaggeredList(
+                      children: AnimationConfiguration.toStaggeredList(
                         duration: const Duration(milliseconds: 600),
                         childAnimationBuilder: (widget) => SlideAnimation(
                           verticalOffset: 50.0,
@@ -168,74 +108,46 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                           customBoxConfirmPassword(confirmPassController)
                         ],
                       )),
-                      SizedBox(height: 5),
-                      Padding(
-                        padding: EdgeInsets.only(left: 6, right: 6),
-                        child: Text(
-                          Strings.challengePassword,
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: EdgeInsets.only(left: 6, right: 6),
+                    child: Text(
+                      Strings.challengePassword,
+                      style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 12,
+                          color: CustomColors.grayLetter2),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: itemCheck(
+                            () => providerOnBoarding.stateDates =
+                        !providerOnBoarding.stateDates,
+                        providerOnBoarding.stateDates,
+                        Text(
+                          Strings.AuthorizeDates,
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
-                              fontSize: 10,
-                              color: CustomColors.grayLetter2),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30),
-                        child: itemCheck(
-                            () => providerOnBoarding.stateDates =
-                                !providerOnBoarding.stateDates,
-                            providerOnBoarding.stateDates,
-                            Text(
-                              Strings.AuthorizeDates,
-                              style: TextStyle(
-                                  fontFamily: Strings.fontRegular,
-                                  fontSize: 12,
-                                  color: CustomColors.blackLetter),
-                            )),
-                      ),
-                      SizedBox(height: 10),
-                      /*itemCheck(
-                              () => providerOnBoarding.stateCentrals =
-                          !providerOnBoarding.stateCentrals,
-                          providerOnBoarding.stateCentrals,
-                          Text(
-                            Strings.authorizedCredit,
-                            style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                fontSize: 12,
-                                color: CustomColors.blackLetter),
-                          )),
-                      SizedBox(height: 10),
-                      itemCheck(() => providerOnBoarding.stateContactCommercial =
-                      !providerOnBoarding.stateContactCommercial, providerOnBoarding.stateContactCommercial, Text(
-                        Strings.contactCommercial,
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 12,
-                            color: CustomColors.blackLetter),
-                      )),
-                      SizedBox(height: 10),*/
-                      itemCheck(() => providerOnBoarding.stateTerms =
-                      !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
-                      SizedBox(height: 32),
-                    ],
+                              fontSize: 12,
+                              color: CustomColors.blackLetter),
+                        )),
                   ),
-                  SizedBox(height: 12),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20, left: 50, right: 50),
-                    child: btnCustomRoundedImage(
-                        CustomColors.blueSplash,
-                        CustomColors.white,
-                        Strings.next,
-                        callRegisterUser,
-                        context,
-                        "Assets/images/ic_next.png"),
-                  )
+                  const SizedBox(height: 20),
+                  itemCheck(() => providerOnBoarding.stateTerms =
+                  !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
+                  const SizedBox(height: 20),
+                  btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callRegisterUser, context)
+
                 ],
               ),
-            ),
-          ),
+            )),
+
+
+
+          ],
         ),
+        Visibility(visible: providerOnBoarding.isLoading, child: LoadingProgress())
       ],
     );
   }
@@ -250,26 +162,26 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
           Container(
             height: 52,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: BorderRadius.all(Radius.circular(26)),
                 border: Border.all(
                     color: CustomColors.gray.withOpacity(.3), width: 1),
                 color: CustomColors.white),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image(
-                      width: 35,
-                      height: 35,
+                      width: 25,
+                      height: 25,
                       image: AssetImage("Assets/images/ic_padlock_blue.png"),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 5),
                       width: 1,
-                      height: 25,
-                      color: CustomColors.gray7.withOpacity(.4),
+                      height: 20,
+                      color: CustomColors.gray7.withOpacity(.3),
                     ),
                     SizedBox(
                       width: 5,
@@ -307,8 +219,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                     ),
                     GestureDetector(
                       child: Image(
-                        width: 35,
-                        height: 35,
+                        width: 30,
+                        height: 30,
                         image: obscureTextPass
                             ? AssetImage("Assets/images/ic_showed.png")
                             : AssetImage("Assets/images/ic_show.png"),
@@ -353,7 +265,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
           Container(
             height: 52,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: BorderRadius.all(Radius.circular(26)),
                 border: Border.all(
                     color: CustomColors.gray.withOpacity(.3), width: 1),
                 color: CustomColors.white),
@@ -364,15 +276,15 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image(
-                      width: 35,
-                      height: 35,
+                      width: 25,
+                      height: 25,
                       image: AssetImage("Assets/images/ic_padlock_blue.png"),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 5),
                       width: 1,
-                      height: 25,
-                      color: CustomColors.gray7.withOpacity(.4),
+                      height: 20,
+                      color: CustomColors.gray7.withOpacity(.3),
                     ),
                     SizedBox(
                       width: 5,
@@ -410,8 +322,8 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                     ),
                     GestureDetector(
                       child: Image(
-                        width: 35,
-                        height: 35,
+                        width: 30,
+                        height: 30,
                         image: obscureTextConfirmPass
                             ? AssetImage("Assets/images/ic_showed.png")
                             : AssetImage("Assets/images/ic_show.png"),

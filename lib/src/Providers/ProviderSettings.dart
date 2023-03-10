@@ -235,6 +235,7 @@ class ProviderSettings with ChangeNotifier{
   }
 
   Future<dynamic> getCities(String filter, int offset, StatesCountry state) async {
+    isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token": prefs.accessToken.toString(),

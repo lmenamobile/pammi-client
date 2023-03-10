@@ -39,6 +39,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
+     backgroundColor: Colors.white,
       body: WillPopScope(
         onWillPop: () async =>false,
         child: SafeArea(

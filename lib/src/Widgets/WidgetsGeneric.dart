@@ -308,8 +308,8 @@ Widget customTextFieldIcon(
         Container(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
-          height: 25,
-          color: CustomColors.gray7.withOpacity(.4),
+          height: 20,
+          color: CustomColors.gray7.withOpacity(.3),
         ),
         SizedBox(
           width: 5,
