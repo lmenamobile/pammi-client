@@ -23,7 +23,7 @@ customPageTransition(Widget page) {
       duration: Duration(milliseconds: 600));
 }
 
-Widget titleBar(String title, String icon, Function action) {
+/*Widget titleBar(String title, String icon, Function action) {
   return Container(
     width: double.infinity,
     height: 75,
@@ -76,7 +76,7 @@ Widget titleBar(String title, String icon, Function action) {
       ],
     ),
   );
-}
+}*/
 
 Widget btnCustom(double? width,String nameButton, Color colorBackground, Color colorText,
     Function? action) {
@@ -88,13 +88,14 @@ Widget btnCustom(double? width,String nameButton, Color colorBackground, Color c
       body: Container(
         decoration: BoxDecoration(
             color: colorBackground,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
+            borderRadius: BorderRadius.all(Radius.circular(26))),
         child: Center(
           child: Text(
             nameButton,
             style: TextStyle(
               fontFamily: Strings.fontMedium,
               color: colorText,
+              fontSize: 14
             ),
           ),
         ),
@@ -186,7 +187,7 @@ Widget btnCustomSize(double height, String nameButton, Color colorBackground,
       body: Container(
         decoration: BoxDecoration(
             color: colorBackground,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
+            borderRadius: BorderRadius.all(Radius.circular(26))),
         child: Center(
           child: Text(
             nameButton,

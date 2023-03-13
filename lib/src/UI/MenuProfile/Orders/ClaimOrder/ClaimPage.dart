@@ -16,6 +16,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class ClaimPage extends StatefulWidget {
   final String idPackage;
@@ -60,13 +61,13 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Stack(
             children: [
               Column(
                 children: [
-                  titleBar(
-                      Strings.claim, "ic_back.png", () =>stepsBtnBack()),
+
+               header(context, Strings.claim, CustomColors.redDot, () =>stepsBtnBack()),
                stepsFormsRequestClaim(providerClaimOrder.valueStep),
                   Align(
                       alignment: Alignment.centerRight,

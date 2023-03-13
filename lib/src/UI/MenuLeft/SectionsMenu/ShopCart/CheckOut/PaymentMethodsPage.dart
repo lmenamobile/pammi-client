@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class PaymentMethodsPage extends StatefulWidget {
   @override
@@ -30,13 +31,14 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: Colors.white,
           child: Column(
             children: [
-              titleBar(Strings.paymentMethods, "ic_blue_arrow.png", () => Navigator.pop(context)),
+              //titleBar(Strings.paymentMethods, "ic_blue_arrow.png", () => Navigator.pop(context)),
+              header(context, Strings.paymentMethods, CustomColors.redDot, () => Navigator.pop(context)),
               Expanded(child: providerSettings.hasConnection?listPayments():notConnectionInternet())
 
             ],

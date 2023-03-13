@@ -37,10 +37,10 @@ class _MyAddressPageState extends State<MyAddressPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: _body(context),
         ),
       ),
@@ -50,8 +50,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        titleBar(Strings.myAddress, "ic_blue_arrow.png",
-            () => Navigator.pop(context)),
+        header(context, Strings.myAddress, CustomColors.redDot, () => Navigator.pop(context)),
+
         SizedBox(
           height: 20,
         ),

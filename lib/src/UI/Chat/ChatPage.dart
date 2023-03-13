@@ -13,6 +13,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import 'WidgetsChat/MessageChat.dart';
 
 class ChatPage extends StatefulWidget {
@@ -53,10 +54,9 @@ class _ChatPageState extends State<ChatPage> {
           color: CustomColors.whiteBackGround,
           child: Column(
             children: [
-              titleBar(Strings.chat, "ic_blue_arrow.png", (){
-                this.socketService.disconnectSocket();
-                Navigator.pop(context);
-              }),
+
+              header(context, Strings.chat, CustomColors.redDot, (){this.socketService.disconnectSocket();
+              Navigator.pop(context);}),
               SizedBox(height: 20,),
               Expanded(
                   child:ListView.builder(

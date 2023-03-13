@@ -13,6 +13,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'OrderConfirmationPage.dart';
@@ -61,8 +62,7 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
           color: Colors.white,
           child: Column(
             children: [
-              titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
-                  () => Navigator.pop(context)),
+              header(context, Strings.confirmationOrder, CustomColors.redDot, () => Navigator.pop(context)),
               /*Expanded(
                 child: providerSettings.hasConnection?WebViewWidget(
                  controller: _controller2,

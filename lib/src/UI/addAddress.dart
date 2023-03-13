@@ -141,7 +141,7 @@ class _AddAddressPageState extends State<AddAddressPage>
     providerSettings = Provider.of<ProviderSettings>(context);
     cityController.text = providerSettings?.citySelected?.name??'';
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           color: Colors.white,
@@ -267,8 +267,8 @@ class _AddAddressPageState extends State<AddAddressPage>
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
     return Column(
       children: <Widget>[
-        titleBar(Strings.addAddres, "ic_blue_arrow.png",
-                () => Navigator.pop(context)),
+
+        header(context, Strings.addAddres, CustomColors.redDot, () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

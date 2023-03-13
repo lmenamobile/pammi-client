@@ -88,7 +88,7 @@ Widget boxSearchNextPage( TextEditingController searchController,Function search
                 hintStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.gray15.withOpacity(.5))),
+                    color:CustomColors.gray15.withOpacity(.5))),
           ),
         )
       ],
@@ -100,9 +100,10 @@ Widget boxSearchNextPage( TextEditingController searchController,Function search
 Widget boxSearchHome( TextEditingController searchController,Function? searchElements) {
   return Container(
     width: double.infinity,
+    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: CustomColors.graySearch.withOpacity(.3)),
+        borderRadius: BorderRadius.all(Radius.circular(26)),
+        color: Colors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
@@ -112,7 +113,7 @@ Widget boxSearchHome( TextEditingController searchController,Function? searchEle
           padding: const EdgeInsets.only(left: 10,right: 10),
           child: Image(
             height: 20,
-            color: Colors.white,
+            color: CustomColors.blue,
             image: AssetImage("Assets/images/ic_seeker.png"),
           ),
         ),
@@ -126,15 +127,15 @@ Widget boxSearchHome( TextEditingController searchController,Function? searchEle
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: Colors.white),
+                color: CustomColors.black1),
             decoration: InputDecoration(
-                hintText: Strings.search,
+                hintText: "${Strings.search}..",
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: Colors.white)),
+                    color: CustomColors.gray15.withOpacity(.5))),
           ),
         )
       ],

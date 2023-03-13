@@ -14,6 +14,7 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class BrandsPage extends StatefulWidget{
   @override
@@ -33,15 +34,15 @@ class _BrandsPageState extends State<BrandsPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color:  Colors.white,
           child: Stack(
             children: [
               Column(
                 children: [
-                  titleBar(Strings.brands,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
+                  header(context, Strings.brands, CustomColors.redDot, ()=>Navigator.pop(context)),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshBrands,

@@ -33,7 +33,7 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child:Column(
             children: [
               Expanded(child: SmartRefresher(

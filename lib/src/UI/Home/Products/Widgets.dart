@@ -11,7 +11,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
+/*Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
     Function action, Function actionTwo, bool isIconCart,String totalProducts) {
   return Container(
     width: double.infinity,
@@ -109,7 +109,7 @@ Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
       ],
     ),
   );
-}
+}*/
 
 Widget itemImageReference(double size, String asset) {
   return Container(

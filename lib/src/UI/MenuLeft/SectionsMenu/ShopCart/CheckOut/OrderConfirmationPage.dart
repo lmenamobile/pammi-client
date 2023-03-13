@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
@@ -8,6 +9,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class OrderConfirmationPage extends StatefulWidget {
   @override
@@ -30,10 +32,10 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
           color: Colors.white,
           child: Column(
             children: [
-              titleBar(Strings.confirmationOrder, "ic_blue_arrow.png",
-                  () => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => MyHomePage()),
-                          (Route<dynamic> route) => false)),
+              header(context, Strings.confirmationOrder, CustomColors.redDot, ()=> Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                      (Route<dynamic> route) => false)),
+
               SizedBox(height: 20,),
               Expanded(
                 child: providerSettings.hasConnection?SingleChildScrollView(

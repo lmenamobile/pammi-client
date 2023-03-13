@@ -5,6 +5,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/OrdersActiveTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class MyClaimPage extends StatefulWidget {
   @override
@@ -35,8 +36,7 @@ class _MyClaimPageState extends State<MyClaimPage>
           color: CustomColors.whiteBackGround,
           child: Column(
             children: [
-              titleBar(Strings.myClaims, "ic_back.png",
-                  () => Navigator.pop(context)),
+              header(context, Strings.myClaims, CustomColors.redDot, () => Navigator.pop(context)),
               TabBar(
                 controller: tabControllerPages,
                 labelPadding:

@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _body(BuildContext context) {
     return Stack(
       children: [
-        Image.asset("Assets/images/ic_bg_profile.png"),
+        //Image.asset("Assets/images/ic_bg_profile.png"),
         Column(
           children: <Widget>[
             Container(
@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             "Mi perfil",
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
-                                fontSize: 15,
+                                fontSize: 24,
                                 color: CustomColors.white),
                           ),
                         )),

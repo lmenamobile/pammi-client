@@ -38,19 +38,15 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Column(
             children: [
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: <Color>[CustomColors.redTour, CustomColors.redOne],
-                  ),
+                  color:CustomColors.redDot
                 ),
                 child: Container(
                   height: 120,
@@ -73,7 +69,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       ),
                       Container(
                         margin:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 37, vertical: 10),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +93,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 Text(
                                   Strings.categories,
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 24,
                                       color: Colors.white,
                                       fontFamily: Strings.fontBold),
                                 ),
@@ -117,10 +113,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             SizedBox(
                               height: 10,
                             ),
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: 40),
-                                child: boxSearchHome(
-                                    searchController, searchElements))
+                            boxSearchHome(
+                                searchController, searchElements)
                           ],
                         ),
                       ),

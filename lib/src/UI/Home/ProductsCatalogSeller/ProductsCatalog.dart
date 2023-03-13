@@ -15,6 +15,7 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class ProductsCatalog extends StatefulWidget{
   final String  idSeller;
@@ -46,15 +47,16 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Stack(
             children: [
               Column(
                 children: [
-                  titleBar(Strings.catalog,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
+                 // titleBar(Strings.catalog,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
+                  header(context, Strings.catalog, CustomColors.redDot, ()=> Navigator.pop(context)),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshSubCategories,

@@ -42,8 +42,7 @@ class _SubThemeResponseState extends State<SubThemeResponse> {
             color: Colors.transparent,
             child: Column(
           children: [
-            titleBar(Strings.frecuensQuestion, "ic_back.png",
-                    () => Navigator.pop(context)),
+            header(context, Strings.frecuensQuestion, CustomColors.redDot, () => Navigator.pop(context)),
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),

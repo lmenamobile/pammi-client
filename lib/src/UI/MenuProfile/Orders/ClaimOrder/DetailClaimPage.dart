@@ -18,6 +18,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import 'CloseClaimPage.dart';
 
@@ -103,8 +104,8 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
             children: [
               Column(
                 children: [
-                  titleBar(
-                      Strings.orderId + " ${providerClaimOrder.detailClaim?.id ?? ''}", "ic_back.png", () => Navigator.pop(context)),
+
+                  header(context, Strings.orderId + " ${providerClaimOrder.detailClaim?.id ?? ''}", CustomColors.redDot, () => Navigator.pop(context)),
                   Expanded(
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),

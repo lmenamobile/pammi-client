@@ -19,6 +19,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class OfferDetail extends StatefulWidget {
   final String? nameOffer, idOffer;
@@ -52,20 +53,14 @@ class _OfferDetailState extends State<OfferDetail> {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color:  Colors.white,
           child: Column(
             children: [
-              titleBarWithDoubleAction(
-                  widget.nameOffer ?? '',
-                  "ic_blue_arrow.png",
-                  "",
-                  () => Navigator.pop(context),
-                      ()=>Navigator.push(context, customPageTransition(ShopCartPage())),
-                  true,
-                  providerShopCart.totalProductsCart),
+             
+              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", CustomColors.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
               Expanded(
                 child: providerSettings.hasConnection
                     ? SingleChildScrollView(

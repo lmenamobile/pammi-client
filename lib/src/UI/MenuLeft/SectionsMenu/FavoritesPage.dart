@@ -16,6 +16,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../DrawerMenu.dart';
 
@@ -63,8 +64,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
               children: [
                 Column(
                   children: [
-                    titleBar(Strings.favorites, "ic_menu_w.png",
-                        () => keyMenuLeft.currentState!.openDrawer()),
+                    headerDoubleTapMenu(context, Strings.favorites, "", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                     Expanded(
                       child: SmartRefresher(
                         controller: _refreshFavorites,

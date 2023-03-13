@@ -74,7 +74,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   Widget _body(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Positioned(
+       /* Positioned(
           bottom: -380,
           left: -290,
           right: -40,
@@ -82,8 +82,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
             height: 700,
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: CustomColors.redSplash2),
-          ),
-        ),
+          ),*/
         Container(
           alignment: Alignment.center,
           child: ScaleTransition(
@@ -99,7 +98,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
             ),
           ),
         ),
-        Positioned(
+        /*Positioned(
           top: -400,
           left: -150,
           right: 20,
@@ -108,7 +107,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: CustomColors.redSplash2),
           ),
-        ),
+        ),*/
       ],
     );
   }

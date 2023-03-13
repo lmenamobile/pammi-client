@@ -50,7 +50,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     socketService = Provider.of<SocketService>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: "support",
@@ -61,11 +61,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.whiteBackGround,
+            color: Colors.white,
             child: Column(
               children: [
-                titleBar(Strings.supportAndService, "ic_menu_w.png",
-                    () => keyMenuLeft.currentState!.openDrawer()),
+                headerDoubleTapMenu(context, Strings.supportAndService, "",
+                    "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                 SizedBox(
                   height: 20,
                 ),

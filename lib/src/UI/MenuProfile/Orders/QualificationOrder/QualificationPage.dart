@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class QualificationPage extends StatefulWidget {
   final String? subOrderId, idQualification,data;
@@ -28,11 +29,11 @@ class _QualificationPageState extends State<QualificationPage> {
   Widget build(BuildContext context) {
     providerOrder = Provider.of<ProviderOrder>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            titleBar(Strings.qualification, "ic_back.png",
-                () => Navigator.pop(context)),
+            header(context, Strings.qualification, CustomColors.redDot, () => Navigator.pop(context)),
             changeViewWidget(widget.optionView)
           ],
         ),

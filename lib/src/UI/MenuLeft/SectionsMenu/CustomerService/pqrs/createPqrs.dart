@@ -47,8 +47,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
             )),
         Column(
           children: [
-            titleBar(Strings.pqrs, "ic_back.png",
-                    () => Navigator.pop(context)),
+            header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),

@@ -117,8 +117,8 @@ class _FirstPageTourState extends State<TourPage> {
         Image(
           width: double.infinity,
           height: 350,
-          image: AssetImage("Assets/images/on1.png"),
-          fit: BoxFit.fitHeight,
+          image: AssetImage("Assets/images/img_tour1.png"),
+          fit: BoxFit.cover,
         ),
         const SizedBox(height: 25),
         Container(
@@ -158,8 +158,8 @@ class _FirstPageTourState extends State<TourPage> {
         Image(
           width: double.infinity,
           height: 350,
-          image: AssetImage("Assets/images/on1.png"),
-          fit: BoxFit.fitHeight,
+          image: AssetImage("Assets/images/img_tour2.png"),
+          fit: BoxFit.cover,
         ),
         const SizedBox(height: 25),
         Container(
@@ -199,8 +199,8 @@ class _FirstPageTourState extends State<TourPage> {
         Image(
           width: double.infinity,
           height: 350,
-          image: AssetImage("Assets/images/on1.png"),
-          fit: BoxFit.fitHeight,
+          image: AssetImage("Assets/images/img_tour3.png"),
+          fit: BoxFit.cover,
         ),
         const SizedBox(height: 25),
         Container(

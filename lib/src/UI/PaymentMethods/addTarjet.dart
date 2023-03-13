@@ -45,12 +45,12 @@ class _AddTargetPageState extends State<AddTargetPage> {
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
             Container(
-              color: CustomColors.grayBackground,
+              color: Colors.white,
               child: _body(context),
             ),
             Visibility(
@@ -64,8 +64,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        titleBar(Strings.addTarjet, "ic_blue_arrow.png",
-            () => Navigator.pop(context)),
+        header(context, Strings.addTarjet, CustomColors.redDot, () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

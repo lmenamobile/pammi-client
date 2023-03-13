@@ -135,7 +135,7 @@ class Strings {
   static const String delete = 'Eliminar';
   static const String titleDeleteProduct = 'Eliminar producto';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
-  static const String deleteCart = "¿Estás seguro de eliminar tu carrito de compras?";
+  static const String deleteCart = "¿Estás seguro de eliminar este producto?";
   static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
   static const String deleteAddress = "¿Estás seguro de eliminar esta dirección?";
   static const String notSelectedNotification = "Por favor seleccione una notificación";
@@ -449,6 +449,8 @@ class Strings {
 
   /*Dialogs*/
   static const String  btnAccept = 'Aceptar';
+
+  static const String  yesDelete = 'Si, Eliminar';
   static const String  btnCancel = 'Cancelar';
   static const String  titleGPS = 'GPS';
   static const String  textInformationGPS = 'Por favor active el GPS y vuelva a intentarlo.';

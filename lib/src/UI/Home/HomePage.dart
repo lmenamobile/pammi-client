@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Container(
           padding: EdgeInsets.symmetric(vertical: 20,horizontal: 37),
           decoration: BoxDecoration(
-            color: Colors.red
+            color: CustomColors.redDot
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

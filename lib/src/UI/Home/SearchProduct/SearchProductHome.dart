@@ -10,6 +10,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 
 
@@ -40,15 +41,16 @@ class _SearchProductHomeState extends State<SearchProductHome> {
   Widget build(BuildContext context) {
     providerProducts = Provider.of<ProviderProducts>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Stack(
             children: [
               Column(
                 children: [
-                  titleBar(Strings.searcher,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
+
+                  header(context, Strings.searcher, CustomColors.redDot, ()=>Navigator.pop(context)),
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                       child: boxSearch(searchController, callSearchProducts)),

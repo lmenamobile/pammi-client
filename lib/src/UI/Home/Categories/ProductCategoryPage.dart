@@ -54,36 +54,27 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color:  Colors.white,
           child: Stack(
             children: [
               Column(
                 children: [
                   Container(
+
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: <Color>[
-                          CustomColors.redTour,
-                          CustomColors.redOne
-                        ],
-                      ),
+
+                        color:CustomColors.redDot,
                     ),
                     child: Container(
-                      height: 100,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.symmetric(horizontal: 37),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,11 +93,11 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                               Text(
                                 Strings.products,
                                 style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 24,
                                     color: Colors.white,
                                     fontFamily: Strings.fontBold),
                               ),
-                              GestureDetector(
+                              GestureDetector (
                                 child: Stack(
                                   children: [
                                     Container(
@@ -147,27 +138,11 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                    child: boxSearchHome(
-                                        searchController, callSearchProducts)),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: CustomColors.graySearch
-                                          .withOpacity(.3),
-                                    ),
-                                    onPressed: null)
-                              ],
-                            ),
-                          )
+                          boxSearchHome(
+                              searchController, callSearchProducts),
+                          SizedBox(
+                            height: 10,
+                          ),
                         ],
                       ),
                     ),

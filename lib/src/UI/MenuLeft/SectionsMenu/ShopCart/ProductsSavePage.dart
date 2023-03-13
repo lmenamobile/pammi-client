@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import 'Widgets.dart';
 
@@ -39,13 +40,14 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Column(
             children: [
-              titleBar(Strings.productsSave, "ic_blue_arrow.png", () => Navigator.pop(context)),
+              //titleBar(Strings.productsSave, "ic_blue_arrow.png", ,
+              header(context, Strings.productsSave, CustomColors.redDot, () => Navigator.pop(context)),
               SizedBox(height: 20,),
               Expanded(child: SmartRefresher(
                   controller: _refreshProductsSave,

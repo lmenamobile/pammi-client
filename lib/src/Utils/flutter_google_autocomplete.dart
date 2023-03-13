@@ -11,6 +11,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import 'Constants.dart';
 
 class GooglePlacesAutocompleteWidget extends StatefulWidget {
@@ -156,8 +157,8 @@ class _GooglePlacesAutocompleteOverlayState
           height: MediaQuery.of(context).size.height,
           color: CustomColors.white,
           child:  new Column(children: <Widget>[
-            titleBar(Strings.selectYouAddress, "ic_blue_arrow.png",
-                    () => Navigator.pop(context)),
+
+            header(context, Strings.selectYouAddress, CustomColors.redDot, () => Navigator.pop(context)),
             new Material(
               color: CustomColors.whiteBackGround,
               child: Container(

@@ -9,6 +9,7 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class FilterGiftCartPage extends StatefulWidget {
   @override
@@ -29,8 +30,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
           color: CustomColors.whiteBackGround,
           child: Column(
             children: [
-              titleBarWithDoubleAction(Strings.filter, "ic_back.png",
-                  "ic_remove_white.png", () => Navigator.pop(context), ()=>clearFilter(),false,""),
+              headerDoubleTapMenu(context, Strings.filter, "ic_remove_white.png", "ic_back.png", CustomColors.redDot, "0", () => Navigator.pop(context), ()=>clearFilter()),
               Expanded(
                 child: providerSettings.hasConnection?SingleChildScrollView(
                   physics: BouncingScrollPhysics(),

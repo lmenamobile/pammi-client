@@ -40,8 +40,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
     pqrsProvider = Provider.of<PQRSProvider>(context);
     return Column(
       children: [
-        titleBar(Strings.pqrs, "ic_back.png",
-                () => Navigator.pop(context)),
+        header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
         SizedBox(height: 20),
         Expanded(
           child: SingleChildScrollView(

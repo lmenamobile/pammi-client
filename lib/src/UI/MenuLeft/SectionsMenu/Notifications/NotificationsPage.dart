@@ -15,6 +15,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../../DrawerMenu.dart';
 
@@ -41,6 +42,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       key: keyMenuLeft,
+      backgroundColor: Colors.white,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuNotifications,
       ),
@@ -54,12 +56,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               children: [
                 Column(
                   children: [
-                    titleBarWithDoubleAction(
-                        Strings.notifications,
-                        "ic_menu_w.png",
-                        "ic_remove_white.png",
-                            () => keyMenuLeft.currentState!.openDrawer(),
-                            () => validateActionDelete(),false,""),
+                    headerDoubleTapMenu(context, Strings.notifications, "ic_remove_white.png", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), () => validateActionDelete()),
                     SizedBox(height: 10,),
                     Expanded(child: SmartRefresher(
                         controller: _refreshNotifications,

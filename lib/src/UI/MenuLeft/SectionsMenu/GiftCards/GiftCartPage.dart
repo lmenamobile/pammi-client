@@ -14,6 +14,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../../DrawerMenu.dart';
 
@@ -57,12 +58,10 @@ class _GiftCartPageState extends State<GiftCartPage> {
               children: [
                 Column(
                   children: [
-                    titleBarWithDoubleAction(
-                        Strings.giftCards,
-                        "ic_menu_w.png",
-                        "ic_car.png",
-                            () => keyMenuLeft.currentState!.openDrawer(),
-                            ()=>Navigator.push(context, customPageTransition(ShopCartPage())),false,""),
+                    headerDoubleTapMenu(context, Strings.giftCards, "ic_car.png", "ic_menu_w.png",
+                        CustomColors.redDot, providerShopCart.totalProductsCart,() => keyMenuLeft.currentState!.openDrawer(),
+                            ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                    const SizedBox(height: 10),
                     Text(
                       Strings.buyGiftCard,
                       style: TextStyle(
@@ -113,6 +112,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 10),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(

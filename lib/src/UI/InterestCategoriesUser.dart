@@ -39,7 +39,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: WillPopScope(
         onWillPop: () async => false,
         child: SafeArea(

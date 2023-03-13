@@ -12,10 +12,12 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/QualificationOrder/Qualificati
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class DetailOrderPage extends StatefulWidget {
   final String idOrder;
@@ -52,7 +54,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
             children: [
               Column(
                 children: [
-                  titleBar(Strings.orderId+" ${providerOrder?.orderDetail?.id??''}", "ic_back.png", () => Navigator.pop(context)),
+                  header(context, Strings.orderId+" ${providerOrder?.orderDetail?.id??''}", CustomColors.redDot, ()=>Navigator.pop(context)),
                   Expanded(
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),

@@ -22,6 +22,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import 'CheckOut/CheckOutPage.dart';
 import 'Widgets.dart';
@@ -63,38 +64,27 @@ class _ShopCartPageState extends State<ShopCartPage> {
     providerUser = Provider.of<ProviderUser>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
-          child: Stack(
+          color: Colors.white,
+          child: Column(
             children: [
-              titleBarWithDoubleAction(
-                  Strings.shopCart,
-                  "ic_blue_arrow.png",
-                  "ic_remove_white.png",
-                  () => Navigator.pop(context),
-                  () => deleteCart(),
-                  false,
-                  ""),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 55,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: CustomColors.whiteBackGround,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
+              headerDoubleTap(context, Strings.shopCart, "ic_remove_white.png", CustomColors.redDot, "0", ()=>Navigator.pop(context), ()=>deleteCart()),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
                       ),
-                      child:_showBody()
                     ),
-                  ),
-                ],
+                    child:_showBody()
+                ),
               ),
               Visibility(
                 visible: providerSettings.hasConnection

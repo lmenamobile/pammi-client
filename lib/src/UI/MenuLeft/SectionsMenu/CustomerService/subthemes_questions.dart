@@ -53,9 +53,10 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
   Widget build(BuildContext context) { 
     pqrsProvider = Provider.of<PQRSProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           width: double.infinity,
           child: _body(),
         ),
@@ -66,11 +67,8 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
   Widget _body() {
     return Column(
       children: [
-        titleBar(widget.subtheme, "ic_back.png",
-                () => Navigator.pop(context)),
-
-        SizedBox(height: 30),
-
+        header(context, widget.subtheme, CustomColors.redDot, ()=> Navigator.pop(context)),
+        const SizedBox(height: 10,),
         Expanded(
           child: pqrsProvider.isLoadingQuestions ? DialogLoadingAnimated() :  SmartRefresher(
             controller: _refreshControllerQuestions,

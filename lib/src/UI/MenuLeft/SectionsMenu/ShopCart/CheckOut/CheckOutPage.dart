@@ -20,6 +20,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import '../CheckOut/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -68,7 +69,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
             children: [
               Column(
                 children: [
-                  titleBar(Strings.order, "ic_blue_arrow.png", () => Navigator.pop(context)),
+
+                  header(context, Strings.order, CustomColors.redDot, () => Navigator.pop(context)),
                   providerShopCart?.shopCart == null
                       ? emptyData(
                       "ic_highlights_empty.png",

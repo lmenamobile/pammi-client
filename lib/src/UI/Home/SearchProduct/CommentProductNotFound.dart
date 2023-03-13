@@ -8,6 +8,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class CommentProductNotFound extends StatefulWidget {
   @override
@@ -24,16 +25,16 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Stack(
             children: [
               Column(
                 children: [
-                  titleBar(Strings.comment, "ic_blue_arrow.png",
-                      () => Navigator.pop(context)),
+
+                  header(context, Strings.comment, CustomColors.redDot, () => Navigator.pop(context)),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(

@@ -70,12 +70,12 @@ class DialogCustomTwoOptions extends StatelessWidget {
                   ),
 
                   SizedBox(
-                    width: 15,
-                    height: 20,
+                    width: 10,
+
                   ),
                   Expanded(
                     child: btnCustom(null,
-                        Strings.btnAccept, CustomColors.blueSplash, Colors.white,
+                        Strings.yesDelete, CustomColors.redDot, Colors.white,
                         () => Navigator.pop(context, true)),
                   ),
                 ],

@@ -16,6 +16,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class CloseClaimPage extends StatefulWidget {
   final String idPackage;
@@ -51,8 +52,8 @@ class _CloseClaimPageState extends State<CloseClaimPage> {
             children: [
               Column(
                 children: [
-                  titleBar(
-                      Strings.claim, "ic_back.png", () =>Navigator.pop(context)),
+
+                  header(context, Strings.claim, CustomColors.redDot, () =>Navigator.pop(context)),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 30),
                     child: Text(

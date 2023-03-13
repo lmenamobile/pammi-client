@@ -62,6 +62,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
       _animationController.forward();
     });
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(child: _body(context)),
     );
   }
@@ -79,8 +80,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
   Widget _body(BuildContext context){
     return Column(
       children: [
-        titleBar(Strings.pqrs, "ic_back.png",
-                () => Navigator.pop(context)),
+        header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
         SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

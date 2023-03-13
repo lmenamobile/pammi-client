@@ -921,16 +921,16 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
                     Strings.subtotal,
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
-                      fontSize: 15,
-                      color: CustomColors.blackLetter,
+                      fontSize: 16,
+                      color: CustomColors.blue5,
                     ),
                   ),
                   Text(
                     formatMoney(total?.subtotal??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
-                      fontSize: 15,
-                      color: CustomColors.blackLetter,
+                      fontSize: 16,
+                      color: CustomColors.blue5,
                     ),
                   ),
                 ],
@@ -943,8 +943,8 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
                     onTap: ()=>openProductsSave(),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: CustomColors.orange,
-                        borderRadius: BorderRadius.all(Radius.circular(5))
+                        color: CustomColors.blue5,
+                       shape: BoxShape.circle
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
@@ -954,7 +954,7 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
                   ),
                   SizedBox(width: 20,),
                   Expanded(
-                      child: btnCustomSize(47,Strings.makePurchase,CustomColors.blueSplash,Colors.white,openCheckOut))
+                      child: btnCustomSize(47,Strings.makePurchase,CustomColors.redDot,Colors.white,openCheckOut))
                 ],
               )
             ],

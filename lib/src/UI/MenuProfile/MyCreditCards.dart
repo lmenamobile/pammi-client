@@ -35,10 +35,10 @@ class _MyCreditCardsState extends State<MyCreditCards> {
     profileProvider = Provider.of<ProfileProvider>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: _body(context),
         ),
       ),
@@ -48,8 +48,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        titleBar(Strings.methodsPay, "ic_blue_arrow.png",
-            () => Navigator.pop(context)),
+        header(context, Strings.methodsPay, CustomColors.redDot, () => Navigator.pop(context)),
         Expanded(
           child: profileProvider.ltsCreditCards.isEmpty
               ? emptyData("ic_empty_payment.png",

@@ -10,6 +10,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../../DrawerMenu.dart';
 
@@ -35,7 +36,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuTraining,
@@ -46,12 +47,13 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.grayBackground,
+            color: Colors.white,
             child: Stack(
               children: [
                 Column(
                   children: [
-                    titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
+                    //titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
+                    headerDoubleTapMenu(context, Strings.trainings, "", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                     SizedBox(height: 20,),
                     Expanded(child: SmartRefresher(
                         controller: _refreshTraining,

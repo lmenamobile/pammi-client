@@ -3,6 +3,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/OrdersActiveTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import 'OrdersFinishTab.dart';
 
@@ -32,11 +33,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: Colors.white,
           child: Column(
             children: [
-              titleBar(Strings.myOrdersTitle, "ic_back.png",
-                  () => Navigator.pop(context)),
+              header(context, Strings.myOrdersTitle, CustomColors.redDot, ()=>Navigator.pop(context)),
               TabBar(
                 controller: tabControllerPages,
                 labelPadding:

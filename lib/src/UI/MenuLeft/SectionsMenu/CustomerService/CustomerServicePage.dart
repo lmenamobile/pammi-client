@@ -16,6 +16,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 class CustomerServicePage extends StatefulWidget {
   const CustomerServicePage({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
     providerCustomerService = Provider.of<ProviderCustomerService>(context);
     final providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuCustomerService,
@@ -67,14 +68,11 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
             .then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.grayBackground,
+            color: Colors.white,
             child:  Column(
               children: [
-                titleBar(
-                  Strings.customerService,
-                  "ic_menu_w.png",
-                      () => keyMenuLeft.currentState!.openDrawer(),
-                ),
+                headerDoubleTapMenu(context, Strings.customerService,
+                    "", "ic_menu_w.png", CustomColors.redDot, "0",  () => keyMenuLeft.currentState!.openDrawer(), (){}),
                 Expanded(
                   child: !providerCustomerService.isLoading
                       ? SmartRefresher(

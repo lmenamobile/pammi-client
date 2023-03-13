@@ -30,7 +30,7 @@ class ContactPage extends StatelessWidget {
     socketService = Provider.of<SocketService>(context);
     return Scaffold(
       body: Container(
-        color: CustomColors.whiteBackGround,
+        color: Colors.white,
         width: double.infinity,
         child: SafeArea(child: _body(context)),
       ),
@@ -41,8 +41,8 @@ class ContactPage extends StatelessWidget {
     return Column(
       children: [
         //simpleHeader(context, _childHeader(context)),
-        titleBar(Strings.contactUs, "ic_back.png",
-                () => Navigator.pop(context)),
+
+        header(context, Strings.contactUs, CustomColors.redDot, () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

@@ -31,8 +31,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        titleBar(Strings.pqrs, "ic_back.png",
-                () => Navigator.pop(context)),
+        header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),

@@ -13,6 +13,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../../DrawerMenu.dart';
 import 'Widgets.dart';
@@ -59,7 +60,9 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
             color: CustomColors.whiteBackGround,
             child: Column(
                 children: [
-                  titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
+                  //titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
+
+                  headerDoubleTapMenu(context, Strings.highlights, "", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                   SizedBox(height: 20,),
                   Expanded(child: SmartRefresher(
                       controller: _refreshHighlights,

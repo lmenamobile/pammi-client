@@ -17,6 +17,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/Widgets/widgets.dart';
 import '../../DrawerMenu.dart';
 
 class OffersDayPage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuOffersTheDay,
@@ -67,15 +68,11 @@ class _OffersDayPageState extends State<OffersDayPage> {
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.whiteBackGround,
+            color: Colors.white,
             child: Column(
               children: [
-                titleBarWithDoubleAction(
-                Strings.offersDay,
-                "ic_menu_w.png",
-                "ic_car.png",
-                    () =>keyMenuLeft.currentState!.openDrawer(),
-                    ()=>Navigator.push(context, customPageTransition(ShopCartPage())),true,providerShopCart.totalProductsCart),
+                headerDoubleTapMenu(context, Strings.offersDay, "ic_car.png","ic_menu_w.png", CustomColors.redDot, providerShopCart.totalProductsCart,  () =>keyMenuLeft.currentState!.openDrawer(), ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+
                 Visibility(
                   visible: providerHome.ltsBrands.isNotEmpty,
                   child: Container(
