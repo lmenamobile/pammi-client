@@ -63,10 +63,9 @@ class ContactPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                //TODO: Add function
                 ItemContact(
                   onTap: (){
-                    utils.openWhatsapp(context: context, text: "Olis Jhonis", number: "3053217513");
+                    utils.openWhatsapp(context: context, text: "Hola,como podemos ayudarte", number: "3103474819");
                   },
                   title: Strings.whatsApp,
                   pathImage: "Assets/images/ic_whatsapp.svg",
@@ -78,21 +77,21 @@ class ContactPage extends StatelessWidget {
                 ),
                 ItemContact(
                   onTap: (){
-                    utils.openUrl("https://web.telegram.org/z/");
+                    utils.openTelegram("3103474819", context);
                   },
                   title: Strings.telegram,
                   pathImage: "Assets/images/ic_telegram.svg",
                 ),
                 ItemContact(
                   onTap: (){
-                    utils.openEmail("bel.jonas968@gmail.com", "this is the subject");
+                    utils.openEmail("ayuda@estoespamii.com", "Hola,como podemos ayudarte");
                   },
                   title: Strings.email2,
                   pathImage: "Assets/images/ic_email.svg",
                 ),
                 ItemContact(
                   onTap: (){
-                    utils.openDial("3053217513");
+                    utils.openDial("28104895000");
                   },
                   title: Strings.call,
                   pathImage: "Assets/images/ic_call.svg",

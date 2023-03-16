@@ -140,13 +140,27 @@ class _Utils {
   }
 
   openWhatsapp({required BuildContext context,required String text,required String number}) async {
-    var url = "https://api.whatsapp.com/send?phone=$number&text=$text";
-    if (await canLaunch(url)) {
-      await launch(url);
+    var url = "whatsapp://send?phone=57$number&text=${Uri.encodeFull(text)}";
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url) );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Whatsapp not installed")));
+          const SnackBar(content: Text("Instala la aplicación de whatsapp")));
     }
+  }
+
+
+  openTelegram(String number, BuildContext context) async {
+    var url = "https://t.me/+57$number";
+//
+    if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url),
+    mode: LaunchMode.externalApplication);
+    } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text("Instala la aplicación de telegram")));
+    }
+
   }
 
   openEmail(String email,String subject){
