@@ -438,6 +438,8 @@ class _LoginPageState extends State<LoginPage> {
 
   requestLoginFacebook() async{
    //utils.showSnackBar(context, "Lo sentimos, no disponible por a hora");
+
+    print("VALORES ${FacebookPermission.publicProfile} ${FacebookPermission.email}");
  final fb = FacebookLogin();
     final result = await fb.logIn(permissions: [
       FacebookPermission.publicProfile,
@@ -445,14 +447,18 @@ class _LoginPageState extends State<LoginPage> {
     ]);
     await fb.logOut();
    switch (result.status) {
+
       case FacebookLoginStatus.success:
         getUserInfoFB(result.accessToken!.token,fb);
+        print("RESULTADO ${result.status.name}");
         break;
      case FacebookLoginStatus.cancel:
        utils.showSnackBar(context, Strings.errorFacebook);
+       print("RESULTADO ${result.status.name}");
        break;
      case FacebookLoginStatus.error:
        utils.showSnackBar(context, Strings.errorFacebook);
+       print("RESULTADO ${result.status.name}");
        break;
     }
   }

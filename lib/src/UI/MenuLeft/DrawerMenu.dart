@@ -31,8 +31,9 @@ import 'SectionsMenu/GiftCards/GiftCartPage.dart';
 
 class DrawerMenuPage extends StatefulWidget {
   final rollOverActive;
+  final version;
 
-  DrawerMenuPage({Key? key, this.rollOverActive}) : super(key: key);
+  DrawerMenuPage({Key? key, this.rollOverActive,this.version}) : super(key: key);
 
   _DrawerMenuPageState createState() => _DrawerMenuPageState();
 }
@@ -97,7 +98,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           "ic_highlight.png",
                           () => widget.rollOverActive != Constants.menuHighlights
                                   ? pushToPage(HighlightsPage()) : Navigator.pop(context), Strings.destacados),
-                      
+
                       itemMenu(
                           "ic_favorite.png",
                           () => widget.rollOverActive != Constants.menuFavorites
@@ -107,7 +108,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           ? pushToPage(GiftCartPage()) : Navigator.pop(context), Strings.giftCards),
 
                       itemMenu("ic_orders.png", ()=>launch(Constants.urlBlog), Strings.blog),
-                      
+
                       itemMenu("ic_trainings.png", () => widget.rollOverActive != Constants.menuTraining
                           ? pushToPage(TrainingPage()) : Navigator.pop(context), Strings.trainings),
                       itemMenu("ic_notification.png", () => widget.rollOverActive != Constants.menuNotifications
@@ -140,7 +141,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       ),
                       SizedBox(height: 15),
                       Text(
-                        "Versión:${Constants.versionApp}"
+                        "${widget.version}"
                       ),
                       SizedBox(height: 16),
                     ],
@@ -156,8 +157,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
       ),
     );
   }
-  
-  
+
+
 
   void openReferredCode() {
       if (_prefs.codeShare.toString().isNotEmpty) {

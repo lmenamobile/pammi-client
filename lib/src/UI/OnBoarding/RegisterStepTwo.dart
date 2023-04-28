@@ -388,17 +388,20 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
     else if (!providerOnBoarding.stateTerms) {
       msgError = Strings.dontCheckTerms;
       return false;
+    }else{
+      return true;
     }
 
-    return true;
   }
 
   callRegisterUser() {
     if (_validateEmptyFields()) {
+      print("aqui2 $msgError");
       widget.user!.email = emailController.text;
       widget.user!.passWord = passwordController.text;
       _serviceRegister();
     } else {
+      print("aqui1 ${msgError}");
       utils.showSnackBar(context, msgError);
     }
   }
@@ -408,11 +411,14 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
       if (value) {
         Future callUser = providerOnBoarding.createAccount(widget.user!,referredController.text);
         await callUser.then((user) {
+          print("aqui3");
           utils.startOpenSlideUp(context, user.email, user.fullname);
         }, onError: (error) {
+          print("error $error");
           utils.showSnackBar(context, error);
         });
       } else {
+
         utils.showSnackBar(context, Strings.internetError);
       }
     });

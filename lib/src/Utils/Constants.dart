@@ -12,15 +12,15 @@ class Constants {
   //*------------*/
 
   //static const Str /*------staging------*/
-    /*static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+  /*  static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
      static const String urlBlog = 'http://stagingblog.pamii.com/';
      static const String urlSocket = 'http://stagingapisupersocket.pamii.com';
      static const String profileProvider = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
-  // /*------------*/ing baseURL = 'https://apiappclient.pamii.com/v1/';
+     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
+  // /*------------*/ing baseURL = 'https://apiappclient.pamii.com/v1/';*/
 
-     /*------Prod------*/
-  static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
+    /*------Prod------*/
+ static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
   static const String urlBlog = 'http://devblog.estoespamii.com/';
   static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_proveedor.png';
@@ -33,7 +33,7 @@ class Constants {
   static const String urlGuide = 'https://www.servientrega.com/wps/portal/rastreo-envio/detalle?id=';
 
   static const String loginGMAIL = 'gm';
-  static const String versionApp = '1.1.6';
+  static const String versionApp = '1.0.6';//1.1.7
   static const String loginFacebook = 'fb';
   static const String codeAccountNotValidate = '103';
 

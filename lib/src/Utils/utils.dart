@@ -4,6 +4,7 @@ import 'package:encrypt/encrypt.dart' as cript;
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Claim/ReasonClose.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
@@ -266,7 +267,10 @@ class _Utils {
         barrierDismissible: false,
         builder: (BuildContext context) => LoadingProgress());
   }
-
+  Future<String> getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
   startOpenSlideUp(BuildContext context, String? email, String? name) {
     showDialog(
         context: context,
@@ -463,6 +467,9 @@ class _Utils {
   ];
 
 }
+
+
+
 
 final utils = _Utils();
 

@@ -68,6 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
     profileProvider?.user?.photoUrl = prefs.photoUser;
+    utils.getVersion().then((value) {
+      providerHome!.version = "v" + value;
+      print("VERSION ${providerHome!.version}");
+    });
+
     super.initState();
   }
 
@@ -83,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
+        version:providerHome!.version,
         rollOverActive: Constants.menuHome,
       ),
       backgroundColor: CustomColors.white,

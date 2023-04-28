@@ -13,6 +13,8 @@ import 'package:wawamko/src/Utils/utils.dart';
 class OnboardingProvider with ChangeNotifier {
   final _prefs = SharePreference();
 
+
+
   bool _isLoading = false;
   bool get isLoading => this._isLoading;
   set isLoading(bool value) {
@@ -369,6 +371,7 @@ class OnboardingProvider with ChangeNotifier {
       "X-WA-Access-Token": _prefs.accessToken.toString(),
     };
     var jsonEncript = utils.encryptPwdIv(userModel.passWord!);
+
     Map jsonData = {
       'fullname': userModel.name! + " " + userModel.lastName!,
       'email': userModel.email,
@@ -379,9 +382,11 @@ class OnboardingProvider with ChangeNotifier {
       'platform': Platform.isIOS ? "i" : "a",
       'type': "lc",
       'pushToken': _prefs.pushToken,
+      'version': packageInfo.version.toString(),
       "userReferrerCode":codeReferred,
       "comercialContact": true,
-      'version': packageInfo.version.toString(),
+      "verifyedAccount": true
+
     };
 
     var body = jsonEncode(jsonData);
@@ -396,6 +401,7 @@ class OnboardingProvider with ChangeNotifier {
     });
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     print(response.body);
+    print("res -> ${response.statusCode}");
     if (response.statusCode == 201) {
       this.isLoading = false;
       if (decodeJson!['code'] == 100) {
@@ -406,6 +412,7 @@ class OnboardingProvider with ChangeNotifier {
         _prefs.dataUser = jsonEncode(response.user);
         _prefs.referredCode = response.user?.referredCode??'';
         _prefs.codeShare = response.user?.codeShare??'';
+        print("res -> ${response.user}");
         return response.user;
       } else {
         throw decodeJson['message'];
