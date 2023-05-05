@@ -140,6 +140,75 @@ class _Utils {
     );
   }
 
+  Future<AlertDialog?> alertCloseAccount(BuildContext context, Function action) {
+      return showDialog<AlertDialog>(
+        context: context,
+        useSafeArea: false,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: const EdgeInsets.all(20),
+            title: Text(Strings.closeAccountTitle, style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.black), textAlign: TextAlign.start),
+            content: SizedBox(
+              width: 350,
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.only(left:15, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {  action();},
+                      style: OutlinedButton.styleFrom(
+                        fixedSize: const Size(100, 40),
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                        backgroundColor: Colors.white,
+                        side: BorderSide(width: 1, color: Colors.grey),
+                      ),
+                      child: Text("Si", style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.grey), textAlign: TextAlign.center,),
+                    ),
+                    const SizedBox(width: 10,),
+                    ElevatedButton(
+                        onPressed: (){Navigator.pop(context);},
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: Colors.red,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 1),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            fixedSize: const Size(100, 40)),
+                        child: const Text("No", style: TextStyle(fontFamily: 'bold', fontSize: 16, color: Colors.white),)),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+
+  Future<AlertDialog?> accountClosedSuccessfully(BuildContext context) {
+    return showDialog<AlertDialog>(
+      context: context,
+      useSafeArea: false,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          contentPadding: const EdgeInsets.all(20),
+          title: Text(Strings.accountClosedSuccessfullyDescription, style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.black), textAlign: TextAlign.start),
+          content: Icon(
+            Icons.check_circle,
+            color: CustomColors.green,
+            size: 60,
+          ),
+        );
+      },
+    );
+  }
+
   openWhatsapp({required BuildContext context,required String text,required String number}) async {
     var url = "whatsapp://send?phone=57$number&text=${Uri.encodeFull(text)}";
     if (await canLaunchUrl(Uri.parse(url))) {

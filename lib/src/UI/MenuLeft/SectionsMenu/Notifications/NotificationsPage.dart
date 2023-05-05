@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Notifications.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
@@ -28,6 +29,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshNotifications = RefreshController(initialRefresh: false);
   late ProviderSettings providerSettings;
+  late ProviderHome providerHome;
   int pageOffset = 0;
 
   @override
@@ -40,11 +42,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       key: keyMenuLeft,
       backgroundColor: Colors.white,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuNotifications,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,

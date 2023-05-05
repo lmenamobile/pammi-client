@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -26,6 +27,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
   ProfileProvider? profileProvider;
+  late ProviderHome providerHome;
   late SupportProvider supportProvider;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
@@ -59,10 +61,12 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
     supportProvider = Provider.of<SupportProvider>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuProfile,
+        version: providerHome.version
       ),
       backgroundColor: CustomColors.redTour,
       body: SafeArea(

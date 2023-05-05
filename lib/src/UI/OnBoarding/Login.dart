@@ -50,10 +50,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnboarding = Provider.of<OnboardingProvider>(context);
-    return Scaffold(
-      backgroundColor: CustomColors.white,
-      body: SafeArea(
-        child:  _body(context),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: CustomColors.white,
+        body: SafeArea(
+          child:  _body(context),
+        ),
       ),
     );
   }
@@ -341,11 +346,16 @@ class _LoginPageState extends State<LoginPage> {
       if (value) {
         Future callUser = providerOnboarding.loginUser(emailController.text.trim(), passwordController.text);
         await callUser.then((user) {
+          print("USUARIO $user");
+          if(user == null){
+            utils.showSnackBar(context, Strings.accountCloseLogin);
+          }
           if(user.interestsConfigured){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
-          }else{
+          } else{
             Navigator.push(context, customPageTransition(InterestCategoriesUser()));
           }
+
         }, onError: (error) {
           providerOnboarding.isLoading = false;
           if(error.toString()==Constants.codeAccountNotValidate){

@@ -1,15 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
+import 'package:wawamko/src/UI/OnBoarding/Login.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -25,15 +30,18 @@ class _ProfilePageState extends State<ProfilePage> {
   SharePreference _prefs = SharePreference();
   ProfileProvider? profileProvider;
   late ProviderSettings providerSettings;
+  late ProviderHome providerHome;
 
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
         rollOverActive: "profile",
+        version: providerHome.version
       ),
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -141,14 +149,36 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         SizedBox(width: 20),
                         Expanded(
-                          child: Text(
-                            profileProvider!.user==null?_prefs.nameUser:profileProvider?.user?.fullname??'',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                fontFamily: Strings.fontBold,
-                                fontSize: 18,
-                                color: CustomColors.white),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                profileProvider!.user==null?_prefs.nameUser:profileProvider?.user?.fullname??'',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontFamily: Strings.fontBold,
+                                    fontSize: 18,
+                                    color: CustomColors.white),
+                              ),
+                              SizedBox(height: 5,),
+                              GestureDetector(
+                                onTap: (){
+                                  print("ALERTA");
+                                  utils.alertCloseAccount(context,(){closeAccount();});
+                                },
+                                child: Text(
+                                  "Cerrar cuenta",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      fontFamily: Strings.fontRegular,
+                                      fontSize: 15,
+                                      color: CustomColors.white),
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       ],
@@ -209,6 +239,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Strings.myOrders, true, false, true, () {
                                  Navigator.push(context, customPageTransition(MyOrdersPage()));
                                 }),
+
                               ],
                             ),
                           ],
@@ -356,4 +387,29 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
+
+  closeAccount() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callCloseAccount = profileProvider!.getCloseAccount();
+        await callCloseAccount.then((list) {
+          print("DIO 200");
+          Navigator.pop(context);
+          Timer(const Duration(seconds: 2), () {
+            utils.accountClosedSuccessfully(context);
+          });
+          Timer(const Duration(seconds: 5), () {
+            Navigator.pushReplacement(context, customPageTransition( LoginPage()));
+          });
+
+        }, onError: (error) {
+          // utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+
 }

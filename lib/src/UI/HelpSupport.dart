@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
@@ -29,6 +30,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
   RefreshController _refreshSupport = RefreshController(initialRefresh: false);
   late SupportProvider supportProvider;
   late ProviderChat providerChat;
+  late ProviderHome providerHome;
   late SocketService socketService;
   late ProviderSettings providerSettings;
   final prefs = SharePreference();
@@ -38,6 +40,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
   void initState() {
     supportProvider = Provider.of<SupportProvider>(context, listen: false);
     socketService = Provider.of<SocketService>(context,listen: false);
+    providerHome = Provider.of<ProviderHome>(context,listen: false);
     supportProvider.lstQuestion.clear();
     getQuestions();
     super.initState();
@@ -54,6 +57,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: "support",
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,

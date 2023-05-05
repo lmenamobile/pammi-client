@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Training.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -23,6 +24,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshTraining = RefreshController(initialRefresh: false);
   late ProviderSettings providerSettings;
+  late ProviderHome providerHome;
   int pageOffset = 0;
 
   @override
@@ -35,11 +37,14 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerHome = Provider.of<ProviderHome>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuTraining,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,

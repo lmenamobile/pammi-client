@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Banner.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -27,6 +28,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   late ProviderSettings providerSettings;
   late ProviderProducts providerProducts;
+  late ProviderHome providerHome;
   RefreshController _refreshHighlights = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
@@ -45,11 +47,13 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuHighlights,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,

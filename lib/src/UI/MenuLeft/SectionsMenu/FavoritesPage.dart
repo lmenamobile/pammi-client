@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
@@ -30,6 +31,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   RefreshController _refreshFavorites = RefreshController(initialRefresh: false);
   late ProviderUser providerUser;
   late ProviderProducts providerProducts;
+  late ProviderHome providerHome;
   late ProviderSettings providerSettings;
   int pageOffset = 0;
   int pageOffsetProductsRelations = 0;
@@ -47,11 +49,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
     providerUser = Provider.of<ProviderUser>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuFavorites,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,

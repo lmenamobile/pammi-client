@@ -33,7 +33,7 @@ class DrawerMenuPage extends StatefulWidget {
   final rollOverActive;
   final version;
 
-  DrawerMenuPage({Key? key, this.rollOverActive,this.version}) : super(key: key);
+  DrawerMenuPage({Key? key, this.rollOverActive,required this.version}) : super(key: key);
 
   _DrawerMenuPageState createState() => _DrawerMenuPageState();
 }

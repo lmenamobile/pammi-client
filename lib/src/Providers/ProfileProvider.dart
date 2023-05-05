@@ -323,4 +323,33 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
+
+  Future getCloseAccount() async {
+    this.isLoading = true;
+    var header = {
+      "Content-Type": "application/json".toString(),
+      "X-WA-Auth-Token": prefsUser.authToken.toString()
+    };
+    final response = await http.post(Uri.parse(Constants.baseURL + 'profile/close-account'), headers: header)
+        .timeout(Duration(seconds: 10))
+        .catchError((value) {
+      this.isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson!['code'] == 100) {
+        this.isLoading = false;
+        return decodeJson['message'];
+      } else {
+        this.isLoading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      this.isLoading = false;
+      throw decodeJson!['message'];
+    }
+  }
+
+
 }

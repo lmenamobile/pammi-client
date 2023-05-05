@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Support/Themes.dart';
 import 'package:wawamko/src/Providers/ProviderCustomerService.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/contactPage.dart';
@@ -29,6 +30,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshControllerThemes = RefreshController();
   late ProviderCustomerService providerCustomerService;
+  late ProviderHome providerHome;
   int pageOffset = 0;
 
   @override
@@ -48,12 +50,14 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
   @override
   Widget build(BuildContext context) {
     providerCustomerService = Provider.of<ProviderCustomerService>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     final providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuCustomerService,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop: (() => utils

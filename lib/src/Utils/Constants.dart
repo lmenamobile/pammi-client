@@ -33,7 +33,7 @@ class Constants {
   static const String urlGuide = 'https://www.servientrega.com/wps/portal/rastreo-envio/detalle?id=';
 
   static const String loginGMAIL = 'gm';
-  static const String versionApp = '1.0.6';//1.1.7
+  static const String versionApp = '1.0.7';//1.1.7
   static const String loginFacebook = 'fb';
   static const String codeAccountNotValidate = '103';
 

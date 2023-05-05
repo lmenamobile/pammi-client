@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
+import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
@@ -28,6 +29,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
   RefreshController _refreshGiftCard = RefreshController(initialRefresh: false);
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
+  late ProviderHome providerHome;
   int pageOffset = 0;
 
   @override
@@ -40,12 +42,14 @@ class _GiftCartPageState extends State<GiftCartPage> {
   @override
   Widget build(BuildContext context) {
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerHome = Provider.of<ProviderHome>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuGiftCard,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,

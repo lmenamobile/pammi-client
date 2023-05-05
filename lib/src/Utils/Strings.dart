@@ -626,8 +626,10 @@ class Strings {
   static const String service = "servicio";
   static const String principalConfigured = "No tienes una dirección principal configurada.";
 
-
-
+  //close account
+  static const String closeAccountTitle = "¿Estas seguro que deseas cerrar tu cuenta?";
+  static const String accountClosedSuccessfullyDescription = "Tu cuenta fue cerrada con exito.";
+  static const String accountCloseLogin = "El usuario se encuentra inactivo";
 }
 
 

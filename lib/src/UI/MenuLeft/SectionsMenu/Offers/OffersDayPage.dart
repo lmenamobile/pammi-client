@@ -56,11 +56,13 @@ class _OffersDayPageState extends State<OffersDayPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuOffersTheDay,
+        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
