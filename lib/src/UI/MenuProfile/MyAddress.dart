@@ -147,7 +147,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
   serviceChangeAddressUser(Address address) async {
     bool? status = await showDialogDoubleAction(
-        context, Strings.delete, Strings.deleteAddress, "ic_trash_big.png");
+        context, Strings.delete, Strings.deleteAddress, "ic_trash_big.png",Strings.yesDelete);
     if (status!)
       utils.checkInternet().then((value) async {
         if (value) {

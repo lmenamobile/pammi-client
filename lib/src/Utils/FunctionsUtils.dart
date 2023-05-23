@@ -224,7 +224,7 @@ String priceDiscount(String price,String percent) {
 }
 
 void validateSession(BuildContext context)async{
-  bool? status = await showDialogDoubleAction(context, Strings.ups, Strings.userNotLogIn, "ic_error.png");
+  bool? status = await showDialogDoubleAction(context, Strings.ups, Strings.userNotLogIn, "ic_error.png", Strings.yesLogin);
   if(status!)Navigator.of(context).push(customPageTransition(LoginPage()));
 }
 

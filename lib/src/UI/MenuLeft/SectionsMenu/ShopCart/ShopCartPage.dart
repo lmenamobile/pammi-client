@@ -417,7 +417,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
 
   callDeleteProduct(String idProduct) async {
     bool? status = await showDialogDoubleAction(
-        context, Strings.delete, Strings.deleteProduct, "ic_trash_big.png");
+        context, Strings.delete, Strings.deleteProduct, "ic_trash_big.png",Strings.yesDelete);
     if (status ?? false) deleteProduct(idProduct);
   }
 
@@ -442,7 +442,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   deleteCart() async {
     if (providerShopCart.shopCart != null) {
       bool? status = await showDialogDoubleAction(
-          context, Strings.delete, Strings.deleteCart, "ic_trash_big.png");
+          context, Strings.delete, Strings.deleteCart, "ic_trash_big.png",Strings.yesDelete);
       if (status ?? false)
         utils.checkInternet().then((value) async {
           if (value) {

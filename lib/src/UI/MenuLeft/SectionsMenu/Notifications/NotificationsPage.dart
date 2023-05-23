@@ -211,7 +211,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   validateActionDelete()async{
     if(providerSettings.ltsNotifications.firstWhereOrNull((element) => element.isSelected == true)!=null) {
-      bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteNotifications, "ic_trash_big.png");
+      bool? status = await showDialogDoubleAction(context, Strings.delete, Strings.deleteNotifications, "ic_trash_big.png",Strings.yesDelete);
       if (status??false)
         deleteNotifications();
     }else{

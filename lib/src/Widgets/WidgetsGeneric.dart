@@ -745,12 +745,12 @@ Future<bool?> showAlertActions(BuildContext context, String title, String msg,
 }
 
 Future<bool?> showDialogDoubleAction(BuildContext context, String title, String msg,
-    String asset) async {
+    String asset, String btnCustomTitle) async {
   bool? state = await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) =>
-    DialogCustomTwoOptions(title: title, msgText: msg, asset: asset)
+    DialogCustomTwoOptions(title: title, msgText: msg, asset: asset,btnCustomTitle: btnCustomTitle,)
   );
   return state;
 }

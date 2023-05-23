@@ -37,6 +37,7 @@ class Strings {
   //loGIN
   static const String login = 'Iniciar sesión';
   static const String optionInput = 'Conéctate con';
+  static const String  yesLogin = 'Si, iniciar';
 
   static const String titleLogin = 'Gana sin limites';
   static const String titleAmSorry = '¡Lo sentimos!';

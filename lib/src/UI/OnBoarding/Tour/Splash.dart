@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as GPS;
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -112,6 +113,50 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     );
   }
 
+
+/*
+  Future<bool> getPermissionGps() async {
+    bool _serviceEnabled;
+    LocationPermission _permissionGranted;
+    Position _position;
+
+    try {
+      _serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await Geolocator.openLocationSettings();
+        if (!_serviceEnabled) {
+          return false;
+        }
+      }
+
+      _permissionGranted = await Geolocator.checkPermission();
+      if (_permissionGranted == LocationPermission.denied ||
+          _permissionGranted == LocationPermission.deniedForever) {
+        _permissionGranted = await Geolocator.requestPermission();
+        if (_permissionGranted != LocationPermission.whileInUse &&
+            _permissionGranted != LocationPermission.always) {
+          openApp();
+          return false;
+        }
+      }
+
+      _position = await Geolocator.getCurrentPosition();
+      getLocation(_position);
+      return true;
+    } catch (e) {
+      var y = e.toString();
+      openApp();
+      return false;
+    }
+  }
+
+  void getLocation(Position position) async {
+    singleton.latitude = position.latitude ?? 0;
+    singleton.longitude = position.longitude ?? 0;
+    openApp();
+  }
+*/
+
   Future<bool> getPermissionGps() async {
     Location location = new Location();
     bool _serviceEnabled;
@@ -144,8 +189,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       return false;
     }
   }
-
-
 
   void getLocation(LocationData locationData) async {
     singleton.latitude = locationData.latitude??0;

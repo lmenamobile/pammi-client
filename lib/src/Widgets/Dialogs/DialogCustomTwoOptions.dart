@@ -5,9 +5,9 @@ import 'package:wawamko/src/Utils/colors.dart';
 import '../WidgetsGeneric.dart';
 
 class DialogCustomTwoOptions extends StatelessWidget {
-  final String title, msgText, asset;
+  final String title, msgText, asset,btnCustomTitle;
 
-  const DialogCustomTwoOptions({required this.title, required this.msgText, required this.asset});
+  const DialogCustomTwoOptions({required this.title, required this.msgText, required this.asset, required this.btnCustomTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +73,11 @@ class DialogCustomTwoOptions extends StatelessWidget {
                     width: 10,
 
                   ),
+                  //Strings.yesDelete
+
                   Expanded(
                     child: btnCustom(null,
-                        Strings.yesDelete, CustomColors.redDot, Colors.white,
+                        btnCustomTitle, CustomColors.redDot, Colors.white,
                         () => Navigator.pop(context, true)),
                   ),
                 ],
