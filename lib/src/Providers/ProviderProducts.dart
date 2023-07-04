@@ -77,7 +77,8 @@ class ProviderProducts with ChangeNotifier{
     this._referenceProductSelected = value;
     this.referenceProductSelected!.isSelected = !this.referenceProductSelected!.isSelected!;
     //updateListReferences(value);
-    this.imageReferenceProductSelected = this.productDetail!.images![0].url;
+   // this.imageReferenceProductSelected = this.productDetail?.images?.isNotEmpty == true ? this.productDetail!.images![0].url : "";
+    this.imageReferenceProductSelected = value?.images?[0].url;
     notifyListeners();
   }
 

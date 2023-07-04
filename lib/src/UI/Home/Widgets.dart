@@ -186,21 +186,22 @@ Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners
         itemCount: banners.isEmpty?0:banners.length,
         itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
             FadeInImage(
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               image: NetworkImage(banners[itemIndex].image??''),
               placeholder: AssetImage("Assets/images/preloader.gif"),
               imageErrorBuilder: (_,__,___){
                 return Container();
               },
             ), options: CarouselOptions(
-        height: 200,
-      autoPlay: true,
-      autoPlayAnimationDuration: Duration(seconds: 4),
-      onPageChanged: (index,changeType){
-        updateIndex(index);
-      }
-  )
-       ,
+
+              height: 180,
+              viewportFraction: 1,
+              autoPlay: true,
+              autoPlayAnimationDuration: Duration(seconds: 4),
+              onPageChanged: (index,changeType){
+                updateIndex(index);
+              }
+        ),
       ),
 
       banners.isEmpty?Container():Column(
@@ -305,6 +306,7 @@ Widget itemProduct(Product product){
                     Text(
                       product.product??'',
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                           fontSize: 13,
                           fontFamily: Strings.fontBold,
                           color: CustomColors.blackLetter),

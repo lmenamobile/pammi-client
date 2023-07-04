@@ -236,15 +236,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             height: 12,
                                             decoration: BoxDecoration(
                                               border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
-                                              color:providerProducts
-                                                  ?.referenceProductSelected?.color != "" ? HexColor(providerProducts
-                                                  ?.referenceProductSelected?.color?.replaceAll("FF", "") ?? "6A1B9A") : Colors.white,
+                                              color:providerProducts?.referenceProductSelected?.color != "" ? HexColor(providerProducts?.referenceProductSelected?.color?.replaceAll("FF", "") ?? "6A1B9A") : Colors.yellow,
                                               borderRadius: BorderRadius.circular(10)
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
+
                                    Visibility(
                                      visible: providerProducts
                                          ?.referenceProductSelected?.size != "",

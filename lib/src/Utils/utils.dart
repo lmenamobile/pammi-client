@@ -174,7 +174,8 @@ class _Utils {
                         onPressed: (){Navigator.pop(context);},
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            backgroundColor: Colors.red,
+                            //   primary:  Colors.red,
+                          backgroundColor: Colors.red,
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 1),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                             fixedSize: const Size(100, 40)),
@@ -560,12 +561,15 @@ class HexColor extends Color {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
       hexColor = "FF" + hexColor;
+    }else if (hexColor.length == 8) {
+      hexColor = "0x" + hexColor;
     }
 
     //if(hexColor != "") return;
-    return int.parse(hexColor, radix: 16);
+     return int.parse(hexColor, radix: 16)  ?? 0;
+    //    return int.tryParse(hexColor, radix: 16) ?? 0;
   }
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-}
 
+}

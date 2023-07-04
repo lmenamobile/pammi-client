@@ -409,14 +409,19 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void validateUserGoogle() async {
+    print("validateUserGoogle");
    utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = GoogleSingInProvider.singInWithGoogle();
         await callUser.then((user) {
+          print("validateUserGoogle2");
           GoogleSingInProvider.googleSingOut();
+          print("validateUserGoogle555 ${user}");
           loginSocialNetwork(user, Constants.loginGMAIL);
+          print("validateUserGoogle3");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
+          print("validateUserGoogle4");
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
@@ -425,6 +430,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   loginSocialNetwork(var dataUser, String typeLogin) async {
+    print("DATA USER_: ${dataUser.email}");
+    print("DATA USER_: ${dataUser.email}");
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerOnboarding.loginUserSocialNetWork(

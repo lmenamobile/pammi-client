@@ -198,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           updateIndexBannerHeader, providerHome!.ltsBanners),
                     ),
                   ),
-                  const SizedBox(height: 55),
+                  const SizedBox(height: 30),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child:  sectionCategories(),

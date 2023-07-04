@@ -68,7 +68,7 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
     return Column(
       children: [
         header(context, widget.subtheme, CustomColors.redDot, ()=> Navigator.pop(context)),
-        const SizedBox(height: 10,),
+        const SizedBox(height: 40,),
         Expanded(
           child: pqrsProvider.isLoadingQuestions ? DialogLoadingAnimated() :  SmartRefresher(
             controller: _refreshControllerQuestions,

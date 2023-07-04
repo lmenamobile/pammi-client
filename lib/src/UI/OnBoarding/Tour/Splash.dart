@@ -114,7 +114,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   }
 
 
-/*
+
   Future<bool> getPermissionGps() async {
     bool _serviceEnabled;
     LocationPermission _permissionGranted;
@@ -155,8 +155,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     singleton.longitude = position.longitude ?? 0;
     openApp();
   }
-*/
 
+/*
   Future<bool> getPermissionGps() async {
     Location location = new Location();
     bool _serviceEnabled;
@@ -195,7 +195,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     singleton.longitude = locationData.longitude??0;
     openApp();
   }
-
+  */
   void openApp() async{
    // GPS.LocationData locationData;
     //locationData = await location.getLocation();

@@ -77,6 +77,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
               children: [
                 headerDoubleTapMenu(context, Strings.customerService,
                     "", "ic_menu_w.png", CustomColors.redDot, "0",  () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                const SizedBox(height: 40,),
                 Expanded(
                   child: !providerCustomerService.isLoading
                       ? SmartRefresher(

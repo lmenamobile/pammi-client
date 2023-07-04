@@ -183,11 +183,15 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
               SizedBox(
                 width: 13,
               ),
-              Text(
-                nameReference,
-                style: TextStyle(
-                    fontFamily: Strings.fontRegular,
-                    color: CustomColors.gray7),
+              SizedBox(
+                width: 280,
+                child: Text(
+                  nameReference,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                      fontFamily: Strings.fontRegular,
+                      color: CustomColors.gray7),
+                ),
               )
             ],
           ),
@@ -275,6 +279,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                Text(
                  Strings.references,
                  style: TextStyle(
+                   overflow: TextOverflow.ellipsis,
                    fontFamily: Strings.fontBold,
                    fontSize: 18,
                    color:CustomColors.black1
@@ -292,7 +297,9 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: InkWell(
-                            onTap: ()=>selectReference(ltsReferences![index]),
+                            onTap: (){
+                              selectReference(ltsReferences?[index]);
+                            },
                               child: itemReference(ltsReferences![index].images!.isEmpty?'':
                                   ltsReferences[index].images![0].url!, ltsReferences[index].reference!,ltsReferences[index].isSelected!)),
                         );

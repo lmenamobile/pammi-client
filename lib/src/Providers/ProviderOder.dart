@@ -150,6 +150,8 @@ class ProviderOrder with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+
+    print("DETALLE DE ORDEN $decodeJson");
     if (response.statusCode == 200) {
       this.isLoading = false;
       if (decodeJson!['code'] == 100) {
