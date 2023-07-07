@@ -141,6 +141,15 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
+  //Check if I accept the policies
+
+  bool _checkPolicies = false;
+  bool get checkPolicies => this._checkPolicies;
+  set checkPolicies(bool value) {
+    this._checkPolicies = value;
+    notifyListeners();
+  }
+
   selectNotification(int idNotification){
     var notification = this.ltsNotifications.firstWhere((element) => element.id == idNotification);
     notification.isSelected==true? notification.isSelected=false: notification.isSelected=true;

@@ -631,6 +631,13 @@ class Strings {
   static const String closeAccountTitle = "¿Estas seguro que deseas cerrar tu cuenta?";
   static const String accountClosedSuccessfullyDescription = "Tu cuenta fue cerrada con exito.";
   static const String accountCloseLogin = "El usuario se encuentra inactivo";
+
+  //accept policies
+  static const String acceptPoliciesTitle = "la política de protección de datos personales";
+  static const String pdfUrlPoliciesTitle = 'https://entrep.estoespamii.com/POLITICA%20TRATAMIENTO%20DE%20DATOS%20ESTOESPAMII%2006072023.pdf';
+  static const String policiesPamiiTitle = "POLÍTICAS DE TRATAMIENTO DE DATOS PERSONALES PAMII SAS";
+  static const String msgErrorPolicies = "Debes aceptar la política de protección de datos personales";
+
 }
 
 

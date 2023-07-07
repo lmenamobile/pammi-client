@@ -1,12 +1,16 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/OnBoarding/DataProtectionPolicyPdfView.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -15,6 +19,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import '../../Utils/FunctionsUtils.dart';
 import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -37,10 +42,9 @@ class _RegisterPageState extends State<RegisterPage> {
   ProviderSettings? providerSettings;
   late OnboardingProvider providerOnBoarding;
   String msgError = '';
-
+  String assetPDFPath = "";
   @override
   void initState() {
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       providerOnBoarding.stateTerms = false;
       providerOnBoarding.stateDates = false;
@@ -132,7 +136,60 @@ class _RegisterPageState extends State<RegisterPage> {
                                 onTap: ()=>openSelectCityByState(),
                                 child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
                             textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 10),
+
+                        //terms and conditions
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              value: providerSettings?.checkPolicies,
+                              activeColor: CustomColors.blue,
+                              checkColor: Colors.white,
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3),),
+                              fillColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return CustomColors.blue;
+                                }
+                                return CustomColors.gray;
+                              }),
+                              onChanged: (value) {
+                                providerSettings?.checkPolicies = value!;
+
+                              },
+                            ),
+
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: Strings.btnAccept,
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.gray,),
+                                    ),
+                                    TextSpan(
+                                      text: ' ',
+                                      style: TextStyle(fontSize: 15, color: CustomColors.gray,),
+                                    ),
+                                    TextSpan(
+                                      text: Strings.acceptPoliciesTitle,
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blue,),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                             Navigator.push(context, customPageTransition(DataProtectionPolicyPdfView(pdfPath: Strings.pdfUrlPoliciesTitle)));
+                                          //   _openPdf();
+                                        },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                            SizedBox(height: 30,),
                           ],
                         )),
                     btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
@@ -193,7 +250,26 @@ class _RegisterPageState extends State<RegisterPage> {
       userModel.cityId = providerSettings!.citySelected!.id;
       Navigator.push(context,customPageTransition(RegisterStepTwoPage(user: userModel)));
     }else{
-      utils.showSnackBar(context, msgError);
+      if(providerSettings?.checkPolicies == false){
+        utils.showSnackBar(context, Strings.msgErrorPolicies);
+      }else{
+        utils.showSnackBar(context, msgError);
+      }
+
     }
   }
+
+
+
+
+  void _openPdf() async {
+    if (await canLaunchUrlString("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf")) {
+      Uri uri = Uri.parse("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf");
+      print(Uri.parse("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf"));
+      await launchUrl(Uri.parse("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf"), mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch")';
+    }
+  }
+
 }
