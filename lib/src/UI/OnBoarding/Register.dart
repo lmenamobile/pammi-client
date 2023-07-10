@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wawamko/src/Bloc/notifyVaribles.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
@@ -19,7 +17,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-import '../../Utils/FunctionsUtils.dart';
+import '../../Utils/share_preference.dart';
 import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -35,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final countryController = TextEditingController();
   final cityController = TextEditingController();
   final phoneController = TextEditingController();
-
+  final prefs = SharePreference();
   UserModel userModel = UserModel();
   GlobalVariables globalVariables = GlobalVariables();
   NotifyVariablesBloc? notifyVariables;
@@ -125,10 +123,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           children: <Widget>[
-                            customTextFieldIcon("ic_data.png",true, Strings.nameUser,
-                                nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
-                            customTextFieldIcon("ic_data.png",true, Strings.lastName,
-                                lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
+                            customTextFieldIcon("ic_data.png",true, Strings.nameUser, nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                            customTextFieldIcon("ic_data.png",true, Strings.lastName, lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
                             InkWell(
                                 onTap: ()=>openSelectCountry(),
                                 child: textFieldIconSelector("ic_country.png",false, Strings.nationality, countryController)),
@@ -207,6 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
   openSelectCountry()async{
      await Navigator.push(context, customPageTransition(SelectCountryPage()));
      countryController.text = providerSettings?.countrySelected?.country??'';
+     prefs.countryIdUser = providerSettings?.countrySelected?.id ??'';
   }
 
   openSelectCityByState(){
@@ -243,7 +240,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   callStepTwoRegister(){
-    if(_validateEmptyFields()){
+    if(_validateEmptyFields() && providerSettings?.checkPolicies == true){
       userModel.name = nameController.text;
       userModel.lastName = lastNameController.text;
       userModel.numPhone = phoneController.text;
@@ -256,19 +253,6 @@ class _RegisterPageState extends State<RegisterPage> {
         utils.showSnackBar(context, msgError);
       }
 
-    }
-  }
-
-
-
-
-  void _openPdf() async {
-    if (await canLaunchUrlString("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf")) {
-      Uri uri = Uri.parse("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf");
-      print(Uri.parse("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf"));
-      await launchUrl(Uri.parse("Assets/POLITICATRATAMIENTODEDATOSESTOESPAMII06072023.pdf"), mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch")';
     }
   }
 

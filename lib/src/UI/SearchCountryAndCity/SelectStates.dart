@@ -12,6 +12,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import '../../Providers/SupportProvider.dart';
 import '../../Widgets/widgets.dart';
 
 class SelectStatesPage extends StatefulWidget {
@@ -25,9 +26,11 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   late ProviderSettings providerSettings;
   int pageOffset = 0;
   final prefs = SharePreference();
+  late SupportProvider supportProvider;
 
   @override
   void initState() {
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerSettings.ltsCities.clear();
     super.initState();
@@ -36,6 +39,8 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -126,9 +131,10 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
 
   actionSelectState(StatesCountry state) {
     providerSettings.stateCountrySelected = state;
+
     //Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
     Navigator.push(context, customPageTransition(SelectCityPage())).then((value) => {
-    Navigator.pop(context)
+       Navigator.pop(context)
     });
   }
 
@@ -144,4 +150,5 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
       }
     });
   }
+
 }

@@ -411,7 +411,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void validateUserGoogle() async {
     print("validateUserGoogle");
-   utils.checkInternet().then((value) async {
+    utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = GoogleSingInProvider.singInWithGoogle();
         await callUser.then((user) {

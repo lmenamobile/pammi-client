@@ -10,6 +10,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import '../../../Providers/SupportProvider.dart';
 import '../../InterestCategoriesUser.dart';
 import '../Widgets.dart';
 
@@ -30,9 +31,11 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   ProviderSettings? providerSettings;
   late OnboardingProvider providerOnBoarding;
   String msgError = '';
+  late SupportProvider supportProvider;
 
   @override
   void initState() {
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
     providerSettings = Provider.of<ProviderSettings>(context,listen: false);
     providerOnBoarding = Provider.of<OnboardingProvider>(context,listen: false);
     providerOnBoarding.stateTerms = false;
@@ -50,6 +53,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
     cityController.text = providerSettings?.citySelected?.name??'';
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
@@ -194,7 +198,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                               )),
                               SizedBox(height: 10),
                               itemCheck(() => providerOnBoarding.stateTerms =
-                              !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
+                              !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions(supportProvider.lstTermsAndConditions != null ? supportProvider.lstTermsAndConditions[0].url.toString() : "")),
                             ],
                           )),
                         SizedBox(height: 20),
@@ -254,6 +258,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   }
 
   serviceRegister() async {
+    print("VALOR ID CITY ${providerSettings?.citySelected?.id.toString()}");
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerOnBoarding.createAccountSocialNetwork(widget.name, widget.email, phoneController.text,
@@ -271,4 +276,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
       }
     });
   }
+
+
+
 }

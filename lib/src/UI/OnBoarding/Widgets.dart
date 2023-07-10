@@ -28,7 +28,7 @@ Widget itemCheck(Function action,bool isSelect,Widget text){
   );
 }
 
-Widget termsAndConditions(){
+Widget termsAndConditions(String url){
   return RichText(
     textAlign: TextAlign.left,
     text: TextSpan(
@@ -50,15 +50,14 @@ Widget termsAndConditions(){
               color: CustomColors.blueActiveDots,
               decoration: TextDecoration.underline),
           recognizer: TapGestureRecognizer()
-            ..onTap = () => launch(
-                "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Clientes_Terminos+y+condiciones.pdf"),
+            ..onTap = () => launch(url),
         ),
-        TextSpan(
+       /* TextSpan(
             text: Strings.politicsText,
             style: TextStyle(
               fontFamily: Strings.fontRegular,
-            )),
-        TextSpan(
+            )),*/
+       /* TextSpan(
           text: Strings.politics,
           style: TextStyle(
               fontFamily: Strings.fontRegular,
@@ -67,7 +66,7 @@ Widget termsAndConditions(){
           recognizer: TapGestureRecognizer()
             ..onTap = () => launch(
                 "https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/system/Cliente_Politica_De_Tratamiento_De_Datos_Personales.pdf"),
-        ),
+        ),*/
       ],
     ),
   );

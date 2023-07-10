@@ -13,6 +13,8 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../Providers/SupportProvider.dart';
+import '../../Utils/share_preference.dart';
 import 'Widgets.dart';
 
 class SelectCountryPage extends StatefulWidget {
@@ -26,9 +28,12 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   late ProviderSettings providerSettings;
   OnboardingProvider? providerOnBoarding;
   int pageOffset = 0;
+  late SupportProvider supportProvider;
+  final prefs = SharePreference();
 
   @override
   void initState() {
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
     //providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       providerSettings.ltsCountries.clear();
@@ -41,6 +46,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   @override
   Widget build(BuildContext context) {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -180,7 +186,12 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   actionSelectCountry(CountryUser country) async {
     providerSettings.countrySelected = country;
-     Navigator.pop(context);
+    prefs.countryIdUser =  country.id.toString();
+
+    if(prefs.countryIdUser != null){
+      serviceGetTerms();
+      Navigator.pop(context);
+    }
   }
 
   getCountries(String search) async {
@@ -192,6 +203,20 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  serviceGetTerms() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callSupport = supportProvider.getTermsAndConditions();
+        await callSupport.then((list) {
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }

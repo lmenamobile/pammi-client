@@ -15,6 +15,8 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../Providers/SupportProvider.dart';
+
 class RegisterStepTwoPage extends StatefulWidget {
   final UserModel? user;
 
@@ -29,20 +31,27 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   final referredController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPassController = TextEditingController();
-  var maskFormatter = new MaskTextInputFormatter(
-      mask: '###############', filter: {"#": RegExp(r'[0-9]')});
+  var maskFormatter = new MaskTextInputFormatter(mask: '###############', filter: {"#": RegExp(r'[0-9]')});
   NotifyVariablesBloc? notifyVariables;
   late OnboardingProvider providerOnBoarding;
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
   String msgError = '';
+  late SupportProvider supportProvider;
 
-
+  @override
+  void initState() {
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
+    serviceGetTerms();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -134,8 +143,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                         )),
                   ),
                   const SizedBox(height: 20),
-                  itemCheck(() => providerOnBoarding.stateTerms =
-                  !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions()),
+                  itemCheck(() => providerOnBoarding.stateTerms = !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions(supportProvider.lstTermsAndConditions[0].url.toString())),
                   const SizedBox(height: 20),
                   btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callRegisterUser, context)
 
@@ -420,6 +428,20 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
       } else {
 
         utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  serviceGetTerms() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callSupport = supportProvider.getTermsAndConditions();
+        await callSupport.then((list) {
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
