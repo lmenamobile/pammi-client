@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -28,6 +27,7 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'Widgets.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -35,22 +35,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  late OnboardingProvider providerOnBoarding;
+  ProviderSettings? providerSettings;
+  NotifyVariablesBloc? notifyVariables;
+
+  SharePreference prefs = SharePreference();
+  GlobalVariables globalVariables = GlobalVariables();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  SharePreference prefs = SharePreference();
-  NotifyVariablesBloc? notifyVariables;
-  GlobalVariables globalVariables = GlobalVariables();
-  late OnboardingProvider providerOnboarding;
-  ProviderSettings? providerSettings;
+
   var obscureTextPass = true;
   String msgError = '';
 
-
-
   @override
   Widget build(BuildContext context) {
+
     providerSettings = Provider.of<ProviderSettings>(context);
-    providerOnboarding = Provider.of<OnboardingProvider>(context);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context);
+
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -66,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _body(BuildContext context) {
     notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+
     return Stack(
       children: [
         Image(
@@ -80,29 +85,13 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(top: 80, left: 30,right: 30),
                 child: Column(
                   children: [
-                    Image(
-                    width: 220,
-                    image: AssetImage("Assets/images/ic_logo_login.png"),
-                    ),
-                    SizedBox(
-                    height: 54,
-                    ),
+                    Image(width: 220, image: AssetImage("Assets/images/ic_logo_login.png"),),
 
-                    Text(
-                    Strings.welcome,
-                    style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 36,
-                    color: CustomColors.blueTitle),
-                    ),
+                    SizedBox(height: 54,),
+
+                    Text(Strings.welcome, style: TextStyle(fontFamily: Strings.fontBold, fontSize: 36, color: CustomColors.blueTitle),),
                     SizedBox(height: 17),
-                    Text(
-                    Strings.titleLogin,
-                    style: TextStyle(
-                    fontFamily: Strings.fontRegular,
-                    fontSize: 18,
-                    color: Colors.black),
-                    ),
+                    Text(Strings.titleLogin, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: Colors.black),),
                     FadeInUp(
                       delay: Duration(milliseconds: 1200),
                       child: Container(
@@ -110,72 +99,48 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            customBoxEmailLogin(emailController, notifyVariables, () {
-                              setState(() {});
-                            }),
-                            SizedBox(height: 20),
-                            customBoxPassword(passwordController),
-                            SizedBox(height: 13),
+                            //email
+                            customBoxEmailLogin(emailController, notifyVariables, () {setState(() {});}),
+                            //password
+                            Padding(
+                              padding: const EdgeInsets.only(top:20,bottom:13),
+                              child: customBoxPassword(
+                                  notifyVariables!.intLogin.validatePassword! ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3),
+                                  Strings.password,
+                                  notifyVariables!.intLogin.validatePassword!,
+                                  "Assets/images/ic_padlock_blue.png",
+                                  "Assets/images/ic_padlock.png",
+                                  passwordController,notifyVariables!,
+                                  providerOnBoarding.obscureTextPass,
+                                  validatePwdLogin,showPassword),
+                            ),
+                            //recover password
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Expanded(
-                                  child: Container(),
-                                ),
+                                Expanded(child: Container(),),
                                 GestureDetector(
                                     child: Container(
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(right: 10, top: 5),
-                                      child: Text(
-                                        Strings.forgotPass,
-                                        style: TextStyle(
-                                            fontFamily: Strings.fontMedium,
-                                            color: CustomColors.blueTitle),
-                                      ),
+                                      child: Text(Strings.forgotPass, style: TextStyle(fontFamily: Strings.fontMedium, color: CustomColors.blueTitle),),
                                     ),
-                                    onTap: () => Navigator.of(context).push(
-                                        customPageTransition(ForgotPasswordEmailPage())))
+                                    onTap: () => Navigator.of(context).push(customPageTransition(ForgotPasswordEmailPage())))
                               ],
                             ),
                             SizedBox(height: 30),
-                            btnCustomRounded(
-                                CustomColors.blueSplash,
-                                CustomColors.white,
-                                Strings.login,
-                                    () => callServiceLogin(),
-                                context),
+                            btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.login, () => callServiceLogin(), context),
                             SizedBox(height: 20),
-                            btnCustomRounded(
-                                CustomColors.gray13,
-                                CustomColors.gray14,
-                                Strings.createAccount,
-                                    () => Navigator.of(context)
-                                    .push(customPageTransition(RegisterPage())),
-                                context),
+                            btnCustomRounded(CustomColors.gray13, CustomColors.gray14, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage())), context),
                             SizedBox(height: 55),
                             Row(
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 1,
-                                    color: CustomColors.grayDot,
-                                  ),
+                                  child: Container(width: double.infinity, height: 1, color: CustomColors.grayDot,),
                                 ),
-                                Text(
-                                  Strings.optionInput,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: Strings.fontRegular,
-                                      color: CustomColors.blueTitle
-                                  ),
-                                ),
+                                Text(Strings.optionInput, style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueTitle),),
                                 Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 1,
-                                    color: CustomColors.grayDot,
-                                  ),
+                                  child: Container(width: double.infinity, height: 1, color: CustomColors.grayDot,),
                                 )
                               ],
                             ),
@@ -185,18 +150,16 @@ class _LoginPageState extends State<LoginPage> {
                               children: <Widget>[
                                 Visibility(
                                   visible: platformIsAndroid(),
-                                  child: itemConnectTo("Assets/images/ic_google.png",
-                                          () => validateUserGoogle()),
+                                  child: itemConnectTo("Assets/images/ic_google.png", () => validateUserGoogle()),
                                 ),
                                 SizedBox(width: 13),
-                                itemConnectTo("Assets/images/ic_facebook.png",
-                                    requestLoginFacebook),
+                                itemConnectTo("Assets/images/ic_facebook.png", requestLoginFacebook),
                                 Visibility(
                                     visible: !platformIsAndroid(),
                                     child: Container(
                                         margin: EdgeInsets.only(left: 13),
-                                        child: itemConnectTo(
-                                            "Assets/images/ic_mac.png", ()=>validateUserApple()))),
+                                        child: itemConnectTo("Assets/images/ic_mac.png", ()=>validateUserApple()))
+                                ),
                               ],
                             ),
                             SizedBox(height: 10),
@@ -205,117 +168,30 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ],
-
-
                   ),
               ),
             ),
-
-
-
           ],
         ),
-        Visibility(
-            visible: providerOnboarding.isLoading, child: LoadingProgress()),
-
+        Visibility(visible: providerOnBoarding.isLoading, child: LoadingProgress()),
       ],
     );
   }
 
-  Widget customBoxPassword(TextEditingController passwordController) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          height: 52,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(26)),
-              border: Border.all(
-                  color: notifyVariables!.intLogin.validatePassword!
-                      ? CustomColors.blueSplash
-                      : CustomColors.gray.withOpacity(.3),
-                  width: 1),
-              color: CustomColors.white),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image(
-                    width: 25,
-                    height: 25,
-                    fit: BoxFit.fill,
-                    image: notifyVariables!.intLogin.validatePassword!
-                        ? AssetImage("Assets/images/ic_padlock_blue.png")
-                        : AssetImage("Assets/images/ic_padlock.png"),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5),
-                    width: 1,
-                    height: 25,
-                    color: CustomColors.gray7.withOpacity(.4),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: TextField(
-                        obscureText: obscureTextPass,
-                        controller: passwordController,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: Strings.fontRegular,
-                            color: CustomColors.blackLetter),
-                        decoration: InputDecoration(
-                          isDense: true,
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                            color: CustomColors.gray7.withOpacity(.4),
-                            fontSize: 16,
-                            fontFamily: Strings.fontRegular,
-                          ),
-                          hintText: Strings.password,
-                        ),
-                        onChanged: (value) {
-                          if (validatePwd(value)) {
-                            print("true");
-                            notifyVariables!.intLogin.validatePassword = true;
-                            setState(() {});
-                          } else {
-                            notifyVariables!.intLogin.validatePassword = false;
-                            setState(() {});
-                          }
-                          // bloc.changePassword(value);
-                        },
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Image(
-                      width: 35,
-                      height: 35,
-                      image: obscureTextPass
-                          ? AssetImage("Assets/images/ic_showed.png")
-                          : AssetImage("Assets/images/ic_show.png"),
-                    ),
-                    onTap: () {
-                      this.obscureTextPass
-                          ? this.obscureTextPass = false
-                          : this.obscureTextPass = true;
-                      setState(() {});
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        //SizedBox(height: 20,),
-      ],
-    );
+
+
+  validatePwdLogin(value){
+    if (validatePwd(value)) {
+      notifyVariables!.intLogin.validatePassword = true;
+      setState(() {});
+    } else {
+      notifyVariables!.intLogin.validatePassword = false;
+      setState(() {});
+    }
+  }
+
+  showPassword(){
+    providerOnBoarding.obscureTextPass = !providerOnBoarding.obscureTextPass;
   }
 
   bool validateFormLogin() {
@@ -345,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
     FocusScope.of(context).unfocus();
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnboarding.loginUser(emailController.text.trim(), passwordController.text);
+        Future callUser = providerOnBoarding.loginUser(emailController.text.trim(), passwordController.text);
         await callUser.then((user) {
           print("USUARIO $user");
           if(user == null){
@@ -356,9 +232,8 @@ class _LoginPageState extends State<LoginPage> {
           } else{
             Navigator.push(context, customPageTransition(InterestCategoriesUser()));
           }
-
         }, onError: (error) {
-          providerOnboarding.isLoading = false;
+          providerOnBoarding.isLoading = false;
           if(error.toString()==Constants.codeAccountNotValidate){
             Navigator.of(context)
                 .push(customPageTransition(VerificationCodePage(
@@ -392,14 +267,13 @@ class _LoginPageState extends State<LoginPage> {
   void validateTokenApple(String token) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser =   providerOnboarding.validateTokenApple(token);
+        Future callUser =   providerOnBoarding.validateTokenApple(token);
         await callUser.then((dataUser) {
           if(dataUser==100){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
           }else{
             Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: dataUser['name'],email:dataUser['email'],typeRegister: "lc",)));
           }
-
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -410,19 +284,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void validateUserGoogle() async {
-    print("validateUserGoogle");
+
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = GoogleSingInProvider.singInWithGoogle();
         await callUser.then((user) {
-          print("validateUserGoogle2");
           GoogleSingInProvider.googleSingOut();
-          print("validateUserGoogle555 ${user}");
           loginSocialNetwork(user, Constants.loginGMAIL);
-          print("validateUserGoogle3");
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
-          print("validateUserGoogle4");
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
@@ -435,7 +305,7 @@ class _LoginPageState extends State<LoginPage> {
     print("DATA USER_: ${dataUser.email}");
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnboarding.loginUserSocialNetWork(
+        Future callUser = providerOnBoarding.loginUserSocialNetWork(
             typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],
             typeLogin);
         await callUser.then((data) {
@@ -455,9 +325,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   requestLoginFacebook() async{
-   //utils.showSnackBar(context, "Lo sentimos, no disponible por a hora");
 
-    print("VALORES ${FacebookPermission.publicProfile} ${FacebookPermission.email}");
  final fb = FacebookLogin();
     final result = await fb.logIn(permissions: [
       FacebookPermission.publicProfile,
@@ -465,29 +333,21 @@ class _LoginPageState extends State<LoginPage> {
     ]);
     await fb.logOut();
    switch (result.status) {
-
       case FacebookLoginStatus.success:
         getUserInfoFB(result.accessToken!.token,fb);
-        print("RESULTADO ${result.status.name}");
         break;
      case FacebookLoginStatus.cancel:
        utils.showSnackBar(context, Strings.errorFacebook);
-       print("RESULTADO ${result.status.name}");
        break;
      case FacebookLoginStatus.error:
        utils.showSnackBar(context, Strings.errorFacebook);
-       print("RESULTADO ${result.status.name}");
        break;
     }
   }
 
-
-
   void getUserInfoFB(String token,FacebookLogin fb) async {
     final response = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
     final profile = json.decode(response.body);
-
-
     print(profile.toString());
     if (profile['email'] != null && profile['name'] != null) {
       loginSocialNetwork(profile, Constants.loginFacebook);
@@ -495,4 +355,5 @@ class _LoginPageState extends State<LoginPage> {
       utils.showSnackBar(context, Strings.errorFacebook);
     }
   }
+
 }

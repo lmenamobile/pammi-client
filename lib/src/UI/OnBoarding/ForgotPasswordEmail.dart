@@ -32,56 +32,38 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
     return Scaffold(
      backgroundColor: Colors.white,
       body: SafeArea(
-        child: _body(context),
-      ),
-    );
-  }
-
-  Widget _body(BuildContext context) {
-
-    return Stack(
-      children: [
-        Column(
+        child: Stack(
           children: [
-            header(context, Strings.recoverPass, CustomColors.red, ()=> Navigator.pop(context)),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(30),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      Strings.textRecoverPass,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: CustomColors.black1,
-                        fontFamily: Strings.fontRegular
-                      ),
+            Column(
+              children: [
+                header(context, Strings.recoverPass, CustomColors.red, ()=> Navigator.pop(context)),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(30),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          Strings.textRecoverPass,
+                          style: TextStyle(fontSize: 18, color: CustomColors.black1, fontFamily: Strings.fontRegular),
+                        ),
+                        const SizedBox(height: 42),
+                        customBoxEmailForgotPass(emailController, notifyVariables, () {setState(() {});}),
+                      ],
                     ),
-                    const SizedBox(height: 42),
-                    customBoxEmailForgotPass(emailController, notifyVariables, () {
-                      setState(() {});
-                    }),
-
-
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
+            Positioned(
+              bottom: 30,
+              left: 30,
+              right: 30,
+              child:btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.sender, callServicePassword, context),
+            ),
+            Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
           ],
-        ),
-        Positioned(
-          bottom: 30,
-          left: 30,
-          right: 30,
-          child:btnCustomRounded(
-              CustomColors.blueSplash,
-              CustomColors.white,
-              Strings.sender,
-              callServicePassword,
-              context) ,
-        ),
-        Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
-      ],
+        )
+      ),
     );
   }
 

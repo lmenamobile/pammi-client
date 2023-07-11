@@ -51,11 +51,8 @@ class _RegisterPageState extends State<RegisterPage> {
       providerSettings!.stateCountrySelected = null;
       providerSettings!.citySelected = null;
     });
-
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,29 +85,17 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               children: <Widget>[
                 Column(
-
                   children: <Widget>[
-                    SizedBox(
-                      height: 6,
-                    ),
+                    SizedBox(height: 6,),
                     Text(
                       "¡${Strings.createAccount}!",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: Strings.fontBold,
-                          fontSize: 36,
-                          color: CustomColors.blueTitle),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: CustomColors.blueTitle),
                     ),
-                    SizedBox(
-                      height: 17,
-                    ),
+                    SizedBox(height: 17,),
                     Text(
                       Strings.registerMsg,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          fontSize: 18,
-                          color: CustomColors.black1),
+                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.black1),
                     ),
                     SizedBox(height: 52),
                     Column(
@@ -118,9 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           duration: const Duration(milliseconds: 600),
                           childAnimationBuilder: (widget) => SlideAnimation(
                             verticalOffset: 50,
-                            child: FadeInAnimation(
-                              child: widget,
-                            ),
+                            child: FadeInAnimation(child: widget,),
                           ),
                           children: <Widget>[
                             customTextFieldIcon("ic_data.png",true, Strings.nameUser, nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
@@ -133,7 +116,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
                             textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
                             SizedBox(height: 10),
-
                         //terms and conditions
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +136,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               }),
                               onChanged: (value) {
                                 providerSettings?.checkPolicies = value!;
-
                               },
                             ),
 

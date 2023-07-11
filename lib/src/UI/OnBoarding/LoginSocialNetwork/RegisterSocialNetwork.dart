@@ -29,9 +29,10 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   final cityController = TextEditingController();
   final phoneController = TextEditingController();
   ProviderSettings? providerSettings;
+  late SupportProvider supportProvider;
   late OnboardingProvider providerOnBoarding;
   String msgError = '';
-  late SupportProvider supportProvider;
+
 
   @override
   void initState() {
@@ -47,14 +48,13 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     supportProvider = Provider.of<SupportProvider>(context);
     cityController.text = providerSettings?.citySelected?.name??'';
+
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
       body: SafeArea(
@@ -80,22 +80,14 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                 right: 0,
                 top: 0,
                 child: Container(
-                  child: Image(
-                    fit: BoxFit.fill,
-                    height: 100,
-                    image: AssetImage("Assets/images/ic_header_signup.png"),
-                  ),
+                  child: Image(fit: BoxFit.fill, height: 100, image: AssetImage("Assets/images/ic_header_signup.png"),),
                 ),
               ),
               Positioned(
                 top: 15,
                 left: 15,
                 child: GestureDetector(
-                  child: Image(
-                    image: AssetImage("Assets/images/ic_back_w.png"),
-                    width: 40,
-                    height: 40,
-                  ),
+                  child: Image(image: AssetImage("Assets/images/ic_back_w.png"), width: 40, height: 40,),
                   onTap: ()=> Navigator.pop(context),
                 ),
               ),
@@ -104,10 +96,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                 margin: EdgeInsets.only(top: 30),
                 child: Text(
                   Strings.registration,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 18,
-                      color: CustomColors.white),
+                  style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.white),
                 ),
               ),
             ],
@@ -124,36 +113,21 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(
-                          height: 6,
-                        ),
+                        SizedBox(height: 6,),
                         Text(
                           Strings.registrationFinish,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: Strings.fontBold,
-                              fontSize: 24,
-                              color: CustomColors.blackLetter),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 24, color: CustomColors.blackLetter),
                         ),
-                        SizedBox(
-                          height: 6,
-                        ),
+                        SizedBox(height: 6,),
                         Text(
                           Strings.registerMsg,
-                          style: TextStyle(
-                              fontFamily: Strings.fontRegular,
-                              color: CustomColors.gray7),
+                          style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColors.gray7),
                         ),
                         SizedBox(height: 13),
                          Column(
-                              children: AnimationConfiguration.toStaggeredList(
+                             children: AnimationConfiguration.toStaggeredList(
                             duration: const Duration(milliseconds: 600),
-                            childAnimationBuilder: (widget) => SlideAnimation(
-                              verticalOffset: 50,
-                              child: FadeInAnimation(
-                                child: widget,
-                              ),
-                            ),
+                            childAnimationBuilder: (widget) => SlideAnimation(verticalOffset: 50, child: FadeInAnimation(child: widget,),),
                             children: <Widget>[
                               InkWell(
                                 onTap: ()=>openSelectCountry(),
@@ -162,39 +136,24 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                                   onTap: ()=>openSelectCityByState(),
                                   child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
                               textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
-                              customTextFieldIcon("ic_data.png",true, Strings.codeReferred,
-                                  referredController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                              customTextFieldIcon("ic_data.png",true, Strings.codeReferred, referredController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
                               itemCheck(
-                                      () => providerOnBoarding.stateDates =
-                                  !providerOnBoarding.stateDates,
-                                  providerOnBoarding.stateDates,
+                                      () => providerOnBoarding.stateDates = !providerOnBoarding.stateDates, providerOnBoarding.stateDates,
                                   Text(
                                     Strings.AuthorizeDates,
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontRegular,
-                                        fontSize: 12,
-                                        color: CustomColors.blackLetter),
+                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
                                   )),
                               SizedBox(height: 10),
-                              itemCheck(
-                                      () => providerOnBoarding.stateCentrals =
-                                  !providerOnBoarding.stateCentrals,
-                                  providerOnBoarding.stateCentrals,
+                              itemCheck(() => providerOnBoarding.stateCentrals = !providerOnBoarding.stateCentrals, providerOnBoarding.stateCentrals,
                                   Text(
                                     Strings.authorizedCredit,
-                                    style: TextStyle(
-                                        fontFamily: Strings.fontRegular,
-                                        fontSize: 12,
-                                        color: CustomColors.blackLetter),
+                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
                                   )),
                               SizedBox(height: 10),
                               itemCheck(() => providerOnBoarding.stateContactCommercial =
                               !providerOnBoarding.stateContactCommercial, providerOnBoarding.stateContactCommercial, Text(
                                 Strings.contactCommercial,
-                                style: TextStyle(
-                                    fontFamily: Strings.fontRegular,
-                                    fontSize: 12,
-                                    color: CustomColors.blackLetter),
+                                style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
                               )),
                               SizedBox(height: 10),
                               itemCheck(() => providerOnBoarding.stateTerms =
@@ -258,16 +217,12 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   }
 
   serviceRegister() async {
-    print("VALOR ID CITY ${providerSettings?.citySelected?.id.toString()}");
+   // print("VALOR ID CITY ${providerSettings?.citySelected?.id.toString()}");
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnBoarding.createAccountSocialNetwork(widget.name, widget.email, phoneController.text,
-            providerSettings?.citySelected?.id.toString()??'', referredController.text,providerOnBoarding.stateContactCommercial,widget.typeRegister);
+        Future callUser = providerOnBoarding.createAccountSocialNetwork(widget.name, widget.email, phoneController.text, providerSettings?.citySelected?.id.toString()??'', referredController.text,providerOnBoarding.stateContactCommercial,widget.typeRegister);
         await callUser.then((user) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              customPageTransition(InterestCategoriesUser()),
-                  (route) => false);
+          Navigator.pushAndRemoveUntil(context, customPageTransition(InterestCategoriesUser()), (route) => false);
         }, onError: (error) {
           utils.showSnackBar(context, error);
         });

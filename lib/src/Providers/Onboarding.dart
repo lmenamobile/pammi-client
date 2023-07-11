@@ -13,7 +13,21 @@ import 'package:wawamko/src/Utils/utils.dart';
 class OnboardingProvider with ChangeNotifier {
   final _prefs = SharePreference();
 
+  //show passwords
+  bool _obscureTextPass = false;
+  bool get obscureTextPass => this._obscureTextPass;
+  set obscureTextPass(bool value) {
+    this._obscureTextPass = value;
+    notifyListeners();
+  }
 
+  bool _obscureTextConfirmPass = false;
+  bool get obscureTextConfirmPass => this._obscureTextConfirmPass;
+  set obscureTextConfirmPass(bool value) {
+    this._obscureTextConfirmPass = value;
+    notifyListeners();
+  }
+  //.....
 
   bool _isLoading = false;
   bool get isLoading => this._isLoading;

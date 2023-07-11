@@ -1,13 +1,8 @@
-
-
 import 'package:flutter/material.dart';
-
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
-import 'package:wawamko/src/UI/Onboarding/Login.dart';
 import 'package:wawamko/src/UI/Onboarding/UpdatePassword.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -17,7 +12,6 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-
 import '../Home/HomePage.dart';
 
 class VerificationCodePage extends StatefulWidget {
@@ -60,16 +54,8 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                 padding: EdgeInsets.all(30),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      Strings.verificationMsg,
-                      style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          fontSize: 18,
-                          color: CustomColors.blackLetter),
-                    ),
-                    SizedBox(
-                      height: 125,
-                    ),
+                    Text(Strings.verificationMsg, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.blackLetter),),
+                    SizedBox(height: 125,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: PinCodeTextField(
@@ -84,10 +70,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                           code = text;
                         },
                         obscureText: false,
-                        textStyle: TextStyle(
-                            color: CustomColors.blackLetter,
-                            fontFamily: Strings.fontBold,
-                            fontSize: 22),
+                        textStyle: TextStyle(color: CustomColors.blackLetter, fontFamily: Strings.fontBold, fontSize: 22),
                         //enablePinAutofill: false,
                         pinTheme: PinTheme(
                             shape: PinCodeFieldShape.box,
@@ -108,21 +91,11 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                       child: Container(
                         child: Text(
                           Strings.sendAgain,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: Strings.fontRegular,
-                              color: CustomColors.blueTitle,
-                             // decoration: TextDecoration.underline
-                          ),
+                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueTitle,),
                         ),
                       ),
                       onTap: () => _serviceSendAgainCode(),
                     ),
-
-
-
-
-
                   ],
                 ),
               ),
@@ -133,12 +106,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
           bottom: 30,
             left: 30,
             right: 30,
-            child: btnCustomRounded(
-            CustomColors.blueSplash,
-            CustomColors.white,
-            Strings.sender,
-            callServiceCode,
-            context)),
+            child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.sender, callServiceCode, context)),
         Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
       ],
     );
@@ -167,19 +135,13 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
         await callUser.then((value) {
           switch (widget.typeView) {
             case Constants.isViewRegister:
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  customPageTransition(InterestCategoriesUser()),
-                  (route) => false);
+              Navigator.pushAndRemoveUntil(context, customPageTransition(InterestCategoriesUser()), (route) => false);
               break;
             case Constants.isViewPassword:
-              Navigator.of(context)
-                  .pushReplacement(customPageTransition(UpdatePasswordPage()));
+              Navigator.of(context).pushReplacement(customPageTransition(UpdatePasswordPage()));
               break;
             case Constants.isViewLogin:
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
-                      (Route<dynamic> route) => false);
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
               break;
             default:
           }

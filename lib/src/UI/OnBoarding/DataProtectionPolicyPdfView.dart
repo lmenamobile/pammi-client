@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-
 import '../../Utils/Strings.dart';
 
 class DataProtectionPolicyPdfView extends StatefulWidget {
@@ -14,17 +13,8 @@ class DataProtectionPolicyPdfView extends StatefulWidget {
 }
 
 class _DataProtectionPolicyPdfViewState extends State<DataProtectionPolicyPdfView> {
-  int _totalPages = 0;
-  int _currentPage = 0;
-  bool _isLoading = true;
   late PDFViewController pdfViewController;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    print("ver valor ${widget.pdfPath}");
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
