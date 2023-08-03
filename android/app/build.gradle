@@ -83,4 +83,5 @@ dependencies {
     //Libreria para evitar error de dependecias con apple y google singIn
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
     implementation 'com.facebook.android:facebook-login:latest.release'
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 }

@@ -124,7 +124,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                           style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColors.gray7),
                         ),
                         SizedBox(height: 13),
-                         Column(
+                        /* Column(
                              children: AnimationConfiguration.toStaggeredList(
                             duration: const Duration(milliseconds: 600),
                             childAnimationBuilder: (widget) => SlideAnimation(verticalOffset: 50, child: FadeInAnimation(child: widget,),),
@@ -159,7 +159,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                               itemCheck(() => providerOnBoarding.stateTerms =
                               !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions(supportProvider.lstTermsAndConditions != null ? supportProvider.lstTermsAndConditions[0].url.toString() : "")),
                             ],
-                          )),
+                          )),*/
                         SizedBox(height: 20),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 30),

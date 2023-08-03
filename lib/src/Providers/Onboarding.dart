@@ -71,6 +71,7 @@ class OnboardingProvider with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("error generate access token ${response.statusCode}");
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         _prefs.accessToken = decodeJson['data']['accessToken'];

@@ -300,18 +300,22 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  loginSocialNetwork(var dataUser, String typeLogin) async {
-    print("DATA USER_: ${dataUser.email}");
-    print("DATA USER_: ${dataUser.email}");
+  loginSocialNetwork(dynamic dataUser, String typeLogin) async {
+   // print("DATA USER_: ${dataUser}");
+    //print("DATA USER_: ${dataUser["email"]}");
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerOnBoarding.loginUserSocialNetWork(
-            typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],
-            typeLogin);
+        Future callUser = providerOnBoarding.loginUserSocialNetWork(typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"], typeLogin);
         await callUser.then((data) {
+          print("DATA $data");
           if(data==Constants.isRegisterRS){
-            Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? dataUser.displayName:dataUser["name"],email: typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,)));
+            print("typeLogin $typeLogin");
+            print("dataUser ${dataUser["name"]}");
+            print("data email ${dataUser["email"]}");
+
+            Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? "" : dataUser["name"],email: typeLogin == Constants.loginGMAIL ? "" : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,)));
           }else {
+            print("home");
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
           }
         }, onError: (error) {
@@ -324,30 +328,62 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  requestLoginFacebook() async{
+  Future<void> requestLoginFacebook() async{
 
- final fb = FacebookLogin();
-    final result = await fb.logIn(permissions: [
-      FacebookPermission.publicProfile,
-      FacebookPermission.email,
-    ]);
-    await fb.logOut();
-   switch (result.status) {
-      case FacebookLoginStatus.success:
-        getUserInfoFB(result.accessToken!.token,fb);
-        break;
-     case FacebookLoginStatus.cancel:
-       utils.showSnackBar(context, Strings.errorFacebook);
-       break;
-     case FacebookLoginStatus.error:
-       utils.showSnackBar(context, Strings.errorFacebook);
-       break;
+    try {
+      final fb = FacebookLogin();
+      print("FACEBOOK1");
+
+
+      fb.getUserEmail().then((isLoggedIn) {
+        print("IgetUserEmail: $isLoggedIn");
+      });
+      fb.isLoggedIn.then((isLoggedIn) {
+        print("Is Logged In: $isLoggedIn");
+      });
+
+      fb.accessToken.then((value) {
+        print("Access Token: $value");
+      });
+
+
+
+      fb.sdkVersion.then((version) {
+        print("SDK Version: $version");
+      });
+
+      final result = await fb.logIn(permissions: [
+        FacebookPermission.publicProfile,
+        FacebookPermission.email,
+      ]);
+      print(" FACEBOOK2 ${result}");
+      await fb.logOut();
+      print("STATUS FACEBOOK ${result.status}");
+      switch (result.status) {
+        case FacebookLoginStatus.success:
+          print("STATUS FACEBOOK SUCCESS");
+          getUserInfoFB(result.accessToken!.token,fb);
+          break;
+        case FacebookLoginStatus.cancel:
+          print("STATUS FACEBOOK CANCEL");
+          utils.showSnackBar(context, Strings.errorFacebook);
+          break;
+        case FacebookLoginStatus.error:
+          print("STATUS FACEBOOK ERROR");
+          utils.showSnackBar(context, Strings.errorFacebook);
+          break;
+      }
+    } catch (e) {
+      print("Error durante el inicio de sesión de Facebook: $e");
     }
+
   }
 
   void getUserInfoFB(String token,FacebookLogin fb) async {
+    print("ENTRO AQUIfb");
     final response = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
     final profile = json.decode(response.body);
+    print("DATOS DEL PERFILsss ${profile}");
     print(profile.toString());
     if (profile['email'] != null && profile['name'] != null) {
       loginSocialNetwork(profile, Constants.loginFacebook);
