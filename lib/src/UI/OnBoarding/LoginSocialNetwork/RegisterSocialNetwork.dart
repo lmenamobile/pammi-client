@@ -36,15 +36,18 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
 
   @override
   void initState() {
-    supportProvider = Provider.of<SupportProvider>(context, listen: false);
-    providerSettings = Provider.of<ProviderSettings>(context,listen: false);
-    providerOnBoarding = Provider.of<OnboardingProvider>(context,listen: false);
-    providerOnBoarding.stateTerms = false;
-    providerOnBoarding.stateDates = false;
-    providerOnBoarding.stateCentrals = false;
-    providerSettings?.countrySelected = null;
-    providerSettings?.stateCountrySelected = null;
-    providerSettings?.citySelected = null;
+    supportProvider = SupportProvider();
+    providerSettings = ProviderSettings();
+    providerOnBoarding = OnboardingProvider();
+    if(mounted){
+      providerOnBoarding.stateTerms = false;
+      providerOnBoarding.stateDates = false;
+      providerOnBoarding.stateCentrals = false;
+      providerSettings?.countrySelected = null;
+      providerSettings?.stateCountrySelected = null;
+      providerSettings?.citySelected = null;
+      serviceGetTerms();
+    }
     super.initState();
   }
 
@@ -124,42 +127,45 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                           style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColors.gray7),
                         ),
                         SizedBox(height: 13),
-                        /* Column(
+                        Column(
                              children: AnimationConfiguration.toStaggeredList(
                             duration: const Duration(milliseconds: 600),
                             childAnimationBuilder: (widget) => SlideAnimation(verticalOffset: 50, child: FadeInAnimation(child: widget,),),
                             children: <Widget>[
-                              InkWell(
-                                onTap: ()=>openSelectCountry(),
-                                  child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
-                              InkWell(
-                                  onTap: ()=>openSelectCityByState(),
-                                  child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
+                              InkWell(onTap: ()=>openSelectCountry(), child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
+                              InkWell(onTap: ()=>openSelectCityByState(), child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
+
                               textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
                               customTextFieldIcon("ic_data.png",true, Strings.codeReferred, referredController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
                               itemCheck(
-                                      () => providerOnBoarding.stateDates = !providerOnBoarding.stateDates, providerOnBoarding.stateDates,
-                                  Text(
-                                    Strings.AuthorizeDates,
-                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
-                                  )),
+                                      () => providerOnBoarding.stateDates = !providerOnBoarding.stateDates,
+                                  providerOnBoarding.stateDates,
+                                  Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),)
+                              ),
                               SizedBox(height: 10),
-                              itemCheck(() => providerOnBoarding.stateCentrals = !providerOnBoarding.stateCentrals, providerOnBoarding.stateCentrals,
+                              itemCheck(
+                                      () => providerOnBoarding.stateCentrals = !providerOnBoarding.stateCentrals,
+                                  providerOnBoarding.stateCentrals,
                                   Text(
                                     Strings.authorizedCredit,
                                     style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
                                   )),
                               SizedBox(height: 10),
-                              itemCheck(() => providerOnBoarding.stateContactCommercial =
-                              !providerOnBoarding.stateContactCommercial, providerOnBoarding.stateContactCommercial, Text(
+                              itemCheck(
+                                      () => providerOnBoarding.stateContactCommercial = !providerOnBoarding.stateContactCommercial,
+                                  providerOnBoarding.stateContactCommercial,
+                                  Text(
                                 Strings.contactCommercial,
                                 style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
                               )),
                               SizedBox(height: 10),
-                              itemCheck(() => providerOnBoarding.stateTerms =
-                              !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions(supportProvider.lstTermsAndConditions != null ? supportProvider.lstTermsAndConditions[0].url.toString() : "")),
+                              itemCheck(
+                                      () => providerOnBoarding.stateTerms = !providerOnBoarding.stateTerms,
+                                  providerOnBoarding.stateTerms,
+                                  termsAndConditions(supportProvider.lstTermsAndConditions.isNotEmpty ? supportProvider.lstTermsAndConditions[0].url.toString()  : "")
+                              ),
                             ],
-                          )),*/
+                          )),
                         SizedBox(height: 20),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 30),
@@ -226,12 +232,25 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
         }, onError: (error) {
           utils.showSnackBar(context, error);
         });
+
       } else {
         utils.showSnackBar(context, Strings.internetError);
       }
     });
   }
 
-
+  serviceGetTerms() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callSupport = supportProvider.getTermsAndConditions();
+        await callSupport.then((list) {
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
 
 }

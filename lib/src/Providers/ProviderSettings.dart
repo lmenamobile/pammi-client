@@ -299,6 +299,7 @@ class ProviderSettings with ChangeNotifier{
       "status": "active",
       "countryId": countryCode
     };
+    print("CATEGORIAS JSON $jsonData");
     var body = jsonEncode(jsonData);
 
     final response = await http.post(Uri.parse(Constants.baseURL+"category/get-categories"), headers: header, body: body)
@@ -311,14 +312,17 @@ class ProviderSettings with ChangeNotifier{
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
+        print("100 EN CATEGORIAS");
         for (var item in decodeJson['data']['items']) {
           final category = Category.fromJson(item);
           listCategories.add(category);
+          print("100 EN CATEGORIAS listCategories ${listCategories.length}");
         }
         this.isLoadingSettings = false;
         this.ltsCategories= listCategories;
         return listCategories;
       } else {
+        print("no trajo CATEGORIAS");
         this.isLoadingSettings = false;
         throw decodeJson['message'];
       }

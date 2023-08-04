@@ -39,7 +39,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColors.red,
       body: WillPopScope(
         onWillPop: () async => false,
         child: SafeArea(
@@ -172,8 +172,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   serviceGetCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callSettings = providerSettings!.getCategoriesInterest(
-            "", pageOffset, prefs.countryIdUser);
+        Future callSettings = providerSettings!.getCategoriesInterest("", pageOffset, prefs.countryIdUser);
         await callSettings.then((list) {}, onError: (error) {
           //utils.showSnackBar(context, error.toString());
         });
