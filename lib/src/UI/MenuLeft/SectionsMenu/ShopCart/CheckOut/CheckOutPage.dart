@@ -71,6 +71,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 children: [
 
                   header(context, Strings.order, CustomColors.redDot, () => Navigator.pop(context)),
+
                   providerShopCart?.shopCart == null
                       ? emptyData(
                       "ic_highlights_empty.png",
@@ -95,7 +96,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               getShippingPrice();
                               getShopCart();
                             }),
-                          child: sectionPayment(providerCheckOut.paymentSelected)),
+                          child: sectionPayment(providerCheckOut.paymentSelected,reduceQuota,increaseQuota,providerCheckOut.quotaValue,)),
+
                           SizedBox(height: 8,),
                           sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
                               changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,callDeleteDiscount
@@ -118,6 +120,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
 
+
+  void reduceQuota() {
+    if (providerCheckOut.quotaValue > 0) {
+      providerCheckOut.quotaValue = providerCheckOut.quotaValue - 1;
+    }
+  }
+
+  void increaseQuota() {
+    if (providerCheckOut.quotaValue < 10) {
+      providerCheckOut.quotaValue = providerCheckOut.quotaValue + 1;
+    }
+  }
 
   Widget listGiftCards() {
     return Container(
@@ -165,7 +179,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   openCreateOrder(){
     if(validateCheckOut()){
-      actionsByTypePayment(providerCheckOut.paymentSelected!);
+      actionsByTypePayment(providerCheckOut.paymentSelected!,providerCheckOut.quotaValue);
     }else{
       utils.showSnackBar(context, msgError);
     }
@@ -211,37 +225,37 @@ class _CheckOutPageState extends State<CheckOutPage> {
     }
   }
 
-  actionsByTypePayment(PaymentMethod paymentMethod){
+  actionsByTypePayment(PaymentMethod paymentMethod, int dues){
     switch (paymentMethod.id) {
       case Constants.paymentCreditCard:
           createOrder(providerCheckOut.paymentSelected!.id!,
               providerCheckOut.addressSelected!.id.toString(), "",
-              providerCheckOut.creditCardSelected!.id.toString(),providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
+              providerCheckOut.creditCardSelected!.id.toString(),providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0',dues);
         break;
       case Constants.paymentCash:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0',0);
         break;
       case Constants.paymentBaloto:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0',0);
         break;
       case Constants.paymentEfecty:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0',0);
         break;
       case Constants.paymentPSE:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), providerCheckOut.bankSelected!.bankCode,"",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0');
+            providerCheckOut.addressSelected!.id.toString(), providerCheckOut.bankSelected!.bankCode,"",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0',0);
         break;
       case Constants.paymentADDI:
         createOrder(
             providerCheckOut.paymentSelected!.id!,
-            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice, providerShopCart?.discountShipping??'0');
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice, providerShopCart?.discountShipping??'0',0);
         break;
     }
   }
@@ -353,12 +367,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
       String? bankId,
       String creditCardId,
       String shippingValue,
-      String discountShipping) async {
+      String discountShipping,
+      int dues) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerCheckOut.createOrder(paymentMethodId.toString(), addressId, bankId,creditCardId,shippingValue, discountShipping);
+        Future callCart = providerCheckOut.createOrder(paymentMethodId.toString(), addressId, bankId,creditCardId,shippingValue, discountShipping,dues);
         await callCart.then((msg) {
           if(paymentMethodId == Constants.paymentCreditCard){
+            providerCheckOut.quotaValue = 0;
             Navigator.push(context, customPageTransition(OrderConfirmationPage()));
           }else if(paymentMethodId == Constants.paymentCash){
             Navigator.push(context, customPageTransition(OrderConfirmationPage()));

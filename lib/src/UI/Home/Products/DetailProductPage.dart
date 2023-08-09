@@ -84,18 +84,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Container(
                         width: double.infinity,
                         height: 290,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                            )),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15),)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            isImageYoutubeAction(providerProducts
-                                ?.imageReferenceProductSelected ??
-                                '',
+                            isImageYoutubeAction(providerProducts?.imageReferenceProductSelected ?? '',
                                 InkWell(
                                   onTap: () => openZoomImages(),
                                   child: imageReference(

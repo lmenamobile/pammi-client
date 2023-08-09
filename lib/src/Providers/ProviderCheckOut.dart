@@ -131,6 +131,14 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
+  //quota
+  int _quotaValue = 0;
+  int get quotaValue => _quotaValue;
+  set quotaValue(int value) {
+    _quotaValue = value;
+    notifyListeners();
+  }
+
   Future getPaymentMethods() async {
     this.isLoading = true;
     final header = {
@@ -305,7 +313,7 @@ class ProviderCheckOut with ChangeNotifier {
   }
 
   Future createOrder(String paymentMethodId, String addressId, String? bankId,
-      String creditCardId,String shippingValue, String discountShipping) async {
+      String creditCardId,String shippingValue, String discountShipping, int dues) async {
     this.isLoading = true;
     final header = {
       "Content-Type": "application/json",
@@ -318,10 +326,13 @@ class ProviderCheckOut with ChangeNotifier {
       "methodPaymentId": paymentMethodId,
       "addressId": addressId,
       "userPaymentMethodId": creditCardId,
+      "dues": dues,
       "bankId": bankId,
       "shippingValue": shippingValue,
       "discountShipping": discountShipping,
     };
+
+    print("valores por tc jsonData $jsonData");
     var body = jsonEncode(jsonData);
     final response = await http
         .post(Uri.parse(Constants.baseURL + "payment/create-order"),
@@ -331,6 +342,8 @@ class ProviderCheckOut with ChangeNotifier {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+
+    print("valores por tc response ${response.body}");
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {

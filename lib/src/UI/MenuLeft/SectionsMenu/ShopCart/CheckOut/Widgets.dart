@@ -17,6 +17,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import '../../../../../Utils/Constants.dart';
 import '../Widgets.dart';
 
 Widget sectionAddress(Address? address) {
@@ -231,7 +232,7 @@ Widget itemProvider(PackagesProvider provider) {
   );
 }
 
-Widget sectionPayment(PaymentMethod? payment) {
+Widget sectionPayment(PaymentMethod? payment, Function reduceQuota, Function increaseQuota, int quota) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -309,10 +310,62 @@ Widget sectionPayment(PaymentMethod? payment) {
                 )
               ],
             ),
-          )
+          ),
+          customDivider(),
+
+          Visibility(
+            visible: payment?.id == Constants.paymentCreditCard ? true : false,
+            child: Padding(
+              padding: const EdgeInsets.only(top:10),
+              child: Column(
+                children: [
+                  Text(
+                    "Elige el Número de Cuotas para tu Tarjeta de Crédito",
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 14,
+                      color: CustomColors.blackLetter,
+                    ),
+                  ),
+                  SizedBox(height:20),
+                  contSlider(reduceQuota,increaseQuota,quota)
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     ),
+  );
+}
+
+Widget contSlider(Function reduceQuota, Function increaseQuota, int value) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      IconButton(
+        icon: Icon(Icons.remove),
+        onPressed: (){
+          reduceQuota();
+        },
+      ),
+      SizedBox(width: 20),
+      Text(
+        '$value',
+        style: TextStyle(
+          fontFamily: Strings.fontRegular,
+          fontSize: 18,
+          color: CustomColors.blackLetter,
+        ),
+      ),
+      SizedBox(width: 20),
+      IconButton(
+        icon: Icon(Icons.add),
+        onPressed: (){
+          increaseQuota();
+        },
+      ),
+    ],
   );
 }
 
