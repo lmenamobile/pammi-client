@@ -41,6 +41,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                 child: providerSettings.hasConnection?SingleChildScrollView(
                   child: Center(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(Strings.thanksOrder,
@@ -80,11 +81,13 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,
                                 color: CustomColors.blueSplash)),
+                        SizedBox(height: 10,),
                         Text(providerCheckOut?.addressSelected?.address??'',
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,
-                                color: CustomColors.blueSplash)),
+                                color: CustomColors.blueSplash),
+                        textAlign: TextAlign.center,),
                         SizedBox(
                           height: 20,
                         ),
@@ -94,9 +97,11 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                           height: 20,
                         ),
                         Container(
-                          decoration: BoxDecoration(boxShadow: [
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(26)),
+                              boxShadow: [
                             BoxShadow(
-                                color: Colors.black.withOpacity(.2),
+                                color: Colors.black.withOpacity(.1),
                                 spreadRadius: 2,
                                 blurRadius: 7,
                                 offset: Offset(2, 2))
