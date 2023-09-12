@@ -517,8 +517,7 @@ Widget itemProduct(
                   visible: true, //product.reference?.applyDevolution??false,
                   child: Row(
                     children: [
-                      product.reference?.brandAndProduct?.applyDevolution ==
-                              Constants.applyClaim
+                      product.reference?.brandAndProduct?.applyDevolution == Constants.applyClaim
                           ? validateStatusClaim(
                               context,
                               Strings.messageClaimStatusNotCompleted,

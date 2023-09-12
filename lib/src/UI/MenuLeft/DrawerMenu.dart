@@ -82,7 +82,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       itemProfile(profileProvider?.user == null ? _prefs.nameUser : profileProvider?.user?.fullname,),
-                      SizedBox(height: 23),
+                      SizedBox(height: 20),
                       BounceInDown(
                           child: itemBtnReferred(() => userIsLogged()?openBottomSheet(context, openReferredCode, _prefs.codeShare.toString()):
                           validateSession(context))),
@@ -175,17 +175,18 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
         decoration: BoxDecoration(
             color: CustomColors.white,
             borderRadius: BorderRadius.all(Radius.circular(20))),
-        height: 63,
+
         margin: EdgeInsets.only(left: 6, right: 6, top: 6),
         child: Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: _prefs.authToken == "0" ? CrossAxisAlignment.center : CrossAxisAlignment.start ,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 width: 40,
                 height: 40,
+                margin: EdgeInsets.only(top: _prefs.authToken == "0" ? 0 : 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   color: CustomColors.grayBackground,
@@ -209,7 +210,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                 ),
               ),
               SizedBox(width: 10),
-              _prefs.authToken == "0"? Text(
+              _prefs.authToken == "0"?
+              Text(
                 Strings.login,
                 style: TextStyle(
                     decoration: TextDecoration.underline,
@@ -221,6 +223,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    SizedBox(height: 20,),
                     Text(
                       nameUser ?? '',
                       style: TextStyle(
@@ -231,7 +234,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     Container(
                       height: 25,
                       width: double.infinity,
-                      padding: EdgeInsets.only(left: 5),
+                      margin: EdgeInsets.only(left: 5,top: 10,bottom: 10),
                       decoration: BoxDecoration(
                         color: CustomColors.whiteBackGround,
                         borderRadius: BorderRadius.circular(4),

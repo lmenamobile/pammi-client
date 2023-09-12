@@ -9,6 +9,7 @@ import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/OnBoarding/DataProtectionPolicyPdfView.dart';
+import 'package:wawamko/src/UI/OnBoarding/TermsAndConditionsView.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -156,8 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blue,),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                             Navigator.push(context, customPageTransition(DataProtectionPolicyPdfView(pdfPath: Strings.pdfUrlPoliciesTitle)));
-                                          //   _openPdf();
+                                          Navigator.push(context, customPageTransition(TermsAndConditionsView()));
                                         },
                                     ),
                                   ],

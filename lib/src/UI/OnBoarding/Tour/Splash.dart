@@ -40,7 +40,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
 
     _controller.addStatusListener((AnimationStatus status) async {
       if(status==AnimationStatus.completed){
-        bool result = await getPermissionGps();
+    //    bool result = await getPermissionGps();
+        openApp();
       }
     });
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);

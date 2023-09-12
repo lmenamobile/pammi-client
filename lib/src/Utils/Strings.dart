@@ -629,15 +629,18 @@ class Strings {
 
   //close account
   static const String closeAccountTitle = "¿Estas seguro que deseas cerrar tu cuenta?";
+  static const String closeAccountDescription = "Ten en cuenta que al cerrar tu cuenta, se volverá inactiva. Si deseas reactivarla en el futuro, contáctanos a través de nuestros canales de soporte. soporte@estoespamii.com";
+
   static const String accountClosedSuccessfullyDescription = "Tu cuenta fue cerrada con exito.";
   static const String accountCloseLogin = "El usuario se encuentra inactivo";
 
   //accept policies
+  static const String policiesTitle = "Política de protección de datos personales";
   static const String acceptPoliciesTitle = "la política de protección de datos personales";
   static const String pdfUrlPoliciesTitle = 'https://entrep.estoespamii.com/POLITICA%20TRATAMIENTO%20DE%20DATOS%20ESTOESPAMII%2006072023.pdf';
   static const String policiesPamiiTitle = "POLÍTICAS DE TRATAMIENTO DE DATOS PERSONALES PAMII SAS";
   static const String msgErrorPolicies = "Debes aceptar la política de protección de datos personales";
-
+  static const String urlPolicies = "https://pamii-preproduction.s3.amazonaws.com/pamii/terminos-y-politicas/tycclientes_28082023.html";
 }
 
 

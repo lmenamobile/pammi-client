@@ -45,6 +45,7 @@
     <application
         android:label="Pamii"
         android:name="${applicationName}"
+        android:allowBackup="false"
         android:icon="@mipmap/icon_square"
         android:roundIcon="@mipmap/icon_circle"
         android:usesCleartextTraffic="true"
@@ -88,12 +89,10 @@
 
             <!-- Deep linking -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="pamii.com" />
-                <data android:scheme="https" />
+                <data android:scheme="https" android:host="estoespamii.com" />
             </intent-filter>
 
         </activity>

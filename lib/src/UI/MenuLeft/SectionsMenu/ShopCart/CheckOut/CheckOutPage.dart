@@ -96,8 +96,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               getShippingPrice();
                               getShopCart();
                             }),
-                          child: sectionPayment(providerCheckOut.paymentSelected,reduceQuota,increaseQuota,providerCheckOut.quotaValue,)),
-
+                          child: sectionPayment(providerCheckOut.paymentSelected,reduceQuota,providerCheckOut.quotaValue,providerCheckOut.quotaList)),
                           SizedBox(height: 8,),
                           sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
                               changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,callDeleteDiscount
@@ -121,17 +120,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
 
 
-  void reduceQuota() {
-    if (providerCheckOut.quotaValue > 0) {
-      providerCheckOut.quotaValue = providerCheckOut.quotaValue - 1;
-    }
+  void reduceQuota(int newValue) {
+    providerCheckOut.quotaValue = newValue ?? 0;
   }
 
-  void increaseQuota() {
-    if (providerCheckOut.quotaValue < 10) {
-      providerCheckOut.quotaValue = providerCheckOut.quotaValue + 1;
-    }
-  }
+
 
   Widget listGiftCards() {
     return Container(

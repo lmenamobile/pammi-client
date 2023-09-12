@@ -54,7 +54,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       SizedBox(height: 34),
                       btnCustomRoundedBorder(CustomColors.blueSplash, CustomColors.white, Strings.login, () {Navigator.of(context).push(customPageTransition(LoginPage()));}, context, CustomColors.white),
                       SizedBox(height: 20),
-                      btnCustomRounded(CustomColors.gray13, CustomColors.gray14, Strings.begin, () {Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);}, context),
+                      btnCustomRounded(CustomColors.redTour, CustomColors.white, Strings.begin, () {Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);}, context),
                       SizedBox(height: 20),
                     ],
                   ),

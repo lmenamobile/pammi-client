@@ -42,10 +42,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       providerProducts!.productDetail = widget.product;
-      providerProducts!.referenceProductSelected =
-      widget.product.references![0];
-      providerProducts
-          ?.imageReferenceProductSelected = widget.product.references![0]?.images?[0].url ?? "";
+      providerProducts!.referenceProductSelected = widget.product.references![0];
+      providerProducts?.imageReferenceProductSelected = widget.product.references![0]?.images?[0].url ?? "";
       providerProducts!.unitsProduct = 1;
     });
     super.initState();
@@ -123,12 +121,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 10,
                               ),
                               InkWell(
-                                onTap: () =>
-                                    openBottomSheetLtsReferences(
-                                        context,
-                                        setReference,
-                                        providerProducts
-                                            ?.ltsReferencesProductSelected),
+                                onTap: () {
+                                  String? color = providerProducts?.referenceProductSelected?.color;
+                                  if(color != null  && color.startsWith('#') && color.length >= 6){
+                                    openBottomSheetLtsReferences(context, setReference, providerProducts?.ltsReferencesProductSelected);
+                                  }
+
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: CustomColors.gray6,
@@ -209,11 +208,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               SizedBox(
                                 height: 5,
                               ),
+                              //PRODUCT COLOR
                               Row(
                                   children: [
                                     Visibility(
-                                      visible: providerProducts
-                                          ?.referenceProductSelected?.color != "",
+                                      visible: providerProducts?.referenceProductSelected?.color != "",
                                       child: Row(
                                        // mainAxisAlignment: MainAxisAlignment.,
                                         children: [
@@ -229,7 +228,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             height: 12,
                                             decoration: BoxDecoration(
                                               border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
-                                              color:providerProducts?.referenceProductSelected?.color != "" ? HexColor(providerProducts?.referenceProductSelected?.color?.replaceAll("FF", "") ?? "6A1B9A") : Colors.yellow,
+                                              color:providerProducts?.referenceProductSelected?.color != "" ?
+                                              Color(int.parse(providerProducts?.referenceProductSelected?.color?.toString().replaceAll('#', '0xFF') ?? "")) : Colors.yellow,
                                               borderRadius: BorderRadius.circular(10)
                                             ),
                                           )
@@ -238,18 +238,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     ),
 
                                    Visibility(
-                                     visible: providerProducts
-                                         ?.referenceProductSelected?.size != "",
+                                     visible: providerProducts?.referenceProductSelected?.size != "",
                                      child:   Expanded(
                                          child: Text(
-                                            providerProducts
-                                               ?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts
-                                                 ?.referenceProductSelected?.size}" :  "Talla ${providerProducts
-                                               ?.referenceProductSelected?.size}",
-                                           style: TextStyle(
-                                               fontSize: 15,
-                                               fontFamily: Strings.fontRegular,
-                                               color: CustomColors.blueSplash),
+                                            providerProducts?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts?.referenceProductSelected?.size}" :  "Talla ${providerProducts?.referenceProductSelected?.size}",
+                                           style: TextStyle(fontSize: 15, fontFamily: Strings.fontRegular, color: CustomColors.blueSplash),
                                          ),
                                    ),
 

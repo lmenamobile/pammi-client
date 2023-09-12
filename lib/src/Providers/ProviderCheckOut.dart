@@ -131,6 +131,9 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
+  //quota list
+  List<int> quotaList = List<int>.generate(37, (index) => index + 0);
+
   //quota
   int _quotaValue = 0;
   int get quotaValue => _quotaValue;

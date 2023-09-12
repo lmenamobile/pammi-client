@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,6 +55,7 @@ class MyHttpOverrides extends HttpOverrides  {
 void main() async{
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+ // await Firebase.initializeApp();
   final prefs = SharePreference();
   await prefs.initPrefs();
   await PushNotificationService.initNotifications();

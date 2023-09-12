@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: 30),
                             btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.login, () => callServiceLogin(), context),
                             SizedBox(height: 20),
-                            btnCustomRounded(CustomColors.gray13, CustomColors.gray14, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage())), context),
+                            btnCustomRounded(CustomColors.redTour, CustomColors.white, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage())), context),
                             SizedBox(height: 55),
                             Row(
                               children: [
@@ -329,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final fb = FacebookLogin();
       print("FACEBOOK1");
-
+      print("INFORMACION FACEBOOK ${fb.accessToken} ${fb.isLoggedIn} ${fb.sdkVersion}");
 
       fb.getUserEmail().then((isLoggedIn) {
         print("IgetUserEmail: $isLoggedIn");

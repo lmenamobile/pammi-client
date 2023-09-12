@@ -150,7 +150,14 @@ class _Utils {
             backgroundColor: Colors.white,
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
             contentPadding: const EdgeInsets.all(20),
-            title: Text(Strings.closeAccountTitle, style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.black), textAlign: TextAlign.start),
+            title: Column(
+              children: [
+                Text(Strings.closeAccountTitle, style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.black), textAlign: TextAlign.start),
+                SizedBox(height: 10,),
+                Text(Strings.closeAccountDescription, style: TextStyle(fontFamily: "bold", fontSize: 14, color: Colors.grey), textAlign: TextAlign.start),
+              //
+              ],
+            ),
             content: SizedBox(
               width: 350,
               height: 50,

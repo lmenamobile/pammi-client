@@ -1314,12 +1314,23 @@ Widget simpleHeader(BuildContext context, Widget child) {
 Widget header(BuildContext context, String title, Color color, Function action) {
   return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(top: 20,bottom: 20),
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 20,right: 20),
       alignment: Alignment.center,
       decoration: BoxDecoration(color: color),
-      child: Stack(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Center(
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 30,),
+          Expanded(
             child: Text(
               title,
               style: TextStyle(
@@ -1329,17 +1340,8 @@ Widget header(BuildContext context, String title, Color color, Function action) 
               ),
             ),
           ),
-          Positioned(
-            left: 20,
-             bottom: 0,
-              child: GestureDetector(
-                onTap: ()=> action(),
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 25,
-                  color: Colors.white,
-                ),
-              ))
+          Container()
+
         ],
       ));
 }

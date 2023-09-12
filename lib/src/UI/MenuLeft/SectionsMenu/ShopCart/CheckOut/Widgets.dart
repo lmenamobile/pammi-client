@@ -232,7 +232,7 @@ Widget itemProvider(PackagesProvider provider) {
   );
 }
 
-Widget sectionPayment(PaymentMethod? payment, Function reduceQuota, Function increaseQuota, int quota) {
+Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, List<int> quotaList) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -315,22 +315,46 @@ Widget sectionPayment(PaymentMethod? payment, Function reduceQuota, Function inc
 
           Visibility(
             visible: payment?.id == Constants.paymentCreditCard ? true : false,
-            child: Padding(
-              padding: const EdgeInsets.only(top:10),
-              child: Column(
-                children: [
-                  Text(
-                    "Elige el Número de Cuotas para tu Tarjeta de Crédito",
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 14,
-                      color: CustomColors.blackLetter,
-                    ),
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 6,bottom: 20),
+                  child: Text(
+                    "Selecciona el número de cuotas",
+                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.gray7,),
                   ),
-                  SizedBox(height:20),
-                  contSlider(reduceQuota,increaseQuota,quota)
-                ],
+                ),
+
+            Container(
+              height: 48,
+              padding: EdgeInsets.only(left: 10,right: 10),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(5)), border: Border.all(color: Colors.grey.withOpacity(0.3),)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: DropdownButton(
+                  focusColor: Colors.white,
+                  dropdownColor: Colors.white,
+                  menuMaxHeight:160,
+                  value: quota,
+                  elevation: 1,
+                  items: quotaList.map((element) {
+                    return DropdownMenuItem(
+                      value: element,
+                      child: Container(alignment: Alignment.centerLeft, child: Text("$element", style: TextStyle(fontFamily:Strings.fontRegular, color: Colors.grey,fontSize: 16))),
+                    );
+                  }).toList(),
+                  isExpanded: true,
+                  icon: Icon(Icons.arrow_drop_down, color:Colors.grey,),
+                  underline: Container(height: 1, color: Colors.transparent,),
+                  style: TextStyle(fontFamily: Strings.fontRegular, color: Colors.grey,fontSize: 16),
+                  onChanged: (newValue) {
+                    quotaSelect(newValue);
+                  },
+                ),
               ),
+            ),
+              ],
             ),
           ),
         ],
