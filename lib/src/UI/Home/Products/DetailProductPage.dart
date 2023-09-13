@@ -145,13 +145,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              itemImageReference(
-                                                  35, providerProducts!
-                                                  .referenceProductSelected!
-                                                  .images!.isEmpty ? '' :
-                                              providerProducts
-                                                  ?.referenceProductSelected
-                                                  ?.images![0].url ?? ''),
+                                              itemImageReference(35, providerProducts!.referenceProductSelected!.images!.isEmpty ? '' : providerProducts?.referenceProductSelected?.images![0].url ?? ''),
                                               SizedBox(
                                                 width: 13,
                                               ),

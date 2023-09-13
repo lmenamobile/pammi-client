@@ -279,11 +279,17 @@ class _ShopCartPageState extends State<ShopCartPage> {
     });
   }
 
-  openDetailProduct(Product product) {
-    providerProducts
-        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
-    Navigator.push(
-        context, customPageTransition(DetailProductPage(product: product)));
+  openDetailProduct(Product product){
+    String? color = product.references[0].color;
+
+    print("producto y color shopcartpage $color ${product.references[0].images?.length}");
+    if(product.references[0].images?.length != 0)
+    {
+      if (color != null  && color.startsWith('#') && color.length >= 6) {
+        providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+      }
+    }
   }
 
   callIsFavorite(Reference reference) {
