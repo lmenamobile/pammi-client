@@ -256,6 +256,7 @@ class _LoginPageState extends State<LoginPage> {
         await callUser.then((token) {
          validateTokenApple(token);
         }, onError: (error) {
+          print("error $error");
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -268,13 +269,17 @@ class _LoginPageState extends State<LoginPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser =   providerOnBoarding.validateTokenApple(token);
+
         await callUser.then((dataUser) {
+          print("callUser $callUser");
           if(dataUser==100){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
           }else{
             Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: dataUser['name'],email:dataUser['email'],typeRegister: "lc",)));
           }
+          print("callUser $callUser");
         }, onError: (error) {
+          print("error user $error");
           utils.showSnackBar(context, error.toString());
         });
       } else {

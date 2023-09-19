@@ -209,6 +209,7 @@ class OnboardingProvider with ChangeNotifier {
       'pushToken': _prefs.pushToken,
       'version': packageInfo.version.toString(),
     };
+    print("jsonData apple ${jsonData}");
     var body = jsonEncode(jsonData);
     final response = await http.post(Uri.parse(Constants.baseURL + "onboarding/apple-login"),
         headers: header, body: body)
@@ -217,7 +218,9 @@ class OnboardingProvider with ChangeNotifier {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("decodeJson apple ${decodeJson}");
     if (response.statusCode == 200) {
       this.isLoading = false;
       if(decodeJson!['code']==100){

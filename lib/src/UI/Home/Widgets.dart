@@ -13,31 +13,31 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
 Widget itemCategory(Category category) {
-  return Container(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: CustomColors.grayDot),//convertColor(category.color!),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: CustomColors.grayDot),//convertColor(category.color!),
 
-          child: Center(
-            child: FadeInImage(
-              height: 40,
-              fit: BoxFit.fill,
-              image: NetworkImage(category.image!),
-              placeholder: AssetImage("Assets/images/spinner.gif"),
-              imageErrorBuilder: (_,__,___){
-                return Container();
-              },
-            ),
+        child: Center(
+          child: FadeInImage(
+            height: 40,
+            fit: BoxFit.fill,
+            image: NetworkImage(category.image!),
+            placeholder: AssetImage("Assets/images/spinner.gif"),
+            imageErrorBuilder: (_,__,___){
+              return Container();
+            },
           ),
         ),
-        SizedBox(height: 12),
-        Text(
+      ),
+      SizedBox(height: 10),
+      Expanded(
+        child: Text(
           category.category!,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -45,9 +45,9 @@ Widget itemCategory(Category category) {
             fontSize: 10,
             color: CustomColors.black1,
           ),
-        )
-      ],
-    ),
+        ),
+      ),
+    ],
   );
 }
 
