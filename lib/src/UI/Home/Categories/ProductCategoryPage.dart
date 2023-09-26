@@ -211,11 +211,13 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
       {
         if (color != null  && color.startsWith('#') && color.length >= 6) {
           providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
+          providerProducts.limitedQuantityError = false;
           Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
         }
       }
 
   }
+
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));

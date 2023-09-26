@@ -14,6 +14,8 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import '../../../../Providers/ProviderProducts.dart';
+
 Widget itemProductCart(ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
   return Column(
     children: [
@@ -87,7 +89,9 @@ Widget itemProductCart(ProductShopCart product, Function updateQuantity, Functio
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product.qty!)+1,product.reference?.id.toString(),true),
+                      onTap: (){
+                        updateQuantity(int.parse(product.qty!)+1,product.reference?.id.toString(),true);
+                        },
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -688,7 +692,7 @@ Widget customButton(String icon, String text, Color colorText, Function action) 
   );
 }
 
-Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save) {
+Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save,ProviderProducts providerProducts) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -852,6 +856,30 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                   ],
                 ),
               ),
+              SizedBox(height: 8,),
+              Visibility(
+                visible:providerProducts?.limitedQuantityError == true ? false :true,
+                child: Text(
+                  Strings.quantityAvailable + " ${provider.products![0].reference?.qty != null ? provider.products![0].reference?.qty : provider.products?[0].offer?.promotionProducts?[0].reference?.qty}",
+                  style: TextStyle(fontSize: 13, color: CustomColors.blue5, fontFamily: Strings.fontMedium,),
+                ),
+              ),
+              //providerProducts?.units
+              Visibility(
+                visible:providerProducts?.limitedQuantityError == true ? true :false,
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "${Strings.youCanOnlyCarry} ${provider.products![0].reference?.qty != null ? provider.products![0].reference?.qty : provider.products?[0].offer?.promotionProducts?[0].reference?.qty} unidades",
+                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8,),
+
               listProducts(provider.products, updateQuantity,delete,save)
             ],
           )

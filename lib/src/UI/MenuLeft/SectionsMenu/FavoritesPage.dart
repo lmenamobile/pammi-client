@@ -163,6 +163,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     {
       if (color != null  && color.startsWith('#') && color.length >= 6) {
         providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        providerProducts.limitedQuantityError = false;
         Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
       }
     }

@@ -14,6 +14,16 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 class ProviderProducts with ChangeNotifier{
   final prefs = SharePreference();
 
+  //limited quantity error
+
+  bool _limitedQuantityError = false;
+  bool get limitedQuantityError => this._limitedQuantityError;
+  set limitedQuantityError(bool value) {
+    this._limitedQuantityError = value;
+    notifyListeners();
+  }
+
+
   int _indexSliderImages = 0;
   int get indexSliderImages => this._indexSliderImages;
   set indexSliderImages(int value) {
@@ -79,6 +89,14 @@ class ProviderProducts with ChangeNotifier{
     //updateListReferences(value);
    // this.imageReferenceProductSelected = this.productDetail?.images?.isNotEmpty == true ? this.productDetail!.images![0].url : "";
     this.imageReferenceProductSelected = value?.images?[0].url;
+    notifyListeners();
+  }
+
+
+  String _units = "";
+  String get units => this._units;
+  set units(String value) {
+    this._units = value;
     notifyListeners();
   }
 
@@ -275,6 +293,7 @@ class ProviderProducts with ChangeNotifier{
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['products']) {
           final product = Product.fromJson(item);
+
           listProducts.add(product);
         }
         this.isLoadingProducts = false;

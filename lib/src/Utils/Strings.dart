@@ -126,6 +126,8 @@ class Strings {
   static const String description = 'Descripción';
   static const String conditions = 'Condiciones';
   static const String comments = 'Comentarios';
+  static const String quantityAvailable = 'Cantidad disponible:';
+  static const String youCanOnlyCarry = 'Solo puedes llevar';
 
 
   //Dialogs

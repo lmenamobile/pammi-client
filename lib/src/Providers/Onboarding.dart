@@ -166,7 +166,9 @@ class OnboardingProvider with ChangeNotifier {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+    print("ver datos decodeJson ${response.body}");
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("ver datos decodeJson $decodeJson");
     if (response.statusCode == 200) {
       this.isLoading = false;
       if (decodeJson!['code'] == 100) {

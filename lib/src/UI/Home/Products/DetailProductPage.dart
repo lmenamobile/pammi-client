@@ -288,10 +288,35 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     fontFamily: Strings.fontMedium,
                                     color: CustomColors.orange),
                               ),
-                              rowButtonsMoreAndLess(
-                                  providerProducts!.unitsProduct.toString(),
-                                  addProduct,
-                                  removeProduct),
+                              SizedBox(height: 10,),
+                              //botones para agregar producto por cantidad
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  rowButtonsMoreAndLess(providerProducts!.unitsProduct.toString(), addProduct, removeProduct),
+                                  SizedBox(height: 5,),
+                                  Visibility(
+                                    visible:providerProducts?.limitedQuantityError == true ? false :true,
+                                    child: Text("${Strings.quantityAvailable} ${providerProducts?.referenceProductSelected?.qty}",
+                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.gray),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible:providerProducts?.limitedQuantityError == true ? true :false,
+                                    child: Container(
+                                      decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "${Strings.youCanOnlyCarry} ${providerProducts?.referenceProductSelected?.qty} unidades",
+                                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+
+                                ],
+                              ),
                               customDivider(),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -477,6 +502,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   setReference(Reference reference) {
+    providerProducts!.unitsProduct = 1;
+    providerProducts?.limitedQuantityError = false;
     providerProducts?.referenceProductSelected = reference;
     providerProducts?.productDetail?.references?.forEach((element) {
       if (element != reference) {
@@ -496,6 +523,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   addProductCart() async {
+
     if (providerProducts!.prefs.authToken != "0") {
       utils.checkInternet().then((value) async {
         if (value) {
@@ -558,7 +586,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   addProduct() {
     if (providerProducts!.prefs.authToken != "0") {
-      providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
+      if (providerProducts!.unitsProduct < int.parse(providerProducts!.referenceProductSelected!.qty.toString())) {
+        providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
+      } else {
+        providerProducts?.limitedQuantityError = true;
+      }
+
     } else {
       validateSession(context);
     }
@@ -566,8 +599,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   removeProduct() {
     if (providerProducts!.prefs.authToken != "0") {
-      if (providerProducts!.unitsProduct > 1)
+      if (providerProducts!.unitsProduct > 1) {
+        providerProducts?.limitedQuantityError = false;
         providerProducts!.unitsProduct = providerProducts!.unitsProduct - 1;
+      } else {
+        providerProducts!.unitsProduct = 1;
+      }
     } else {
       validateSession(context);
     }

@@ -24,6 +24,7 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../../../Models/ShopCart/ShopCart.dart';
 import 'CheckOut/CheckOutPage.dart';
 import 'Widgets.dart';
 
@@ -232,12 +233,14 @@ class _ShopCartPageState extends State<ShopCartPage> {
             ? 0
             : providerShopCart.shopCart?.packagesProvider?.length,
         itemBuilder: (BuildContext context, int index) {
+
           return cardListProductsByProvider(
               providerShopCart.shopCart!.packagesProvider![index],
               updateOfferOrProduct,
               callDeleteProduct,
               providerShopCart.hasPrincipalAddress,
-              saveProduct);
+              saveProduct,
+              providerProducts);
         },
       ),
     );
@@ -287,6 +290,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     {
       if (color != null  && color.startsWith('#') && color.length >= 6) {
         providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        providerProducts.limitedQuantityError = false;
         Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
       }
     }
@@ -337,12 +341,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
   updateProductCart(int quantity, String idReference) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart
-            .updateQuantityProductCart(idReference, quantity.toString());
+        Future callCart = providerShopCart.updateQuantityProductCart(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
+          providerProducts.limitedQuantityError = false;
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
+          providerProducts.limitedQuantityError = true;
           // utils.showSnackBar(context, error.toString());
         });
       } else {
