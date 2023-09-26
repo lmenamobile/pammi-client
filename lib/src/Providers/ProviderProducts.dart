@@ -93,10 +93,10 @@ class ProviderProducts with ChangeNotifier{
   }
 
 
-  String _units = "";
-  String get units => this._units;
-  set units(String value) {
-    this._units = value;
+  int _idReference = 0;
+  int get idReference => this._idReference;
+  set idReference(int value) {
+    this._idReference = value;
     notifyListeners();
   }
 

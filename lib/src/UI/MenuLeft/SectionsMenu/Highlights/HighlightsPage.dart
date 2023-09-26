@@ -165,6 +165,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   }
 
   openDetailOffer(Banners bannerHighlight){
+    providerProducts.limitedQuantityError = false;
     Navigator.push(context, customPageTransition(OfferDetail(nameOffer: bannerHighlight.offerHighlights!.name,idOffer: bannerHighlight.offerHighlights!.id.toString(),)));
   }
 

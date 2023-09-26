@@ -436,6 +436,7 @@ class _OfferDetailState extends State<OfferDetail> {
       if (value) {
         Future callCart = providerShopCart.addOfferCart(idOffer, providerOffer?.totalUnits.toString() ?? '',providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
+          providerProducts.limitedQuantityError = false;
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());

@@ -345,8 +345,10 @@ class _ShopCartPageState extends State<ShopCartPage> {
         await callCart.then((msg) {
           getShopCart();
           providerProducts.limitedQuantityError = false;
+          providerProducts.idReference = 0;
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
+          providerProducts.idReference = int.parse(idReference);
           providerProducts.limitedQuantityError = true;
           // utils.showSnackBar(context, error.toString());
         });

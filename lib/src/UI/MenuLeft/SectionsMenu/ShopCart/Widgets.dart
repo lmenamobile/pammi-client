@@ -857,16 +857,16 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                 ),
               ),
               SizedBox(height: 8,),
+
               Visibility(
-                visible:providerProducts?.limitedQuantityError == true ? false :true,
+                visible: true,
                 child: Text(
                   Strings.quantityAvailable + " ${provider.products![0].reference?.qty != null ? provider.products![0].reference?.qty : provider.products?[0].offer?.promotionProducts?[0].reference?.qty}",
                   style: TextStyle(fontSize: 13, color: CustomColors.blue5, fontFamily: Strings.fontMedium,),
                 ),
               ),
-              //providerProducts?.units
               Visibility(
-                visible:providerProducts?.limitedQuantityError == true ? true :false,
+                visible: provider.products?[0].reference?.id == providerProducts.idReference && providerProducts.limitedQuantityError == true ? true :false,
                 child: Container(
                   decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
                   child: Padding(
