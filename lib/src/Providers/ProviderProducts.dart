@@ -24,6 +24,26 @@ class ProviderProducts with ChangeNotifier{
   }
 
 
+  List<int> _unitsError = [];
+  List<int> get unitsError => _unitsError;
+  set unitsError(List<int> value) {
+    for (final item in value) {
+      if (!_unitsError.contains(item)) {
+        _unitsError.add(item);
+      }
+    }
+    notifyListeners();
+  }
+
+
+  removeUnit(int id){
+    if(unitsError.contains(id))
+    {
+      unitsError.remove(id);
+    }
+    notifyListeners();
+  }
+
   int _indexSliderImages = 0;
   int get indexSliderImages => this._indexSliderImages;
   set indexSliderImages(int value) {
@@ -150,6 +170,7 @@ class ProviderProducts with ChangeNotifier{
       return 0;
     }
   }
+
 
   Future<dynamic> getProductsSearch(
       String filter,

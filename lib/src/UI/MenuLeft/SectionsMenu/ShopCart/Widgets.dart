@@ -16,7 +16,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import '../../../../Providers/ProviderProducts.dart';
 
-Widget itemProductCart(ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
+Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
   return Column(
     children: [
       Container(
@@ -73,6 +73,7 @@ Widget itemProductCart(ProductShopCart product, Function updateQuantity, Functio
                   children: [
                     InkWell(
                       onTap: (){
+                        providerProducts.unitsError.remove(product.reference?.id);
                         if(int.parse(product.qty!)>1)
                           updateQuantity(int.parse(product.qty!)-1,product.reference?.id.toString(),true);
                       },
@@ -90,6 +91,7 @@ Widget itemProductCart(ProductShopCart product, Function updateQuantity, Functio
                     )),
                     InkWell(
                       onTap: (){
+
                         updateQuantity(int.parse(product.qty!)+1,product.reference?.id.toString(),true);
                         },
                       child: containerCustom(Icon(
@@ -858,29 +860,10 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
               ),
               SizedBox(height: 8,),
 
-              Visibility(
-                visible: true,
-                child: Text(
-                  Strings.quantityAvailable + " ${provider.products![0].reference?.qty != null ? provider.products![0].reference?.qty : provider.products?[0].offer?.promotionProducts?[0].reference?.qty}",
-                  style: TextStyle(fontSize: 13, color: CustomColors.blue5, fontFamily: Strings.fontMedium,),
-                ),
-              ),
-              Visibility(
-                visible: provider.products?[0].reference?.id == providerProducts.idReference && providerProducts.limitedQuantityError == true ? true :false,
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "${Strings.youCanOnlyCarry} ${provider.products![0].reference?.qty != null ? provider.products![0].reference?.qty : provider.products?[0].offer?.promotionProducts?[0].reference?.qty} unidades",
-                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
-                    ),
-                  ),
-                ),
-              ),
+
               SizedBox(height: 8,),
 
-              listProducts(provider.products, updateQuantity,delete,save)
+              listProducts(providerProducts,provider,provider.products, updateQuantity,delete,save)
             ],
           )
         ],
@@ -902,7 +885,7 @@ Widget listGiftCard(List<ProductShopCart>? ltsProducts, Function updateQuantity,
   );
 }
 
-Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
+Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -910,9 +893,21 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
         if(ltsProducts![index].reference!=null){
-          return itemProductCart(ltsProducts[index], updateQuantity,delete,save);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              unitsContainer(providerProducts,provider,ltsProducts![index]),
+              itemProductCart(providerProducts,ltsProducts[index], updateQuantity,delete,save),
+            ],
+          );
         }else{
-          return itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              unitsContainer(providerProducts,provider,ltsProducts![index]),
+              itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save),
+            ],
+          );
         }
 
       },
@@ -994,4 +989,30 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
   );
 }
 
+Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provider,ProductShopCart ltsProducts){
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        Strings.quantityAvailable + " ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty}",
+        style: TextStyle(fontSize: 13, color: CustomColors.blue5, fontFamily: Strings.fontMedium,),
+      ),
+
+      Visibility(
+        visible: providerProducts.unitsError.contains(ltsProducts.reference?.id) ? true :false,
+        child: Container(
+          margin: EdgeInsets.only(top:5),
+          decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "${Strings.youCanOnlyCarry} ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty} unidades",
+              style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
 

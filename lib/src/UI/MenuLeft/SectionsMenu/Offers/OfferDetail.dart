@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
@@ -37,6 +38,7 @@ class _OfferDetailState extends State<OfferDetail> {
   late ProviderSettings providerSettings;
   late ProviderProducts providerProducts;
   late ProviderCheckOut providerCheckOut;
+
 
   @override
   void initState() {
@@ -83,7 +85,8 @@ class _OfferDetailState extends State<OfferDetail> {
                               rowButtonsMoreAndLess(providerOffer!.totalUnits.toString(), addProduct, removeProduct),
                               Visibility(
                                 visible:providerProducts.limitedQuantityError == true ? false :true,
-                                child: Text("${Strings.quantityAvailable} ${providerOffer!.detailOffer.baseProducts![0].reference!.qty}",
+                                //provider.products?[0].offer?.promotionProducts?[0].reference?.qty
+                                child: Text("${Strings.quantityAvailable} ${providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty}",
                                   style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.gray),
                                 ),
                               ),
@@ -94,7 +97,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "${Strings.youCanOnlyCarry} ${providerOffer!.detailOffer.baseProducts![0].reference!.qty} unidades",
+                                      "${Strings.youCanOnlyCarry} ${providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty} unidades",
                                       style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
                                     ),
                                   ),
@@ -400,7 +403,7 @@ class _OfferDetailState extends State<OfferDetail> {
 
 
   addProduct() {
-      if (providerOffer!.totalUnits < int.parse(providerOffer!.detailOffer.baseProducts![0].reference!.qty.toString())) {
+      if (providerOffer!.totalUnits < int.parse(providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty.toString() ?? "")) {
         providerOffer!.totalUnits = providerOffer!.totalUnits + 1;
       } else {
         providerProducts.limitedQuantityError = true;

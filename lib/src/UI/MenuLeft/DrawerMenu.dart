@@ -141,7 +141,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       ),
                       SizedBox(height: 15),
                       Text(
-                        "${widget.version}"
+                        "${widget.version} desarrollo"
                       ),
                       SizedBox(height: 16),
                     ],

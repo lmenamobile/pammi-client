@@ -71,7 +71,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           color: Colors.white,
           child: Column(
             children: [
-              headerDoubleTap(context, Strings.shopCart, "ic_remove_white.png", CustomColors.redDot, "0", ()=>Navigator.pop(context), ()=>deleteCart()),
+              headerDoubleTap(context, Strings.shopCart, "ic_remove_white.png", CustomColors.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>deleteCart()),
               SizedBox(
                 height: 10,
               ),
@@ -96,6 +96,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                   child: AnimateButton(
                     pressEvent: (){
                       Navigator.pop(context);
+                      providerProducts.unitsError.clear();
                     },
                     color: CustomColors.blue,
                     width: double.infinity,
@@ -184,13 +185,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
             itemSubtotalCart(
               providerShopCart.shopCart?.totalCart,
                   () =>  openProductsSave(),
-                  () => Navigator.push(
-                  context,
-                  customPageTransition(
-                      CheckOutPage())).then((value) {
-                //getShopCart();
-                //getShippingPrice();
-              }),
+                  () {Navigator.push(
+                      context,
+                      customPageTransition(CheckOutPage())).then((value) {
+                    //getShopCart();
+                    //getShippingPrice();
+                  });
+                providerProducts.unitsError.clear();} ,
             ),
             Column(
               crossAxisAlignment:
@@ -344,11 +345,12 @@ class _ShopCartPageState extends State<ShopCartPage> {
         Future callCart = providerShopCart.updateQuantityProductCart(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
+          providerProducts.unitsError.remove(int.parse(idReference) ??  0);
           providerProducts.limitedQuantityError = false;
           providerProducts.idReference = 0;
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          providerProducts.idReference = int.parse(idReference);
+          providerProducts.unitsError.add(int.parse(idReference) ?? 0);
           providerProducts.limitedQuantityError = true;
           // utils.showSnackBar(context, error.toString());
         });
