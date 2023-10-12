@@ -256,7 +256,7 @@ class _LoginPageState extends State<LoginPage> {
         await callUser.then((token) {
          validateTokenApple(token);
         }, onError: (error) {
-          print("error $error");
+          print("error APPLE $error");
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -280,7 +280,12 @@ class _LoginPageState extends State<LoginPage> {
           print("callUser $callUser");
         }, onError: (error) {
           print("error user $error");
-          utils.showSnackBar(context, error.toString());
+          if(error.toString() == "El usuario se encuentra inactivo"){
+            utils.showSnackBar(context, Strings.accountCloseLogin);
+          }else{
+            utils.showSnackBar(context, error.toString());
+          }
+
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
@@ -297,7 +302,11 @@ class _LoginPageState extends State<LoginPage> {
           GoogleSingInProvider.googleSingOut();
           loginSocialNetwork(user, Constants.loginGMAIL);
         }, onError: (error) {
-          utils.showSnackBar(context, error.toString());
+          if(error.toString() == "El usuario se encuentra inactivo"){
+            utils.showSnackBar(context, Strings.accountCloseLogin);
+          }else{
+            utils.showSnackBar(context, error.toString());
+          }
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);

@@ -163,13 +163,15 @@ Widget itemStateCountry(StatesCountry state, Function action) {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
-                  state.name!,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: CustomColors.gray15,
-                      fontFamily: Strings.fontBold),
+                Expanded(
+                  child: Text(
+                    state.name!,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: CustomColors.gray15,
+                        fontFamily: Strings.fontBold),
+                  ),
                 ),
               ]),
         ),

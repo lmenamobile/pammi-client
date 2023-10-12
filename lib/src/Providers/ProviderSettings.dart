@@ -200,6 +200,8 @@ class ProviderSettings with ChangeNotifier{
   }
 
   Future<dynamic> getStates(String filter, int offset, String? countryId) async {
+
+    print("getStates");
     this.isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
@@ -208,10 +210,12 @@ class ProviderSettings with ChangeNotifier{
     Map jsonData = {
       'filter': filter,
       'offset': offset,
-      'limit': 20,
+      'limit': 0,
       "status": "active",
       "countryId": countryId
     };
+
+    print("jsonData: ${jsonData}");
     var body = jsonEncode(jsonData);
     final response = await http.post(Uri.parse(Constants.baseURL + "location/get-states"),
         headers: header, body: body)
@@ -225,7 +229,10 @@ class ProviderSettings with ChangeNotifier{
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
+
           final state = StatesCountry.fromJson(item);
+          print("estados: ${state.name}");
+          print("totalCities: ${state.totalCities}");
           listStates.add(state);
         }
         this.isLoadingSettings = false;
@@ -244,6 +251,8 @@ class ProviderSettings with ChangeNotifier{
   }
 
   Future<dynamic> getCities(String filter, int offset, StatesCountry state) async {
+
+    print("getCities getCities");
     isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
@@ -270,6 +279,7 @@ class ProviderSettings with ChangeNotifier{
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
+          print("ciudad: ${item}");
           final city = City.fromJson(item);
           listCities.add(city);
         }

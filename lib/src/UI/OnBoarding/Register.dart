@@ -189,6 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   openSelectCityByState(){
     if(providerSettings?.countrySelected!=null) {
+
        Navigator.push(context, customPageTransition(SelectStatesPage()));
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);

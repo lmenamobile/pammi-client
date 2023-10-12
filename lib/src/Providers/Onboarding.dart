@@ -246,6 +246,7 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
+      print("jsonData apple error ${decodeJson!['message']}");
       throw decodeJson!['message'];
     }
   }

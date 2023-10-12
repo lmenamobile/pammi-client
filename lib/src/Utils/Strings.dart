@@ -631,10 +631,10 @@ class Strings {
 
   //close account
   static const String closeAccountTitle = "¿Estas seguro que deseas cerrar tu cuenta?";
-  static const String closeAccountDescription = "Ten en cuenta que al cerrar tu cuenta, se volverá inactiva. Si deseas reactivarla en el futuro, contáctanos a través de nuestros canales de soporte. soporte@estoespamii.com";
+  static const String closeAccountDescription = "Ten en cuenta que al cerrar tu cuenta, esta será eliminada de forma permanente. No podrás recuperarla en el futuro. Si tienes alguna pregunta o necesitas asistencia, contáctanos a través de nuestros canales de soporte. soporte@estoespamii.com";
 
   static const String accountClosedSuccessfullyDescription = "Tu cuenta fue cerrada con exito.";
-  static const String accountCloseLogin = "El usuario se encuentra inactivo";
+  static const String accountCloseLogin = "El usuario no existe";
 
   //accept policies
   static const String policiesTitle = "Política de protección de datos personales";
