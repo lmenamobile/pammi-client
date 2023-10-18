@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
-import '../../Bloc/notifyVaribles.dart';
+import '../../Providers/VariablesNotifyProvider.dart';
 
 Widget itemCheck(Function action,bool isSelect,Widget text){
   return Row(
@@ -76,7 +76,8 @@ Widget termsAndConditions(String url){
 }
 
 
-Widget customBoxPassword(Color color ,String hintText,bool validatePassword, String icPadlock, String icPadlockTwo,TextEditingController passwordController,NotifyVariablesBloc notifyVariables,bool obscureTextPass, Function validatePwdLogin,Function showPassword) {
+Widget customBoxPassword(Color color ,String hintText,bool validatePassword, String icPadlock, String icPadlockTwo,
+    TextEditingController passwordController,bool obscureTextPass, Function validatePwdLogin,Function showPassword) {
 
   return Container(
     height: 52,

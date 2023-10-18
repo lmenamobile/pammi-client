@@ -34,14 +34,11 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     compileSdkVersion 33
-    ndkVersion flutter.ndkVersion
+    ndkVersion "25.1.8937393"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
- /*  ndk {
-        abiFilters 'armeabi-v7a', 'x86'
-    }*/
     lintOptions {
         disable 'InvalidPackage'
     }

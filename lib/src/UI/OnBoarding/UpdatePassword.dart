@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
@@ -19,7 +19,7 @@ class UpdatePasswordPage extends StatefulWidget {
 }
 
 class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
-  late NotifyVariablesBloc notifyVariables;
+  late VariablesNotifyProvider notifyVariables;
   late OnboardingProvider providerOnBoarding;
 
   bool obscureTextPass = true;
@@ -31,7 +31,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   @override
   Widget build(BuildContext context) {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -75,7 +75,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   }
 
   Widget customBoxPassword(TextEditingController passwordController) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -163,7 +163,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   }
 
   Widget customBoxConfirmPass(TextEditingController passwordController) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

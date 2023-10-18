@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -20,14 +20,14 @@ class ForgotPasswordEmailPage extends StatefulWidget {
 
 class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
   final emailController = TextEditingController();
-  NotifyVariablesBloc? notifyVariables;
+  VariablesNotifyProvider? notifyVariables;
   late OnboardingProvider providerOnboarding;
   String msgError = '';
 
   @override
   Widget build(BuildContext context) {
     providerOnboarding = Provider.of<OnboardingProvider>(context);
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
 
     return Scaffold(
      backgroundColor: Colors.white,

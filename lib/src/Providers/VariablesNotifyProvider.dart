@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 
-import 'package:flutter/cupertino.dart';
-import 'package:wawamko/src/Models/ModelsUpdate.dart';
+import '../Models/ModelsUpdate.dart';
 
 
-class NotifyVariablesBloc with ChangeNotifier{
+
+class VariablesNotifyProvider with ChangeNotifier{
 
 
 

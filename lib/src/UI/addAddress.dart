@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/Address/AddresModel.dart';
 import 'package:wawamko/src/Models/Address.dart' as model;
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
@@ -45,7 +45,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   final cityController = TextEditingController();
   final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
-  late NotifyVariablesBloc notifyVariables;
+  late VariablesNotifyProvider notifyVariables;
 
   late GooglePlaces googlePlaces;
   var location2 = loc.Location();
@@ -264,7 +264,7 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   Widget _body(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Column(
       children: <Widget>[
 

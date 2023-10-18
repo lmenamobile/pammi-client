@@ -3,7 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/AppleSingInProvider.dart';
 import 'package:wawamko/src/Providers/GoogleSingInProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
   late OnboardingProvider providerOnBoarding;
   ProviderSettings? providerSettings;
-  NotifyVariablesBloc? notifyVariables;
+  late VariablesNotifyProvider notifyVariables;
 
   SharePreference prefs = SharePreference();
   GlobalVariables globalVariables = GlobalVariables();
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
 
@@ -69,8 +69,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _body(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-
     return Stack(
       children: [
         Image(
@@ -105,12 +103,12 @@ class _LoginPageState extends State<LoginPage> {
                             Padding(
                               padding: const EdgeInsets.only(top:20,bottom:13),
                               child: customBoxPassword(
-                                  notifyVariables!.intLogin.validatePassword! ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3),
+                                  notifyVariables.intLogin.validatePassword??false ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3),
                                   Strings.password,
-                                  notifyVariables!.intLogin.validatePassword!,
+                                  notifyVariables.intLogin.validatePassword??false,
                                   "Assets/images/ic_padlock_blue.png",
                                   "Assets/images/ic_padlock.png",
-                                  passwordController,notifyVariables!,
+                                  passwordController,
                                   providerOnBoarding.obscureTextPass,
                                   validatePwdLogin,showPassword),
                             ),
@@ -182,10 +180,10 @@ class _LoginPageState extends State<LoginPage> {
 
   validatePwdLogin(value){
     if (validatePwd(value)) {
-      notifyVariables!.intLogin.validatePassword = true;
+      notifyVariables.intLogin.validatePassword = true;
       setState(() {});
     } else {
-      notifyVariables!.intLogin.validatePassword = false;
+      notifyVariables.intLogin.validatePassword = false;
       setState(() {});
     }
   }

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/OnBoarding/Widgets.dart';
@@ -31,7 +31,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   final passwordController = TextEditingController();
   final confirmPassController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(mask: '###############', filter: {"#": RegExp(r'[0-9]')});
-  NotifyVariablesBloc? notifyVariables;
+  late VariablesNotifyProvider? notifyVariables;
   late OnboardingProvider providerOnBoarding;
   String msgError = '';
   late SupportProvider supportProvider;
@@ -54,7 +54,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
   @override
   Widget build(BuildContext context) {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     supportProvider = Provider.of<SupportProvider>(context);
 
     return Scaffold(
@@ -97,7 +97,9 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    customBoxPassword(CustomColors.gray.withOpacity(.3),Strings.password,notifyVariables!.intRegister.validPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",passwordController,notifyVariables!,providerOnBoarding.obscureTextPass,validatePassLogin,showPassword),
+                                    customBoxPassword(CustomColors.gray.withOpacity(.3),Strings.password,notifyVariables!.intRegister.
+                                    validPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",
+                                        passwordController,providerOnBoarding.obscureTextPass,validatePassLogin,showPassword),
                                     Visibility(
                                       visible: notifyVariables!.intRegister.validPass == false ? true : false,
                                       child: Padding(
@@ -111,7 +113,7 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    customBoxPassword(CustomColors.gray.withOpacity(.3),Strings.confirmPassword,notifyVariables!.intRegister.validConfirmPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",confirmPassController,notifyVariables!,providerOnBoarding.obscureTextConfirmPass,validateConfirmPassLogin,showConfirmPassword),
+                                    customBoxPassword(CustomColors.gray.withOpacity(.3),Strings.confirmPassword,notifyVariables!.intRegister.validConfirmPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",confirmPassController,providerOnBoarding.obscureTextConfirmPass,validateConfirmPassLogin,showConfirmPassword),
                                     Visibility(
                                         visible: notifyVariables!.intRegister.validConfirmPass == false ? true : false,
                                         child: Padding(

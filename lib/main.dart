@@ -8,7 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart' as inapWebView;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
@@ -108,6 +108,7 @@ class _MyAppState extends State<MyApp> {
     try {
       final initialLink = await getInitialLink();
       if(initialLink!=null){
+        print("data link ${initialLink}");
         navigatorKey.currentState?.push(customPageTransition(ProductsCatalog(idSeller: initialLink.substring(17))));
       }
     } on PlatformException {
@@ -127,7 +128,7 @@ class _MyAppState extends State<MyApp> {
 
     return  MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> NotifyVariablesBloc()),
+        ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),

@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:wawamko/src/Utils/Strings.dart';
 
-//import 'package:nacional_licores/src/utils/strings.dart';
 
 class Validators{
 

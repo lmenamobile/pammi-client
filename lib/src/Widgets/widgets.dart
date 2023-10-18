@@ -5,7 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:spring_button/spring_button.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
@@ -22,12 +22,12 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'ExpansionWidget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
-NotifyVariablesBloc? notifyVariables;
+VariablesNotifyProvider? notifyVariables;
 
 
 
 Widget customBoxEmailLogin(TextEditingController emailController,
-    NotifyVariablesBloc? notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
@@ -98,7 +98,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
 }
 
 Widget customBoxEmailForgotPass(TextEditingController emailController,
-    NotifyVariablesBloc? notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
@@ -170,7 +170,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
 }
 
 Widget customBoxEmailRegister(TextEditingController emailController,
-    NotifyVariablesBloc? notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(
       // stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final prefs = SharePreference();
   UserModel userModel = UserModel();
   GlobalVariables globalVariables = GlobalVariables();
-  NotifyVariablesBloc? notifyVariables;
+  VariablesNotifyProvider? notifyVariables;
   ProviderSettings? providerSettings;
   late OnboardingProvider providerOnBoarding;
   String msgError = '';
@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     cityController.text = providerSettings?.citySelected?.name??'';
