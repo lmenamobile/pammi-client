@@ -163,38 +163,32 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 35,
-                height: 35,
-                child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): isImageYoutube(asset,FadeInImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(asset),
-                  placeholder: AssetImage("Assets/images/spinner.gif"),
-                  imageErrorBuilder: (_,__,___){
-                    return Container();
-                  },
-                )),
-              ),
-              SizedBox(
-                width: 13,
-              ),
-              SizedBox(
-                width: 280,
-                child: Text(
-                  nameReference,
-                  style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                      fontFamily: Strings.fontRegular,
-                      color: CustomColors.gray7),
-                ),
-              )
-            ],
+          Container(
+            width: 35,
+            height: 35,
+            child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): isImageYoutube(asset,FadeInImage(
+              fit: BoxFit.fill,
+              image: NetworkImage(asset),
+              placeholder: AssetImage("Assets/images/spinner.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
+            )),
           ),
+          SizedBox(
+            width: 13,
+          ),
+          Expanded(
+            child: Text(
+              nameReference,
+              maxLines: 2,
+              style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                  fontFamily: Strings.fontRegular,
+                  color: CustomColors.gray7),
+            ),
+          )
         ],
       ),
     ),

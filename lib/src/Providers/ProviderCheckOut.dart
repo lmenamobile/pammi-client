@@ -25,6 +25,13 @@ class ProviderCheckOut with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isTotalPaymentFree = false;
+  bool get isTotalPaymentFree => _isTotalPaymentFree;
+  set isTotalPaymentFree(bool value) {
+    _isTotalPaymentFree = value;
+    notifyListeners();
+  }
+
   bool _isValidateGift = false;
 
   bool get isValidateGift => this._isValidateGift;

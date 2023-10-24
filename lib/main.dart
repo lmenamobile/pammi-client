@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as inapWebView;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
@@ -52,6 +53,7 @@ class MyHttpOverrides extends HttpOverrides  {
 }
 
 
+
 void main() async{
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -95,16 +97,13 @@ class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    initUniLinks();
     PushNotificationService.dataNotifications.listen((message) {
 
     });
-
   }
-
-  Future<void> initUniLinks() async {
+/*  Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
       if(initialLink!=null){
@@ -113,7 +112,7 @@ class _MyAppState extends State<MyApp> {
       }
     } on PlatformException {
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +147,17 @@ class _MyAppState extends State<MyApp> {
 
       ],
       child: MaterialApp(
+        onGenerateRoute: (RouteSettings settings) {
+          print(settings.name??"");
+          // Si la ruta es un deep link
+         if (settings.name!.isNotEmpty&&settings.name!="") {
+           List<String> parts = settings.name.toString().split('/');
+           String idSeller = parts.last;
+           print(idSeller);
+            return MaterialPageRoute(builder: (context) =>ProductsCatalog(idSeller: idSeller));
+          }
+          return null;
+        },
         title: Strings.appName,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

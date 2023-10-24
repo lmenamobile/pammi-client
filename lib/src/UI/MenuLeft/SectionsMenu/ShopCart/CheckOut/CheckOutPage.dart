@@ -21,6 +21,7 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import '../../../../../Utils/FunctionsUtils.dart';
 import '../CheckOut/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -91,12 +92,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           SizedBox(height: 8,),
                           providerShopCart!.shopCart!.packagesProvider!.isEmpty? listGiftCards():sectionProducts(providerShopCart?.shopCart?.packagesProvider),
                           SizedBox(height: 8,),
-                          InkWell(
-                            onTap: ()=>openPaymentMethods((){
-                              getShippingPrice();
-                              getShopCart();
-                            }),
-                          child: sectionPayment(providerCheckOut.paymentSelected,reduceQuota,providerCheckOut.quotaValue,providerCheckOut.quotaList)),
+                          Visibility(
+                            visible: !providerCheckOut.isTotalPaymentFree,
+                            child: InkWell(
+                              onTap: ()=>openPaymentMethods((){
+                                getShippingPrice();
+                                getShopCart();
+                              }),
+                            child: sectionPayment(providerCheckOut.paymentSelected,reduceQuota,providerCheckOut.quotaValue,providerCheckOut.quotaList)),
+                          ),
                           SizedBox(height: 8,),
                           sectionDiscount(providerCheckOut.isValidateGift,providerCheckOut.isValidateDiscount,
                               changeValueValidateDiscount,controllerCoupon,controllerGift,callApplyDiscount,callDeleteDiscount
@@ -122,6 +126,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   void reduceQuota(int newValue) {
     providerCheckOut.quotaValue = newValue ?? 0;
+  }
+
+  void calculateTotalForPaymentFree(){
+    var total = calculateTotal(providerShopCart?.shopCart?.totalCart?.total??'0', providerCheckOut.shippingPrice,providerShopCart?.shopCart?.totalCart?.discountShipping??'0');
+    total == "0.0" ? providerCheckOut.isTotalPaymentFree = true : providerCheckOut.isTotalPaymentFree = false;
   }
 
 
@@ -172,7 +181,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   openCreateOrder(){
     if(validateCheckOut()){
-      actionsByTypePayment(providerCheckOut.paymentSelected!,providerCheckOut.quotaValue);
+      if(providerCheckOut.isTotalPaymentFree){
+        //SI el valor total es 0, la orden se crea con medio de pago efectivo id 2
+        createOrder(2,
+            providerCheckOut.addressSelected!.id.toString(), "","",providerCheckOut.shippingPrice,providerShopCart?.discountShipping??'0',0);
+      }else{
+        actionsByTypePayment(providerCheckOut.paymentSelected!,providerCheckOut.quotaValue);
+      }
     }else{
       utils.showSnackBar(context, msgError);
     }
@@ -193,7 +208,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   callApplyDiscount(){
-
     if(providerCheckOut.isValidateGift){
       if(controllerGift.text.isNotEmpty){
         applyGiftCard(controllerGift.text.trim());
@@ -202,6 +216,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
       }
     }else{
       if(controllerCoupon.text.isNotEmpty){
+
         applyCoupon(controllerCoupon.text.trim());
       }else{
         utils.showSnackBar(context, Strings.couponEmpty);
@@ -212,8 +227,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
   callDeleteDiscount(){
     if(providerCheckOut.isValidateGift){
       deleteGiftCard();
+      providerCheckOut.isTotalPaymentFree = false;
       providerCheckOut.isValidateGift = false;
     }else{
+      providerCheckOut.isTotalPaymentFree = false;
       deleteCoupon();
     }
   }
@@ -328,7 +345,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
       if (value) {
         Future callCart = providerShopCart!.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
-
+          if(providerCheckOut.isValidateDiscount) {
+            calculateTotalForPaymentFree();
+          }
         }, onError: (error) {
           providerShopCart!.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
@@ -381,6 +400,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           utils.showSnackBarGood(context, msg);
           providerShopCart!.totalProductsCart = "0";
           providerCheckOut.isValidateDiscount = false;
+          providerCheckOut.isTotalPaymentFree = false;
         }, onError: (error) {
           providerCheckOut.isLoading = false;
           utils.showSnackBar(context, error.toString());

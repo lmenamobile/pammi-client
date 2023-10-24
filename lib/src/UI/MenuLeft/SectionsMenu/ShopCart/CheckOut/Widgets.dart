@@ -543,7 +543,7 @@ Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping
           itemTotal(styleRegular, Strings.coupon, totalCart?.discountCoupon??'0', ),
           itemTotal(styleRegular, Strings.giftCard, totalCart?.discountGiftCard??'0', ),
           customDivider(),
-          itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping, totalCart?.discountShipping??'0')),
+          itemTotal(styleBold, Strings.total, calculateTotal(totalCart?.total??'0',shipping, totalCart?.discountShipping??'0')),
           SizedBox(height: 20,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

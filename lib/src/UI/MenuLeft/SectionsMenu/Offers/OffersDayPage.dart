@@ -245,9 +245,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
 
   Widget listOffersUnits() {
     return ListView.builder(
-      itemCount: providerProducts.ltsOfferUnits.isEmpty
-          ? 0
-          : providerProducts.ltsOfferUnits.length,
+      itemCount: providerProducts.ltsOfferUnits.isEmpty ? 0 : providerProducts.ltsOfferUnits.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(

@@ -64,8 +64,8 @@ int getRandomPosition(int lengthList) {
   }
 }
 
-String addValues(String a, String b, String c) {
-  return (double.parse(a) + double.parse(b) - double.parse(c)).toString();
+String calculateTotal(String total, String valueSend, String discountSend) {
+  return (double.parse(total) + double.parse(valueSend) - double.parse(discountSend)).toString();
 }
 
 String getTypeDocument(String type) {

@@ -839,7 +839,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      Strings.add + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
+                      Strings.add  + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
                       style: TextStyle(
                         fontSize: 13,
                         color: CustomColors.blueOne,
@@ -847,22 +847,19 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                       ),
                     ),
                     SizedBox(height: 5),
-                    LinearProgressIndicator(
-                      value: (provider.provider?.minPurchase??0) > 0
-                          ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) 
-                          : 0,
-                      minHeight: 3,
-                      color: CustomColors.blue6,
-                      backgroundColor: CustomColors.gray9,
+                    Visibility(
+                      visible: provider.freeShipping != 0,
+                      child: LinearProgressIndicator(
+                        value: (provider.provider?.minPurchase??0) > 0 ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) : 0,
+                        minHeight: 3,
+                        color: CustomColors.blue6,
+                        backgroundColor: CustomColors.gray9,
+                      ),
                     )
                   ],
                 ),
               ),
               SizedBox(height: 8,),
-
-
-              SizedBox(height: 8,),
-
               listProducts(providerProducts,provider,provider.products, updateQuantity,delete,save)
             ],
           )
@@ -896,7 +893,7 @@ Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              unitsContainer(providerProducts,provider,ltsProducts![index]),
+              unitsContainer(providerProducts,provider,ltsProducts[index]),
               itemProductCart(providerProducts,ltsProducts[index], updateQuantity,delete,save),
             ],
           );
