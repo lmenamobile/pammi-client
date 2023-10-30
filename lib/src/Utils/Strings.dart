@@ -629,6 +629,8 @@ class Strings {
   static const String service = "servicio";
   static const String principalConfigured = "No tienes una dirección principal configurada.";
 
+  static const String helloHelp = "No tienes una dirección principal configurada.";
+
   //close account
   static const String closeAccountTitle = "¿Estas seguro que deseas cerrar tu cuenta?";
   static const String closeAccountDescription = "Ten en cuenta que al cerrar tu cuenta, esta será eliminada de forma permanente. No podrás recuperarla en el futuro. Si tienes alguna pregunta o necesitas asistencia, contáctanos a través de nuestros canales de soporte. soporte@estoespamii.com";

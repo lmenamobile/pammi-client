@@ -21,19 +21,18 @@ class ProviderShopCart with ChangeNotifier{
   }
 
 
-
   bool _hasPrincipalAddress = false;
-
-
   bool get hasPrincipalAddress => _hasPrincipalAddress;
-
   set hasPrincipalAddress(bool value) {
     _hasPrincipalAddress = value;
     notifyListeners();
   }
 
-  bool get loading => _loading;
 
+
+
+
+  bool get loading => _loading;
   set loading(bool value) {
     _loading = value;
     notifyListeners();

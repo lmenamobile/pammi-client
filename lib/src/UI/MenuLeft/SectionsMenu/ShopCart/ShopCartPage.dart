@@ -184,12 +184,12 @@ class _ShopCartPageState extends State<ShopCartPage> {
                 : listProductsByProvider(),
             itemSubtotalCart(
               providerShopCart.shopCart?.totalCart,
+            providerCheckOut.shippingPrice,
                   () =>  openProductsSave(),
                   () {Navigator.push(
                       context,
                       customPageTransition(CheckOutPage())).then((value) {
-                    //getShopCart();
-                    //getShippingPrice();
+
                   });
                 providerProducts.unitsError.clear();} ,
             ),
@@ -311,8 +311,9 @@ class _ShopCartPageState extends State<ShopCartPage> {
         Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
           print("finish called shoCar..........");
-          if (providerShopCart.shopCart != null) getProductsRelations();
           serviceGetAddAddressUser();
+          if (providerShopCart.shopCart != null) getProductsRelations();
+
         }, onError: (error) {
          // providerShopCart?.shopCart = null;
 
@@ -375,6 +376,8 @@ class _ShopCartPageState extends State<ShopCartPage> {
             utils.showSnackBarError(context, Strings.principalConfigured);
           }else{
             providerShopCart.hasPrincipalAddress = true;
+            providerCheckOut.addressSelected = data.data?.addresses![indexAddress!];
+            getShippingPrice();
           }
         }, onError: (error) {
 

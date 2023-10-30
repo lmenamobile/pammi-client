@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 class Constants {
 //EstoEsPAmii
   //*------DEV------*//*
-  //static const String baseURL = 'http://devapiappclient.pamii.com:50011/v1/';
-/*static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
-
+  static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
-  static const String urlSocket = 'http://devapisupersocket.pamii.com';
+  static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-  static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
+  static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
   //*------------*/
 
   //static const Str /*------staging------*/
@@ -22,11 +20,11 @@ class Constants {
   // /*------------*/ing baseURL = 'https://apiappclient.pamii.com/v1/';*/
 
     /*------Prod------*/
-  static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
+/*  static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
   static const String urlBlog = 'http://devblog.estoespamii.com/';
   static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_proveedor.png';
-  static const String profileAdmin = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_pami.png';
+  static const String profileAdmin = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_pami.png';*/
      /*------------*/
 
   static const String key_encrypt = 'ebfe48f81df787193c75c1ffacd88a07';
@@ -38,6 +36,9 @@ class Constants {
   static const String versionApp = '1.0.9';//1.1.7
   static const String loginFacebook = 'fb';
   static const String codeAccountNotValidate = '103';
+
+  static const String numberWhatsapp = '3026361888';
+
 
   static const int isViewRegister = 0;
   static const int isViewPassword = 1;

@@ -912,7 +912,7 @@ Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,
   );
 }
 
-Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function openCheckOut){
+Widget itemSubtotalCart(TotalCart? total,String shippingValue, Function openProductsSave, Function openCheckOut){
   return Column(
     children: [
       Container(
@@ -933,28 +933,9 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    Strings.subtotal,
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 16,
-                      color: CustomColors.blue5,
-                    ),
-                  ),
-                  Text(
-                    formatMoney(total?.subtotal??'0'),
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 16,
-                      color: CustomColors.blue5,
-                    ),
-                  ),
-                ],
-              ),
+              itemValueShopCar(Strings.subtotal,total?.subtotal??'0',false),
+              itemValueShopCar(Strings.delivery,shippingValue,false),
+              itemValueShopCar(Strings.total, calculateTotal(total?.total??'0',shippingValue, total?.discountShipping??'0'), true),
               customDivider(),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -982,6 +963,31 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
         ),
       ),
 
+    ],
+  );
+}
+
+Widget itemValueShopCar(String label, String? value,bool isStyleBold){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisSize: MainAxisSize.max,
+    children: [
+      Text(
+        label,
+        style: TextStyle(
+          fontFamily: isStyleBold? Strings.fontBold:Strings.fontRegular,
+          fontSize: 16,
+          color: CustomColors.blue5,
+        ),
+      ),
+      Text(
+        formatMoney(value??'0'),
+        style: TextStyle(
+          fontFamily:  isStyleBold? Strings.fontBold:Strings.fontRegular,
+          fontSize: 16,
+          color: CustomColors.blue5,
+        ),
+      ),
     ],
   );
 }

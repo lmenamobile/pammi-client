@@ -3,6 +3,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -11,6 +12,15 @@ import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+
+Widget btnFloating(Function action,String asset){
+  return FloatingActionButton(
+    onPressed: ()=>action(),
+    backgroundColor: Colors.transparent,
+    child:  SvgPicture.asset("Assets/images/$asset",height: 50,),
+  );
+}
+
 
 Widget itemCategory(Category category) {
   return Column(
