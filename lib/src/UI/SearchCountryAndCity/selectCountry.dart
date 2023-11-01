@@ -128,6 +128,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
               child: TextField(
                 onSubmitted: (value) {
                   providerSettings.ltsCountries.clear();
+                  pageOffset = 0;
                   getCountries(value);
                 },
                 textInputAction: TextInputAction.search,

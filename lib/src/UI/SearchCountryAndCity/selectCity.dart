@@ -26,6 +26,15 @@ class _SelectCityPageState extends State<SelectCityPage> {
   int pageOffset = 0;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      providerSettings.ltsCities.clear();
+      getCitiesSearch("");
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
@@ -112,6 +121,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
 
   searchCities(String value) {
     providerSettings.ltsCities.clear();
+    pageOffset = 0;
     getCitiesSearch(value);
   }
 
@@ -123,8 +133,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
   getCitiesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getCities(
-            search.trim(), 0, providerSettings.stateCountrySelected!);
+        Future callUser = providerSettings.getCities(search.trim(), pageOffset, providerSettings.stateCountrySelected!);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

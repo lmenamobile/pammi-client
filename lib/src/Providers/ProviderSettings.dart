@@ -38,8 +38,6 @@ class ProviderSettings with ChangeNotifier{
   CountryUser? get countrySelected => this._countrySelected;
   set countrySelected(CountryUser? value) {
     this._countrySelected = value;
-    this.ltsStatesCountries.clear();
-    if(value!=null)getStates("", 0, this.countrySelected!.id);
     notifyListeners();
   }
 
@@ -54,8 +52,6 @@ class ProviderSettings with ChangeNotifier{
   StatesCountry? get stateCountrySelected => this._stateCountrySelected;
   set stateCountrySelected(StatesCountry? value) {
     this._stateCountrySelected = value;
-    this.ltsCities.clear();
-    if(value!=null)getCities("", 0, this.stateCountrySelected!);
     notifyListeners();
   }
 
@@ -210,7 +206,7 @@ class ProviderSettings with ChangeNotifier{
     Map jsonData = {
       'filter': filter,
       'offset': offset,
-      'limit': 0,
+      'limit': 20,
       "status": "active",
       "countryId": countryId
     };

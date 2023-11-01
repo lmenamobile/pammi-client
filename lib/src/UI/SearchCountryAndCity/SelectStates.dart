@@ -32,7 +32,12 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   void initState() {
     supportProvider = Provider.of<SupportProvider>(context, listen: false);
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
-    providerSettings.ltsCities.clear();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      providerSettings.ltsStatesCountries.clear();
+      providerSettings.ltsCities.clear();
+      getStatesSearch("");
+    });
+
     super.initState();
   }
 
@@ -126,6 +131,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
 
   searchState(String value) {
     providerSettings.ltsStatesCountries.clear();
+    pageOffset = 0;
     getStatesSearch(value);
   }
 
@@ -137,7 +143,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   getStatesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getStates(search.trim(), 0, providerSettings.countrySelected!=null?providerSettings.countrySelected!.id:prefs.countryIdUser);
+        Future callUser = providerSettings.getStates(search.trim(), pageOffset, providerSettings.countrySelected!=null?providerSettings.countrySelected!.id:prefs.countryIdUser);
         await callUser.then((msg) {}, onError: (error) {
          // utils.showSnackBar(context, error.toString());
         });
