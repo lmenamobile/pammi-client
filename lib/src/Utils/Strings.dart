@@ -392,6 +392,7 @@ class Strings {
   static const String  nameUser = 'Nombre';
   static const String  lastName = 'Apellido';
   static const String  city = 'Ciudad';
+  static const String  department = 'Departamento';
   static const String  country = 'País';
   static const String  phoneNumber = 'Número telefónico';
   static const String  typeDocument = 'Tipo de documento';
@@ -539,6 +540,7 @@ class Strings {
   static const String phoneInvalidate                       = "El teléfono no es valido, debe tener almenos 7 digitos.";
   static const String numberEmpty                           = "El número de identificación es requerido.";
   static const String cityEmpty                             = "La ciudad es requerida.";
+  static const String departmentEmpty                        = "El Departamento/Estado es requerido.";
   static const String countryEmpty                           = "El país es requerido.";
   static const String documentTypeEmpty                     = "El tipo de documento es requerido.";
   static const String termsAndConditionsEmpty               = "Debes aceptar los terminos y condiciones";

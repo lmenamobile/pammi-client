@@ -19,6 +19,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import '../../Utils/share_preference.dart';
+import '../SearchCountryAndCity/selectCity.dart';
 import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -32,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final countryController = TextEditingController();
+  final departmentController = TextEditingController();
   final cityController = TextEditingController();
   final phoneController = TextEditingController();
   final prefs = SharePreference();
@@ -111,9 +113,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             customTextFieldIcon("ic_data.png",true, Strings.lastName, lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
                             InkWell(
                                 onTap: ()=>openSelectCountry(),
-                                child: textFieldIconSelector("ic_country.png",false, Strings.nationality, countryController)),
+                                child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
                             InkWell(
-                                onTap: ()=>openSelectCityByState(),
+                                onTap: ()=>openSelectDepartment(),
+                                child: textFieldIconSelector("ic_country.png",false, Strings.department, departmentController)),
+                            InkWell(
+                                onTap: ()=>openSelectCity(),
                                 child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
                             textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
                             SizedBox(height: 10),
@@ -187,14 +192,26 @@ class _RegisterPageState extends State<RegisterPage> {
      prefs.countryIdUser = providerSettings?.countrySelected?.id ??'';
   }
 
-  openSelectCityByState(){
+  void openSelectDepartment()async{
     if(providerSettings?.countrySelected!=null) {
-
-       Navigator.push(context, customPageTransition(SelectStatesPage()));
+      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      departmentController.text = providerSettings?.stateCountrySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
     }
   }
+
+  void openSelectCity()async{
+    if(providerSettings?.stateCountrySelected!=null) {
+      await Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
+      cityController.text = providerSettings?.citySelected?.name??'';
+    }else{
+      utils.showSnackBar(context, Strings.departmentEmpty);
+    }
+  }
+
+
+
 
 
   bool _validateEmptyFields() {

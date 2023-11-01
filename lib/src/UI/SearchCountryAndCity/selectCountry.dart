@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -187,7 +188,6 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   actionSelectCountry(CountryUser country) async {
     providerSettings.countrySelected = country;
     prefs.countryIdUser =  country.id.toString();
-
     if(prefs.countryIdUser != null){
       serviceGetTerms();
       Navigator.pop(context);
@@ -199,6 +199,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       if (value) {
         Future callUser = providerSettings.getCountries(search.trim(), pageOffset);
         await callUser.then((msg) {}, onError: (error) {
+   /*       CountryUser? countryUser = providerSettings.ltsCountries.firstWhere((country) => country.id == "CO", orElse: () => CountryUser(),);
+            if(countryUser.id !=null){
+              providerSettings.countrySelected = countryUser;
+              prefs.countryIdUser =  countryUser.id.toString();
+            }*/
           utils.showSnackBar(context, error.toString());
         });
       } else {
