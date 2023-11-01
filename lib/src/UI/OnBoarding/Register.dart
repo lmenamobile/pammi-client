@@ -203,7 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void openSelectCity()async{
     if(providerSettings?.stateCountrySelected!=null) {
-      await Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
+      await Navigator.push(context, customPageTransition(SelectCityPage()));
       cityController.text = providerSettings?.citySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.departmentEmpty);
