@@ -52,6 +52,9 @@ class _SelectCityPageState extends State<SelectCityPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             header(context, Strings.selectCity, CustomColors.red, ()=> Navigator.pop(context)),
+            SizedBox(height: 21),
+            boxSearchCountries(cityController, searchCities),
+            SizedBox(height: 21),
             Expanded(
               child: SmartRefresher(
                 controller: _refreshCities,
@@ -61,23 +64,12 @@ class _SelectCityPageState extends State<SelectCityPage> {
                 footer: footerRefreshCustom(),
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 21),
-                      boxSearchCountries(cityController, searchCities),
-                      SizedBox(height: 21),
-                      providerSettings.ltsCities.isEmpty
-                          ? Expanded(
-                            child: emptyData("ic_empty_location.png",
-                            Strings.sorry , Strings.emptyCities),
-                          )
-                          : Expanded(child: listItemsCities())
-
-                    ],
-                  ),
-                ),
+                child: providerSettings.ltsCities.isEmpty
+                    ? Expanded(
+                      child: emptyData("ic_empty_location.png",
+                      Strings.sorry , Strings.emptyCities),
+                    )
+                    : listItemsCities(),
               ),
             ),
           ],
@@ -89,10 +81,8 @@ class _SelectCityPageState extends State<SelectCityPage> {
 
   Widget listItemsCities() {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10,left: 10,right: 10),
       itemCount: providerSettings.ltsCities.length,
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return cityItem(providerSettings.ltsCities[index], actionSelectCity);
       },

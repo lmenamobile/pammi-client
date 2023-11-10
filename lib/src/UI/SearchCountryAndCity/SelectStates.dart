@@ -61,6 +61,9 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             header(context, Strings.selectState, CustomColors.red, ()=> Navigator.pop(context)),
+            SizedBox(height: 21),
+            boxSearchCountries(searchStateController, searchState),
+            SizedBox(height: 21),
             Expanded(
               child: SmartRefresher(
                 controller: _refreshStates,
@@ -70,23 +73,12 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
                 footer: footerRefreshCustom(),
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 21),
-                      boxSearchCountries(
-                          searchStateController, searchState),
-                      SizedBox(height: 21),
-                      providerSettings.ltsStatesCountries.isEmpty
-                          ? Expanded(
-                            child: emptyData("ic_empty_location.png",
-                            Strings.sorry, Strings.emptyStates),
-                          )
-                          : Expanded(child: listItemsStates())
-                    ],
-                  ),
-                ),
+                child: providerSettings.ltsStatesCountries.isEmpty
+                    ? Expanded(
+                      child: emptyData("ic_empty_location.png",
+                      Strings.sorry, Strings.emptyStates),
+                    )
+                    : listItemsStates(),
               ),
             ),
           ],
@@ -118,10 +110,8 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
 
   Widget listItemsStates() {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10,left: 10,right: 10),
       itemCount: providerSettings.ltsStatesCountries.length,
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return itemStateCountry(
             providerSettings.ltsStatesCountries[index], actionSelectState);

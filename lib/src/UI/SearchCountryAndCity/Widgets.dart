@@ -9,6 +9,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 
 Widget boxSearchCountries(TextEditingController controllerSearch,Function search) {
   return Container(
+    margin: EdgeInsets.symmetric(horizontal: 30 ),
     padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
     width: double.infinity,
     decoration: BoxDecoration(

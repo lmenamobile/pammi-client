@@ -62,9 +62,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       children: [
 
         Column(
-         // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             header(context, Strings.selectCountry, CustomColors.red, ()=> Navigator.pop(context)),
+            SizedBox(height: 21),
+            boxSearch(context),
+            SizedBox(height: 21),
             Expanded(
               child: SmartRefresher(
                 controller: _refreshCountries,
@@ -74,23 +76,12 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 footer: footerRefreshCustom(),
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
-                child:   Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-
-                      SizedBox(height: 21),
-                      boxSearch(context),
-                      SizedBox(height: 21),
-                      providerSettings.ltsCountries.isEmpty 
-                          ? Expanded(
-                            child: emptyData("ic_empty_location.png",
-                            Strings.sorry, Strings.emptyCountries),
-                          )
-                          : Expanded(child: listItemsCountry()),
-                    ],
-                  ),
-                )
+                child:   providerSettings.ltsCountries.isEmpty
+                    ? Expanded(
+                      child: emptyData("ic_empty_location.png",
+                      Strings.sorry, Strings.emptyCountries),
+                    )
+                    : listItemsCountry()
                 /*
 
                  */
@@ -108,6 +99,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   Widget boxSearch(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 30 ),
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
       decoration: BoxDecoration(
@@ -175,10 +167,8 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   Widget listItemsCountry() {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10,left: 10,right: 10),
       itemCount: providerSettings.ltsCountries.length,
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return itemCountry(
             providerSettings.ltsCountries[index], actionSelectCountry);
