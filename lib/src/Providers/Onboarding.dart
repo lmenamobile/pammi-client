@@ -323,10 +323,15 @@ class OnboardingProvider with ChangeNotifier {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken.toString(),
     };
+
+    var jsonIV = utils.encryptPwdIv(code);
+
     Map jsonData = {
       'user': email,
-      'code': code,
+      'code': jsonIV['encrypted'],
+      'iv':jsonIV['iv']
     };
+
     var body = jsonEncode(jsonData);
 
     final response = await http

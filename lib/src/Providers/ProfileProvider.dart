@@ -254,18 +254,31 @@ class ProfileProvider with ChangeNotifier {
       String? year,
       String cvc) async {
     this.isLoading = true;
-    Map params = {
+
+    Map<String,dynamic> params = {
       "cardHolder": name,
       "cardNumber": numberCard,
       "expirationMonth": month,
       "expirationYear": year,
       "cvc" : cvc
     };
+
+
+
+    var jsonDataPayment = utils.encryptPwdIv(jsonEncode(params));
+
+    Map jsonData = {
+      'dataPayment': jsonDataPayment['encrypted'],
+      'iv':jsonDataPayment['iv']
+    };
+
+
     var header = {
       "Content-Type": "application/json".toString(),
       "X-WA-Auth-Token": prefsUser.authToken.toString()
     };
-    var body = jsonEncode(params);
+
+    var body = jsonEncode(jsonData);
     final response = await http
         .post(Uri.parse(Constants.baseURL + 'profile/create-payment-method'),
         headers: header, body: body)
