@@ -43,7 +43,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
+                        /*Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius:
@@ -73,7 +73,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                                   listItemsCategory(),
                                 ],
                               ),
-                            )),
+                            )),*/
                         SizedBox(
                           height: 20,
                         ),
@@ -190,7 +190,9 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
     if (providerSettings.selectCategory != null) {
       Navigator.pop(context, true);
     } else {
-      showCustomAlertDialog(context, Strings.sorry, Strings.textAlertFilter);
+      providerSettings.selectCategory = null;
+      Navigator.pop(context, true);
+     // showCustomAlertDialog(context, Strings.sorry, Strings.textAlertFilter);
     }
   }
 

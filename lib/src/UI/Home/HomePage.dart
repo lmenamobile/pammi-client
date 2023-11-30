@@ -115,10 +115,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: btnFloating(openWhatsapp, "ic_whatsapp.svg"),
               ),
               // Botón flotante 2
-              Positioned(
-                bottom: 76.0,
-                right: 16.0, 
-                child: btnFloating(openChatAdmin, "ic_logo_pamii.svg"),
+              Visibility(
+                visible: prefs.dataUser != "0",
+                child: Positioned(
+                  bottom: 76.0,
+                  right: 16.0,
+                  child: btnFloating(openChatAdmin, "ic_logo_pamii.svg"),
+                ),
               ),
             ],
           ),
