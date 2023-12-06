@@ -65,10 +65,8 @@ class _SelectCityPageState extends State<SelectCityPage> {
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
                 child: providerSettings.ltsCities.isEmpty
-                    ? Expanded(
-                      child: emptyData("ic_empty_location.png",
-                      Strings.sorry , Strings.emptyCities),
-                    )
+                    ? emptyData("ic_empty_location.png",
+                    Strings.sorry , Strings.emptyCities)
                     : listItemsCities(),
               ),
             ),

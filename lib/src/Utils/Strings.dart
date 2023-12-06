@@ -138,10 +138,13 @@ class Strings {
   static const String delete = 'Eliminar';
   static const String titleDeleteProduct = 'Eliminar producto';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
+  static const String textSaveProduct = "Al guardar este producto se removerá del carrito de compras. ¿Esta seguro que desea guardar este producto?";
   static const String deleteCart = "¿Estás seguro de eliminar este producto?";
   static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
   static const String deleteAddress = "¿Estás seguro de eliminar esta dirección?";
   static const String notSelectedNotification = "Por favor seleccione una notificación";
+  static const String saveProductTitle = "Guardar producto";
+
 
   /*fotos*/
   static const String alertTextPhotos =

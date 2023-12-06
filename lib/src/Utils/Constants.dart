@@ -6,7 +6,7 @@ class Constants {
 
 
   //*------DEV------*//*
- /* static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
+  /*static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
   static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';

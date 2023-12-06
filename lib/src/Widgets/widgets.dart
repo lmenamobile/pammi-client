@@ -1425,6 +1425,84 @@ Widget headerDoubleTap(BuildContext context, String title, String imageIcon, Col
       ));
 }
 
+Widget headerDoubleTap2(BuildContext context, String title, String imageIconR, String imageIcon, Color color,String totalProductsCart, Function action,Function action2) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 37,right: 37),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontFamily:Strings.fontBold,
+                  color: Colors.white
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: ()=> action2(),
+            child: Container(
+              child: Stack(
+                children: [
+                  Image(
+                    image: AssetImage("Assets/images/$imageIcon"),
+                    width: 30,
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          child: Image(
+                            image: AssetImage("Assets/images/$imageIconR"),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Visibility(
+                            visible: totalProductsCart != "0",
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                totalProductsCart,
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: CustomColors.redTour
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () => action2(),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ));
+}
+
 
 Widget headerDoubleTapMenu(BuildContext context, String title, String imageIcon, String imageMenu, Color color,String totalProductsCart, Function action,Function action2) {
   return Container(

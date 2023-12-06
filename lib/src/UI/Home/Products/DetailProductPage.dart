@@ -531,8 +531,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
               providerProducts!.referenceProductSelected!.id!.toString(),
               providerProducts!.unitsProduct.toString());
           await callCart.then((msg) async{
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            Navigator.push(
+                context, customPageTransition(ShopCartPage()));
             utils.showSnackBarGood(context, msg.toString());
+
             await providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
           }, onError: (error) {
             utils.showSnackBar(context, error.toString());

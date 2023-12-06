@@ -77,10 +77,8 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
                 child:   providerSettings.ltsCountries.isEmpty
-                    ? Expanded(
-                      child: emptyData("ic_empty_location.png",
-                      Strings.sorry, Strings.emptyCountries),
-                    )
+                    ? emptyData("ic_empty_location.png",
+    Strings.sorry, Strings.emptyCountries)
                     : listItemsCountry()
                 /*
 

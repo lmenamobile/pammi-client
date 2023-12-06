@@ -279,17 +279,17 @@ class ProviderShopCart with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
       this.isLoadingCart = false;
-      if (decodeJson!['code'] == 100) {
+      if (decodeJson['code'] == 100) {
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }
     } else {
       this.isLoadingCart = false;
-      throw decodeJson!['message'];
+      throw decodeJson['message'];
     }
   }
 
