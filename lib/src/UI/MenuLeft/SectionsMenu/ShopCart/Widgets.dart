@@ -14,7 +14,9 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
-Widget itemProductCart(ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
+import '../../../../Providers/ProviderProducts.dart';
+
+Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
   return Column(
     children: [
       Container(
@@ -71,6 +73,7 @@ Widget itemProductCart(ProductShopCart product, Function updateQuantity, Functio
                   children: [
                     InkWell(
                       onTap: (){
+                        providerProducts.unitsError.remove(product.reference?.id);
                         if(int.parse(product.qty!)>1)
                           updateQuantity(int.parse(product.qty!)-1,product.reference?.id.toString(),true);
                       },
@@ -87,7 +90,10 @@ Widget itemProductCart(ProductShopCart product, Function updateQuantity, Functio
                           color: CustomColors.black2),
                     )),
                     InkWell(
-                      onTap: ()=>updateQuantity(int.parse(product.qty!)+1,product.reference?.id.toString(),true),
+                      onTap: (){
+
+                        updateQuantity(int.parse(product.qty!)+1,product.reference?.id.toString(),true);
+                        },
                       child: containerCustom(Icon(
                         Icons.add,
                         color: CustomColors.black2,
@@ -688,7 +694,7 @@ Widget customButton(String icon, String text, Color colorText, Function action) 
   );
 }
 
-Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save) {
+Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save,ProviderProducts providerProducts) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -833,7 +839,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      Strings.add + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
+                      Strings.add  + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
                       style: TextStyle(
                         fontSize: 13,
                         color: CustomColors.blueOne,
@@ -841,18 +847,20 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                       ),
                     ),
                     SizedBox(height: 5),
-                    LinearProgressIndicator(
-                      value: (provider.provider?.minPurchase??0) > 0
-                          ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) 
-                          : 0,
-                      minHeight: 3,
-                      color: CustomColors.blue6,
-                      backgroundColor: CustomColors.gray9,
+                    Visibility(
+                      visible: provider.freeShipping != 0,
+                      child: LinearProgressIndicator(
+                        value: (provider.provider?.minPurchase??0) > 0 ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) : 0,
+                        minHeight: 3,
+                        color: CustomColors.blue6,
+                        backgroundColor: CustomColors.gray9,
+                      ),
                     )
                   ],
                 ),
               ),
-              listProducts(provider.products, updateQuantity,delete,save)
+              SizedBox(height: 8,),
+              listProducts(providerProducts,provider,provider.products, updateQuantity,delete,save)
             ],
           )
         ],
@@ -874,7 +882,7 @@ Widget listGiftCard(List<ProductShopCart>? ltsProducts, Function updateQuantity,
   );
 }
 
-Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
+Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -882,9 +890,21 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
         if(ltsProducts![index].reference!=null){
-          return itemProductCart(ltsProducts[index], updateQuantity,delete,save);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              unitsContainer(providerProducts,provider,ltsProducts[index]),
+              itemProductCart(providerProducts,ltsProducts[index], updateQuantity,delete,save),
+            ],
+          );
         }else{
-          return itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              unitsContainer(providerProducts,provider,ltsProducts![index]),
+              itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save),
+            ],
+          );
         }
 
       },
@@ -892,7 +912,7 @@ Widget listProducts(List<ProductShopCart>? ltsProducts, Function updateQuantity,
   );
 }
 
-Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function openCheckOut){
+Widget itemSubtotalCart(TotalCart? total,String shippingValue, Function openProductsSave, Function openCheckOut){
   return Column(
     children: [
       Container(
@@ -913,28 +933,9 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    Strings.subtotal,
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 16,
-                      color: CustomColors.blue5,
-                    ),
-                  ),
-                  Text(
-                    formatMoney(total?.subtotal??'0'),
-                    style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 16,
-                      color: CustomColors.blue5,
-                    ),
-                  ),
-                ],
-              ),
+              itemValueShopCar(Strings.subtotal,total?.subtotal??'0',false),
+              itemValueShopCar(Strings.delivery,shippingValue,false),
+              itemValueShopCar(Strings.total, calculateTotal(total?.total??'0',shippingValue, total?.discountShipping??'0'), true),
               customDivider(),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -966,4 +967,55 @@ Widget itemSubtotalCart(TotalCart? total, Function openProductsSave, Function op
   );
 }
 
+Widget itemValueShopCar(String label, String? value,bool isStyleBold){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisSize: MainAxisSize.max,
+    children: [
+      Text(
+        label,
+        style: TextStyle(
+          fontFamily: isStyleBold? Strings.fontBold:Strings.fontRegular,
+          fontSize: 16,
+          color: CustomColors.blue5,
+        ),
+      ),
+      Text(
+        formatMoney(value??'0'),
+        style: TextStyle(
+          fontFamily:  isStyleBold? Strings.fontBold:Strings.fontRegular,
+          fontSize: 16,
+          color: CustomColors.blue5,
+        ),
+      ),
+    ],
+  );
+}
+
+Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provider,ProductShopCart ltsProducts){
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        Strings.quantityAvailable + " ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty}",
+        style: TextStyle(fontSize: 13, color: CustomColors.blue5, fontFamily: Strings.fontMedium,),
+      ),
+
+      Visibility(
+        visible: providerProducts.unitsError.contains(ltsProducts.reference?.id) ? true :false,
+        child: Container(
+          margin: EdgeInsets.only(top:5),
+          decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "${Strings.youCanOnlyCarry} ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty} unidades",
+              style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
 

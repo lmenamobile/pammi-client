@@ -14,6 +14,36 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 class ProviderProducts with ChangeNotifier{
   final prefs = SharePreference();
 
+  //limited quantity error
+
+  bool _limitedQuantityError = false;
+  bool get limitedQuantityError => this._limitedQuantityError;
+  set limitedQuantityError(bool value) {
+    this._limitedQuantityError = value;
+    notifyListeners();
+  }
+
+
+  List<int> _unitsError = [];
+  List<int> get unitsError => _unitsError;
+  set unitsError(List<int> value) {
+    for (final item in value) {
+      if (!_unitsError.contains(item)) {
+        _unitsError.add(item);
+      }
+    }
+    notifyListeners();
+  }
+
+
+  removeUnit(int id){
+    if(unitsError.contains(id))
+    {
+      unitsError.remove(id);
+    }
+    notifyListeners();
+  }
+
   int _indexSliderImages = 0;
   int get indexSliderImages => this._indexSliderImages;
   set indexSliderImages(int value) {
@@ -77,7 +107,16 @@ class ProviderProducts with ChangeNotifier{
     this._referenceProductSelected = value;
     this.referenceProductSelected!.isSelected = !this.referenceProductSelected!.isSelected!;
     //updateListReferences(value);
-    this.imageReferenceProductSelected = this.productDetail!.images![0].url;
+   // this.imageReferenceProductSelected = this.productDetail?.images?.isNotEmpty == true ? this.productDetail!.images![0].url : "";
+    this.imageReferenceProductSelected = value?.images?[0].url;
+    notifyListeners();
+  }
+
+
+  int _idReference = 0;
+  int get idReference => this._idReference;
+  set idReference(int value) {
+    this._idReference = value;
     notifyListeners();
   }
 
@@ -131,6 +170,7 @@ class ProviderProducts with ChangeNotifier{
       return 0;
     }
   }
+
 
   Future<dynamic> getProductsSearch(
       String filter,
@@ -274,6 +314,7 @@ class ProviderProducts with ChangeNotifier{
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['products']) {
           final product = Product.fromJson(item);
+
           listProducts.add(product);
         }
         this.isLoadingProducts = false;

@@ -3,6 +3,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -12,32 +13,41 @@ import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 
-Widget itemCategory(Category category) {
-  return Container(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: CustomColors.grayDot),//convertColor(category.color!),
+Widget btnFloating(Function action,String asset){
+  return FloatingActionButton(
+    onPressed: ()=>action(),
+    backgroundColor: Colors.transparent,
+    child:  SvgPicture.asset("Assets/images/$asset",height: 50,),
+  );
+}
 
-          child: Center(
-            child: FadeInImage(
-              height: 40,
-              fit: BoxFit.fill,
-              image: NetworkImage(category.image!),
-              placeholder: AssetImage("Assets/images/spinner.gif"),
-              imageErrorBuilder: (_,__,___){
-                return Container();
-              },
-            ),
+
+Widget itemCategory(Category category) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: CustomColors.grayDot),//convertColor(category.color!),
+
+        child: Center(
+          child: FadeInImage(
+            height: 40,
+            fit: BoxFit.fill,
+            image: NetworkImage(category.image!),
+            placeholder: AssetImage("Assets/images/spinner.gif"),
+            imageErrorBuilder: (_,__,___){
+              return Container();
+            },
           ),
         ),
-        SizedBox(height: 12),
-        Text(
+      ),
+      SizedBox(height: 10),
+      Expanded(
+        child: Text(
           category.category!,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -45,9 +55,9 @@ Widget itemCategory(Category category) {
             fontSize: 10,
             color: CustomColors.black1,
           ),
-        )
-      ],
-    ),
+        ),
+      ),
+    ],
   );
 }
 
@@ -186,21 +196,22 @@ Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners
         itemCount: banners.isEmpty?0:banners.length,
         itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
             FadeInImage(
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               image: NetworkImage(banners[itemIndex].image??''),
               placeholder: AssetImage("Assets/images/preloader.gif"),
               imageErrorBuilder: (_,__,___){
                 return Container();
               },
             ), options: CarouselOptions(
-        height: 200,
-      autoPlay: true,
-      autoPlayAnimationDuration: Duration(seconds: 4),
-      onPageChanged: (index,changeType){
-        updateIndex(index);
-      }
-  )
-       ,
+
+              height: 180,
+              viewportFraction: 1,
+              autoPlay: true,
+              autoPlayAnimationDuration: Duration(seconds: 4),
+              onPageChanged: (index,changeType){
+                updateIndex(index);
+              }
+        ),
       ),
 
       banners.isEmpty?Container():Column(
@@ -305,6 +316,7 @@ Widget itemProduct(Product product){
                     Text(
                       product.product??'',
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                           fontSize: 13,
                           fontFamily: Strings.fontBold,
                           color: CustomColors.blackLetter),

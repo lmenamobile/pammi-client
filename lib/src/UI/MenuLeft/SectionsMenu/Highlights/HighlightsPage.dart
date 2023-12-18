@@ -143,6 +143,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
           providerProducts
               ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
           //providerProducts.referenceProductSelected = referenceOffer;//product.references.firstWhere((reference) => reference.id == referenceOffer.id, orElse: () => referenceOffer.);
+          providerProducts.limitedQuantityError = false;
           Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -164,6 +165,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   }
 
   openDetailOffer(Banners bannerHighlight){
+    providerProducts.limitedQuantityError = false;
     Navigator.push(context, customPageTransition(OfferDetail(nameOffer: bannerHighlight.offerHighlights!.name,idOffer: bannerHighlight.offerHighlights!.id.toString(),)));
   }
 

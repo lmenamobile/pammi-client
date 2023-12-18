@@ -27,6 +27,9 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import '../../Providers/ProviderChat.dart';
+import '../../Providers/SocketService.dart';
+import '../Chat/ChatPage.dart';
 import 'Products/DetailProductPage.dart';
 import 'Widgets.dart';
 
@@ -47,6 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
   ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
+  late ProviderChat providerChat;
+  late SocketService socketService;
 
 
   @override
@@ -82,6 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerProducts = Provider.of<ProviderProducts>(context);
+    providerChat = Provider.of<ProviderChat>(context);
+    socketService = Provider.of<SocketService>(context);
     connectionStatus.connectionListen.listen((value){
       providerSettings.hasConnection = value;
     });
@@ -97,8 +104,27 @@ class _MyHomePageState extends State<MyHomePage> {
             "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
               Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
-          child: Container(
-              color: Colors.white, child: _body(context)),
+          child: Stack(
+            children: [
+              Container(
+                  color: Colors.white, child: _body(context)),
+              // Botón flotante 1
+              Positioned(
+                bottom: 16.0,
+                right: 16.0,
+                child: btnFloating(openWhatsapp, "ic_whatsapp.svg"),
+              ),
+              // Botón flotante 2
+              Visibility(
+                visible: prefs.dataUser != "0",
+                child: Positioned(
+                  bottom: 76.0,
+                  right: 16.0,
+                  child: btnFloating(openChatAdmin, "ic_logo_pamii.svg"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -198,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           updateIndexBannerHeader, providerHome!.ltsBanners),
                     ),
                   ),
-                  const SizedBox(height: 55),
+                  const SizedBox(height: 30),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child:  sectionCategories(),
@@ -515,9 +541,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   openDetailProduct(Product product){
-    providerProducts
-        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
-    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+    String? color = product.references[0].color;
+
+    print("producto y color home $color ${product.references[0].images?.length}");
+    if(product.references[0].images?.length != 0)
+    {
+      if (color != null  && color.startsWith('#') && color.length >= 6) {
+        providerProducts?.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
+        providerProducts?.limitedQuantityError = false;
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+      }
+    }
   }
 
   openSubCategory(Category category) {
@@ -636,5 +670,31 @@ class _MyHomePageState extends State<MyHomePage> {
   selectCountryUserNotLogin() async {
     bool state = await openSelectCountry(context);
     if (state) serviceGetCategories();
+  }
+
+  void openWhatsapp(){
+    utils.openWhatsapp(context: context, text: Strings.helloHelp, number: Constants.numberWhatsapp);
+  }
+
+  void openChatAdmin(){
+    getRoomSupport(context);
+  }
+
+  getRoomSupport(BuildContext context) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomAdmin();
+        await callChat.then((id) async {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeAdmin, id,"");
+          }
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,)));
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
   }
 }

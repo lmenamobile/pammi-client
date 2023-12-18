@@ -8,7 +8,6 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 class AddTargetPage extends StatefulWidget {
   @override
@@ -74,73 +73,30 @@ class _AddTargetPageState extends State<AddTargetPage> {
                 SizedBox(height: 30),
                 card(),
                 SizedBox(height: 30),
-                customTextFieldCreditCard(
-                    nameTargetController,
-                    Strings.nameCard,
-                    Icons.account_circle_rounded,
-                    [LengthLimitingTextInputFormatter(20)],
-                    TextInputType.name),
-                SizedBox(
-                  height: 30,
-                ),
-                customTextFieldCreditCard(
-                    numberTargetController,
-                    Strings.numberCard,
-                    Icons.credit_card,
-                    [
-                      LengthLimitingTextInputFormatter(20),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    TextInputType.number),
-                SizedBox(
-                  height: 20,
-                ),
+                customTextFieldCreditCard(nameTargetController, Strings.nameCard, Icons.account_circle_rounded, [LengthLimitingTextInputFormatter(20)], TextInputType.name),
+                SizedBox(height: 30,),
+                customTextFieldCreditCard(numberTargetController, Strings.numberCard, Icons.credit_card, [LengthLimitingTextInputFormatter(20), FilteringTextInputFormatter.digitsOnly], TextInputType.number),
+                SizedBox(height: 20,),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Expanded(
-                        child: Container(
-                            margin: EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: _dropDownMonths()),
+                        child: Container(margin: EdgeInsets.only(top: 8,), child: _dropDownMonths()),
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
+                      SizedBox(width: 15,),
                       Expanded(
-                        child: Container(
-                            margin: EdgeInsets.only(
-                              top: 8,
-                            ),
-                            child: _dropDownYears()),
+                        child: Container(margin: EdgeInsets.only(top: 8,), child: _dropDownYears()),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                customTextFieldCreditCard(
-                    cvcTargetController,
-                    Strings.cvc,
-                    Icons.credit_card,
-                    [
-                      LengthLimitingTextInputFormatter(4),
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    TextInputType.number),
+                SizedBox(height: 20,),
+                customTextFieldCreditCard(cvcTargetController, Strings.cvc, Icons.credit_card, [LengthLimitingTextInputFormatter(4), FilteringTextInputFormatter.digitsOnly], TextInputType.number),
                 Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                  child: btnCustomRounded(
-                      CustomColors.blueSplash,
-                      CustomColors.white,
-                      Strings.addTarjet,
-                      callServiceAddCreditCart,
-                      context),
+                  margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+                  child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.addTarjet, callServiceAddCreditCart, context),
                 )
               ],
             ),

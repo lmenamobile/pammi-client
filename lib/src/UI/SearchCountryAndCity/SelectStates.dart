@@ -12,6 +12,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import '../../Providers/SupportProvider.dart';
 import '../../Widgets/widgets.dart';
 
 class SelectStatesPage extends StatefulWidget {
@@ -25,17 +26,26 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
   late ProviderSettings providerSettings;
   int pageOffset = 0;
   final prefs = SharePreference();
+  late SupportProvider supportProvider;
 
   @override
   void initState() {
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
-    providerSettings.ltsCities.clear();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      providerSettings.ltsStatesCountries.clear();
+      providerSettings.ltsCities.clear();
+      getStatesSearch("");
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -51,6 +61,9 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             header(context, Strings.selectState, CustomColors.red, ()=> Navigator.pop(context)),
+            SizedBox(height: 21),
+            boxSearchCountries(searchStateController, searchState),
+            SizedBox(height: 21),
             Expanded(
               child: SmartRefresher(
                 controller: _refreshStates,
@@ -60,23 +73,10 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
                 footer: footerRefreshCustom(),
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 21),
-                      boxSearchCountries(
-                          searchStateController, searchState),
-                      SizedBox(height: 21),
-                      providerSettings.ltsStatesCountries.isEmpty
-                          ? Expanded(
-                            child: emptyData("ic_empty_location.png",
-                            Strings.sorry, Strings.emptyStates),
-                          )
-                          : Expanded(child: listItemsStates())
-                    ],
-                  ),
-                ),
+                child: providerSettings.ltsStatesCountries.isEmpty
+                    ? emptyData("ic_empty_location.png",
+                    Strings.sorry, Strings.emptyStates)
+                    : listItemsStates(),
               ),
             ),
           ],
@@ -108,10 +108,8 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
 
   Widget listItemsStates() {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10,left: 10,right: 10),
       itemCount: providerSettings.ltsStatesCountries.length,
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return itemStateCountry(
             providerSettings.ltsStatesCountries[index], actionSelectState);
@@ -121,21 +119,19 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
 
   searchState(String value) {
     providerSettings.ltsStatesCountries.clear();
+    pageOffset = 0;
     getStatesSearch(value);
   }
 
   actionSelectState(StatesCountry state) {
     providerSettings.stateCountrySelected = state;
-    //Navigator.pushReplacement(context, customPageTransition(SelectCityPage()));
-    Navigator.push(context, customPageTransition(SelectCityPage())).then((value) => {
-    Navigator.pop(context)
-    });
+    Navigator.pop(context);
   }
 
   getStatesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getStates(search.trim(), 0, providerSettings.countrySelected!=null?providerSettings.countrySelected!.id:prefs.countryIdUser);
+        Future callUser = providerSettings.getStates(search.trim(), pageOffset, providerSettings.countrySelected!=null?providerSettings.countrySelected!.id:prefs.countryIdUser);
         await callUser.then((msg) {}, onError: (error) {
          // utils.showSnackBar(context, error.toString());
         });
@@ -144,4 +140,5 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
       }
     });
   }
+
 }

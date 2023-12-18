@@ -9,7 +9,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -44,7 +44,7 @@ class _MyDatesPageState extends State<MyDatesPage>
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
   AnimationController? _controller;
   late ImagePickerHandler imagePicker;
-  NotifyVariablesBloc? notifyVariables;
+  VariablesNotifyProvider? notifyVariables;
   String msgError = '';
   GlobalVariables globalVariables = GlobalVariables();
   ProfileProvider? profileProvider;
@@ -64,7 +64,7 @@ class _MyDatesPageState extends State<MyDatesPage>
 
   @override
   Widget build(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(

@@ -38,8 +38,6 @@ class ProviderSettings with ChangeNotifier{
   CountryUser? get countrySelected => this._countrySelected;
   set countrySelected(CountryUser? value) {
     this._countrySelected = value;
-    this.ltsStatesCountries.clear();
-    if(value!=null)getStates("", 0, this.countrySelected!.id);
     notifyListeners();
   }
 
@@ -54,8 +52,6 @@ class ProviderSettings with ChangeNotifier{
   StatesCountry? get stateCountrySelected => this._stateCountrySelected;
   set stateCountrySelected(StatesCountry? value) {
     this._stateCountrySelected = value;
-    this.ltsCities.clear();
-    if(value!=null)getCities("", 0, this.stateCountrySelected!);
     notifyListeners();
   }
 
@@ -141,6 +137,15 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
+  //Check if I accept the policies
+
+  bool _checkPolicies = false;
+  bool get checkPolicies => this._checkPolicies;
+  set checkPolicies(bool value) {
+    this._checkPolicies = value;
+    notifyListeners();
+  }
+
   selectNotification(int idNotification){
     var notification = this.ltsNotifications.firstWhere((element) => element.id == idNotification);
     notification.isSelected==true? notification.isSelected=false: notification.isSelected=true;
@@ -191,6 +196,8 @@ class ProviderSettings with ChangeNotifier{
   }
 
   Future<dynamic> getStates(String filter, int offset, String? countryId) async {
+
+    print("getStates");
     this.isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
@@ -203,6 +210,8 @@ class ProviderSettings with ChangeNotifier{
       "status": "active",
       "countryId": countryId
     };
+
+    print("jsonData: ${jsonData}");
     var body = jsonEncode(jsonData);
     final response = await http.post(Uri.parse(Constants.baseURL + "location/get-states"),
         headers: header, body: body)
@@ -216,7 +225,10 @@ class ProviderSettings with ChangeNotifier{
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
+
           final state = StatesCountry.fromJson(item);
+          print("estados: ${state.name}");
+          print("totalCities: ${state.totalCities}");
           listStates.add(state);
         }
         this.isLoadingSettings = false;
@@ -235,6 +247,8 @@ class ProviderSettings with ChangeNotifier{
   }
 
   Future<dynamic> getCities(String filter, int offset, StatesCountry state) async {
+
+    print("getCities getCities");
     isLoadingSettings = true;
     final header = {
       "Content-Type": "application/json",
@@ -261,6 +275,7 @@ class ProviderSettings with ChangeNotifier{
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {
+          print("ciudad: ${item}");
           final city = City.fromJson(item);
           listCities.add(city);
         }
@@ -290,6 +305,7 @@ class ProviderSettings with ChangeNotifier{
       "status": "active",
       "countryId": countryCode
     };
+    print("CATEGORIAS JSON $jsonData");
     var body = jsonEncode(jsonData);
 
     final response = await http.post(Uri.parse(Constants.baseURL+"category/get-categories"), headers: header, body: body)
@@ -302,14 +318,17 @@ class ProviderSettings with ChangeNotifier{
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
+        print("100 EN CATEGORIAS");
         for (var item in decodeJson['data']['items']) {
           final category = Category.fromJson(item);
           listCategories.add(category);
+          print("100 EN CATEGORIAS listCategories ${listCategories.length}");
         }
         this.isLoadingSettings = false;
         this.ltsCategories= listCategories;
         return listCategories;
       } else {
+        print("no trajo CATEGORIAS");
         this.isLoadingSettings = false;
         throw decodeJson['message'];
       }

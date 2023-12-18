@@ -126,6 +126,8 @@ class Strings {
   static const String description = 'Descripción';
   static const String conditions = 'Condiciones';
   static const String comments = 'Comentarios';
+  static const String quantityAvailable = 'Cantidad disponible:';
+  static const String youCanOnlyCarry = 'Solo puedes llevar';
 
 
   //Dialogs
@@ -136,10 +138,13 @@ class Strings {
   static const String delete = 'Eliminar';
   static const String titleDeleteProduct = 'Eliminar producto';
   static const String deleteProduct = "¿Estás seguro de eliminar este producto de tu carrito de compras?";
+  static const String textSaveProduct = "Al guardar este producto se removerá del carrito de compras. ¿Esta seguro que desea guardar este producto?";
   static const String deleteCart = "¿Estás seguro de eliminar este producto?";
   static const String deleteNotifications = "¿Estás seguro de eliminar esta notificación?";
   static const String deleteAddress = "¿Estás seguro de eliminar esta dirección?";
   static const String notSelectedNotification = "Por favor seleccione una notificación";
+  static const String saveProductTitle = "Guardar producto";
+
 
   /*fotos*/
   static const String alertTextPhotos =
@@ -390,6 +395,7 @@ class Strings {
   static const String  nameUser = 'Nombre';
   static const String  lastName = 'Apellido';
   static const String  city = 'Ciudad';
+  static const String  department = 'Departamento';
   static const String  country = 'País';
   static const String  phoneNumber = 'Número telefónico';
   static const String  typeDocument = 'Tipo de documento';
@@ -537,6 +543,7 @@ class Strings {
   static const String phoneInvalidate                       = "El teléfono no es valido, debe tener almenos 7 digitos.";
   static const String numberEmpty                           = "El número de identificación es requerido.";
   static const String cityEmpty                             = "La ciudad es requerida.";
+  static const String departmentEmpty                        = "El Departamento/Estado es requerido.";
   static const String countryEmpty                           = "El país es requerido.";
   static const String documentTypeEmpty                     = "El tipo de documento es requerido.";
   static const String termsAndConditionsEmpty               = "Debes aceptar los terminos y condiciones";
@@ -627,10 +634,22 @@ class Strings {
   static const String service = "servicio";
   static const String principalConfigured = "No tienes una dirección principal configurada.";
 
+  static const String helloHelp = "No tienes una dirección principal configurada.";
+
   //close account
   static const String closeAccountTitle = "¿Estas seguro que deseas cerrar tu cuenta?";
+  static const String closeAccountDescription = "Ten en cuenta que al cerrar tu cuenta, esta será eliminada de forma permanente. No podrás recuperarla en el futuro. Si tienes alguna pregunta o necesitas asistencia, contáctanos a través de nuestros canales de soporte. soporte@estoespamii.com";
+
   static const String accountClosedSuccessfullyDescription = "Tu cuenta fue cerrada con exito.";
-  static const String accountCloseLogin = "El usuario se encuentra inactivo";
+  static const String accountCloseLogin = "El usuario no existe";
+
+  //accept policies
+  static const String policiesTitle = "Política de protección de datos personales";
+  static const String acceptPoliciesTitle = "la política de protección de datos personales";
+  static const String pdfUrlPoliciesTitle = 'https://entrep.estoespamii.com/POLITICA%20TRATAMIENTO%20DE%20DATOS%20ESTOESPAMII%2006072023.pdf';
+  static const String policiesPamiiTitle = "POLÍTICAS DE TRATAMIENTO DE DATOS PERSONALES PAMII SAS";
+  static const String msgErrorPolicies = "Debes aceptar la política de protección de datos personales";
+  static const String urlPolicies = "https://pamii-preproduction.s3.amazonaws.com/pamii/terminos-y-politicas/tycclientes_28082023.html";
 }
 
 

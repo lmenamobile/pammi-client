@@ -43,11 +43,11 @@ class ContactPage extends StatelessWidget {
         //simpleHeader(context, _childHeader(context)),
 
         header(context, Strings.contactUs, CustomColors.redDot, () => Navigator.pop(context)),
+        const SizedBox(height: 40,),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 15),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(

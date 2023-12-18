@@ -163,34 +163,32 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 35,
-                height: 35,
-                child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): isImageYoutube(asset,FadeInImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(asset),
-                  placeholder: AssetImage("Assets/images/spinner.gif"),
-                  imageErrorBuilder: (_,__,___){
-                    return Container();
-                  },
-                )),
-              ),
-              SizedBox(
-                width: 13,
-              ),
-              Text(
-                nameReference,
-                style: TextStyle(
-                    fontFamily: Strings.fontRegular,
-                    color: CustomColors.gray7),
-              )
-            ],
+          Container(
+            width: 35,
+            height: 35,
+            child:asset.isEmpty?Image.asset("Assets/images/spinner.gif"): isImageYoutube(asset,FadeInImage(
+              fit: BoxFit.fill,
+              image: NetworkImage(asset),
+              placeholder: AssetImage("Assets/images/spinner.gif"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
+            )),
           ),
+          SizedBox(
+            width: 13,
+          ),
+          Expanded(
+            child: Text(
+              nameReference,
+              maxLines: 2,
+              style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                  fontFamily: Strings.fontRegular,
+                  color: CustomColors.gray7),
+            ),
+          )
         ],
       ),
     ),
@@ -275,6 +273,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                Text(
                  Strings.references,
                  style: TextStyle(
+                   overflow: TextOverflow.ellipsis,
                    fontFamily: Strings.fontBold,
                    fontSize: 18,
                    color:CustomColors.black1
@@ -292,7 +291,9 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: InkWell(
-                            onTap: ()=>selectReference(ltsReferences![index]),
+                            onTap: (){
+                              selectReference(ltsReferences?[index]);
+                            },
                               child: itemReference(ltsReferences![index].images!.isEmpty?'':
                                   ltsReferences[index].images![0].url!, ltsReferences[index].reference!,ltsReferences[index].isSelected!)),
                         );

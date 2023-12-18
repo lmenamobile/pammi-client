@@ -35,7 +35,17 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              itemImageOffer(offer.baseProducts![getRandomPosition(offer.baseProducts?.length??0)].reference!.images![0].url!),
+              /*itemImageOffer(offer.baseProducts!.isNotEmpty?
+                  offer.baseProducts![getRandomPosition(offer.baseProducts?.length??0)].reference!.images![0].url!:""),*/
+              itemImageOffer((offer.baseProducts != null && offer.baseProducts!.isNotEmpty)
+                  ? (offer.baseProducts!.length > 0
+                  ? (offer.baseProducts![getRandomPosition(offer.baseProducts!.length)].reference?.images != null
+                  ? (offer.baseProducts![getRandomPosition(offer.baseProducts!.length)].reference!.images!.isNotEmpty
+                  ? offer.baseProducts![getRandomPosition(offer.baseProducts!.length)].reference!.images![0].url ?? ""
+                  : "")
+                  : "")
+                  : "")
+                  : ""),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 width: 1,
@@ -128,7 +138,7 @@ Widget itemImageOffer(String url) {
       image: NetworkImage(url),
       placeholder: AssetImage("Assets/images/spinner.gif"),
       imageErrorBuilder: (_,__,___){
-        return Container();
+        return Image.asset("Assets/images/spinner.gif");
       },
     ),
   );

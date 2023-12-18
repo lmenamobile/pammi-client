@@ -13,7 +13,21 @@ import 'package:wawamko/src/Utils/utils.dart';
 class OnboardingProvider with ChangeNotifier {
   final _prefs = SharePreference();
 
+  //show passwords
+  bool _obscureTextPass = false;
+  bool get obscureTextPass => this._obscureTextPass;
+  set obscureTextPass(bool value) {
+    this._obscureTextPass = value;
+    notifyListeners();
+  }
 
+  bool _obscureTextConfirmPass = false;
+  bool get obscureTextConfirmPass => this._obscureTextConfirmPass;
+  set obscureTextConfirmPass(bool value) {
+    this._obscureTextConfirmPass = value;
+    notifyListeners();
+  }
+  //.....
 
   bool _isLoading = false;
   bool get isLoading => this._isLoading;
@@ -57,6 +71,7 @@ class OnboardingProvider with ChangeNotifier {
       throw Strings.errorServeTimeOut;
     });
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("generate access token ${response.statusCode}");
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         _prefs.accessToken = decodeJson['data']['accessToken'];
@@ -141,6 +156,7 @@ class OnboardingProvider with ChangeNotifier {
       'version': packageInfo.version,
       'platform': Platform.isIOS ? "i" : "a",
     };
+    print("ver datos $jsonData");
     var body = jsonEncode(jsonData);
     final response = await http
         .post(Uri.parse(Constants.baseURL + "onboarding/login"),
@@ -150,7 +166,9 @@ class OnboardingProvider with ChangeNotifier {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+    print("ver datos decodeJson ${response.body}");
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("ver datos decodeJson $decodeJson");
     if (response.statusCode == 200) {
       this.isLoading = false;
       if (decodeJson!['code'] == 100) {
@@ -193,6 +211,7 @@ class OnboardingProvider with ChangeNotifier {
       'pushToken': _prefs.pushToken,
       'version': packageInfo.version.toString(),
     };
+    print("jsonData apple ${jsonData}");
     var body = jsonEncode(jsonData);
     final response = await http.post(Uri.parse(Constants.baseURL + "onboarding/apple-login"),
         headers: header, body: body)
@@ -201,7 +220,9 @@ class OnboardingProvider with ChangeNotifier {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
     });
+
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("decodeJson apple ${decodeJson}");
     if (response.statusCode == 200) {
       this.isLoading = false;
       if(decodeJson!['code']==100){
@@ -225,6 +246,7 @@ class OnboardingProvider with ChangeNotifier {
       }
     } else {
       this.isLoading = false;
+      print("jsonData apple error ${decodeJson!['message']}");
       throw decodeJson!['message'];
     }
   }
@@ -301,10 +323,15 @@ class OnboardingProvider with ChangeNotifier {
       "Content-Type": "application/json",
       "X-WA-Access-Token": _prefs.accessToken.toString(),
     };
+
+    var jsonIV = utils.encryptPwdIv(code);
+
     Map jsonData = {
       'user': email,
-      'code': code,
+      'code': jsonIV['encrypted'],
+      'iv':jsonIV['iv']
     };
+
     var body = jsonEncode(jsonData);
 
     final response = await http

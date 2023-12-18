@@ -42,10 +42,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       providerProducts!.productDetail = widget.product;
-      providerProducts!.referenceProductSelected =
-      widget.product.references![0];
-      providerProducts
-          ?.imageReferenceProductSelected = widget.product.references![0]?.images?[0].url ?? "";
+      providerProducts!.referenceProductSelected = widget.product.references![0];
+      providerProducts?.imageReferenceProductSelected = widget.product.references![0]?.images?[0].url ?? "";
       providerProducts!.unitsProduct = 1;
     });
     super.initState();
@@ -84,18 +82,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Container(
                         width: double.infinity,
                         height: 290,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                            )),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15),)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            isImageYoutubeAction(providerProducts
-                                ?.imageReferenceProductSelected ??
-                                '',
+                            isImageYoutubeAction(providerProducts?.imageReferenceProductSelected ?? '',
                                 InkWell(
                                   onTap: () => openZoomImages(),
                                   child: imageReference(
@@ -130,12 +121,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 10,
                               ),
                               InkWell(
-                                onTap: () =>
-                                    openBottomSheetLtsReferences(
-                                        context,
-                                        setReference,
-                                        providerProducts
-                                            ?.ltsReferencesProductSelected),
+                                onTap: () {
+                                  String? color = providerProducts?.referenceProductSelected?.color;
+                                  if(color != null  && color.startsWith('#') && color.length >= 6){
+                                    openBottomSheetLtsReferences(context, setReference, providerProducts?.ltsReferencesProductSelected);
+                                  }
+
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: CustomColors.gray6,
@@ -153,13 +145,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              itemImageReference(
-                                                  35, providerProducts!
-                                                  .referenceProductSelected!
-                                                  .images!.isEmpty ? '' :
-                                              providerProducts
-                                                  ?.referenceProductSelected
-                                                  ?.images![0].url ?? ''),
+                                              itemImageReference(35, providerProducts!.referenceProductSelected!.images!.isEmpty ? '' : providerProducts?.referenceProductSelected?.images![0].url ?? ''),
                                               SizedBox(
                                                 width: 13,
                                               ),
@@ -216,11 +202,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               SizedBox(
                                 height: 5,
                               ),
+                              //PRODUCT COLOR
                               Row(
                                   children: [
                                     Visibility(
-                                      visible: providerProducts
-                                          ?.referenceProductSelected?.color != "",
+                                      visible: providerProducts?.referenceProductSelected?.color != "",
                                       child: Row(
                                        // mainAxisAlignment: MainAxisAlignment.,
                                         children: [
@@ -236,28 +222,21 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             height: 12,
                                             decoration: BoxDecoration(
                                               border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
-                                              color:providerProducts
-                                                  ?.referenceProductSelected?.color != "" ? HexColor(providerProducts
-                                                  ?.referenceProductSelected?.color?.replaceAll("FF", "") ?? "6A1B9A") : Colors.white,
+                                              color:providerProducts?.referenceProductSelected?.color != "" ?
+                                              Color(int.parse(providerProducts?.referenceProductSelected?.color?.toString().replaceAll('#', '0xFF') ?? "")) : Colors.yellow,
                                               borderRadius: BorderRadius.circular(10)
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
+
                                    Visibility(
-                                     visible: providerProducts
-                                         ?.referenceProductSelected?.size != "",
+                                     visible: providerProducts?.referenceProductSelected?.size != "",
                                      child:   Expanded(
                                          child: Text(
-                                            providerProducts
-                                               ?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts
-                                                 ?.referenceProductSelected?.size}" :  "Talla ${providerProducts
-                                               ?.referenceProductSelected?.size}",
-                                           style: TextStyle(
-                                               fontSize: 15,
-                                               fontFamily: Strings.fontRegular,
-                                               color: CustomColors.blueSplash),
+                                            providerProducts?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts?.referenceProductSelected?.size}" :  "Talla ${providerProducts?.referenceProductSelected?.size}",
+                                           style: TextStyle(fontSize: 15, fontFamily: Strings.fontRegular, color: CustomColors.blueSplash),
                                          ),
                                    ),
 
@@ -309,10 +288,35 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     fontFamily: Strings.fontMedium,
                                     color: CustomColors.orange),
                               ),
-                              rowButtonsMoreAndLess(
-                                  providerProducts!.unitsProduct.toString(),
-                                  addProduct,
-                                  removeProduct),
+                              SizedBox(height: 10,),
+                              //botones para agregar producto por cantidad
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  rowButtonsMoreAndLess(providerProducts!.unitsProduct.toString(), addProduct, removeProduct),
+                                  SizedBox(height: 5,),
+                                  Visibility(
+                                    visible:providerProducts?.limitedQuantityError == true ? false :true,
+                                    child: Text("${Strings.quantityAvailable} ${providerProducts?.referenceProductSelected?.qty}",
+                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.gray),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible:providerProducts?.limitedQuantityError == true ? true :false,
+                                    child: Container(
+                                      decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "${Strings.youCanOnlyCarry} ${providerProducts?.referenceProductSelected?.qty} unidades",
+                                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+
+                                ],
+                              ),
                               customDivider(),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -498,6 +502,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   setReference(Reference reference) {
+    providerProducts!.unitsProduct = 1;
+    providerProducts?.limitedQuantityError = false;
     providerProducts?.referenceProductSelected = reference;
     providerProducts?.productDetail?.references?.forEach((element) {
       if (element != reference) {
@@ -517,6 +523,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   addProductCart() async {
+
     if (providerProducts!.prefs.authToken != "0") {
       utils.checkInternet().then((value) async {
         if (value) {
@@ -524,8 +531,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
               providerProducts!.referenceProductSelected!.id!.toString(),
               providerProducts!.unitsProduct.toString());
           await callCart.then((msg) async{
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            Navigator.push(
+                context, customPageTransition(ShopCartPage()));
             utils.showSnackBarGood(context, msg.toString());
+
             await providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
           }, onError: (error) {
             utils.showSnackBar(context, error.toString());
@@ -579,7 +589,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   addProduct() {
     if (providerProducts!.prefs.authToken != "0") {
-      providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
+      if (providerProducts!.unitsProduct < int.parse(providerProducts!.referenceProductSelected!.qty.toString())) {
+        providerProducts!.unitsProduct = providerProducts!.unitsProduct + 1;
+      } else {
+        providerProducts?.limitedQuantityError = true;
+      }
+
     } else {
       validateSession(context);
     }
@@ -587,8 +602,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   removeProduct() {
     if (providerProducts!.prefs.authToken != "0") {
-      if (providerProducts!.unitsProduct > 1)
+      if (providerProducts!.unitsProduct > 1) {
+        providerProducts?.limitedQuantityError = false;
         providerProducts!.unitsProduct = providerProducts!.unitsProduct - 1;
+      } else {
+        providerProducts!.unitsProduct = 1;
+      }
     } else {
       validateSession(context);
     }

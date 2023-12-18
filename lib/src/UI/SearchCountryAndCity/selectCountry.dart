@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -13,6 +14,8 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../Providers/SupportProvider.dart';
+import '../../Utils/share_preference.dart';
 import 'Widgets.dart';
 
 class SelectCountryPage extends StatefulWidget {
@@ -26,9 +29,12 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   late ProviderSettings providerSettings;
   OnboardingProvider? providerOnBoarding;
   int pageOffset = 0;
+  late SupportProvider supportProvider;
+  final prefs = SharePreference();
 
   @override
   void initState() {
+    supportProvider = Provider.of<SupportProvider>(context, listen: false);
     //providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       providerSettings.ltsCountries.clear();
@@ -41,6 +47,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   @override
   Widget build(BuildContext context) {
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
+    supportProvider = Provider.of<SupportProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -55,9 +62,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       children: [
 
         Column(
-         // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             header(context, Strings.selectCountry, CustomColors.red, ()=> Navigator.pop(context)),
+            SizedBox(height: 21),
+            boxSearch(context),
+            SizedBox(height: 21),
             Expanded(
               child: SmartRefresher(
                 controller: _refreshCountries,
@@ -67,23 +76,10 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 footer: footerRefreshCustom(),
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
-                child:   Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-
-                      SizedBox(height: 21),
-                      boxSearch(context),
-                      SizedBox(height: 21),
-                      providerSettings.ltsCountries.isEmpty 
-                          ? Expanded(
-                            child: emptyData("ic_empty_location.png",
-                            Strings.sorry, Strings.emptyCountries),
-                          )
-                          : Expanded(child: listItemsCountry()),
-                    ],
-                  ),
-                )
+                child:   providerSettings.ltsCountries.isEmpty
+                    ? emptyData("ic_empty_location.png",
+    Strings.sorry, Strings.emptyCountries)
+                    : listItemsCountry()
                 /*
 
                  */
@@ -101,6 +97,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   Widget boxSearch(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 30 ),
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
       decoration: BoxDecoration(
@@ -121,6 +118,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
               child: TextField(
                 onSubmitted: (value) {
                   providerSettings.ltsCountries.clear();
+                  pageOffset = 0;
                   getCountries(value);
                 },
                 textInputAction: TextInputAction.search,
@@ -167,10 +165,8 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   Widget listItemsCountry() {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10,left: 10,right: 10),
       itemCount: providerSettings.ltsCountries.length,
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return itemCountry(
             providerSettings.ltsCountries[index], actionSelectCountry);
@@ -180,7 +176,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
   actionSelectCountry(CountryUser country) async {
     providerSettings.countrySelected = country;
-     Navigator.pop(context);
+    prefs.countryIdUser =  country.id.toString();
+    if(prefs.countryIdUser != null){
+      serviceGetTerms();
+      Navigator.pop(context);
+    }
   }
 
   getCountries(String search) async {
@@ -188,10 +188,29 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       if (value) {
         Future callUser = providerSettings.getCountries(search.trim(), pageOffset);
         await callUser.then((msg) {}, onError: (error) {
+   /*       CountryUser? countryUser = providerSettings.ltsCountries.firstWhere((country) => country.id == "CO", orElse: () => CountryUser(),);
+            if(countryUser.id !=null){
+              providerSettings.countrySelected = countryUser;
+              prefs.countryIdUser =  countryUser.id.toString();
+            }*/
           utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBar(context, Strings.internetError);
+      }
+    });
+  }
+
+  serviceGetTerms() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callSupport = supportProvider.getTermsAndConditions();
+        await callSupport.then((list) {
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }

@@ -174,11 +174,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                                 physics: NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.only(
                                     top: 20, bottom: 10, left: 10, right: 10),
-                                itemCount: providerProducts
-                                        .ltsProductsByCategory.isEmpty
-                                    ? 0
-                                    : providerProducts
-                                        .ltsProductsByCategory.length,
+                                itemCount: providerProducts.ltsProductsByCategory.isEmpty ? 0 : providerProducts.ltsProductsByCategory.length,
                                 shrinkWrap: true,
                                 itemBuilder:
                                     (BuildContext context, int index) {
@@ -188,13 +184,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                                           const Duration(milliseconds: 375),
                                       columnCount: 2,
                                       child: ScaleAnimation(
-                                          child: FadeInAnimation(
-                                              child: itemProductCategory(
-                                                  providerProducts
-                                                          .ltsProductsByCategory[
-                                                      index],
-                                                  openDetailProduct,
-                                                  callIsFavorite))));
+                                          child: FadeInAnimation(child: itemProductCategory(providerProducts.ltsProductsByCategory[index], openDetailProduct, callIsFavorite))));
                                 },
                               ),
                             ):notConnectionInternet(),
@@ -213,10 +203,21 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   }
 
   openDetailProduct(Product product) {
-    providerProducts
-        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
-    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+
+    String? color = product.references[0].color;
+
+    print("producto y color $color ${product.references[0].images?.length}");
+    if(product.references[0].images?.length != 0)
+      {
+        if (color != null  && color.startsWith('#') && color.length >= 6) {
+          providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
+          providerProducts.limitedQuantityError = false;
+          Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+        }
+      }
+
   }
+
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));

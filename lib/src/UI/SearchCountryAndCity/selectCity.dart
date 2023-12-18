@@ -26,6 +26,15 @@ class _SelectCityPageState extends State<SelectCityPage> {
   int pageOffset = 0;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      providerSettings.ltsCities.clear();
+      getCitiesSearch("");
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
@@ -43,6 +52,9 @@ class _SelectCityPageState extends State<SelectCityPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             header(context, Strings.selectCity, CustomColors.red, ()=> Navigator.pop(context)),
+            SizedBox(height: 21),
+            boxSearchCountries(cityController, searchCities),
+            SizedBox(height: 21),
             Expanded(
               child: SmartRefresher(
                 controller: _refreshCities,
@@ -52,23 +64,10 @@ class _SelectCityPageState extends State<SelectCityPage> {
                 footer: footerRefreshCustom(),
                 header: headerRefresh(),
                 onRefresh: _pullToRefresh,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 21),
-                      boxSearchCountries(cityController, searchCities),
-                      SizedBox(height: 21),
-                      providerSettings.ltsCities.isEmpty
-                          ? Expanded(
-                            child: emptyData("ic_empty_location.png",
-                            Strings.sorry , Strings.emptyCities),
-                          )
-                          : Expanded(child: listItemsCities())
-
-                    ],
-                  ),
-                ),
+                child: providerSettings.ltsCities.isEmpty
+                    ? emptyData("ic_empty_location.png",
+                    Strings.sorry , Strings.emptyCities)
+                    : listItemsCities(),
               ),
             ),
           ],
@@ -80,10 +79,8 @@ class _SelectCityPageState extends State<SelectCityPage> {
 
   Widget listItemsCities() {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10,left: 10,right: 10),
       itemCount: providerSettings.ltsCities.length,
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         return cityItem(providerSettings.ltsCities[index], actionSelectCity);
       },
@@ -112,6 +109,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
 
   searchCities(String value) {
     providerSettings.ltsCities.clear();
+    pageOffset = 0;
     getCitiesSearch(value);
   }
 
@@ -123,8 +121,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
   getCitiesSearch(String search) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = providerSettings.getCities(
-            search.trim(), 0, providerSettings.stateCountrySelected!);
+        Future callUser = providerSettings.getCities(search.trim(), pageOffset, providerSettings.stateCountrySelected!);
         await callUser.then((msg) {}, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

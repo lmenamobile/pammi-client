@@ -108,6 +108,7 @@ class SupportProvider with ChangeNotifier {
       "countryId": prefs.countryIdUser
     };
     var body = jsonEncode(jsonData);
+    print("JSON DATA TERMS AND CONDITIONS $jsonData");
     final response = await http.post(Uri.parse(Constants.baseURL + "system/get-conditions"), headers: header, body: body).timeout(Duration(seconds: 25)).catchError((value) {
       this.isLoading = false;
       throw Strings.errorServeTimeOut;
@@ -124,6 +125,7 @@ class SupportProvider with ChangeNotifier {
         }
         this.isLoading = false;
         this.lstTermsAndConditions = listTerms;
+
         return listTerms;
       } else {
         this.isLoading = false;

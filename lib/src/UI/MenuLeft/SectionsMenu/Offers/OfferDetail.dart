@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
+import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
+import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
@@ -34,7 +36,9 @@ class _OfferDetailState extends State<OfferDetail> {
   ProviderOffer? providerOffer;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
+  late ProviderProducts providerProducts;
   late ProviderCheckOut providerCheckOut;
+
 
   @override
   void initState() {
@@ -51,6 +55,7 @@ class _OfferDetailState extends State<OfferDetail> {
     providerOffer = Provider.of<ProviderOffer>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
+    providerProducts = Provider.of<ProviderProducts>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -60,7 +65,7 @@ class _OfferDetailState extends State<OfferDetail> {
           child: Column(
             children: [
              
-              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", CustomColors.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", CustomColors.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), (){Navigator.push(context, customPageTransition(ShopCartPage()));providerProducts.limitedQuantityError = false;}),
               Expanded(
                 child: providerSettings.hasConnection
                     ? SingleChildScrollView(
@@ -77,10 +82,27 @@ class _OfferDetailState extends State<OfferDetail> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              rowButtonsMoreAndLess(
-                                  providerOffer!.totalUnits.toString(),
-                                  addProduct,
-                                  removeProduct),
+                              rowButtonsMoreAndLess(providerOffer!.totalUnits.toString(), addProduct, removeProduct),
+                              Visibility(
+                                visible:providerProducts.limitedQuantityError == true ? false :true,
+                                //provider.products?[0].offer?.promotionProducts?[0].reference?.qty
+                                child: Text("${Strings.quantityAvailable} ${providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty}",
+                                  style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.gray),
+                                ),
+                              ),
+                              Visibility(
+                                visible:providerProducts.limitedQuantityError == true ? true :false,
+                                child: Container(
+                                  decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "${Strings.youCanOnlyCarry} ${providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty} unidades",
+                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -379,13 +401,24 @@ class _OfferDetailState extends State<OfferDetail> {
             )));
   }
 
+
   addProduct() {
-    providerOffer?.totalUnits = providerOffer!.totalUnits + 1;
+      if (providerOffer!.totalUnits < int.parse(providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty.toString() ?? "")) {
+        providerOffer!.totalUnits = providerOffer!.totalUnits + 1;
+      } else {
+        providerProducts.limitedQuantityError = true;
+      }
   }
 
+
   removeProduct() {
-    if (providerOffer!.totalUnits > 1)
-      providerOffer?.totalUnits = providerOffer!.totalUnits - 1;
+      if (providerOffer!.totalUnits > 1) {
+        providerProducts.limitedQuantityError = false;
+        providerOffer?.totalUnits = providerOffer!.totalUnits - 1;
+      } else {
+        providerOffer?.totalUnits = 1;
+      }
+
   }
 
   getDetailOffer(String? idOffer) async {
@@ -404,9 +437,9 @@ class _OfferDetailState extends State<OfferDetail> {
   addOfferCart(String idOffer) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callCart = providerShopCart.addOfferCart(
-            idOffer, providerOffer?.totalUnits.toString() ?? '',providerCheckOut.paymentSelected?.id ?? 2);
+        Future callCart = providerShopCart.addOfferCart(idOffer, providerOffer?.totalUnits.toString() ?? '',providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
+          providerProducts.limitedQuantityError = false;
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -450,4 +483,6 @@ class _OfferDetailState extends State<OfferDetail> {
       }
     });
   }
+
+
 }

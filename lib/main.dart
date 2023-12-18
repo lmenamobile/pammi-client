@@ -1,13 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' as inapWebView;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
@@ -51,9 +53,11 @@ class MyHttpOverrides extends HttpOverrides  {
 }
 
 
+
 void main() async{
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+ // await Firebase.initializeApp();
   final prefs = SharePreference();
   await prefs.initPrefs();
   await PushNotificationService.initNotifications();
@@ -93,24 +97,22 @@ class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    initUniLinks();
     PushNotificationService.dataNotifications.listen((message) {
 
     });
-
   }
-
-  Future<void> initUniLinks() async {
+/*  Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
       if(initialLink!=null){
+        print("data link ${initialLink}");
         navigatorKey.currentState?.push(customPageTransition(ProductsCatalog(idSeller: initialLink.substring(17))));
       }
     } on PlatformException {
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +127,7 @@ class _MyAppState extends State<MyApp> {
 
     return  MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> NotifyVariablesBloc()),
+        ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),
@@ -145,6 +147,17 @@ class _MyAppState extends State<MyApp> {
 
       ],
       child: MaterialApp(
+        onGenerateRoute: (RouteSettings settings) {
+          print(settings.name??"");
+          // Si la ruta es un deep link
+         if (settings.name!.isNotEmpty&&settings.name!="") {
+           List<String> parts = settings.name.toString().split('/');
+           String idSeller = parts.last;
+           print(idSeller);
+            return MaterialPageRoute(builder: (context) =>ProductsCatalog(idSeller: idSeller));
+          }
+          return null;
+        },
         title: Strings.appName,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

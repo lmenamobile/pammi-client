@@ -124,8 +124,16 @@ class _SearchProductHomeState extends State<SearchProductHome> {
   }
 
   openDetailProduct(Product product){
-    providerProducts
-        ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
-    Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+    String? color = product.references[0].color;
+
+    print("producto y color buscar $color ${product.references[0].images?.length}");
+    if(product.references[0].images?.length != 0)
+    {
+      if (color != null  && color.startsWith('#') && color.length >= 6) {
+        providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        providerProducts.limitedQuantityError = false;
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+      }
+    }
   }
 }

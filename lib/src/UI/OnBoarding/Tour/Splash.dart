@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as GPS;
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
@@ -42,7 +40,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
 
     _controller.addStatusListener((AnimationStatus status) async {
       if(status==AnimationStatus.completed){
-        bool result = await getPermissionGps();
+    //    bool result = await getPermissionGps();
+        openApp();
       }
     });
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
@@ -114,7 +113,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   }
 
 
-/*
+
   Future<bool> getPermissionGps() async {
     bool _serviceEnabled;
     LocationPermission _permissionGranted;
@@ -155,8 +154,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     singleton.longitude = position.longitude ?? 0;
     openApp();
   }
-*/
 
+/*
   Future<bool> getPermissionGps() async {
     Location location = new Location();
     bool _serviceEnabled;
@@ -195,7 +194,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     singleton.longitude = locationData.longitude??0;
     openApp();
   }
-
+  */
   void openApp() async{
    // GPS.LocationData locationData;
     //locationData = await location.getLocation();

@@ -17,6 +17,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+import '../../../../../Utils/Constants.dart';
 import '../Widgets.dart';
 
 Widget sectionAddress(Address? address) {
@@ -231,7 +232,7 @@ Widget itemProvider(PackagesProvider provider) {
   );
 }
 
-Widget sectionPayment(PaymentMethod? payment) {
+Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, List<int> quotaList) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -309,10 +310,86 @@ Widget sectionPayment(PaymentMethod? payment) {
                 )
               ],
             ),
-          )
+          ),
+          customDivider(),
+
+          Visibility(
+            visible: payment?.id == Constants.paymentCreditCard ? true : false,
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 6,bottom: 20),
+                  child: Text(
+                    "Selecciona el número de cuotas",
+                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.gray7,),
+                  ),
+                ),
+
+            Container(
+              height: 48,
+              padding: EdgeInsets.only(left: 10,right: 10),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(5)), border: Border.all(color: Colors.grey.withOpacity(0.3),)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: DropdownButton(
+                  focusColor: Colors.white,
+                  dropdownColor: Colors.white,
+                  menuMaxHeight:160,
+                  value: quota,
+                  elevation: 1,
+                  items: quotaList.map((element) {
+                    return DropdownMenuItem(
+                      value: element,
+                      child: Container(alignment: Alignment.centerLeft, child: Text("$element", style: TextStyle(fontFamily:Strings.fontRegular, color: Colors.grey,fontSize: 16))),
+                    );
+                  }).toList(),
+                  isExpanded: true,
+                  icon: Icon(Icons.arrow_drop_down, color:Colors.grey,),
+                  underline: Container(height: 1, color: Colors.transparent,),
+                  style: TextStyle(fontFamily: Strings.fontRegular, color: Colors.grey,fontSize: 16),
+                  onChanged: (newValue) {
+                    quotaSelect(newValue);
+                  },
+                ),
+              ),
+            ),
+              ],
+            ),
+          ),
         ],
       ),
     ),
+  );
+}
+
+Widget contSlider(Function reduceQuota, Function increaseQuota, int value) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      IconButton(
+        icon: Icon(Icons.remove),
+        onPressed: (){
+          reduceQuota();
+        },
+      ),
+      SizedBox(width: 20),
+      Text(
+        '$value',
+        style: TextStyle(
+          fontFamily: Strings.fontRegular,
+          fontSize: 18,
+          color: CustomColors.blackLetter,
+        ),
+      ),
+      SizedBox(width: 20),
+      IconButton(
+        icon: Icon(Icons.add),
+        onPressed: (){
+          increaseQuota();
+        },
+      ),
+    ],
   );
 }
 
@@ -466,7 +543,7 @@ Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping
           itemTotal(styleRegular, Strings.coupon, totalCart?.discountCoupon??'0', ),
           itemTotal(styleRegular, Strings.giftCard, totalCart?.discountGiftCard??'0', ),
           customDivider(),
-          itemTotal(styleBold, Strings.total, addValues(totalCart?.total??'0',shipping, totalCart?.discountShipping??'0')),
+          itemTotal(styleBold, Strings.total, calculateTotal(totalCart?.total??'0',shipping, totalCart?.discountShipping??'0')),
           SizedBox(height: 20,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

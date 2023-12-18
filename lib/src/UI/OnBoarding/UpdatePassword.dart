@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
@@ -20,18 +19,19 @@ class UpdatePasswordPage extends StatefulWidget {
 }
 
 class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
+  late VariablesNotifyProvider notifyVariables;
+  late OnboardingProvider providerOnBoarding;
+
   bool obscureTextPass = true;
   bool obscureTextConfirmPass = true;
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  late NotifyVariablesBloc notifyVariables;
-  late OnboardingProvider providerOnboarding;
   String msgError = '';
 
   @override
   Widget build(BuildContext context) {
-    providerOnboarding = Provider.of<OnboardingProvider>(context);
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    providerOnBoarding = Provider.of<OnboardingProvider>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -51,13 +51,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   padding: EdgeInsets.all(30),
                   child: Column(
                     children: [
-                      Text(
-                        Strings.patternPass,
-                        style: TextStyle(
-                            fontFamily: Strings.fontRegular,
-                            fontSize: 18,
-                            color: CustomColors.black1),
-                      ),
+                      Text(Strings.patternPass, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.black1),),
                       const SizedBox(height: 24),
                       customBoxPassword(passwordController),
                       SizedBox(height: 31),
@@ -66,28 +60,22 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   ),
                 ),
               )
-
         ]
         ),
         Positioned(
           bottom: 30,
           left: 30,
           right: 30,
-          child: btnCustomRounded(
-            CustomColors.blueSplash,
-            CustomColors.white,
-            Strings.save,
-            callServiceUpdatePassword,
-            context),),
+          child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.save, callServiceUpdatePassword, context),),
         Visibility(
-          visible: providerOnboarding.isLoading,
+          visible: providerOnBoarding.isLoading,
             child: LoadingProgress())
       ],
     );
   }
 
   Widget customBoxPassword(TextEditingController passwordController) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -175,7 +163,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   }
 
   Widget customBoxConfirmPass(TextEditingController passwordController) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -295,7 +283,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser =
-            providerOnboarding.updatePassword(passwordController.text.trim());
+        providerOnBoarding.updatePassword(passwordController.text.trim());
         await callUser.then((value) {
           utils.showSnackBarGood(context, value.toString());
           Navigator.pushAndRemoveUntil(

@@ -21,19 +21,18 @@ class ProviderShopCart with ChangeNotifier{
   }
 
 
-
   bool _hasPrincipalAddress = false;
-
-
   bool get hasPrincipalAddress => _hasPrincipalAddress;
-
   set hasPrincipalAddress(bool value) {
     _hasPrincipalAddress = value;
     notifyListeners();
   }
 
-  bool get loading => _loading;
 
+
+
+
+  bool get loading => _loading;
   set loading(bool value) {
     _loading = value;
     notifyListeners();
@@ -180,6 +179,8 @@ class ProviderShopCart with ChangeNotifier{
       "referenceId": referenceId,
       "qty": units
     };
+
+    print("ver jsonData del carrito $jsonData");
     var body = jsonEncode(jsonData);
     final response = await http
         .post(Uri.parse(Constants.baseURL + "cart/add-product"), headers: header, body: body)
@@ -189,6 +190,8 @@ class ProviderShopCart with ChangeNotifier{
     });
 
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("ver producto del carrito $decodeJson");
+
     if (response.statusCode == 200) {
       this.isLoadingCart = false;
       if (decodeJson!['code'] == 100) {
@@ -276,17 +279,17 @@ class ProviderShopCart with ChangeNotifier{
       throw Strings.errorServeTimeOut;
     });
 
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 201) {
       this.isLoadingCart = false;
-      if (decodeJson!['code'] == 100) {
+      if (decodeJson['code'] == 100) {
         return decodeJson['message'];
       } else {
         throw decodeJson['message'];
       }
     } else {
       this.isLoadingCart = false;
-      throw decodeJson!['message'];
+      throw decodeJson['message'];
     }
   }
 
@@ -368,6 +371,7 @@ class ProviderShopCart with ChangeNotifier{
       "qty": units
     };
     var body = jsonEncode(jsonData);
+    print("ver valores de oferta ${jsonData}");
     final response = await http
         .post(Uri.parse(Constants.baseURL + "cart/add-offer"), headers: header, body: body)
         .timeout(Duration(seconds: 15)).catchError((value) {

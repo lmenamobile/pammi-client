@@ -5,7 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:spring_button/spring_button.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
@@ -22,12 +22,12 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'ExpansionWidget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
-NotifyVariablesBloc? notifyVariables;
+VariablesNotifyProvider? notifyVariables;
 
 
 
 Widget customBoxEmailLogin(TextEditingController emailController,
-    NotifyVariablesBloc? notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
@@ -98,7 +98,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
 }
 
 Widget customBoxEmailForgotPass(TextEditingController emailController,
-    NotifyVariablesBloc? notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
@@ -170,7 +170,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
 }
 
 Widget customBoxEmailRegister(TextEditingController emailController,
-    NotifyVariablesBloc? notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(
       // stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -1314,12 +1314,23 @@ Widget simpleHeader(BuildContext context, Widget child) {
 Widget header(BuildContext context, String title, Color color, Function action) {
   return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(top: 20,bottom: 20),
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 20,right: 20),
       alignment: Alignment.center,
       decoration: BoxDecoration(color: color),
-      child: Stack(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Center(
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 30,),
+          Expanded(
             child: Text(
               title,
               style: TextStyle(
@@ -1329,17 +1340,8 @@ Widget header(BuildContext context, String title, Color color, Function action) 
               ),
             ),
           ),
-          Positioned(
-            left: 20,
-             bottom: 0,
-              child: GestureDetector(
-                onTap: ()=> action(),
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 25,
-                  color: Colors.white,
-                ),
-              ))
+          Container()
+
         ],
       ));
 }
@@ -1390,6 +1392,84 @@ Widget headerDoubleTap(BuildContext context, String title, String imageIcon, Col
                           width: 30,
                           child: Image(
                             image: AssetImage("Assets/images/ic_car.png"),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Visibility(
+                            visible: totalProductsCart != "0",
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                totalProductsCart,
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: CustomColors.redTour
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () => action2(),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ));
+}
+
+Widget headerDoubleTap2(BuildContext context, String title, String imageIconR, String imageIcon, Color color,String totalProductsCart, Function action,Function action2) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 37,right: 37),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontFamily:Strings.fontBold,
+                  color: Colors.white
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: ()=> action2(),
+            child: Container(
+              child: Stack(
+                children: [
+                  Image(
+                    image: AssetImage("Assets/images/$imageIcon"),
+                    width: 30,
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          child: Image(
+                            image: AssetImage("Assets/images/$imageIconR"),
                           ),
                         ),
                         Positioned(

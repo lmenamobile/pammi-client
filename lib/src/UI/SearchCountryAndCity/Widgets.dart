@@ -9,6 +9,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 
 Widget boxSearchCountries(TextEditingController controllerSearch,Function search) {
   return Container(
+    margin: EdgeInsets.symmetric(horizontal: 30 ),
     padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
     width: double.infinity,
     decoration: BoxDecoration(
@@ -163,13 +164,15 @@ Widget itemStateCountry(StatesCountry state, Function action) {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
-                  state.name!,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: CustomColors.gray15,
-                      fontFamily: Strings.fontBold),
+                Expanded(
+                  child: Text(
+                    state.name!,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: CustomColors.gray15,
+                        fontFamily: Strings.fontBold),
+                  ),
                 ),
               ]),
         ),

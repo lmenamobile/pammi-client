@@ -1,12 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/OnBoarding/DataProtectionPolicyPdfView.dart';
+import 'package:wawamko/src/UI/OnBoarding/TermsAndConditionsView.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
@@ -15,6 +18,8 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+import '../../Utils/share_preference.dart';
+import '../SearchCountryAndCity/selectCity.dart';
 import 'RegisterStepTwo.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -28,19 +33,19 @@ class _RegisterPageState extends State<RegisterPage> {
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final countryController = TextEditingController();
+  final departmentController = TextEditingController();
   final cityController = TextEditingController();
   final phoneController = TextEditingController();
-
+  final prefs = SharePreference();
   UserModel userModel = UserModel();
   GlobalVariables globalVariables = GlobalVariables();
-  NotifyVariablesBloc? notifyVariables;
+  VariablesNotifyProvider? notifyVariables;
   ProviderSettings? providerSettings;
   late OnboardingProvider providerOnBoarding;
   String msgError = '';
-
+  String assetPDFPath = "";
   @override
   void initState() {
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       providerOnBoarding.stateTerms = false;
       providerOnBoarding.stateDates = false;
@@ -49,15 +54,12 @@ class _RegisterPageState extends State<RegisterPage> {
       providerSettings!.stateCountrySelected = null;
       providerSettings!.citySelected = null;
     });
-
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     cityController.text = providerSettings?.citySelected?.name??'';
@@ -86,29 +88,17 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               children: <Widget>[
                 Column(
-
                   children: <Widget>[
-                    SizedBox(
-                      height: 6,
-                    ),
+                    SizedBox(height: 6,),
                     Text(
                       "¡${Strings.createAccount}!",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: Strings.fontBold,
-                          fontSize: 36,
-                          color: CustomColors.blueTitle),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: CustomColors.blueTitle),
                     ),
-                    SizedBox(
-                      height: 17,
-                    ),
+                    SizedBox(height: 17,),
                     Text(
                       Strings.registerMsg,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          fontSize: 18,
-                          color: CustomColors.black1),
+                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.black1),
                     ),
                     SizedBox(height: 52),
                     Column(
@@ -116,23 +106,72 @@ class _RegisterPageState extends State<RegisterPage> {
                           duration: const Duration(milliseconds: 600),
                           childAnimationBuilder: (widget) => SlideAnimation(
                             verticalOffset: 50,
-                            child: FadeInAnimation(
-                              child: widget,
-                            ),
+                            child: FadeInAnimation(child: widget,),
                           ),
                           children: <Widget>[
-                            customTextFieldIcon("ic_data.png",true, Strings.nameUser,
-                                nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
-                            customTextFieldIcon("ic_data.png",true, Strings.lastName,
-                                lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
+                            customTextFieldIcon("ic_data.png",true, Strings.nameUser, nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                            customTextFieldIcon("ic_data.png",true, Strings.lastName, lastNameController, TextInputType.text, [LengthLimitingTextInputFormatter(30)]),
                             InkWell(
                                 onTap: ()=>openSelectCountry(),
-                                child: textFieldIconSelector("ic_country.png",false, Strings.nationality, countryController)),
+                                child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
                             InkWell(
-                                onTap: ()=>openSelectCityByState(),
+                                onTap: ()=>openSelectDepartment(),
+                                child: textFieldIconSelector("ic_country.png",false, Strings.department, departmentController)),
+                            InkWell(
+                                onTap: ()=>openSelectCity(),
                                 child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
                             textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 10),
+                        //terms and conditions
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              value: providerSettings?.checkPolicies,
+                              activeColor: CustomColors.blue,
+                              checkColor: Colors.white,
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3),),
+                              fillColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return CustomColors.blue;
+                                }
+                                return CustomColors.gray;
+                              }),
+                              onChanged: (value) {
+                                providerSettings?.checkPolicies = value!;
+                              },
+                            ),
+
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: Strings.btnAccept,
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.gray,),
+                                    ),
+                                    TextSpan(
+                                      text: ' ',
+                                      style: TextStyle(fontSize: 15, color: CustomColors.gray,),
+                                    ),
+                                    TextSpan(
+                                      text: Strings.acceptPoliciesTitle,
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blue,),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.push(context, customPageTransition(TermsAndConditionsView()));
+                                        },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                            SizedBox(height: 30,),
                           ],
                         )),
                     btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
@@ -150,15 +189,29 @@ class _RegisterPageState extends State<RegisterPage> {
   openSelectCountry()async{
      await Navigator.push(context, customPageTransition(SelectCountryPage()));
      countryController.text = providerSettings?.countrySelected?.country??'';
+     prefs.countryIdUser = providerSettings?.countrySelected?.id ??'';
   }
 
-  openSelectCityByState(){
+  void openSelectDepartment()async{
     if(providerSettings?.countrySelected!=null) {
-       Navigator.push(context, customPageTransition(SelectStatesPage()));
+      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      departmentController.text = providerSettings?.stateCountrySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
     }
   }
+
+  void openSelectCity()async{
+    if(providerSettings?.stateCountrySelected!=null) {
+      await Navigator.push(context, customPageTransition(SelectCityPage()));
+      cityController.text = providerSettings?.citySelected?.name??'';
+    }else{
+      utils.showSnackBar(context, Strings.departmentEmpty);
+    }
+  }
+
+
+
 
 
   bool _validateEmptyFields() {
@@ -186,14 +239,20 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   callStepTwoRegister(){
-    if(_validateEmptyFields()){
+    if(_validateEmptyFields() && providerSettings?.checkPolicies == true){
       userModel.name = nameController.text;
       userModel.lastName = lastNameController.text;
       userModel.numPhone = phoneController.text;
       userModel.cityId = providerSettings!.citySelected!.id;
       Navigator.push(context,customPageTransition(RegisterStepTwoPage(user: userModel)));
     }else{
-      utils.showSnackBar(context, msgError);
+      if(providerSettings?.checkPolicies == false){
+        utils.showSnackBar(context, Strings.msgErrorPolicies);
+      }else{
+        utils.showSnackBar(context, msgError);
+      }
+
     }
   }
+
 }

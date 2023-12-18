@@ -181,7 +181,6 @@ GlobalVariables globalVariables  = GlobalVariables();
                                     image: AssetImage("Assets/images/ic_close.png")),
                               ),
                               onTap: (){
-                                //print("HOLA MI AMORCITO TE AAAAAMO");
                                 Navigator.pop(context);
                               },
                             ),

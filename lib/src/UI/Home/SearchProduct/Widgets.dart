@@ -78,7 +78,7 @@ Widget itemProductSearch(Product product, Function openDetail){
               height: 100,
               child: FadeInImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(product.references?[0].images?[0].url??''),
+                image: NetworkImage(product.references[0].images?.length != 0 ? product.references[0].images![0].url.toString() : ""),
                 placeholder: AssetImage("Assets/images/spinner.gif"),
                 imageErrorBuilder: (_,__,___){
                   return Container();

@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
@@ -62,8 +64,8 @@ int getRandomPosition(int lengthList) {
   }
 }
 
-String addValues(String a, String b, String c) {
-  return (double.parse(a) + double.parse(b) - double.parse(c)).toString();
+String calculateTotal(String total, String valueSend, String discountSend) {
+  return (double.parse(total) + double.parse(valueSend) - double.parse(discountSend)).toString();
 }
 
 String getTypeDocument(String type) {

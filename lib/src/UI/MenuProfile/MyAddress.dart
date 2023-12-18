@@ -77,8 +77,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                     itemCount: this.addresses.length,
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemBuilder: (BuildContext context, int index) {
                                       return itemAddress(
                                         this.addresses[index],
                                         () {
