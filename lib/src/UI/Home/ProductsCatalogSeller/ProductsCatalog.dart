@@ -9,6 +9,9 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/Widgets.dart';
+import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/filter_brands.dart';
+import 'package:wawamko/src/UI/Home/SearchProduct/Widgets.dart';
+import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -30,7 +33,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   late ProviderProducts providerProducts;
   SharePreference prefs = SharePreference();
   RefreshController _refreshSubCategories = RefreshController(initialRefresh: false);
+
   int pageOffset = 0;
+  final searchController = TextEditingController();
 
   @override
   void initState() {
@@ -57,6 +62,22 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 children: [
                  // titleBar(Strings.catalog,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
                   header(context, Strings.catalog, CustomColors.redDot, ()=> Navigator.pop(context)),
+                  const SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        IconButton(onPressed: _selectFilterBrands, icon: Icon(
+                          Icons.filter_alt_rounded,
+                          size: 30,
+                          color: CustomColors.blue6,
+                        )),
+                        const SizedBox(width: 20),
+                        Expanded(child: boxSearch(searchController, _searchProducts)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 25),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshSubCategories,
@@ -96,6 +117,17 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
   }
 
+  _searchProducts(String value){
+      providerProducts.ltsProductsByCatalog = [];
+      getProducts(0);
+  }
+
+  _selectFilterBrands(){
+    Navigator.push(context, customPageTransitionLeftToRight(FilterBrandsCatalog(actionFilter: (){
+      providerProducts.ltsProductsByCatalog = [];
+     getProducts(0);
+    },)));
+  }
 
 
   void _pullToRefresh() async {
@@ -106,6 +138,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   void clearForRefresh() {
     pageOffset = 0;
+    providerProducts.brandSelectedCatalog = null;
     providerSettings.ltsCategories.clear();
     getProducts(pageOffset);
   }
@@ -120,13 +153,17 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   getProducts(int page) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callProducts = providerProducts.getProductsByCatalogSeller(widget.idSeller, page);
+        Future callProducts = providerProducts.getProductsByCatalogSeller(widget.idSeller, page,searchController.text);
         await callProducts.then((list) {}, onError: (error) {
           providerProducts.isLoadingProducts = false;
         });
-      } else {
+      }else{
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
+
+
+
+
 }

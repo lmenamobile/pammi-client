@@ -23,6 +23,14 @@ customPageTransition(Widget page) {
       duration: Duration(milliseconds: 600));
 }
 
+customPageTransitionLeftToRight(Widget page) {
+  return PageTransition(
+      curve: Curves.decelerate,
+      child: page,
+      type: PageTransitionType.leftToRight,
+      duration: Duration(milliseconds: 600));
+}
+
 /*Widget titleBar(String title, String icon, Function action) {
   return Container(
     width: double.infinity,

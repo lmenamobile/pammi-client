@@ -189,6 +189,49 @@ Widget itemBrand(Brand brand){
   );
 }
 
+
+Widget itemSelectBrand(Brand brand,Function selectBrand,bool selected){
+  return GestureDetector(
+    onTap: ()=>selectBrand(brand),
+    child: Container(
+      margin: EdgeInsets.only(bottom: 15),
+      padding: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        border: Border.all(color: selected ? CustomColors.greenValid : CustomColors.gray4, width: 1),
+      ),
+      child: Center(
+        child: Row(
+          children: [
+            FadeInImage(
+              fit: BoxFit.fill,
+              width: 20,
+              height: 20,
+              image: NetworkImage(brand.image!),
+              placeholder: AssetImage("Assets/images/ic_gallery.png"),
+              imageErrorBuilder: (_,__,___){
+                return Container();
+              },
+            ),
+            const SizedBox(width: 15,),
+            Expanded(
+              child: Text(
+                brand.brand ?? '',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontFamily: Strings.fontRegular
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners){
   return Column(
     children: [

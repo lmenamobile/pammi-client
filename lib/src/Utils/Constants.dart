@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class Constants {
 //EstoEsPAmii
 
-
   //*------DEV------*//*
   /*static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
@@ -14,7 +13,7 @@ class Constants {
   //*------------*/
 
   //static const Str /*------staging------*/
-   /*static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
+     /*static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
      static const String urlBlog = 'http://stagingblog.pamii.com/';
      static const String urlSocket = 'http://stagingapisupersocket.pamii.com';
      static const String profileProvider = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';

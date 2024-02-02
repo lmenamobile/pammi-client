@@ -389,6 +389,7 @@ class Strings {
   static const String  commentProduct = 'Cuéntanos más del producto';
   static const String  textQualificationSeller = '¿Cómo calificarías a';
   static const String  hintComment = 'Cuentanos tu experiencia con';
+  static const String  clearFilter = 'Limpiar Filtro';
 
 
   /*Register User*/

@@ -11,10 +11,37 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
+import '../Models/Brand.dart';
+
 class ProviderProducts with ChangeNotifier{
   final prefs = SharePreference();
 
-  //limited quantity error
+  Brand? _brandSelectedCatalog;
+  List<Brand> _ltsBrands = [];
+  bool _loading = false;
+
+
+  bool get loading => _loading;
+
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
+
+  List<Brand> get ltsBrands => _ltsBrands;
+
+  set ltsBrands(List<Brand> value) {
+    _ltsBrands = value;
+    notifyListeners();
+  }
+
+
+  Brand? get brandSelectedCatalog => _brandSelectedCatalog;
+
+  set brandSelectedCatalog(Brand? value) {
+    _brandSelectedCatalog = value;
+    notifyListeners();
+  }
 
   bool _limitedQuantityError = false;
   bool get limitedQuantityError => this._limitedQuantityError;
@@ -66,9 +93,12 @@ class ProviderProducts with ChangeNotifier{
   }
 
   List<Product> _ltsProductsByCatalog = [];
-  List<Product> get ltsProductsByCatalog => this._ltsProductsByCatalog;
+
+
+  List<Product> get ltsProductsByCatalog => _ltsProductsByCatalog;
+
   set ltsProductsByCatalog(List<Product> value) {
-    this._ltsProductsByCatalog.addAll(value);
+    _ltsProductsByCatalog = value;
     notifyListeners();
   }
 
@@ -229,7 +259,7 @@ class ProviderProducts with ChangeNotifier{
   }
 
   Future<dynamic> getProductsByCatalogSeller(
-      String idSeller,int page) async {
+      String idSeller,int page,String filter) async {
     this.isLoadingProducts = true;
     final header = {
       "Content-Type": "application/json",
@@ -240,7 +270,12 @@ class ProviderProducts with ChangeNotifier{
       'sellerId': idSeller,
       'offset': page,
       'limit': 20,
+      'filter': filter,
+      'brandId': brandSelectedCatalog == null ? "" : brandSelectedCatalog!.id
     };
+
+    print("JSON DATA CATALOG $jsonData");
+
     var body = jsonEncode(jsonData);
     final response = await http.post(Uri.parse(Constants.baseURL + "seller/get-products"),
         headers: header, body: body)
@@ -254,14 +289,19 @@ class ProviderProducts with ChangeNotifier{
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
+
         for (var item in decodeJson['data']['items']) {
           final product = Product.fromJson(item);
           listProducts.add(product);
         }
+
         this.isLoadingProducts = false;
-        this.ltsProductsByCatalog = listProducts;
+        ltsProductsByCatalog = listProducts;
         return listProducts;
       } else {
+        if(page == 0){
+          ltsProductsByCatalog = [];
+        }
         this.isLoadingProducts = false;
         throw decodeJson['message'];
       }
@@ -459,6 +499,52 @@ class ProviderProducts with ChangeNotifier{
       }
     } else {
       this.isLoadingProducts = false;
+      throw decodeJson!['message'];
+    }
+
+  }
+
+  Future<dynamic> getBrands(int offset) async {
+
+    loading = true;
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
+    };
+    Map jsonData = {
+      'filter': "",
+      'offset':offset,
+      'limit': 20,
+    };
+    var body = jsonEncode(jsonData);
+    final response = await http.post(Uri.parse(Constants.baseURL + "home/get-brands"),
+        headers: header, body: body)
+        .timeout(Duration(seconds: 25))
+        .catchError((value) {
+      loading = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    final List<Brand> listBrand = [];
+    Map<String, dynamic>? decodeJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (decodeJson!['code'] == 100) {
+
+        for (var item in decodeJson['data']['items']) {
+          final brand = Brand.fromJson(item);
+          listBrand.add(brand);
+        }
+
+        this.ltsBrands = listBrand;
+        loading = false;
+        return listBrand;
+      } else {
+        loading = false;
+        throw decodeJson['message'];
+      }
+    } else {
+      loading = false;
       throw decodeJson!['message'];
     }
 

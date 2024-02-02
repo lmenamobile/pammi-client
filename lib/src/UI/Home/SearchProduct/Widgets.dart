@@ -32,6 +32,11 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
             onSubmitted: (value){
               searchElements(value);
             },
+            onChanged: (value){
+              if(value.isEmpty){
+                searchElements(value);
+              }
+            },
             textInputAction: TextInputAction.search,
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
