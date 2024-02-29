@@ -52,6 +52,15 @@ Widget itemProductCatalog(Product product){
                   ),
                 ),
                 Text(
+                  product.product ?? '',
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 13,
+                    color: CustomColors.blackLetter,
+                  ),
+                ),
+                Text(
                   product.references?[0].reference??'',
                   maxLines: 2,
                   style: TextStyle(

@@ -17,7 +17,7 @@ class Constants {
      static const String urlBlog = 'http://stagingblog.pamii.com/';
      static const String urlSocket = 'http://stagingapisupersocket.pamii.com';
      static const String profileProvider = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
+     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
   // /*------------*/ing baseURL = 'https://apiappclient.pamii.com/v1/';*/
 
     /*------Prod------*/

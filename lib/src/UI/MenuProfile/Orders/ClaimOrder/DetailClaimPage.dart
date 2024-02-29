@@ -61,7 +61,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeAdmin, id,"");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -81,7 +81,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeProvider, id,subOrderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,fromPush: false)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

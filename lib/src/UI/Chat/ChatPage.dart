@@ -18,7 +18,9 @@ import 'WidgetsChat/MessageChat.dart';
 
 class ChatPage extends StatefulWidget {
   final String? roomId,orderId,subOrderId,typeChat,imageProfile;
-  const ChatPage({required this.roomId, this.orderId, this.subOrderId,required this.typeChat,required this.imageProfile});
+  final bool fromPush;
+
+  const ChatPage({required this.roomId, this.orderId, this.subOrderId,required this.typeChat,required this.imageProfile, required this.fromPush});
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -37,11 +39,17 @@ class _ChatPageState extends State<ChatPage> {
     socketService = Provider.of<SocketService>(context,listen: false);
     providerChat = Provider.of<ProviderChat>(context,listen: false);
     providerChat.ltsMessages.clear();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      providerChat.setMessagesListAdmin(widget.imageProfile??'');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(widget.fromPush){
+        getRoomIdAndMessagesFromPush();
+      }else{
+        providerChat.setMessagesListAdmin(widget.imageProfile??'');
+      }
+
     });
     messageReceiveType(widget.typeChat);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +130,10 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
     );
+  }
+
+  getRoomIdAndMessagesFromPush(){
+
   }
 
   handleSummit(String text){
@@ -273,6 +285,61 @@ class _ChatPageState extends State<ChatPage> {
       default:
         return "";
     }
+  }
+
+  getRoomProvider(String providerId,String subOrderId) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomProvider(subOrderId, providerId);
+        await callChat.then((id) {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeProvider, id,subOrderId);
+          }
+          providerChat.setMessagesListAdmin(widget.imageProfile??'');
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getRoomSupport() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomAdmin();
+        await callChat.then((id) async {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeAdmin, id,"");
+          }
+          providerChat.setMessagesListAdmin(widget.imageProfile??'');
+         }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+
+  getRoomSeller(String sellerId,String orderId,String imageSeller) async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callChat = providerChat.getRomSeller(sellerId, orderId);
+        await callChat.then((id) {
+          if(socketService.serverStatus!=ServerStatus.Online){
+            socketService.connectSocket(Constants.typeSeller, id,orderId);
+          }
+          providerChat.setMessagesListAdmin(widget.imageProfile??'');
+        }, onError: (error) {
+          utils.showSnackBar(context, error.toString());
+        });
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
   }
 
 }

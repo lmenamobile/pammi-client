@@ -182,7 +182,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeProvider, id,subOrderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,fromPush: false)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -200,7 +200,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeSeller, id,orderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,imageProfile: imageSeller,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,imageProfile: imageSeller,fromPush: false)));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

@@ -30,11 +30,27 @@
           }
         },
         {
+          "client_id": "262228864942-e237d4k20o1rb9acc5bmuoh22puioip9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kubo.pamii",
+            "certificate_hash": "6e7ab8631bdae46d96d4a769878f358ba8fedb8a"
+          }
+        },
+        {
           "client_id": "262228864942-isss5vaj3qij1vpg3rgld7ht2lbn9tra.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kubo.pamii",
             "certificate_hash": "fcdef64ae62b431114d4fb4c602504a1507e095d"
+          }
+        },
+        {
+          "client_id": "262228864942-tf5f2vabpuamgur9op99no3e7inn6vmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kubo.pamii",
+            "certificate_hash": "94c94f6c8fd2c0f228428cdabbfdd0cdf62f49d7"
           }
         },
         {
