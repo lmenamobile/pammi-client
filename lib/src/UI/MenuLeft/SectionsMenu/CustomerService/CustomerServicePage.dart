@@ -37,7 +37,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
   void initState() {
     providerCustomerService =
         Provider.of<ProviderCustomerService>(context, listen: false);
-    getThemes(false);
+    getSchedules();
     super.initState();
   }
 
@@ -74,10 +74,46 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
           child: Container(
             color: Colors.white,
             child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 headerDoubleTapMenu(context, Strings.customerService,
                     "", "ic_menu_w.png", CustomColors.redDot, "0",  () => keyMenuLeft.currentState!.openDrawer(), (){}),
-                const SizedBox(height: 40,),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Visibility(
+                        visible: providerCustomerService.shedule != '',
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              Strings.schedule ?? '',
+                              style: TextStyle(
+                                color: CustomColors.black1,
+                                fontFamily: Strings.fontMedium,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              providerCustomerService.shedule ?? '',
+                              style: TextStyle(
+                                color: CustomColors.black1,
+                                fontFamily: Strings.fontRegular,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+
+                    ],
+                  ),
+                ),
+                const SizedBox(height:25),
                 Expanded(
                   child: !providerCustomerService.isLoading
                       ? SmartRefresher(
@@ -174,7 +210,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
   void _clearForRefreshOpen() async {
     pageOffset = 0;
     providerCustomerService.ltsThemes.clear();
-    getThemes(false);
+    getSchedules();
   }
 
   void _onLoadingOpen() async {
@@ -282,6 +318,23 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
         Future callThemes =
         providerCustomerService.getThemes(pageOffset, scrolling);
         await callThemes.then((value) => null);
+      } else {
+        utils.showSnackBarError(context, Strings.loseInternet);
+      }
+    });
+  }
+
+  getSchedules() async {
+    utils.checkInternet().then((value) async {
+      if (value) {
+        Future callThemes =
+        providerCustomerService.getSchedules();
+        await callThemes.then((value) {
+          getThemes(false);
+        },onError: (error){
+          getThemes(false);
+          utils.showSnackBarError(context,error);
+        });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }

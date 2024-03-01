@@ -125,7 +125,6 @@ class SupportProvider with ChangeNotifier {
         }
         this.isLoading = false;
         this.lstTermsAndConditions = listTerms;
-
         return listTerms;
       } else {
         this.isLoading = false;

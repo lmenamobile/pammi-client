@@ -643,6 +643,7 @@ class Strings {
 
   static const String accountClosedSuccessfullyDescription = "Tu cuenta fue cerrada con exito.";
   static const String accountCloseLogin = "El usuario no existe";
+  static const String schedule = "Horario";
 
   //accept policies
   static const String policiesTitle = "Política de protección de datos personales";

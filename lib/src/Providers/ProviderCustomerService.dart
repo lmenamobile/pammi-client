@@ -12,6 +12,7 @@ class ProviderCustomerService extends ChangeNotifier {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  String _shedule = "";
   set isLoading(bool value) {
     _isLoading = value;
     notifyListeners();
@@ -21,6 +22,14 @@ class ProviderCustomerService extends ChangeNotifier {
   List<Themes> get ltsThemes => _ltsThemes;
   set ltsThemes(List<Themes> value) {
     _ltsThemes.addAll(value);
+    notifyListeners();
+  }
+
+
+  String get shedule => _shedule;
+
+  set shedule(String value) {
+    _shedule = value;
     notifyListeners();
   }
 
@@ -64,6 +73,42 @@ class ProviderCustomerService extends ChangeNotifier {
     } else {
       isLoading = false;
       return decodedJson['message'];
+    }
+    notifyListeners();
+  }
+
+
+  Future<dynamic> getSchedules() async {
+
+    isLoading = true;
+
+    final header = {
+      "Content-Type": "application/json",
+      "X-WA-Access-Token": prefs.accessToken.toString(),
+    };
+
+
+    final response = await http.get(Uri.parse("${Constants.baseURL}system/get-schedule"),
+        headers: header)
+        .timeout(Duration(seconds: 25))
+        .catchError((error) {
+      isLoading = false;
+      throw Strings.errorServeTimeOut;
+    });
+
+    Map<String, dynamic> decodedJson = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      if (decodedJson['code'] == 100) {
+        shedule = decodedJson["data"]["schedule"];
+        isLoading = false;
+      } else {
+        isLoading = false;
+        throw decodedJson['message'];
+      }
+    } else {
+      isLoading = false;
+      throw decodedJson['message'];
     }
     notifyListeners();
   }
