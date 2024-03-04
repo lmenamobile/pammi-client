@@ -130,9 +130,12 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                                 context,
                                 Strings.closeSesion,
                                 "Assets/images/ic_sign_off.png",
-                                Strings.closeSesionText, () async{
-                              await _prefs.clearPrefs();
-                              await callAccessToken();
+                                Strings.closeSesionText, () {
+                                 _prefs.deletePrefsLogout();
+                                 Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                                     MaterialPageRoute(builder: (context) => LoginPage()),
+                                         (Route<dynamic> route) => false);
+                             // await callAccessToken();
                             }, () {
                               Navigator.pop(context);
                             });

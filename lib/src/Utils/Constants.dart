@@ -21,7 +21,7 @@ class Constants {
   // /*------------*/ing baseURL = 'https://apiappclient.pamii.com/v1/';*/
 
     /*------Prod------*/
-  /*static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
+ /* static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
   static const String urlBlog = 'http://devblog.estoespamii.com/';
   static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_proveedor.png';

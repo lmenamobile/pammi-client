@@ -12,6 +12,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import '../../../Providers/SupportProvider.dart';
 import '../../InterestCategoriesUser.dart';
+import '../../SearchCountryAndCity/selectCity.dart';
 import '../Widgets.dart';
 
 
@@ -31,6 +32,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   ProviderSettings? providerSettings;
   late SupportProvider supportProvider;
   late OnboardingProvider providerOnBoarding;
+  final departmentController = TextEditingController();
   String msgError = '';
 
 
@@ -56,7 +58,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     supportProvider = Provider.of<SupportProvider>(context);
-    cityController.text = providerSettings?.citySelected?.name??'';
+   // cityController.text = providerSettings?.citySelected?.name??'';
 
     return Scaffold(
       backgroundColor: CustomColors.blueSplash,
@@ -133,7 +135,10 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                             childAnimationBuilder: (widget) => SlideAnimation(verticalOffset: 50, child: FadeInAnimation(child: widget,),),
                             children: <Widget>[
                               InkWell(onTap: ()=>openSelectCountry(), child: textFieldIconSelector("ic_country.png",false, Strings.country, countryController)),
-                              InkWell(onTap: ()=>openSelectCityByState(), child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
+                              InkWell(
+                                  onTap: ()=>openSelectDepartment(),
+                                  child: textFieldIconSelector("ic_country.png",false, Strings.department, departmentController)),
+                              InkWell(onTap: ()=>openSelectCity(), child: textFieldIconSelector("ic_country.png",false, Strings.city, cityController)),
 
                               textFieldIconPhone(Strings.phoneNumber,providerSettings?.countrySelected?.callingCode??'',"ic_mobile.png",phoneController ),
                               customTextFieldIcon("ic_data.png",true, Strings.codeReferred, referredController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
@@ -182,16 +187,27 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     );
   }
 
+
+  void openSelectDepartment()async{
+    if(providerSettings?.countrySelected!=null) {
+      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      departmentController.text = providerSettings?.stateCountrySelected?.name??'';
+    }else{
+      utils.showSnackBar(context, Strings.countryEmpty);
+    }
+  }
+
   openSelectCountry()async{
      await Navigator.push(context, customPageTransition(SelectCountryPage()));
      countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
-  openSelectCityByState(){
-    if(providerSettings?.countrySelected!=null) {
-       Navigator.push(context, customPageTransition(SelectStatesPage()));
+  void openSelectCity()async{
+    if(providerSettings?.stateCountrySelected!=null) {
+      await Navigator.push(context, customPageTransition(SelectCityPage()));
+      cityController.text = providerSettings?.citySelected?.name??'';
     }else{
-      utils.showSnackBar(context, Strings.countryEmpty);
+      utils.showSnackBar(context, Strings.departmentEmpty);
     }
   }
 

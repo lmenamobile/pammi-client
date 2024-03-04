@@ -62,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
     notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
-    cityController.text = providerSettings?.citySelected?.name??'';
+   // cityController.text = providerSettings?.citySelected?.name??'';
 
     return Scaffold(
       backgroundColor: Colors.white,

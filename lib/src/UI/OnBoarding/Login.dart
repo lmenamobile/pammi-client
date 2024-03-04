@@ -318,10 +318,9 @@ class _LoginPageState extends State<LoginPage> {
       if (value) {
         Future callUser = providerOnBoarding.loginUserSocialNetWork(typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"], typeLogin);
         await callUser.then((data) {
-       //   print("DATA $data");
+         print("DATA $dataUser");
           if(data==Constants.isRegisterRS){
-
-          Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? "" : dataUser["name"],email: typeLogin == Constants.loginGMAIL ? "" : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,)));
+          Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? dataUser.displayName : dataUser["name"],email: typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,)));
           }else {
             print("home");
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
@@ -343,7 +342,7 @@ class _LoginPageState extends State<LoginPage> {
       print("FACEBOOK1");
       print("INFORMACION FACEBOOK ${fb.accessToken} ${fb.isLoggedIn} ${fb.sdkVersion}");
 
-      fb.getUserEmail().then((isLoggedIn) {
+    /*  fb.getUserEmail().then((isLoggedIn) {
         print("IgetUserEmail: $isLoggedIn");
       });
       fb.isLoggedIn.then((isLoggedIn) {
@@ -354,16 +353,23 @@ class _LoginPageState extends State<LoginPage> {
         print("Access Token: $value");
       });
 
-
-
       fb.sdkVersion.then((version) {
         print("SDK Version: $version");
-      });
+      });*/
+
+
 
       final result = await fb.logIn(permissions: [
         FacebookPermission.publicProfile,
         FacebookPermission.email,
+        FacebookPermission.userFriends
       ]);
+
+      final FacebookAccessToken accessToken = result.accessToken!;
+
+      print("TOKEEEEN $accessToken");
+
+
       await fb.logOut();
       switch (result.status) {
         case FacebookLoginStatus.success:

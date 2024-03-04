@@ -60,7 +60,7 @@ void main() async{
  // await Firebase.initializeApp();
   final prefs = SharePreference();
   await prefs.initPrefs();
-  await PushNotificationService.initNotifications();
+  await NotificationsPushServices.initializeApp();
 
   if (Platform.isAndroid) {
    // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
@@ -99,9 +99,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService.dataNotifications.listen((message) {
+    /*PushNotificationService.dataNotifications.listen((message) {
 
-    });
+    });*/
   }
 /*  Future<void> initUniLinks() async {
     try {

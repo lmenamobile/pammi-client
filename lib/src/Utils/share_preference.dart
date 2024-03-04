@@ -12,6 +12,19 @@ class SharePreference {
 
   late SharedPreferences _prefs;
 
+
+  deletePrefsLogout(){
+    Set<String> keys = _prefs.getKeys();
+    String keyToKeep = "accessToken";
+    String keyPushToken = "pushToken";
+    for (String key in keys) {
+      if (key != keyToKeep && key != keyPushToken) {
+        _prefs.remove(key);
+      }
+    }
+  }
+
+
   initPrefs() async {
     this._prefs = await SharedPreferences.getInstance();
   }
