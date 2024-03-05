@@ -2,6 +2,22 @@
 
 import 'package:wawamko/src/Models/CountryUser.dart';
 
+
+class ReceivedNotificationVO {
+  int? id;
+  String? title;
+  String? body;
+  String? payload;
+
+  ReceivedNotificationVO({
+    this.id,
+    this.title,
+    this.body,
+    this.payload,
+  });
+}
+
+
 class ResponseAccessToken{
   int? code;
   String? message;

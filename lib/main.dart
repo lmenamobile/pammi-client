@@ -8,6 +8,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart' as inapWebView;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:wawamko/src/Models/User.dart';
 
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
@@ -40,9 +42,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart' show PlatformException;
 
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final BehaviorSubject<ReceivedNotificationVO> didReceiveLocalNotificationSubject = BehaviorSubject<ReceivedNotificationVO>();
+final BehaviorSubject<String> selectNotificationSubject = BehaviorSubject<String>();
 
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class MyHttpOverrides extends HttpOverrides  {
   @override
@@ -53,7 +57,6 @@ class MyHttpOverrides extends HttpOverrides  {
 }
 
 
-
 void main() async{
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,9 +65,30 @@ void main() async{
   await prefs.initPrefs();
   await NotificationsPushServices.initializeApp();
 
+
+  var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
+  var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int? id, String? title, String? body, String? payload) async {
+        didReceiveLocalNotificationSubject.add(ReceivedNotificationVO(
+            id: id, title: title, body: body, payload: payload));
+      });
+  var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String? payload) async {
+        if (payload != null) {
+          launchLocalNotification(payload);
+          debugPrint('notification payload: ' + payload);
+        }
+        selectNotificationSubject.add(payload!);
+      });
+
   if (Platform.isAndroid) {
    // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
-
     var swAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
         inapWebView.AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
     var swInterceptAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
@@ -88,6 +112,45 @@ void main() async{
   runApp(MyApp());
 }
 
+
+launchLocalNotification(String payloadData){
+
+
+  /*DataPayload? dataPayload;
+
+  if(payloadData != ""){
+    dataPayload = DataPayload.fromJson(jsonDecode(payloadData));
+  }
+
+  switch (dataPayload?.typeNotification){
+    case 'opportunity':
+    // FunctionsHelp().goToPushPage(context, DetailOpportunityPage(idOpportunity: int.parse()));
+      break;
+    case 'profile':
+    //navigatorKey.currentState!.pushNamed('event');
+      break;
+    case 'room':
+
+      if(dataPayload?.dataUser != null){
+        if(dataPayload?.moduleId != ''){
+          DatesBasicUser dates = DatesBasicUser(fullName: dataPayload?.dataUser?.fullname, photoUrl:  dataPayload?.dataUser?.photoUrl,userId:dataPayload?.dataUser?.id ?? '' );
+          //chatProvider.roomId =moduleId;
+          NotifContext.navigatorKey.currentState?.pushNamed('chat',arguments: {"withRoomId":true,"dataUser":dates,"fromPush":true,"roomId":int.parse(dataPayload?.moduleId ?? '0')});
+          //navigatorKey.currentState?.pushNamed('chat',arguments: {"withRoomId":true,"dataUser":dates,"fromPush":true,"roomId":int.parse(dataPayload?.moduleId ?? '0')});
+
+
+        }
+      }
+
+
+
+      break;
+    default:
+    // navigatorKey.currentState!.pushNamed('notifications');
+      break;
+  }*/
+}
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -99,10 +162,47 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    /*PushNotificationService.dataNotifications.listen((message) {
+    NotificationsPushServices.dataNotification.listen((event) {
+      print("MyApp: ${event['isLocal']}");
+      if(event['isLocal']){
+        _showNotification(event['title'],event['description']);
+      }else{
+       // _launchNotification(event['module'],event['dataUser'] ,event['moduleId']);
+      }
 
-    });*/
+    });
   }
+
+  void _showNotification(String title, String description) async {
+
+
+
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+        'your channel id',
+        'your channel name',
+        importance: Importance.max,
+        priority: Priority.high);
+    var iOSPlatformChannelSpecifics =
+    const IOSNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0,
+        title,
+        description,
+        platformChannelSpecifics,
+        payload:"");
+
+
+  }
+
+
+
 /*  Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
@@ -182,30 +282,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void flutterInitLocalNotification() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_push');
-
-    final DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true);
-
-    final InitializationSettings initializationSettings =
-    InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS);
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (NotificationResponse? payload) async {
-          if (payload != null) {
-            debugPrint('notification payload: $payload');
-          }
-        });
-  }
-
-  void _showNotification(String title, String description) async {
+ /*void _showNotification(String title, String description) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', channelDescription: 'your channel description',
         importance: Importance.max, priority: Priority.high);
@@ -217,6 +294,6 @@ class _MyAppState extends State<MyApp> {
     await flutterLocalNotificationsPlugin.show(
         0, title, description, platformChannelSpecifics,
         payload: 'Default_Sound');
-  }
+  }*/
 }
 
