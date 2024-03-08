@@ -169,7 +169,6 @@ class _MyAppState extends State<MyApp> {
       }else{
        // _launchNotification(event['module'],event['dataUser'] ,event['moduleId']);
       }
-
     });
   }
 

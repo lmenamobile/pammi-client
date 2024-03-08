@@ -78,41 +78,6 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
               children: [
                 headerDoubleTapMenu(context, Strings.customerService,
                     "", "ic_menu_w.png", CustomColors.redDot, "0",  () => keyMenuLeft.currentState!.openDrawer(), (){}),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Visibility(
-                        visible: providerCustomerService.shedule != '',
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Strings.schedule ?? '',
-                              style: TextStyle(
-                                color: CustomColors.black1,
-                                fontFamily: Strings.fontMedium,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            Text(
-                              providerCustomerService.shedule ?? '',
-                              style: TextStyle(
-                                color: CustomColors.black1,
-                                fontFamily: Strings.fontRegular,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-
-                    ],
-                  ),
-                ),
                 const SizedBox(height:25),
                 Expanded(
                   child: !providerCustomerService.isLoading
@@ -128,9 +93,71 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                     child: providerSettings.hasConnection
                         ? SingleChildScrollView(
                       child: Column(
-
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Visibility(
+                                  visible: providerCustomerService.shedule != '',
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        Strings.schedule ?? '',
+                                        style: TextStyle(
+                                          color: CustomColors.black1,
+                                          fontFamily: Strings.fontMedium,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15),
+                                      Text(
+                                        providerCustomerService.shedule ?? '',
+                                        style: TextStyle(
+                                          color: CustomColors.black1,
+                                          fontFamily: Strings.fontRegular,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15),
 
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Llamada (Línea fija): (602) 4895000",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: CustomColors.black1,
+                                      fontFamily: Strings.fontRegular
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Extension 1: 2810",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color:CustomColors.black1,
+                                      fontFamily: Strings.fontRegular
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Extension 2: 2811",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color:CustomColors.black1,
+                                      fontFamily: Strings.fontRegular
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           ListView.builder(
                             primary: false,
                             shrinkWrap: true,
