@@ -46,7 +46,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context, listen: false);
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       providerProducts.ltsProductsRelationsByReference.clear();
       providerShopCart.shopCart = null;
       providerShopCart.totalProductsCart = "0";
@@ -210,8 +210,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                 ),
                 Container(
                     height: 217,
-                    child:
-                    listItemsProductsRelations()),
+                    child:listItemsProductsRelations()),
               ],
             )
           ],

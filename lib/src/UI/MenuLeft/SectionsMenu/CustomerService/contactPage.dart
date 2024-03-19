@@ -41,7 +41,6 @@ class ContactPage extends StatelessWidget {
     return Column(
       children: [
         //simpleHeader(context, _childHeader(context)),
-
         header(context, Strings.contactUs, CustomColors.redDot, () => Navigator.pop(context)),
         const SizedBox(height: 40,),
         Expanded(

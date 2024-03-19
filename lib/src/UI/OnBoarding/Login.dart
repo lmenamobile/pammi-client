@@ -297,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
       if (value) {
         Future callUser = GoogleSingInProvider.singInWithGoogle();
         await callUser.then((user) {
-          GoogleSingInProvider.googleSingOut();
+         // GoogleSingInProvider.googleSingOut();
           loginSocialNetwork(user, Constants.loginGMAIL);
         }, onError: (error) {
           if(error.toString() == "El usuario se encuentra inactivo"){
@@ -314,11 +314,17 @@ class _LoginPageState extends State<LoginPage> {
 
   loginSocialNetwork(dynamic dataUser, String typeLogin) async {
 
+    if(dataUser == null){
+      utils.showSnackBar(context, 'No se encontró la data del usuario');
+      return;
+    }
+
+    print("DATA $dataUser");
     utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerOnBoarding.loginUserSocialNetWork(typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"], typeLogin);
         await callUser.then((data) {
-         print("DATA $dataUser");
+       //  print("DATA $dataUser");
           if(data==Constants.isRegisterRS){
           Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? dataUser.displayName : dataUser["name"],email: typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,)));
           }else {

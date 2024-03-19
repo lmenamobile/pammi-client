@@ -124,6 +124,11 @@ class ProviderCheckOut with ChangeNotifier {
     this.shippingPrice = '0';
   }
 
+  deletePaymentMethodsForGiftCards(){
+    _ltsPaymentMethod.removeWhere((element) => element.id != 1 && element.id != 5 );
+    notifyListeners();
+  }
+
   set ltsPaymentMethod(List<PaymentMethod> value) {
     this._ltsPaymentMethod = value;
     notifyListeners();

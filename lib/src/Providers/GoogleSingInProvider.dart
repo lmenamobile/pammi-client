@@ -12,12 +12,12 @@ class GoogleSingInProvider {
 
   static Future<dynamic> singInWithGoogle() async{
     try {
+      googleSingOut();
       final account = await (_googleSignIn.signIn());
-      final googleKey = await account!.authentication;
+      final googleKey = await account?.authentication;
       print(account);
-      print(googleKey.idToken);
-      //return googleKey.idToken;
-
+      print(googleKey?.idToken);
+      //return googleKey.idToken
       return account;
     }catch(error){
       print('Error login google:$error');

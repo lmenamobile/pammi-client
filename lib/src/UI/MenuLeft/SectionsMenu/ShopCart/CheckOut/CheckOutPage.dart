@@ -43,15 +43,29 @@ class _CheckOutPageState extends State<CheckOutPage> {
   ProviderShopCart? providerShopCart;
   String msgError = '';
 
+  //PaymentMethod? _paymentSelected = PaymentMethod(image:"https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/methods_payment/ic_upon_delivery.svg",id: 2,methodPayment: "Pago a la entrega del pedido");
+
+
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      providerCheckOut = Provider.of<ProviderCheckOut>(context,listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _setCardPayMethodIfGiftCard();
+    //  providerCheckOut = Provider.of<ProviderCheckOut>(context,listen: false);
       providerCheckOut.clearValuesPayment();
       serviceGetAddAddressUser();
      });
 
     super.initState();
+  }
+
+  _setCardPayMethodIfGiftCard(){
+    if(providerShopCart?.shopCart!
+        .packagesProvider!.isEmpty ?? false){
+      providerCheckOut.paymentSelected = null;
+      PaymentMethod? _paymentSelected = PaymentMethod(image:"https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/methods_payment/ic_card.svg",id: 1,methodPayment: "Tarjeta de crèdito");
+      providerCheckOut.paymentSelected = _paymentSelected;
+    }
+
   }
 
   @override
@@ -90,7 +104,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               },
                               child: sectionAddress(providerCheckOut.addressSelected)),
                           SizedBox(height: 8,),
-                          providerShopCart!.shopCart!.packagesProvider!.isEmpty? listGiftCards():sectionProducts(providerShopCart?.shopCart?.packagesProvider),
+                          providerShopCart?.shopCart?.packagesProvider?.isEmpty ?? false? listGiftCards():sectionProducts(providerShopCart?.shopCart?.packagesProvider),
                           SizedBox(height: 8,),
                           Visibility(
                             visible: !providerCheckOut.isTotalPaymentFree,

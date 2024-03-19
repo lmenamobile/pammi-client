@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -11,6 +12,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class PaymentMethodsPage extends StatefulWidget {
+
   @override
   _PaymentMethodsPageState createState() => _PaymentMethodsPageState();
 }
@@ -18,6 +20,8 @@ class PaymentMethodsPage extends StatefulWidget {
 class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
   late ProviderCheckOut providerCheckOut;
   late ProviderSettings providerSettings;
+  late ProviderShopCart providerShopCart;
+
 
   @override
   void initState() {
@@ -30,6 +34,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
+    providerShopCart = Provider.of<ProviderShopCart>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -120,7 +125,9 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
       if (value) {
         Future callSettings = providerCheckOut.getPaymentMethods();
         await callSettings.then((list) {
-
+          if( providerShopCart.shopCart?.packagesProvider?.isEmpty ?? false){
+            providerCheckOut.deletePaymentMethodsForGiftCards();
+          }
         }, onError: (error) {
           //utils.showSnackBar(context, error.toString());
         });
