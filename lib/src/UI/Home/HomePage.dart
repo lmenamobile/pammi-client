@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               // Botón flotante 2
               Visibility(
-                visible:false,// prefs.dataUser != "0",
+                visible:prefs.dataUser != "0",
                 child: Positioned(
                   bottom: 76.0,
                   right: 16.0,
