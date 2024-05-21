@@ -2,30 +2,35 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'image_picker_dialog.dart';
 
 class ImagePickerHandler {
-  ImagePickerDialog imagePicker;
-  AnimationController _controller;
+  late ImagePickerDialog imagePicker;
+  AnimationController? _controller;
   ImagePickerListener _listener;
+
+
+  final ImagePicker _picker = ImagePicker();
 
 
   ImagePickerHandler(this._listener, this._controller);
 
   openCamera() async {
     imagePicker.dismissDialog();
-    var image = await ImagePicker().getImage(source: ImageSource.camera);
-    cropImage(File(image.path));
+    //var image = await _picker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    cropImage(File(image?.path??''));
   }
+
+
 
   openGallery() async {
     imagePicker.dismissDialog();
-    var image = await ImagePicker().getImage(source: ImageSource.gallery);
-    cropImage(File(image.path));
+   // var image = await ImagePicker().pla//_picker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    cropImage(File(image?.path??''));
   }
 
   void init() {
@@ -36,12 +41,13 @@ class ImagePickerHandler {
 
 
   Future cropImage(File image) async {
-    File croppedFile = await ImageCropper.cropImage(
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: image.path,
       maxWidth: 512,
       maxHeight: 512,
     );
-    _listener.userImage(croppedFile);
+    if(croppedFile == null) return;
+    _listener.userImage(File(croppedFile.path));
   }
 
   showDialog(BuildContext context) {
@@ -50,5 +56,5 @@ class ImagePickerHandler {
 }
 
 abstract class ImagePickerListener {
-  userImage(File _image);
+  userImage(File? _image);
 }

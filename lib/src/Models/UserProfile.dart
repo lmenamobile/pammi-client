@@ -1,3 +1,5 @@
+
+
 import 'City.dart';
 
 class UserProfile {
@@ -14,20 +16,25 @@ class UserProfile {
     this.type,
     this.verificationCode,
     this.city,
+    this.referredCode,
+    this.codeShare
   });
 
-  String id;
-  String fullname;
-  String email;
-  String documentType;
-  String document;
-  String photoUrl;
-  String phone;
-  String identyIos;
-  bool verifyedAccount;
-  String type;
-  String verificationCode;
-  City city;
+  String? id;
+  String? fullname;
+  String? email;
+  String? documentType;
+  String? document;
+  String? photoUrl;
+  String? phone;
+  String? identyIos;
+  bool? verifyedAccount;
+  String? type;
+  String? verificationCode;
+  City? city;
+  String? codeShare;
+  String? referredCode;
+
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
     id: json["id"],
@@ -41,7 +48,10 @@ class UserProfile {
     verifyedAccount: json["verifyedAccount"],
     type: json["type"],
     verificationCode: json["verificationCode"],
-    city: City.fromJson(json["city"]),
+      referredCode:json["referredCode"],
+      codeShare: json["referrerCode"],
+    city:json["city"]==null?null: City.fromJson(json["city"]),
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -56,6 +66,6 @@ class UserProfile {
     "verifyedAccount": verifyedAccount,
     "type": type,
     "verificationCode": verificationCode,
-    "city": city.toJson(),
+    "city": city!.toJson(),
   };
 }

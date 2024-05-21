@@ -2,17 +2,33 @@
 
 import 'package:wawamko/src/Models/CountryUser.dart';
 
+
+class ReceivedNotificationVO {
+  int? id;
+  String? title;
+  String? body;
+  String? payload;
+
+  ReceivedNotificationVO({
+    this.id,
+    this.title,
+    this.body,
+    this.payload,
+  });
+}
+
+
 class ResponseAccessToken{
-  int code;
-  String message;
-  bool status;
-  DataAccesToken data;
+  int? code;
+  String? message;
+  bool? status;
+  DataAccesToken? data;
 
   ResponseAccessToken.fromJsonMap(Map<String,dynamic> json){
     code = json["code"];
     message = json["message"];
     status = json["status"];
-    data = status ? DataAccesToken.fromJsonMap(json["data"]): null;
+    data = status! ? DataAccesToken.fromJsonMap(json["data"]): null;
 
   }
 
@@ -22,7 +38,7 @@ class ResponseAccessToken{
 
 
 class DataAccesToken{
-  String accessToken;
+  String? accessToken;
 
   DataAccesToken({
     this.accessToken
@@ -37,9 +53,9 @@ class DataAccesToken{
 }
 
 class ForgetPassResponse{
-  int code;
-  String message;
-  bool status;
+  int? code;
+  String? message;
+  bool? status;
 
 
   ForgetPassResponse({
@@ -59,10 +75,10 @@ class ForgetPassResponse{
 
 
 class VerifyCodeResponse{
-  int code;
-  String message;
-  bool status;
-  DataUser data;
+  int? code;
+  String? message;
+  bool? status;
+  DataUser? data;
 
   VerifyCodeResponse({
     this.code,
@@ -74,7 +90,7 @@ class VerifyCodeResponse{
     code = json["code"];
     message = json["message"];
     status = json["status"];
-    data = status ? DataUser.fromJsonMap(json["data"]): null;
+    data = status! ? DataUser.fromJsonMap(json["data"]): null;
 
 
 
@@ -83,10 +99,10 @@ class VerifyCodeResponse{
 }
 
 class ResponseUserinfo {
-  int code;
-  String message;
-  bool status;
-  DataUser data;
+  int? code;
+  String? message;
+  bool? status;
+  DataUser? data;
 
 
   ResponseUserinfo(
@@ -102,7 +118,7 @@ class ResponseUserinfo {
     code = json["code"];
     message = json["message"];
     status = json["status"];
-    data =  status ? DataUser.fromJsonMap(json["data"]) : null;
+    data =  status! ? DataUser.fromJsonMap(json["data"]) : null;
 
 
   }
@@ -110,8 +126,8 @@ class ResponseUserinfo {
 }
 
 class DataUser {
- UserResponse user;
- String authToken;
+ UserResponse? user;
+ String? authToken;
  DataUser({
    this.user,
    this.authToken
@@ -125,30 +141,32 @@ class DataUser {
 
 
 class UserResponse {
-  String fullname;
-  String email;
-  String phone;
-  String documentType;
-  String document;
-  int cityId;
-  String id;
-  String birthDate;
-  String identification;
-  String photoUrl;
-  String societyType;
-  String legalRepresentative;
-  String address;
-  String latitude;
-  String longitude;
-  String phoneNumber;
-  String referredCode;
-  bool acceptTerms;
-  String step;
-  String type;
-  String typeSeller;
-  String verificationCode;
-  bool verifyedAccount;
-  CountryUser countryUser;
+  String? fullname;
+  String? email;
+  String? phone;
+  String? documentType;
+  String? document;
+  int? cityId;
+  String? id;
+  String? birthDate;
+  String? identification;
+  String? photoUrl;
+  String? societyType;
+  String? legalRepresentative;
+  String? address;
+  String? latitude;
+  String? longitude;
+  String? phoneNumber;
+  String? referredCode;
+  bool? acceptTerms;
+  bool? interestsConfigured;
+  String? step;
+  String? type;
+  String? typeSeller;
+  String? verificationCode;
+  bool? verifyedAccount;
+  CountryUser? countryUser;
+  String? codeShare;
 
   UserResponse({
     this.verifyedAccount,
@@ -170,11 +188,13 @@ class UserResponse {
     this.phoneNumber,
     this.referredCode,
     this.acceptTerms,
+    this.interestsConfigured,
     this.step,
     this.type,
     this.typeSeller,
     this.verificationCode,
-    this.countryUser
+    this.countryUser,
+    this.codeShare
   });
 
 
@@ -197,7 +217,9 @@ class UserResponse {
     longitude = json["longitude"];
     phoneNumber = json["phoneNumber"];
     referredCode = json["referredCode"];
+    codeShare = json["referrerCode"];
     acceptTerms = json["acceptTerms"];
+    interestsConfigured  =json["interestsConfigured"]==null?false:json["interestsConfigured"];
     step = json["step"];
     type = json["type"];
     typeSeller = json["typeSeller"];
@@ -235,15 +257,15 @@ class UserResponse {
 
 
 class UserModel{
-  String name;
-  String lastName;
-  String typeDoc;
-  String numDoc;
-  String country;
-  String numPhone;
-  String passWord;
-  String email;
-  int cityId;
+  String? name;
+  String? lastName;
+  String? typeDoc;
+  String? numDoc;
+  String? country;
+  String? numPhone;
+  String? passWord;
+  String? email;
+  int? cityId;
 
   UserModel({
     this.name,

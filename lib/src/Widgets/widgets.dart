@@ -1,64 +1,56 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_svg/svg.dart';
+
 import 'package:spring_button/spring_button.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
-import 'package:wawamko/src/Models/Address/GetAddress.dart';
-import 'package:wawamko/src/Models/Country.dart';
-import 'package:wawamko/src/Models/Product/CategoryModel.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
+import 'package:wawamko/src/Models/Address.dart';
+import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart'
     as questionModel;
-import 'package:wawamko/src/UI/ListStates.dart';
-import 'package:wawamko/src/UI/ProductsCampaigns.dart';
-import 'package:wawamko/src/UI/detailProduct.dart';
-import 'package:wawamko/src/UI/selectCity.dart';
+
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/expancion_widget.dart';
+import 'package:wawamko/src/Utils/utils.dart';
+import 'ExpansionWidget.dart';
 
 GlobalVariables globalVariables = GlobalVariables();
-NotifyVariablesBloc notifyVariables;
+VariablesNotifyProvider? notifyVariables;
 
-customPageTransition(Widget page) {
-  return PageTransition(
-      curve: Curves.decelerate,
-      child: page,
-      type: PageTransitionType.slideInLeft,
-      duration: Duration(milliseconds: 600));
-}
+
 
 Widget customBoxEmailLogin(TextEditingController emailController,
-    NotifyVariablesBloc notifyVariables, Function refresh) {
-  return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
+  return StreamBuilder(
+      stream: null,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
           border: Border.all(
-              color: !notifyVariables.intLogin.validateEmail
+              color: !notifyVariables!.intLogin.validateEmail!
                   ? CustomColors.gray.withOpacity(.3)
                   : CustomColors.blueSplash,
               width: 1),
           color: CustomColors.white),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 20,right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(
-                width: 35,
-                height: 35,
-                image: !notifyVariables.intLogin.validateEmail
+                width: 25,
+                height: 25,
+                image: !notifyVariables.intLogin.validateEmail!
                     ? AssetImage("Assets/images/ic_email.png")
                     : AssetImage("Assets/images/ic_email_blue.png"),
               ),
@@ -66,7 +58,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 width: 1,
                 height: 25,
-                color: CustomColors.grayLetter.withOpacity(.4),
+                color: CustomColors.gray7.withOpacity(.4),
               ),
               SizedBox(width: 5,),
               Expanded(
@@ -81,7 +73,7 @@ Widget customBoxEmailLogin(TextEditingController emailController,
                       isDense: true,
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        color: CustomColors.grayLetter.withOpacity(.4),
+                        color: CustomColors.gray7.withOpacity(.4),
                         fontSize: 16,
                         fontFamily: Strings.fontRegular,
                       ),
@@ -108,36 +100,39 @@ Widget customBoxEmailLogin(TextEditingController emailController,
 }
 
 Widget customBoxEmailForgotPass(TextEditingController emailController,
-    NotifyVariablesBloc notifyVariables, Function refresh) {
-  return StreamBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
+  return StreamBuilder(
+      stream: null,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Container(
       height: 52,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
           border: Border.all(
-              color: !notifyVariables.intForPass.validateEmail
+              color: !notifyVariables!.intForPass.validateEmail!
                   ? CustomColors.gray.withOpacity(.3)
                   : CustomColors.blueSplash,
               width: 1),
           color: CustomColors.white),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 20,right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(
-                width: 35,
-                height: 35,
-                image: !notifyVariables.intForPass.validateEmail
+                width: 25,
+                height: 25,
+                image: !notifyVariables.intForPass.validateEmail!
                     ? AssetImage("Assets/images/ic_email.png")
                     : AssetImage("Assets/images/ic_email_blue.png"),
               ),
+              SizedBox(width: 5,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 width: 1,
                 height: 25,
-                color: CustomColors.grayLetter.withOpacity(.4),
+                color: CustomColors.gray7.withOpacity(.4),
               ),
               SizedBox(width: 5,),
               Expanded(
@@ -152,7 +147,7 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
                       isDense: true,
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        color: CustomColors.grayLetter.withOpacity(.4),
+                        color: CustomColors.gray7.withOpacity(.4),
                         fontSize: 16,
                         fontFamily: Strings.fontRegular,
                       ),
@@ -179,9 +174,9 @@ Widget customBoxEmailForgotPass(TextEditingController emailController,
 }
 
 Widget customBoxEmailRegister(TextEditingController emailController,
-    NotifyVariablesBloc notifyVariables, Function refresh) {
+    VariablesNotifyProvider? notifyVariables, Function refresh) {
   return StreamBuilder(
-      // stream: bloc.emailStream,
+      stream: null,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,27 +184,27 @@ Widget customBoxEmailRegister(TextEditingController emailController,
         Container(
           height: 52,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color:  CustomColors.gray.withOpacity(.3),
                   width: 1),
               color: CustomColors.white),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 20,right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    width: 35,
-                    height: 35,
+                    width: 25,
+                    height: 25,
                     image:AssetImage("Assets/images/ic_email_blue.png"),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
-                    height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    height: 20,
+                    color: CustomColors.gray7.withOpacity(.3),
                   ),
                   SizedBox(width: 5,),
                   Expanded(
@@ -224,17 +219,17 @@ Widget customBoxEmailRegister(TextEditingController emailController,
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.email,
                         ),
                         onChanged: (value) {
                           if (validateEmail(value)) {
-                            notifyVariables.intRegister.validateEmail = true;
+                            notifyVariables!.intRegister.validateEmail = true;
                             refresh();
                           } else {
-                            notifyVariables.intRegister.validateEmail = false;
+                            notifyVariables!.intRegister.validateEmail = false;
                             refresh();
                           }
                         },
@@ -261,6 +256,47 @@ Widget customBoxEmailRegister(TextEditingController emailController,
       ],
     );
   });
+}
+
+
+Widget simpleHeaderComplete(BuildContext context, String title) {
+  return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: utils.getSizeNavBar()),
+      height: 90,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: CustomColors.red2),
+      child: Stack(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: Strings.fontRegular,
+                color: CustomColors.white,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              child: Container(
+                width: 45,
+                height: 45,
+                child: Image(
+                  image: AssetImage("Assets/images/ic_arrow.png"),
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],
+      ));
 }
 
 Widget btnCustomRoundedImage(Color backgroungButton, Color textColor,
@@ -328,7 +364,7 @@ Widget btnCustomRounded(Color backgroungButton, Color textColor,
     Container(
       height: 45,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(24)),
           color: backgroungButton),
       child: Center(
         child: Text(
@@ -357,7 +393,7 @@ Widget btnCustomRoundedBorder(
       height: 45,
       decoration: BoxDecoration(
           border: Border.all(color: colorBorder, width: 1.3),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
           color: backgroungButton),
       child: Center(
         child: Text(
@@ -396,8 +432,7 @@ Widget btnCustomSemiRounded(Color backgroungButton, Color textColor,
   );
 }
 
-Widget itemAddress(Address address, Function action, BuildContext context,
-    Function updateAddress) {
+Widget itemAddress(Address address, Function delete, Function selectAddress) {
   return GestureDetector(
     child: Container(
       width: double.infinity,
@@ -405,7 +440,9 @@ Widget itemAddress(Address address, Function action, BuildContext context,
       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: CustomColors.greyBorder, width: 1),
+          border: !(address.principal??false)
+              ? Border.all(color: CustomColors.greyBorder, width: 1)
+              : Border.all(color: CustomColors.red2, width: 1),
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -414,7 +451,7 @@ Widget itemAddress(Address address, Function action, BuildContext context,
             height: 47,
             width: 49,
             decoration: BoxDecoration(
-                color: CustomColors.blueProfile.withOpacity(.2),
+                color: CustomColors.blueOne.withOpacity(.2),
                 shape: BoxShape.circle),
             child: Center(
               child: Image(
@@ -431,25 +468,25 @@ Widget itemAddress(Address address, Function action, BuildContext context,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  address.address,
+                  address.address!,
                   style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 16,
                       color: CustomColors.blackLetter),
                 ),
                 Text(
-                  address.complement,
+                  address.complement!,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.grayLetter),
+                      color: CustomColors.gray7),
                 ),
                 Text(
                   address.name ?? "",
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.grayLetter),
+                      color: CustomColors.gray7),
                 )
               ],
             ),
@@ -463,14 +500,14 @@ Widget itemAddress(Address address, Function action, BuildContext context,
                       image: AssetImage("Assets/images/ic_remove.png"))),
             ),
             onTap: () {
-              action();
+              delete();
             },
           )
         ],
       ),
     ),
     onTap: () {
-      updateAddress();
+     selectAddress();
     },
   );
 }
@@ -493,9 +530,7 @@ Widget itemConnectTo(String logo, Function actionConnect) {
         ),
       ),
     ),
-    onTapUp: (_) {
-      actionConnect();
-    },
+    onTap: ()=>actionConnect(),
   );
 }
 
@@ -504,7 +539,7 @@ Widget customTextField(
     String hintText,
     TextEditingController controller,
     TextInputType inputType,
-    List<TextInputFormatter> formaters) {
+    List<TextInputFormatter> formatters) {
   return Container(
     padding: EdgeInsets.only(left: 10),
     height: 52,
@@ -525,14 +560,14 @@ Widget customTextField(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.grayLetter.withOpacity(.4),
+          color: CustomColors.gray7.withOpacity(.4),
         ),
         SizedBox(width: 5,),
         Expanded(
           child: Container(
             width: 200,
             child: TextField(
-              inputFormatters: formaters,
+              inputFormatters: formatters,
               keyboardType: inputType,
               controller: controller,
               style: TextStyle(
@@ -542,7 +577,7 @@ Widget customTextField(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.grayLetter.withOpacity(.4),
+                  color: CustomColors.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -578,7 +613,7 @@ Widget customTextFieldAction(String icon, String hintText,
             margin: EdgeInsets.symmetric(horizontal: 5),
             width: 1,
             height: 25,
-            color: CustomColors.grayLetter.withOpacity(.4),
+            color: CustomColors.gray7.withOpacity(.4),
           ),
           SizedBox(width: 5,),
           Expanded(
@@ -594,7 +629,7 @@ Widget customTextFieldAction(String icon, String hintText,
                   isDense: true,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                     fontFamily: Strings.fontRegular,
                   ),
                   hintText: hintText,
@@ -614,601 +649,6 @@ Widget customTextFieldAction(String icon, String hintText,
     onTap: () {
       action();
     },
-  );
-}
-
-Widget itemCountry(BuildContext context, int pos, Country country) {
-  return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        // pos == 0 ? Container() : Container(height: 1,color:  CustomColors.grayBackground.withOpacity(.5),width: double.infinity,),
-        Container(
-          height: 70,
-          width: double.infinity,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 150,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: CustomColors.grayBackground,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100))),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
-                            child: SvgPicture.network(
-                              country.flag,
-                              height: 30,
-                              width: 30,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                      SizedBox(width: 15),
-                      Text(
-                        country.country,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: CustomColors.blackLetter,
-                            fontFamily: Strings.fontBold),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.5),
-          width: double.infinity,
-        ),
-      ],
-    ),
-    onTap: () {
-      print("Select ${country.country}");
-      globalVariables.countrySelected = country.country;
-       Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: StatesPage(
-            country: country,
-          ),
-          duration: Duration(milliseconds: 700))).then((value){
-            Navigator.pop(context);
-       });
-    },
-  );
-}
-
-Widget itemState(BuildContext context, int pos, States state) {
-  return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        pos == 0
-            ? Container()
-            : Container(
-                height: 1,
-                color: CustomColors.grayBackground.withOpacity(.5),
-                width: double.infinity,
-              ),
-        Container(
-          height: 70,
-          width: double.infinity,
-          child: Center(
-              child: Text(
-            state.name,
-            style: TextStyle(
-                color: CustomColors.letterDarkBlue,
-                fontFamily: Strings.fontBold,
-                fontSize: 18),
-          )),
-        ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.5),
-          width: double.infinity,
-        ),
-      ],
-    ),
-    onTap: () async{
-      globalVariables.countrySelected =
-          globalVariables.countrySelected + "/" + state.name;
-      await Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: SelectCityPage(
-            state: state,
-          ),
-          duration: Duration(milliseconds: 700))).then((value){
-            Navigator.pop(context);
-      });
-    },
-  );
-}
-
-Widget itemCity(BuildContext context, int pos, City city) {
-  notifyVariables = Provider.of<NotifyVariablesBloc>(context);
-  return GestureDetector(
-    child: Column(
-      children: <Widget>[
-        pos == 0
-            ? Container()
-            : Container(
-                height: 1,
-                color: CustomColors.grayBackground.withOpacity(.5),
-                width: double.infinity,
-              ),
-        Container(
-          height: 70,
-          width: double.infinity,
-          child: Center(
-              child: Text(
-            city.name,
-            style: TextStyle(
-                color: CustomColors.letterDarkBlue,
-                fontFamily: Strings.fontBold,
-                fontSize: 18),
-          )),
-        ),
-        Container(
-          height: 1,
-          color: CustomColors.grayBackground.withOpacity(.5),
-          width: double.infinity,
-        ),
-      ],
-    ),
-    onTap: () async{
-      globalVariables.countrySelected =
-          globalVariables.countrySelected + "/" + city.name;
-      globalVariables.cityId = city.id;
-
-      //globalVariables.eventRefreshRegister.broadcast();
-      notifyVariables.countrySelected = globalVariables.countrySelected;
-      Navigator.pop(context);
-      //Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.slideInLeft, child: RegisterPage(country: globalVariables.countrySelected), duration: Duration(milliseconds: 700)));
-    },
-  );
-}
-
-Widget itemCategorie(Category category) {
-  return Container(
-    width: 50,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: HexColor(category.color),
-              boxShadow: [
-                BoxShadow(
-                    color: HexColor(category.color).withOpacity(.2),
-                    blurRadius: 2,
-                    offset: Offset.fromDirection(2, 6))
-              ]),
-          child: Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              child: FadeInImage(
-                fit: BoxFit.contain,
-                width: 40,
-                height: 40,
-                image: NetworkImage(category.image),
-                placeholder: AssetImage(""),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        Text(
-          category.category,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: Strings.fontRegular,
-            fontSize: 13,
-            color: CustomColors.blackLetter,
-          ),
-        )
-      ],
-    ),
-  );
-}
-
-Widget itemProductFirstDestacado() {
-  return Container(
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        color: CustomColors.des1),
-    child: Stack(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(left: 15, top: 15, right: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Tecnología",
-                style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 13,
-                    color: CustomColors.blue),
-              ),
-              Text(
-                "AirPods Earphones",
-                style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 19,
-                    color: CustomColors.splashColor),
-              ),
-              SizedBox(height: 7),
-              Text(
-                "Hoy:",
-                style: TextStyle(
-                    fontFamily: Strings.fontRegular,
-                    fontSize: 11,
-                    color: CustomColors.letterGray),
-              ),
-              SizedBox(height: 7),
-              Text(
-                r"$500.000",
-                style: TextStyle(
-                    fontFamily: Strings.fontRegular,
-                    fontSize: 16,
-                    color: CustomColors.orange),
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Image(
-            width: 50,
-            height: 50,
-            image: AssetImage("Assets/images/ic_orange_arrow.png"),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          child: Image(
-            fit: BoxFit.fill,
-            width: 125,
-            height: 180,
-            image: NetworkImage(
-                "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-          ),
-        )
-      ],
-    ),
-  );
-}
-
-Widget itemProductDestacado() {
-  return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          color: CustomColors.des2),
-      child: Stack(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 8, top: 11, right: 18),
-            child: Row(
-              children: <Widget>[
-                Image(
-                  image: NetworkImage(
-                      "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-                  width: 75,
-                  height: 100,
-                  fit: BoxFit.fill,
-                ),
-                SizedBox(width: 5),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        "Tecnología",
-                        style: TextStyle(
-                            fontSize: 9,
-                            fontFamily: Strings.fontBold,
-                            color: CustomColors.letterGray),
-                      ),
-                      Text(
-                        "Audifonos Stereo Bluetooth",
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: Strings.fontBold,
-                            color: CustomColors.splashColor),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image(
-              width: 35,
-              height: 35,
-              image: AssetImage("Assets/images/ic_orange_arrow.png"),
-            ),
-          )
-        ],
-      ));
-}
-
-Widget itemProduct(bool border, BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(right: 10),
-      // height: 300,
-      width: 152,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all(
-              color: border
-                  ? CustomColors.gray.withOpacity(.3)
-                  : CustomColors.white,
-              width: 1.3),
-          color: CustomColors.white),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: CustomColors.red.withOpacity(.8)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "20%",
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 8,
-                        color: CustomColors.white),
-                  ),
-                  Text(
-                    "DCT",
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 4,
-                        color: CustomColors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            // color: CustomColors.green,
-            width: double.infinity,
-            margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-            child: Image(
-              image: NetworkImage(
-                  "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-              height: 81,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 100, right: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "Tenis Adidas Mujer Moda Vl Court 2.0",
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontFamily: Strings.fontBold,
-                        color: CustomColors.blackLetter),
-                  ),
-                ),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.orange),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      fontSize: 10,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.letterGray),
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-          )
-          //eSTRELLas
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: DetailProductPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
-
-Widget itemDestacado(BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(right: 10),
-      // height: 300,
-      width: 152,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          //border: Border.all(color: border ? CustomColors.gray.withOpacity(.3) : CustomColors.white ,width: 1.3),
-
-          color: CustomColors.white),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            // color: CustomColors.green,
-            width: double.infinity,
-            margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-            child: Image(
-              image: NetworkImage(
-                  "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-              height: 81,
-            ),
-          ),
-          SizedBox(height: 5),
-          Container(
-            margin: EdgeInsets.only(top: 100, left: 15, right: 15),
-            height: 1,
-            width: double.infinity,
-            color: CustomColors.grayBackground,
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, top: 110, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "Tenis Adidas Mujer Moda Vl Court 2.0",
-                    style: TextStyle(
-                        fontSize: 13,
-                        fontFamily: Strings.fontBold,
-                        color: CustomColors.blackLetter),
-                  ),
-                ),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.orange),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  r"$109.990 COP",
-                  style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      fontSize: 10,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColors.letterGray),
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-          )
-          //eSTRELLas
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: DetailProductPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
-
-Widget itemFirsOfertas(BuildContext context) {
-  return Container(
-    width: double.infinity,
-    child: Stack(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(right: 30),
-          child: Center(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Ofertas del día",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: Strings.fontRegular,
-                            color: CustomColors.orange),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 50),
-                        child: Text(
-                          "Altavoz inteligente para el hogar con el Asistente de Google ",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: Strings.fontBold,
-                              color: CustomColors.blackLetter),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        r"$129.000",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: Strings.fontBold,
-                            color: CustomColors.orange),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    //width: 400,
-                    height: 200,
-
-                    child: Image(
-                      width: 500,
-                      fit: BoxFit.fitHeight,
-                      image: NetworkImage(
-                          "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: Image(
-            width: 35,
-            height: 35,
-            image: AssetImage("Assets/images/ic_orange_arrow.png"),
-          ),
-        ),
-      ],
-    ),
   );
 }
 
@@ -1279,7 +719,7 @@ Widget itemHelpCenterExpanded(
                   child: Container(
                       width: double.infinity,
                       child: Text(
-                        question.question,
+                        question.question!,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: Strings.fontBold,
@@ -1332,7 +772,7 @@ Widget notifyInternet(String image, String title, String text,
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 22,
-              color: CustomColors.blueGray,
+              color: CustomColors.gray8,
             ),
           ),
           SizedBox(height: 3),
@@ -1342,7 +782,7 @@ Widget notifyInternet(String image, String title, String text,
             style: TextStyle(
               fontFamily: Strings.fontRegular,
               fontSize: 15,
-              color: CustomColors.blueGray,
+              color: CustomColors.gray8,
             ),
           ),
           SizedBox(height: 20),
@@ -1379,7 +819,7 @@ Widget emptyAdd(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -1388,7 +828,7 @@ Widget emptyAdd(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 23),
               btnCustomRounded(
@@ -1427,7 +867,7 @@ Widget emptyInfo(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -1436,7 +876,7 @@ Widget emptyInfo(String image, String title, String text, String titleButton,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blueGray),
+                    color: CustomColors.gray8),
               ),
               SizedBox(height: 25),
             ],
@@ -1447,146 +887,6 @@ Widget emptyInfo(String image, String title, String text, String titleButton,
   );
 }
 
-Widget itemCarrito(BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadiusDirectional.all(Radius.circular(11)),
-          color: CustomColors.white),
-      child: Stack(
-        children: <Widget>[
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 30),
-              child: Container(
-                margin: EdgeInsets.only(right: 100),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: NetworkImage(
-                          "https://assets.stickpng.com/images/580b57fbd9996e24bc43bfbb.png"),
-                      width: 75,
-                      height: 75,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "HP",
-                            style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                color: CustomColors.grayLetter,
-                                fontSize: 9),
-                          ),
-                          Text(
-                            "Portátil ideapad s145-14api amd r3",
-                            style: TextStyle(
-                                fontFamily: Strings.fontBold,
-                                color: CustomColors.blackLetter,
-                                fontSize: 12),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "1 Producto",
-                            style: TextStyle(
-                                fontFamily: Strings.fontRegular,
-                                color: CustomColors.grayLetter,
-                                fontSize: 9),
-                          ),
-                          SizedBox(height: 12),
-                          Text(
-                            r"$ 1.899.900 COP",
-                            style: TextStyle(
-                                fontFamily: Strings.fontBold,
-                                color: CustomColors.orange,
-                                fontSize: 11),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 9,
-            left: 28,
-            child: GestureDetector(
-              child: Text(
-                "Editar",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: Strings.fontRegular,
-                    color: CustomColors.blueProfile,
-                    decoration: TextDecoration.underline),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 5,
-            right: 5,
-            child: GestureDetector(
-              child: Image(
-                width: 30,
-                height: 30,
-                fit: BoxFit.fill,
-                image: AssetImage("Assets/images/ic_close_table.png"),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 6,
-            bottom: 11,
-            child: Container(
-              width: 96,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  SpringButton(
-                    SpringButtonType.OnlyScale,
-                    Image(
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.fill,
-                      image: AssetImage("Assets/images/ic_negative.png"),
-                    ),
-                    onTapUp: (_) {},
-                  ),
-                  Text(
-                    "0",
-                    style: TextStyle(
-                        fontFamily: Strings.fontBold,
-                        fontSize: 20,
-                        color: CustomColors.blackLetter),
-                  ),
-                  SpringButton(
-                    SpringButtonType.OnlyScale,
-                    Image(
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.fill,
-                      image: AssetImage("Assets/images/ic_add.png"),
-                    ),
-                    onTapUp: (_) {},
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: DetailProductPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
 
 Widget itemInfoShopCar() {
   return Container(
@@ -1605,7 +905,7 @@ Widget itemInfoShopCar() {
               height: 55,
               padding: EdgeInsets.only(left: 14, right: 9),
               decoration: BoxDecoration(
-                color: CustomColors.blueProfile,
+                color: CustomColors.blueOne,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Row(
@@ -1672,54 +972,7 @@ Widget itemInfoShopCar() {
   );
 }
 
-Widget itemBannerCampaign(BuildContext context) {
-  return GestureDetector(
-    child: Container(
-      margin: EdgeInsets.only(bottom: 10, top: 5),
-      height: 127,
-      width: double.infinity,
-      child: Stack(
-        children: <Widget>[
-          Container(
-              height: 127,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(11)),
-                child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("Assets/images/banner.png")),
-              )),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Image(
-              width: 42,
-              height: 42,
-              image: AssetImage("Assets/images/ic_orange_arrow.png"),
-            ),
-          ),
-          Positioned(
-              left: 22,
-              bottom: 9,
-              right: 190,
-              child: Text(
-                "Aqui nombre de la campaña",
-                style: TextStyle(
-                    fontFamily: Strings.fontBold,
-                    fontSize: 15,
-                    color: CustomColors.white),
-              )),
-        ],
-      ),
-    ),
-    onTap: () {
-      Navigator.of(context).push(PageTransition(
-          type: PageTransitionType.slideInLeft,
-          child: ProductsCampaignsPage(),
-          duration: Duration(milliseconds: 700)));
-    },
-  );
-}
+
 
 Widget headerMenu(
     BuildContext context, String title, GlobalKey<ScaffoldState> _drawerKey) {
@@ -1753,7 +1006,7 @@ Widget headerMenu(
                 ),
               ),
               onTap: () {
-                _drawerKey.currentState.openDrawer();
+                _drawerKey.currentState!.openDrawer();
               },
             ),
           ),
@@ -1903,69 +1156,7 @@ Widget textFieldAddress(String hint, String icon,
   );
 }
 
-Widget itemInterestCategoryLeft(Category category, Function refreshSelected) {
-  return GestureDetector(
-    child: Container(
-      height: 140,
-      width: 140,
-      decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: Colors.white.withOpacity(.2),
-            width: 1,
-          ),
-          bottom: BorderSide(
-            color: Colors.white.withOpacity(.2),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            width: double.infinity,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: category.selected
-                      ? HexColor(category.color)
-                      : CustomColors.white.withOpacity(.3)),
-            ),
-          ),
-          Positioned(
-              top: 25,
-              left: 50,
-              child: FadeInImage(
-                width: 70,
-                height: 70,
-                image: NetworkImage(category.image),
-                placeholder: AssetImage(""),
-                fit: BoxFit.contain,
-              )),
-          Container(
-            width: double.infinity,
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              category.category,
-              style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 16,
-                  color: CustomColors.white),
-            ),
-          )
-        ],
-      ),
-    ),
-    onTap: () {
-      print("select category");
-      refreshSelected();
-    },
-  );
-}
+/*
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
@@ -1977,70 +1168,8 @@ class HexColor extends Color {
   }
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-}
+}*/
 
-Widget itemInterestCategoryRight(Category category, Function refreshSelected) {
-  //category.color.replaceAll("#", "");
-  //var colorCat = Color(0xff);
-
-  return GestureDetector(
-    child: Container(
-      height: 140,
-      width: 140,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.white.withOpacity(.2),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            width: double.infinity,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: category.selected
-                      ? HexColor(category.color)
-                      : CustomColors.white.withOpacity(.3)),
-            ),
-          ),
-          Positioned(
-              top: 25,
-              left: 50,
-              child: FadeInImage(
-                width: 70,
-                height: 70,
-                image: NetworkImage(category.image),
-                placeholder: AssetImage(""),
-                fit: BoxFit.contain,
-              )),
-          Container(
-            width: double.infinity,
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              category.category,
-              style: TextStyle(
-                  fontFamily: Strings.fontBold,
-                  fontSize: 16,
-                  color: CustomColors.white),
-            ),
-          )
-        ],
-      ),
-    ),
-    onTap: () {
-      print("selected");
-      refreshSelected();
-    },
-  );
-}
 
 Widget itemCategoryInteresting(Category category,Function actionSelect){
   return Container(
@@ -2058,18 +1187,21 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: category.selected?convertColor(category.color):Colors.white.withOpacity(.3)
+                    color: category.isSelected?convertColor(category.color!):Colors.white.withOpacity(.3)
                   ),
                 ),
               ),
               Positioned(
-                right: 12,
-                bottom: 18,
+                right: 5,
+                bottom: 10,
                 child: FadeInImage(
-                  height:40,
-                  image: NetworkImage(category.image),
+                  height:60,
+                  image: NetworkImage(category.image!),
                   placeholder: AssetImage("Assets/images/ic_sport.png"),
                   fit: BoxFit.fill,
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
                 ),
               )
             ],
@@ -2077,7 +1209,7 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
         ),
         SizedBox(height: 10,),
         Text(
-          category?.category??'',
+          category.category??'',
           style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 16,
@@ -2086,5 +1218,421 @@ Widget itemCategoryInteresting(Category category,Function actionSelect){
       ],
     ),
   ),
+  );
+}
+
+Widget itemPqrs(ItemPqrs itemPqrs,BuildContext context,Function action){
+  var typePqrs = "";
+  switch(itemPqrs.supportType){
+    case "suggestion":
+      typePqrs = "Sugerencia";
+      break;
+    case "claim":
+      typePqrs = "Reclamo";
+      break;
+    case "complaint":
+      typePqrs = "Queja";
+      break;
+    case "petition":
+      typePqrs = "Petición";
+      break;
+    default:
+      typePqrs = itemPqrs.supportType ?? "";
+      break;
+  }
+  return GestureDetector(
+    onTap: (){
+      action(itemPqrs);
+    },
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+      padding: EdgeInsets.only(left: 17,right: 19,top: 24,bottom: 22),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          border: Border.all(color: CustomColors.grayBackground,width: 1)
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  typePqrs,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.orange
+                  ),
+                ),
+                Text(
+                    getStatusPqrs(itemPqrs.status ?? ""),
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontBold,
+                      color: CustomColors.blueSplash
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  "${Strings.ticket} ${itemPqrs.id} - ${utils.formatDate(itemPqrs.createdAt!, "dd-MM-yyyy", Strings.locale)}",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: Strings.fontMedium,
+                      color: CustomColors.gray8
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 35,
+            height: 35,
+            decoration: BoxDecoration(
+                color: CustomColors.orange,
+                borderRadius: BorderRadius.circular(8)
+            ),
+            child: Center(
+              child:SvgPicture.asset(
+                'Assets/images/ic_arrow_next.svg',
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget simpleHeader(BuildContext context, Widget child) {
+  return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: utils.getSizeNavBar()),
+      height: 90,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: CustomColors.blue),
+      child: child);
+}
+
+Widget header(BuildContext context, String title, Color color, Function action) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 20,right: 20),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 30,),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 24,
+                fontFamily:Strings.fontBold,
+                color: Colors.white
+              ),
+            ),
+          ),
+          Container()
+
+        ],
+      ));
+}
+
+
+Widget headerDoubleTap(BuildContext context, String title, String imageIcon, Color color,String totalProductsCart, Function action,Function action2) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 37,right: 37),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontFamily:Strings.fontBold,
+                  color: Colors.white
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: ()=> action2(),
+            child: Container(
+              child: Stack(
+                children: [
+                  Image(
+                    image: AssetImage("Assets/images/$imageIcon"),
+                    width: 30,
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          child: Image(
+                            image: AssetImage("Assets/images/ic_car.png"),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Visibility(
+                            visible: totalProductsCart != "0",
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                totalProductsCart,
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: CustomColors.redTour
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () => action2(),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ));
+}
+
+Widget headerDoubleTap2(BuildContext context, String title, String imageIconR, String imageIcon, Color color,String totalProductsCart, Function action,Function action2) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 37,right: 37),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: ()=> action(),
+            child: Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontFamily:Strings.fontBold,
+                  color: Colors.white
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: ()=> action2(),
+            child: Container(
+              child: Stack(
+                children: [
+                  Image(
+                    image: AssetImage("Assets/images/$imageIcon"),
+                    width: 30,
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          child: Image(
+                            image: AssetImage("Assets/images/$imageIconR"),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Visibility(
+                            visible: totalProductsCart != "0",
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                totalProductsCart,
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: CustomColors.redTour
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () => action2(),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+        ],
+      ));
+}
+
+
+Widget headerDoubleTapMenu(BuildContext context, String title, String imageIcon, String imageMenu, Color color,String totalProductsCart, Function action,Function action2) {
+  return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 20,bottom: 20,left: 37,right: 37),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: color),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: ()=> action(),
+            child: imageMenu != "" ? Image(
+              image: AssetImage("Assets/images/$imageMenu"),
+              width: 30,
+              height: 30,
+            ) :Icon(
+              Icons.arrow_back,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontFamily:Strings.fontBold,
+                  color: Colors.white
+              ),
+            ),
+          ),
+          imageIcon != "" ? GestureDetector(
+            onTap: ()=> action2(),
+            child: Container(
+              child: Stack(
+                children: [
+                  Image(
+                    image: AssetImage("Assets/images/$imageIcon"),
+                    width: 30,
+                    height: 30,
+                  ),
+
+
+                ],
+              ),
+            ),
+          ): SizedBox(width: 30,
+            height: 30,)
+        ],
+      ));
+}
+
+
+
+
+Widget emptyPage(
+    {String image = "ic_error_page.png",
+      String title = Strings.error,
+      String description = Strings.errorTryAgain,
+      EdgeInsets paddingImage = EdgeInsets.zero}) {
+  return Container(
+    padding: EdgeInsets.all(40),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+            padding: paddingImage,
+            child: Image.asset(
+              "Assets/images/" + image,
+            )),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+            width: 200,
+            child: Text(description,
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 15))),
+      ],
+    ),
+  );
+}
+
+Widget textFieldAreaCustom(TextEditingController controller, String hintText,Function onChange){
+  return Container(
+    height: 150,
+    width: double.infinity,
+    padding: EdgeInsets.all(12),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(9)),
+        border: Border.all(color:Colors.grey.withOpacity(.5),width: 1)
+    ),
+    child: TextField(
+      controller: controller,
+      inputFormatters: [LengthLimitingTextInputFormatter(500)],
+      maxLines: null,
+      onChanged: (value){
+        onChange(value);
+      },
+      style: TextStyle(
+        fontFamily: Strings.fontRegular,
+        fontSize: 15,
+        color: CustomColors.blackLetter,
+      ),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          fontFamily: Strings.fontRegular,
+          fontSize: 15,
+          color: CustomColors.gray,
+        ),
+
+      ),
+
+      cursorColor: Colors.black,
+
+    ),
   );
 }

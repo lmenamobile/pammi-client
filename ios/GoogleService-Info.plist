@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>262228864942-lg5i6dadppeqg9i4mtsfbmn2p9a315dv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.262228864942-lg5i6dadppeqg9i4mtsfbmn2p9a315dv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>262228864942-34tpniantgkkqo8aul6c1q0li6pjbbos.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBGH_qNNhElKGes6mhJM7Hkgl7NmTK6j-k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>262228864942</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.kubo.pamii</string>
+	<key>PROJECT_ID</key>
+	<string>pamii-c9ca6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pamii-c9ca6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:262228864942:ios:ca250576b0685ec819223f</string>
+</dict>
+</plist>

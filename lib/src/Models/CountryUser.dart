@@ -8,11 +8,11 @@ class CountryUser {
     this.currency,
   });
 
-  String id;
-  String country;
-  String callingCode;
-  String flag;
-  String currency;
+  String? id;
+  String? country;
+  String? callingCode;
+  String? flag;
+  String? currency;
 
   factory CountryUser.fromJson(Map<String, dynamic> json) => CountryUser(
     id: json["id"],

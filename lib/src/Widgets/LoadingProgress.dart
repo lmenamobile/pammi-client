@@ -8,7 +8,7 @@ class LoadingProgress extends StatefulWidget{
 }
 
 class _LoadingProgressState extends State<LoadingProgress> with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void dispose() {
@@ -27,7 +27,7 @@ class _LoadingProgressState extends State<LoadingProgress> with TickerProviderSt
    return WillPopScope(
      onWillPop: () async => false,
      child: Scaffold(
-       backgroundColor: Colors.black.withOpacity(.4),
+       backgroundColor: Colors.black.withOpacity(.1),
        body: Container(
          height: MediaQuery.of(context).size.height,
          child: Center(
@@ -39,7 +39,7 @@ class _LoadingProgressState extends State<LoadingProgress> with TickerProviderSt
   }
 
   Widget loadingWidget(AnimationController controller){
-    controller.duration = Duration(milliseconds: 1900);
+    controller.duration = Duration(milliseconds: 3000);
     controller.repeat();
     return Lottie.asset(
       'Assets/images/loanding.json',

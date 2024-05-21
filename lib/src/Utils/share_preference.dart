@@ -10,21 +10,71 @@ class SharePreference {
 
   SharePreference._internal();
 
-  SharedPreferences _prefs;
+  late SharedPreferences _prefs;
+
+
+  deletePrefsLogout(){
+    Set<String> keys = _prefs.getKeys();
+    String keyToKeep = "accessToken";
+    String keyPushToken = "pushToken";
+    for (String key in keys) {
+      if (key != keyToKeep && key != keyPushToken) {
+        _prefs.remove(key);
+      }
+    }
+  }
+
 
   initPrefs() async {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  get cityIdUser {
-    return _prefs.getString('cityIdUser') ?? "0";
+  clearPrefs()async{
+    await this._prefs.clear();
   }
 
-  set cityIdUser(String value) {
-    _prefs.setString('cityIdUser', value);
+  String get userID {
+    return _prefs.getString('userID') ?? "";
   }
 
-  get nameUser {
+  set userID(String value) {
+    _prefs.setString('userID', value);
+  }
+
+  String get referredCode {
+    return _prefs.getString('referredCode') ?? "";
+  }
+
+  set referredCode(String value) {
+    _prefs.setString('referredCode', value);
+  }
+
+  String get codeShare {
+    return _prefs.getString('code') ?? "";
+  }
+
+  set codeShare(String value) {
+    _prefs.setString('code', value);
+  }
+
+
+  double get sizeHeightHeader {
+    return _prefs.getDouble('sizeHeightHeader') ?? 0.0;
+  }
+
+  set sizeHeightHeader (double value ) {
+    _prefs.setDouble('sizeHeightHeader', value);
+  }
+
+  String get countryIdUser {
+    return _prefs.getString('countryIdUser') ?? "0";
+  }
+
+  set countryIdUser(String value) {
+    _prefs.setString('countryIdUser', value);
+  }
+
+  String get nameUser {
     return _prefs.getString('nameUser') ?? "0";
   }
 
@@ -32,7 +82,7 @@ class SharePreference {
     _prefs.setString('nameUser', value);
   }
 
-  get token {
+  String get token {
     return _prefs.getString('token') ?? "0";
   }
 
@@ -40,23 +90,23 @@ class SharePreference {
     _prefs.setString('token', value);
   }
 
-  get stateOrder {
-    return _prefs.getInt('stateOrder') ?? 1;
+  String get pushToken {
+    return _prefs.getString('pushToken') ??'';
   }
 
-  set stateOrder(int value) {
-    _prefs.setInt('stateOrder', value);
+  set pushToken(String value) {
+    _prefs.setString('pushToken', value);
   }
 
-  get shopCar {
-    return _prefs.getString('shopCar') ?? "0";
+  String get photoUser {
+    return _prefs.getString('photoUser') ??'';
   }
 
-  set shopCar(String value) {
-    _prefs.setString('shopCar', value);
+  set photoUser(String value) {
+    _prefs.setString('photoUser', value);
   }
 
-  get dataUser {
+  String get dataUser {
     return _prefs.getString('dataUser') ?? "0";
   }
 
@@ -64,16 +114,10 @@ class SharePreference {
     _prefs.setString('dataUser', value);
   }
 
-  get dataShopCar {
-    return _prefs.getString('dataShopCar') ?? "0";
-  }
-
-  set dataShopCar (String value) {
-    _prefs.setString('dataShopCar', value);
-  }
 
 
-  get enableTour {
+
+ bool get enableTour {
     return _prefs.getBool('enableTour') ?? true;
   }
 
@@ -81,7 +125,7 @@ class SharePreference {
     _prefs.setBool('enableTour', value);
   }
 
-  get authToken {
+  String get authToken {
     return _prefs.getString('authToken') ?? "0";
   }
 
@@ -89,7 +133,7 @@ class SharePreference {
     _prefs.setString('authToken', value);
   }
 
-  get accessToken {
+  String get accessToken {
     return _prefs.getString('accessToken') ?? "0";
   }
 

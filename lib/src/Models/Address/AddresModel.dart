@@ -16,23 +16,23 @@ class AddressResponse {
     this.data,
   });
 
-  int code;
-  String message;
-  bool status;
-  Data data;
+  int? code;
+  String? message;
+  bool? status;
+  Data? data;
 
    AddressResponse.fromJson(Map<String, dynamic> json){
      code= json["code"];
      message = json["message"];
      status = json["status"];
-     data = status ? Data.fromJson(json["data"]) : null;
+     data = status! ? Data.fromJson(json["data"]) : null;
    }
 
   Map<String, dynamic> toJson() => {
     "code": code,
     "message": message,
     "status": status,
-    "data": data.toJson(),
+    "data": data!.toJson(),
   };
 }
 
@@ -41,14 +41,14 @@ class Data {
     this.savedAddress,
   });
 
-  SavedAddress savedAddress;
+  SavedAddress? savedAddress;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     savedAddress: SavedAddress.fromJson(json["savedAddress"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "savedAddress": savedAddress.toJson(),
+    "savedAddress": savedAddress!.toJson(),
   };
 }
 
@@ -62,12 +62,12 @@ class SavedAddress {
     this.options,
   });
 
-  String address;
-  String latitude;
-  String longitude;
-  String user;
-  int id;
-  Options options;
+  String? address;
+  String? latitude;
+  String? longitude;
+  String? user;
+  int? id;
+  Options? options;
 
   factory SavedAddress.fromJson(Map<String, dynamic> json) => SavedAddress(
     address: json["address"],
@@ -84,7 +84,7 @@ class SavedAddress {
     "longitude": longitude,
     "user": user,
     "id": id,
-    "options": options.toJson(),
+    "options": options!.toJson(),
   };
 }
 
@@ -95,9 +95,9 @@ class Options {
     this.updatedAt,
   });
 
-  String status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory Options.fromJson(Map<String, dynamic> json) => Options(
     status: json["status"],
@@ -107,7 +107,7 @@ class Options {
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
+    "createdAt": createdAt!.toIso8601String(),
+    "updatedAt": updatedAt!.toIso8601String(),
   };
 }

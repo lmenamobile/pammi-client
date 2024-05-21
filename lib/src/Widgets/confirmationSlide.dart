@@ -1,26 +1,25 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
-import 'package:wawamko/src/UI/VerificationCode.dart';
+import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import 'WidgetsGeneric.dart';
+
 
 class ConfirmationSlidePage extends StatefulWidget {
 
-  final String email,name;
-  ConfirmationSlidePage({Key key,@required this.email,@required this.name}) : super(key: key);
+  final String? email,name;
+  ConfirmationSlidePage({Key? key,required this.email,required this.name}) : super(key: key);
   @override
   _ConfirmationSlidePageState createState() => _ConfirmationSlidePageState();
 }
 
 class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
   SharePreference prefs = SharePreference();
-  // bool slideUp = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +77,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       ),
                     ),
                     Text(
-                      "¡"+widget.name+"!",
+                      "¡"+widget.name!+"!",
                       style: TextStyle(
                           fontSize: 25,
                           fontFamily: Strings.fontBold,
@@ -99,7 +98,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 17,
-                        color: CustomColors.letterGray
+                        color: CustomColors.gray7
                       ),
                     ),
                     SizedBox(height: 20),
@@ -107,7 +106,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       padding: const EdgeInsets.only(left: 50,right: 50),
                       child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
-                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email,flag: "r",)) , (route) => false);
+                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email!,typeView: Constants.isViewRegister,)) , (route) => false);
 
                         },context),
                     ),

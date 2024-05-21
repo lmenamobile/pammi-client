@@ -1,15 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:wawamko/src/Models/Address/GetAddress.dart';
-import 'package:wawamko/src/Models/Product/CategoryModel.dart';
-import 'package:wawamko/src/Providers/ProductsProvider.dart';
-import 'package:wawamko/src/UI/HomePage.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wawamko/src/Models/Category.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import 'Onboarding/Login.dart';
 
 class InterestCategoriesUser extends StatefulWidget {
   @override
@@ -17,24 +20,33 @@ class InterestCategoriesUser extends StatefulWidget {
 }
 
 class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
-  List<Category> categories = List();
-  List<Category> categoriesSelected = List();
-  bool hasInternet;
+  RefreshController _refreshCategories =
+      RefreshController(initialRefresh: false);
+  List<Category> categoriesSelected = [];
+  ProviderSettings? providerSettings;
+  SharePreference prefs = SharePreference();
+  int pageOffset = 0;
 
   @override
   void initState() {
-    serviceGetCategories("");
+    providerSettings = Provider.of<ProviderSettings>(context, listen: false);
+    providerSettings!.ltsCategories.clear();
+    serviceGetCategories();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          child: _body(context),
+      backgroundColor: CustomColors.red,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Container(
+            width: double.infinity,
+            child: _body(context),
+          ),
         ),
       ),
     );
@@ -53,60 +65,81 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
               child: Image(image: AssetImage("Assets/images/ic_back_w.png")),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  (Route<dynamic> route) => false);
             },
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.only(left: 40, right: 40),
+          child: SmartRefresher(
+            controller: _refreshCategories,
+            enablePullDown: true,
+            enablePullUp: true,
+            onLoading: _onLoadingToRefresh,
+            footer: footerRefreshCustom(),
+            header: headerRefresh(),
+            onRefresh: _pullToRefresh,
+            child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 200,
-                    child: Text(
-                      Strings.selectInterest,
-                      maxLines: 2,
-                      style: TextStyle(
-                          fontSize: 35,
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.white),
-                    ),
-                  ),
-                  SizedBox(height: 11),
-                  Text(
-                    Strings.selectCategory,
-                    style: TextStyle(
-                        fontFamily: Strings.fontRegular,
-                        color: CustomColors.white),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 20, bottom: 30),
-                    child: StaggeredGridView.countBuilder(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: 0),
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      itemCount: this.categories.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        return itemCategoryInteresting(
-                            this.categories[index], selectCategory);
-                      },
-                      staggeredTileBuilder: (int index) =>
-                          new StaggeredTile.count(1, 1.1),
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 0,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 50, right: 50, bottom: 20),
-                    child: btnCustomRounded(
-                        CustomColors.white, CustomColors.grayLetter, Strings.next, validateCategoriesSelected, context),
-                  )
+                children: [
+                 Padding(
+                        padding: EdgeInsets.only(left: 40, right: 40),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 200,
+                              child: Text(
+                                Strings.selectInterest,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 35,
+                                    fontFamily: Strings.fontBold,
+                                    color: CustomColors.white),
+                              ),
+                            ),
+                            SizedBox(height: 11),
+                            Text(
+                              Strings.selectCategory,
+                              style: TextStyle(
+                                  fontFamily: Strings.fontRegular,
+                                  color: CustomColors.white),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 20, bottom: 30),
+                              child: StaggeredGridView.countBuilder(
+                                physics: BouncingScrollPhysics(),
+                                padding: EdgeInsets.only(bottom: 0),
+                                shrinkWrap: true,
+                                crossAxisCount: 2,
+                                itemCount:
+                                    providerSettings?.ltsCategories.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return itemCategoryInteresting(
+                                      providerSettings!.ltsCategories[index],
+                                      selectCategory);
+                                },
+                                staggeredTileBuilder: (int index) =>
+                                    new StaggeredTile.count(1, 1.1),
+                                mainAxisSpacing: 0,
+                                crossAxisSpacing: 0,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                              child: btnCustomRounded(
+                                  CustomColors.white,
+                                  CustomColors.gray7,
+                                  Strings.next,
+                                  validateCategoriesSelected,
+                                  context),
+                            )
+                          ],
+                        ),
+                      ),
                 ],
               ),
             ),
@@ -116,52 +149,46 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
     );
   }
 
-  serviceGetCategories(String filter) async {
-    this.categories = [];
+  void _pullToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    clearForRefresh();
+    _refreshCategories.refreshCompleted();
+  }
+
+  void clearForRefresh() {
+    pageOffset = 0;
+    providerSettings!.ltsCategories.clear();
+    categoriesSelected.clear();
+    serviceGetCategories();
+  }
+
+  void _onLoadingToRefresh() async {
+    await Future.delayed(Duration(milliseconds: 800));
+    pageOffset++;
+    serviceGetCategories();
+    _refreshCategories.loadComplete();
+  }
+
+  serviceGetCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
-        Future callResponse =
-            ProductsProvider.instance.getCategories(context, filter, 0);
-        await callResponse.then((user) {
-          var decodeJSON = jsonDecode(user);
-          CategoriesResponse data = CategoriesResponse.fromJson(decodeJSON);
-
-          if (data.status) {
-            for (var category in data.data.categories) {
-              this.categories.add(category);
-            }
-            setState(() {});
-            Navigator.pop(context);
-          } else {
-            Navigator.pop(context);
-            setState(() {});
-            // utils.showSnackBarError(context,data.message);
-          }
-
-          //loading = false;
-        }, onError: (error) {
-          print("Ocurrio un error: ${error}");
-          //loading = false;
-          Navigator.pop(context);
+        Future callSettings = providerSettings!.getCategoriesInterest("", pageOffset, prefs.countryIdUser);
+        await callSettings.then((list) {}, onError: (error) {
+          //utils.showSnackBar(context, error.toString());
         });
       } else {
-        hasInternet = false;
-        // loading = false;
-        //utils.showSnackBarError(context,Strings.loseInternet);
+        utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
   }
 
   selectCategory(Category category) {
-    if (category.selected) {
-      category.selected = false;
+    if (category.isSelected) {
+      category.isSelected = false;
       categoriesSelected.remove(category);
     } else {
       if (categoriesSelected.length <= 4) {
-        category.selected = true;
+        category.isSelected = true;
         categoriesSelected.add(category);
       } else {
         utils.showSnackBar(context, Strings.categoriesMaxSelected);
@@ -170,46 +197,27 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
     setState(() {});
   }
 
-  validateCategoriesSelected(){
-    if(categoriesSelected.isNotEmpty){
-      serviceSaveCategories();
-    }else{
+  validateCategoriesSelected() {
+    if (categoriesSelected.isNotEmpty) {
+      callSaveCategories();
+    } else {
       utils.showSnackBar(context, Strings.emptySelectCategory);
     }
   }
 
-  serviceSaveCategories() async {
+  callSaveCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        utils.startProgress(context);
-        Future callResponse =
-            ProductsProvider.instance.saveCategories(context, categoriesSelected);
-        await callResponse.then((user) {
-          var decodeJSON = jsonDecode(user);
-          ChangeStatusAddressResponse data =
-              ChangeStatusAddressResponse.fromJson(decodeJSON);
-
-          if (data.status) {
-            print("Sucess___");
-            Navigator.pop(context);
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => MyHomePage()),
-                (Route<dynamic> route) => false);
-          } else {
-            Navigator.pop(context);
-            setState(() {});
-            utils.showSnackBarError(context, data.message);
-          }
-
-          //loading = false;
+        Future callSettings =
+            providerSettings!.saveCategories(categoriesSelected);
+        await callSettings.then((msg) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+              (Route<dynamic> route) => false);
         }, onError: (error) {
-          print("Ocurrio un error: ${error}");
-          //loading = false;
-          Navigator.pop(context);
+          utils.showSnackBar(context, error.toString());
         });
       } else {
-        hasInternet = false;
-        // loading = false;
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });

@@ -22,13 +22,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final passwordCurrentController = TextEditingController();
   final passwordConfirmController = TextEditingController();
   String msgError = '';
-  ProfileProvider profileProvider;
+  late ProfileProvider profileProvider;
 
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
@@ -51,7 +51,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         height: 70,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("Assets/images/ic_header_red.png"),
+                image: AssetImage("Assets/images/ic_header_reds.png"),
                 fit: BoxFit.fill)),
         child: Stack(
           children: <Widget>[
@@ -117,7 +117,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           style: TextStyle(
                               fontSize: 15,
                               fontFamily: Strings.fontRegular,
-                              color: CustomColors.blueGray),
+                              color: CustomColors.gray8),
                         ),
                         SizedBox(height: 28),
                         txtCurrentPassword(
@@ -175,7 +175,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -193,7 +193,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
@@ -254,7 +254,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -272,7 +272,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
@@ -333,7 +333,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -351,7 +351,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.grayLetter.withOpacity(.4),
+                            color: CustomColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),

@@ -1,7 +1,7 @@
 class Login{
 
-  bool validateEmail = false;
-  bool validatePassword = false;
+  bool? validateEmail = false;
+  bool? validatePassword = false;
 
   Login({
     this.validateEmail,
@@ -10,7 +10,7 @@ class Login{
 }
 
 class ForgotPass {
-  bool validateEmail = false;
+  bool? validateEmail = false;
   ForgotPass({
     this.validateEmail
 
@@ -18,9 +18,9 @@ class ForgotPass {
 }
 
 class Register{
-  bool validateEmail = false;
-  bool validPass= false;
-  bool validConfirmPass = false;
+  bool? validateEmail = false;
+  bool? validPass= false;
+  bool? validConfirmPass = false;
   Register({
     this.validateEmail,
     this.validConfirmPass,
@@ -31,8 +31,8 @@ class Register{
 
 class UpdatePass{
 
-  bool validPass= false;
-  bool validConfirmPass = false;
+  bool? validPass= false;
+  bool? validConfirmPass = false;
   UpdatePass({
 
     this.validConfirmPass,

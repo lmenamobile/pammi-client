@@ -2,20 +2,23 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
-import 'package:flutter_page_transition/page_transition_type.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Providers/ProviderSettings.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
+import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:wawamko/src/Widgets/dialogAlertSelectDocument.dart';
-import 'package:wawamko/src/UI/selectCountry.dart';
+import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/UI/changePassword.dart';
 import 'package:flutter/services.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
@@ -35,15 +38,17 @@ class _MyDatesPageState extends State<MyDatesPage>
   final numberIdentityController = TextEditingController();
   final emailController = TextEditingController();
   final countryController = TextEditingController();
+  final cityController = TextEditingController();
   final phoneController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: '###############', filter: {"#": RegExp(r'[0-9]')});
-  AnimationController _controller;
-  ImagePickerHandler imagePicker;
-  NotifyVariablesBloc notifyVariables;
+  AnimationController? _controller;
+  late ImagePickerHandler imagePicker;
+  VariablesNotifyProvider? notifyVariables;
   String msgError = '';
   GlobalVariables globalVariables = GlobalVariables();
-  ProfileProvider profileProvider;
+  ProfileProvider? profileProvider;
+  ProviderSettings? providerSettings;
 
   @override
   void initState() {
@@ -59,9 +64,9 @@ class _MyDatesPageState extends State<MyDatesPage>
 
   @override
   Widget build(BuildContext context) {
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
+    providerSettings = Provider.of<ProviderSettings>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
-    countryController.text = notifyVariables.countrySelected;
     return Scaffold(
       backgroundColor: CustomColors.redTour,
       body: SafeArea(
@@ -72,7 +77,7 @@ class _MyDatesPageState extends State<MyDatesPage>
               child: _body(context),
             ),
             Visibility(
-                visible: profileProvider.isLoading, child: LoadingProgress()),
+                visible: profileProvider!.isLoading, child: LoadingProgress()),
           ],
         ),
       ),
@@ -82,7 +87,7 @@ class _MyDatesPageState extends State<MyDatesPage>
   Widget _body(BuildContext context) {
     return Stack(
       children: [
-        Image.asset("Assets/images/ic_bg_profile.png"),
+        //Image.asset("Assets/images/ic_bg_profile.png"),
         Column(
           children: <Widget>[
             Container(
@@ -105,7 +110,8 @@ class _MyDatesPageState extends State<MyDatesPage>
                             ),
                           ),
                           onTap: (){Navigator.pop(context);
-                          profileProvider.isEditProfile = false;},
+                          profileProvider!.imageUserFile = null;
+                          profileProvider!.isEditProfile = false;},
                         ),
                         Expanded(
                             child: Center(
@@ -113,7 +119,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             Strings.myDates,
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
-                                fontSize: 15,
+                                fontSize: 24,
                                 color: CustomColors.white),
                           ),
                         )),
@@ -159,16 +165,16 @@ class _MyDatesPageState extends State<MyDatesPage>
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(100)),
-                                            child: FadeInImage(
-                                              image: profileProvider?.user !=
-                                                      null
-                                                  ? NetworkImage(profileProvider
-                                                      ?.user?.photoUrl)
-                                                  : NetworkImage(''),
+                                            child: profileProvider!.imageUserFile==null?FadeInImage(
+                                              image: profileProvider?.user != null ? NetworkImage(profileProvider?.user?.photoUrl??'') : NetworkImage(prefs.photoUser)
+                                              ,
                                               fit: BoxFit.cover,
                                               placeholder: AssetImage(
-                                                  "Assets/images/ic_default_perfil.png"),
-                                            ),
+                                                  "Assets/images/ic_img_profile.png"),
+                                              imageErrorBuilder: (_,__,___){
+                                                return Container();
+                                              },
+                                            ):Image.file(profileProvider!.imageUserFile!),
                                           ),
                                         ),
                                       ),
@@ -195,7 +201,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                   height: 15,
                                 ),
                                 Visibility(
-                                  visible: profileProvider.isEditProfile,
+                                  visible: profileProvider!.isEditProfile,
                                   child: Container(
                                       width: 130,
                                       child: btnRoundedCustom(
@@ -207,15 +213,15 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       })),
                                 ),
                                 Visibility(
-                                  visible: !profileProvider.isEditProfile,
+                                  visible: !profileProvider!.isEditProfile,
                                   child: Container(
                                       width: 100,
                                       child: btnRoundedCustom(
                                           30,
                                           CustomColors.white,
-                                          CustomColors.letterGray,
+                                          CustomColors.gray7,
                                           Strings.edit, () {
-                                        profileProvider.isEditProfile = true;
+                                        profileProvider!.isEditProfile = true;
                                       })),
                                 )
                               ],
@@ -257,47 +263,21 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       fontFamily: Strings.fontBold),
                                 ),
                                 SizedBox(height: 20),
-                                customTextField(
-                                    "Assets/images/ic_data.png",
-                                    "Nombre",
-                                    nameController,
-                                    TextInputType.text, []),
-                                SizedBox(height: 21),
-                                customTextFieldAction(
-                                    "Assets/images/ic_identity.png",
-                                    "Tipo de documento",
-                                    typeDocumentController, () {
-                                  pushToSelectDocument();
-                                }),
-                                SizedBox(height: 21),
-                                customTextField(
-                                    "Assets/images/ic_identity.png",
-                                    "Número de identificación",
-                                    numberIdentityController,
-                                    TextInputType.number, [
-                                  LengthLimitingTextInputFormatter(15),
-                                  FilteringTextInputFormatter.digitsOnly
-                                ]),
-                                SizedBox(height: 21),
-                                customTextFieldAction(
-                                    "Assets/images/ic_country.png",
-                                    "País",
-                                    countryController, () {
-                                  Navigator.of(context).push(PageTransition(
-                                      type: PageTransitionType.slideInLeft,
-                                      child: SelectCountryPage(),
-                                      duration: Duration(milliseconds: 700)));
-                                }),
-                                SizedBox(height: 21),
-                                customTextField(
-                                    "Assets/images/ic_telephone.png",
-                                    "Número de telefono",
-                                    phoneController,
-                                    TextInputType.number, [
-                                  maskFormatter,
-                                  LengthLimitingTextInputFormatter(15),
-                                  FilteringTextInputFormatter.digitsOnly
-                                ]),
+                                customTextFieldIcon("ic_data.png",true, Strings.nameUser,
+                                    nameController, TextInputType.text, [ LengthLimitingTextInputFormatter(30)]),
+                                InkWell(
+                                    onTap: ()=>pushToSelectDocument(),
+                                    child: customTextFieldIcon("ic_identity.png",false, Strings.typeDocument,typeDocumentController, TextInputType.text, [])),
+                                customTextFieldIcon("ic_identity.png",true, Strings.idNumberDocument,
+                                    numberIdentityController, TextInputType.text, [ LengthLimitingTextInputFormatter(30),FilteringTextInputFormatter.digitsOnly]),
+                                InkWell(
+                                    onTap: ()=>openSelectCountry(),
+                                    child: customTextFieldIcon("ic_country.png",false, Strings.country, countryController, TextInputType.text, [])),
+                                InkWell(
+                                    onTap: ()=>openSelectCityByState(),
+                                    child: customTextFieldIcon("ic_country.png",false, Strings.city, cityController, TextInputType.text, [])),
+                                customTextFieldIcon("ic_telephone.png", true, Strings.phoneNumber,
+                                    phoneController, TextInputType.number, [LengthLimitingTextInputFormatter(15),FilteringTextInputFormatter.digitsOnly]),
                               ],
                             ),
                           ),
@@ -307,7 +287,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             right: 0,
                             top: 0,
                             child: Visibility(
-                                visible: !profileProvider.isEditProfile,
+                                visible: !profileProvider!.isEditProfile,
                                 child: Container(
                                   color: Colors.transparent,
                                   width: double.infinity,
@@ -334,13 +314,29 @@ class _MyDatesPageState extends State<MyDatesPage>
     );
   }
 
+  openSelectCountry()async{
+     await Navigator.push(context, customPageTransition(SelectCountryPage()));
+    countryController.text = providerSettings?.countrySelected?.country??'';
+  }
+
+  openSelectCityByState()async{
+    if(providerSettings?.countrySelected!=null) {
+      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      cityController.text = providerSettings?.citySelected?.name??'';
+    }else{
+      utils.showSnackBar(context, Strings.countryEmpty);
+    }
+  }
+
   void setDataProfile() {
-    nameController.text = profileProvider?.user?.fullname;
-    typeDocumentController.text = profileProvider?.user?.documentType;
-    numberIdentityController.text = profileProvider?.user?.document;
-    countryController.text = profileProvider?.user?.city?.name;
-    phoneController.text = profileProvider?.user?.phone;
+    nameController.text = profileProvider?.user?.fullname??'';
+    typeDocumentController.text = profileProvider?.user?.documentType??'';
+    numberIdentityController.text = profileProvider?.user?.document??'';
+    countryController.text = profileProvider?.user?.city?.countryUser?.country??'';
+    cityController.text = profileProvider?.user?.city?.name??'';
+    phoneController.text = profileProvider?.user?.phone??'';
     globalVariables.cityId = profileProvider?.user?.city?.id;
+    prefs.photoUser = profileProvider?.user?.photoUrl??'';
   }
 
   bool validateFormProfile() {
@@ -395,15 +391,16 @@ class _MyDatesPageState extends State<MyDatesPage>
     FocusScope.of(context).unfocus();
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = profileProvider.updateUser(
+        Future callUser = profileProvider!.updateUser(
             nameController.text,
-            typeDocumentController.text,
+            getTypeDocument(typeDocumentController.text),
             numberIdentityController.text,
             phoneController.text,
-            globalVariables.cityId.toString());
+            providerSettings!.citySelected ==null?globalVariables.cityId.toString() :providerSettings!.citySelected!.id.toString());
         await callUser.then((msg) {
-          profileProvider.isEditProfile = false;
-          getUser();
+          profileProvider!.isEditProfile = false;
+          //getUser();
+          serviceUpdatePhoto(profileProvider!.imageUserFile!);
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
@@ -417,10 +414,12 @@ class _MyDatesPageState extends State<MyDatesPage>
   serviceUpdatePhoto(File picture) async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = profileProvider.serviceUpdatePhoto(picture);
+        Future callUser = profileProvider!.serviceUpdatePhoto(picture);
         await callUser.then((msg) {
+          getUser();
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
+          getUser();
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -432,11 +431,11 @@ class _MyDatesPageState extends State<MyDatesPage>
   getUser() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = profileProvider.getDataUser();
+        Future callUser = profileProvider!.getDataUser();
         await callUser.then((msg) {
           setDataProfile();
         }, onError: (error) {
-          profileProvider.isLoading = false;
+          profileProvider!.isLoading = false;
           utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -446,12 +445,14 @@ class _MyDatesPageState extends State<MyDatesPage>
   }
 
   @override
-  userImage(File imageFile) {
+  userImage(File? imageFile) {
     if (imageFile != null) {
-      profileProvider.imageUserFile = imageFile;
-      serviceUpdatePhoto(imageFile);
+      profileProvider!.imageUserFile = imageFile;
+
     } else {
-      utils.showSnackBar(context, Strings.internetError);
+      utils.showSnackBar(context, Strings.errorPhoto);
     }
   }
+
+
 }

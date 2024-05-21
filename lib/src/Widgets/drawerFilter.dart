@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Bloc/notifyVaribles.dart';
+import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -14,7 +14,7 @@ class DrawerFilterPage extends StatefulWidget {
 
 class _DrawerFilterPageState extends State<DrawerFilterPage> {
 
-  NotifyVariablesBloc notifyVariables;
+  late VariablesNotifyProvider notifyVariables;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
 
 
   Widget _body(BuildContext context){
-    notifyVariables = Provider.of<NotifyVariablesBloc>(context);
+    notifyVariables = Provider.of<VariablesNotifyProvider>(context);
     return   FadeInRight(
       child: Container(
 
@@ -98,7 +98,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                     Strings.marca,
+                                     "Aca va algo",
                                       style: TextStyle(
                                         fontFamily: Strings.fontBold,
                                         fontSize: 11,
@@ -150,7 +150,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       r"$100.000 a $300.000",
                                       style: TextStyle(
                                         fontFamily: Strings.fontRegular,
-                                        color: CustomColors.grayLetter,
+                                        color: CustomColors.gray7,
                                         fontSize:10
                                       ),
 
@@ -178,7 +178,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       Strings.min,
                                       style: TextStyle(
                                         fontSize: 10,
-                                        color: CustomColors.letterGray,
+                                        color: CustomColors.gray7,
                                         fontFamily: Strings.fontRegular
                                       ),
                                     ),
@@ -206,7 +206,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       Strings.max,
                                       style: TextStyle(
                                           fontSize: 10,
-                                          color: CustomColors.letterGray,
+                                          color: CustomColors.gray7,
                                           fontFamily: Strings.fontRegular
                                       ),
                                     ),
@@ -249,7 +249,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                         style: TextStyle(
                                           fontFamily: Strings.fontRegular,
                                           fontSize: 12,
-                                          color: CustomColors.grayLetter
+                                          color: CustomColors.gray7
                                         ),
                                       )
                                     ],
@@ -278,7 +278,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
                                             fontSize: 12,
-                                            color: CustomColors.grayLetter
+                                            color: CustomColors.gray7
                                         ),
                                       )
                                     ],
@@ -345,7 +345,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                             Padding(
                               padding: EdgeInsets.only(left: 40,top: 6),
                               child: Text(
-                                Strings.marca,
+                                "Aca va algo",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontFamily: Strings.fontRegular,
@@ -446,7 +446,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
     style: TextStyle(
     fontFamily: Strings.fontRegular,
     fontSize: 14,
-    color: CustomColors.grayLetter
+    color: CustomColors.gray7
     ),
     )
     ],

@@ -1,35 +1,39 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
+import '../../Widgets/Dialogs/dialogPermissionGallery.dart';
 import 'image_picker_handler.dart';
 
 class ImagePickerDialog extends StatelessWidget {
   ImagePickerHandler _listener;
-  AnimationController _controller;
-  BuildContext context;
+  AnimationController? _controller;
+  late BuildContext context;
 
   ImagePickerDialog(this._listener, this._controller);
 
-  Animation<double> _drawerContentsOpacity;
-  Animation<Offset> _drawerDetailsPosition;
+  Animation<double>? _drawerContentsOpacity;
+  Animation<Offset>? _drawerDetailsPosition;
 
   bool statePermissionsPhotos = false;
   bool statePermissionsGallery = false;
 
   void initState() {
     _drawerContentsOpacity = new CurvedAnimation(
-      parent: new ReverseAnimation(_controller),
+      parent: new ReverseAnimation(_controller!),
       curve: Curves.fastOutSlowIn,
     );
     _drawerDetailsPosition = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(new CurvedAnimation(
-      parent: _controller,
+      parent: _controller!,
       curve: Curves.fastOutSlowIn,
     ));
   }
@@ -40,13 +44,13 @@ class ImagePickerDialog extends StatelessWidget {
         _drawerContentsOpacity == null) {
       return;
     }
-    _controller.forward();
+    _controller!.forward();
     showDialog(
       context: context,
       builder: (BuildContext context) => new SlideTransition(
-        position: _drawerDetailsPosition,
+        position: _drawerDetailsPosition!,
         child: new FadeTransition(
-          opacity: new ReverseAnimation(_drawerContentsOpacity),
+          opacity: new ReverseAnimation(_drawerContentsOpacity!),
           child: this,
         ),
       ),
@@ -54,7 +58,7 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
   }
 
   startTime() async {
@@ -67,7 +71,7 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   dismissDialog() {
-    _controller.reverse();
+    _controller!.reverse();
     startTime();
   }
 
@@ -172,13 +176,24 @@ class ImagePickerDialog extends StatelessWidget {
   }
 
   validateGallery() async {
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    final status = await Permission.photos.request();
-    validateStatusPermission(status);
+
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt <= 32) {
+        final status = await Permission.storage.request();
+        validateStatusPermission(status);
+        /// use [Permissions.storage.status]
+      }  else {
+        final status = await Permission.photos.request();
+        validateStatusPermission(status);
+        /// use [Permissions.photos.status]
+      }
+    }
+
   }
 
   Widget _btnCustom(
-      String nameBottom, Color color, String icon, Function action) {
+      String nameBottom, Color? color, String icon, Function action) {
     return GestureDetector(
       child: Container(
         width: double.infinity,
@@ -218,14 +233,29 @@ class ImagePickerDialog extends StatelessWidget {
         break;
       case PermissionStatus.denied:
         //  bool aux = await showAlert(context, Strings.alertTextPhotos);
-        if (true) {
+       /* if (true) {
           dismissDialog();
           statePermissionsPhotos = false;
+        }*/
+        if (true) {
+          dismissDialog();
+          openAppSettings();
         }
+        /*AwesomeDialog(
+            context: context,
+            animType: AnimType.SCALE,
+            dialogType: DialogType.NO_HEADER,
+            dialogBackgroundColor: Colors.transparent,
+            body: DialogPermissionGallery(context, 'Permisos G')
+        )..show();*/
         break;
       case PermissionStatus.restricted:
-      case PermissionStatus.undetermined:
       case PermissionStatus.permanentlyDenied:
+      if (true) {
+        dismissDialog();
+        openAppSettings();
+      }
+      break;
       case PermissionStatus.limited:
         //bool aux = await showAlert(context, Strings.alertTextPhotos);
         if (true) {

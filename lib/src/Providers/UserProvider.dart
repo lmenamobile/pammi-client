@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:wawamko/src/Models/Address/GetAddress.dart';
-import 'package:wawamko/src/Utils/ConstansApi.dart';
+import 'package:wawamko/src/Models/Address.dart';
+import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,7 +10,7 @@ class UserProvider {
 
   final _prefs = SharePreference();
   static final instance = UserProvider._internal();
-  bool connected;
+  bool? connected;
 
   factory UserProvider() {
     return instance;
@@ -18,38 +18,31 @@ class UserProvider {
 
   UserProvider._internal();
 
-  Future<dynamic> addAddress(BuildContext context,String address,String lat, String long,String complement,String nameAddress) async {
-
-
+  Future<dynamic> addAddress(String address,String lat, String long,String complement,String nameAddress,String cityId) async {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":_prefs.accessToken.toString(),
       "X-WA-Auth-Token":_prefs.authToken.toString()
     };
 
-
-
     Map jsonData = {
       'address':address.toString(),
       'latitude':lat,
       'longitude':long,
       'complement':complement,
-      'name':nameAddress
-
+      'name':nameAddress,
+      "principal" : true,
+      'cityId':cityId
     };
-
-
     var body = jsonEncode(jsonData);
 
-    print("Parameters AddAddressUser ${jsonData}");
-
-    final response = await http.post(ConstantsApi.baseURL+"profile/create-address",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Uri.parse(Constants.baseURL+"profile/create-address"),headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
     });
 
-    print("Json addAddress: ${response.body}");
+
 
     return response.body;
   }
@@ -72,20 +65,12 @@ class UserProvider {
       'status':"active",
 
     };
-
-
     var body = jsonEncode(jsonData);
-
-    print("Parameters getAddressUser ${jsonData}");
-
-    final response = await http.post(ConstantsApi.baseURL+"profile/get-addresses",headers: header ,body: body).timeout(Duration(seconds: 25))
+    final response = await http.post(Uri.parse(Constants.baseURL+"profile/get-addresses"),headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
     });
-
-    print("Json getAddAddress: ${response.body}");
-
     return response.body;
   }
 
@@ -98,7 +83,7 @@ class UserProvider {
       "X-WA-Auth-Token":_prefs.authToken.toString()
     };
 
-    final response = await http.put(ConstantsApi.baseURL+"profile/change-status/${address.id}",headers: header ).timeout(Duration(seconds: 25))
+    final response = await http.put(Uri.parse(Constants.baseURL+"profile/change-status/${address.id}"),headers: header ).timeout(Duration(seconds: 25))
         .catchError((value){
       print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
@@ -109,7 +94,7 @@ class UserProvider {
     return response.body;
   }
 
-  Future<dynamic> updateAddress(BuildContext context,String address,String lat, String long,String complement,String nameAddress,Address addressModel) async {
+  Future<dynamic> updateAddress(BuildContext context,String address,String lat, String long,String complement,String nameAddress, String cityId, Address addressModel ) async {
 
 
     final header = {
@@ -126,22 +111,19 @@ class UserProvider {
       'complement':complement,
       'latitude':lat,
       'longitude':long,
-
+      "principal" : true,
+      'cityId': cityId
     };
 
 
     var body = jsonEncode(jsonData);
 
-    print("Parameters updateAddressUser ${jsonData}");
 
-    final response = await http.put(ConstantsApi.baseURL+"profile/update-address/${addressModel.id}",headers: header ,body: body).timeout(Duration(seconds: 25))
+
+    final response = await http.put(Uri.parse(Constants.baseURL+"profile/update-address/${addressModel.id}"),headers: header ,body: body).timeout(Duration(seconds: 25))
         .catchError((value){
-      print("Ocurrio un errorTimeout"+value);
       throw Exception(value);
     });
-
-    print("Json updateAddAddress: ${response.body}");
-
     return response.body;
   }
 }
