@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/DetailOrderPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -89,7 +89,8 @@ class _OrdersActiveTabState extends State<OrdersActiveTab> {
 
   openDetailOrder(String id){
     print("id de la orden $id");
-    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: false,isOrderFinish: false)));
+    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: false,isOrderFinish: false),
+    PageTransitionType.rightToLeftWithFade));
   }
 
   getOrders() async {

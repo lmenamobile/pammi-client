@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
@@ -51,11 +52,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuFavorites,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -63,12 +63,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.whiteBackGround,
+            color: CustomColorsAPP.whiteBackGround,
             child: Stack(
               children: [
                 Column(
                   children: [
-                    headerDoubleTapMenu(context, Strings.favorites, "", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                    headerDoubleTapMenu(context, Strings.favorites, "", "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                     Expanded(
                       child: SmartRefresher(
                         controller: _refreshFavorites,
@@ -116,7 +116,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                             Strings.productsRelations,
                                             style:TextStyle(
                                               fontFamily: Strings.fontBold,
-                                              color: CustomColors.blackLetter
+                                              color: CustomColorsAPP.blackLetter
                                             ) ,
                                           ),
                                         ),
@@ -162,9 +162,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
     if(product.references[0].images?.length != 0)
     {
       if (color != null  && color.startsWith('#') && color.length >= 6) {
-        providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
         providerProducts.limitedQuantityError = false;
-        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeft));
       }
     }
   }
@@ -270,8 +270,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
         Future callProducts = providerProducts.getProduct(idProduct);
         await callProducts.then((product) {
           providerProducts
-              ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
-          Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+              .imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+          Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeft));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

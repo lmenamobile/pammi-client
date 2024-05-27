@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
@@ -16,21 +17,174 @@ import 'package:wawamko/src/Widgets/Dialogs/DialogSelectBank.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogSelectCountry.dart';
 
 
-customPageTransition(Widget page) {
+customPageTransition(Widget page,PageTransitionType type) {
   return PageTransition(
       curve: Curves.decelerate,
       child: page,
-      type: PageTransitionType.rightToLeft,
+      type: type,
       duration: Duration(milliseconds: 600));
 }
 
-customPageTransitionLeftToRight(Widget page) {
-  return PageTransition(
-      curve: Curves.decelerate,
-      child: page,
-      type: PageTransitionType.leftToRight,
-      duration: Duration(milliseconds: 600));
+Widget headerView(String title, Function function){
+  return Container(
+    width: double.infinity,
+    height: 65,
+    color: CustomColorsAPP.redDot,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        children: [
+          GestureDetector(
+            child: SvgPicture.asset(
+                "Assets/images/ic_arrow_back.svg",
+            ),
+            onTap: () => function(),
+          ),
+          Expanded(
+            child: Center(
+              child: Container(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: Strings.fontBold,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
+
+Widget headerWithSearch(
+    String title, TextEditingController searchController,
+    String totalProducts,
+    Function functionBack,
+    Function callShopCar,
+    Function callSearchProducts){
+  return Container(
+    decoration: BoxDecoration(
+      color:CustomColorsAPP.redDot,
+    ),
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  "Assets/images/ic_arrow_back.svg",
+                ),
+                onTap: () => functionBack(),
+              ),
+              Text(
+               title,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontFamily: Strings.fontBold),
+              ),
+              GestureDetector (
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 30,
+                      child: Image(
+                        image: AssetImage("Assets/images/ic_car.png"),),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Visibility(
+                        visible: totalProducts != "0" ? true : false,
+                        child: CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            totalProducts,
+                            style: TextStyle(
+                                fontSize: 8,
+                                color: CustomColorsAPP.redTour),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                onTap: () => callShopCar(),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
+          boxSearchHome(searchController, callSearchProducts),
+          SizedBox(height: 10,),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget headerWithActions(
+    String title,
+    Function functionBack,
+    Function callShopCar,
+    ){
+  return Container(
+    decoration: BoxDecoration(
+      color:CustomColorsAPP.redDot,
+    ),
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  "Assets/images/ic_arrow_back.svg",
+                ),
+                onTap: () => functionBack(),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontFamily: Strings.fontBold),
+              ),
+              GestureDetector (
+                child: Container(
+                  width: 30,
+                  child: Image(
+                    image: AssetImage("Assets/images/ic_car.png"),),
+                ),
+                onTap: () => callShopCar(),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
+        ],
+      ),
+    ),
+  );
+}
+
+
 
 /*Widget titleBar(String title, String icon, Function action) {
   return Container(
@@ -217,7 +371,7 @@ Widget btnCustomSize(double height, String nameButton, Color colorBackground,
 }
 
 Widget itemProductGeneric(Product product, Function openDetail){
-  int position = getRandomPosition(product.references?.length??0);
+  int position = getRandomPosition(product.references.length??0);
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -245,7 +399,7 @@ Widget itemProductGeneric(Product product, Function openDetail){
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(product.references?[position].images?[0].url??''),
+                    image: NetworkImage(product.references[position].images?[0].url??''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
                     imageErrorBuilder: (_,__,___){
                       return Container();
@@ -263,23 +417,23 @@ Widget itemProductGeneric(Product product, Function openDetail){
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
-                        product.references?[position].reference??'',
+                        product.references[position].reference??'',
                         maxLines: 2,
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                         ),
                       ),
                       Text(
-                        formatMoney( product.references?[position].price??'0'),
+                        formatMoney( product.references[position].price??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.orange,
+                          color: CustomColorsAPP.orange,
                         ),
                       )
                     ],
@@ -309,8 +463,8 @@ Widget customTextFieldIcon(
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border: Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -324,7 +478,7 @@ Widget customTextFieldIcon(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 20,
-          color: CustomColors.gray7.withOpacity(.3),
+          color: CustomColorsAPP.gray7.withOpacity(.3),
         ),
         SizedBox(
           width: 5,
@@ -338,12 +492,12 @@ Widget customTextFieldIcon(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -368,8 +522,8 @@ Widget textFieldIconSelector(
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border: Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -386,7 +540,7 @@ Widget textFieldIconSelector(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.gray7.withOpacity(.4),
+          color: CustomColorsAPP.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -398,12 +552,12 @@ Widget textFieldIconSelector(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -411,7 +565,7 @@ Widget textFieldIconSelector(
             ),
           ),
         ),
-        Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.gray6,size: 20,),
+        Icon(Icons.arrow_forward_ios_rounded,color: CustomColorsAPP.gray6,size: 20,),
         SizedBox(
           width: 5,
         ),
@@ -432,8 +586,8 @@ Widget textFieldIconPhone(
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border: Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -460,7 +614,7 @@ Widget textFieldIconPhone(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.gray7.withOpacity(.4),
+          color: CustomColorsAPP.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -473,12 +627,12 @@ Widget textFieldIconPhone(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -520,7 +674,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -529,7 +683,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
             ],
           ),
@@ -561,7 +715,7 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -570,10 +724,10 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
               SizedBox(height: 23),
-              btnCustom(null,titleButton, CustomColors.blueSplash, Colors.white, action),
+              btnCustom(null,titleButton, CustomColorsAPP.blueSplash, Colors.white, action),
               SizedBox(height: 25),
             ],
           ),
@@ -618,7 +772,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                           fontSize: 18),
                     ),
                   ),
@@ -630,7 +784,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                           fontSize: 15),
                     ),
                   ),
@@ -646,8 +800,8 @@ Widget alertMessageWithActions(String titleAlert, String image,
                           child: btnCustomSize(
                               35,
                               Strings.btnNot,
-                              CustomColors.gray2,
-                              CustomColors.blackLetter,
+                              CustomColorsAPP.gray2,
+                              CustomColorsAPP.blackLetter,
                               actionNegative),
                           width: 100,
                         ),
@@ -655,8 +809,8 @@ Widget alertMessageWithActions(String titleAlert, String image,
                           child: btnCustomSize(
                               35,
                               Strings.btnYes,
-                              CustomColors.blueSplash,
-                              CustomColors.white,
+                              CustomColorsAPP.blueSplash,
+                              CustomColorsAPP.white,
                               action),
                           width: 100,
                         ),
@@ -695,7 +849,7 @@ Widget emptyView(String image, String title, String text) {
                   style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 22,
-                      color: CustomColors.gray8),
+                      color: CustomColorsAPP.gray8),
                 ),
               SizedBox(height: 5),
                 Text(
@@ -704,7 +858,7 @@ Widget emptyView(String image, String title, String text) {
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.gray8),
+                      color: CustomColorsAPP.gray8),
                 ),
                 SizedBox(height: 23),
               ],
@@ -770,7 +924,7 @@ Future<bool?> showDialogDoubleAction(BuildContext context, String title, String 
 }
 
 Widget headerRefresh(){
-  return WaterDropHeader(waterDropColor: CustomColors.blueSplash, complete: Container(), failed: Container(), refresh: SizedBox(
+  return WaterDropHeader(waterDropColor: CustomColorsAPP.blueSplash, complete: Container(), failed: Container(), refresh: SizedBox(
     width: 25.0,
     height: 25.0,
     child:  CircularProgressIndicator(strokeWidth: 2.0),
@@ -796,7 +950,7 @@ Widget btnSheet( String btnTextAction,Function action){
         btnTextAction,
         style: TextStyle(
           fontFamily: Strings.fontRegular,
-          color: CustomColors.gray7
+          color: CustomColorsAPP.gray7
         ),
       ),
     ),
@@ -819,7 +973,7 @@ Widget notConnectionInternet(){
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: CustomColors.gray7,
+                color: CustomColorsAPP.gray7,
                 fontFamily: Strings.fontBold,
                 fontSize: 20
             ),
@@ -833,7 +987,7 @@ Widget notConnectionInternet(){
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: CustomColors.gray7,
+                color: CustomColorsAPP.gray7,
                 fontFamily: Strings.fontRegular,
                 fontSize: 15
             ),

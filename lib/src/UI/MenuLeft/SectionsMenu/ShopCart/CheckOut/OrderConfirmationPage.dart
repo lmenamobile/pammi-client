@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
@@ -26,13 +26,13 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
           color: Colors.white,
           child: Column(
             children: [
-              header(context, Strings.confirmationOrder, CustomColors.redDot, ()=> Navigator.of(context).pushAndRemoveUntil(
+              headerView(Strings.confirmationOrder, ()=> Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => MyHomePage()),
                       (Route<dynamic> route) => false)),
 
@@ -48,7 +48,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 24,
-                                color: CustomColors.blueSplash)),
+                                color: CustomColorsAPP.blueSplash)),
                         SizedBox(
                           height: 20,
                         ),
@@ -59,7 +59,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                               style: TextStyle(
                                   fontFamily: Strings.fontRegular,
                                   fontSize: 15,
-                                  color: CustomColors.gray7)),
+                                  color: CustomColorsAPP.gray7)),
                         ),
                         Image.asset(
                           "Assets/images/order.gif",
@@ -72,7 +72,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
                                 fontSize: 15,
-                                color: CustomColors.gray7)),
+                                color: CustomColorsAPP.gray7)),
                         SizedBox(
                           height: 10,
                         ),
@@ -80,18 +80,18 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,
-                                color: CustomColors.blueSplash)),
+                                color: CustomColorsAPP.blueSplash)),
                         SizedBox(height: 10,),
                         Text(providerCheckOut?.addressSelected?.address??'',
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,
-                                color: CustomColors.blueSplash),
+                                color: CustomColorsAPP.blueSplash),
                         textAlign: TextAlign.center,),
                         SizedBox(
                           height: 20,
                         ),
-                        btnCustom(230, Strings.myOrders, CustomColors.blueSplash,
+                        btnCustom(230, Strings.myOrders, CustomColorsAPP.blueSplash,
                             Colors.white, openOrders),
                         SizedBox(
                           height: 20,
@@ -107,7 +107,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                                 offset: Offset(2, 2))
                           ]),
                           child: btnCustom(230, Strings.start, Colors.white,
-                              CustomColors.blackLetter, openStart),
+                              CustomColorsAPP.blackLetter, openStart),
                         ),
                         SizedBox(height: 20,),
                       ],
@@ -132,6 +132,6 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => MyHomePage()),
             (Route<dynamic> route) => false);
-    Navigator.push(context, customPageTransition(MyOrdersPage()));
+    Navigator.push(context, customPageTransition(MyOrdersPage(),PageTransitionType.rightToLeftWithFade));
   }
 }

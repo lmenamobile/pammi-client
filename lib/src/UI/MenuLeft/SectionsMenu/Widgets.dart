@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/ProductFavorite.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
@@ -54,7 +53,7 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
@@ -63,14 +62,14 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                         ),
                       ),
                       Text(
                         formatMoney( product.reference?.price??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.orange,
+                          color: CustomColorsAPP.orange,
                         ),
                       )
                     ],
@@ -98,10 +97,10 @@ Widget favorite(bool isFavorite,String idReference,Function callFavorite){
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(6)),
-          border: Border.all(color: isFavorite?Colors.transparent:CustomColors.gray5),
+          border: Border.all(color: isFavorite?Colors.transparent:CustomColorsAPP.gray5),
           boxShadow: [
             BoxShadow(
-              color: isFavorite?CustomColors.redTour.withOpacity(0.2):CustomColors.gray5.withOpacity(0.2),
+              color: isFavorite?CustomColorsAPP.redTour.withOpacity(0.2):CustomColorsAPP.gray5.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 1,
               offset: Offset(0, 1), // changes position of shadow
@@ -112,7 +111,7 @@ Widget favorite(bool isFavorite,String idReference,Function callFavorite){
         child: Icon(
           Icons.favorite,
           size: 20,
-          color: isFavorite?CustomColors.redTour:CustomColors.gray5,
+          color: isFavorite?CustomColorsAPP.redTour:CustomColorsAPP.gray5,
         ),
       ),
     ),

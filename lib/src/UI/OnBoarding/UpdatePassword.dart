@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
@@ -45,13 +46,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
       children: [
         Column(
             children: <Widget>[
-              header(context, Strings.resetPass, CustomColors.red, ()=> Navigator.pop(context)),
+              headerView( Strings.resetPass, ()=> Navigator.pop(context)),
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.all(30),
                   child: Column(
                     children: [
-                      Text(Strings.patternPass, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.black1),),
+                      Text(Strings.patternPass, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.black1),),
                       const SizedBox(height: 24),
                       customBoxPassword(passwordController),
                       SizedBox(height: 31),
@@ -66,7 +67,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           bottom: 30,
           left: 30,
           right: 30,
-          child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.save, callServiceUpdatePassword, context),),
+          child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.save, callServiceUpdatePassword, context),),
         Visibility(
           visible: providerOnBoarding.isLoading,
             child: LoadingProgress())
@@ -85,10 +86,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validPass!
-                      ? CustomColors.blueSplash
-                      : CustomColors.gray.withOpacity(.3),
+                      ? CustomColorsAPP.blueSplash
+                      : CustomColorsAPP.gray.withOpacity(.3),
                   width: 1),
-              color: CustomColors.white),
+              color: CustomColorsAPP.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
@@ -106,7 +107,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 20,
-                    color: CustomColors.gray7.withOpacity(.2),
+                    color: CustomColorsAPP.gray7.withOpacity(.2),
                   ),
                   Expanded(
                     child: Container(
@@ -115,12 +116,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.blackLetter),
+                            color: CustomColorsAPP.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.gray7.withOpacity(.5),
+                            color: CustomColorsAPP.gray7.withOpacity(.5),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.password,
@@ -173,10 +174,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validConfirmPass!
-                      ? CustomColors.blueSplash
-                      : CustomColors.gray.withOpacity(.3),
+                      ? CustomColorsAPP.blueSplash
+                      : CustomColorsAPP.gray.withOpacity(.3),
                   width: 1),
-              color: CustomColors.white),
+              color: CustomColorsAPP.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
@@ -194,7 +195,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColors.gray7.withOpacity(.2),
+                    color: CustomColorsAPP.gray7.withOpacity(.2),
                   ),
                   Expanded(
                     child: Container(
@@ -204,12 +205,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.blackLetter),
+                            color: CustomColorsAPP.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColors.gray7.withOpacity(.5),
+                            color: CustomColorsAPP.gray7.withOpacity(.5),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.confirmPassword,
@@ -287,7 +288,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
         await callUser.then((value) {
           utils.showSnackBarGood(context, value.toString());
           Navigator.pushAndRemoveUntil(
-              context, customPageTransition(LoginPage()), (route) => false);
+              context, customPageTransition(LoginPage(),PageTransitionType.fade), (route) => false);
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

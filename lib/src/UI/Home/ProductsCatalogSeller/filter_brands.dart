@@ -128,7 +128,7 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
           bottom: 25,
           left: 20,
           right: 20,
-          child: btnCustom(double.infinity, Strings.clearFilter, CustomColors.blue3, Colors.white, _clearFilter),
+          child: btnCustom(double.infinity, Strings.clearFilter, CustomColorsAPP.blue3, Colors.white, _clearFilter),
         )
       ],
     );

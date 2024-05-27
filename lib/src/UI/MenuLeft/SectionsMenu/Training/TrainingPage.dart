@@ -44,7 +44,6 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuTraining,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -58,7 +57,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
                 Column(
                   children: [
                     //titleBar(Strings.trainings, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
-                    headerDoubleTapMenu(context, Strings.trainings, "", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                    headerDoubleTapMenu(context, Strings.trainings, "", "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                     SizedBox(height: 20,),
                     Expanded(child: SmartRefresher(
                         controller: _refreshTraining,
@@ -91,7 +90,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
         margin: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
         child: Container(
           decoration: BoxDecoration(
-              color: CustomColors.greyBackground,
+              color: CustomColorsAPP.greyBackground,
               borderRadius: BorderRadius.all(Radius.circular(5))
           ),
           child: Padding(
@@ -104,7 +103,7 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
                     training.training??'',
                     style: TextStyle(
                         fontFamily: Strings.fontMedium,
-                        color: CustomColors.blackLetter
+                        color: CustomColorsAPP.blackLetter
                     ),
                   ),
                 ),
@@ -112,11 +111,11 @@ class _TrainingPageState extends State<TrainingPage> with SingleTickerProviderSt
                   margin: EdgeInsets.symmetric(horizontal: 15),
                   height: 40,
                   width: 1,
-                  color: CustomColors.grayBackground,
+                  color: CustomColorsAPP.grayBackground,
                 ),
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: CustomColors.orange,
+                  backgroundColor: CustomColorsAPP.orange,
                   child: Center(
                     child: Icon(Icons.arrow_forward_ios_rounded,color: Colors.white,size: 20),
                   ),

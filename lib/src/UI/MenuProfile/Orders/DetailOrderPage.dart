@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Order/PackageProvider.dart';
@@ -54,7 +55,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
             children: [
               Column(
                 children: [
-                  header(context, Strings.orderId+" ${providerOrder?.orderDetail?.id??''}", CustomColors.redDot, ()=>Navigator.pop(context)),
+                  headerView( Strings.orderId+" ${providerOrder?.orderDetail?.id??''}",()=>Navigator.pop(context)),
                   Expanded(
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
@@ -115,14 +116,18 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     switch (optionView) {
       case 0:
         await saveImagesBrands(providerPackage);
-        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,))).
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,),
+        PageTransitionType.fade)).
         then((value) => getDetailOrder(widget.idOrder));
         break;
       case 1:
-        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,))).then((value) => getDetailOrder(widget.idOrder));
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,),
+        PageTransitionType.fade)
+        ).then((value) => getDetailOrder(widget.idOrder));
         break;
       case 2:
-        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,))).then((value) => getDetailOrder(widget.idOrder));
+        Navigator.push(context, customPageTransition(QualificationPage(optionView: optionView,idQualification: idQualification,subOrderId: idSubOrder,data: data,),
+        PageTransitionType.fade)).then((value) => getDetailOrder(widget.idOrder));
         break;
 
     }
@@ -142,7 +147,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
   openClaimOrder(String idPackage){
     print("id orden $idPackage");
-    Navigator.push(context, customPageTransition(ClaimPage(idPackage: idPackage,)));
+    Navigator.push(context, customPageTransition(ClaimPage(idPackage: idPackage,),
+    PageTransitionType.fade));
   }
 
 
@@ -182,7 +188,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeProvider, id,subOrderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,fromPush: false)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,fromPush: false),
+          PageTransitionType.fade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -200,7 +207,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeSeller, id,orderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,imageProfile: imageSeller,fromPush: false)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,orderId: orderId,typeChat: Constants.typeSeller,imageProfile: imageSeller,fromPush: false),
+          PageTransitionType.fade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimsCloseTab.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimsOpenTab.dart';
-import 'package:wawamko/src/UI/MenuProfile/Orders/OrdersActiveTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import '../../../../Widgets/WidgetsGeneric.dart';
 
 class MyClaimPage extends StatefulWidget {
   @override
@@ -33,10 +33,10 @@ class _MyClaimPageState extends State<MyClaimPage>
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child: Column(
             children: [
-              header(context, Strings.myClaims, CustomColors.redDot, () => Navigator.pop(context)),
+              headerView( Strings.myClaims,  () => Navigator.pop(context)),
               TabBar(
                 controller: tabControllerPages,
                 labelPadding:
@@ -44,16 +44,16 @@ class _MyClaimPageState extends State<MyClaimPage>
                 indicatorColor: Colors.red,
                 indicatorPadding: EdgeInsets.only(right: 20, left: 20),
                 indicatorWeight: 2,
-                labelColor: CustomColors.blackLetter,
-                unselectedLabelColor: CustomColors.blackLetter.withOpacity(.6),
+                labelColor: CustomColorsAPP.blackLetter,
+                unselectedLabelColor: CustomColorsAPP.blackLetter.withOpacity(.6),
                 labelStyle: TextStyle(
                     fontFamily: Strings.fontMedium,
                     fontSize: 16,
-                    color: CustomColors.blackLetter),
+                    color: CustomColorsAPP.blackLetter),
                 unselectedLabelStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 16,
-                    color: CustomColors.blackLetter.withOpacity(.6)),
+                    color: CustomColorsAPP.blackLetter.withOpacity(.6)),
                 tabs: [
                   Tab(text: Strings.claimOpen,),
                   Tab(text: Strings.claimClose,),

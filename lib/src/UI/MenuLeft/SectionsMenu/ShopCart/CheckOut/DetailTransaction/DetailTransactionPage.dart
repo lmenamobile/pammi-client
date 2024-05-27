@@ -1,6 +1,6 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -30,7 +30,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
    return WillPopScope(
      onWillPop: () async => false,
      child: Scaffold(
-       backgroundColor: CustomColors.blueSplash,
+       backgroundColor: CustomColorsAPP.blueSplash,
        body: SafeArea(
          child: Container(
            margin: EdgeInsets.only(top: 30),
@@ -56,7 +56,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                             style: TextStyle(
                                 fontSize: 22,
                                 fontFamily: Strings.fontBold,
-                                color: CustomColors.blackLetter
+                                color: CustomColorsAPP.blackLetter
                             ),
                           ),
                           SizedBox(height: 10,),
@@ -64,7 +64,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                             Strings.completeCheckOut,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColors.gray7
+                                color: CustomColorsAPP.gray7
                             ),
                           ),
                           SizedBox(height: 20,),
@@ -74,7 +74,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                             Strings.agreement,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColors.gray7
+                                color: CustomColorsAPP.gray7
                             ),
                           ),
                           SizedBox(height: 10,),
@@ -84,7 +84,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                             Strings.reference,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColors.gray7
+                                color: CustomColorsAPP.gray7
                             ),
                           ),
                           SizedBox(height: 10,),
@@ -97,7 +97,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: Strings.fontRegular,
-                                  color: CustomColors.gray7
+                                  color: CustomColorsAPP.gray7
                               ),
                             ),
                           ),
@@ -105,7 +105,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                           SizedBox(height: 10,),
                           Container(
                             width: 230,
-                            child: btnCustomSize(40, Strings.btnAccept, CustomColors.blueSplash,
+                            child: btnCustomSize(40, Strings.btnAccept, CustomColorsAPP.blueSplash,
                                 Colors.white, openFinishTransaction),
                           ),
                           SizedBox(height: 20,),
@@ -123,7 +123,7 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
   }
 
   openFinishTransaction(){
-    Navigator.push(context, customPageTransition(OrderConfirmationPage()));
+    Navigator.push(context, customPageTransition(OrderConfirmationPage(),PageTransitionType.leftToRight));
   }
 }
 

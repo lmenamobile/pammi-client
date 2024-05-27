@@ -9,7 +9,7 @@ Widget categoryItem(Category category){
     margin: EdgeInsets.only(bottom: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      color: CustomColors.grayBackground
+      color: CustomColorsAPP.grayBackground
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 15),
@@ -48,7 +48,7 @@ Widget categoryItem(Category category){
                 category.category??'',
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter
+                  color: CustomColorsAPP.blackLetter
                 ),
               ),
             ],
@@ -57,9 +57,9 @@ Widget categoryItem(Category category){
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-              color: category.isSelected?CustomColors.orange:Colors.transparent,
+              color: category.isSelected?CustomColorsAPP.orange:Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              border: Border.all(color: category.isSelected?CustomColors.orange:CustomColors.gray7)
+              border: Border.all(color: category.isSelected?CustomColorsAPP.orange:CustomColorsAPP.gray7)
             ),
           )
         ],

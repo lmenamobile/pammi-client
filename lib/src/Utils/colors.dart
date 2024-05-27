@@ -1,7 +1,7 @@
 
 import 'dart:ui';
 
-class CustomColors {
+class CustomColorsAPP {
 
   static final whiteBackGround = const Color(0xffF8F8F8);
   static final white = const Color(0xffFFFFFF);
@@ -28,6 +28,7 @@ class CustomColors {
   static final gray9 = const Color(0xffF6F6F6);
   static final gray10 = const Color(0xffD6DEE5);
   static final gray11 = const Color(0xffA8A8A8);
+  static final gray12 = const Color(0xffF5F5F5);
   static final grayThree = const Color(0xffEFEFEF);
   static final greyBorder = const Color(0xffE6E6E6);
   static final greyBackground = const Color(0xffFCFCFC);

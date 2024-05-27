@@ -1,8 +1,8 @@
-import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -13,11 +13,8 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:webview_flutter_android/webview_flutter_android.dart';
 // Import for iOS features.
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'OrderConfirmationPage.dart';
 
@@ -36,7 +33,7 @@ class _TransactionADDIPageState extends State<TransactionADDIPage> {
 
 
   final prefs = SharePreference();
-  ProviderCheckOut? providerCheckOut;
+  late ProviderCheckOut? providerCheckOut;
   late ProviderSettings providerSettings;
   InAppWebViewController? webViewController;
 
@@ -56,40 +53,27 @@ class _TransactionADDIPageState extends State<TransactionADDIPage> {
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
           color: Colors.white,
           child: Column(
             children: [
-              header(context, Strings.confirmationOrder, CustomColors.redDot, () => Navigator.pop(context)),
+              headerView(Strings.confirmationOrder,  () => Navigator.pop(context)),
               Expanded(
                 child: providerSettings.hasConnection?InAppWebView(
                   key: webViewKey,
-                  initialUrlRequest:
-                  URLRequest(url: Uri.parse(providerCheckOut?.paymentADDI?.urlRedirectLocation ?? '') ),
-                  // initialUrlRequest:
-                  // URLRequest(url: WebUri(Uri.base.toString().replaceFirst("/#/", "/") + 'page.html')),
-                  // initialFile: "assets/index.html",
+                  initialUrlRequest: URLRequest(url:WebUri(providerCheckOut?.paymentADDI?.urlRedirectLocation ??"") ),
                   initialUserScripts: UnmodifiableListView<UserScript>([]),
-
-                  // contextMenu: contextMenu,
-                  // pullToRefreshController: pullToRefreshController,
                   onWebViewCreated: (controller) async {
                     webViewController = controller;
                     print(await controller.getUrl());
                   },
                   onLoadStart: (controller, url) async {
                     setState(() {
-                      //this.url = url.toString();
-                      //urlController.text = this.url;
+
                     });
                   },
-                  /*onPermissionRequest: (controller, request) async {
-                    return PermissionResponse(
-                        resources: request.resources,
-                        action: PermissionResponseAction.GRANT);
-                  },*/
                   shouldOverrideUrlLoading:
                       (controller, navigationAction) async {
 
@@ -116,7 +100,7 @@ class _TransactionADDIPageState extends State<TransactionADDIPage> {
 
                     if (uri.toString().contains(Constants.finishTransaction)) {
                       Navigator.pushReplacement(context,
-                          customPageTransition(OrderConfirmationPage()));
+                          customPageTransition(OrderConfirmationPage(),PageTransitionType.rightToLeftWithFade));
                     }
 
                     return NavigationActionPolicy.ALLOW;

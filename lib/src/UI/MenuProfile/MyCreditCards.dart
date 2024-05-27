@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
@@ -48,7 +49,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        header(context, Strings.methodsPay, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView( Strings.methodsPay, () => Navigator.pop(context)),
         Expanded(
           child: profileProvider.ltsCreditCards.isEmpty
               ? emptyData("ic_empty_payment.png",
@@ -68,9 +69,9 @@ class _MyCreditCardsState extends State<MyCreditCards> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50,vertical: 30),
             child: btnCustomRounded(
-                CustomColors.blueSplash, CustomColors.white, Strings.addTarjet,
+                CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.addTarjet,
                     ()=>
-                    Navigator.of(context).push(customPageTransition( AddTargetPage()))
+                    Navigator.of(context).push(customPageTransition( AddTargetPage(),PageTransitionType.rightToLeftWithFade))
                 , context)),
       ],
     );
@@ -89,8 +90,8 @@ class _MyCreditCardsState extends State<MyCreditCards> {
       height: 70,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: CustomColors.gray.withOpacity(.1), width: 1),
-          color: CustomColors.white),
+          border: Border.all(color: CustomColorsAPP.gray.withOpacity(.1), width: 1),
+          color: CustomColorsAPP.white),
       child: Center(
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
@@ -115,13 +116,13 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 17,
-                          color: CustomColors.blackLetter),
+                          color: CustomColorsAPP.blackLetter),
                     ),
                     Text(
                       creditCard.franchise!,
                       style: TextStyle(
                           fontSize: 13,
-                          color: CustomColors.purpleOpacity,
+                          color: CustomColorsAPP.purpleOpacity,
                           fontFamily: Strings.fontRegular),
                     ),
                   ],

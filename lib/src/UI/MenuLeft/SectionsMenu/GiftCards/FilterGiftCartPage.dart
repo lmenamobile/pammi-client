@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/GiftCards/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
@@ -27,10 +26,10 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child: Column(
             children: [
-              headerDoubleTapMenu(context, Strings.filter, "ic_remove_white.png", "ic_back.png", CustomColors.redDot, "0", () => Navigator.pop(context), ()=>clearFilter()),
+              headerDoubleTapMenu(context, Strings.filter, "ic_remove_white.png", "ic_back.png", CustomColorsAPP.redDot, "0", () => Navigator.pop(context), ()=>clearFilter()),
               Expanded(
                 child: providerSettings.hasConnection?SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
@@ -77,7 +76,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                         SizedBox(
                           height: 20,
                         ),
-                        btnCustom(200, Strings.apply, CustomColors.blueSplash,
+                        btnCustom(200, Strings.apply, CustomColorsAPP.blueSplash,
                             Colors.white, returnDataFilter)
                       ],
                     ),
@@ -134,14 +133,14 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
               style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 17,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
             ),
             Text(
               formatMoney(values.end.round().toString()),
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 15,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
             ),
             customDivider(),
             Column(
@@ -150,8 +149,8 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                     values: values,
                     min: 0,
                     max: 100,
-                    activeColor: CustomColors.orange,
-                    inactiveColor: CustomColors.gray6,
+                    activeColor: CustomColorsAPP.orange,
+                    inactiveColor: CustomColorsAPP.gray6,
                     labels: RangeLabels(values.start.round().toString(),
                         values.end.round().toString()),
                     onChanged: (values) => setState(() {
@@ -176,7 +175,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
     return Text(
       value.round().toString(),
       style: TextStyle(
-          color: CustomColors.blackLetter,
+          color: CustomColorsAPP.blackLetter,
           fontSize: 13,
           fontFamily: Strings.fontRegular),
     );

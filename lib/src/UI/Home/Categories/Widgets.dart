@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -21,7 +22,7 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(9)),
-        border: Border.all(color: CustomColors.grayBackground,width: 1),
+        border: Border.all(color: CustomColorsAPP.grayBackground,width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -62,14 +63,14 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 )
               ],
             ),
             Icon(
               Icons.keyboard_arrow_right,
-              color: CustomColors.gray4,
+              color: CustomColorsAPP.gray4,
             )
           ],
         ),
@@ -85,30 +86,35 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
       margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(9)),
-        border: Border.all(color: CustomColors.grayBackground,width: 1),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+        border: Border.all(color: CustomColorsAPP.grayBackground,width: 1),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.fromLTRB(16, 15, 15,18),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Text(
-                subCategory.subcategory!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: Strings.fontRegular,
-                  fontSize: 13,
-                  color: CustomColors.blackLetter,
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: Text(
+                    subCategory.subcategory??"not found",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: Strings.fontBold,
+                      fontSize: 16,
+                      color: CustomColorsAPP.blueSplash,
+                    ),
+                  ),
                 ),
               ),
             ),
-            Icon(
-              Icons.keyboard_arrow_right,
-              color: CustomColors.gray4,
+            SvgPicture.asset(
+                "Assets/images/btn_see_more_circle.svg",
             )
           ],
         ),
@@ -125,7 +131,7 @@ Widget itemBrandRow(Brand brand, Function openProducts){
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(9)),
-        border: Border.all(color: CustomColors.grayBackground,width: 1),
+        border: Border.all(color: CustomColorsAPP.grayBackground,width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -141,13 +147,13 @@ Widget itemBrandRow(Brand brand, Function openProducts){
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 13,
-                  color: CustomColors.blackLetter,
+                  color: CustomColorsAPP.blackLetter,
                 ),
               ),
             ),
             Icon(
               Icons.keyboard_arrow_right,
-              color: CustomColors.gray4,
+              color: CustomColorsAPP.gray4,
             )
           ],
         ),
@@ -202,23 +208,23 @@ Widget itemProductRelations(Product product, Function openDetail){
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
-                      color: CustomColors.gray7,
+                      color: CustomColorsAPP.gray7,
                     ),
                   ),
                   Text(
-                    product.references?[0].reference??'',
+                    product.references[0].reference??'',
                     maxLines: 2,
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 13,
-                      color: CustomColors.blackLetter,
+                      color: CustomColorsAPP.blackLetter,
                     ),
                   ),
                   Text(
-                    formatMoney( product.references?[0].price??'0'),
+                    formatMoney( product.references[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.orange,
+                      color: CustomColorsAPP.orange,
                     ),
                   )
                 ],
@@ -232,14 +238,13 @@ Widget itemProductRelations(Product product, Function openDetail){
 }
 
 Widget itemProductCategory(Product product, Function openDetail,Function callFavorite){
-  //int position = getRandomPosition(product.references?.length??0);
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
-      width: 160,
+        width: 180.0,
+        height: 318.0,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(12)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -249,93 +254,96 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  child: product.references[0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
-                      isImageYoutube(product.references[0].images?[0].url??'',
-                  FadeInImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(product.references[0].images?[0].url??''),
-                    placeholder: AssetImage("Assets/images/spinner.gif"),
-                    imageErrorBuilder: (_,__,___){
-                      return Container();
-                    },
-                  )),
-                ),
-                customDivider(),
-                Align(
-                  alignment: Alignment.centerLeft,
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              Container(
+                width: 180,
+                height: 180,
+                child: product.references[0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
+                    isImageYoutube(product.references[0].images?[0].url??'',
+                FadeInImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(product.references[0].images?[0].url??''),
+                  placeholder: AssetImage("Assets/images/spinner.gif"),
+                  imageErrorBuilder: (_,__,___){
+                    return Container();
+                  },
+                )),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         product.brandProvider?.brand?.brand??'',
-                        style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          fontSize: 12,
-                          color: CustomColors.gray7,
-                        ),
-                      ),
-                      Text(
-                        product.references?[0].reference??'',
                         maxLines: 2,
                         style: TextStyle(
+                          height: 1,
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
-                        formatMoney( product.references?[0].price??'0'),
+                        product.references[0].reference??'',
+                        maxLines: 2,
                         style: TextStyle(
-                          fontFamily: Strings.fontBold,
-                          color: CustomColors.orange,
+                          fontFamily: Strings.fontMedium,
+                          fontSize: 16,
+                          color: CustomColorsAPP.blackLetter,
+                        ),
+                      ),
+
+                      Text(
+                        formatMoney( product.references[0].price??'0'),
+                        style: TextStyle(
+                          fontFamily: Strings.fontRegular,
+                          fontSize: 18,
+                          color: CustomColorsAPP.orange,
                         ),
                       )
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
+          ),
 
-            Positioned(
+          Positioned(
+            top: 3,
+              right: 3,
+              child: Visibility(
+                visible: userIsLogged()?true:false,
+                child: InkWell(
+                  onTap: ()=>callFavorite(product.references[0]),
+                    child: favorite(product.references[0].isFavorite??false)),
+              )),
+
+          Positioned(
               top: 3,
-                right: 3,
-                child: Visibility(
-                  visible: userIsLogged()?true:false,
-                  child: InkWell(
-                    onTap: ()=>callFavorite(product.references?[0]),
-                      child: favorite(product.references?[0].isFavorite??false)),
-                )),
-
-            Positioned(
-                top: 3,
-                left: 3,
-                child: Visibility(
-                  visible: product.references![0].totalProductOffer!.status??false,
-                  child: CircleAvatar(
-                    radius: 11,
-                    backgroundColor: CustomColors.redTour,
-                    child: Center(
-                      child: Text(
-                        product.references![0].totalProductOffer!.discountValue!+"%",
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.white
-                        ),
+              left: 3,
+              child: Visibility(
+                visible: product.references[0].totalProductOffer!.status??false,
+                child: CircleAvatar(
+                  radius: 11,
+                  backgroundColor: CustomColorsAPP.redTour,
+                  child: Center(
+                    child: Text(
+                      product.references[0].totalProductOffer!.discountValue!+"%",
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white
                       ),
                     ),
                   ),
-                )),
-          ],
-        ),
+                ),
+              )),
+        ],
       ),
     ),
   );
@@ -348,10 +356,10 @@ Widget favorite(bool isFavorite){
     decoration: BoxDecoration(
       color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(6)),
-        border: Border.all(color: isFavorite?Colors.transparent:CustomColors.gray5),
+        border: Border.all(color: isFavorite?Colors.transparent:CustomColorsAPP.gray5),
         boxShadow: [
           BoxShadow(
-            color: isFavorite?CustomColors.redTour.withOpacity(0.2):CustomColors.gray5.withOpacity(0.2),
+            color: isFavorite?CustomColorsAPP.redTour.withOpacity(0.2):CustomColorsAPP.gray5.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 1,
             offset: Offset(0, 1), // changes position of shadow
@@ -362,7 +370,7 @@ Widget favorite(bool isFavorite){
       child: Icon(
         Icons.favorite,
         size: 20,
-        color: isFavorite?CustomColors.redTour:CustomColors.gray5,
+        color: isFavorite?CustomColorsAPP.redTour:CustomColorsAPP.gray5,
       ),
     ),
   );
@@ -381,7 +389,7 @@ Widget rowButtonsMoreAndLess(String units, Function add, Function remove){
             style: TextStyle(
                 fontSize: 25,
                 fontFamily: Strings.fontBold,
-                color: CustomColors.blueSplash),
+                color: CustomColorsAPP.blueSplash),
           ),
         ),
         buttonMoreOrLess(Icons.add, add),
@@ -400,7 +408,7 @@ Widget buttonMoreOrLess(IconData icon, Function action){
         width: 30,
         height: 30,
         decoration: BoxDecoration(
-            color: CustomColors.blueSplash,
+            color: CustomColorsAPP.blueSplash,
             borderRadius: BorderRadius.all(Radius.circular(6))
         ),
         child: Center(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import '../../Utils/Strings.dart';
 
 class DataProtectionPolicyPdfView extends StatefulWidget {

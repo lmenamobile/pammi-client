@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Category.dart';
-import 'package:wawamko/src/Models/SubCategory.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
-import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/Widgets.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/filter_brands.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/Widgets.dart';
-import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -41,7 +37,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   void initState() {
     providerProducts = Provider.of<ProviderProducts>(context,listen: false);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     getProducts(pageOffset);
     });
     super.initState();
@@ -61,7 +57,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               Column(
                 children: [
                  // titleBar(Strings.catalog,"ic_blue_arrow.png", ()=>Navigator.pop(context)),
-                  header(context, Strings.catalog, CustomColors.redDot, ()=> Navigator.pop(context)),
+                  headerView(Strings.catalog,  ()=> Navigator.pop(context)),
                   const SizedBox(height: 25),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -70,7 +66,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         IconButton(onPressed: _selectFilterBrands, icon: Icon(
                           Icons.filter_alt_rounded,
                           size: 30,
-                          color: CustomColors.blue6,
+                          color: CustomColorsAPP.blue6,
                         )),
                         const SizedBox(width: 20),
                         Expanded(child: boxSearch(searchController, _searchProducts)),
@@ -123,10 +119,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   _selectFilterBrands(){
-    Navigator.push(context, customPageTransitionLeftToRight(FilterBrandsCatalog(actionFilter: (){
+    Navigator.push(context, customPageTransition(FilterBrandsCatalog(actionFilter: (){
       providerProducts.ltsProductsByCatalog = [];
      getProducts(0);
-    },)));
+    },),PageTransitionType.rightToLeft));
   }
 
 

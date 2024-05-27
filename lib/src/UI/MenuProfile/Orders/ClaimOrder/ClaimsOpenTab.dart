@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
-import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/CloseClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/DetailClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
-import 'package:wawamko/src/UI/MenuProfile/Orders/DetailOrderPage.dart';
-import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -37,7 +35,7 @@ class _ClaimsOpenTabState extends State<ClaimsOpenTab> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child:Column(
             children: [
               Expanded(child: SmartRefresher(
@@ -92,14 +90,14 @@ class _ClaimsOpenTabState extends State<ClaimsOpenTab> {
   openDetailClaim(String id){
     print("id reclamo $id");
     if(mounted){
-      Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id)));
+      Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id),PageTransitionType.rightToLeftWithFade));
 
     }
   }
 
   openCloseClaim(String id){
     print("id de la orden $id");
-    Navigator.push(context, customPageTransition(CloseClaimPage(idPackage: id)));
+    Navigator.push(context, customPageTransition(CloseClaimPage(idPackage: id),PageTransitionType.rightToLeftWithFade));
   }
 
   getClaimsOpen() async {

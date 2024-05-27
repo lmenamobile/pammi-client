@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -18,9 +18,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'OrderConfirmationPage.dart';
 
-import 'package:webview_flutter_android/webview_flutter_android.dart';
 // Import for iOS features.
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 
 
@@ -56,23 +54,18 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
           color: Colors.white,
           child: Column(
             children: [
-              header(context, Strings.confirmationOrder, CustomColors.redDot, () => Navigator.pop(context)),
-              /*Expanded(
-                child: providerSettings.hasConnection?WebViewWidget(
-                 controller: _controller2,
-                ):notConnectionInternet(),
-              )*/
+              headerView( Strings.confirmationOrder,  () => Navigator.pop(context)),
               Expanded(
                 child: providerSettings.hasConnection ?  InAppWebView(
                   key: webViewKey,
                   initialUrlRequest:
-                  URLRequest(url: Uri.parse(providerCheckOut?.paymentPSE?.urlbanco ?? '') ),
+                  URLRequest(url: WebUri(providerCheckOut?.paymentPSE?.urlbanco ?? '')),
                   // initialUrlRequest:
                   // URLRequest(url: WebUri(Uri.base.toString().replaceFirst("/#/", "/") + 'page.html')),
                   // initialFile: "assets/index.html",
@@ -121,7 +114,7 @@ class _TransactionPSEPageState extends State<TransactionPSEPage> {
 
                     if (uri.toString().contains(Constants.finishTransaction)) {
                       Navigator.pushReplacement(context,
-                          customPageTransition(OrderConfirmationPage()));
+                          customPageTransition(OrderConfirmationPage(),PageTransitionType.rightToLeftWithFade));
                     }
 
                     return NavigationActionPolicy.ALLOW;

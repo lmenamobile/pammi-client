@@ -1,14 +1,13 @@
  import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
-import 'package:wawamko/src/Models/UserProfile.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
-import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/DetailTransaction/DetailTransactionPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/CheckOut/PaymentMethodsPage.dart';
@@ -76,16 +75,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
 
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.grayBackground,
+          color: CustomColorsAPP.grayBackground,
           child: Stack(
             children: [
               Column(
                 children: [
 
-                  header(context, Strings.order, CustomColors.redDot, () => Navigator.pop(context)),
+                  headerView(Strings.order, () => Navigator.pop(context)),
 
                   providerShopCart?.shopCart == null
                       ? emptyData(
@@ -98,7 +97,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         children: [
                           InkWell(
                               onTap: ()async{
-                                await Navigator.push(context, customPageTransition(MyAddressPage()));
+                                await Navigator.push(context, customPageTransition(MyAddressPage(),PageTransitionType.rightToLeft));
                                 getShippingPrice();
                                 getShopCart();
                               },
@@ -208,9 +207,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   openPaymentMethods(Function refreshPriceShipping){
-    Navigator.push(context, customPageTransition(PaymentMethodsPage())).then((value)async{
+    Navigator.push(context, customPageTransition(PaymentMethodsPage(),PageTransitionType.fade)).then((value)async{
       if(providerCheckOut.paymentSelected!.id== Constants.paymentCreditCard){
-        Navigator.push(context, customPageTransition(MyCreditCards(isActiveSelectCard: true,)));
+        Navigator.push(context, customPageTransition(MyCreditCards(isActiveSelectCard: true,),PageTransitionType.fade));
       }else if(providerCheckOut.paymentSelected!.id== Constants.paymentPSE){
         var bank = await openSelectBank(context);
         if(bank!=null)
@@ -401,15 +400,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
         await callCart.then((msg) {
           if(paymentMethodId == Constants.paymentCreditCard){
             providerCheckOut.quotaValue = 0;
-            Navigator.push(context, customPageTransition(OrderConfirmationPage()));
+            Navigator.push(context, customPageTransition(OrderConfirmationPage(),PageTransitionType.rightToLeftWithFade));
           }else if(paymentMethodId == Constants.paymentCash){
-            Navigator.push(context, customPageTransition(OrderConfirmationPage()));
+            Navigator.push(context, customPageTransition(OrderConfirmationPage(),PageTransitionType.rightToLeftWithFade));
           }else if(paymentMethodId == Constants.paymentBaloto ||paymentMethodId == Constants.paymentEfecty){
-            Navigator.push(context, customPageTransition(DetailTransactionPage()));
+            Navigator.push(context, customPageTransition(DetailTransactionPage(),PageTransitionType.rightToLeftWithFade));
           }else if(paymentMethodId == Constants.paymentPSE){
-            Navigator.push(context, customPageTransition(TransactionPSEPage()));
+            Navigator.push(context, customPageTransition(TransactionPSEPage(),PageTransitionType.rightToLeftWithFade));
           }else if(paymentMethodId ==Constants.paymentADDI){
-            Navigator.push(context, customPageTransition(TransactionADDIPage()));
+            Navigator.push(context, customPageTransition(TransactionADDIPage(),PageTransitionType.rightToLeftWithFade));
           }
           utils.showSnackBarGood(context, msg);
           providerShopCart!.totalProductsCart = "0";

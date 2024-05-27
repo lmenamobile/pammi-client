@@ -40,7 +40,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
     _tabController = TabController(vsync: this, length: 2,initialIndex: 0);
 
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getPqrs("open");
     });
     super.initState();
@@ -57,7 +57,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     pqrsProvider = Provider.of<PQRSProvider>(context);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _animationController.reset();
       _animationController.forward();
     });
@@ -80,7 +80,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
   Widget _body(BuildContext context){
     return Column(
       children: [
-        header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView( Strings.pqrs, () => Navigator.pop(context)),
         SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -91,7 +91,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 18,
-                  color: CustomColors.blackLetter
+                  color: CustomColorsAPP.blackLetter
                 ),
               ),
               Expanded(
@@ -103,7 +103,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
                   padding: EdgeInsets.symmetric(horizontal: 32,vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
-                    color: CustomColors.blueSplash
+                    color: CustomColorsAPP.blueSplash
                   ),
                   child: Text(
                     Strings.create,
@@ -121,9 +121,9 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
         SizedBox(height: 20),
         TabBar(
           controller: _tabController,
-          indicatorColor: CustomColors.redTour,
-          unselectedLabelColor: CustomColors.blackLetter.withOpacity(.56),
-          labelColor: CustomColors.yellow,
+          indicatorColor: CustomColorsAPP.redTour,
+          unselectedLabelColor: CustomColorsAPP.blackLetter.withOpacity(.56),
+          labelColor: CustomColorsAPP.yellow,
           onTap: (index){
             _changeTab(index);
           },
@@ -227,7 +227,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
             style: TextStyle(
               fontSize: 16,
               fontFamily: Strings.fontRegular,
-              color: CustomColors.white,
+              color: CustomColorsAPP.white,
             ),
           ),
         ),

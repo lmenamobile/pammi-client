@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:package_info/package_info.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
@@ -20,6 +19,11 @@ SharePreference _prefs = SharePreference();
 Widget isImageYoutube(String url,Widget itemImage){
   return url.contains("youtube")?Container(
       child: Image.asset("Assets/images/video.png",fit: BoxFit.fill,)):itemImage;
+}
+
+Future<String> getPackageInfo()async{
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  return packageInfo.version;
 }
 
 Widget isImageYoutubeAction(String url,Widget itemImage){
@@ -161,36 +165,36 @@ String getStatusPqrs(String type) {
 Color getStatusColorClaim(String type) {
   switch (type) {
     case Strings.statusOpen:
-      return CustomColors.blue4;
+      return CustomColorsAPP.blue4;
     case Strings.statusClose:
-      return CustomColors.orangeOne;
+      return CustomColorsAPP.orangeOne;
     case Strings.statusApproved:
-      return CustomColors.greenOne;
+      return CustomColorsAPP.greenOne;
     case Strings.statusReject:
-      return CustomColors.redTwo;
+      return CustomColorsAPP.redTwo;
     default:
-      return CustomColors.blue4;
+      return CustomColorsAPP.blue4;
   }
 }
 
 Color getStatusColorOrder(String type) {
   switch (type) {
     case Strings.statusCreate:
-      return CustomColors.blue4;
+      return CustomColorsAPP.blue4;
     case Strings.statusProcessing:
-      return CustomColors.orangeOne;
+      return CustomColorsAPP.orangeOne;
     case Strings.statusCancel:
-      return CustomColors.redTwo;
+      return CustomColorsAPP.redTwo;
     case Strings.statusCompleted:
-      return CustomColors.greenOne;
+      return CustomColorsAPP.greenOne;
     case Strings.statusRestored:
-      return CustomColors.yellowTwo;
+      return CustomColorsAPP.yellowTwo;
     case Strings.statusSend:
-      return CustomColors.blue5;
+      return CustomColorsAPP.blue5;
     case Strings.statusFinish:
-      return CustomColors.greenOne;
+      return CustomColorsAPP.greenOne;
     default:
-      return CustomColors.blue4;
+      return CustomColorsAPP.blue4;
   }
 }
 
@@ -227,7 +231,7 @@ String priceDiscount(String price,String percent) {
 
 void validateSession(BuildContext context)async{
   bool? status = await showDialogDoubleAction(context, Strings.ups, Strings.userNotLogIn, "ic_error.png", Strings.yesLogin);
-  if(status!)Navigator.of(context).push(customPageTransition(LoginPage()));
+  if(status!)Navigator.of(context).push(customPageTransition(LoginPage(),PageTransitionType.fade));
 }
 
 bool userIsLogged(){

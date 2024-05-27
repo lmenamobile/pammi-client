@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
@@ -40,10 +42,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
   @override
   void initState() {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       providerProducts!.productDetail = widget.product;
-      providerProducts!.referenceProductSelected = widget.product.references![0];
-      providerProducts?.imageReferenceProductSelected = widget.product.references![0]?.images?[0].url ?? "";
+      providerProducts!.referenceProductSelected = widget.product.references[0];
+      providerProducts?.imageReferenceProductSelected = widget.product.references[0].images?[0].url ?? "";
       providerProducts!.unitsProduct = 1;
     });
     super.initState();
@@ -63,121 +65,37 @@ class _DetailProductPageState extends State<DetailProductPage> {
           color: Colors.white,
           child: Column(
             children: [
-              headerDoubleTap(context, widget.product.product!,"ic_car.png", CustomColors.redDot,providerShopCart.totalProductsCart, ()=> Navigator.pop(context), ()=>  Navigator.push(
-              context, customPageTransition(ShopCartPage()))),
-              /*titleBarWithDoubleAction(
-                  ,
-                  "ic_blue_arrow.png",
-                  ",
-                      () => Navigator.pop(context),
-                      () =>
-                     ,
-                  true,
-                  providerShopCart.totalProductsCart),*/
+              headerWithActions(Strings.detailTotalOrder,()=>Navigator.pop(context), openShopCart),
               Expanded(
                 child: providerSettings.hasConnection ? SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      //IMAGE PRODUCT
                       Container(
                         width: double.infinity,
-                        height: 290,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15),)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            isImageYoutubeAction(providerProducts?.imageReferenceProductSelected ?? '',
-                                InkWell(
-                                  onTap: () => openZoomImages(),
-                                  child: imageReference(
-                                      170,
-                                      providerProducts
-                                          ?.imageReferenceProductSelected ??
-                                          ''),
-                                )),
-                            Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 30),
-                                height: 50,
-                                child: listItemsImagesReferences()),
-                          ],
-                        ),
+                        height: 428,
+                        child: isImageYoutubeAction(providerProducts?.imageReferenceProductSelected ?? '',
+                            InkWell(
+                              onTap: () => openZoomImages(),
+                              child: imageReference(Size(double.infinity, 428), providerProducts?.imageReferenceProductSelected ?? ''),
+                            )),
                       ),
+
+                      //LIST IMAGES REFERENCES
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        height: 70,
+                        child: listItemsImagesReferences(providerProducts?.referenceProductSelected?.images),
+                      ),
+
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15),
+                          margin: EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                Strings.references,
-                                style: TextStyle(
-                                    color: CustomColors.blackLetter,
-                                    fontFamily: Strings.fontMedium),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  String? color = providerProducts?.referenceProductSelected?.color;
-                                  if(color != null  && color.startsWith('#') && color.length >= 6){
-                                    openBottomSheetLtsReferences(context, setReference, providerProducts?.ltsReferencesProductSelected);
-                                  }
-
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: CustomColors.gray6,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 23, vertical: 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              itemImageReference(35, providerProducts!.referenceProductSelected!.images!.isEmpty ? '' : providerProducts?.referenceProductSelected?.images![0].url ?? ''),
-                                              SizedBox(
-                                                width: 13,
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  providerProducts
-                                                      ?.referenceProductSelected
-                                                      ?.reference ??
-                                                      '',
-                                                  maxLines: 2,
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                      Strings.fontRegular,
-                                                      color: CustomColors
-                                                          .gray7),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_right_outlined,
-                                          color: CustomColors.gray7,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
                               Text(
                                 providerProducts?.productDetail?.brandProvider
                                     ?.brand?.brand ??
@@ -185,7 +103,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColors.gray7),
+                                    color: CustomColorsAPP.gray7),
                               ),
                               SizedBox(
                                 height: 5,
@@ -197,7 +115,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColors.blueSplash),
+                                    color: CustomColorsAPP.blueSplash),
                               ),
                               SizedBox(
                                 height: 5,
@@ -215,7 +133,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontFamily: Strings.fontRegular,
-                                                color: CustomColors.blueSplash),
+                                                color: CustomColorsAPP.blueSplash),
                                           ),
                                           Container(
                                             width: 30,
@@ -236,7 +154,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                      child:   Expanded(
                                          child: Text(
                                             providerProducts?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts?.referenceProductSelected?.size}" :  "Talla ${providerProducts?.referenceProductSelected?.size}",
-                                           style: TextStyle(fontSize: 15, fontFamily: Strings.fontRegular, color: CustomColors.blueSplash),
+                                           style: TextStyle(fontSize: 15, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueSplash),
                                          ),
                                    ),
 
@@ -253,7 +171,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                   style:TextStyle(
                                       fontSize: 15,
                                       fontFamily: Strings.fontBold,
-                                      color: CustomColors.blackLetter)
+                                      color: CustomColorsAPP.blackLetter)
                               ),
                               rowStars(double.parse(providerProducts
                                   ?.referenceProductSelected
@@ -271,7 +189,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                       decoration: TextDecoration.lineThrough,
                                       fontSize: 18,
                                       fontFamily: Strings.fontMedium,
-                                      color: CustomColors.gray4),
+                                      color: CustomColorsAPP.gray4),
                                 ),
                               ),
                               Text(
@@ -286,7 +204,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: Strings.fontMedium,
-                                    color: CustomColors.orange),
+                                    color: CustomColorsAPP.orange),
                               ),
                               SizedBox(height: 10,),
                               //botones para agregar producto por cantidad
@@ -298,7 +216,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                   Visibility(
                                     visible:providerProducts?.limitedQuantityError == true ? false :true,
                                     child: Text("${Strings.quantityAvailable} ${providerProducts?.referenceProductSelected?.qty}",
-                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.gray),
+                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray),
                                     ),
                                   ),
                                   Visibility(
@@ -309,7 +227,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           "${Strings.youCanOnlyCarry} ${providerProducts?.referenceProductSelected?.qty} unidades",
-                                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+                                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueDarkSplash,),
                                         ),
                                       ),
                                     ),
@@ -325,7 +243,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     btnCustom(
                                         120,
                                         Strings.paymentNow,
-                                        CustomColors.orange,
+                                        CustomColorsAPP.orange,
                                         Colors.white,
                                             () => paymentNow()),
                                     SizedBox(
@@ -337,7 +255,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         child: btnCustomIconLeft(
                                             "ic_pay_add.png",
                                             Strings.addCartShop,
-                                            CustomColors.blue,
+                                            CustomColorsAPP.blue,
                                             Colors.white,
                                                 () => addProductCart()),
                                       ),
@@ -375,12 +293,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
           children: [
             ExpansionWidget(
               initiallyExpanded: true,
-              iconColor: CustomColors.gray7,
+              iconColor: CustomColorsAPP.gray7,
               title: Row(
                 children: [
                   Icon(
                     Icons.info_rounded,
-                    color: CustomColors.blue,
+                    color: CustomColorsAPP.blue,
                   ),
                   SizedBox(
                     width: 12,
@@ -389,7 +307,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     Strings.productInformation,
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.blue),
+                        color: CustomColorsAPP.blue),
                   ),
                 ],
               ),
@@ -402,7 +320,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Strings.description,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.black1),
+                          color: CustomColorsAPP.black1),
                     ),
                     Html(
                       data: providerProducts?.productDetail?.characteristics,
@@ -412,7 +330,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Strings.conditions,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.black1),
+                          color: CustomColorsAPP.black1),
                     ),
                     Html(
                       data: providerProducts?.productDetail?.conditions,
@@ -424,12 +342,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
             customDivider(),
             ExpansionWidget(
               initiallyExpanded: true,
-              iconColor: CustomColors.gray7,
+              iconColor: CustomColorsAPP.gray7,
               title: Row(
                 children: [
                   Icon(
                     Icons.comment,
-                    color: CustomColors.blue,
+                    color: CustomColorsAPP.blue,
                   ),
                   SizedBox(
                     width: 12,
@@ -438,7 +356,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     Strings.comments,
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.blackLetter),
+                        color: CustomColorsAPP.blackLetter),
                   ),
                 ],
               ),
@@ -461,21 +379,18 @@ class _DetailProductPageState extends State<DetailProductPage> {
     );
   }
 
-  Widget listItemsImagesReferences() {
+  Widget listItemsImagesReferences(List<ImageProduct>? images) {
     return ListView.builder(
-      itemCount: providerProducts?.referenceProductSelected?.images == null
-          ? 0
-          : providerProducts?.referenceProductSelected?.images?.length,
+      itemCount: images == null ? 0 : images.length,
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
+      padding: EdgeInsets.only(left: 20),
+      itemBuilder: (_, int index) {
         return Padding(
-          padding: const EdgeInsets.only(right: 5),
+          padding: const EdgeInsets.only(right: 15),
           child: InkWell(
-              onTap: () =>
-                  setImageReference(providerProducts
-                      ?.referenceProductSelected?.images![index].url),
-              child: itemImageReference(50, providerProducts?.referenceProductSelected?.images?[index].url ?? '')),
+              onTap: () => setImageReference(images![index].url),
+              child: itemImageReference(Size(80, 80), images?[index].url ?? '',providerProducts?.imageReferenceProductSelected ?? '')),
         );
       },
     );
@@ -505,7 +420,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts!.unitsProduct = 1;
     providerProducts?.limitedQuantityError = false;
     providerProducts?.referenceProductSelected = reference;
-    providerProducts?.productDetail?.references?.forEach((element) {
+    providerProducts?.productDetail?.references.forEach((element) {
       if (element != reference) {
         element.isSelected = false;
       }
@@ -533,7 +448,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
           await callCart.then((msg) async{
             //Navigator.pop(context);
             Navigator.push(
-                context, customPageTransition(ShopCartPage()));
+                context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade));
             utils.showSnackBarGood(context, msg.toString());
 
             await providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
@@ -576,7 +491,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
       if (value) {
         Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
-          Navigator.push(context, customPageTransition(CheckOutPage()));
+          Navigator.push(context, customPageTransition(CheckOutPage(), PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());
@@ -612,4 +527,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
       validateSession(context);
     }
   }
+
+  void openShopCart() {
+    Navigator.push(context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade));
+  }
+
 }

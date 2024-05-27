@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
@@ -163,8 +164,8 @@ class _AddAddressPageState extends State<AddAddressPage>
       padding: EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(2)),
-          color: CustomColors.grayBackground,
-          border: Border.all(color: CustomColors.greyBorder, width: 1)),
+          color: CustomColorsAPP.grayBackground,
+          border: Border.all(color: CustomColorsAPP.greyBorder, width: 1)),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -186,7 +187,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColors.blackLetter),
+                      color: CustomColorsAPP.blackLetter),
                   onTap: () {
                   openSuggestAddress();
                   },
@@ -195,11 +196,11 @@ class _AddAddressPageState extends State<AddAddressPage>
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColors.grayLetter2),
+                        color: CustomColorsAPP.grayLetter2),
                     hintText: Strings.address,
                     border: InputBorder.none,
                   ),
-                  cursorColor: CustomColors.blueSplash,
+                  cursorColor: CustomColorsAPP.blueSplash,
                 ),
               ),
             ),
@@ -213,7 +214,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                   Strings.change,
                   style: TextStyle(
                       fontSize: 13,
-                      color: CustomColors.blackLetter.withOpacity(.6),
+                      color: CustomColorsAPP.blackLetter.withOpacity(.6),
                       fontFamily: Strings.fontRegular),
                 ),
               ),
@@ -268,7 +269,7 @@ class _AddAddressPageState extends State<AddAddressPage>
     return Column(
       children: <Widget>[
 
-        header(context, Strings.addAddres, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView(Strings.addAddres, () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -302,7 +303,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                   width: double.infinity,
                   padding: EdgeInsets.only(left: 21, right: 21, top: 24, bottom: 24),
                   decoration: BoxDecoration(
-                      color: CustomColors.white,
+                      color: CustomColorsAPP.white,
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20))),
@@ -331,8 +332,8 @@ class _AddAddressPageState extends State<AddAddressPage>
                       Padding(
                         padding: EdgeInsets.only(left: 70, right: 70),
                         child: btnCustomRounded(
-                            CustomColors.blueSplash,
-                            CustomColors.white,
+                            CustomColorsAPP.blueSplash,
+                            CustomColorsAPP.white,
                             widget.flagAddress == "update"
                                 ? Strings.updateAddressButton
                                 : Strings.addAddres, () {
@@ -365,7 +366,7 @@ class _AddAddressPageState extends State<AddAddressPage>
             style: TextStyle(
                 fontSize: 15,
                 fontFamily: Strings.fontRegular,
-                color: CustomColors.gray7),
+                color: CustomColorsAPP.gray7),
           ),
           Row(
             children: <Widget>[
@@ -384,18 +385,18 @@ class _AddAddressPageState extends State<AddAddressPage>
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 17,
-                          color: CustomColors.blackLetter),
+                          color: CustomColorsAPP.blackLetter),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: hintText,
                           hintStyle: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 17,
-                              color: CustomColors.gray7.withOpacity(.4))),
+                              color: CustomColorsAPP.gray7.withOpacity(.4))),
                     ),
                     Container(
                       height: 2,
-                      color: CustomColors.blueActiveDots,
+                      color: CustomColorsAPP.blueActiveDots,
                     )
                   ],
                 ),
@@ -411,9 +412,9 @@ class _AddAddressPageState extends State<AddAddressPage>
     return Container(
       height: 64,
       decoration: BoxDecoration(
-          border: Border.all(color: CustomColors.orange, width: 1),
+          border: Border.all(color: CustomColorsAPP.orange, width: 1),
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: CustomColors.redBackground),
+          color: CustomColorsAPP.redBackground),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -453,7 +454,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                       style: TextStyle(
                           fontSize: 11,
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.orange),
+                          color: CustomColorsAPP.orange),
                     ),
                   )
                 ],
@@ -535,7 +536,7 @@ class _AddAddressPageState extends State<AddAddressPage>
     if(providerSettings?.countrySelected!=null||prefs.countryIdUser!="0") {
       providerSettings!.ltsStatesCountries.clear();
       await providerSettings!.getStates("", 0, providerSettings?.countrySelected!=null?providerSettings!.countrySelected!.id:prefs.countryIdUser);
-      Navigator.push(context, customPageTransition(SelectStatesPage()));
+      Navigator.push(context, customPageTransition(SelectStatesPage(),PageTransitionType.rightToLeft));
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
     }
@@ -598,11 +599,11 @@ class _AddAddressPageState extends State<AddAddressPage>
   void _geocodeFromCorToAddress() async {
     if (enableGeoCode) {
 
-      var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
-      var result = addresses.first;
-      locationAddress = result.street;
-      city = result.locality;
-      namePlace = result.thoroughfare;
+      var addresses = await GeocodingPlatform.instance?.placemarkFromCoordinates(latLocation!,lonLocation!);
+      var result = addresses?.first??null;
+      locationAddress = result?.street;
+      city = result?.locality;
+      namePlace = result?.thoroughfare;
       Future.delayed(const Duration(milliseconds: 1500), () {
         setState(() {
           addressController.text = locationAddress!;
@@ -613,11 +614,11 @@ class _AddAddressPageState extends State<AddAddressPage>
   }
 
   void _geocodeFirstFromCorToAddress() async {
-    var addresses = await GeocodingPlatform.instance.placemarkFromCoordinates(latLocation!,lonLocation!);
-    var result = addresses.first;
-    locationAddress = result.street;
-    city = result.locality;
-    namePlace = result.thoroughfare;
+    var addresses = await GeocodingPlatform.instance?.placemarkFromCoordinates(latLocation!,lonLocation!);
+    var result = addresses?.first;
+    locationAddress = result?.street;
+    city = result?.locality;
+    namePlace = result?.thoroughfare;
     Future.delayed(const Duration(milliseconds: 1500), () {
       setState(() {
         addressController.text = locationAddress!;

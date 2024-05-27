@@ -6,7 +6,7 @@ import 'package:wawamko/src/Utils/colors.dart';
 Widget itemLabelReferred(){
   return Container(
       decoration: BoxDecoration(
-        color: CustomColors.blueSplash,
+        color: CustomColorsAPP.blueSplash,
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
     child: Column(

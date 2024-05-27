@@ -56,14 +56,14 @@ class _ChatPageState extends State<ChatPage> {
     socketService = Provider.of<SocketService>(context);
     providerChat = Provider.of<ProviderChat>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child: Column(
             children: [
 
-              header(context, Strings.chat, CustomColors.redDot, (){this.socketService.disconnectSocket();
+              headerView(Strings.chat, (){this.socketService.disconnectSocket();
               Navigator.pop(context);}),
               SizedBox(height: 20,),
               Expanded(

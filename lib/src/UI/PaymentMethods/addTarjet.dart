@@ -7,6 +7,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 class AddTargetPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _dropdownMenuItemsMonths = buildDropItems(utils.listMonths());
       _dropdownMenuItemsYears = buildDropItems(utils.listYears());
     });
@@ -63,7 +64,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        header(context, Strings.addTarjet, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView( Strings.addTarjet,  () => Navigator.pop(context)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -96,7 +97,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                 customTextFieldCreditCard(cvcTargetController, Strings.cvc, Icons.credit_card, [LengthLimitingTextInputFormatter(4), FilteringTextInputFormatter.digitsOnly], TextInputType.number),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                  child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.addTarjet, callServiceAddCreditCart, context),
+                  child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.addTarjet, callServiceAddCreditCart, context),
                 )
               ],
             ),
@@ -121,22 +122,22 @@ class _AddTargetPageState extends State<AddTargetPage> {
         style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColors.blackLetter,
+          color: CustomColorsAPP.blackLetter,
         ),
         controller: controller,
         decoration: InputDecoration(
             suffixIcon: Icon(
               icon,
-              color: CustomColors.blueSplash,
+              color: CustomColorsAPP.blueSplash,
             ),
             hintText: hintText,
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: CustomColors.blueSplash),
+              borderSide: BorderSide(color: CustomColorsAPP.blueSplash),
             ),
             hintStyle: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColors.gray7.withOpacity(.4))),
+                color: CustomColorsAPP.gray7.withOpacity(.4))),
         onChanged: (value) {
           setState(() {});
         },
@@ -149,18 +150,18 @@ class _AddTargetPageState extends State<AddTargetPage> {
       value: selectedYear,
       items: _dropdownMenuItemsYears,
       isExpanded: true,
-      iconEnabledColor: CustomColors.blueSplash,
-      underline: Container(height: 1, color: CustomColors.blueSplash),
+      iconEnabledColor: CustomColorsAPP.blueSplash,
+      underline: Container(height: 1, color: CustomColorsAPP.blueSplash),
       style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColors.blackLetter),
+          color: CustomColorsAPP.blackLetter),
       hint: Text(
         Strings.selectedYear,
         style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 15,
-            color: CustomColors.gray7.withOpacity(.4)),
+            color: CustomColorsAPP.gray7.withOpacity(.4)),
         textAlign: TextAlign.center,
       ),
       onChanged: (dynamic option) {
@@ -176,18 +177,18 @@ class _AddTargetPageState extends State<AddTargetPage> {
       value: selectedMonth,
       items: _dropdownMenuItemsMonths,
       isExpanded: true,
-      iconEnabledColor: CustomColors.blueSplash,
-      underline: Container(height: 1, color: CustomColors.blueSplash),
+      iconEnabledColor: CustomColorsAPP.blueSplash,
+      underline: Container(height: 1, color: CustomColorsAPP.blueSplash),
       style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColors.blackLetter),
+          color: CustomColorsAPP.blackLetter),
       hint: Text(
         Strings.selectedMonth,
         style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 15,
-            color: CustomColors.gray7.withOpacity(.4)),
+            color: CustomColorsAPP.gray7.withOpacity(.4)),
         textAlign: TextAlign.center,
       ),
       onChanged: (dynamic option) {
@@ -245,7 +246,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: Strings.fontBold,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
             ),
             Expanded(
               child: Container(
@@ -263,7 +264,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter),
+                      color: CustomColorsAPP.blackLetter),
                 ),
                 Text(
                   selectedMonth == null
@@ -274,7 +275,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter),
+                      color: CustomColorsAPP.blackLetter),
                 ),
               ],
             ),

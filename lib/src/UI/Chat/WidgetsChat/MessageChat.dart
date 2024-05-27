@@ -82,7 +82,7 @@ Widget messageLocal(String message, String? photo) {
               ),
             ),
             decoration: BoxDecoration(
-                color: CustomColors.blue3,
+                color: CustomColorsAPP.blue3,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
@@ -167,7 +167,7 @@ Widget messageFile(String? data, String? photo, bool isLocal, int type) {
                           radius: 15,
                           child: Icon(
                             Icons.description,
-                            color: CustomColors.blue3,
+                            color: CustomColorsAPP.blue3,
                             size: 16,
                           ),
                         ),
@@ -188,7 +188,7 @@ Widget messageFile(String? data, String? photo, bool isLocal, int type) {
                     ),
                   ),
                   decoration: BoxDecoration(
-                      color: isLocal?CustomColors.blue3:Colors.black38.withOpacity(0.2),
+                      color: isLocal?CustomColorsAPP.blue3:Colors.black38.withOpacity(0.2),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
@@ -264,7 +264,7 @@ Widget hourMessage(String message) {
         style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 12,
-            color: CustomColors.gray7),
+            color: CustomColorsAPP.gray7),
       ),
     )),
   );

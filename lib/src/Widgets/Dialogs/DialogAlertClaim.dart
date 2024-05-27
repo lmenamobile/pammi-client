@@ -32,7 +32,7 @@ class DialogAlertClaim extends StatelessWidget {
                           padding: EdgeInsets.all(0),
                           icon: Icon(
                             Icons.close,
-                            color: CustomColors.gray,
+                            color: CustomColorsAPP.gray,
                           ),
                           onPressed: () => Navigator.pop(context, false)))
                 ],
@@ -49,7 +49,7 @@ class DialogAlertClaim extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     height: 1.2,
-                    color: CustomColors.grayTwo,
+                    color: CustomColorsAPP.grayTwo,
                     fontSize: 13,
                     fontFamily: Strings.fontRegular),
               ),
@@ -59,7 +59,7 @@ class DialogAlertClaim extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              child: btnCustom(null,Strings.terms, CustomColors.blueSplash,
+              child: btnCustom(null,Strings.terms, CustomColorsAPP.blueSplash,
                   Colors.white, () => Navigator.pop(context, false)),
             ),
             SizedBox(

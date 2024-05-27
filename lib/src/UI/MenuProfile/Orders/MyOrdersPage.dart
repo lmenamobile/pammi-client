@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/OrdersActiveTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
-import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../../Widgets/WidgetsGeneric.dart';
 import 'OrdersFinishTab.dart';
 
 class MyOrdersPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
           color: Colors.white,
           child: Column(
             children: [
-              header(context, Strings.myOrdersTitle, CustomColors.redDot, ()=>Navigator.pop(context)),
+              headerView( Strings.myOrdersTitle, ()=>Navigator.pop(context)),
               TabBar(
                 controller: tabControllerPages,
                 labelPadding:
@@ -44,16 +44,16 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                 indicatorColor: Colors.red,
                 indicatorPadding: EdgeInsets.only(right: 20, left: 20),
                 indicatorWeight: 2,
-                labelColor: CustomColors.blackLetter,
-                unselectedLabelColor: CustomColors.blackLetter.withOpacity(.6),
+                labelColor: CustomColorsAPP.blackLetter,
+                unselectedLabelColor: CustomColorsAPP.blackLetter.withOpacity(.6),
                 labelStyle: TextStyle(
                     fontFamily: Strings.fontMedium,
                     fontSize: 16,
-                    color: CustomColors.blackLetter),
+                    color: CustomColorsAPP.blackLetter),
                 unselectedLabelStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 16,
-                    color: CustomColors.blackLetter.withOpacity(.6)),
+                    color: CustomColorsAPP.blackLetter.withOpacity(.6)),
                 tabs: [
                   Tab(text: Strings.actives,),
                   Tab(text: Strings.ordersPrevious,),

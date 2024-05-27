@@ -1,12 +1,8 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart' as inapWebView;
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wawamko/src/Models/User.dart';
@@ -26,21 +22,17 @@ import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
-import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
 import 'src/UI/Onboarding/Tour/Splash.dart';
 import 'src/Utils/Strings.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'package:uni_links/uni_links.dart';
-import 'package:flutter/services.dart' show PlatformException;
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 final BehaviorSubject<ReceivedNotificationVO> didReceiveLocalNotificationSubject = BehaviorSubject<ReceivedNotificationVO>();
@@ -60,12 +52,13 @@ class MyHttpOverrides extends HttpOverrides  {
 void main() async{
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
- // await Firebase.initializeApp();
+
   final prefs = SharePreference();
   await prefs.initPrefs();
   await NotificationsPushServices.initializeApp();
 
 
+/*
   var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: false,
@@ -88,7 +81,7 @@ void main() async{
       });
 
   if (Platform.isAndroid) {
-   // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+    // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
     var swAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
         inapWebView.AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
     var swInterceptAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
@@ -107,6 +100,7 @@ void main() async{
       ));
     }
   }
+*/
 
 
   runApp(MyApp());
@@ -115,40 +109,6 @@ void main() async{
 
 launchLocalNotification(String payloadData){
 
-
-  /*DataPayload? dataPayload;
-
-  if(payloadData != ""){
-    dataPayload = DataPayload.fromJson(jsonDecode(payloadData));
-  }
-
-  switch (dataPayload?.typeNotification){
-    case 'opportunity':
-    // FunctionsHelp().goToPushPage(context, DetailOpportunityPage(idOpportunity: int.parse()));
-      break;
-    case 'profile':
-    //navigatorKey.currentState!.pushNamed('event');
-      break;
-    case 'room':
-
-      if(dataPayload?.dataUser != null){
-        if(dataPayload?.moduleId != ''){
-          DatesBasicUser dates = DatesBasicUser(fullName: dataPayload?.dataUser?.fullname, photoUrl:  dataPayload?.dataUser?.photoUrl,userId:dataPayload?.dataUser?.id ?? '' );
-          //chatProvider.roomId =moduleId;
-          NotifContext.navigatorKey.currentState?.pushNamed('chat',arguments: {"withRoomId":true,"dataUser":dates,"fromPush":true,"roomId":int.parse(dataPayload?.moduleId ?? '0')});
-          //navigatorKey.currentState?.pushNamed('chat',arguments: {"withRoomId":true,"dataUser":dates,"fromPush":true,"roomId":int.parse(dataPayload?.moduleId ?? '0')});
-
-
-        }
-      }
-
-
-
-      break;
-    default:
-    // navigatorKey.currentState!.pushNamed('notifications');
-      break;
-  }*/
 }
 
 class MyApp extends StatefulWidget {
@@ -167,7 +127,7 @@ class _MyAppState extends State<MyApp> {
       if(event['isLocal']){
         _showNotification(event['title'],event['description']);
       }else{
-       // _launchNotification(event['module'],event['dataUser'] ,event['moduleId']);
+        // _launchNotification(event['module'],event['dataUser'] ,event['moduleId']);
       }
     });
   }
@@ -176,7 +136,7 @@ class _MyAppState extends State<MyApp> {
 
 
 
-    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+/*    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
         'your channel id',
         'your channel name',
         importance: Importance.max,
@@ -195,7 +155,7 @@ class _MyAppState extends State<MyApp> {
         title,
         description,
         platformChannelSpecifics,
-        payload:"");
+        payload:"");*/
 
 
   }
@@ -217,7 +177,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
 
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: CustomColors.redTour)
+        SystemUiOverlayStyle(statusBarColor: CustomColorsAPP.redTour)
     );
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -249,10 +209,10 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: (RouteSettings settings) {
           print(settings.name??"");
           // Si la ruta es un deep link
-         if (settings.name!.isNotEmpty&&settings.name!="") {
-           List<String> parts = settings.name.toString().split('/');
-           String idSeller = parts.last;
-           print(idSeller);
+          if (settings.name!.isNotEmpty&&settings.name!="") {
+            List<String> parts = settings.name.toString().split('/');
+            String idSeller = parts.last;
+            print(idSeller);
             return MaterialPageRoute(builder: (context) =>ProductsCatalog(idSeller: idSeller));
           }
           return null;
@@ -281,7 +241,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
- /*void _showNotification(String title, String description) async {
+/*void _showNotification(String title, String description) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', channelDescription: 'your channel description',
         importance: Importance.max, priority: Priority.high);

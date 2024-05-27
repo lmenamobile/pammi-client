@@ -1,7 +1,7 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Brand.dart';
@@ -44,9 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
   RefreshController _refreshCategories = RefreshController(initialRefresh: false);
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   late ProviderSettings providerSettings;
-  ProviderHome? providerHome;
-  ProfileProvider? profileProvider;
-  ProviderProducts? providerProducts;
+  late ProviderHome providerHome;
+  late ProfileProvider profileProvider;
+  late ProviderProducts providerProducts;
   late ProviderShopCart  providerShopCart;
   SharePreference prefs = SharePreference();
   ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
@@ -59,16 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    providerHome!.ltsBrands.clear();
-    providerHome!.ltsBanners.clear();
-    providerHome!.ltsBannersOffer.clear();
+    providerHome.ltsBrands.clear();
+    providerHome.ltsBanners.clear();
+    providerHome.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
-    providerHome!.ltsMostSelledProducts.clear();
+    providerHome.ltsMostSelledProducts.clear();
     connectionStatus.initialize('www.google.com');
     if (prefs.countryIdUser != "0") {
       serviceGetCategories();
     } else {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         selectCountryUserNotLogin();
       });
     }
@@ -95,10 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _drawerKey,
       drawer: DrawerMenuPage(
-        version:providerHome!.version,
         rollOverActive: Constants.menuHome,
       ),
-      backgroundColor: CustomColors.white,
+      backgroundColor: CustomColorsAPP.white,
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
             "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
@@ -136,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Container(
           padding: EdgeInsets.symmetric(vertical: 20,horizontal: 37),
           decoration: BoxDecoration(
-            color: CustomColors.redDot
+            color: CustomColorsAPP.redDot
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 providerShopCart.totalProductsCart,
                                 style: TextStyle(
                                     fontSize: 8,
-                                    color: CustomColors.redTour
+                                    color: CustomColorsAPP.redTour
                                 ),
                               ),
                             ),
@@ -194,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     onTap: () => Navigator.push(
-                        context, customPageTransition(ShopCartPage())),
+                        context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade)),
                   ),
                 ],
               ),
@@ -254,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
               textAlign: TextAlign.start,
               style: TextStyle(
                   fontSize: 24,
-                  color: CustomColors.blueTitle,
+                  color: CustomColorsAPP.blueTitle,
                   fontFamily: Strings.fontBold
               ),
             ),
@@ -287,8 +286,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.only(top: 20),
             physics: NeverScrollableScrollPhysics(),
             itemCount: providerSettings.ltsCategories.length > 8
-                ? 8
-                : providerSettings.ltsCategories.length,
+                ? 8 : providerSettings.ltsCategories.length,
             shrinkWrap: true,
             itemBuilder: (_, int index) {
               return AnimationConfiguration.staggeredGrid(
@@ -340,7 +338,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(
                         fontSize: 24,
                         fontFamily: Strings.fontBold,
-                        color: CustomColors.blueSplash),
+                        color: CustomColorsAPP.blueSplash),
                   ),
                 ),
                 const SizedBox(width: 5,),
@@ -349,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:  Text(
                     Strings.moreAll,
                     style: TextStyle(
-                        color: CustomColors.blue,
+                        color: CustomColorsAPP.blue,
                         fontSize: 15,
                         fontFamily: Strings.fontMedium),
                   ),
@@ -380,7 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(
                   fontSize: 13,
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blueOne),
+                  color: CustomColorsAPP.blueOne),
             ),
           ),
           SizedBox(
@@ -397,21 +395,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.blueSplash),
+                      color: CustomColorsAPP.blueSplash),
                 ),
                 InkWell(
-                  onTap: () => Navigator.pushReplacement(context, customPageTransition( HighlightsPage())),
+                  onTap: () => Navigator.pushReplacement(context, customPageTransition( HighlightsPage(),PageTransitionType.rightToLeftWithFade)),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: CustomColors.blue.withOpacity(.1),
+                      color: CustomColorsAPP.blue.withOpacity(.1),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
                       child: Text(
                         Strings.moreAll,
                         style: TextStyle(
-                            color: CustomColors.blueOne,
+                            color: CustomColorsAPP.blueOne,
                             fontSize: 12,
                             fontFamily: Strings.fontBold),
                       ),
@@ -450,7 +448,7 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(
                 fontSize: 16,
                 fontFamily: Strings.fontRegular,
-                color: CustomColors.gray15),
+                color: CustomColorsAPP.gray15),
           ),
         ),
         SizedBox(
@@ -467,7 +465,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     fontSize: 22,
                     fontFamily: Strings.fontBold,
-                    color: CustomColors.blueSplash),
+                    color: CustomColorsAPP.blueSplash),
               ),
             ],
           ),
@@ -514,11 +512,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   openProductsByBrand(Brand brand){
-    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString())));
+    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString()),PageTransitionType.rightToLeftWithFade));
   }
 
   openAllBrands(){
-    Navigator.push(context, customPageTransition(BrandsPage()));
+    Navigator.push(context, customPageTransition(BrandsPage(),PageTransitionType.rightToLeftWithFade));
   }
 
   openDetailProduct(Product product){
@@ -528,16 +526,16 @@ class _MyHomePageState extends State<MyHomePage> {
       if (color != null  && color.startsWith('#') && color.length >= 6) {
         providerProducts?.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
         providerProducts?.limitedQuantityError = false;
-        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeftWithFade));
       }
     }
   }
 
   openSubCategory(Category category) {
     if(category.id == 0){
-      Navigator.push(context, customPageTransition(CategoriesPage()));
+      Navigator.push(context, customPageTransition(CategoriesPage(),PageTransitionType.rightToLeftWithFade));
     }else{
-      Navigator.push(context,customPageTransition(SubCategoryPage(category: category,)));
+      Navigator.push(context,customPageTransition(SubCategoryPage(category: category,),PageTransitionType.rightToLeftWithFade));
     }
   }
 
@@ -548,7 +546,7 @@ class _MyHomePageState extends State<MyHomePage> {
           context,
           customPageTransition(SearchProductHome(
             textSearch: searchController.text,
-          )));
+          ),PageTransitionType.rightToLeftWithFade));
     }
   }
 
@@ -667,7 +665,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeAdmin, id,"");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false),PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

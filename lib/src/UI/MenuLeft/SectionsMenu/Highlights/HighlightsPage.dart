@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Banner.dart';
@@ -49,11 +50,10 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
     providerProducts = Provider.of<ProviderProducts>(context);
     providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuHighlights,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -61,12 +61,12 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.whiteBackGround,
+            color: CustomColorsAPP.whiteBackGround,
             child: Column(
                 children: [
                   //titleBar(Strings.highlights, "ic_menu_w.png", () => keyMenuLeft.currentState!.openDrawer()),
 
-                  headerDoubleTapMenu(context, Strings.highlights, "", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                  headerDoubleTapMenu(context, Strings.highlights, "", "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                   SizedBox(height: 20,),
                   Expanded(child: SmartRefresher(
                       controller: _refreshHighlights,
@@ -141,10 +141,10 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
         Future callProducts = providerProducts.getProduct(idProduct);
         await callProducts.then((product) {
           providerProducts
-              ?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+              .imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
           //providerProducts.referenceProductSelected = referenceOffer;//product.references.firstWhere((reference) => reference.id == referenceOffer.id, orElse: () => referenceOffer.);
           providerProducts.limitedQuantityError = false;
-          Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+          Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -166,12 +166,14 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
 
   openDetailOffer(Banners bannerHighlight){
     providerProducts.limitedQuantityError = false;
-    Navigator.push(context, customPageTransition(OfferDetail(nameOffer: bannerHighlight.offerHighlights!.name,idOffer: bannerHighlight.offerHighlights!.id.toString(),)));
+    Navigator.push(context, customPageTransition(
+        OfferDetail(nameOffer: bannerHighlight.offerHighlights!.name,idOffer: bannerHighlight.offerHighlights!.id.toString(),),
+        PageTransitionType.rightToLeftWithFade));
   }
 
   openProductsBySubCategory(Banners bannerHighlight){
     Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: "",
       idSubcategory: bannerHighlight.offerHighlights?.subcategory?.id.toString(),
-      idBrand: "",)));
+      idBrand: "",), PageTransitionType.rightToLeftWithFade));
   }
 }

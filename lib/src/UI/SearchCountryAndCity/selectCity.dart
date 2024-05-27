@@ -51,7 +51,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            header(context, Strings.selectCity, CustomColors.red, ()=> Navigator.pop(context)),
+            headerView( Strings.selectCity,  ()=> Navigator.pop(context)),
             SizedBox(height: 21),
             boxSearchCountries(cityController, searchCities),
             SizedBox(height: 21),

@@ -9,8 +9,10 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'package:wawamko/src/Widgets/drawerMenu.dart';
+
 import 'package:wawamko/src/Utils/share_preference.dart';
+
+import '../MenuLeft/DrawerMenu.dart';
 
 
 class InterestsPage extends StatefulWidget {
@@ -21,7 +23,8 @@ class InterestsPage extends StatefulWidget {
 class _InterestsPageState extends State<InterestsPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   SharePreference _prefs = SharePreference();
-  ProfileProvider profileProvider;
+  late ProfileProvider profileProvider;
+  late SupportProvider supportProvider;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
@@ -40,16 +43,17 @@ class _InterestsPageState extends State<InterestsPage> {
 
   @override
   Widget build(BuildContext context) {
+    supportProvider = Provider.of<SupportProvider>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
       key: _drawerKey,
-      drawer: DraweMenuPage(
+      drawer: DrawerMenuPage(
         rollOverActive: "profile",
       ),
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child: _body(context),
         ),
       ),
@@ -101,7 +105,7 @@ class _InterestsPageState extends State<InterestsPage> {
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 24,
-                          color: CustomColors.white),
+                          color: CustomColorsAPP.white),
                     ),
                   ),
                   SizedBox(
@@ -114,7 +118,7 @@ class _InterestsPageState extends State<InterestsPage> {
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 14,
-                          color: CustomColors.white),
+                          color: CustomColorsAPP.white),
                     ),
                   ),
                   SizedBox(
@@ -136,7 +140,7 @@ class _InterestsPageState extends State<InterestsPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
-                            color: CustomColors.blackLetter.withOpacity(0.1),
+                            color: CustomColorsAPP.blackLetter.withOpacity(0.1),
                             spreadRadius: 5,
                             blurRadius: 7,
                             offset: Offset(0, 3), // changes position of shadow
@@ -205,7 +209,7 @@ class _InterestsPageState extends State<InterestsPage> {
                                     style: TextStyle(
                                         fontFamily: Strings.fontRegular,
                                         fontSize: 12,
-                                        color: CustomColors.blackLetter),
+                                        color: CustomColorsAPP.blackLetter),
                                   ),
                                 )
                               ],
@@ -260,7 +264,7 @@ class _InterestsPageState extends State<InterestsPage> {
                                       style: TextStyle(
                                         height: 1.5,
                                         fontSize: 12,
-                                        color: CustomColors.blackLetter,
+                                        color: CustomColorsAPP.blackLetter,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -272,7 +276,7 @@ class _InterestsPageState extends State<InterestsPage> {
                                           text: "Terminos y condiciones",
                                           style: TextStyle(
                                               fontFamily: Strings.fontRegular,
-                                              color: CustomColors.blueActiveDots,
+                                              color: CustomColorsAPP.blueActiveDots,
                                               decoration: TextDecoration.underline),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () => launch(
@@ -287,7 +291,7 @@ class _InterestsPageState extends State<InterestsPage> {
                                           text: " Política de privacidad",
                                           style: TextStyle(
                                               fontFamily: Strings.fontRegular,
-                                              color: CustomColors.blueActiveDots,
+                                              color: CustomColorsAPP.blueActiveDots,
                                               decoration: TextDecoration.underline),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () => launch(
@@ -310,7 +314,7 @@ class _InterestsPageState extends State<InterestsPage> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(left: 50, right: 50 ,top: 25, bottom: 20),
                         decoration: BoxDecoration(
-                          color: bandAllFields ? CustomColors.yellowOne : CustomColors.greyBorder,
+                          color: bandAllFields ? CustomColorsAPP.yellowOne : CustomColorsAPP.greyBorder,
                           borderRadius: BorderRadius.all(Radius.circular(22)),
                         ),
                         child:  Text(
@@ -318,7 +322,7 @@ class _InterestsPageState extends State<InterestsPage> {
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 14,
-                              color: CustomColors.blueSplash),
+                              color: CustomColorsAPP.blueSplash),
                         ),
 
                       ),
@@ -342,8 +346,8 @@ class _InterestsPageState extends State<InterestsPage> {
       padding: EdgeInsets.only(left: 10),
       height: 50,
       decoration: BoxDecoration(
-          border: Border.all(color: CustomColors.gray2, width: 1),
-          color: CustomColors.grayMenu),
+          border: Border.all(color: CustomColorsAPP.gray2, width: 1),
+          color: CustomColorsAPP.grayMenu),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -359,12 +363,12 @@ class _InterestsPageState extends State<InterestsPage> {
                 },
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.blackLetter),
+                    color: CustomColorsAPP.blackLetter),
                 decoration: InputDecoration(
                   isDense: true,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                    color: CustomColors.grayLetter.withOpacity(.4),
+                    color: CustomColorsAPP.grayLetter2.withOpacity(.4),
                     fontFamily: Strings.fontRegular,
                   ),
                   hintText: hintText,
@@ -437,7 +441,7 @@ class _InterestsPageState extends State<InterestsPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         utils.startProgress(context);
-        Future callUser = SupportProvider.instance.betSellerNotLogin(name, email);
+        Future callUser = supportProvider.betSellerNotLogin(name, email);
         await callUser.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context,msg.toString());
@@ -454,7 +458,7 @@ class _InterestsPageState extends State<InterestsPage> {
   serviceSeller() {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callUser = SupportProvider.instance.betSeller();
+        Future callUser = supportProvider.betSeller();
         await callUser.then((msg) {
           Navigator.pop(context);
           utils.showSnackBarGood(context,msg.toString());

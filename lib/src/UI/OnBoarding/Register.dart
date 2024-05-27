@@ -1,14 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Models/User.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/UI/OnBoarding/DataProtectionPolicyPdfView.dart';
 import 'package:wawamko/src/UI/OnBoarding/TermsAndConditionsView.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
@@ -69,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          color: CustomColors.white,
+          color: CustomColorsAPP.white,
           child: _body(context),
         ),
       ),
@@ -79,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        header(context, Strings.register,CustomColors.red, ()=> Navigator.pop(context)),
+        headerView(Strings.register,()=> Navigator.pop(context)),
         const SizedBox(height: 55,),
         Expanded(
           child: SingleChildScrollView(
@@ -92,13 +91,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(height: 6,),
                     Text(
                       "¡${Strings.createAccount}!",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: CustomColors.blueTitle),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: CustomColorsAPP.blueTitle),
                     ),
                     SizedBox(height: 17,),
                     Text(
                       Strings.registerMsg,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.black1),
+                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.black1),
                     ),
                     SizedBox(height: 52),
                     Column(
@@ -129,16 +128,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           children: [
                             Checkbox(
                               value: providerSettings?.checkPolicies,
-                              activeColor: CustomColors.blue,
+                              activeColor: CustomColorsAPP.blue,
                               checkColor: Colors.white,
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               visualDensity: VisualDensity.compact,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3),),
-                              fillColor: MaterialStateProperty.resolveWith<Color?>((states) {
-                                if (states.contains(MaterialState.selected)) {
-                                  return CustomColors.blue;
+                              fillColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                                if (states.contains(WidgetState.selected)) {
+                                  return CustomColorsAPP.blue;
                                 }
-                                return CustomColors.gray;
+                                return CustomColorsAPP.gray;
                               }),
                               onChanged: (value) {
                                 providerSettings?.checkPolicies = value!;
@@ -151,18 +150,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                   children: [
                                     TextSpan(
                                       text: Strings.btnAccept,
-                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.gray,),
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColorsAPP.gray,),
                                     ),
                                     TextSpan(
                                       text: ' ',
-                                      style: TextStyle(fontSize: 15, color: CustomColors.gray,),
+                                      style: TextStyle(fontSize: 15, color: CustomColorsAPP.gray,),
                                     ),
                                     TextSpan(
                                       text: Strings.acceptPoliciesTitle,
-                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blue,),
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColorsAPP.blue,),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          Navigator.push(context, customPageTransition(TermsAndConditionsView()));
+                                          Navigator.push(context, customPageTransition(TermsAndConditionsView(),PageTransitionType.rightToLeftWithFade));
                                         },
                                     ),
                                   ],
@@ -174,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             SizedBox(height: 30,),
                           ],
                         )),
-                    btnCustomRounded(CustomColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
+                    btnCustomRounded(CustomColorsAPP.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
                   ],
                 ),
                 SizedBox(height: 15,),
@@ -187,14 +186,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   openSelectCountry()async{
-     await Navigator.push(context, customPageTransition(SelectCountryPage()));
+     await Navigator.push(context, customPageTransition(SelectCountryPage(),PageTransitionType.rightToLeftWithFade));
      countryController.text = providerSettings?.countrySelected?.country??'';
      prefs.countryIdUser = providerSettings?.countrySelected?.id ??'';
   }
 
   void openSelectDepartment()async{
     if(providerSettings?.countrySelected!=null) {
-      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      await Navigator.push(context, customPageTransition(SelectStatesPage(),PageTransitionType.rightToLeftWithFade));
       departmentController.text = providerSettings?.stateCountrySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
@@ -203,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void openSelectCity()async{
     if(providerSettings?.stateCountrySelected!=null) {
-      await Navigator.push(context, customPageTransition(SelectCityPage()));
+      await Navigator.push(context, customPageTransition(SelectCityPage(),PageTransitionType.rightToLeftWithFade));
       cityController.text = providerSettings?.citySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.departmentEmpty);
@@ -244,7 +243,7 @@ class _RegisterPageState extends State<RegisterPage> {
       userModel.lastName = lastNameController.text;
       userModel.numPhone = phoneController.text;
       userModel.cityId = providerSettings!.citySelected!.id;
-      Navigator.push(context,customPageTransition(RegisterStepTwoPage(user: userModel)));
+      Navigator.push(context,customPageTransition(RegisterStepTwoPage(user: userModel),PageTransitionType.rightToLeftWithFade));
     }else{
       if(providerSettings?.checkPolicies == false){
         utils.showSnackBar(context, Strings.msgErrorPolicies);

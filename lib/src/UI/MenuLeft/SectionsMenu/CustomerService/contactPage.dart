@@ -1,11 +1,8 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
@@ -41,7 +38,7 @@ class ContactPage extends StatelessWidget {
     return Column(
       children: [
         //simpleHeader(context, _childHeader(context)),
-        header(context, Strings.contactUs, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView(Strings.contactUs,  () => Navigator.pop(context)),
         const SizedBox(height: 40,),
         Expanded(
           child: SingleChildScrollView(
@@ -55,7 +52,7 @@ class ContactPage extends StatelessWidget {
                     child: Text(
                       Strings.communicateOperator,
                       style: TextStyle(
-                        color: CustomColors.black2,
+                        color: CustomColorsAPP.black2,
                         fontFamily: Strings.fontMedium,
                         fontSize: 16,
                       ),
@@ -115,7 +112,7 @@ class ContactPage extends StatelessWidget {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeAdmin, id,"");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false),PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -135,7 +132,7 @@ class ContactPage extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontFamily: Strings.fontRegular,
-              color: CustomColors.white,
+              color: CustomColorsAPP.white,
             ),
           ),
         ),
@@ -182,7 +179,7 @@ class ItemContact extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: CustomColorsAPP.white,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -197,7 +194,7 @@ class ItemContact extends StatelessWidget {
               child: VerticalDivider(
                 indent: 10,
                 endIndent: 10,
-                color: CustomColors.gray2,
+                color: CustomColorsAPP.gray2,
                 thickness: 1,
               ),
             ),
@@ -211,7 +208,7 @@ class ItemContact extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
               ),

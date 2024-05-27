@@ -1,14 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_page_transition/flutter_page_transition.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
+import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import '../Models/Address.dart';
 
 class MyAddressPage extends StatefulWidget {
   @override
@@ -16,7 +19,7 @@ class MyAddressPage extends StatefulWidget {
 }
 
 class _MyAddressPageState extends State<MyAddressPage> {
-  List<Address> addresses = List();
+  List<Address> addresses = [];
   bool loading = true;
   bool hasInternet = true;
 
@@ -29,10 +32,10 @@ class _MyAddressPageState extends State<MyAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child: _body(context),
         ),
       ),
@@ -99,10 +102,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                       Strings.questionAddress,
                                       Strings.beginAddAddress,
                                       Strings.addAddres, () {
-                                    Navigator.of(context).push(PageTransition(
-                                        type: PageTransitionType.slideInLeft,
-                                        child: pushToAddAddress(),
-                                        duration: Duration(milliseconds: 700)));
+                                    Navigator.of(context).push(customPageTransition(pushToAddAddress(), PageTransitionType.rightToLeftWithFade));
                                   }, context),
                                 )
                               : Column(
@@ -124,7 +124,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                                   serviceChangeAddressUser(
                                                       this.addresses[index]);
                                                 },
-                                                context,
                                                 () {
                                                   pushToUpdateAddAddress(
                                                       this.addresses[index]);
@@ -136,8 +135,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                       padding: const EdgeInsets.only(
                                           left: 70, right: 60),
                                       child: btnCustomRounded(
-                                          CustomColors.blueSplash,
-                                          CustomColors.white,
+                                          CustomColorsAPP.blueSplash,
+                                          CustomColorsAPP.white,
                                           Strings.addAddres, () {
                                         pushToAddAddress();
                                       }, context),
@@ -170,15 +169,13 @@ class _MyAddressPageState extends State<MyAddressPage> {
       if (value) {
         hasInternet = true;
         utils.startProgress(context);
-
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
         Future callResponse = UserProvider.instance.getAddress(context, 0);
         await callResponse.then((user) {
           var decodeJSON = jsonDecode(user);
           GetAddressResponse data = GetAddressResponse.fromJson(decodeJSON);
 
-          if (data.status) {
-            for (var address in data.data.addresses) {
+          if (data.status!=null) {
+            for (var address in data.data?.addresses??[]) {
               this.addresses.add(address);
             }
             Navigator.pop(context);
@@ -186,7 +183,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
           } else {
             Navigator.pop(context);
             setState(() {});
-            // utils.showSnackBarError(context,data.message);
           }
 
           loading = false;
@@ -198,7 +194,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
       } else {
         hasInternet = false;
         setState(() {});
-        //utils.showSnackBarError(context,Strings.loseInternet);
       }
     });
   }
@@ -208,7 +203,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
       if (value) {
         utils.startProgress(context);
 
-        // Navigator.of(context).push(PageRouteBuilder(opaque: false, pageBuilder: (BuildContext context, _, __) => DialogLoadingAnimated()));
+
         Future callResponse =
             UserProvider.instance.changeStatusAddress(context, address);
         await callResponse.then((user) {
@@ -216,9 +211,9 @@ class _MyAddressPageState extends State<MyAddressPage> {
           ChangeStatusAddressResponse data =
               ChangeStatusAddressResponse.fromJson(decodeJSON);
 
-          if (data.status) {
+          if (data.status!=null) {
             Navigator.pop(context);
-            utils.showSnackBarGood(context, data.message);
+            utils.showSnackBarGood(context, data.message!);
             serviceGetAddAddressUser();
           } else {
             Navigator.pop(context);
@@ -239,38 +234,22 @@ class _MyAddressPageState extends State<MyAddressPage> {
   pushToAddAddress() async {
     var data = await Navigator.push(
         context,
-        PageTransition(
-            type: PageTransitionType.slideInLeft,
-            child: AddAddressPage(),
-            duration: Duration(milliseconds: 500)));
-    if (data) {
-      if (data) {
+        customPageTransition(AddAddressPage(), PageTransitionType.rightToLeftWithFade));
+    if (data!=null) {
         print("Reloading address...");
         this.loading = true;
         serviceGetAddAddressUser();
-        //serviceGetCar2(context);
-        // serviceGetProdsInCat();
-
-      }
     }
   }
 
   pushToUpdateAddAddress(Address address) async {
     var data = await Navigator.push(
         context,
-        PageTransition(
-            type: PageTransitionType.slideInLeft,
-            child: AddAddressPage(flagAddress: "update", address: address),
-            duration: Duration(milliseconds: 500)));
-    if (data) {
-      if (data) {
+        customPageTransition(AddAddressPage(flagAddress: "update", address: address), PageTransitionType.rightToLeftWithFade));
+    if (data!=null) {
         print("Update address...");
         serviceGetAddAddressUser();
         utils.showSnackBarGood(context, Strings.updateAddress);
-        //serviceGetCar2(context);
-        // serviceGetProdsInCat();
-
-      }
     }
   }
 }

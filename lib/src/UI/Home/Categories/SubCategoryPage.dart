@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -34,7 +35,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context,listen: false);
     providerSettings.ltsSubCategories.clear();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       getSubCategories(widget.category.id.toString());
     });
     super.initState();
@@ -44,15 +45,15 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColorsAPP.gray12,
       body: SafeArea(
         child: Container(
-          color: Colors.white,
+          color: CustomColorsAPP.gray12,
           child: Stack(
             children: [
               Column(
                 children: [
-                  header(context, widget.category.category!, CustomColors.redDot, ()=>Navigator.pop(context)),
+                  headerView( widget.category.category??"not found", ()=>Navigator.pop(context)),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshSubCategories,
@@ -111,7 +112,8 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
   }
 
   openProductsBySubCategory(SubCategory subCategory){
-      Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: widget.category.id.toString(),idSubcategory: subCategory.id.toString(),)));
+      Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: widget.category.id.toString(),idSubcategory: subCategory.id.toString(),),
+      PageTransitionType.rightToLeftWithFade));
   }
 
   getSubCategories(String idCategory) async {

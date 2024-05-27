@@ -22,7 +22,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
       Container(
         height: 1,
         width: double.infinity,
-        color: CustomColors.grayBackground,
+        color: CustomColorsAPP.grayBackground,
       ),
       SizedBox(
         height: 10,
@@ -56,7 +56,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColors.gray7,
+                    color: CustomColorsAPP.gray7,
                   ),
                 ),
                 Text(
@@ -65,7 +65,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 viewPrice(product),
@@ -79,7 +79,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
-                        color: CustomColors.black2,
+                        color: CustomColorsAPP.black2,
                       )),
                     ),
                     containerCustom(Text(
@@ -87,7 +87,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
-                          color: CustomColors.black2),
+                          color: CustomColorsAPP.black2),
                     )),
                     InkWell(
                       onTap: (){
@@ -96,7 +96,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
                         },
                       child: containerCustom(Icon(
                         Icons.add,
-                        color: CustomColors.black2,
+                        color: CustomColorsAPP.black2,
                       )),
                     )
                   ],
@@ -110,22 +110,22 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
         margin: EdgeInsets.only(top: 10),
         height: 1,
         width: double.infinity,
-        color: CustomColors.grayBackground,
+        color: CustomColorsAPP.grayBackground,
       ),
       Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
               child: customButton("ic_save.png", Strings.saveProduct,
-                  CustomColors.gray7, (){saveProduct(product.reference?.id.toString(), product.qty, product.id.toString());})),
+                  CustomColorsAPP.gray7, (){saveProduct(product.reference?.id.toString(), product.qty, product.id.toString());})),
           Container(
             height: 40,
             width: 1,
-            color: CustomColors.grayBackground,
+            color: CustomColorsAPP.grayBackground,
           ),
           Expanded(
               child: customButton("ic_remove.png", Strings.delete,
-                  CustomColors.redTour, (){deleteProduct(product.id.toString());})),
+                  CustomColorsAPP.redTour, (){deleteProduct(product.id.toString());})),
         ],
       )
     ],
@@ -139,7 +139,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
       Container(
         height: 1,
         width: double.infinity,
-        color: CustomColors.grayBackground,
+        color: CustomColorsAPP.grayBackground,
       ),
       SizedBox(
         height: 10,
@@ -149,7 +149,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
         style: TextStyle(
           fontFamily: Strings.fontBold,
           fontSize: 12,
-          color: CustomColors.blackLetter,
+          color: CustomColorsAPP.blackLetter,
         ),
       ),
       SizedBox(
@@ -183,7 +183,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColors.gray7,
+                    color: CustomColorsAPP.gray7,
                   ),
                 ),
                 Text(
@@ -192,7 +192,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 viewPriceOffer(offer),
@@ -206,7 +206,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                       },
                       child: containerCustom(Icon(
                         Icons.remove,
-                        color: CustomColors.black2,
+                        color: CustomColorsAPP.black2,
                       )),
                     ),
                     containerCustom(Text(
@@ -214,13 +214,13 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
-                          color: CustomColors.black2),
+                          color: CustomColorsAPP.black2),
                     )),
                     InkWell(
                       onTap: ()=>updateQuantity(int.parse(product.qty!)+1,offer.id.toString(),false),
                       child: containerCustom(Icon(
                         Icons.add,
-                        color: CustomColors.black2,
+                        color: CustomColorsAPP.black2,
                       )),
                     )
                   ],
@@ -234,7 +234,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
       Container(
         height: 1,
         width: double.infinity,
-        color: CustomColors.grayBackground,
+        color: CustomColorsAPP.grayBackground,
       ),
       Row(
         mainAxisSize: MainAxisSize.max,
@@ -243,11 +243,11 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
           Container(
             height: 40,
             width: 1,
-            color: CustomColors.grayBackground,
+            color: CustomColorsAPP.grayBackground,
           ),
           Container(
             width: 100,
-              child: customButton("ic_remove.png", Strings.delete, CustomColors.redTour, (){deleteProduct(product.id.toString());})),
+              child: customButton("ic_remove.png", Strings.delete, CustomColorsAPP.redTour, (){deleteProduct(product.id.toString());})),
         ],
       )
     ],
@@ -283,7 +283,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQu
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 12,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
             ),
           ),
           Row(
@@ -309,7 +309,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQu
                       style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 13,
-                        color: CustomColors.orange,
+                        color: CustomColorsAPP.orange,
                       ),
                     ),
 
@@ -322,7 +322,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQu
                           },
                           child: containerCustom(Icon(
                             Icons.remove,
-                            color: CustomColors.black2,
+                            color: CustomColorsAPP.black2,
                           )),
                         ),
                         containerCustom(Text(
@@ -330,13 +330,13 @@ Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQu
                           style: TextStyle(
                               fontFamily: Strings.fontBold,
                               fontSize: 15,
-                              color: CustomColors.black2),
+                              color: CustomColorsAPP.black2),
                         )),
                         InkWell(
                           onTap: ()=>updateQuantity(int.parse(product.qty!)+1,giftCard!.id.toString()),
                           child: containerCustom(Icon(
                             Icons.add,
-                            color: CustomColors.black2,
+                            color: CustomColorsAPP.black2,
                           )),
                         )
                       ],
@@ -353,7 +353,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQu
               Container(
                 width: 100,
                 child: customButton("ic_remove.png", Strings.delete,
-                    CustomColors.redTour, (){deleteProduct(product.id.toString());}),
+                    CustomColorsAPP.redTour, (){deleteProduct(product.id.toString());}),
               ),
             ],
           )
@@ -374,7 +374,7 @@ Widget itemOfferProductGift(Reference? reference){
           style: TextStyle(
             fontFamily: Strings.fontBold,
             fontSize: 12,
-            color: CustomColors.gray7,
+            color: CustomColorsAPP.gray7,
           ),
         ),
         SizedBox(height: 8,),
@@ -384,7 +384,7 @@ Widget itemOfferProductGift(Reference? reference){
                   Radius.circular(5)
               ),
               border: Border.all(
-                  color: CustomColors.gray2,
+                  color: CustomColorsAPP.gray2,
               )
           ),
           child: Padding(
@@ -417,7 +417,7 @@ Widget itemOfferProductGift(Reference? reference){
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
@@ -426,7 +426,7 @@ Widget itemOfferProductGift(Reference? reference){
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                         ),
                       ),
                     ],
@@ -539,7 +539,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 12,
-                        color: CustomColors.gray7,
+                        color: CustomColorsAPP.gray7,
                       ),
                     ),
                     Text(
@@ -548,7 +548,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 13,
-                        color: CustomColors.blackLetter,
+                        color: CustomColorsAPP.blackLetter,
                       ),
                     ),
                     viewPrice(product),
@@ -561,22 +561,22 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
             margin: EdgeInsets.only(top: 10),
             height: 1,
             width: double.infinity,
-            color: CustomColors.grayBackground,
+            color: CustomColorsAPP.grayBackground,
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                   child: customButton("ic_shopping_white.png", Strings.addCartShop,
-                      CustomColors.gray7, (){addCart(int.parse(product.qty!),product.reference?.id.toString());})),
+                      CustomColorsAPP.gray7, (){addCart(int.parse(product.qty!),product.reference?.id.toString());})),
               Container(
                 height: 40,
                 width: 1,
-                color: CustomColors.grayBackground,
+                color: CustomColorsAPP.grayBackground,
               ),
               Expanded(
                   child: customButton("ic_remove.png", Strings.delete,
-                      CustomColors.redTour, (){deleteProduct(product.reference?.id.toString());})),
+                      CustomColorsAPP.redTour, (){deleteProduct(product.reference?.id.toString());})),
             ],
           )
         ],
@@ -598,7 +598,7 @@ Widget viewPrice(ProductShopCart product) {
                 style: TextStyle(
                   decoration: TextDecoration.lineThrough,
                   fontFamily: Strings.fontBold,
-                  color: CustomColors.gray7,
+                  color: CustomColorsAPP.gray7,
                 ),
               ),
             ),
@@ -606,7 +606,7 @@ Widget viewPrice(ProductShopCart product) {
               formatMoney(product.reference?.price ?? '0'),
               style: TextStyle(
                 fontFamily: Strings.fontBold,
-                color: CustomColors.orange,
+                color: CustomColorsAPP.orange,
               ),
             )
           ],
@@ -615,7 +615,7 @@ Widget viewPrice(ProductShopCart product) {
           formatMoney(product.reference?.price ?? '0'),
           style: TextStyle(
             fontFamily: Strings.fontBold,
-            color: CustomColors.orange,
+            color: CustomColorsAPP.orange,
           ),
         );
 }
@@ -630,7 +630,7 @@ Widget viewPriceOffer(ProductOfferCart offer) {
             '0'),
         style: TextStyle(
           fontFamily: Strings.fontBold,
-          color: CustomColors.orange,
+          color: CustomColorsAPP.orange,
         ),
       )
     ],
@@ -639,7 +639,7 @@ Widget viewPriceOffer(ProductOfferCart offer) {
     formatMoney('0'),
     style: TextStyle(
       fontFamily: Strings.fontBold,
-      color: CustomColors.orange,
+      color: CustomColorsAPP.orange,
     ),
   );
 }
@@ -650,7 +650,7 @@ Widget containerCustom(Widget item) {
     height: 35,
     margin: EdgeInsets.all(5),
     decoration: BoxDecoration(
-      color: CustomColors.gray9,
+      color: CustomColorsAPP.gray9,
       borderRadius: BorderRadius.all(Radius.circular(5)),
       boxShadow: [
         BoxShadow(
@@ -715,7 +715,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
       padding: const EdgeInsets.all(10),
       child: ExpansionWidget(
         initiallyExpanded: true,
-        iconColor: CustomColors.gray7,
+        iconColor: CustomColorsAPP.gray7,
         title: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -728,13 +728,13 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.blackLetter),
+                      color: CustomColorsAPP.blackLetter),
                 ),
                 Text(
                   Strings.provider,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.gray7),
+                      color: CustomColorsAPP.gray7),
                 ),
               ],
             ),
@@ -742,14 +742,14 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
               visible: false,
               child: Container(
                 decoration: BoxDecoration(
-                    color: CustomColors.blue.withOpacity(.7),
+                    color: CustomColorsAPP.blue.withOpacity(.7),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     Strings.moreView,
                     style: TextStyle(
-                        fontFamily: Strings.fontBold, color: CustomColors.blue),
+                        fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
                   ),
                 ),
               ),
@@ -769,7 +769,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                         text: Strings.total + ' ',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                           fontSize: 13,
                         ),
                       ),
@@ -777,7 +777,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                         text: formatMoney((provider.cart?.total??0).toString()),
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                           fontSize: 13,
                         ),
                       ),
@@ -797,7 +797,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                               text: Strings.delivery2 + ' ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: CustomColors.gray7,
+                                color: CustomColorsAPP.gray7,
                                 fontSize: 13,
                               ),
                             ),
@@ -811,7 +811,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                                 fontFamily: provider.freeShipping != 0
                                     ? Strings.fontRegular
                                     : Strings.fontBold,
-                                color: CustomColors.gray7,
+                                color: CustomColorsAPP.gray7,
                                 fontSize: 13,
                               ),
                             ),
@@ -842,7 +842,7 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                       Strings.add  + formatMoney((provider.freeShipping??0).toString()) + Strings.addTxt,
                       style: TextStyle(
                         fontSize: 13,
-                        color: CustomColors.blueOne,
+                        color: CustomColorsAPP.blueOne,
                         fontFamily: Strings.fontRegular,
                       ),
                     ),
@@ -852,8 +852,8 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                       child: LinearProgressIndicator(
                         value: (provider.provider?.minPurchase??0) > 0 ? (provider.cart?.total??0) / (provider.provider?.minPurchase??0) : 0,
                         minHeight: 3,
-                        color: CustomColors.blue6,
-                        backgroundColor: CustomColors.gray9,
+                        color: CustomColorsAPP.blue6,
+                        backgroundColor: CustomColorsAPP.gray9,
                       ),
                     )
                   ],
@@ -901,7 +901,7 @@ Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              unitsContainer(providerProducts,provider,ltsProducts![index]),
+              unitsContainer(providerProducts,provider,ltsProducts[index]),
               itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save),
             ],
           );
@@ -944,7 +944,7 @@ Widget itemSubtotalCart(TotalCart? total,String shippingValue, Function openProd
                     onTap: ()=>openProductsSave(),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: CustomColors.blue5,
+                        color: CustomColorsAPP.blue5,
                        shape: BoxShape.circle
                       ),
                       child: Padding(
@@ -955,7 +955,7 @@ Widget itemSubtotalCart(TotalCart? total,String shippingValue, Function openProd
                   ),
                   SizedBox(width: 20,),
                   Expanded(
-                      child: btnCustomSize(47,Strings.makePurchase,CustomColors.redDot,Colors.white,openCheckOut))
+                      child: btnCustomSize(47,Strings.makePurchase,CustomColorsAPP.redDot,Colors.white,openCheckOut))
                 ],
               )
             ],
@@ -977,7 +977,7 @@ Widget itemValueShopCar(String label, String? value,bool isStyleBold){
         style: TextStyle(
           fontFamily: isStyleBold? Strings.fontBold:Strings.fontRegular,
           fontSize: 16,
-          color: CustomColors.blue5,
+          color: CustomColorsAPP.blue5,
         ),
       ),
       Text(
@@ -985,7 +985,7 @@ Widget itemValueShopCar(String label, String? value,bool isStyleBold){
         style: TextStyle(
           fontFamily:  isStyleBold? Strings.fontBold:Strings.fontRegular,
           fontSize: 16,
-          color: CustomColors.blue5,
+          color: CustomColorsAPP.blue5,
         ),
       ),
     ],
@@ -998,7 +998,7 @@ Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provide
     children: [
       Text(
         Strings.quantityAvailable + " ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty}",
-        style: TextStyle(fontSize: 13, color: CustomColors.blue5, fontFamily: Strings.fontMedium,),
+        style: TextStyle(fontSize: 13, color: CustomColorsAPP.blue5, fontFamily: Strings.fontMedium,),
       ),
 
       Visibility(
@@ -1010,7 +1010,7 @@ Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provide
             padding: const EdgeInsets.all(8.0),
             child: Text(
               "${Strings.youCanOnlyCarry} ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty} unidades",
-              style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+              style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueDarkSplash,),
             ),
           ),
         ),

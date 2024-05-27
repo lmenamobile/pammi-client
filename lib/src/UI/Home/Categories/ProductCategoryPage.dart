@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
@@ -62,91 +63,7 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
             children: [
               Column(
                 children: [
-                  Container(
-
-                    decoration: BoxDecoration(
-
-                        color:CustomColors.redDot,
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 37),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              GestureDetector(
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  child: Image(
-                                    image: AssetImage(
-                                        "Assets/images/ic_backward_arrow.png"),
-                                  ),
-                                ),
-                                onTap: () => Navigator.pop(context),
-                              ),
-                              Text(
-                                Strings.products,
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.white,
-                                    fontFamily: Strings.fontBold),
-                              ),
-                              GestureDetector (
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      child: Image(
-                                        image: AssetImage(
-                                            "Assets/images/ic_car.png"),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Visibility(
-                                        visible: providerShopCart
-                                                    .totalProductsCart !=
-                                                "0"
-                                            ? true
-                                            : false,
-                                        child: CircleAvatar(
-                                          radius: 6,
-                                          backgroundColor: Colors.white,
-                                          child: Text(
-                                            providerShopCart.totalProductsCart,
-                                            style: TextStyle(
-                                                fontSize: 8,
-                                                color: CustomColors.redTour),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                onTap: () => Navigator.push(context,
-                                    customPageTransition(ShopCartPage())),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          boxSearchHome(
-                              searchController, callSearchProducts),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  headerWithSearch(Strings.products, searchController, providerShopCart.totalProductsCart, ()=>Navigator.pop(context), (){}, callSearchProducts),
                   Expanded(
                     child: SmartRefresher(
                             controller: _refreshProducts,
@@ -159,32 +76,30 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
                             child:  providerSettings.hasConnection?providerProducts.ltsProductsByCategory.isEmpty
                                 ? Center(
                               child: SingleChildScrollView(
-                                  child: emptyData("ic_empty_notification.png",
-                                      Strings.sorry, Strings.emptyCategories)),
-                            )
-                                : AnimationLimiter(
+                                  child: emptyData("ic_empty_notification.png", Strings.sorry, Strings.emptyCategories)),
+                            ) : AnimationLimiter(
                               child: GridView.builder(
-                                gridDelegate:
-                                    new SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 10,
-                                  childAspectRatio: .77,
-                                  crossAxisSpacing: 15,
+                                      childAspectRatio: 179 / 318,
+                                      crossAxisSpacing: 15,
                                 ),
                                 physics: NeverScrollableScrollPhysics(),
-                                padding: EdgeInsets.only(
-                                    top: 20, bottom: 10, left: 10, right: 10),
+                                padding: EdgeInsets.only(top: 20, bottom: 10, left: 10, right: 10),
                                 itemCount: providerProducts.ltsProductsByCategory.isEmpty ? 0 : providerProducts.ltsProductsByCategory.length,
                                 shrinkWrap: true,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (_, int index) {
                                   return AnimationConfiguration.staggeredGrid(
                                       position: index,
-                                      duration:
-                                          const Duration(milliseconds: 375),
+                                      duration: const Duration(milliseconds: 375),
                                       columnCount: 2,
                                       child: ScaleAnimation(
-                                          child: FadeInAnimation(child: itemProductCategory(providerProducts.ltsProductsByCategory[index], openDetailProduct, callIsFavorite))));
+                                          child: FadeInAnimation(
+                                              child: Container(
+                                                  width: 179.0,
+                                                  height: 318.0,
+                                                  child: itemProductCategory(providerProducts.ltsProductsByCategory[index], openDetailProduct, callIsFavorite)))));
                                 },
                               ),
                             ):notConnectionInternet(),
@@ -203,19 +118,14 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   }
 
   openDetailProduct(Product product) {
-
     String? color = product.references[0].color;
-
-    print("producto y color $color ${product.references[0].images?.length}");
-    if(product.references[0].images?.length != 0)
-      {
+    if(product.references[0].images?.length != 0) {
         if (color != null  && color.startsWith('#') && color.length >= 6) {
           providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
           providerProducts.limitedQuantityError = false;
-          Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+          Navigator.push(context, customPageTransition(DetailProductPage(product: product), PageTransitionType.rightToLeftWithFade));
         }
       }
-
   }
 
 

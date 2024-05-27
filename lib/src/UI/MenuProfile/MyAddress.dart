@@ -50,7 +50,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
   Widget _body(BuildContext context) {
     return Column(
       children: <Widget>[
-        header(context, Strings.myAddress, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView( Strings.myAddress,  () => Navigator.pop(context)),
 
         SizedBox(
           height: 20,
@@ -94,8 +94,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 70, right: 60),
-                                child: btnCustomRounded(CustomColors.blueSplash,
-                                    CustomColors.white, Strings.addAddres, () {
+                                child: btnCustomRounded(CustomColorsAPP.blueSplash,
+                                    CustomColorsAPP.white, Strings.addAddres, () {
                                   pushToAddAddress();
                                 }, context),
                               ),
@@ -177,7 +177,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
   openAddAddress() async {
     dynamic data =
-        await Navigator.push(context, customPageTransition(AddAddressPage()));
+        await Navigator.push(context, customPageTransition(AddAddressPage(),PageTransitionType.leftToRight));
     if (data as bool) {
       serviceGetAddAddressUser();
     }

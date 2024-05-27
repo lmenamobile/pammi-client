@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +30,9 @@ import 'SectionsMenu/GiftCards/GiftCartPage.dart';
 
 class DrawerMenuPage extends StatefulWidget {
   final rollOverActive;
-  final version;
 
-  DrawerMenuPage({Key? key, this.rollOverActive,required this.version}) : super(key: key);
+
+  DrawerMenuPage({Key? key, this.rollOverActive}) : super(key: key);
 
   _DrawerMenuPageState createState() => _DrawerMenuPageState();
 }
@@ -49,12 +48,12 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     profileProvider = Provider.of<ProfileProvider>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColors.white.withOpacity(.6),
-      body: Container(child: _body(context)),
+      backgroundColor: CustomColorsAPP.white.withOpacity(.6),
+      body: _body(context),
     );
   }
 
-  Widget _body(BuildContext context) {
+   _body(BuildContext context) async {
     return FadeInLeft(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 25),
@@ -72,7 +71,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                 width: 286,
                 padding: EdgeInsets.only(top: 12, bottom: 12),
                 decoration: BoxDecoration(
-                    color: CustomColors.grayMenu,
+                    color: CustomColorsAPP.grayMenu,
                     borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(30),
                         topRight: Radius.circular(30))),
@@ -124,8 +123,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                         opacity: userIsLogged()?1:0,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 39, right: 39),
-                          child: btnCustomRounded(CustomColors.orange,
-                              CustomColors.white, Strings.closeSesion, () {
+                          child: btnCustomRounded(CustomColorsAPP.orange,
+                              CustomColorsAPP.white, Strings.closeSesion, () {
                             utils.startCustomAlertMessage(
                                 context,
                                 Strings.closeSesion,
@@ -144,7 +143,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       ),
                       SizedBox(height: 15),
                       Text(
-                        "${widget.version}"
+                        "${await getPackageInfo()}"
                       ),
                       SizedBox(height: 16),
                     ],
@@ -176,7 +175,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
-            color: CustomColors.white,
+            color: CustomColorsAPP.white,
             borderRadius: BorderRadius.all(Radius.circular(20))),
 
         margin: EdgeInsets.only(left: 6, right: 6, top: 6),
@@ -192,7 +191,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                 margin: EdgeInsets.only(top: _prefs.authToken == "0" ? 0 : 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: CustomColors.grayBackground,
+                  color: CustomColorsAPP.grayBackground,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(
@@ -220,7 +219,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     decoration: TextDecoration.underline,
                     fontFamily: Strings.fontBold,
                     fontSize: 12,
-                    color: CustomColors.yellow),
+                    color: CustomColorsAPP.yellow),
               ): Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,14 +231,14 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 12,
-                          color: CustomColors.letterDarkBlue),
+                          color: CustomColorsAPP.letterDarkBlue),
                     ),
                     Container(
                       height: 25,
                       width: double.infinity,
                       margin: EdgeInsets.only(left: 5,top: 10,bottom: 10),
                       decoration: BoxDecoration(
-                        color: CustomColors.whiteBackGround,
+                        color: CustomColorsAPP.whiteBackGround,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Stack(
@@ -249,7 +248,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                             child: Text(
                               Strings.linkUp,
                               style: TextStyle(
-                                color: CustomColors.gray7,
+                                color: CustomColorsAPP.gray7,
                                 fontSize: 12,
                                 fontFamily: Strings.fontRegular,
                               ),
@@ -261,7 +260,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                               height: 25,
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
-                                color: CustomColors.orange.withOpacity(0.2),
+                                color: CustomColorsAPP.orange.withOpacity(0.2),
                                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(4), topRight: Radius.circular(4))
                               ),
                               child: Center(
@@ -269,7 +268,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                                   _prefs.referredCode,
                                   style: TextStyle(
                                     fontSize: 17,
-                                    color: CustomColors.orange,
+                                    color: CustomColorsAPP.orange,
                                     fontFamily: Strings.fontRegular,
                                   ),
                                 ),
@@ -285,7 +284,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           decoration: TextDecoration.underline,
                           fontFamily: Strings.fontBold,
                           fontSize: 12,
-                          color: CustomColors.yellow),
+                          color: CustomColorsAPP.yellow),
                     ),
                   ],
                 ),
@@ -314,8 +313,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
-                color: CustomColors.grayMenu,
-                border: Border.all(color: CustomColors.grayThree, width: 1),
+                color: CustomColorsAPP.grayMenu,
+                border: Border.all(color: CustomColorsAPP.grayThree, width: 1),
               ),
               child: Center(
                 child: Image(
@@ -332,7 +331,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
               style: TextStyle(
                   fontSize: 12,
                   fontFamily: Strings.fontBold,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
             )
           ],
         ),
@@ -342,7 +341,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
   }
 
   pushToPage(Widget page) {
-    Navigator.pushReplacement(context, customPageTransition(page));
+    Navigator.pushReplacement(context, customPageTransition(page,PageTransitionType.leftToRight));
   }
 
   callAccessToken() async {

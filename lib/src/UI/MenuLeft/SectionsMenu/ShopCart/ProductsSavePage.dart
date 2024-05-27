@@ -47,7 +47,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
           child: Column(
             children: [
               //titleBar(Strings.productsSave, "ic_blue_arrow.png", ,
-              header(context, Strings.productsSave, CustomColors.redDot, () => Navigator.pop(context)),
+              headerView( Strings.productsSave,  () => Navigator.pop(context)),
               SizedBox(height: 20,),
               Expanded(child: SmartRefresher(
                   controller: _refreshProductsSave,

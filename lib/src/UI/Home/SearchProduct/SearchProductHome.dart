@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
@@ -50,7 +51,7 @@ class _SearchProductHomeState extends State<SearchProductHome> {
               Column(
                 children: [
 
-                  header(context, Strings.searcher, CustomColors.redDot, ()=>Navigator.pop(context)),
+                  headerView( Strings.searcher,  ()=>Navigator.pop(context)),
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                       child: boxSearch(searchController, callSearchProducts)),
@@ -120,7 +121,7 @@ class _SearchProductHomeState extends State<SearchProductHome> {
   }
 
   openViewSendComment(){
-    Navigator.push(context, customPageTransition(CommentProductNotFound()));
+    Navigator.push(context, customPageTransition(CommentProductNotFound(),PageTransitionType.rightToLeftWithFade));
   }
 
   openDetailProduct(Product product){
@@ -130,9 +131,9 @@ class _SearchProductHomeState extends State<SearchProductHome> {
     if(product.references[0].images?.length != 0)
     {
       if (color != null  && color.startsWith('#') && color.length >= 6) {
-        providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
         providerProducts.limitedQuantityError = false;
-        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeftWithFade));
       }
     }
   }

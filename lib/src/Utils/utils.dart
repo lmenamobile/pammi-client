@@ -16,12 +16,9 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/Dialogs/dialog_create_pqrs.dart';
-import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
-import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 
 
 class _Utils {
@@ -84,7 +81,7 @@ class _Utils {
       animationDuration: Duration(milliseconds: 500),
       margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      backgroundColor: CustomColors.splashColor,
+      backgroundColor: CustomColorsAPP.splashColor,
       icon: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Image(
@@ -213,7 +210,7 @@ class _Utils {
           title: Text(Strings.accountClosedSuccessfullyDescription, style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.black), textAlign: TextAlign.start),
           content: Icon(
             Icons.check_circle,
-            color: CustomColors.green,
+            color: CustomColorsAPP.green,
             size: 60,
           ),
         );
@@ -286,7 +283,7 @@ class _Utils {
       animationDuration: Duration(milliseconds: 500),
       margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      backgroundColor: CustomColors.greenValid,
+      backgroundColor: CustomColorsAPP.greenValid,
       icon: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Image(
@@ -316,7 +313,7 @@ class _Utils {
         animationDuration: Duration(milliseconds: 500),
         margin: EdgeInsets.only(left: 60, right: 60,bottom: 40),
           borderRadius: BorderRadius.all(Radius.circular(15)),
-        backgroundColor: CustomColors.red,
+        backgroundColor: CustomColorsAPP.red,
         icon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Image(
@@ -374,7 +371,7 @@ class _Utils {
 
   dynamic checkInternet2(Function func, BuildContext? context) {
     check().then((internet) {
-      if (internet != null && internet) {
+      if (internet) {
         func(true, context);
       } else {
         func(false, context);
@@ -396,7 +393,7 @@ class _Utils {
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(19)),
-                  color: CustomColors.white,
+                  color: CustomColorsAPP.white,
                 ),
                 child: Stack(
                   children:[
@@ -419,7 +416,7 @@ class _Utils {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
-                                color: CustomColors.blackLetter,
+                                color: CustomColorsAPP.blackLetter,
                                 fontSize: 18),
                           ),
                         ),
@@ -431,7 +428,7 @@ class _Utils {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColors.gray7,
+                                color: CustomColorsAPP.gray7,
                                 fontSize: 15),
                           ),
                         ),
@@ -446,8 +443,8 @@ class _Utils {
                                 child: btnCustomSize(
                                     35,
                                     Strings.btnNot,
-                                    CustomColors.gray2,
-                                    CustomColors.blackLetter,
+                                    CustomColorsAPP.gray2,
+                                    CustomColorsAPP.blackLetter,
                                     actionNegative),
                                 width: 100,
                               ),
@@ -455,8 +452,8 @@ class _Utils {
                                 child: btnCustomSize(
                                     35,
                                     Strings.btnYes,
-                                    CustomColors.blueSplash,
-                                    CustomColors.white,
+                                    CustomColorsAPP.blueSplash,
+                                    CustomColorsAPP.white,
                                     action),
                                 width: 100,
                               ),
@@ -473,7 +470,7 @@ class _Utils {
                           padding: EdgeInsets.all(0),
                           icon: Icon(
                             Icons.close,
-                            color: CustomColors.gray,
+                            color: CustomColorsAPP.gray,
                           ),
                           onPressed: () => Navigator.pop(context))
                     )

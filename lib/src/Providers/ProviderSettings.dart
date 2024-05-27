@@ -339,7 +339,7 @@ class ProviderSettings with ChangeNotifier{
       id: 0,
       category: "Otras Categorias",
       color: "FFFFFF",
-      image: "https://wawamko.com/assets/images/categories/all.png",
+      image: Constants.iconCategories,
     );
 
     listCategories.add(categoryAll);
@@ -376,7 +376,7 @@ class ProviderSettings with ChangeNotifier{
           listSubCategories.add(subcategory);
         }
         this.isLoadingSettings = false;
-        this._ltsSubCategories= listSubCategories;
+        this.ltsSubCategories = listSubCategories;
         return listSubCategories;
       } else {
         this.isLoadingSettings = false;
