@@ -201,21 +201,8 @@ class _MyAppState extends State<MyApp> {
   }
 
 
-
-/*  Future<void> initUniLinks() async {
-    try {
-      final initialLink = await getInitialLink();
-      if(initialLink!=null){
-        print("data link ${initialLink}");
-        navigatorKey.currentState?.push(customPageTransition(ProductsCatalog(idSeller: initialLink.substring(17))));
-      }
-    } on PlatformException {
-    }
-  }*/
-
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: CustomColors.redTour)
     );
@@ -226,8 +213,8 @@ class _MyAppState extends State<MyApp> {
 
     return  MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),
         ChangeNotifierProvider(create: (_) => ProviderHome()),
@@ -243,7 +230,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderClaimOrder()),
         ChangeNotifierProvider(create: (_) => ProviderCustomerService()),
         ChangeNotifierProvider(create: (_) => PQRSProvider()),
-
       ],
       child: MaterialApp(
         onGenerateRoute: (RouteSettings settings) {
@@ -276,23 +262,9 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.red,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(),
       ),
     );
   }
 
- /*void _showNotification(String title, String description) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', channelDescription: 'your channel description',
-        importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics = DarwinNotificationDetails(
-        presentAlert: true, presentBadge: true, presentSound: true);
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, title, description, platformChannelSpecifics,
-        payload: 'Default_Sound');
-  }*/
 }
 

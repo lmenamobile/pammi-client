@@ -21,8 +21,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, WidgetsBindingObserver {
-  final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
+  final prefs = SharePreference();
   late OnboardingProvider providerOnboarding;
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -33,15 +33,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addObserver(this);
-    callAccessToken();
+    WidgetsBinding.instance.addObserver(this);
+   // providerOnboarding = Provider.of<OnboardingProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      callAccessToken();
+    });
 
     _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
-
     _controller.addStatusListener((AnimationStatus status) async {
-      if(status==AnimationStatus.completed){
-    //    bool result = await getPermissionGps();
-        openApp();
+      if(status==AnimationStatus.completed){openApp();
       }
     });
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
 
   @override
   dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
@@ -63,15 +63,13 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     prefs.sizeHeightHeader = MediaQuery.of(context).padding.top;
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
         color: CustomColors.redTour,
-        child: _body(context),
+        child: _body(),
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body() {
     return Stack(
       children: <Widget>[
        /* Positioned(
