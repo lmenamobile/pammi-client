@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
-import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
@@ -43,7 +43,7 @@ class _OfferDetailState extends State<OfferDetail> {
   @override
   void initState() {
     providerOffer = Provider.of<ProviderOffer>(context, listen: false);
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       providerOffer!.totalUnits = 1;
       getDetailOffer(widget.idOffer);
     });
@@ -65,7 +65,8 @@ class _OfferDetailState extends State<OfferDetail> {
           child: Column(
             children: [
              
-              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", CustomColors.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), (){Navigator.push(context, customPageTransition(ShopCartPage()));providerProducts.limitedQuantityError = false;}),
+              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", CustomColorsAPP.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), (){Navigator.push(context,
+                  customPageTransition(ShopCartPage(),PageTransitionType.fade));providerProducts.limitedQuantityError = false;}),
               Expanded(
                 child: providerSettings.hasConnection
                     ? SingleChildScrollView(
@@ -86,8 +87,8 @@ class _OfferDetailState extends State<OfferDetail> {
                               Visibility(
                                 visible:providerProducts.limitedQuantityError == true ? false :true,
                                 //provider.products?[0].offer?.promotionProducts?[0].reference?.qty
-                                child: Text("${Strings.quantityAvailable} ${providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty}",
-                                  style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.gray),
+                                child: Text("${Strings.quantityAvailable} ${providerOffer!.detailOffer.promotionProducts?[0].reference?.qty}",
+                                  style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray),
                                 ),
                               ),
                               Visibility(
@@ -97,8 +98,8 @@ class _OfferDetailState extends State<OfferDetail> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "${Strings.youCanOnlyCarry} ${providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty} unidades",
-                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueDarkSplash,),
+                                      "${Strings.youCanOnlyCarry} ${providerOffer!.detailOffer.promotionProducts?[0].reference?.qty} unidades",
+                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueDarkSplash,),
                                     ),
                                   ),
                                 ),
@@ -128,7 +129,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColors.gray7),
+                                    color: CustomColorsAPP.gray7),
                               ),
                             ),
                             SizedBox(
@@ -149,7 +150,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                   btnCustom(
                                       120,
                                       Strings.paymentNow,
-                                      CustomColors.orange,
+                                      CustomColorsAPP.orange,
                                       Colors.white,() => paymentNow()),
                                   SizedBox(
                                     width: 10,
@@ -160,7 +161,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                       child: btnCustomIconLeft(
                                           "ic_pay_add.png",
                                           Strings.addCartShop,
-                                          CustomColors.blue,
+                                          CustomColorsAPP.blue,
                                           Colors.white, (){addOfferCart(providerOffer!.detailOffer.id.toString());}),
                                     ),
                                   )
@@ -200,7 +201,7 @@ class _OfferDetailState extends State<OfferDetail> {
                 InkWell(
                   onTap: () => openZoomImages(),
                   child:
-                      imageReference(170, providerOffer?.imageSelected ?? ''),
+                      imageReference(Size(170,170), providerOffer?.imageSelected ?? ''),
                 ),
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
@@ -220,7 +221,7 @@ class _OfferDetailState extends State<OfferDetail> {
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: Strings.fontBold,
-                        color: CustomColors.blackLetter),
+                        color: CustomColorsAPP.blackLetter),
                   ),
                   SizedBox(
                     height: 10,
@@ -230,14 +231,14 @@ class _OfferDetailState extends State<OfferDetail> {
                     style: TextStyle(
                         fontSize: 19,
                         fontFamily: Strings.fontMedium,
-                        color: CustomColors.blackLetter),
+                        color: CustomColorsAPP.blackLetter),
                   ),
                   Text(
                     formatMoney(reference?.price ?? '0'),
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: Strings.fontMedium,
-                        color: CustomColors.orange),
+                        color: CustomColorsAPP.orange),
                   ),
                 ]),
           ),
@@ -307,7 +308,7 @@ class _OfferDetailState extends State<OfferDetail> {
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
@@ -316,7 +317,7 @@ class _OfferDetailState extends State<OfferDetail> {
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                         ),
                       ),
                       Text(
@@ -325,7 +326,7 @@ class _OfferDetailState extends State<OfferDetail> {
                             decoration: TextDecoration.lineThrough,
                             fontSize: 13,
                             fontFamily: Strings.fontMedium,
-                            color: CustomColors.gray
+                            color: CustomColorsAPP.gray
                         ),
                       ),
                       Text(
@@ -333,7 +334,7 @@ class _OfferDetailState extends State<OfferDetail> {
                         style: TextStyle(
                             fontSize: 13,
                             fontFamily: Strings.fontMedium,
-                            color: CustomColors.orange
+                            color: CustomColorsAPP.orange
                         ),
                       )
                     ],
@@ -364,10 +365,10 @@ class _OfferDetailState extends State<OfferDetail> {
                       .baseProducts?[0].reference?.images?[index].url ??
                   ''),
               child: itemImageReference(
-                  50,
+                  Size(50, 50),
                   providerOffer?.detailOffer.baseProducts?[0].reference
                           ?.images?[index].url ??
-                      '')),
+                      '',"")),
         );
       },
     );
@@ -403,7 +404,7 @@ class _OfferDetailState extends State<OfferDetail> {
 
 
   addProduct() {
-      if (providerOffer!.totalUnits < int.parse(providerOffer!.detailOffer?.promotionProducts?[0].reference?.qty.toString() ?? "")) {
+      if (providerOffer!.totalUnits < int.parse(providerOffer!.detailOffer.promotionProducts?[0].reference?.qty.toString() ?? "")) {
         providerOffer!.totalUnits = providerOffer!.totalUnits + 1;
       } else {
         providerProducts.limitedQuantityError = true;
@@ -473,7 +474,7 @@ class _OfferDetailState extends State<OfferDetail> {
       if (value) {
         Future callCart = providerShopCart.getShopCart(providerCheckOut.paymentSelected?.id ?? 2);
         await callCart.then((msg) {
-          Navigator.push(context, customPageTransition(CheckOutPage()));
+          Navigator.push(context, customPageTransition(CheckOutPage(), PageTransitionType.fade));
         }, onError: (error) {
           providerShopCart.isLoadingCart = false;
           utils.showSnackBar(context, error.toString());

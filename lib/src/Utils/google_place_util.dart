@@ -1,7 +1,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -45,14 +44,9 @@ class GooglePlaces {
       await _places.getDetailsByPlaceId(p.placeId!);
       final lat = detail.result.geometry!.location.lat;
       final lng = detail.result.geometry!.location.lng;
-      if(detail.result.photos!=null){
-        print("__");
-        _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name);
-      }else{
-        print("__!!");
-        _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name);
-      }
-
+      print("__");
+      _mapScreenState.selectedLocation(lat, lng, detail.result.formattedAddress, detail.result.name);
+    
     }
   }
 

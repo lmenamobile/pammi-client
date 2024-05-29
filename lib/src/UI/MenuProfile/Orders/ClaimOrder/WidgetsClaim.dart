@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Claim/Claim.dart';
 import 'package:wawamko/src/Models/Claim/DetailClaim.dart' as data;
@@ -19,7 +18,7 @@ Widget itemReasonClaim(String label,String labelSelected){
       borderRadius: BorderRadius.all(Radius.circular(12)),
       boxShadow: [
         BoxShadow(
-          color: label!=labelSelected?Colors.grey.withOpacity(0.2):CustomColors.blue.withOpacity(.3),
+          color: label!=labelSelected?Colors.grey.withOpacity(0.2):CustomColorsAPP.blue.withOpacity(.3),
           spreadRadius: 2,
           blurRadius: 3,
           offset: Offset(0, 2), // changes position of shadow
@@ -64,12 +63,12 @@ Widget headerClaim(String title,String subtitle){
           Text(
             title,
             style: TextStyle(
-                color: CustomColors.blackLetter, fontFamily: Strings.fontMedium,fontSize: 16),
+                color: CustomColorsAPP.blackLetter, fontFamily: Strings.fontMedium,fontSize: 16),
           ),
           Text(
             subtitle,
             style: TextStyle(
-                color: CustomColors.blue, fontFamily: Strings.fontMedium,fontSize: 16),
+                color: CustomColorsAPP.blue, fontFamily: Strings.fontMedium,fontSize: 16),
           ),
         ],
       ),
@@ -80,7 +79,7 @@ Widget headerClaim(String title,String subtitle){
 Widget buttonNext(){
   return Container(
     decoration: BoxDecoration(
-        color: CustomColors.blue,
+        color: CustomColorsAPP.blue,
       borderRadius: BorderRadius.all(Radius.circular(8))
     ),
     child: Padding(
@@ -94,7 +93,7 @@ Widget itemClaimOPen(Claim claimOpen, Function closeClaim, Function detailClaim)
   return Container(
     margin: EdgeInsets.only(bottom: 10),
     decoration: BoxDecoration(
-      color: CustomColors.blueTwo,
+      color: CustomColorsAPP.blueTwo,
       borderRadius: BorderRadius.all(Radius.circular(12)),
       boxShadow: [
         BoxShadow(
@@ -124,7 +123,7 @@ Widget itemClaimOPen(Claim claimOpen, Function closeClaim, Function detailClaim)
                     Text(
                       Strings.ID + " ${claimOpen.id??0}",
                       style: TextStyle(
-                          color: CustomColors.blue,
+                          color: CustomColorsAPP.blue,
                           fontFamily: Strings.fontBold),
                     ),
                     Row(
@@ -150,7 +149,7 @@ Widget itemClaimOPen(Claim claimOpen, Function closeClaim, Function detailClaim)
                           onTap: ()=>detailClaim(claimOpen.id.toString()),
                           child: Container(
                             decoration: BoxDecoration(
-                                color: CustomColors.orangeOne,
+                                color: CustomColorsAPP.orangeOne,
                                 borderRadius: BorderRadius.all(Radius.circular(4))),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -177,7 +176,7 @@ Widget itemClaimOPen(Claim claimOpen, Function closeClaim, Function detailClaim)
                       child: Text(
                         Strings.closeClaim,
                         style: TextStyle(
-                            fontFamily: Strings.fontBold, color: CustomColors.redTwo),
+                            fontFamily: Strings.fontBold, color: CustomColorsAPP.redTwo),
                       ),
                     ),
                   ),
@@ -196,12 +195,12 @@ Widget itemClaimOPen(Claim claimOpen, Function closeClaim, Function detailClaim)
               Text(
                 Strings.total,
                 style: TextStyle(
-                    fontFamily: Strings.fontBold, color: CustomColors.blue),
+                    fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
               ),
               Text(
                 formatMoney(claimOpen.orderPackageDetail?.total??'0'),
                 style: TextStyle(
-                    fontFamily: Strings.fontBold, color: CustomColors.blue),
+                    fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
               )
             ],
           ),
@@ -220,12 +219,12 @@ Widget itemDescription(String text, String value) {
       children: [
         Text(text,
             style: TextStyle(
-                color: CustomColors.blackLetter,
+                color: CustomColorsAPP.blackLetter,
                 fontFamily: Strings.fontRegular)),
         Text(
           value,
           style: TextStyle(
-              fontFamily: Strings.fontBold, color: CustomColors.grayTwo),
+              fontFamily: Strings.fontBold, color: CustomColorsAPP.grayTwo),
         )
       ],
     ),
@@ -236,7 +235,7 @@ Widget itemClaimClose(Claim claimOpen) {
   return Container(
     margin: EdgeInsets.only(bottom: 10),
     decoration: BoxDecoration(
-      color: CustomColors.blueTwo,
+      color: CustomColorsAPP.blueTwo,
       borderRadius: BorderRadius.all(Radius.circular(12)),
       boxShadow: [
         BoxShadow(
@@ -266,12 +265,12 @@ Widget itemClaimClose(Claim claimOpen) {
                     Text(
                       Strings.ID + " ${claimOpen.id??0}",
                       style: TextStyle(
-                          color: CustomColors.blue,
+                          color: CustomColorsAPP.blue,
                           fontFamily: Strings.fontBold),
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: CustomColors.orangeOne,
+                          color: CustomColorsAPP.orangeOne,
                           borderRadius: BorderRadius.all(Radius.circular(4))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -305,12 +304,12 @@ Widget itemClaimClose(Claim claimOpen) {
               Text(
                 Strings.total,
                 style: TextStyle(
-                    fontFamily: Strings.fontBold, color: CustomColors.blue),
+                    fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
               ),
               Text(
                 formatMoney(claimOpen.orderPackageDetail?.total??'0'),
                 style: TextStyle(
-                    fontFamily: Strings.fontBold, color: CustomColors.blue),
+                    fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
               )
             ],
           ),
@@ -326,19 +325,19 @@ Widget itemDescriptionDetailClaim(String text, String value) {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(Icons.access_time,color: CustomColors.blueTitle,),
+        Icon(Icons.access_time,color: CustomColorsAPP.blueTitle,),
         SizedBox(width: 10,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(text,
                 style: TextStyle(
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                     fontFamily: Strings.fontRegular)),
             Text(
               value,
               style: TextStyle(
-                  fontFamily: Strings.fontBold, color: CustomColors.blueTitle),
+                  fontFamily: Strings.fontBold, color: CustomColorsAPP.blueTitle),
             )
           ],
         )
@@ -380,7 +379,7 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 Text(
@@ -389,7 +388,7 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColors.orange,
+                    color: CustomColorsAPP.orange,
                   ),
                 ),
               ],
@@ -407,8 +406,8 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
               columnSpacing: 15,
               dataRowHeight: 25,
               headingRowHeight: 25,
-              headingRowColor: MaterialStateProperty.resolveWith(
-                      (states) => CustomColors.greyBackground
+              headingRowColor: WidgetStateProperty.resolveWith(
+                      (states) => CustomColorsAPP.greyBackground
               ),
               columns: <DataColumn>[
                 DataColumn(label:    Center(
@@ -417,7 +416,7 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 13,
-                      color: CustomColors.blueTitle,
+                      color: CustomColorsAPP.blueTitle,
                     ),
                   ),
                 ),),
@@ -426,21 +425,21 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColors.blueTitle,
+                    color: CustomColorsAPP.blueTitle,
                   ),
                 ),),
                 DataColumn(label:    Text(Strings.total,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColors.blueTitle,
+                    color: CustomColorsAPP.blueTitle,
                   ),
                 ),),
               ],
               rows: [DataRow(cells: <DataCell>[
-                cellTableText(detail.qty??'0',CustomColors.blackLetter),
-                cellTableText(detail.reference?.brandAndProduct?.warranty?.warrantyProduct??'',CustomColors.blackLetter),
-                cellTableText( formatMoney(detail.total??'0'),CustomColors.orange),
+                cellTableText(detail.qty??'0',CustomColorsAPP.blackLetter),
+                cellTableText(detail.reference?.brandAndProduct?.warranty?.warrantyProduct??'',CustomColorsAPP.blackLetter),
+                cellTableText( formatMoney(detail.total??'0'),CustomColorsAPP.orange),
               ])],
             ),
           ),
@@ -491,14 +490,14 @@ Widget sectionDataGuide(){
             Text(Strings.guideDevolution,
               style: TextStyle(
                 fontFamily: Strings.fontBold,
-                color: CustomColors.blueTitle,
+                color: CustomColorsAPP.blueTitle,
               ),
             ),
             SizedBox(height: 10,),
             Text(Strings.textGuideDevolution,
               style: TextStyle(
                 fontFamily: Strings.fontRegular,
-                color: CustomColors.blackLetter,
+                color: CustomColorsAPP.blackLetter,
               ),
             )
           ],
@@ -533,20 +532,20 @@ Widget sectionProvider(data.DetailClaim claim,Function openChat){
               Text(claim.orderPackageDetail?.reference?.brandAndProduct?.warranty?.provider?.businessName??'',
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
-                  color: CustomColors.blackLetter,
+                  color: CustomColorsAPP.blackLetter,
                 ),
               ),
               Text(Strings.provider,
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter,
+                  color: CustomColorsAPP.blackLetter,
                 ),
               )
             ],
           ),
           Container(
             width: 150,
-            child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColors.blue,
+            child: btnCustomIconLeft("ic_chat.png", Strings.chat,CustomColorsAPP.blue,
                 Colors.white, (){
           openChat(claim.orderPackageDetail?.reference?.brandAndProduct?.warranty?.provider?.id.toString(), claim.orderPackageDetail?.orderPackage?.id ?? "");
                 }),
@@ -562,7 +561,7 @@ Widget btnMakeClaim(){
     margin: EdgeInsets.symmetric(vertical: 5),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: CustomColors.red)
+        border: Border.all(color: CustomColorsAPP.red)
     ),
     child: Padding(
       padding: const EdgeInsets.all(10),
@@ -571,7 +570,7 @@ Widget btnMakeClaim(){
         style: TextStyle(
           fontFamily: Strings.fontBold,
           fontSize: 13,
-          color: CustomColors.red,
+          color: CustomColorsAPP.red,
         ),
       ),
     ),
@@ -585,7 +584,7 @@ Widget btnNotMakeClaim(BuildContext context, String message){
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color:CustomColors.gray4)
+          border: Border.all(color:CustomColorsAPP.gray4)
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -594,7 +593,7 @@ Widget btnNotMakeClaim(BuildContext context, String message){
           style: TextStyle(
             fontFamily: Strings.fontBold,
             fontSize: 13,
-            color:CustomColors.gray4,
+            color:CustomColorsAPP.gray4,
           ),
         ),
       ),
@@ -608,7 +607,7 @@ Widget noApplyClaim(){
     style: TextStyle(
       fontFamily: Strings.fontBold,
       fontSize: 13,
-      color: CustomColors.gray4,
+      color: CustomColorsAPP.gray4,
     ),
   );
 }
@@ -618,7 +617,7 @@ Widget claimNotCheck(String title, String description,Function openChatAdmin){
     width: double.infinity,
     margin: EdgeInsets.symmetric(vertical: 5),
     decoration: BoxDecoration(
-      color: CustomColors.gray2,
+      color: CustomColorsAPP.gray2,
         borderRadius: BorderRadius.circular(8),
     ),
     child: Padding(
@@ -629,7 +628,7 @@ Widget claimNotCheck(String title, String description,Function openChatAdmin){
             title,
             style: TextStyle(
               fontFamily: Strings.fontBold,
-              color: CustomColors.blueTitle,
+              color: CustomColorsAPP.blueTitle,
             ),
           ),
           SizedBox(height: 10,),
@@ -637,11 +636,11 @@ Widget claimNotCheck(String title, String description,Function openChatAdmin){
             description,
             style: TextStyle(
               fontFamily: Strings.fontRegular,
-              color: CustomColors.gray4,
+              color: CustomColorsAPP.gray4,
             ),
           ),
           SizedBox(height: 10,),
-          btnCustom(150, Strings.serviceClient,CustomColors.blueTitle, Colors.white, (){
+          btnCustom(150, Strings.serviceClient,CustomColorsAPP.blueTitle, Colors.white, (){
             openChatAdmin();
           })
         ],

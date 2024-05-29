@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
@@ -68,12 +67,12 @@ class _MyDatesPageState extends State<MyDatesPage>
     providerSettings = Provider.of<ProviderSettings>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Stack(
           children: [
             Container(
-              color: CustomColors.redTour,
+              color: CustomColorsAPP.redTour,
               child: _body(context),
             ),
             Visibility(
@@ -120,7 +119,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 24,
-                                color: CustomColors.white),
+                                color: CustomColorsAPP.white),
                           ),
                         )),
                       ],
@@ -140,7 +139,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
                                 border: Border.all(
-                                    color: CustomColors.white, width: 1),
+                                    color: CustomColorsAPP.white, width: 1),
                               ),
                               child: Center(
                                 child: Stack(
@@ -152,9 +151,9 @@ class _MyDatesPageState extends State<MyDatesPage>
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(100)),
                                         border: Border.all(
-                                            color: CustomColors.white,
+                                            color: CustomColorsAPP.white,
                                             width: 1),
-                                        color: CustomColors.grayBackground,
+                                        color: CustomColorsAPP.grayBackground,
                                       ),
                                       child: InkWell(
                                         onTap: () =>
@@ -193,7 +192,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                     Strings.changePhoto,
                                     style: TextStyle(
                                         fontFamily: Strings.fontRegular,
-                                        color: CustomColors.white,
+                                        color: CustomColorsAPP.white,
                                         decoration: TextDecoration.underline),
                                   ),
                                 ),
@@ -206,8 +205,8 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       width: 130,
                                       child: btnRoundedCustom(
                                           30,
-                                          CustomColors.yellowOne,
-                                          CustomColors.blackLetter,
+                                          CustomColorsAPP.yellowOne,
+                                          CustomColorsAPP.blackLetter,
                                           Strings.saveDates, () {
                                         callServiceUpdate();
                                       })),
@@ -218,8 +217,8 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       width: 100,
                                       child: btnRoundedCustom(
                                           30,
-                                          CustomColors.white,
-                                          CustomColors.gray7,
+                                          CustomColorsAPP.white,
+                                          CustomColorsAPP.gray7,
                                           Strings.edit, () {
                                         profileProvider!.isEditProfile = true;
                                       })),
@@ -240,7 +239,7 @@ class _MyDatesPageState extends State<MyDatesPage>
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    color: CustomColors.white,
+                    color: CustomColorsAPP.white,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
@@ -259,7 +258,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                   Strings.personalInfo,
                                   style: TextStyle(
                                       fontSize: 15,
-                                      color: CustomColors.blackLetter,
+                                      color: CustomColorsAPP.blackLetter,
                                       fontFamily: Strings.fontBold),
                                 ),
                                 SizedBox(height: 20),
@@ -298,10 +297,10 @@ class _MyDatesPageState extends State<MyDatesPage>
                       Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 30),
-                          child: btnCustomRounded(CustomColors.blueSplash,
-                              CustomColors.white, Strings.changePass, () {
+                          child: btnCustomRounded(CustomColorsAPP.blueSplash,
+                              CustomColorsAPP.white, Strings.changePass, () {
                             Navigator.of(context).push(
-                                customPageTransition(ChangePasswordPage()));
+                                customPageTransition(ChangePasswordPage(),PageTransitionType.fade));
                           }, context))
                     ],
                   ),
@@ -315,13 +314,13 @@ class _MyDatesPageState extends State<MyDatesPage>
   }
 
   openSelectCountry()async{
-     await Navigator.push(context, customPageTransition(SelectCountryPage()));
+     await Navigator.push(context, customPageTransition(SelectCountryPage(),PageTransitionType.fade));
     countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
   openSelectCityByState()async{
     if(providerSettings?.countrySelected!=null) {
-      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      await Navigator.push(context, customPageTransition(SelectStatesPage(),PageTransitionType.fade));
       cityController.text = providerSettings?.citySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);

@@ -22,7 +22,7 @@ class _FirstPageTourState extends State<TourPage> {
   Widget build(BuildContext context) {
     heightView = MediaQuery.of(context).size.height * 0.83;
     return Scaffold(
-      body: Container(color: CustomColors.white, child: _body(context)),
+      body: Container(color: CustomColorsAPP.white, child: _body(context)),
     );
   }
 
@@ -56,10 +56,10 @@ class _FirstPageTourState extends State<TourPage> {
                           }),
                     ),
                   ),
-                  dotsIndicator(position.toDouble()),
+                  dotsIndicator(position),
                   const SizedBox(height: 40),
                   GestureDetector(
-                  child: Text(position == 2 ? Strings.nextBtn : Strings.skip, style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColors.blueTitle, fontSize: 18,),),
+                  child: Text(position == 2 ? Strings.nextBtn : Strings.skip, style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle, fontSize: 18,),),
                   onTap: () {
                     prefs.enableTour = false;
                     Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.leftToRight, child: WelcomePage(), duration: Duration(milliseconds: 700)));

@@ -102,6 +102,14 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
+  /*list categoriesHome*/
+  List<Category> _ltsCategoriesHome = [];
+  List<Category> get ltsCategoriesHome => this._ltsCategoriesHome;
+  set ltsCategoriesHome(List<Category> value) {
+    this._ltsCategoriesHome.addAll(value);
+    notifyListeners();
+  }
+
   List<SubCategory> _ltsSubCategories = [];
   List<SubCategory> get ltsSubCategories => this._ltsSubCategories;
   set ltsSubCategories(List<SubCategory> value) {
@@ -305,7 +313,6 @@ class ProviderSettings with ChangeNotifier{
       "status": "active",
       "countryId": countryCode
     };
-    print("CATEGORIAS JSON $jsonData");
     var body = jsonEncode(jsonData);
 
     final response = await http.post(Uri.parse(Constants.baseURL+"category/get-categories"), headers: header, body: body)
@@ -318,17 +325,15 @@ class ProviderSettings with ChangeNotifier{
     Map<String, dynamic>? decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
-        print("100 EN CATEGORIAS");
         for (var item in decodeJson['data']['items']) {
           final category = Category.fromJson(item);
           listCategories.add(category);
-          print("100 EN CATEGORIAS listCategories ${listCategories.length}");
         }
         this.isLoadingSettings = false;
         this.ltsCategories= listCategories;
+        ltsCategoriesHome = addCategoryAll(ltsCategories);
         return listCategories;
       } else {
-        print("no trajo CATEGORIAS");
         this.isLoadingSettings = false;
         throw decodeJson['message'];
       }
@@ -336,6 +341,28 @@ class ProviderSettings with ChangeNotifier{
       this.isLoadingSettings = false;
       throw decodeJson!['message'];
     }
+  }
+
+  List<Category>  addCategoryAll(List<Category> listCategories){
+    ltsCategoriesHome = [];
+    Category categoryAll = Category(
+      id: 0,
+      category: "Otras Categorias",
+      color: "FFFFFF",
+      image: Constants.iconCategories,
+    );
+
+    List<Category> newListCategories = [];
+
+    if (listCategories.length > 7) {
+      newListCategories = listCategories.sublist(0, 7);
+    } else {
+      newListCategories = List.from(listCategories);
+    }
+
+    newListCategories.add(categoryAll);
+
+    return newListCategories;
   }
 
   Future<dynamic> getSubCategories(int page,String idCategory) async {
@@ -368,7 +395,7 @@ class ProviderSettings with ChangeNotifier{
           listSubCategories.add(subcategory);
         }
         this.isLoadingSettings = false;
-        this._ltsSubCategories= listSubCategories;
+        this.ltsSubCategories = listSubCategories;
         return listSubCategories;
       } else {
         this.isLoadingSettings = false;

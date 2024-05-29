@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Models/Claim/DetailClaim.dart' as d;
@@ -61,7 +62,8 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeAdmin, id,"");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false),
+          PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -81,7 +83,8 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeProvider, id,subOrderId);
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,fromPush: false)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId:id ,subOrderId:subOrderId,typeChat: Constants.typeProvider,imageProfile: Constants.profileProvider,fromPush: false),
+              PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });
@@ -105,7 +108,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
               Column(
                 children: [
 
-                  header(context, Strings.orderId + " ${providerClaimOrder.detailClaim?.id ?? ''}", CustomColors.redDot, () => Navigator.pop(context)),
+                  headerView( Strings.orderId + " ${providerClaimOrder.detailClaim?.id ?? ''}", () => Navigator.pop(context)),
                   Expanded(
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
@@ -130,7 +133,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                             ),
                             child: ExpansionWidget(
                               initiallyExpanded: true,
-                              iconColor: CustomColors.gray7,
+                              iconColor: CustomColorsAPP.gray7,
                               title: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -154,7 +157,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColors.blackLetter),
+                                            color: CustomColorsAPP.blackLetter),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(right: 50),
@@ -194,7 +197,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         child: Center(
                                           child: Container(
                                               margin: EdgeInsets.symmetric(vertical: 30),
-                                              child: btnCustom(200, Strings.closeClaim,CustomColors.green,
+                                              child: btnCustom(200, Strings.closeClaim,CustomColorsAPP.green,
                                                   Colors.white,(){
                                                     openCloseClaim(providerClaimOrder.detailClaim?.id ?? '');
                                                   })),
@@ -212,13 +215,13 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         Strings.comment,
                                         style: TextStyle(
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColors.blueTitle),
+                                            color: CustomColorsAPP.blueTitle),
                                       ),
                                       Text(
                                         providerClaimOrder.detailClaim?.message ?? '',
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
-                                            color: CustomColors.grayTwo),
+                                            color: CustomColorsAPP.grayTwo),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -227,12 +230,12 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         Strings.image,
                                         style: TextStyle(
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColors.blueTitle),
+                                            color: CustomColorsAPP.blueTitle),
                                       ),
                                       Container(
                                         margin: EdgeInsets.symmetric(vertical: 8),
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: CustomColors.blue),
+                                          border: Border.all(color: CustomColorsAPP.blue),
                                           borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
                                         child: Padding(
@@ -241,16 +244,16 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                             onTap: ()=>launch(providerClaimOrder.detailClaim?.image??''),
                                             child: Row(
                                               children: [
-                                                Icon(Icons.image_rounded, color: CustomColors.blue,),
+                                                Icon(Icons.image_rounded, color: CustomColorsAPP.blue,),
                                                 Expanded(
                                                   child : Text(
                                                     "File.jpg",
                                                     style: TextStyle(
                                                         fontFamily: Strings.fontBold,
-                                                        color: CustomColors.blue),
+                                                        color: CustomColorsAPP.blue),
                                                   ),
                                                 ),
-                                                Icon(Icons.arrow_circle_down, color: CustomColors.blue,),
+                                                Icon(Icons.arrow_circle_down, color: CustomColorsAPP.blue,),
 
                                               ],
                                             ),
@@ -264,14 +267,14 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         Strings.devolutionClaim,
                                         style: TextStyle(
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColors.blueTitle),
+                                            color: CustomColorsAPP.blueTitle),
                                       ),
                                       Text(
                                         utils.getLtsMethodDevolution.firstWhere((element) =>
                                                     element.valueMethodDevolution! == providerClaimOrder.detailClaim?.methodDevolution!).methodDevolution ?? '',
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
-                                            color: CustomColors.grayTwo),
+                                            color: CustomColorsAPP.grayTwo),
                                       ),
                                       getCardByStatusClaim(providerClaimOrder.detailClaim?.state ?? '',providerClaimOrder.detailClaim?.reasonClose??'',openChatAdmin),
                                       Visibility(
@@ -319,7 +322,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
       ),
       child: ExpansionWidget(
         initiallyExpanded: true,
-        iconColor: CustomColors.gray7,
+        iconColor: CustomColorsAPP.gray7,
         title: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -339,7 +342,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
               style: TextStyle(
                   fontSize: 15,
                   fontFamily: Strings.fontBold,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
             ),
           ),
         ),
@@ -371,6 +374,6 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
 
   openCloseClaim(String id){
     print("id de la orden $id");
-    Navigator.push(context, customPageTransition(CloseClaimPage(idPackage: id)));
+    Navigator.push(context, customPageTransition(CloseClaimPage(idPackage: id),PageTransitionType.rightToLeftWithFade));
   }
 }

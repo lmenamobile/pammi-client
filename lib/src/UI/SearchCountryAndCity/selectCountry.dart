@@ -1,9 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Country.dart';
 import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -63,7 +61,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
 
         Column(
           children: <Widget>[
-            header(context, Strings.selectCountry, CustomColors.red, ()=> Navigator.pop(context)),
+            headerView(Strings.selectCountry,  ()=> Navigator.pop(context)),
             SizedBox(height: 21),
             boxSearch(context),
             SizedBox(height: 21),
@@ -102,7 +100,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(26)),
-          border: Border.all(color: CustomColors.gray4.withOpacity(.3),width: 1),
+          border: Border.all(color: CustomColorsAPP.gray4.withOpacity(.3),width: 1),
           color: Colors.transparent),
       child: Center(
         child: Row(
@@ -110,7 +108,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             Image(
               width: 20,
               height: 20,
-              color: CustomColors.blue,
+              color: CustomColorsAPP.blue,
               image: AssetImage("Assets/images/ic_seeker.png"),
             ),
             const SizedBox(width: 10,),
@@ -126,7 +124,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.blackLetter),
+                    color: CustomColorsAPP.blackLetter),
                 decoration: InputDecoration(
                     hintText: "${Strings.search}..",
                     isDense: true,
@@ -134,7 +132,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColors.gray4)),
+                        color: CustomColorsAPP.gray4)),
               ),
             )
           ],
@@ -177,11 +175,9 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
   actionSelectCountry(CountryUser country) async {
     providerSettings.countrySelected = country;
     prefs.countryIdUser =  country.id.toString();
-    if(prefs.countryIdUser != null){
-      serviceGetTerms();
-      Navigator.pop(context);
+    serviceGetTerms();
+    Navigator.pop(context);
     }
-  }
 
   getCountries(String search) async {
     utils.checkInternet().then((value) async {

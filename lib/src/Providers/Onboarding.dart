@@ -195,6 +195,7 @@ class OnboardingProvider with ChangeNotifier {
       this.isLoading = false;
       throw decodeJson!['message'];
     }
+    return null;
   }
 
   Future validateTokenApple(String token) async {
@@ -247,7 +248,7 @@ class OnboardingProvider with ChangeNotifier {
     } else {
       this.isLoading = false;
       print("jsonData apple error ${decodeJson!['message']}");
-      throw decodeJson!['message'];
+      throw decodeJson['message'];
     }
   }
 

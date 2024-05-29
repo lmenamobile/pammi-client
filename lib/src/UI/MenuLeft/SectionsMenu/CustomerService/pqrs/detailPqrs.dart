@@ -31,19 +31,19 @@ class _DetailPqrsState extends State<DetailPqrs> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
+        headerView( Strings.pqrs, () => Navigator.pop(context)),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
           decoration: BoxDecoration(
-            color: CustomColors.gray5.withOpacity(.1),
+            color: CustomColorsAPP.gray5.withOpacity(.1),
           ),
           child: Text(
             "${Strings.ticket} ${widget.itemPqrs.id}",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 18,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
               fontFamily: Strings.fontBold
             ),
           ),
@@ -59,7 +59,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColors.blue
+                      color: CustomColorsAPP.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -68,7 +68,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter
+                      color: CustomColorsAPP.blackLetter
                   ),
                 ),
                 SizedBox(height: 37),
@@ -77,7 +77,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColors.blue
+                      color: CustomColorsAPP.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -86,7 +86,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter
+                      color: CustomColorsAPP.blackLetter
                   ),
                 ),
                 SizedBox(height: 37),
@@ -95,7 +95,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColors.blue
+                      color: CustomColorsAPP.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -104,7 +104,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter
+                      color: CustomColorsAPP.blackLetter
                   ),
                 ),
                 SizedBox(height: 37),
@@ -113,7 +113,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColors.blue
+                      color: CustomColorsAPP.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -122,7 +122,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.blackLetter
+                      color: CustomColorsAPP.blackLetter
                   ),
                 ),
                 SizedBox(height: 20),

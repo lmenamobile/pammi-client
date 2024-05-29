@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as GPS;
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
@@ -34,10 +35,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-   // providerOnboarding = Provider.of<OnboardingProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      callAccessToken();
-    });
+    callAccessToken();
 
     _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
     _controller.addStatusListener((AnimationStatus status) async {
@@ -63,7 +61,9 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     prefs.sizeHeightHeader = MediaQuery.of(context).padding.top;
     return Scaffold(
       body: Container(
-        color: CustomColors.redTour,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: CustomColorsAPP.redTour,
         child: _body(),
       ),
     );
@@ -199,12 +199,12 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     //getLocation(locationData);
     if (prefs.dataUser == "0") {
       if (prefs.enableTour == false) {
-        Navigator.pushReplacement(context, customPageTransition(WelcomePage()));
+        Navigator.pushReplacement(context, customPageTransition(WelcomePage(),PageTransitionType.fade));
       } else {
-        Navigator.of(context).pushReplacement(customPageTransition(TourPage()));
+        Navigator.of(context).pushReplacement(customPageTransition(TourPage(),PageTransitionType.fade));
       }
     } else {
-      Navigator.pushReplacement(context, customPageTransition(MyHomePage()));
+      Navigator.pushReplacement(context, customPageTransition(MyHomePage(),PageTransitionType.fade));
     }
   }
 

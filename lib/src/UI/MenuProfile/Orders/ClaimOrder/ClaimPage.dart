@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
 import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
@@ -67,7 +67,7 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
               Column(
                 children: [
 
-               header(context, Strings.claim, CustomColors.redDot, () =>stepsBtnBack()),
+               headerView(Strings.claim, () =>stepsBtnBack()),
                stepsFormsRequestClaim(providerClaimOrder.valueStep),
                   Align(
                       alignment: Alignment.centerRight,
@@ -193,7 +193,7 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
               height: 145,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: CustomColors.grayOne),
+                  border: Border.all(color: CustomColorsAPP.grayOne),
                   borderRadius: BorderRadius.circular(10),
                  ),
               child: Padding(
@@ -208,13 +208,13 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                   inputFormatters: [],
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.gray7),
+                      color: CustomColorsAPP.gray7),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: Strings.hintComment,
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.gray5),
+                        color: CustomColorsAPP.gray5),
                   ),
                 ),
               ),
@@ -230,7 +230,7 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                   height: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: CustomColors.blue)
+                    border: Border.all(color: CustomColorsAPP.blue)
                   ),
                     child: Center(child: providerClaimOrder.imageFile?.path==""?Image.asset("Assets/images/ic_add_file.png",width: 50,):
                     Image.file(providerClaimOrder.imageFile!,width: 100,height: 100,fit: BoxFit.fill,))),
@@ -244,13 +244,13 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                         Text(
                           Strings.optional,
                           style: TextStyle(
-                              fontFamily: Strings.fontMedium, color: CustomColors.gray7),
+                              fontFamily: Strings.fontMedium, color: CustomColorsAPP.gray7),
                         ),
                         Text(
                           Strings.messageLoadFile,
                           textAlign: TextAlign.justify,
                           style: TextStyle(
-                              fontFamily: Strings.fontRegular, color: CustomColors.gray7),
+                              fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
                         ),
                         SizedBox(height: 20,),
                         providerClaimOrder.imageFile?.path==""?InkWell(
@@ -258,11 +258,11 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                           child: Text(
                             Strings.loadFile,
                             style: TextStyle(
-                                fontFamily: Strings.fontMedium, color: CustomColors.blue),
+                                fontFamily: Strings.fontMedium, color: CustomColorsAPP.blue),
                           ),
                         ):Container(
                             decoration: BoxDecoration(
-                              color: CustomColors.red,
+                              color: CustomColorsAPP.red,
                               borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                             child: IconButton(onPressed: ()=>providerClaimOrder.setImageFile = File(''), icon: Icon(Icons.delete,color: Colors.white,))),
@@ -377,7 +377,7 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
         await callClaim.then((list) async{
           var state = await startAlertCustomImage(context,Strings.claimCreate,Strings.claimTextInfo,"ic_correct.png");
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
-          Navigator.push(context, customPageTransition(MyClaimPage()));
+          Navigator.push(context, customPageTransition(MyClaimPage(),PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
            utils.showSnackBar(context, error.toString());
         });

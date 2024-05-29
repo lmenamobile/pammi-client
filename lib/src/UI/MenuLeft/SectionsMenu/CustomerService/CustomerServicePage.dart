@@ -57,7 +57,6 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuCustomerService,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop: (() => utils
@@ -77,7 +76,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 headerDoubleTapMenu(context, Strings.customerService,
-                    "", "ic_menu_w.png", CustomColors.redDot, "0",  () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                    "", "ic_menu_w.png", CustomColorsAPP.redDot, "0",  () => keyMenuLeft.currentState!.openDrawer(), (){}),
                 const SizedBox(height:25),
                 Expanded(
                   child: !providerCustomerService.isLoading
@@ -107,7 +106,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                                       Text(
                                         Strings.schedule ?? '',
                                         style: TextStyle(
-                                          color: CustomColors.black1,
+                                          color: CustomColorsAPP.black1,
                                           fontFamily: Strings.fontMedium,
                                           fontSize: 16,
                                         ),
@@ -116,7 +115,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                                       Text(
                                         providerCustomerService.shedule ?? '',
                                         style: TextStyle(
-                                          color: CustomColors.black1,
+                                          color: CustomColorsAPP.black1,
                                           fontFamily: Strings.fontRegular,
                                           fontSize: 16,
                                         ),
@@ -131,7 +130,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                                   "Llamada (Línea fija): (602) 4895000",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color: CustomColors.black1,
+                                      color: CustomColorsAPP.black1,
                                       fontFamily: Strings.fontRegular
                                   ),
                                 ),
@@ -140,7 +139,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                                   "Extension 1: 2810",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color:CustomColors.black1,
+                                      color:CustomColorsAPP.black1,
                                       fontFamily: Strings.fontRegular
                                   ),
                                 ),
@@ -149,7 +148,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
                                   "Extension 2: 2811",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color:CustomColors.black1,
+                                      color:CustomColorsAPP.black1,
                                       fontFamily: Strings.fontRegular
                                   ),
                                 ),
@@ -283,7 +282,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
         child: Text(
           theme ?? '',
           style: TextStyle(
-            color: CustomColors.black1,
+            color: CustomColorsAPP.black1,
             fontFamily: Strings.fontMedium,
             fontSize: 16,
           ),
@@ -320,7 +319,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
               child: Text(
                 isDynamic ? subtheme?.subtheme ?? '' : title,
                 style: TextStyle(
-                  color: CustomColors.blackLetter,
+                  color: CustomColorsAPP.blackLetter,
                   fontFamily: Strings.fontRegular,
                   fontSize: 16,
                 ),
@@ -329,7 +328,7 @@ class _CustomerServicePageState extends State<CustomerServicePage> {
             Center(
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: CustomColors.gray11,
+                color: CustomColorsAPP.gray11,
                 size: 15,
               ),
             ),

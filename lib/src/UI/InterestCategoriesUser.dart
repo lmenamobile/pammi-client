@@ -39,7 +39,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.red,
+      backgroundColor: CustomColorsAPP.red,
       body: WillPopScope(
         onWillPop: () async => false,
         child: SafeArea(
@@ -96,7 +96,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                                 style: TextStyle(
                                     fontSize: 35,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColors.white),
+                                    color: CustomColorsAPP.white),
                               ),
                             ),
                             SizedBox(height: 11),
@@ -104,25 +104,22 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                               Strings.selectCategory,
                               style: TextStyle(
                                   fontFamily: Strings.fontRegular,
-                                  color: CustomColors.white),
+                                  color: CustomColorsAPP.white),
                             ),
                             Container(
                               width: double.infinity,
                               margin: EdgeInsets.only(top: 20, bottom: 30),
-                              child: StaggeredGridView.countBuilder(
+                              child: MasonryGridView.count(
                                 physics: BouncingScrollPhysics(),
                                 padding: EdgeInsets.only(bottom: 0),
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
-                                itemCount:
-                                    providerSettings?.ltsCategories.length ?? 0,
+                                itemCount: providerSettings?.ltsCategories.length ?? 0,
                                 itemBuilder: (BuildContext context, int index) {
                                   return itemCategoryInteresting(
                                       providerSettings!.ltsCategories[index],
                                       selectCategory);
                                 },
-                                staggeredTileBuilder: (int index) =>
-                                    new StaggeredTile.count(1, 1.1),
                                 mainAxisSpacing: 0,
                                 crossAxisSpacing: 0,
                               ),
@@ -131,8 +128,8 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                               padding:
                                   EdgeInsets.only(left: 50, right: 50, bottom: 20),
                               child: btnCustomRounded(
-                                  CustomColors.white,
-                                  CustomColors.gray7,
+                                  CustomColorsAPP.white,
+                                  CustomColorsAPP.gray7,
                                   Strings.next,
                                   validateCategoriesSelected,
                                   context),

@@ -50,7 +50,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                 margin: EdgeInsets.symmetric(vertical: 5),
                 width: 1,
                 height:120,
-                color: CustomColors.grayBackground,
+                color: CustomColorsAPP.grayBackground,
               ),
               Stack(
                 children: [
@@ -80,7 +80,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: Strings.fontBold,
-              color: CustomColors.blackLetter
+              color: CustomColorsAPP.blackLetter
             ),
           ),
           SizedBox(height: 2,),
@@ -103,7 +103,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                 child: btnCustomIconLeft(
                     "ic_pay_add.png",
                     Strings.addCartShop,
-                    CustomColors.blue,
+                    CustomColorsAPP.blue,
                     Colors.white,
                     (){
                       addOffer(offer.id.toString());
@@ -116,7 +116,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.blue
+                      color: CustomColorsAPP.blue
                   ),
                 ),
               ),
@@ -154,7 +154,7 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts,Of
         description,
         style: TextStyle(
             fontFamily: Strings.fontBold,
-            color: CustomColors.gray7
+            color: CustomColorsAPP.gray7
         ),
       ),
       SizedBox(height: 2,),
@@ -180,7 +180,7 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontBold,
-            color: CustomColors.blackLetter
+            color: CustomColorsAPP.blackLetter
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
@@ -191,7 +191,7 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
           decoration: TextDecoration.lineThrough,
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColors.gray
+            color: CustomColorsAPP.gray
         ),
       ),
       Text(
@@ -199,7 +199,7 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColors.orange
+            color: CustomColorsAPP.orange
         ),
       ),
     ],
@@ -216,7 +216,7 @@ Widget charactersOffers(Reference reference){
         style: TextStyle(
           fontSize: 13,
             fontFamily: Strings.fontBold,
-            color: CustomColors.blackLetter
+            color: CustomColorsAPP.blackLetter
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
@@ -226,7 +226,7 @@ Widget charactersOffers(Reference reference){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColors.orange
+            color: CustomColorsAPP.orange
         ),
       ),
     ],

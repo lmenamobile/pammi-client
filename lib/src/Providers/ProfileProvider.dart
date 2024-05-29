@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:wawamko/src/Models/CreditCard.dart';
 import 'package:wawamko/src/Models/UserProfile.dart';
@@ -59,12 +57,12 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<dynamic> updateUser(
-    String name,
-    String typeIdentification,
-    String numberIdentification,
-    String phone,
-    String cityId,
-  ) async {
+      String name,
+      String typeIdentification,
+      String numberIdentification,
+      String phone,
+      String cityId,
+      ) async {
     this.isLoading = true;
     Map params = {};
     if (name.isNotEmpty) {
@@ -87,7 +85,7 @@ class ProfileProvider with ChangeNotifier {
     var body = jsonEncode(params);
     final response = await http
         .post(Uri.parse(Constants.baseURL + 'profile/update-profile'),
-            headers: header, body: body)
+        headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;
@@ -189,7 +187,7 @@ class ProfileProvider with ChangeNotifier {
     var body = jsonEncode(params);
     final response = await http
         .post(Uri.parse(Constants.baseURL + 'profile/change-password'),
-            headers: header, body: body)
+        headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Offer.dart';
@@ -6,7 +7,6 @@ import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
-import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/Widgets.dart';
@@ -62,7 +62,6 @@ class _OffersDayPageState extends State<OffersDayPage> {
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuOffersTheDay,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -73,7 +72,8 @@ class _OffersDayPageState extends State<OffersDayPage> {
             color: Colors.white,
             child: Column(
               children: [
-                headerDoubleTapMenu(context, Strings.offersDay, "ic_car.png","ic_menu_w.png", CustomColors.redDot, providerShopCart.totalProductsCart,  () =>keyMenuLeft.currentState!.openDrawer(), ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                headerDoubleTapMenu(context, Strings.offersDay, "ic_car.png","ic_menu_w.png", CustomColorsAPP.redDot, providerShopCart.totalProductsCart,  () =>keyMenuLeft.currentState!.openDrawer(), ()=>Navigator.push(context,
+                    customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade))),
 
                 Visibility(
                   visible: providerHome.ltsBrands.isNotEmpty,
@@ -111,7 +111,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                                       Strings.offersForUnits,
                                       style: TextStyle(
                                           fontFamily: Strings.fontBold,
-                                          color: CustomColors.blackLetter),
+                                          color: CustomColorsAPP.blackLetter),
                                     ),
                                   ),
                                 ),
@@ -140,7 +140,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                                       Strings.offersForMix,
                                       style: TextStyle(
                                           fontFamily: Strings.fontBold,
-                                          color: CustomColors.blackLetter),
+                                          color: CustomColorsAPP.blackLetter),
                                     ),
                                   ),
                                 ),
@@ -174,7 +174,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: <Color>[CustomColors.redTour, CustomColors.redOne],
+          colors: <Color>[CustomColorsAPP.redTour, CustomColorsAPP.redOne],
         ),
       ),
       child: Container(
@@ -231,7 +231,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                   IconButton(
                       icon: Icon(
                         Icons.menu,
-                        color: CustomColors.graySearch.withOpacity(.3),
+                        color: CustomColorsAPP.graySearch.withOpacity(.3),
                       ),
                       onPressed: null)
                 ],
@@ -299,7 +299,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
 
   openDetailOffer(Offer offer){
     Navigator.push(context, customPageTransition(
-        OfferDetail(nameOffer: offer.name,idOffer: offer.id.toString(),)));
+        OfferDetail(nameOffer: offer.name,idOffer: offer.id.toString(),),PageTransitionType.rightToLeftWithFade));
   }
 
   getOffersUnits(String typeOffer, String brandId, int offset) async {

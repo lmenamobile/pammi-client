@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Brand.dart';
@@ -40,7 +41,7 @@ class _BrandsPageState extends State<BrandsPage> {
             children: [
               Column(
                 children: [
-                  header(context, Strings.brands, CustomColors.redDot, ()=>Navigator.pop(context)),
+                  headerView(Strings.brandsAssociate,()=>Navigator.pop(context)),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshBrands,
@@ -99,7 +100,7 @@ class _BrandsPageState extends State<BrandsPage> {
   }
 
   openProductsByBrand(Brand brand){
-    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString())));
+    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString()),PageTransitionType.rightToLeftWithFade));
   }
 
   getBrands(String page) async {

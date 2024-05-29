@@ -12,7 +12,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
     height: 40,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: CustomColors.greyBorder),
+        color: CustomColorsAPP.greyBorder),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
@@ -22,7 +22,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Image(
             height: 20,
-            color: CustomColors.gray7,
+            color: CustomColorsAPP.gray7,
             image: AssetImage("Assets/images/ic_seeker.png"),
           ),
         ),
@@ -41,7 +41,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColors.gray7),
+                color: CustomColorsAPP.gray7),
             decoration: InputDecoration(
                 hintText: Strings.search,
                 isDense: true,
@@ -49,7 +49,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
                 hintStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.gray7)),
+                    color: CustomColorsAPP.gray7)),
           ),
         )
       ],
@@ -101,23 +101,23 @@ Widget itemProductSearch(Product product, Function openDetail){
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
-                      color: CustomColors.gray7,
+                      color: CustomColorsAPP.gray7,
                     ),
                   ),
                   Text(
-                    product.references?[0].reference??'',
+                    product.references[0].reference??'',
                     maxLines: 2,
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 13,
-                      color: CustomColors.blackLetter,
+                      color: CustomColorsAPP.blackLetter,
                     ),
                   ),
                   Text(
                     formatMoney( product.references[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.orange,
+                      color: CustomColorsAPP.orange,
                     ),
                   )
                 ],

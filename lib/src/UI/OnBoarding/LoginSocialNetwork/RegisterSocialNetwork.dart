@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import '../../../Providers/SupportProvider.dart';
+import '../../../Utils/colors.dart';
 import '../../InterestCategoriesUser.dart';
 import '../../SearchCountryAndCity/selectCity.dart';
 import '../Widgets.dart';
@@ -58,14 +60,14 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     supportProvider = Provider.of<SupportProvider>(context);
-   // cityController.text = providerSettings?.citySelected?.name??'';
+
 
     return Scaffold(
-      backgroundColor: CustomColors.blueSplash,
+      backgroundColor: CustomColorsAPP.blueSplash,
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          color: CustomColors.white,
+          color: CustomColorsAPP.white,
           child: _body(context),
         ),
       ),
@@ -101,7 +103,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                 margin: EdgeInsets.only(top: 30),
                 child: Text(
                   Strings.registration,
-                  style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.white),
+                  style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.white),
                 ),
               ),
             ],
@@ -121,12 +123,12 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                         SizedBox(height: 6,),
                         Text(
                           Strings.registrationFinish,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 24, color: CustomColors.blackLetter),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 24, color: CustomColorsAPP.blackLetter),
                         ),
                         SizedBox(height: 6,),
                         Text(
                           Strings.registerMsg,
-                          style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColors.gray7),
+                          style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
                         ),
                         SizedBox(height: 13),
                         Column(
@@ -145,7 +147,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                               itemCheck(
                                       () => providerOnBoarding.stateDates = !providerOnBoarding.stateDates,
                                   providerOnBoarding.stateDates,
-                                  Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),)
+                                  Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),)
                               ),
                               SizedBox(height: 10),
                               itemCheck(
@@ -153,7 +155,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                                   providerOnBoarding.stateCentrals,
                                   Text(
                                     Strings.authorizedCredit,
-                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
+                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),
                                   )),
                               SizedBox(height: 10),
                               itemCheck(
@@ -161,7 +163,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                                   providerOnBoarding.stateContactCommercial,
                                   Text(
                                 Strings.contactCommercial,
-                                style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColors.blackLetter),
+                                style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),
                               )),
                               SizedBox(height: 10),
                               itemCheck(
@@ -174,7 +176,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                         SizedBox(height: 20),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 30),
-                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColors.blueSplash, Colors.white, callStepTwoRegister))
+                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColorsAPP.blueSplash, Colors.white, callStepTwoRegister))
                       ],
                     ),
                   SizedBox(height: 15,),
@@ -190,7 +192,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
 
   void openSelectDepartment()async{
     if(providerSettings?.countrySelected!=null) {
-      await Navigator.push(context, customPageTransition(SelectStatesPage()));
+      await Navigator.push(context, customPageTransition(SelectStatesPage(),PageTransitionType.rightToLeftWithFade));
       departmentController.text = providerSettings?.stateCountrySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.countryEmpty);
@@ -198,13 +200,13 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
   }
 
   openSelectCountry()async{
-     await Navigator.push(context, customPageTransition(SelectCountryPage()));
+     await Navigator.push(context, customPageTransition(SelectCountryPage(),PageTransitionType.rightToLeftWithFade  ));
      countryController.text = providerSettings?.countrySelected?.country??'';
   }
 
   void openSelectCity()async{
     if(providerSettings?.stateCountrySelected!=null) {
-      await Navigator.push(context, customPageTransition(SelectCityPage()));
+      await Navigator.push(context, customPageTransition(SelectCityPage(),PageTransitionType.rightToLeftWithFade));
       cityController.text = providerSettings?.citySelected?.name??'';
     }else{
       utils.showSnackBar(context, Strings.departmentEmpty);
@@ -244,7 +246,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
       if (value) {
         Future callUser = providerOnBoarding.createAccountSocialNetwork(widget.name, widget.email, phoneController.text, providerSettings?.citySelected?.id.toString()??'', referredController.text,providerOnBoarding.stateContactCommercial,widget.typeRegister);
         await callUser.then((user) {
-          Navigator.pushAndRemoveUntil(context, customPageTransition(InterestCategoriesUser()), (route) => false);
+          Navigator.pushAndRemoveUntil(context, customPageTransition(InterestCategoriesUser(),PageTransitionType.fade), (route) => false);
         }, onError: (error) {
           utils.showSnackBar(context, error);
         });

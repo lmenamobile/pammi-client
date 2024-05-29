@@ -115,8 +115,6 @@ class SharePreference {
   }
 
 
-
-
  bool get enableTour {
     return _prefs.getBool('enableTour') ?? true;
   }
@@ -139,6 +137,14 @@ class SharePreference {
 
   set accessToken(String value) {
     _prefs.setString('accessToken', value);
+  }
+
+  String get versionApp {
+    return _prefs.getString('versionApp') ?? "";
+  }
+
+  set versionApp(String value) {
+    _prefs.setString('versionApp', value);
   }
 
 

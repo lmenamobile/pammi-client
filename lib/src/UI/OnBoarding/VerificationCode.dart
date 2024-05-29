@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
@@ -48,20 +49,20 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
       children: [
         Column(
           children: [
-            header(context, Strings.verification, CustomColors.red, ()=> Navigator.pop(context)),
+            headerView(Strings.verification, ()=> Navigator.pop(context)),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(30),
                 child: Column(
                   children: <Widget>[
-                    Text(Strings.verificationMsg, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColors.blackLetter),),
+                    Text(Strings.verificationMsg, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.blackLetter),),
                     SizedBox(height: 125,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: PinCodeTextField(
                         appContext: context,
                         backgroundColor: Colors.transparent,
-                        cursorColor: CustomColors.blueSplash,
+                        cursorColor: CustomColorsAPP.blueSplash,
                         animationType: AnimationType.slide,
                         enableActiveFill: true,
                         keyboardType: TextInputType.number,
@@ -70,19 +71,19 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                           code = text;
                         },
                         obscureText: false,
-                        textStyle: TextStyle(color: CustomColors.blackLetter, fontFamily: Strings.fontBold, fontSize: 22),
+                        textStyle: TextStyle(color: CustomColorsAPP.blackLetter, fontFamily: Strings.fontBold, fontSize: 22),
                         //enablePinAutofill: false,
                         pinTheme: PinTheme(
                             shape: PinCodeFieldShape.box,
                             borderRadius: BorderRadius.circular(5),
                             fieldHeight: 63,
                             fieldWidth: 59,
-                            selectedColor: CustomColors.grayOne,
+                            selectedColor: CustomColorsAPP.grayOne,
                             disabledColor: Colors.white,
                             activeFillColor: Colors.white,
                             activeColor: Colors.white,
-                            inactiveFillColor: CustomColors.gray13.withOpacity(.2),
-                            inactiveColor: CustomColors.gray13.withOpacity(.9),
+                            inactiveFillColor: CustomColorsAPP.gray13.withOpacity(.2),
+                            inactiveColor: CustomColorsAPP.gray13.withOpacity(.9),
                             selectedFillColor: Colors.white),
                       ),
                     ),
@@ -91,7 +92,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                       child: Container(
                         child: Text(
                           Strings.sendAgain,
-                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueTitle,),
+                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle,),
                         ),
                       ),
                       onTap: () => _serviceSendAgainCode(),
@@ -106,7 +107,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
           bottom: 30,
             left: 30,
             right: 30,
-            child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.sender, callServiceCode, context)),
+            child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.sender, callServiceCode, context)),
         Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
       ],
     );
@@ -135,10 +136,10 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
         await callUser.then((value) {
           switch (widget.typeView) {
             case Constants.isViewRegister:
-              Navigator.pushAndRemoveUntil(context, customPageTransition(InterestCategoriesUser()), (route) => false);
+              Navigator.pushAndRemoveUntil(context, customPageTransition(InterestCategoriesUser(),PageTransitionType.fade), (route) => false);
               break;
             case Constants.isViewPassword:
-              Navigator.of(context).pushReplacement(customPageTransition(UpdatePasswordPage()));
+              Navigator.of(context).pushReplacement(customPageTransition(UpdatePasswordPage(), PageTransitionType.fade));
               break;
             case Constants.isViewLogin:
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);

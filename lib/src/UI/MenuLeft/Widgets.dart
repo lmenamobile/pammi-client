@@ -12,7 +12,7 @@ Widget itemBtnReferred(Function action) {
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            colors: <Color>[CustomColors.redTour, CustomColors.grayGradient],
+            colors: <Color>[CustomColorsAPP.redTour, CustomColorsAPP.grayGradient],
           ),
           borderRadius: BorderRadius.all(Radius.circular(18))),
       child: Row(
@@ -70,14 +70,14 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
       isDismissible: true,
       isScrollControlled: true,
       enableDrag: true,
-      barrierColor: CustomColors.blueSplash.withOpacity(.6),
+      barrierColor: CustomColorsAPP.blueSplash.withOpacity(.6),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: CustomColors.white,
+            color: CustomColorsAPP.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
@@ -91,8 +91,8 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: <Color>[
-                      CustomColors.redTour,
-                      CustomColors.grayGradient
+                      CustomColorsAPP.redTour,
+                      CustomColorsAPP.grayGradient
                     ],
                   ),
                   borderRadius: BorderRadius.only(
@@ -146,14 +146,14 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                     Text(
                       Strings.shareCode,
                       style: TextStyle(
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                           fontFamily: Strings.fontBold,),
                     ),
                     SizedBox(height: 8,),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: CustomColors.greyBorder,
+                        color: CustomColorsAPP.greyBorder,
                         borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
 
@@ -166,14 +166,14 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                             Text(
                               code,
                               style: TextStyle(
-                                color: CustomColors.blueSplash,
+                                color: CustomColorsAPP.blueSplash,
                                 fontFamily: Strings.fontBold,),
                             ),
                             InkWell(
                               onTap: ()=>actionShare(),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: CustomColors.redTour,
+                                  color: CustomColorsAPP.redTour,
                                   borderRadius: BorderRadius.all(Radius.circular(15))
                                 ),
                                 child: Padding(

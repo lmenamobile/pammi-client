@@ -42,7 +42,7 @@ class _SubThemeResponseState extends State<SubThemeResponse> {
             color: Colors.transparent,
             child: Column(
           children: [
-            header(context, Strings.frecuensQuestion, CustomColors.redDot, () => Navigator.pop(context)),
+            headerView(Strings.frecuensQuestion, () => Navigator.pop(context)),
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
@@ -52,7 +52,7 @@ class _SubThemeResponseState extends State<SubThemeResponse> {
                 style: TextStyle(
                     fontSize: 15,
                     fontFamily: Strings.fontMedium,
-                    color: CustomColors.blackLetter
+                    color: CustomColorsAPP.blackLetter
                 ),
               ),
             )

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
@@ -15,7 +16,6 @@ import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
-import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ProductsSavePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
@@ -24,7 +24,6 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
-import '../../../../Models/ShopCart/ShopCart.dart';
 import 'CheckOut/CheckOutPage.dart';
 import 'Widgets.dart';
 
@@ -71,7 +70,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           color: Colors.white,
           child: Column(
             children: [
-              headerDoubleTap2(context, Strings.shopCart,"save_products.png", "ic_remove_white.png", CustomColors.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>openProductsSave()),
+              headerDoubleTap2(context, Strings.shopCart,"save_products.png", "ic_remove_white.png", CustomColorsAPP.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>openProductsSave()),
               SizedBox(
                 height: 10,
               ),
@@ -98,7 +97,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                       Navigator.pop(context);
                       providerProducts.unitsError.clear();
                     },
-                    color: CustomColors.blue,
+                    color: CustomColorsAPP.blue,
                     width: double.infinity,
                     body: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +145,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                     onTap: ()=>openProductsSave(),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: CustomColors.orange,
+                          color: CustomColorsAPP.orange,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       child: Padding(
@@ -188,7 +187,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                   () =>  openProductsSave(),
                   () {Navigator.push(
                       context,
-                      customPageTransition(CheckOutPage())).then((value) {
+                      customPageTransition(CheckOutPage(),PageTransitionType.fade)).then((value) {
 
                   });
                 providerProducts.unitsError.clear();} ,
@@ -205,7 +204,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                     style: TextStyle(
                         fontFamily: Strings.fontBold,
                         color:
-                        CustomColors.blackLetter),
+                        CustomColorsAPP.blackLetter),
                   ),
                 ),
                 Container(
@@ -277,7 +276,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
     Navigator.push(
         context,
         customPageTransition(
-            ProductsSavePage())).then((value){
+            ProductsSavePage(),PageTransitionType.leftToRightWithFade)).then((value){
               getShopCart();
     });
   }
@@ -289,9 +288,9 @@ class _ShopCartPageState extends State<ShopCartPage> {
     if(product.references[0].images?.length != 0)
     {
       if (color != null  && color.startsWith('#') && color.length >= 6) {
-        providerProducts?.imageReferenceProductSelected = product.references[0]?.images?[0].url ?? "";
+        providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
         providerProducts.limitedQuantityError = false;
-        Navigator.push(context, customPageTransition(DetailProductPage(product: product)));
+        Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.leftToRight));
       }
     }
   }

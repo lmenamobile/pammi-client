@@ -111,45 +111,40 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
   );
 }*/
 
-Widget itemImageReference(double size, String asset) {
+Widget itemImageReference(Size size, String asset,String assetSelected) {
   return Container(
-    width: size,
-    height: size,
+    width: size.width,
+    height: size.height,
     decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        border: Border.all(color: CustomColors.orange)),
-    child: Padding(
-      padding: const EdgeInsets.all(3),
-      child: asset.isEmpty?Image.asset("Assets/images/spinner.gif"):
-      isImageYoutube(asset,FadeInImage(
-        fit: BoxFit.fill,
-        image: NetworkImage(asset),
-        placeholder: AssetImage("Assets/images/spinner.gif"),
-        imageErrorBuilder: (_,__,___){
-          return Container();
-        },
+      border: Border.all(
+          color: asset==assetSelected?CustomColorsAPP.gray7:CustomColorsAPP.gray4,
+          width: asset==assetSelected?1.5:1
       ),
-
-      ),
+    ),
+    child: asset.isEmpty?Image.asset("Assets/images/spinner.gif"):
+    isImageYoutube(asset,FadeInImage(
+      fit: BoxFit.fill,
+      image: NetworkImage(asset),
+      placeholder: AssetImage("Assets/images/spinner.gif"),
+      imageErrorBuilder: (_,__,___){
+        return Container();
+      },
+    ),
     ),
   );
 }
 
-Widget imageReference(double size, String asset){
+Widget imageReference(Size size, String asset){
   return Container(
-    width: size,
-    height: size,
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: FadeInImage(
-        fit: BoxFit.fill,
-        image: NetworkImage(asset),
-        placeholder: AssetImage("Assets/images/spinner.gif"),
-        imageErrorBuilder: (_,__,___){
-          return Container();
-        },
-      ),
+    width: size.width,
+    height: size.height,
+    child: FadeInImage(
+      fit: BoxFit.fill,
+      image: NetworkImage(asset),
+      placeholder: AssetImage("Assets/images/spinner.gif"),
+      imageErrorBuilder: (_,__,___){
+        return Container();
+      },
     ),
   );
 }
@@ -157,7 +152,7 @@ Widget imageReference(double size, String asset){
 Widget itemReference(String asset,String nameReference, bool isSelected){
   return Container(
     decoration: BoxDecoration(
-        color: isSelected?CustomColors.grayBackground:Colors.transparent,
+        color: isSelected?CustomColorsAPP.grayBackground:Colors.transparent,
         borderRadius:
         BorderRadius.all(Radius.circular(5))),
     child: Padding(
@@ -186,7 +181,7 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
               style: TextStyle(
                 overflow: TextOverflow.ellipsis,
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.gray7),
+                  color: CustomColorsAPP.gray7),
             ),
           )
         ],
@@ -232,9 +227,9 @@ Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> ima
       SizedBox(height: 20,),
       images.isEmpty?Container():DotsIndicator(
         dotsCount: images.length,
-        position: indexSlider.toDouble(),
+        position: indexSlider,
         decorator: DotsDecorator(
-          activeColor: CustomColors.orange,
+          activeColor: CustomColorsAPP.orange,
           size: const Size.square(9),
           spacing: const EdgeInsets.symmetric(horizontal: 2,vertical: 4),
           activeSize: const Size(30, 9),
@@ -253,7 +248,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
       isDismissible: true,
       isScrollControlled: true,
       enableDrag: true,
-      barrierColor: CustomColors.blueSplash.withOpacity(.6),
+      barrierColor: CustomColorsAPP.blueSplash.withOpacity(.6),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -261,7 +256,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
         return Container(
           height: MediaQuery.of(context).size.height*.65,
           decoration: BoxDecoration(
-            color: CustomColors.white,
+            color: CustomColorsAPP.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
@@ -276,7 +271,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                    overflow: TextOverflow.ellipsis,
                    fontFamily: Strings.fontBold,
                    fontSize: 18,
-                   color:CustomColors.black1
+                   color:CustomColorsAPP.black1
                  ),
                ),
                 SizedBox(height: 15,),
@@ -307,7 +302,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                   child: btnCustom(
                       190,
                       Strings.next,
-                      CustomColors.blueSplash,
+                      CustomColorsAPP.blueSplash,
                       Colors.white,
                       null),
                 ),
@@ -321,17 +316,21 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
 itemComment(CommentProduct commentProduct){
   return Container(
     decoration: BoxDecoration(
+      border: Border.all(
+        color: CustomColorsAPP.gray15.withOpacity(.7),
+      ),
       borderRadius: BorderRadius.all(Radius.circular(10)),
-      color: CustomColors.whiteBackGround
+      color: Colors.white,
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 50,
-            width: 50,
+            height: 32,
+            width: 32,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: Image.network(commentProduct.user?.photoUrl??''),
@@ -347,25 +346,23 @@ itemComment(CommentProduct commentProduct){
                 Text(
                   commentProduct.user?.fullName??'',
                   style: TextStyle(
-                    color: CustomColors.blue,
-                    fontSize: 13,
-                    fontFamily: Strings.fontRegular
+                    color: CustomColorsAPP.blue,
+                    fontFamily: Strings.fontMedium
                   ),
                 ),
                 Text(
                   commentProduct.comment??'',
                   maxLines: 2,
                   style: TextStyle(
-                      color: CustomColors.gray7,
-                      fontSize: 13,
+                      color: CustomColorsAPP.gray7,
                       fontFamily: Strings.fontRegular
                   ),
                 ),
                 Text(
-                  formatDate(commentProduct.date??DateTime.now(), "dd-MM-yyyy", "es_CO"),
+                  formatDate(commentProduct.date??DateTime.now(), "dd/MM/yyyy", "es_CO"),
                   style: TextStyle(
-                      color: CustomColors.gray7,
-                      fontSize: 13,
+                      color: CustomColorsAPP.gray7,
+                      fontSize: 12,
                       fontFamily: Strings.fontRegular
                   ),
                 ),

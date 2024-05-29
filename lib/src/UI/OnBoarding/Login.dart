@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/AppleSingInProvider.dart';
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: CustomColors.white,
+        backgroundColor: CustomColorsAPP.white,
         body: SafeArea(
           child:  _body(context),
         ),
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     SizedBox(height: 54,),
 
-                    Text(Strings.welcome, style: TextStyle(fontFamily: Strings.fontBold, fontSize: 36, color: CustomColors.blueTitle),),
+                    Text(Strings.welcome, style: TextStyle(fontFamily: Strings.fontBold, fontSize: 36, color: CustomColorsAPP.blueTitle),),
                     SizedBox(height: 17),
                     Text(Strings.titleLogin, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: Colors.black),),
                     FadeInUp(
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                             Padding(
                               padding: const EdgeInsets.only(top:20,bottom:13),
                               child: customBoxPassword(
-                                  notifyVariables.intLogin.validatePassword??false ? CustomColors.blueSplash : CustomColors.gray.withOpacity(.3),
+                                  notifyVariables.intLogin.validatePassword??false ? CustomColorsAPP.blueSplash : CustomColorsAPP.gray.withOpacity(.3),
                                   Strings.password,
                                   notifyVariables.intLogin.validatePassword??false,
                                   "Assets/images/ic_padlock_blue.png",
@@ -121,24 +121,26 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Container(
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(right: 10, top: 5),
-                                      child: Text(Strings.forgotPass, style: TextStyle(fontFamily: Strings.fontMedium, color: CustomColors.blueTitle),),
+                                      child: Text(Strings.forgotPass, style: TextStyle(fontFamily: Strings.fontMedium, color: CustomColorsAPP.blueTitle),),
                                     ),
-                                    onTap: () => Navigator.of(context).push(customPageTransition(ForgotPasswordEmailPage())))
+                                    onTap: () => Navigator.of(context).push(customPageTransition(ForgotPasswordEmailPage(),
+                                    PageTransitionType.rightToLeftWithFade)))
                               ],
                             ),
                             SizedBox(height: 30),
-                            btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.login, () => callServiceLogin(), context),
+                            btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.login, () => callServiceLogin(), context),
                             SizedBox(height: 20),
-                            btnCustomRounded(CustomColors.redTour, CustomColors.white, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage())), context),
+                            btnCustomRounded(CustomColorsAPP.redTour, CustomColorsAPP.white, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage(),
+                            PageTransitionType.fade)), context),
                             SizedBox(height: 55),
                             Row(
                               children: [
                                 Expanded(
-                                  child: Container(width: double.infinity, height: 1, color: CustomColors.grayDot,),
+                                  child: Container(width: double.infinity, height: 1, color: CustomColorsAPP.grayDot,),
                                 ),
-                                Text(Strings.optionInput, style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColors.blueTitle),),
+                                Text(Strings.optionInput, style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle),),
                                 Expanded(
-                                  child: Container(width: double.infinity, height: 1, color: CustomColors.grayDot,),
+                                  child: Container(width: double.infinity, height: 1, color: CustomColorsAPP.grayDot,),
                                 )
                               ],
                             ),
@@ -228,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
           if(user.interestsConfigured){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
           } else{
-            Navigator.push(context, customPageTransition(InterestCategoriesUser()));
+            Navigator.push(context, customPageTransition(InterestCategoriesUser(),PageTransitionType.rightToLeftWithFade));
           }
         }, onError: (error) {
           providerOnBoarding.isLoading = false;
@@ -236,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context)
                 .push(customPageTransition(VerificationCodePage(
               email: emailController.text.trim(),typeView: Constants.isViewLogin,
-            )));
+            ), PageTransitionType.rightToLeftWithFade));
           }else{
             utils.showSnackBar(context, error.toString());
           }
@@ -273,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
           if(dataUser==100){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
           }else{
-            Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: dataUser['name'],email:dataUser['email'],typeRegister: "lc",)));
+            Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: dataUser['name'],email:dataUser['email'],typeRegister: "lc",),PageTransitionType.rightToLeftWithFade));
           }
           print("callUser $callUser");
         }, onError: (error) {
@@ -326,7 +328,9 @@ class _LoginPageState extends State<LoginPage> {
         await callUser.then((data) {
        //  print("DATA $dataUser");
           if(data==Constants.isRegisterRS){
-          Navigator.push(context, customPageTransition(RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? dataUser.displayName : dataUser["name"],email: typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,)));
+          Navigator.push(context, customPageTransition(
+              RegisterSocialNetworkPage(name: typeLogin == Constants.loginGMAIL ? dataUser.displayName : dataUser["name"],email: typeLogin == Constants.loginGMAIL ? dataUser.email : dataUser["email"],typeRegister:typeLogin == Constants.loginGMAIL ? Constants.loginGMAIL:Constants.loginFacebook,),
+              PageTransitionType.rightToLeftWithFade));
           }else {
             print("home");
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);

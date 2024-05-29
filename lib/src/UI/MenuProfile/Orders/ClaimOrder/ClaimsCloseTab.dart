@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
-import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/DetailClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
-import 'package:wawamko/src/UI/MenuProfile/Orders/DetailOrderPage.dart';
-import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -92,7 +89,7 @@ class _ClaimsCloseTabState extends State<ClaimsCloseTab> {
 
   openDetailClaim(String id){
     print("id reclamo $id");
-    Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id)));
+    Navigator.push(context, customPageTransition(DetailClaimPage(idClaim: id),PageTransitionType.rightToLeftWithFade));
   }
 
   getClaimsClose() async {

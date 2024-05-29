@@ -1,11 +1,8 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Claim/ReasonClose.dart';
-import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
-import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
-import 'package:wawamko/src/Models/Claim/TypeReason.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
 import 'package:wawamko/src/UI/Home/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
@@ -13,7 +10,6 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
-import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -47,25 +43,25 @@ class _CloseClaimPageState extends State<CloseClaimPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child: Stack(
             children: [
               Column(
                 children: [
 
-                  header(context, Strings.claim, CustomColors.redDot, () =>Navigator.pop(context)),
+                  headerView(Strings.claim, () =>Navigator.pop(context)),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 30),
                     child: Text(
                       Strings.becauseReasonClose,
                       style: TextStyle(
-                          color: CustomColors.blue, fontFamily: Strings.fontMedium,fontSize: 16),
+                          color: CustomColorsAPP.blue, fontFamily: Strings.fontMedium,fontSize: 16),
                     ),
                   ),
                   Expanded(child: SingleChildScrollView(child: listReasonClose())),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 30),
-                    child: btnCustom(200, Strings.closeClaim,CustomColors.blue,
+                    child: btnCustom(200, Strings.closeClaim,CustomColorsAPP.blue,
                         Colors.white,(){
                           providerClaimOrder.reasonCloseSelected==null?
                           utils.showSnackBar(context, Strings.errorReasonClaim)
@@ -113,7 +109,8 @@ class _CloseClaimPageState extends State<CloseClaimPage> {
         await callClaim.then((list) async{
           var state = await startAlertCustomImage(context,Strings.reasonCloseApproved,Strings.messageClosereason,"ic_correct.png");
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
-          Navigator.push(context, customPageTransition(MyClaimPage()));
+          Navigator.push(context, customPageTransition(MyClaimPage(),PageTransitionType.rightToLeftWithFade));
+
         }, onError: (error) {
            utils.showSnackBar(context, error.toString());
         });

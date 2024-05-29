@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
@@ -33,7 +34,7 @@ class _OrdersFinishTabState extends State<OrdersFinishTab> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColors.whiteBackGround,
+          color: CustomColorsAPP.whiteBackGround,
           child:Column(
             children: [
               Expanded(child: SmartRefresher(
@@ -89,7 +90,8 @@ class _OrdersFinishTabState extends State<OrdersFinishTab> {
   }
 
   openDetailOrderFinish(String id){
-    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: true,isOrderFinish: true)));
+    Navigator.push(context, customPageTransition(DetailOrderPage(idOrder: id,isActiveOrder: true,isOrderFinish: true),
+    PageTransitionType.leftToRightWithFade));
   }
 
   getOrdersFinish() async {

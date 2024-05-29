@@ -28,7 +28,7 @@ Widget itemProductCatalog(Product product){
           Container(
             width: 100,
             height: 100,
-            child: product.references[0]!.images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
+            child: product.references[0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):FadeInImage(
               fit: BoxFit.fill,
               image: NetworkImage(product.references[0].images![0].url??''),
               placeholder: AssetImage("Assets/images/spinner.gif"),
@@ -48,7 +48,7 @@ Widget itemProductCatalog(Product product){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColors.gray7,
+                    color: CustomColorsAPP.gray7,
                   ),
                 ),
                 Text(
@@ -57,23 +57,23 @@ Widget itemProductCatalog(Product product){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 Text(
-                  product.references?[0].reference??'',
+                  product.references[0].reference??'',
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 Text(
-                  formatMoney( product.references?[0].price??'0'),
+                  formatMoney( product.references[0].price??'0'),
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
-                    color: CustomColors.orange,
+                    color: CustomColorsAPP.orange,
                   ),
                 )
               ],

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Themes/subtheme_response.dart';
-import 'package:wawamko/src/Models/Themes/theme_response.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/subtheme_response.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyAddress.dart';
 import 'package:wawamko/src/UI/MenuProfile/MyCreditCards.dart';
-import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/UI/User/MyDates.dart';
@@ -16,9 +14,9 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
-import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../../../Widgets/WidgetsGeneric.dart';
 import '../FavoritesPage.dart';
 
 
@@ -43,7 +41,7 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
   
   @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getQuestionsBySubTheme();
     });
     super.initState();
@@ -67,7 +65,7 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
   Widget _body() {
     return Column(
       children: [
-        header(context, widget.subtheme, CustomColors.redDot, ()=> Navigator.pop(context)),
+        headerView( widget.subtheme, ()=> Navigator.pop(context)),
         const SizedBox(height: 40,),
         Expanded(
           child: pqrsProvider.isLoadingQuestions ? DialogLoadingAnimated() :  SmartRefresher(
@@ -90,7 +88,7 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
                     child: Text(
                       Strings.frecuensQuestion,
                       style: TextStyle(
-                        color: CustomColors.blackLetter,
+                        color: CustomColorsAPP.blackLetter,
                         fontFamily: Strings.fontMedium,
                         fontSize: 16,
                       ),
@@ -244,7 +242,7 @@ class ItemQuestion extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          border: Border.all(color: CustomColors.gray8),
+          border: Border.all(color: CustomColorsAPP.gray8),
         ),
         child: Row(
           children: [
@@ -256,7 +254,7 @@ class ItemQuestion extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter,
+                  color: CustomColorsAPP.blackLetter,
                 ),
               ),
             ),
@@ -264,7 +262,7 @@ class ItemQuestion extends StatelessWidget {
               child: Image(
                 width: 30,
                 height: 30,
-                color: CustomColors.gray2,
+                color: CustomColorsAPP.gray2,
                 image: AssetImage("Assets/images/ic_arrow_black.png"),
               ),
             ),

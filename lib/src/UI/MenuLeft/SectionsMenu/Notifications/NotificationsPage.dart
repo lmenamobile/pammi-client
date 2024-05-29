@@ -6,7 +6,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Notifications.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/pqrs/pqrs.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
@@ -48,7 +47,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
       backgroundColor: Colors.white,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuNotifications,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -60,7 +58,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               children: [
                 Column(
                   children: [
-                    headerDoubleTapMenu(context, Strings.notifications, "ic_remove_white.png", "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), () => validateActionDelete()),
+                    headerDoubleTapMenu(context, Strings.notifications, "ic_remove_white.png", "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), () => validateActionDelete()),
                     SizedBox(height: 10,),
                     Expanded(child: SmartRefresher(
                         controller: _refreshNotifications,
@@ -88,7 +86,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget itemNotification
       (Notifications notification,Function select) {
     return Container(
-      color: notification.isSelected!?CustomColors.gray9:Colors.transparent,
+      color: notification.isSelected!?CustomColorsAPP.gray9:Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -119,7 +117,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         notification.title??'',
                         style: TextStyle(
                             fontFamily: Strings.fontBold,
-                            color: CustomColors.blackLetter
+                            color: CustomColorsAPP.blackLetter
                         ),
                       ),
                       SizedBox(height: 8,),
@@ -127,7 +125,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         formatDate(notification.createdAt??DateTime.now(), "dd-MM-yyyy", Constants.localeES),
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.gray8
+                            color: CustomColorsAPP.gray8
                         ),
                       ),
                       SizedBox(height: 5,),
@@ -136,7 +134,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         maxLines: 4,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.gray8
+                            color: CustomColorsAPP.gray8
                         ),
                       )
                     ],
@@ -148,7 +146,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     margin: EdgeInsets.only(right: 10),
                     child: CircleAvatar(
                       radius: 7,
-                      backgroundColor: notification.isSelected!?CustomColors.orange:CustomColors.gray5,
+                      backgroundColor: notification.isSelected!?CustomColorsAPP.orange:CustomColorsAPP.gray5,
                     ),
                   ),
                 )
@@ -195,7 +193,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   actionOpenNotification(String? typeNotification){
     switch (typeNotification) {
       case Constants.notificationOrder:
-        Navigator.push(context, customPageTransition(MyOrdersPage()));
+        Navigator.push(context, customPageTransition(MyOrdersPage(),PageTransitionType.rightToLeft));
         break;
       case "pqrs":
         Navigator.of(context).push(

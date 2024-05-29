@@ -1,6 +1,5 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:wawamko/src/Models/Support/QuestionsModel.dart';
 import 'package:wawamko/src/Models/Support/TermsConditionsModel.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -8,7 +7,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/material.dart';
+
 
 class SupportProvider with ChangeNotifier {
   final prefs = SharePreference();
@@ -35,9 +34,9 @@ class SupportProvider with ChangeNotifier {
   }
 
   Future betSellerNotLogin(
-    String name,
-    String email,
-  ) async {
+      String name,
+      String email,
+      ) async {
     this.isLoading = true;
     Map params = {"fullname": name, "email": email};
     var header = {
@@ -47,7 +46,7 @@ class SupportProvider with ChangeNotifier {
     var body = jsonEncode(params);
     final response = await http
         .post(Uri.parse(Constants.baseURL + 'profile/become-seller'),
-            headers: header, body: body)
+        headers: header, body: body)
         .timeout(Duration(seconds: 10))
         .catchError((value) {
       this.isLoading = false;

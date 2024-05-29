@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:share/share.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
 import 'package:wawamko/src/Models/Themes/subtheme_response.dart';
 import 'package:wawamko/src/Models/Themes/theme_response.dart';

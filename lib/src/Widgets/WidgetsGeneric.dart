@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:spring_button/spring_button.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
@@ -15,81 +17,299 @@ import 'package:wawamko/src/Widgets/Dialogs/DialogCustomTwoOptions.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogSelectBank.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogSelectCountry.dart';
 
-customPageTransition(Widget page) {
+customPageTransition(Widget page, PageTransitionType type) {
   return PageTransition(
       curve: Curves.decelerate,
       child: page,
-      type: PageTransitionType.rightToLeft,
+      type: type,
       duration: Duration(milliseconds: 600));
 }
 
-customPageTransitionLeftToRight(Widget page) {
-  return PageTransition(
-      curve: Curves.decelerate,
-      child: page,
-      type: PageTransitionType.leftToRight,
-      duration: Duration(milliseconds: 600));
-}
-
-/*Widget titleBar(String title, String icon, Function action) {
+Widget headerView(String title, Function function) {
   return Container(
     width: double.infinity,
-    height: 75,
-    decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("Assets/images/ic_header_reds.png"),
-            fit: BoxFit.fill)),
-    child: Stack(
-      children: <Widget>[
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            width: double.infinity,
-            height: 15,
-            decoration: BoxDecoration(
-              color: CustomColors.whiteBackGround,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15), topRight: Radius.circular(15),
-              )
+    height: 65,
+    color: CustomColorsAPP.redDot,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        children: [
+          GestureDetector(
+            child: SvgPicture.asset(
+              "Assets/images/ic_arrow_back.svg",
+            ),
+            onTap: () => function(),
+          ),
+          Expanded(
+            child: Center(
+              child: Container(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: Strings.fontBold,
+                      color: Colors.white),
+                ),
+              ),
             ),
           ),
-        ),
-        Positioned(
-          left: 15,
-          top: 15,
-          child: GestureDetector(
-            child: Image(
-              width: 40,
-              height: 40,
-              color: Colors.white,
-              image: AssetImage("Assets/images/$icon"),
-            ),
-            onTap: () => action(),
-          ),
-        ),
-        Center(
-          child: Container(
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 15,
-                  fontFamily: Strings.fontRegular,
-                  color: Colors.white),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
-}*/
+}
 
-Widget btnCustom(double? width,String nameButton, Color colorBackground, Color colorText,
-    Function? action) {
+Widget headerWithSearch(
+    String title,
+    TextEditingController searchController,
+    String totalProducts,
+    Function functionBack,
+    Function callShopCar,
+    Function callSearchProducts) {
   return Container(
-    width: width??200,
+    decoration: BoxDecoration(
+      color: CustomColorsAPP.redDot,
+    ),
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  "Assets/images/ic_arrow_back.svg",
+                ),
+                onTap: () => functionBack(),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontFamily: Strings.fontBold),
+              ),
+              GestureDetector(
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 30,
+                      child: Image(
+                        image: AssetImage("Assets/images/ic_car.png"),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Visibility(
+                        visible: totalProducts != "0" ? true : false,
+                        child: CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            totalProducts,
+                            style: TextStyle(
+                                fontSize: 8, color: CustomColorsAPP.redTour),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                onTap: () => callShopCar(),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          boxSearchHome(searchController, callSearchProducts),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget headerWithSearchFilter(
+    String title,
+    TextEditingController searchController,
+    String totalProducts,
+    Function functionBack,
+    Function callShopCar,
+    Function callSearchProducts,
+    Function callFilter) {
+  return Container(
+    decoration: BoxDecoration(
+      color: CustomColorsAPP.redDot,
+    ),
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  "Assets/images/ic_arrow_back.svg",
+                ),
+                onTap: () => functionBack(),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontFamily: Strings.fontBold),
+              ),
+              GestureDetector(
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 30,
+                      child: Image(
+                        image: AssetImage("Assets/images/ic_car.png"),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Visibility(
+                        visible: totalProducts != "0" ? true : false,
+                        child: CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            totalProducts,
+                            style: TextStyle(
+                                fontSize: 8, color: CustomColorsAPP.redTour),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                onTap: () => callShopCar(),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Expanded(child: boxSearchHome(searchController, callSearchProducts)),
+              const SizedBox(width: 10),
+              InkWell(
+                onTap: () => callFilter(),
+                child: SvgPicture.asset(
+                  "Assets/images/btn_plus.svg",
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget headerWithActions(
+  String title,
+  Function functionBack,
+  Function callShopCar,
+) {
+  return Container(
+    decoration: BoxDecoration(
+      color: CustomColorsAPP.redDot,
+    ),
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                child: SvgPicture.asset(
+                  "Assets/images/ic_arrow_back.svg",
+                ),
+                onTap: () => functionBack(),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontFamily: Strings.fontBold),
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 30,
+                  child: Image(
+                    image: AssetImage("Assets/images/ic_car.png"),
+                  ),
+                ),
+                onTap: () => callShopCar(),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget btnCustomContent(
+    Widget content,
+    Color colorBackground,
+    Color colorBorder,
+    Function action) {
+  return SpringButton(
+    SpringButtonType.OnlyScale,
+    Container(
+      height: 45,
+      decoration: BoxDecoration(
+          border: Border.all(color: colorBorder, width: 1.3),
+          borderRadius: BorderRadius.all(Radius.circular(26)),
+          color: colorBackground),
+      child: Center(
+        child: content,
+      ),
+    ),
+    onTapUp: (_) {
+      action();
+    },
+  );
+}
+
+Widget btnCustom(double? width, String nameButton, Color colorBackground,
+    Color colorText, Function? action) {
+  return Container(
+    width: width ?? 200,
     height: 40,
     child: AnimateButton(
       pressEvent: action,
@@ -101,10 +321,7 @@ Widget btnCustom(double? width,String nameButton, Color colorBackground, Color c
           child: Text(
             nameButton,
             style: TextStyle(
-              fontFamily: Strings.fontMedium,
-              color: colorText,
-              fontSize: 14
-            ),
+                fontFamily: Strings.fontMedium, color: colorText, fontSize: 14),
           ),
         ),
       ),
@@ -134,7 +351,7 @@ Widget btnCustomIcon(String asset, String nameButton, Color colorBackground,
                 ),
               ),
               SizedBox(
-                width:20 ,
+                width: 20,
               ),
               Image.asset(
                 "Assets/images/$asset",
@@ -210,10 +427,10 @@ Widget btnCustomSize(double height, String nameButton, Color colorBackground,
   );
 }
 
-Widget itemProductGeneric(Product product, Function openDetail){
-  int position = getRandomPosition(product.references?.length??0);
+Widget itemProductGeneric(Product product, Function openDetail) {
+  int position = getRandomPosition(product.references.length ?? 0);
   return InkWell(
-    onTap: ()=>openDetail(product),
+    onTap: () => openDetail(product),
     child: Container(
       width: 160,
       decoration: BoxDecoration(
@@ -239,9 +456,10 @@ Widget itemProductGeneric(Product product, Function openDetail){
                   height: 100,
                   child: FadeInImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(product.references?[position].images?[0].url??''),
+                    image: NetworkImage(
+                        product.references[position].images?[0].url ?? ''),
                     placeholder: AssetImage("Assets/images/spinner.gif"),
-                    imageErrorBuilder: (_,__,___){
+                    imageErrorBuilder: (_, __, ___) {
                       return Container();
                     },
                   ),
@@ -253,27 +471,27 @@ Widget itemProductGeneric(Product product, Function openDetail){
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product.brandProvider?.brand?.brand??'',
+                        product.brandProvider?.brand?.brand ?? '',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
-                        product.references?[position].reference??'',
+                        product.references[position].reference ?? '',
                         maxLines: 2,
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                         ),
                       ),
                       Text(
-                        formatMoney( product.references?[position].price??'0'),
+                        formatMoney(product.references[position].price ?? '0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.orange,
+                          color: CustomColorsAPP.orange,
                         ),
                       )
                     ],
@@ -288,8 +506,6 @@ Widget itemProductGeneric(Product product, Function openDetail){
   );
 }
 
-
-
 Widget customTextFieldIcon(
     String icon,
     bool isActive,
@@ -299,12 +515,13 @@ Widget customTextFieldIcon(
     List<TextInputFormatter> formatter) {
   return Container(
     margin: EdgeInsets.only(bottom: 20),
-    padding: EdgeInsets.only(left: 20,right: 20),
+    padding: EdgeInsets.only(left: 20, right: 20),
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border:
+            Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -318,7 +535,7 @@ Widget customTextFieldIcon(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 20,
-          color: CustomColors.gray7.withOpacity(.3),
+          color: CustomColorsAPP.gray7.withOpacity(.3),
         ),
         SizedBox(
           width: 5,
@@ -332,12 +549,12 @@ Widget customTextFieldIcon(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -351,19 +568,20 @@ Widget customTextFieldIcon(
 }
 
 Widget textFieldIconSelector(
-    String icon,
-    bool isActive,
-    String hintText,
-    TextEditingController controller,
-    ) {
+  String icon,
+  bool isActive,
+  String hintText,
+  TextEditingController controller,
+) {
   return Container(
     margin: EdgeInsets.only(bottom: 20),
-    padding: EdgeInsets.only(left:20,right: 20),
+    padding: EdgeInsets.only(left: 20, right: 20),
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border:
+            Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -380,7 +598,7 @@ Widget textFieldIconSelector(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.gray7.withOpacity(.4),
+          color: CustomColorsAPP.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -392,12 +610,12 @@ Widget textFieldIconSelector(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -405,7 +623,11 @@ Widget textFieldIconSelector(
             ),
           ),
         ),
-        Icon(Icons.arrow_forward_ios_rounded,color: CustomColors.gray6,size: 20,),
+        Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: CustomColorsAPP.gray6,
+          size: 20,
+        ),
         SizedBox(
           width: 5,
         ),
@@ -415,23 +637,23 @@ Widget textFieldIconSelector(
 }
 
 Widget textFieldIconPhone(
-    String hintText,
-    String prefix,
-    String icon,
-    TextEditingController controller,
-    ) {
+  String hintText,
+  String prefix,
+  String icon,
+  TextEditingController controller,
+) {
   return Container(
     margin: EdgeInsets.only(bottom: 20),
     padding: EdgeInsets.only(left: 20),
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border:
+            Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-
         /*Container(
           width: 35,
           child: Text(
@@ -454,7 +676,7 @@ Widget textFieldIconPhone(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColors.gray7.withOpacity(.4),
+          color: CustomColorsAPP.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -462,17 +684,20 @@ Widget textFieldIconPhone(
         Expanded(
           child: Container(
             child: TextField(
-              inputFormatters: [LengthLimitingTextInputFormatter(15),FilteringTextInputFormatter.digitsOnly],
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(15),
+                FilteringTextInputFormatter.digitsOnly
+              ],
               keyboardType: TextInputType.phone,
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -501,7 +726,9 @@ Widget emptyData(
           width: 200,
           image: AssetImage("Assets/images/$image"),
         ),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30),
           child: Column(
@@ -514,7 +741,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -523,7 +750,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
             ],
           ),
@@ -533,7 +760,8 @@ Widget emptyData(
   );
 }
 
-Widget emptyDataWithAction(String image, String title, String text, String titleButton, Function action) {
+Widget emptyDataWithAction(String image, String title, String text,
+    String titleButton, Function action) {
   return Container(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -555,7 +783,7 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -564,10 +792,11 @@ Widget emptyDataWithAction(String image, String title, String text, String title
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColors.gray8),
+                    color: CustomColorsAPP.gray8),
               ),
               SizedBox(height: 23),
-              btnCustom(null,titleButton, CustomColors.blueSplash, Colors.white, action),
+              btnCustom(null, titleButton, CustomColorsAPP.blueSplash,
+                  Colors.white, action),
               SizedBox(height: 25),
             ],
           ),
@@ -612,7 +841,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                           fontSize: 18),
                     ),
                   ),
@@ -624,7 +853,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                           fontSize: 15),
                     ),
                   ),
@@ -635,13 +864,12 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-
                         Container(
                           child: btnCustomSize(
                               35,
                               Strings.btnNot,
-                              CustomColors.gray2,
-                              CustomColors.blackLetter,
+                              CustomColorsAPP.gray2,
+                              CustomColorsAPP.blackLetter,
                               actionNegative),
                           width: 100,
                         ),
@@ -649,8 +877,8 @@ Widget alertMessageWithActions(String titleAlert, String image,
                           child: btnCustomSize(
                               35,
                               Strings.btnYes,
-                              CustomColors.blueSplash,
-                              CustomColors.white,
+                              CustomColorsAPP.blueSplash,
+                              CustomColorsAPP.white,
                               action),
                           width: 100,
                         ),
@@ -669,66 +897,67 @@ Widget alertMessageWithActions(String titleAlert, String image,
 }
 
 Widget emptyView(String image, String title, String text) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Image(
-            fit: BoxFit.fill,
-            width: 200,
-            image: AssetImage("Assets/images/$image"),
-         ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 60),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: Strings.fontBold,
-                      fontSize: 22,
-                      color: CustomColors.gray8),
-                ),
+  return Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image(
+          fit: BoxFit.fill,
+          width: 200,
+          image: AssetImage("Assets/images/$image"),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 60),
+          child: Column(
+            children: <Widget>[
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontBold,
+                    fontSize: 22,
+                    color: CustomColorsAPP.gray8),
+              ),
               SizedBox(height: 5),
-                Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: Strings.fontRegular,
-                      fontSize: 15,
-                      color: CustomColors.gray8),
-                ),
-                SizedBox(height: 23),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: Strings.fontRegular,
+                    fontSize: 15,
+                    color: CustomColorsAPP.gray8),
+              ),
+              SizedBox(height: 23),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 Future<dynamic> openSelectCountry(
-    BuildContext context,) async {
+  BuildContext context,
+) async {
   var state = await showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (BuildContext context) =>DialogSelectCountry(),
+    builder: (BuildContext context) => DialogSelectCountry(),
   );
   return state;
 }
 
 Future<dynamic> openSelectBank(
-    BuildContext context,) async {
+  BuildContext context,
+) async {
   var state = await showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (BuildContext context) =>DialogSelectBank(),
+    builder: (BuildContext context) => DialogSelectBank(),
   );
   return state;
 }
-
 
 Future<bool?> showCustomAlertDialog(
     BuildContext context, String title, String msg) async {
@@ -752,52 +981,66 @@ Future<bool?> showAlertActions(BuildContext context, String title, String msg,
   return state;
 }
 
-Future<bool?> showDialogDoubleAction(BuildContext context, String title, String msg,
-    String asset, String btnCustomTitle) async {
+Future<bool?> showDialogDoubleAction(BuildContext context, String title,
+    String msg, String asset, String btnCustomTitle) async {
   bool? state = await showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) =>
-    DialogCustomTwoOptions(title: title, msgText: msg, asset: asset,btnCustomTitle: btnCustomTitle,)
-  );
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => DialogCustomTwoOptions(
+            title: title,
+            msgText: msg,
+            asset: asset,
+            btnCustomTitle: btnCustomTitle,
+          ));
   return state;
 }
 
-Widget headerRefresh(){
-  return WaterDropHeader(waterDropColor: CustomColors.blueSplash, complete: Container(), failed: Container(), refresh: SizedBox(
-    width: 25.0,
-    height: 25.0,
-    child:  CircularProgressIndicator(strokeWidth: 2.0),
-  ));
+Widget headerRefresh() {
+  return WaterDropHeader(
+      waterDropColor: CustomColorsAPP.blueSplash,
+      complete: Container(),
+      failed: Container(),
+      refresh: SizedBox(
+        width: 25.0,
+        height: 25.0,
+        child: CircularProgressIndicator(strokeWidth: 2.0),
+      ));
 }
 
-Widget footerRefreshCustom(){
-  return ClassicFooter( canLoadingText:"Cargar mas",noDataText: "", loadingText: "", idleText: "", idleIcon: null, height: 30);
+Widget footerRefreshCustom() {
+  return ClassicFooter(
+      canLoadingText: "Cargar mas",
+      noDataText: "",
+      loadingText: "",
+      idleText: "",
+      idleIcon: null,
+      height: 30);
 }
 
-Widget loadingWidgets(double size){
+Widget loadingWidgets(double size) {
   return Container(
-    child: Image.asset("Assets/images/spinner.gif",width: size,),
+    child: Image.asset(
+      "Assets/images/spinner.gif",
+      width: size,
+    ),
   );
 }
 
-Widget btnSheet( String btnTextAction,Function action){
+Widget btnSheet(String btnTextAction, Function action) {
   return TextButton(
-    onPressed: ()=>action(),
-    child:  Align(
+    onPressed: () => action(),
+    child: Align(
       alignment: Alignment.centerLeft,
       child: Text(
         btnTextAction,
         style: TextStyle(
-          fontFamily: Strings.fontRegular,
-          color: CustomColors.gray7
-        ),
+            fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
       ),
     ),
   );
 }
 
-Widget notConnectionInternet(){
+Widget notConnectionInternet() {
   return Center(
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -807,30 +1050,30 @@ Widget notConnectionInternet(){
           width: 200,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 15,right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: Text(
             Strings.sorry,
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: CustomColors.gray7,
+                color: CustomColorsAPP.gray7,
                 fontFamily: Strings.fontBold,
-                fontSize: 20
-            ),
+                fontSize: 20),
           ),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Padding(
-          padding: const EdgeInsets.only(left: 15,right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: Text(
             Strings.errorConnection,
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: CustomColors.gray7,
+                color: CustomColorsAPP.gray7,
                 fontFamily: Strings.fontRegular,
-                fontSize: 15
-            ),
+                fontSize: 15),
           ),
         ),
       ],
@@ -838,9 +1081,14 @@ Widget notConnectionInternet(){
   );
 }
 
-Future<bool?> startAlertCustomImage(BuildContext context,String title, String text,String asset) async{
-  return   await showDialog(
+Future<bool?> startAlertCustomImage(
+    BuildContext context, String title, String text, String asset) async {
+  return await showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) => DialogAlertCustomImage(title: title,msgText: text,asset:asset ,));
+      builder: (BuildContext context) => DialogAlertCustomImage(
+            title: title,
+            msgText: text,
+            asset: asset,
+          ));
 }

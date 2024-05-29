@@ -64,7 +64,7 @@ class DialogCustomTwoOptions extends StatelessWidget {
                   Expanded(
                     child: btnCustom(null,
                             Strings.btnCancel,
-                            CustomColors.grayBackground,
+                            CustomColorsAPP.grayBackground,
                             Colors.grey,
                             () => Navigator.pop(context, false)),
                   ),
@@ -77,7 +77,7 @@ class DialogCustomTwoOptions extends StatelessWidget {
 
                   Expanded(
                     child: btnCustom(null,
-                        btnCustomTitle, CustomColors.redDot, Colors.white,
+                        btnCustomTitle, CustomColorsAPP.redDot, Colors.white,
                         () => Navigator.pop(context, true)),
                   ),
                 ],

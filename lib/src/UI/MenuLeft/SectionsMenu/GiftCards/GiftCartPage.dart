@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
-import 'package:wawamko/src/UI/Home/Products/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/GiftCards/FilterGiftCartPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -45,11 +45,10 @@ class _GiftCartPageState extends State<GiftCartPage> {
     providerHome = Provider.of<ProviderHome>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuGiftCard,
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -57,28 +56,28 @@ class _GiftCartPageState extends State<GiftCartPage> {
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColors.whiteBackGround,
+            color: CustomColorsAPP.whiteBackGround,
             child: Stack(
               children: [
                 Column(
                   children: [
                     headerDoubleTapMenu(context, Strings.giftCards, "ic_car.png", "ic_menu_w.png",
-                        CustomColors.redDot, providerShopCart.totalProductsCart,() => keyMenuLeft.currentState!.openDrawer(),
-                            ()=>Navigator.push(context, customPageTransition(ShopCartPage()))),
+                        CustomColorsAPP.redDot, providerShopCart.totalProductsCart,() => keyMenuLeft.currentState!.openDrawer(),
+                            ()=>Navigator.push(context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade))),
                     const SizedBox(height: 10),
                     Text(
                       Strings.buyGiftCard,
                       style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 17,
-                        color: CustomColors.blackLetter,
+                        color: CustomColorsAPP.blackLetter,
                       ),
                     ),
                     Text(
                       Strings.textGiftCard,
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.blackLetter,
+                        color: CustomColorsAPP.blackLetter,
                       ),
                     ),
                     SizedBox(height: 13,),
@@ -86,7 +85,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                       onTap: ()=>updateDataFilter(),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: CustomColors.blueSplash,
+                          color: CustomColorsAPP.blueSplash,
                           borderRadius: BorderRadius.all(
                             Radius.circular(5)
                           )
@@ -120,7 +119,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: CustomColors.whiteBackGround,
+                            color: CustomColorsAPP.whiteBackGround,
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
@@ -196,7 +195,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: CustomColors.gray4,
+              color: CustomColorsAPP.gray4,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(12),
                   topLeft: Radius.circular(12)),
@@ -238,7 +237,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColors.gray7,
+                    color: CustomColorsAPP.gray7,
                   ),
                 ),
                 SizedBox(
@@ -249,7 +248,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColors.orange,
+                    color: CustomColorsAPP.orange,
                   ),
                 ),
                 SizedBox(
@@ -261,7 +260,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                     onTap: ()=>addGiftCard(gift.id.toString()),
                     child: Container(
                         decoration: BoxDecoration(
-                            color: CustomColors.blue,
+                            color: CustomColorsAPP.blue,
                             borderRadius: BorderRadius.all(Radius.circular(10))),
                         child: Padding(
                           padding: const EdgeInsets.all(5),
@@ -302,7 +301,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
   }
 
   updateDataFilter(){
-    Navigator.push(context, customPageTransition(FilterGiftCartPage())).then((value) =>{
+    Navigator.push(context, customPageTransition(FilterGiftCartPage(),PageTransitionType.fade)).then((value) =>{
       if(value as bool){
         providerShopCart.ltsGiftCard.clear(),
         getLtsGiftCarts()

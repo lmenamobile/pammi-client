@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -57,7 +57,6 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: "support",
-        version: providerHome.version,
       ),
       body: WillPopScope(
         onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
@@ -69,7 +68,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
             child: Column(
               children: [
                 headerDoubleTapMenu(context, Strings.supportAndService, "",
-                    "ic_menu_w.png", CustomColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                    "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                 SizedBox(
                   height: 20,
                 ),
@@ -84,21 +83,21 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.blackLetter),
+                      color: CustomColorsAPP.blackLetter),
                 ),
                 SizedBox(height: 20),
                 btnChatSupport(),
                 SizedBox(height: 20),
                 InkWell(
                   onTap: () => Navigator.of(context)
-                      .push(customPageTransition(PreRegisterPage())),
+                      .push(customPageTransition(PreRegisterPage(),PageTransitionType.rightToLeftWithFade)),
                   child: Container(
                     height: 50,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         border: Border.all(
-                            color: CustomColors.greyBorder, width: .5)),
+                            color: CustomColorsAPP.greyBorder, width: .5)),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -109,11 +108,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                           style: TextStyle(
                               fontFamily: Strings.fontBold,
                               fontSize: 15,
-                              color: CustomColors.blackLetter),
+                              color: CustomColorsAPP.blackLetter),
                         ),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                           size: 15,
                         ),
                       ],
@@ -147,7 +146,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
       child: Container(
         width: 270,
         decoration: BoxDecoration(
-            color: CustomColors.blue,
+            color: CustomColorsAPP.blue,
             borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -223,9 +222,9 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
         return itemHelpCenter(supportProvider.lstTermsAndConditions[index].name!,
-            () {
-          launch(supportProvider.lstTermsAndConditions[index].url!);
-        });
+                () {
+              launch(supportProvider.lstTermsAndConditions[index].url!);
+            });
       },
     );
   }
@@ -253,11 +252,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callSupport =
-            supportProvider.getQuestions(pageOffset.toString());
+        supportProvider.getQuestions(pageOffset.toString());
         await callSupport.then((list) {
           serviceGetTerms();
         }, onError: (error) {
-         // utils.showSnackBar(context, error.toString());
+          // utils.showSnackBar(context, error.toString());
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
@@ -286,7 +285,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
           if(socketService.serverStatus!=ServerStatus.Online){
             socketService.connectSocket(Constants.typeAdmin, id,"");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false,)));
+          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false,), PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

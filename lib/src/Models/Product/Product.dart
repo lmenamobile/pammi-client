@@ -66,7 +66,7 @@ class Product {
     "volume": volume,
     "brandProvider": brandProvider!.toJson(),
     "warranty": warranty!.toJson(),
-    "references": List<dynamic>.from(references!.map((x) => x.toJson())),
+    "references": List<dynamic>.from(references.map((x) => x.toJson())),
     "images": List<dynamic>.from(images!.map((x) => x.toJson())),
     "service": service
   };

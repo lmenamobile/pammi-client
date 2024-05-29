@@ -1,16 +1,12 @@
 
 import 'dart:ui';
 
-class CustomColors {
+class CustomColorsAPP {
 
   static final whiteBackGround = const Color(0xffF8F8F8);
   static final white = const Color(0xffFFFFFF);
   static final red= const Color(0xffF9423A);
-
   static final grayGradient = const Color(0xff5A293C);
-//#6A1B9AFF
-
-
   static final darkBlue = const Color(0xff201547);
   static final darkLetter = const Color(0xff2F2F2F);
   static final garyHint = const Color(0xff20154741);
@@ -28,6 +24,7 @@ class CustomColors {
   static final gray9 = const Color(0xffF6F6F6);
   static final gray10 = const Color(0xffD6DEE5);
   static final gray11 = const Color(0xffA8A8A8);
+  static final gray12 = const Color(0xffF5F5F5);
   static final grayThree = const Color(0xffEFEFEF);
   static final greyBorder = const Color(0xffE6E6E6);
   static final greyBackground = const Color(0xffFCFCFC);
@@ -40,33 +37,21 @@ class CustomColors {
   static final redOne = const Color(0xffB23139);
   static final red2 = const Color(0xffFF5C5C);
   static final redSplash2 = const Color.fromRGBO(221, 54, 54, 1);
-
   static final grayLetter2 = const Color(0xffA0A0A0);
   static final graySearch = const Color(0xffE4E4E4);
-
   static final orange = const Color(0xffEC7700);
   static final pink  = const Color(0xffF88686);
-
-
   static final purple = const Color(0xff463168);
   static final green = const Color(0xff05AD45);
-  static final morado = const Color(0xff201547);
   static final darkBlues2 = const Color(0xff083642);
-  
   static final blueCian = const Color(0xff274A5D);
   static final purpleLetter = const Color(0xff787994);
-
-
   static final blueActiveDots = const Color(0xff168DD8);
   static final blueOne = const Color(0xff0078C4);
   static final blueTwo = const Color(0xffF2F7FA);
   static final blue3 = const Color(0xff166AC9);
   static final blue6 = const Color(0xff3677BE);
-
- 
   static final blueTitle = const Color(0xff121D3A);
-
-
   static final letterDarkBlue = const Color(0xff000000);
   static final splashColor = const Color(0xff333333);
   static final blue = const Color(0xff008DD8);
@@ -75,7 +60,6 @@ class CustomColors {
   static final grayMenu = const Color(0xffFCFCFC);
   static final redBackground = const Color(0xffFFF4E8);
   static final purpleOpacity = const Color(0xff787994);
-
   static var greenOne = const Color(0xff3DC291);
   static var redTwo = const Color (0xFFF16B6C);
   static var orangeOne = const Color (0xFFE67248);
@@ -88,6 +72,7 @@ class CustomColors {
   static var gray13 = const Color(0xffE5E5E5);
   static var gray14 = const Color(0xffA2A2A2);
   static final gray15 = const Color(0xff707070);
+  static final black = const Color(0xff141414);
 
 
 

@@ -33,7 +33,7 @@ Widget sectionAddress(Address? address) {
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 19,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
             ),
           ),
           customDivider(),
@@ -41,7 +41,7 @@ Widget sectionAddress(Address? address) {
             Strings.deliveryAddress,
             style: TextStyle(
               fontFamily: Strings.fontBold,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
             ),
           ),
           customDivider(),
@@ -75,7 +75,7 @@ Widget sectionAddress(Address? address) {
                       Strings.mainAddress,
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.gray7,
+                        color: CustomColorsAPP.gray7,
                       ),
                     ),
                     SizedBox(
@@ -87,13 +87,13 @@ Widget sectionAddress(Address? address) {
                           Strings.selectYouAddress,
                           style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.gray7,
+                            color: CustomColorsAPP.gray7,
                           ),
                         ),
                         SizedBox(width: 10,),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: CustomColors.gray7,size: 15,
+                          color: CustomColorsAPP.gray7,size: 15,
                         )
                       ],
                     ):
@@ -105,7 +105,7 @@ Widget sectionAddress(Address? address) {
                           style: TextStyle(
                             fontFamily: Strings.fontBold,
                             fontSize: 15,
-                            color: CustomColors.blackLetter,
+                            color: CustomColorsAPP.blackLetter,
                           ),
                         ),
                         SizedBox(
@@ -115,7 +115,7 @@ Widget sectionAddress(Address? address) {
                           address.complement??'',
                           style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.gray7,
+                            color: CustomColorsAPP.gray7,
                           ),
                         ),
                       ],
@@ -145,7 +145,7 @@ Widget sectionProducts(List<PackagesProvider>? packagesProvider) {
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 19,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
             ),
           ),
           customDivider(),
@@ -196,7 +196,7 @@ Widget itemProvider(PackagesProvider provider) {
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 15,
-                  color: CustomColors.gray7,
+                  color: CustomColorsAPP.gray7,
                 ),
               ),
               SizedBox(
@@ -206,7 +206,7 @@ Widget itemProvider(PackagesProvider provider) {
                 Strings.brand,
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.gray7,
+                  color: CustomColorsAPP.gray7,
                 ),
               ),
               SizedBox(
@@ -216,7 +216,7 @@ Widget itemProvider(PackagesProvider provider) {
                 "aca va l marca",
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.gray7,
+                  color: CustomColorsAPP.gray7,
                 ),
               ),
             ],
@@ -224,7 +224,7 @@ Widget itemProvider(PackagesProvider provider) {
         ),
         Icon(
           Icons.arrow_forward_ios_rounded,
-          color: CustomColors.gray7,
+          color: CustomColorsAPP.gray7,
           size: 15,
         )
       ],
@@ -245,7 +245,7 @@ Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, L
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 19,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
             ),
           ),
           customDivider(),
@@ -264,7 +264,7 @@ Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, L
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                     ),
@@ -279,7 +279,7 @@ Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, L
                             ),
                             Container(
                               margin: EdgeInsets.symmetric(horizontal: 10),
-                              color: CustomColors.grayBackground,
+                              color: CustomColorsAPP.grayBackground,
                               height: 30,
                               width: 1,
                             ),
@@ -291,7 +291,7 @@ Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, L
                                   style: TextStyle(
                                     fontFamily: Strings.fontBold,
                                     fontSize: 15,
-                                    color: CustomColors.gray7,
+                                    color: CustomColorsAPP.gray7,
                                   ),
                                 ),
                               ],
@@ -305,7 +305,7 @@ Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, L
 
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: CustomColors.gray7,
+                  color: CustomColorsAPP.gray7,
                   size: 15,
                 )
               ],
@@ -322,7 +322,7 @@ Widget sectionPayment(PaymentMethod? payment, Function quotaSelect, int quota, L
                   margin: const EdgeInsets.only(top: 6,bottom: 20),
                   child: Text(
                     "Selecciona el número de cuotas",
-                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.gray7,),
+                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColorsAPP.gray7,),
                   ),
                 ),
 
@@ -379,7 +379,7 @@ Widget contSlider(Function reduceQuota, Function increaseQuota, int value) {
         style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 18,
-          color: CustomColors.blackLetter,
+          color: CustomColorsAPP.blackLetter,
         ),
       ),
       SizedBox(width: 20),
@@ -410,7 +410,7 @@ Widget sectionDiscount(
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 19,
-              color: CustomColors.blackLetter,
+              color: CustomColorsAPP.blackLetter,
             ),
           ),
           customDivider(),
@@ -438,7 +438,7 @@ Widget sectionDiscount(
               child: isValidateGift?fieldCoupon(controllerGift, Strings.hintCard):fieldCoupon(controllerCoupon, Strings.hintCoupon)),
           Container(
             width: 150,
-            child: isValidateDiscount?btnCustomSize(35, Strings.remove, CustomColors.redTour, Colors.white, deleteDiscount):btnCustomSize(35, Strings.validate, CustomColors.orange, Colors.white, applyDiscount),
+            child: isValidateDiscount?btnCustomSize(35, Strings.remove, CustomColorsAPP.redTour, Colors.white, deleteDiscount):btnCustomSize(35, Strings.validate, CustomColorsAPP.orange, Colors.white, applyDiscount),
           )
         ],
       ),
@@ -451,9 +451,9 @@ Widget itemCoupon(String icon,String text, bool isValidate, Function change) {
     onTap: ()=>change(),
     child: Container(
       decoration: BoxDecoration(
-        color: isValidate?CustomColors.blue.withOpacity(.4):CustomColors.grayThree,
+        color: isValidate?CustomColorsAPP.blue.withOpacity(.4):CustomColorsAPP.grayThree,
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: isValidate?CustomColors.blue:CustomColors.greyBorder)),
+          border: Border.all(color: isValidate?CustomColorsAPP.blue:CustomColorsAPP.greyBorder)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Row(
@@ -467,12 +467,12 @@ Widget itemCoupon(String icon,String text, bool isValidate, Function change) {
               margin: EdgeInsets.symmetric(horizontal: 10),
               height: 30,
               width: 1,
-              color: isValidate?CustomColors.blue:CustomColors.greyBorder,
+              color: isValidate?CustomColorsAPP.blue:CustomColorsAPP.greyBorder,
             ),
             Text(
               text,
               style: TextStyle(
-                  color: isValidate?CustomColors.blue:CustomColors.gray7, fontFamily: Strings.fontRegular),
+                  color: isValidate?CustomColorsAPP.blue:CustomColorsAPP.gray7, fontFamily: Strings.fontRegular),
             )
           ],
         ),
@@ -488,8 +488,8 @@ Widget fieldCoupon(TextEditingController controller, String hintText) {
     height: 50,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        border: Border.all(color: CustomColors.gray.withOpacity(.3), width: 1),
-        color: CustomColors.white),
+        border: Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
+        color: CustomColorsAPP.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -501,12 +501,12 @@ Widget fieldCoupon(TextEditingController controller, String hintText) {
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColors.gray7.withOpacity(.4),
+                  color: CustomColorsAPP.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -520,8 +520,8 @@ Widget fieldCoupon(TextEditingController controller, String hintText) {
 }
 
 Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping) {
-  var styleRegular = TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColors.blackLetter,);
-  var styleBold = TextStyle(fontFamily: Strings.fontBold, fontSize: 19, color: CustomColors.blackLetter,);
+  var styleRegular = TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColorsAPP.blackLetter,);
+  var styleBold = TextStyle(fontFamily: Strings.fontBold, fontSize: 19, color: CustomColorsAPP.blackLetter,);
 
   return Container(
     decoration: BoxDecoration(
@@ -572,7 +572,7 @@ Widget sectionTotal( TotalCart? totalCart, Function createOrder, String shipping
           SizedBox(height: 20,),
           Align(
               alignment: Alignment.center,
-              child: btnCustom(230,Strings.payment,CustomColors.blueSplash,Colors.white,createOrder)),
+              child: btnCustom(230,Strings.payment,CustomColorsAPP.blueSplash,Colors.white,createOrder)),
           SizedBox(height: 20,),
         ],
       ),
@@ -620,7 +620,7 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
       padding: const EdgeInsets.all(10),
       child: ExpansionWidget(
         initiallyExpanded: true,
-        iconColor: CustomColors.gray7,
+        iconColor: CustomColorsAPP.gray7,
         title: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -633,13 +633,13 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: Strings.fontBold,
-                      color: CustomColors.blackLetter),
+                      color: CustomColorsAPP.blackLetter),
                 ),
                 Text(
                   Strings.provider,
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
-                      color: CustomColors.gray7),
+                      color: CustomColorsAPP.gray7),
                 ),
               ],
             ),
@@ -647,14 +647,14 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
               visible: false,
               child: Container(
                 decoration: BoxDecoration(
-                    color: CustomColors.blue.withOpacity(.7),
+                    color: CustomColorsAPP.blue.withOpacity(.7),
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     Strings.moreView,
                     style: TextStyle(
-                        fontFamily: Strings.fontBold, color: CustomColors.blue),
+                        fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
                   ),
                 ),
               ),
@@ -701,7 +701,7 @@ Widget itemProductCart(ProductShopCart product) {
       Container(
         height: 1,
         width: double.infinity,
-        color: CustomColors.grayBackground,
+        color: CustomColorsAPP.grayBackground,
       ),
       SizedBox(
         height: 10,
@@ -735,7 +735,7 @@ Widget itemProductCart(ProductShopCart product) {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColors.gray7,
+                    color: CustomColorsAPP.gray7,
                   ),
                 ),
                 Text(
@@ -744,7 +744,7 @@ Widget itemProductCart(ProductShopCart product) {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 viewPrice(product),
@@ -768,7 +768,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
       Container(
         height: 1,
         width: double.infinity,
-        color: CustomColors.grayBackground,
+        color: CustomColorsAPP.grayBackground,
       ),
       SizedBox(
         height: 10,
@@ -778,7 +778,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
         style: TextStyle(
           fontFamily: Strings.fontBold,
           fontSize: 12,
-          color: CustomColors.blackLetter,
+          color: CustomColorsAPP.blackLetter,
         ),
       ),
       Row(
@@ -809,7 +809,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColors.gray7,
+                    color: CustomColorsAPP.gray7,
                   ),
                 ),
                 Text(
@@ -818,7 +818,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                   ),
                 ),
                 viewPriceOffer(offer),
@@ -842,7 +842,7 @@ Widget itemOfferProductGift(Reference? reference){
           style: TextStyle(
             fontFamily: Strings.fontBold,
             fontSize: 12,
-            color: CustomColors.gray7,
+            color: CustomColorsAPP.gray7,
           ),
         ),
         SizedBox(height: 8,),
@@ -852,7 +852,7 @@ Widget itemOfferProductGift(Reference? reference){
                   Radius.circular(5)
               ),
               border: Border.all(
-                color: CustomColors.gray2,
+                color: CustomColorsAPP.gray2,
               )
           ),
           child: Padding(
@@ -885,7 +885,7 @@ Widget itemOfferProductGift(Reference? reference){
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColors.gray7,
+                          color: CustomColorsAPP.gray7,
                         ),
                       ),
                       Text(
@@ -894,7 +894,7 @@ Widget itemOfferProductGift(Reference? reference){
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                         ),
                       ),
                     ],

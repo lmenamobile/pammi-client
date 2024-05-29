@@ -34,7 +34,7 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
               Column(
                 children: [
 
-                  header(context, Strings.comment, CustomColors.redDot, () => Navigator.pop(context)),
+                  headerView( Strings.comment, () => Navigator.pop(context)),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -49,7 +49,7 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
                               style: TextStyle(
                                   fontSize: 15,
                                   fontFamily: Strings.fontRegular,
-                                  color: CustomColors.gray8),
+                                  color: CustomColorsAPP.gray8),
                             ),
                           ),
                           SizedBox(
@@ -62,8 +62,8 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(13)),
                                   border: Border.all(
-                                      color: CustomColors.blue, width: 1),
-                                  color: CustomColors.white),
+                                      color: CustomColorsAPP.blue, width: 1),
+                                  color: CustomColorsAPP.white),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
@@ -76,13 +76,13 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
                                         inputFormatters: [ LengthLimitingTextInputFormatter(30)],
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
-                                            color: CustomColors.gray7),
+                                            color: CustomColorsAPP.gray7),
                                         decoration: InputDecoration(
                                           isDense: true,
                                           border: InputBorder.none,
                                           hintStyle: TextStyle(
                                             color:
-                                                CustomColors.gray7.withOpacity(.4),
+                                                CustomColorsAPP.gray7.withOpacity(.4),
                                             fontFamily: Strings.fontRegular,
                                           ),
                                           hintText: Strings.email,
@@ -102,8 +102,8 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(13)),
                                   border: Border.all(
-                                      color: CustomColors.blue, width: 1),
-                                  color: CustomColors.white),
+                                      color: CustomColorsAPP.blue, width: 1),
+                                  color: CustomColorsAPP.white),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
@@ -116,12 +116,12 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
                                   controller: commentController,
                                   style: TextStyle(
                                       fontFamily: Strings.fontRegular,
-                                      color: CustomColors.gray7),
+                                      color: CustomColorsAPP.gray7),
                                   decoration: InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(
-                                      color: CustomColors.gray7.withOpacity(.4),
+                                      color: CustomColorsAPP.gray7.withOpacity(.4),
                                       fontFamily: Strings.fontRegular,
                                     ),
                                     hintText: Strings.informationProduct,
@@ -131,7 +131,7 @@ class _CommentProductNotFoundState extends State<CommentProductNotFound> {
                           SizedBox(
                             height: 20,
                           ),
-                          btnCustom(140, Strings.send, CustomColors.blueSplash,
+                          btnCustom(140, Strings.send, CustomColorsAPP.blueSplash,
                               Colors.white, callSendComment),
                           SizedBox(
                             height: 20,

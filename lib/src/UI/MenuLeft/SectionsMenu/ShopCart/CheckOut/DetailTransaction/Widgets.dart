@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
@@ -12,7 +11,7 @@ import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 Widget containerText(String text) {
   return Container(
     decoration: BoxDecoration(
-        color: CustomColors.whiteBackGround,
+        color: CustomColorsAPP.whiteBackGround,
         borderRadius: BorderRadius.all(Radius.circular(5))),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -21,7 +20,7 @@ Widget containerText(String text) {
         style: TextStyle(
             fontFamily: Strings.fontBold,
             fontSize: 22,
-            color: CustomColors.blackLetter),
+            color: CustomColorsAPP.blackLetter),
       ),
     ),
   );
@@ -52,7 +51,7 @@ Widget cardItems(PackagesProvider provider) {
         Text(
           provider.provider?.businessName ?? '',
           style: TextStyle(
-              fontFamily: Strings.fontBold, color: CustomColors.gray7),
+              fontFamily: Strings.fontBold, color: CustomColorsAPP.gray7),
         ),
         SizedBox(
           height: 8,
@@ -72,12 +71,12 @@ Widget itemProduct(Reference? reference) {
         Text(
           reference?.reference ?? '',
           style: TextStyle(
-              fontFamily: Strings.fontRegular, color: CustomColors.gray7),
+              fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
         ),
         Text(
           formatMoney(reference?.price ?? '0'),
           style: TextStyle(
-              fontFamily: Strings.fontRegular, color: CustomColors.gray7),
+              fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
         ),
       ],
     ),
@@ -123,22 +122,22 @@ Widget containerExpansion(List<PackagesProvider>? packagesProvider) {
       padding: const EdgeInsets.all(10),
       child: ExpansionWidget(
         initiallyExpanded: true,
-        iconColor: CustomColors.gray7,
+        iconColor: CustomColorsAPP.gray7,
         title: Container(
           decoration: BoxDecoration(
-              color: CustomColors.whiteBackGround,
+              color: CustomColorsAPP.whiteBackGround,
               borderRadius: BorderRadius.all(Radius.circular(5))),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Icon(Icons.assignment,color: CustomColors.gray7),
+                Icon(Icons.assignment,color: CustomColorsAPP.gray7),
                 SizedBox(width: 8,),
                 Text(
                   Strings.buys,
                   style: TextStyle(
-                      fontFamily: Strings.fontBold, color: CustomColors.gray7),
+                      fontFamily: Strings.fontBold, color: CustomColorsAPP.gray7),
                 ),
               ],
             ),

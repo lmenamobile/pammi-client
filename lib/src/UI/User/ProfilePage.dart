@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
@@ -41,12 +42,11 @@ class _ProfilePageState extends State<ProfilePage> {
       key: _drawerKey,
       drawer: DrawerMenuPage(
         rollOverActive: "profile",
-        version: providerHome.version
       ),
-      backgroundColor: CustomColors.redTour,
+      backgroundColor: CustomColorsAPP.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColors.redTour,
+          color: CustomColorsAPP.redTour,
           child: _body(context),
         ),
       ),
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 24,
-                                color: CustomColors.white),
+                                color: CustomColorsAPP.white),
                           ),
                         )),
                       ],
@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100)),
                             border: Border.all(
-                                color: CustomColors.white, width: 1),
+                                color: CustomColorsAPP.white, width: 1),
                           ),
                           child: Center(
                             child: Stack(
@@ -119,9 +119,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(100)),
                                     border: Border.all(
-                                        color: CustomColors.white,
+                                        color: CustomColorsAPP.white,
                                         width: 1),
-                                    color: CustomColors.grayBackground,
+                                    color: CustomColorsAPP.grayBackground,
                                   ),
                                   child:  Container(
                                     child: ClipRRect(
@@ -160,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: TextStyle(
                                     fontFamily: Strings.fontBold,
                                     fontSize: 18,
-                                    color: CustomColors.white),
+                                    color: CustomColorsAPP.white),
                               ),
                               SizedBox(height: 5,),
                               GestureDetector(
@@ -175,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: TextStyle(
                                       fontFamily: Strings.fontRegular,
                                       fontSize: 15,
-                                      color: CustomColors.white),
+                                      color: CustomColorsAPP.white),
                                 ),
                               ),
                             ],
@@ -191,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    color: CustomColors.white,
+                    color: CustomColorsAPP.white,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
@@ -216,15 +216,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                     false,
                                     true,
                                     false, () {
-                                  Navigator.of(context).push(customPageTransition(MyDatesPage()));
+                                  Navigator.of(context).push(customPageTransition(MyDatesPage(),PageTransitionType.rightToLeft));
                                 }),
                                 itemProfile(context, "Assets/images/ic_place.png",
                                     Strings.myAddress, false, true, true, () {
-                                  Navigator.of(context).push(customPageTransition( MyAddressPage()));
+                                  Navigator.of(context).push(customPageTransition( MyAddressPage(),PageTransitionType.rightToLeft));
                                 }),
                                 itemProfile(context, "Assets/images/ic_my_claims.png",
                                     Strings.myClaims, true, true, false, () {
-                                      Navigator.of(context).push(customPageTransition( MyClaimPage()));
+                                      Navigator.of(context).push(customPageTransition( MyClaimPage(),PageTransitionType.rightToLeft));
                                     }),
                               ],
                             ),
@@ -233,11 +233,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: <Widget>[
                                 itemProfile(context, "Assets/images/ic_target.png",
                                     Strings.methodsPay, false, false, false, () {
-                                  Navigator.of(context).push(customPageTransition(MyCreditCards(isActiveSelectCard: false,)));
+                                  Navigator.of(context).push(customPageTransition(MyCreditCards(isActiveSelectCard: false,),PageTransitionType.rightToLeft));
                                 }),
                                 itemProfile(context, "Assets/images/ic_order_history.png",
                                     Strings.myOrders, true, false, true, () {
-                                 Navigator.push(context, customPageTransition(MyOrdersPage()));
+                                 Navigator.push(context, customPageTransition(MyOrdersPage(),PageTransitionType.rightToLeft));
                                 }),
 
                               ],
@@ -263,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
           margin: EdgeInsets.symmetric(horizontal: 30),
           width: double.infinity,
           decoration: BoxDecoration(
-              color: CustomColors.blueSplash,
+              color: CustomColorsAPP.blueSplash,
               borderRadius: BorderRadius.all(Radius.circular(10))
           ),
           child: Padding(
@@ -296,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child:Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(profileProvider!.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: CustomColors.blueSplash,),
+                      child: Icon(profileProvider!.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: CustomColorsAPP.blueSplash,),
                     ),
                   ),
                 )
@@ -311,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: EdgeInsets.only(left: 30,right: 30,top: 10),
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: CustomColors.blueSplash,
+                  color: CustomColorsAPP.blueSplash,
                   borderRadius: BorderRadius.all(Radius.circular(10))
               ),
               child: Padding(
@@ -347,13 +347,13 @@ class _ProfilePageState extends State<ProfilePage> {
             left: BorderSide(
                 width: 1,
                 color: borderLeft
-                    ? CustomColors.grayBackground.withOpacity(.1)
-                    : CustomColors.grayBackground.withOpacity(.8)),
+                    ? CustomColorsAPP.grayBackground.withOpacity(.1)
+                    : CustomColorsAPP.grayBackground.withOpacity(.8)),
             bottom: BorderSide(
                 width: 1,
                 color: border
-                    ? CustomColors.grayBackground.withOpacity(.1)
-                    : CustomColors.grayBackground.withOpacity(.8)),
+                    ? CustomColorsAPP.grayBackground.withOpacity(.1)
+                    : CustomColorsAPP.grayBackground.withOpacity(.8)),
           ),
         ),
         child: Column(
@@ -377,7 +377,7 @@ class _ProfilePageState extends State<ProfilePage> {
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 13,
-                  color: CustomColors.blackLetter),
+                  color: CustomColorsAPP.blackLetter),
             )
           ],
         ),
@@ -399,7 +399,7 @@ class _ProfilePageState extends State<ProfilePage> {
             utils.accountClosedSuccessfully(context);
           });
           Timer(const Duration(seconds: 5), () {
-            Navigator.pushReplacement(context, customPageTransition( LoginPage()));
+            Navigator.pushReplacement(context, customPageTransition( LoginPage(),PageTransitionType.rightToLeft));
           });
 
         }, onError: (error) {

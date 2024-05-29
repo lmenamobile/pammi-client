@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -39,7 +40,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
-            color: CustomColors.blackLetter.withOpacity(.3),
+            color: CustomColorsAPP.blackLetter.withOpacity(.3),
           ),
           onTap: (){Navigator.pop(context);},
         ),
@@ -52,7 +53,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
             child: Container(
 
               decoration: BoxDecoration(
-                color: CustomColors.white,
+                color: CustomColorsAPP.white,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight:Radius.circular(30)),
               ),
               child: Padding(
@@ -64,7 +65,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                     Image(
                       width: 60,
                       height: 60,
-                      color: CustomColors.blueSplash,
+                      color: CustomColorsAPP.blueSplash,
                       image: AssetImage("Assets/images/ic_accep_big.png"),
                     ),
                     SizedBox(height: 11),
@@ -73,7 +74,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                         fontSize: 22,
                         fontFamily: Strings.fontRegular,
-                        color: CustomColors.blackLetter
+                        color: CustomColorsAPP.blackLetter
                       ),
                     ),
                     Text(
@@ -81,13 +82,13 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                           fontSize: 25,
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter
+                          color: CustomColorsAPP.blackLetter
                       ),
                     ),
                     SizedBox(height: 15),
                     Container(
                      // margin: EdgeInsets.only(left: 10,right: 10),
-                      color: CustomColors.grayBackground,
+                      color: CustomColorsAPP.grayBackground,
                       height: 1,
                       width: double.infinity,
                     ),
@@ -98,15 +99,15 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 17,
-                        color: CustomColors.gray7
+                        color: CustomColorsAPP.gray7
                       ),
                     ),
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50,right: 50),
-                      child: btnCustomRounded(CustomColors.blueSplash, CustomColors.white, Strings.verifyCode, (){
+                      child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.verifyCode, (){
                         Navigator.pop(context);
-                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email!,typeView: Constants.isViewRegister,)) , (route) => false);
+                        Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email!,typeView: Constants.isViewRegister,),PageTransitionType.fade) , (route) => false);
 
                         },context),
                     ),

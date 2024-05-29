@@ -88,11 +88,11 @@ class Strings {
   static const String search = 'Buscar';
   static const String searcher = 'Buscador';
   static const String categories = 'Categorías';
-  static const String moreAll = 'Mostrar todas';
+  static const String moreAll = 'Ver todas';
   static const String findHere = 'Encuentra aquí';
   static const String suggest = 'Sugerencias';
   static const String enjoy = 'Disfruta de';
-  static const String ourOfficialBrands = 'Nuestras marcas oficiales';
+  static const String ourOfficialBrands = 'Nuestras marcas';
   static const String highlightedOffers = 'Ofertas destacadas';
   static const String discoverThe = 'Descubre los';
   static const String mostSelledProducts = 'Productos más vendidos';
@@ -110,6 +110,10 @@ class Strings {
   static const String apply = 'Aplicar';
   static const String campaigns = 'Campañas';
 
+  //DETAIL PRODUCT
+  static const String productDetail = 'Detalle';
+  static const String deliveryDomicile = 'Entrega a domicilio';
+
 
   /*Comment*/
   static const String comment = 'Comentario';
@@ -126,8 +130,17 @@ class Strings {
   static const String description = 'Descripción';
   static const String conditions = 'Condiciones';
   static const String comments = 'Comentarios';
-  static const String quantityAvailable = 'Cantidad disponible:';
+  static const String quantityAvailable = 'Un. disponibles: ';
   static const String youCanOnlyCarry = 'Solo puedes llevar';
+
+  /*Filter*/
+  static const String filterBy      =  'Filtrar por';
+  static const String brands        = 'Marcas';
+  static const String subcategories = 'Subcategorías';
+  static const String size          = 'Talla';
+  static const String material      = 'Material';
+  static const String color         = 'Color';
+
 
 
   //Dialogs
@@ -384,7 +397,7 @@ class Strings {
 
   /*Qualification */
   static const String  textQualification = '¿Cómo te fue con tu pedido del Proveedor';
-  static const String  brands = 'Marcas asociadas';
+  static const String  brandsAssociate = 'Marcas asociadas';
   static const String  countStar = '¿Cuántas estrellas le darías?';
   static const String  commentProduct = 'Cuéntanos más del producto';
   static const String  textQualificationSeller = '¿Cómo calificarías a';
@@ -434,7 +447,7 @@ class Strings {
   static const String name = 'Nombre';
   static const String phone = 'Número de teléfono';
 
- // validation
+  // validation
   static const String  emptyName = 'Debes ingresar el nombre';
   static const String  emptyLastName = 'Debes ingresar el apellido';
   static const String  emptyTypeDoc = 'Debes ingresar tipo de documento';
@@ -653,6 +666,10 @@ class Strings {
   static const String msgErrorPolicies = "Debes aceptar la política de protección de datos personales";
   static const String urlPolicies = "https://pamii-preproduction.s3.amazonaws.com/pamii/terminos-y-politicas/tycclientes_28082023.html";
 }
+
+
+
+
 
 
 

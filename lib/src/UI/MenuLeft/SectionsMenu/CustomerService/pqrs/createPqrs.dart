@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
@@ -47,7 +46,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
             )),
         Column(
           children: [
-            header(context, Strings.pqrs, CustomColors.redDot, () => Navigator.pop(context)),
+            headerView( Strings.pqrs, () => Navigator.pop(context)),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
@@ -59,7 +58,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                           fontSize: 18
                       ),
                     ),
@@ -87,7 +86,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
                                 style: TextStyle(
                                   fontFamily: Strings.fontRegular,
                                   fontSize: 16,
-                                  color: CustomColors.blackLetter
+                                  color: CustomColorsAPP.blackLetter
                                 ),
                               ),
                             )
@@ -102,7 +101,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
-                          border: Border.all(color: CustomColors.gray.withOpacity(.6),width: 1)
+                          border: Border.all(color: CustomColorsAPP.gray.withOpacity(.6),width: 1)
                       ),child: TextField(
                       controller: _topicController,
                       decoration: InputDecoration(
@@ -110,17 +109,17 @@ class _CreatePqrsState extends State<CreatePqrs> {
                           enabled: true,
                           hintStyle: TextStyle(
                               fontSize: 15,
-                              color: CustomColors.gray,
+                              color: CustomColorsAPP.gray,
                               fontFamily: Strings.fontRegular
                           ),
                           hintText: Strings.topic
                       ),
                       style: TextStyle(
                           fontSize: 15,
-                          color: CustomColors.blackLetter,
+                          color: CustomColorsAPP.blackLetter,
                           fontFamily: Strings.fontRegular
                       ),
-                      cursorColor: CustomColors.blackLetter,
+                      cursorColor: CustomColorsAPP.blackLetter,
 
                     ),
                     ),
@@ -136,14 +135,14 @@ class _CreatePqrsState extends State<CreatePqrs> {
                           "(${this.lengthValue}/500)",
                           style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColors.grayOne,
+                            color: CustomColorsAPP.grayOne,
                             fontSize: 13
                           ),
                         )
                       ],
                     ),
                     SizedBox(height: 24),
-                    btnCustom(double.infinity, Strings.create, CustomColors.blueSplash, Colors.white, _createPQRS),
+                    btnCustom(double.infinity, Strings.create, CustomColorsAPP.blueSplash, Colors.white, _createPQRS),
                     SizedBox(height: 20),
                   ],
                 ),
@@ -208,7 +207,7 @@ class _CreatePqrsState extends State<CreatePqrs> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
-          border: Border.all(color: CustomColors.gray.withOpacity(.6),width: 1)
+          border: Border.all(color: CustomColorsAPP.gray.withOpacity(.6),width: 1)
         ),
         child: Row(
           children: [
@@ -220,23 +219,23 @@ class _CreatePqrsState extends State<CreatePqrs> {
                   enabled: false,
                   hintStyle: TextStyle(
                     fontSize: 15,
-                    color: CustomColors.gray,
+                    color: CustomColorsAPP.gray,
                     fontFamily: Strings.fontRegular
                   ),
                   hintText: Strings.supportType
                 ),
                 style: TextStyle(
                     fontSize: 15,
-                    color: CustomColors.blackLetter,
+                    color: CustomColorsAPP.blackLetter,
                     fontFamily: Strings.fontRegular
                 ),
-                cursorColor: CustomColors.blackLetter,
+                cursorColor: CustomColorsAPP.blackLetter,
 
               ),
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: CustomColors.gray,
+              color: CustomColorsAPP.gray,
               size: 20,
             )
           ],

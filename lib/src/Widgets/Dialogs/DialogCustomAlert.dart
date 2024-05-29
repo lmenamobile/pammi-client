@@ -32,7 +32,7 @@ class DialogCustomAlert extends StatelessWidget {
                           padding: EdgeInsets.all(0),
                           icon: Icon(
                             Icons.close,
-                            color: CustomColors.gray,
+                            color: CustomColorsAPP.gray,
                           ),
                           onPressed: () => Navigator.pop(context, false)))
                 ],
@@ -68,7 +68,7 @@ class DialogCustomAlert extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              child: btnCustom(null,Strings.btnAccept, CustomColors.blueSplash,
+              child: btnCustom(null,Strings.btnAccept, CustomColorsAPP.blueSplash,
                   Colors.white, () => Navigator.pop(context, false)),
             ),
             SizedBox(

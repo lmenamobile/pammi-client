@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Category.dart';
@@ -38,90 +40,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColorsAPP.gray12,
       body: SafeArea(
         child: Container(
-          color: Colors.white,
+          color: CustomColorsAPP.gray12,
           child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color:CustomColors.redDot
-                ),
-                child: Container(
-                  height: 120,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          width: double.infinity,
-                          height: 15,
-                          decoration: BoxDecoration(
-                              color: CustomColors.whiteBackGround,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                              )),
-                        ),
-                      ),
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 37, vertical: 10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                GestureDetector(
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    child: Image(
-                                      image: AssetImage(
-                                          "Assets/images/ic_backward_arrow.png"),
-                                    ),
-                                  ),
-                                  onTap: () => Navigator.pop(context),
-                                ),
-                                Text(
-                                  Strings.categories,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.white,
-                                      fontFamily: Strings.fontBold),
-                                ),
-                                GestureDetector(
-                                  child: Container(
-                                    width: 30,
-                                    child: Image(
-                                      image: AssetImage(
-                                          "Assets/images/ic_car.png"),
-                                    ),
-                                  ),
-                                  onTap: () => Navigator.push(context,
-                                      customPageTransition(ShopCartPage())),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            boxSearchHome(
-                                searchController, searchElements)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              headerView(Strings.categories, ()=>Navigator.pop(context)),
               Expanded(
                 child: SmartRefresher(
                   controller: _refreshCategories,
@@ -133,10 +58,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   onRefresh: _pullToRefresh,
                   child: providerSettings.hasConnection?providerSettings.ltsCategories.isEmpty ? Center(
                           child: SingleChildScrollView(
-                              child: emptyData("ic_empty_notification.png",
-                                  Strings.sorry, Strings.emptyCategories)),
-                        )
-                      : SingleChildScrollView(child: listCategories()):notConnectionInternet(),
+                              child: emptyData("ic_empty_notification.png", Strings.sorry, Strings.emptyCategories)),)
+                      : SingleChildScrollView(child: gridCategories()):notConnectionInternet(),
                 ),
               ),
             ],
@@ -166,40 +89,44 @@ class _CategoriesPageState extends State<CategoriesPage> {
     _refreshCategories.loadComplete();
   }
 
-  Widget listCategories() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: AnimationLimiter(
-        child: ListView.builder(
-          itemCount: providerSettings.ltsCategories.isEmpty
-              ? 0
-              : providerSettings.ltsCategories.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
-              position: index,
-              duration: const Duration(milliseconds: 370),
-              child: SlideAnimation(
-                verticalOffset: 50,
-                child: FadeInAnimation(
-                  child: itemCategoryRow(
-                      providerSettings.ltsCategories[index], openSubCategory),
-                ),
-              ),
-            );
-          },
+
+  Widget gridCategories(){
+    return   AnimationLimiter(
+      child: GridView.builder(
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 30,
+          childAspectRatio: 0.9,
+          crossAxisSpacing: 0,
         ),
+        padding: EdgeInsets.only(top: 20),
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: providerSettings.ltsCategories.length > 8
+            ? 8 : providerSettings.ltsCategories.length-1,
+        shrinkWrap: true,
+        itemBuilder: (_, int index) {
+          return AnimationConfiguration.staggeredGrid(
+            position: index,
+            duration: const Duration(milliseconds: 375),
+            columnCount: 4,
+            child: ScaleAnimation(
+              child: FadeInAnimation(
+                child: InkWell(
+                    onTap: () => openSubCategory(providerSettings.ltsCategories[index]),
+                    child: itemCategory(providerSettings.ltsCategories[index])),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
   openSubCategory(Category category) {
-    Navigator.push(
-        context,
+    Navigator.push(context,
         customPageTransition(SubCategoryPage(
           category: category,
-        )));
+        ), PageTransitionType.rightToLeftWithFade));
   }
 
   searchElements(String value) {

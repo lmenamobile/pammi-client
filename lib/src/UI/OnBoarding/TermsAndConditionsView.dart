@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -36,19 +35,19 @@ class _TermsAndConditionsViewState extends State<TermsAndConditionsView> {
 
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-        backgroundColor: CustomColors.redTour,
+        backgroundColor: CustomColorsAPP.redTour,
         body: SafeArea(
           child: Container(
             color: Colors.white,
             child: Column(
               children: [
-                header(context, Strings.policiesTitle, CustomColors.redDot, () => Navigator.pop(context)),
+                headerView( Strings.policiesTitle,  () => Navigator.pop(context)),
 
                 Expanded(
                   child: providerSettings.hasConnection ?  InAppWebView(
                     key: webViewKey,
                     initialUrlRequest:
-                    URLRequest(url: Uri.parse(Strings.urlPolicies ?? '') ),
+                    URLRequest(url: WebUri(Strings.urlPolicies ?? '') ),
                     initialUserScripts: UnmodifiableListView<UserScript>([]),
                     onWebViewCreated: (controller) async {
                       webViewController = controller;
@@ -67,6 +66,7 @@ class _TermsAndConditionsViewState extends State<TermsAndConditionsView> {
                           return NavigationActionPolicy.CANCEL;
                         }
                       }
+                      return null;
                     },
                     onLoadStop: (controller, url) async {
                       //pullToRefreshController?.endRefreshing();

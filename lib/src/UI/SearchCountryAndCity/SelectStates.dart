@@ -4,7 +4,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/Widgets.dart';
-import 'package:wawamko/src/UI/SearchCountryAndCity/selectCity.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -60,7 +59,7 @@ class _SelectStatesPageState extends State<SelectStatesPage> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            header(context, Strings.selectState, CustomColors.red, ()=> Navigator.pop(context)),
+            headerView( Strings.selectState, ()=> Navigator.pop(context)),
             SizedBox(height: 21),
             boxSearchCountries(searchStateController, searchState),
             SizedBox(height: 21),
