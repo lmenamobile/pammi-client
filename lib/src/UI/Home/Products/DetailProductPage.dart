@@ -98,8 +98,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             children: [
                               Text(
                                 providerProducts?.productDetail?.brandProvider
-                                    ?.brand?.brand ??
-                                    '',
+                                    ?.brand?.brand ?? '',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
