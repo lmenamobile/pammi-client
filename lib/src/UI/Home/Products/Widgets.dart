@@ -316,17 +316,21 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
 itemComment(CommentProduct commentProduct){
   return Container(
     decoration: BoxDecoration(
+      border: Border.all(
+        color: CustomColorsAPP.gray15.withOpacity(.7),
+      ),
       borderRadius: BorderRadius.all(Radius.circular(10)),
-      color: CustomColorsAPP.whiteBackGround
+      color: Colors.white,
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 50,
-            width: 50,
+            height: 32,
+            width: 32,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: Image.network(commentProduct.user?.photoUrl??''),
@@ -343,8 +347,7 @@ itemComment(CommentProduct commentProduct){
                   commentProduct.user?.fullName??'',
                   style: TextStyle(
                     color: CustomColorsAPP.blue,
-                    fontSize: 13,
-                    fontFamily: Strings.fontRegular
+                    fontFamily: Strings.fontMedium
                   ),
                 ),
                 Text(
@@ -352,15 +355,14 @@ itemComment(CommentProduct commentProduct){
                   maxLines: 2,
                   style: TextStyle(
                       color: CustomColorsAPP.gray7,
-                      fontSize: 13,
                       fontFamily: Strings.fontRegular
                   ),
                 ),
                 Text(
-                  formatDate(commentProduct.date??DateTime.now(), "dd-MM-yyyy", "es_CO"),
+                  formatDate(commentProduct.date??DateTime.now(), "dd/MM/yyyy", "es_CO"),
                   style: TextStyle(
                       color: CustomColorsAPP.gray7,
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: Strings.fontRegular
                   ),
                 ),

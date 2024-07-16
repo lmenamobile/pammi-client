@@ -381,7 +381,7 @@ Widget rowButtonsMoreAndLess(String units, Function add, Function remove){
     margin: EdgeInsets.only(bottom: 10),
     child: Row(
       children: [
-        buttonMoreOrLess(Icons.remove, remove),
+        buttonMoreOrLess("btn_minus.svg", remove),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
@@ -392,31 +392,20 @@ Widget rowButtonsMoreAndLess(String units, Function add, Function remove){
                 color: CustomColorsAPP.blueSplash),
           ),
         ),
-        buttonMoreOrLess(Icons.add, add),
+        buttonMoreOrLess("btn_plus.svg", add),
       ],
     ),
   );
 }
 
-Widget buttonMoreOrLess(IconData icon, Function action){
+Widget buttonMoreOrLess(String icon, Function action){
   return Container(
     width: 30,
     height: 30,
     child: AnimateButton(
       pressEvent: ()=> action(),
-      body: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-            color: CustomColorsAPP.blueSplash,
-            borderRadius: BorderRadius.all(Radius.circular(6))
-        ),
-        child: Center(
-          child: Icon(
-            icon,
-            color: Colors.white,
-          ),
-        ),
+      body: SvgPicture.asset(
+        "Assets/images/$icon",
       ),
     ),
   );

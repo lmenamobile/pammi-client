@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
@@ -22,10 +23,9 @@ import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
-import 'package:wawamko/src/Widgets/widgets.dart';
 
 class DetailProductPage extends StatefulWidget {
-  final Product product;
+  final Product? product;
 
   const DetailProductPage({required this.product});
 
@@ -44,8 +44,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       providerProducts!.productDetail = widget.product;
-      providerProducts!.referenceProductSelected = widget.product.references[0];
-      providerProducts?.imageReferenceProductSelected = widget.product.references[0].images?[0].url ?? "";
+      providerProducts!.referenceProductSelected = widget.product?.references[0];
+      providerProducts?.imageReferenceProductSelected = widget.product?.references[0].images?[0].url ?? "";
       providerProducts!.unitsProduct = 1;
     });
     super.initState();
@@ -59,13 +59,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColorsAPP.whiteBackGround,
       body: SafeArea(
         child: Container(
-          color: Colors.white,
+            color: CustomColorsAPP.whiteBackGround,
           child: Column(
             children: [
-              headerWithActions(Strings.detailTotalOrder,()=>Navigator.pop(context), openShopCart),
+              headerWithActions(Strings.productDetail,()=>Navigator.pop(context), openShopCart),
               Expanded(
                 child: providerSettings.hasConnection ? SingleChildScrollView(
                   child: Column(
@@ -85,7 +85,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       //LIST IMAGES REFERENCES
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
-                        height: 70,
+                        height: 90,
                         child: listItemsImagesReferences(providerProducts?.referenceProductSelected?.images),
                       ),
 
@@ -97,8 +97,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                providerProducts?.productDetail?.brandProvider
-                                    ?.brand?.brand ?? '',
+                                providerProducts?.productDetail?.brandProvider?.brand?.brand ?? '',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
@@ -108,9 +107,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 5,
                               ),
                               Text(
-                                providerProducts
-                                    ?.referenceProductSelected?.reference ??
-                                    '',
+                                providerProducts?.referenceProductSelected?.reference ?? '',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: Strings.fontBold,
@@ -119,71 +116,20 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               SizedBox(
                                 height: 5,
                               ),
-                              //PRODUCT COLOR
-                              Row(
-                                  children: [
-                                    Visibility(
-                                      visible: providerProducts?.referenceProductSelected?.color != "",
-                                      child: Row(
-                                       // mainAxisAlignment: MainAxisAlignment.,
-                                        children: [
-                                          Text(
-                                              "Color ",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: Strings.fontRegular,
-                                                color: CustomColorsAPP.blueSplash),
-                                          ),
-                                          Container(
-                                            width: 30,
-                                            height: 12,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.grey.withOpacity(.2),width: 1),
-                                              color:providerProducts?.referenceProductSelected?.color != "" ?
-                                              Color(int.parse(providerProducts?.referenceProductSelected?.color?.toString().replaceAll('#', '0xFF') ?? "")) : Colors.yellow,
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-
-                                   Visibility(
-                                     visible: providerProducts?.referenceProductSelected?.size != "",
-                                     child:   Expanded(
-                                         child: Text(
-                                            providerProducts?.referenceProductSelected?.color != "" ? " - Talla ${providerProducts?.referenceProductSelected?.size}" :  "Talla ${providerProducts?.referenceProductSelected?.size}",
-                                           style: TextStyle(fontSize: 15, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueSplash),
-                                         ),
-                                   ),
-
-                                   )
-
-                                  ],
-
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
                               Text(
-                                  widget.product.service ?? false ? "${Strings.type}: ${Strings.service}" : "${Strings.type}: ${Strings.product}",
+                                  widget.product?.service ?? false ? "${Strings.type}: ${Strings.service}" : "${Strings.type}: ${Strings.product}",
                                   style:TextStyle(
                                       fontSize: 15,
                                       fontFamily: Strings.fontBold,
                                       color: CustomColorsAPP.blackLetter)
                               ),
-                              rowStars(double.parse(providerProducts
-                                  ?.referenceProductSelected
-                                  ?.qualification ??
-                                  '0')),
+                              rowStars(double.parse(providerProducts?.referenceProductSelected?.qualification ?? '0')),
                               Visibility(
                                 visible: providerProducts
                                     ?.referenceProductSelected
                                     ?.totalProductOffer?.status ?? false,
                                 child: Text(
-                                  formatMoney(
-                                      providerProducts?.referenceProductSelected
-                                          ?.price ?? '0'),
+                                  formatMoney(providerProducts?.referenceProductSelected?.price ?? '0'),
                                   style: TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       fontSize: 18,
@@ -193,29 +139,60 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               ),
                               Text(
                                 formatMoney(
-                                    providerProducts?.referenceProductSelected
-                                        ?.totalProductOffer?.status == true ?
-                                    providerProducts?.referenceProductSelected
-                                        ?.totalProductOffer?.priceWithDiscount :
-                                    providerProducts?.referenceProductSelected
-                                        ?.price ??
-                                        '0'),
+                                    providerProducts?.referenceProductSelected?.totalProductOffer?.status == true ?
+                                    providerProducts?.referenceProductSelected?.totalProductOffer?.priceWithDiscount :
+                                    providerProducts?.referenceProductSelected?.price ?? '0'),
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: Strings.fontMedium,
                                     color: CustomColorsAPP.orange),
                               ),
                               SizedBox(height: 10,),
-                              //botones para agregar producto por cantidad
+                              //SECTIONS BUTTONS AN CONDITIONS DELIVERY
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  rowButtonsMoreAndLess(providerProducts!.unitsProduct.toString(), addProduct, removeProduct),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        Strings.quantity,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                            fontFamily: Strings.fontMedium,
+                                            color: CustomColorsAPP.black),
+                                      ),
+                                      rowButtonsMoreAndLess(providerProducts!.unitsProduct.toString(), addProduct, removeProduct),
+                                    ],
+                                  ),
                                   SizedBox(height: 5,),
                                   Visibility(
                                     visible:providerProducts?.limitedQuantityError == true ? false :true,
-                                    child: Text("${Strings.quantityAvailable} ${providerProducts?.referenceProductSelected?.qty}",
-                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              "Assets/images/truck.svg",
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              Strings.deliveryDomicile,
+                                              style: TextStyle(
+                                                  fontFamily: Strings.fontRegular,
+                                                  color: CustomColorsAPP.gray),
+                                            )
+                                          ],
+                                        ),
+                                        Text("${Strings.quantityAvailable} ${providerProducts?.referenceProductSelected?.qty}",
+                                          style: TextStyle( fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Visibility(
@@ -231,34 +208,38 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                       ),
                                     ),
                                   )
-
                                 ],
                               ),
+
                               customDivider(),
+
+                              //BUTTONS PAYMENT AND ADD CART
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
+                                child: Column(
                                   children: [
-                                    btnCustom(
-                                        120,
-                                        Strings.paymentNow,
-                                        CustomColorsAPP.orange,
-                                        Colors.white,
-                                            () => paymentNow()),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        width: 200,
-                                        child: btnCustomIconLeft(
-                                            "ic_pay_add.png",
-                                            Strings.addCartShop,
-                                            CustomColorsAPP.blue,
-                                            Colors.white,
-                                                () => addProductCart()),
-                                      ),
-                                    )
+                                    btnCustomContent(
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset("Assets/images/ic_shoppingcart.svg",),
+                                        SizedBox(width: 10,),
+                                        Text(
+                                          Strings.addCartShop.toUpperCase(),
+                                          style: TextStyle(
+                                              fontFamily: Strings.fontRegular, color: Colors.white),
+                                        )
+                                      ],
+                                    ), CustomColorsAPP.blueSplash,CustomColorsAPP.blueSplash, () => addProductCart()),
+                                    const SizedBox(height: 16,),
+                                    btnCustomContent(
+                                        Text(
+                                          Strings.paymentNow.toUpperCase(),
+                                          style: TextStyle(
+                                              fontFamily: Strings.fontRegular,
+                                              color: Colors.white),
+                                        ), CustomColorsAPP.redDot,
+                                        CustomColorsAPP.redDot,  () => paymentNow()),
                                   ],
                                 ),
                               ),
@@ -281,7 +262,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   Widget sectionDescriptionProduct() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: CustomColorsAPP.whiteBackGround,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),

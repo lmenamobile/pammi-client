@@ -22,8 +22,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, WidgetsBindingObserver {
-  final prefs = SharePreference();
   GlobalVariables singleton = GlobalVariables();
+  final prefs = SharePreference();
   late OnboardingProvider providerOnboarding;
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -38,11 +38,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
     callAccessToken();
 
     _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this, value: 0.1);
-
     _controller.addStatusListener((AnimationStatus status) async {
-      if(status==AnimationStatus.completed){
-    //    bool result = await getPermissionGps();
-        openApp();
+      if(status==AnimationStatus.completed){openApp();
       }
     });
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
@@ -67,12 +64,12 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         color: CustomColorsAPP.redTour,
-        child: _body(context),
+        child: _body(),
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body() {
     return Stack(
       children: <Widget>[
        /* Positioned(

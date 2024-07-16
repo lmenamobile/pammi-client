@@ -10,6 +10,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
+import 'package:wawamko/src/UI/Home/MenuFilter/MenuFilterView.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
@@ -32,6 +33,7 @@ class ProductCategoryPage extends StatefulWidget {
 }
 
 class _ProductCategoryPageState extends State<ProductCategoryPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKeyMenu = GlobalKey<ScaffoldState>();
   final searchController = TextEditingController();
   late ProviderProducts providerProducts;
   late ProviderUser providerUser;
@@ -55,7 +57,9 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
+      key: _scaffoldKeyMenu,
       backgroundColor: Colors.white,
+      endDrawer: MenuFilterView(),
       body: SafeArea(
         child: Container(
           color:  Colors.white,
@@ -63,7 +67,8 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
             children: [
               Column(
                 children: [
-                  headerWithSearch(Strings.products, searchController, providerShopCart.totalProductsCart, ()=>Navigator.pop(context), (){}, callSearchProducts),
+                  headerWithSearchFilter(Strings.products, searchController, providerShopCart.totalProductsCart, ()=>Navigator.pop(context), (){}, callSearchProducts,
+                      ()=>_scaffoldKeyMenu.currentState!.openEndDrawer()),
                   Expanded(
                     child: SmartRefresher(
                             controller: _refreshProducts,

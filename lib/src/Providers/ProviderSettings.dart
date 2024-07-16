@@ -102,6 +102,14 @@ class ProviderSettings with ChangeNotifier{
     notifyListeners();
   }
 
+  /*list categoriesHome*/
+  List<Category> _ltsCategoriesHome = [];
+  List<Category> get ltsCategoriesHome => this._ltsCategoriesHome;
+  set ltsCategoriesHome(List<Category> value) {
+    this._ltsCategoriesHome.addAll(value);
+    notifyListeners();
+  }
+
   List<SubCategory> _ltsSubCategories = [];
   List<SubCategory> get ltsSubCategories => this._ltsSubCategories;
   set ltsSubCategories(List<SubCategory> value) {
@@ -322,7 +330,8 @@ class ProviderSettings with ChangeNotifier{
           listCategories.add(category);
         }
         this.isLoadingSettings = false;
-        this.ltsCategories= addCategoryAll(listCategories);
+        this.ltsCategories= listCategories;
+        ltsCategoriesHome = addCategoryAll(ltsCategories);
         return listCategories;
       } else {
         this.isLoadingSettings = false;
@@ -335,6 +344,7 @@ class ProviderSettings with ChangeNotifier{
   }
 
   List<Category>  addCategoryAll(List<Category> listCategories){
+    ltsCategoriesHome = [];
     Category categoryAll = Category(
       id: 0,
       category: "Otras Categorias",
@@ -342,8 +352,17 @@ class ProviderSettings with ChangeNotifier{
       image: Constants.iconCategories,
     );
 
-    listCategories.add(categoryAll);
-    return listCategories;
+    List<Category> newListCategories = [];
+
+    if (listCategories.length > 7) {
+      newListCategories = listCategories.sublist(0, 7);
+    } else {
+      newListCategories = List.from(listCategories);
+    }
+
+    newListCategories.add(categoryAll);
+
+    return newListCategories;
   }
 
   Future<dynamic> getSubCategories(int page,String idCategory) async {

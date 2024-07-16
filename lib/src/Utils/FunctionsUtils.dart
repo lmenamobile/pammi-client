@@ -26,6 +26,7 @@ Future<String> getPackageInfo()async{
   return packageInfo.version;
 }
 
+
 Widget isImageYoutubeAction(String url,Widget itemImage){
   return url.contains("youtube")?InkWell(
     onTap: ()=>launch(url),

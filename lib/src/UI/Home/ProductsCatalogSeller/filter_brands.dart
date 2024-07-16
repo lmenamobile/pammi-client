@@ -101,7 +101,7 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
                   children: [
                     const SizedBox(height: 34.8),
                     Text(
-                      Strings.brands,
+                      Strings.brandsAssociate,
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,

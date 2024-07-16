@@ -29,6 +29,7 @@ import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import '../../Providers/ProviderChat.dart';
 import '../../Providers/SocketService.dart';
+import '../../Utils/FunctionsUtils.dart';
 import '../Chat/ChatPage.dart';
 import 'Products/DetailProductPage.dart';
 import 'Widgets.dart';
@@ -55,7 +56,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   @override
-  void initState() {
+  void initState()  {
+    Future.microtask(() async {
+      try {
+        prefs.versionApp = await utils.getVersion();
+        providerHome.version = "v" + prefs.versionApp;
+      } catch (e) {
+        print('Error obteniendo la versión: $e');
+      }
+    });
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
@@ -72,14 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
         selectCountryUserNotLogin();
       });
     }
-    profileProvider?.user?.photoUrl = prefs.photoUser;
-    utils.getVersion().then((value) {
-      providerHome!.version = "v" + value;
-      print("VERSION ${providerHome!.version}");
-    });
-
+    profileProvider.user?.photoUrl = prefs.photoUser;
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -215,11 +221,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   Visibility(
-                    visible: providerHome!.ltsBanners.isNotEmpty,
+                    visible: providerHome.ltsBanners.isNotEmpty,
                     child: Container(
                       width: double.infinity,
                       color: Colors.transparent,
-                      child: sliderBanner(providerHome?.indexBannerHeader, updateIndexBannerHeader, providerHome!.ltsBanners),
+                      child: sliderBanner(providerHome.indexBannerHeader, updateIndexBannerHeader, providerHome.ltsBanners),
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -285,8 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             padding: EdgeInsets.only(top: 20),
             physics: NeverScrollableScrollPhysics(),
-            itemCount: providerSettings.ltsCategories.length > 8
-                ? 8 : providerSettings.ltsCategories.length,
+            itemCount: providerSettings.ltsCategoriesHome.length,
             shrinkWrap: true,
             itemBuilder: (_, int index) {
               return AnimationConfiguration.staggeredGrid(
@@ -296,8 +301,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ScaleAnimation(
                   child: FadeInAnimation(
                     child: InkWell(
-                        onTap: () => openSubCategory(providerSettings.ltsCategories[index]),
-                        child: itemCategory(providerSettings.ltsCategories[index])),
+                        onTap: () => openSubCategory(providerSettings.ltsCategoriesHome[index]),
+                        child: itemCategory(providerSettings.ltsCategoriesHome[index])),
                   ),
                 ),
               );
@@ -560,11 +565,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
-    providerHome!.ltsBrands.clear();
-    providerHome!.ltsBanners.clear();
-    providerHome!.ltsBannersOffer.clear();
+    providerHome.ltsBrands.clear();
+    providerHome.ltsBanners.clear();
+    providerHome.ltsBannersOffer.clear();
     providerSettings.ltsCategories.clear();
-    providerHome!.ltsMostSelledProducts.clear();
+    providerSettings.ltsCategoriesHome.clear();
+    providerHome.ltsMostSelledProducts.clear();
     serviceGetCategories();
     getProductsMoreSelled();
     _refreshHome.refreshCompleted();

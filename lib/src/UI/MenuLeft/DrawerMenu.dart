@@ -30,8 +30,6 @@ import 'SectionsMenu/GiftCards/GiftCartPage.dart';
 
 class DrawerMenuPage extends StatefulWidget {
   final rollOverActive;
-
-
   DrawerMenuPage({Key? key, this.rollOverActive}) : super(key: key);
 
   _DrawerMenuPageState createState() => _DrawerMenuPageState();
@@ -43,6 +41,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
   ProfileProvider? profileProvider;
   late OnboardingProvider providerOnBoarding;
 
+
   @override
   Widget build(BuildContext context) {
     profileProvider = Provider.of<ProfileProvider>(context);
@@ -53,7 +52,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     );
   }
 
-   _body(BuildContext context) async {
+   _body(BuildContext context) {
     return FadeInLeft(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 25),
@@ -143,7 +142,11 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       ),
                       SizedBox(height: 15),
                       Text(
-                        "${await getPackageInfo()}"
+                        "Versión ${_prefs.versionApp}",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: Strings.fontRegular,
+                            color: CustomColorsAPP.gray7),
                       ),
                       SizedBox(height: 16),
                     ],

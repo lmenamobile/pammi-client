@@ -344,6 +344,7 @@ class _Utils {
         builder: (BuildContext context) => LoadingProgress());
   }
 
+
   Future<String> getVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;

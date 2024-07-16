@@ -41,7 +41,7 @@ class _BrandsPageState extends State<BrandsPage> {
             children: [
               Column(
                 children: [
-                  headerView(Strings.brands,()=>Navigator.pop(context)),
+                  headerView(Strings.brandsAssociate,()=>Navigator.pop(context)),
                   Expanded(
                       child: SmartRefresher(
                           controller: _refreshBrands,

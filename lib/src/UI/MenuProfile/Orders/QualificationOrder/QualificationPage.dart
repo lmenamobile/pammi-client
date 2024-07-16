@@ -87,7 +87,7 @@ class _QualificationPageState extends State<QualificationPage> {
               height: 10,
             ),
             Text(
-              Strings.brands,
+              Strings.brandsAssociate,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),

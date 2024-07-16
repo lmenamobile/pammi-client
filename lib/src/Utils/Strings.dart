@@ -110,6 +110,10 @@ class Strings {
   static const String apply = 'Aplicar';
   static const String campaigns = 'Campañas';
 
+  //DETAIL PRODUCT
+  static const String productDetail = 'Detalle';
+  static const String deliveryDomicile = 'Entrega a domicilio';
+
 
   /*Comment*/
   static const String comment = 'Comentario';
@@ -126,8 +130,17 @@ class Strings {
   static const String description = 'Descripción';
   static const String conditions = 'Condiciones';
   static const String comments = 'Comentarios';
-  static const String quantityAvailable = 'Cantidad disponible:';
+  static const String quantityAvailable = 'Un. disponibles: ';
   static const String youCanOnlyCarry = 'Solo puedes llevar';
+
+  /*Filter*/
+  static const String filterBy      =  'Filtrar por';
+  static const String brands        = 'Marcas';
+  static const String subcategories = 'Subcategorías';
+  static const String size          = 'Talla';
+  static const String material      = 'Material';
+  static const String color         = 'Color';
+
 
 
   //Dialogs
@@ -384,7 +397,7 @@ class Strings {
 
   /*Qualification */
   static const String  textQualification = '¿Cómo te fue con tu pedido del Proveedor';
-  static const String  brands = 'Marcas asociadas';
+  static const String  brandsAssociate = 'Marcas asociadas';
   static const String  countStar = '¿Cuántas estrellas le darías?';
   static const String  commentProduct = 'Cuéntanos más del producto';
   static const String  textQualificationSeller = '¿Cómo calificarías a';
