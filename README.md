@@ -4,6 +4,8 @@ wawamko cliente
 
 ## Getting Started
 
+ Este proyecto corre con flutter 3.22.0
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:

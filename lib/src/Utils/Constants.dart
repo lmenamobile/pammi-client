@@ -3,27 +3,22 @@
 class Constants {
 
   //*------DEV------*//*
- /* static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
+  static const String baseURL = 'http://devapiappclient.pamii.com/v1/';
   static const String urlBlog = 'http://devblog.pamii.com/';
   static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-  static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
+  static const String profileAdmin = 'https://pamii-dev.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';
   //*------------*/
 
-   /*------staging------*/
-  /* static const String baseURL = 'http://stagingapiappclient.pamii.com:50011/v1/';
-     static const String urlBlog = 'http://stagingblog.pamii.com/';
-     static const String urlSocket = 'http://stagingapisupersocket.pamii.com';
-     static const String profileProvider = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_proveedor.png';
-     static const String profileAdmin = 'https://pamii-staging.s3.us-east-2.amazonaws.com/wawamko/chats/ic_pami.png';*/
 
 
     /*------Prod------*/
+  /*
   static const String baseURL = 'https://apiappclient.estoespamii.com/v1/';
   static const String urlBlog = 'http://devblog.estoespamii.com/';
   static const String urlSocket = 'http://apisupersocket.estoespamii.com';
   static const String profileProvider = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_proveedor.png';
-  static const String profileAdmin = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_pami.png';
+  static const String profileAdmin = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_pami.png';*/
 
 
   static const String iconCategories = 'https://pamii-preproduction.s3.amazonaws.com/pamii/categories/ic_categories.svg';
