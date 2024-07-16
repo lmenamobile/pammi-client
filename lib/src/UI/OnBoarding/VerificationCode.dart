@@ -13,7 +13,7 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
-import '../Home/HomePage.dart';
+import '../../features/feature_home/presentation/views/HomePage.dart';
 
 class VerificationCodePage extends StatefulWidget {
   final String? email;

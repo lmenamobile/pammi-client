@@ -5,7 +5,7 @@ import 'package:location/location.dart' as GPS;
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
-import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/colors.dart';

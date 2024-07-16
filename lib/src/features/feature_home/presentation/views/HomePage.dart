@@ -27,12 +27,11 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
-import '../../Providers/ProviderChat.dart';
-import '../../Providers/SocketService.dart';
-import '../../Utils/FunctionsUtils.dart';
-import '../Chat/ChatPage.dart';
-import 'Products/DetailProductPage.dart';
-import 'Widgets.dart';
+import '../../../../Providers/ProviderChat.dart';
+import '../../../../Providers/SocketService.dart';
+import '../../../../UI/Chat/ChatPage.dart';
+import '../../../../UI/Home/Products/DetailProductPage.dart';
+import '../../../../UI/Home/Widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -314,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sectionsBrands() {
-    return providerHome!.ltsBrands.isEmpty?Container():Container(
+    return providerHome.ltsBrands.isEmpty?Container():Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -579,13 +578,12 @@ class _MyHomePageState extends State<MyHomePage> {
   serviceGetCategories() async {
     utils.checkInternet().then((value) async {
       if (value) {
-        Future callSettings =
-            providerSettings.getCategoriesInterest("", 0, prefs.countryIdUser);
+        Future callSettings = providerSettings.getCategoriesInterest("", 0, prefs.countryIdUser);
         await callSettings.then((list) {
           getBrands();
           getProductsMoreSelled();
         }, onError: (error) {
-          // utils.showSnackBar(context, error.toString());
+
         });
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);

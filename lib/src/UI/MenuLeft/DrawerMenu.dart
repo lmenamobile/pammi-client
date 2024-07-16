@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/UI/HelpSupport.dart';
-import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/CustomerServicePage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/FavoritesPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';

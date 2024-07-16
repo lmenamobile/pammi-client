@@ -24,7 +24,7 @@ import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
-import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';

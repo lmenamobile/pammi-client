@@ -314,7 +314,8 @@ class ProviderSettings with ChangeNotifier{
       "countryId": countryCode
     };
     var body = jsonEncode(jsonData);
-
+    print("body: ${body}");
+    print("url: ${Constants.baseURL+"category/get-categories"}");
     final response = await http.post(Uri.parse(Constants.baseURL+"category/get-categories"), headers: header, body: body)
         .timeout(Duration(seconds: 15))
         .catchError((value) {
@@ -323,6 +324,7 @@ class ProviderSettings with ChangeNotifier{
     });
     final List<Category> listCategories = [];
     Map<String, dynamic>? decodeJson = json.decode(response.body);
+    print("get categories ${decodeJson}");
     if (response.statusCode == 200) {
       if (decodeJson!['code'] == 100) {
         for (var item in decodeJson['data']['items']) {

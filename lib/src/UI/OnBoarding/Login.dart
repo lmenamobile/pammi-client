@@ -11,7 +11,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/OnBoarding/LoginSocialNetwork/RegisterSocialNetwork.dart';
 import 'package:wawamko/src/UI/Onboarding/ForgotPasswordEmail.dart';
-import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/Onboarding/Register.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';

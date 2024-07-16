@@ -7,7 +7,7 @@ import 'package:wawamko/src/Models/Order/MethodDevolution.dart';
 import 'package:wawamko/src/Models/Claim/TypeClaim.dart';
 import 'package:wawamko/src/Models/Claim/TypeReason.dart';
 import 'package:wawamko/src/Providers/ProviderClaimOrder.dart';
-import 'package:wawamko/src/UI/Home/HomePage.dart';
+import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
