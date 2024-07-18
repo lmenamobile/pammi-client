@@ -26,13 +26,18 @@ import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
-import 'package:wawamko/src/Utils/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/features/feature_views_shared/infrastructure/infrastructure.dart';
+
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
 import 'src/UI/Onboarding/Tour/Splash.dart';
 import 'src/Utils/Strings.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'src/config/config.dart';
+import 'src/features/feature_views_shared/domain/domain.dart';
+import 'src/features/feature_views_shared/presentation/presentation.dart';
 
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -52,59 +57,19 @@ class MyHttpOverrides extends HttpOverrides  {
 
 void main() async{
   HttpOverrides.global = new MyHttpOverrides();
+  await Environment.initEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = SharePreference();
   await prefs.initPrefs();
   await NotificationsPushServices.initializeApp();
 
+  final departmentDatasource = DepartmentDatasourceImpl();
+  final departmentRepository = DepartmentRepositoryImpl(remoteDataSource: departmentDatasource);
 
-/*
-  var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
-  var initializationSettingsIOS = IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      onDidReceiveLocalNotification:
-          (int? id, String? title, String? body, String? payload) async {
-        didReceiveLocalNotificationSubject.add(ReceivedNotificationVO(
-            id: id, title: title, body: body, payload: payload));
-      });
-  var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {
-        if (payload != null) {
-          launchLocalNotification(payload);
-          debugPrint('notification payload: ' + payload);
-        }
-        selectNotificationSubject.add(payload!);
-      });
-
-  if (Platform.isAndroid) {
-    // await inapWebView.AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
-    var swAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
-        inapWebView.AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-    var swInterceptAvailable = await inapWebView.AndroidWebViewFeature.isFeatureSupported(
-        inapWebView.AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
-
-    if (swAvailable && swInterceptAvailable) {
-      inapWebView.AndroidServiceWorkerController serviceWorkerController =
-      inapWebView.AndroidServiceWorkerController.instance();
-
-      await serviceWorkerController
-          .setServiceWorkerClient(inapWebView.AndroidServiceWorkerClient(
-        shouldInterceptRequest: (request) async {
-          print(request);
-          return null;
-        },
-      ));
-    }
-  }
-*/
-
-
-  runApp(MyApp());
+  runApp(MyApp(
+    departmentRepository: departmentRepository,
+  ));
 }
 
 
@@ -113,17 +78,22 @@ launchLocalNotification(String payloadData){
 }
 
 class MyApp extends StatefulWidget {
-  @override
+    final DepartmentRepository departmentRepository;
+
+  const MyApp({super.key, required this.departmentRepository});
+    @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     super.initState();
     NotificationsPushServices.dataNotification.listen((event) {
+
       print("MyApp: ${event['isLocal']}");
       if(event['isLocal']){
         _showNotification(event['title'],event['description']);
@@ -136,36 +106,13 @@ class _MyAppState extends State<MyApp> {
   void _showNotification(String title, String description) async {
 
 
-
-/*    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-        'your channel id',
-        'your channel name',
-        importance: Importance.max,
-        priority: Priority.high);
-    var iOSPlatformChannelSpecifics =
-    const IOSNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true
-    );
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0,
-        title,
-        description,
-        platformChannelSpecifics,
-        payload:"");*/
-
-
   }
 
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: CustomColorsAPP.redTour)
+        SystemUiOverlayStyle(statusBarColor: AppColors.redTour)
     );
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -175,6 +122,7 @@ class _MyAppState extends State<MyApp> {
     return  MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        ChangeNotifierProvider(create: (_) => DepartmentProvider(repository: widget.departmentRepository)),
         ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),

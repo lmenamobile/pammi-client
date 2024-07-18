@@ -4,7 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -97,7 +97,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                 customTextFieldCreditCard(cvcTargetController, Strings.cvc, Icons.credit_card, [LengthLimitingTextInputFormatter(4), FilteringTextInputFormatter.digitsOnly], TextInputType.number),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                  child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.addTarjet, callServiceAddCreditCart, context),
+                  child: btnCustomRounded(AppColors.blueSplash, AppColors.white, Strings.addTarjet, callServiceAddCreditCart, context),
                 )
               ],
             ),
@@ -122,22 +122,22 @@ class _AddTargetPageState extends State<AddTargetPage> {
         style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColorsAPP.blackLetter,
+          color: AppColors.blackLetter,
         ),
         controller: controller,
         decoration: InputDecoration(
             suffixIcon: Icon(
               icon,
-              color: CustomColorsAPP.blueSplash,
+              color: AppColors.blueSplash,
             ),
             hintText: hintText,
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: CustomColorsAPP.blueSplash),
+              borderSide: BorderSide(color: AppColors.blueSplash),
             ),
             hintStyle: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColorsAPP.gray7.withOpacity(.4))),
+                color: AppColors.gray7.withOpacity(.4))),
         onChanged: (value) {
           setState(() {});
         },
@@ -150,18 +150,18 @@ class _AddTargetPageState extends State<AddTargetPage> {
       value: selectedYear,
       items: _dropdownMenuItemsYears,
       isExpanded: true,
-      iconEnabledColor: CustomColorsAPP.blueSplash,
-      underline: Container(height: 1, color: CustomColorsAPP.blueSplash),
+      iconEnabledColor: AppColors.blueSplash,
+      underline: Container(height: 1, color: AppColors.blueSplash),
       style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColorsAPP.blackLetter),
+          color: AppColors.blackLetter),
       hint: Text(
         Strings.selectedYear,
         style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 15,
-            color: CustomColorsAPP.gray7.withOpacity(.4)),
+            color: AppColors.gray7.withOpacity(.4)),
         textAlign: TextAlign.center,
       ),
       onChanged: (dynamic option) {
@@ -177,18 +177,18 @@ class _AddTargetPageState extends State<AddTargetPage> {
       value: selectedMonth,
       items: _dropdownMenuItemsMonths,
       isExpanded: true,
-      iconEnabledColor: CustomColorsAPP.blueSplash,
-      underline: Container(height: 1, color: CustomColorsAPP.blueSplash),
+      iconEnabledColor: AppColors.blueSplash,
+      underline: Container(height: 1, color: AppColors.blueSplash),
       style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColorsAPP.blackLetter),
+          color: AppColors.blackLetter),
       hint: Text(
         Strings.selectedMonth,
         style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 15,
-            color: CustomColorsAPP.gray7.withOpacity(.4)),
+            color: AppColors.gray7.withOpacity(.4)),
         textAlign: TextAlign.center,
       ),
       onChanged: (dynamic option) {
@@ -246,7 +246,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: Strings.fontBold,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             ),
             Expanded(
               child: Container(
@@ -264,7 +264,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.blackLetter),
+                      color: AppColors.blackLetter),
                 ),
                 Text(
                   selectedMonth == null
@@ -275,7 +275,7 @@ class _AddTargetPageState extends State<AddTargetPage> {
                   style: TextStyle(
                       fontSize: 13,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.blackLetter),
+                      color: AppColors.blackLetter),
                 ),
               ],
             ),

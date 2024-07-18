@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Campaign.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+
+import '../../../../features/feature_views_shared/domain/domain.dart';
 
 Widget itemHighlights(Banners item){
   return Container(

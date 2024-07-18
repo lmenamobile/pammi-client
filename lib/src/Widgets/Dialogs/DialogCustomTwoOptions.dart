@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../WidgetsGeneric.dart';
 
@@ -64,7 +64,7 @@ class DialogCustomTwoOptions extends StatelessWidget {
                   Expanded(
                     child: btnCustom(null,
                             Strings.btnCancel,
-                            CustomColorsAPP.grayBackground,
+                            AppColors.grayBackground,
                             Colors.grey,
                             () => Navigator.pop(context, false)),
                   ),
@@ -77,7 +77,7 @@ class DialogCustomTwoOptions extends StatelessWidget {
 
                   Expanded(
                     child: btnCustom(null,
-                        btnCustomTitle, CustomColorsAPP.redDot, Colors.white,
+                        btnCustomTitle, AppColors.redDot, Colors.white,
                         () => Navigator.pop(context, true)),
                   ),
                 ],

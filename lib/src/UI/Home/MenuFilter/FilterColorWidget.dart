@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../Utils/Strings.dart';
-import '../../../Utils/colors.dart';
+import '../../../config/theme/colors.dart';
 
 class FilterColorWidget extends StatelessWidget {
   final List<Color> colores = [
@@ -19,16 +19,16 @@ class FilterColorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        dividerColor: CustomColorsAPP.gray2,
+        dividerColor: AppColors.gray2,
       ),
       child: ExpansionTile(
         initiallyExpanded: true,
-        iconColor: CustomColorsAPP.blue,
-        collapsedIconColor: CustomColorsAPP.blue,
+        iconColor: AppColors.blue,
+        collapsedIconColor: AppColors.blue,
         title: Text(
             Strings.color,
             style: TextStyle(
-                color: CustomColorsAPP.blueSplash,
+                color: AppColors.blueSplash,
                 fontSize: 16,
                 fontFamily: Strings.fontBold)
         ),

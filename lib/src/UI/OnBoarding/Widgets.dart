@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 
 Widget itemCheck(Function action,bool isSelect,Widget text){
@@ -37,7 +37,7 @@ Widget termsAndConditions(String url){
       style: TextStyle(
         height: 1.5,
         fontSize: 12,
-        color: CustomColorsAPP.blackLetter,
+        color: AppColors.blackLetter,
       ),
       children: <TextSpan>[
         TextSpan(
@@ -49,7 +49,7 @@ Widget termsAndConditions(String url){
           text: Strings.terms,
           style: TextStyle(
               fontFamily: Strings.fontRegular,
-              color: CustomColorsAPP.blueActiveDots,
+              color: AppColors.blueActiveDots,
               decoration: TextDecoration.underline),
           recognizer: TapGestureRecognizer()
             ..onTap = () => launch(url),
@@ -83,7 +83,7 @@ Widget customBoxPassword(Color color ,String hintText,bool validatePassword, Str
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
         border: Border.all(color: color, width: 1),
-        color: CustomColorsAPP.white),
+        color: AppColors.white),
     child: Center(
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -100,7 +100,7 @@ Widget customBoxPassword(Color color ,String hintText,bool validatePassword, Str
               margin: EdgeInsets.symmetric(horizontal: 5),
               width: 1,
               height: 25,
-              color: CustomColorsAPP.gray7.withOpacity(.4),
+              color: AppColors.gray7.withOpacity(.4),
             ),
             SizedBox(width: 5,),
             Expanded(
@@ -108,11 +108,11 @@ Widget customBoxPassword(Color color ,String hintText,bool validatePassword, Str
                 child: TextField(
                   obscureText: obscureTextPass,
                   controller: passwordController,
-                  style: TextStyle(fontSize: 16, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blackLetter),
+                  style: TextStyle(fontSize: 16, fontFamily: Strings.fontRegular, color: AppColors.blackLetter),
                   decoration: InputDecoration(
                     isDense: true,
                     border: InputBorder.none,
-                    hintStyle: TextStyle(color: CustomColorsAPP.gray7.withOpacity(.4), fontSize: 16, fontFamily: Strings.fontRegular,),
+                    hintStyle: TextStyle(color: AppColors.gray7.withOpacity(.4), fontSize: 16, fontFamily: Strings.fontRegular,),
                     hintText: hintText,
                   ),
                   onChanged: (value) {
@@ -146,8 +146,8 @@ Widget dotsIndicator(int position) {
     dotsCount: 3,
     position: position,
     decorator: DotsDecorator(
-      color: CustomColorsAPP.grayDot,
-      activeColor: CustomColorsAPP.redDot,
+      color: AppColors.grayDot,
+      activeColor: AppColors.redDot,
       size: const Size.square(9.0),
       spacing: EdgeInsets.all(8),
       activeSize: const Size(9.0, 9.0),
@@ -175,12 +175,12 @@ Widget firstPageTour(BuildContext context) {
             Text(
               Strings.welcome,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 48, fontFamily: Strings.fontBold, color: CustomColorsAPP.blueTitle),
+              style: TextStyle(fontSize: 48, fontFamily: Strings.fontBold, color: AppColors.blueTitle),
             ),
             SizedBox(height: 20),
             Text(
               Strings.welcomeDescription,
-              style: TextStyle(fontSize: 18, fontFamily: Strings.fontRegular, color: CustomColorsAPP.black1),
+              style: TextStyle(fontSize: 18, fontFamily: Strings.fontRegular, color: AppColors.black1),
               textAlign: TextAlign.center,
             ),
             //SizedBox(height: 20),
@@ -211,11 +211,11 @@ Widget secondPageTour(BuildContext context) {
             Text(
               Strings.titleTour1,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 48, fontFamily: Strings.fontBold, color: CustomColorsAPP.blueTitle),),
+              style: TextStyle(fontSize: 48, fontFamily: Strings.fontBold, color: AppColors.blueTitle),),
             SizedBox(height: 20),
             Text(
               Strings.descTour1,
-              style: TextStyle(fontSize: 18, fontFamily: Strings.fontRegular, color: CustomColorsAPP.black1), textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, fontFamily: Strings.fontRegular, color: AppColors.black1), textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -243,11 +243,11 @@ Widget thirdPageTour(BuildContext context) {
             Text(
               Strings.titleTour2,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 48, fontFamily: Strings.fontBold, color: CustomColorsAPP.blueTitle),),
+              style: TextStyle(fontSize: 48, fontFamily: Strings.fontBold, color: AppColors.blueTitle),),
             SizedBox(height: 20),
             Text(
               Strings.descTour2,
-              style: TextStyle(fontSize: 18, fontFamily: Strings.fontRegular, color: CustomColorsAPP.black1), textAlign: TextAlign.center,),
+              style: TextStyle(fontSize: 18, fontFamily: Strings.fontRegular, color: AppColors.black1), textAlign: TextAlign.center,),
             //SizedBox(height: 20),
           ],
         ),

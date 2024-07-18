@@ -8,7 +8,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -45,10 +45,10 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.gray12,
+      backgroundColor: AppColors.gray12,
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.gray12,
+          color: AppColors.gray12,
           child: Stack(
             children: [
               Column(
@@ -100,7 +100,6 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
 
   void clearForRefresh() {
     pageOffset = 0;
-    providerSettings.ltsCategories.clear();
     getSubCategories(widget.category.id.toString());
   }
 

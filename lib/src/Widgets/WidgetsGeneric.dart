@@ -9,7 +9,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogAlertCustomImage.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogCustomAlert.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -29,7 +29,7 @@ Widget headerView(String title, Function function) {
   return Container(
     width: double.infinity,
     height: 65,
-    color: CustomColorsAPP.redDot,
+    color: AppColors.redDot,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
@@ -69,7 +69,7 @@ Widget headerWithSearch(
     Function callSearchProducts) {
   return Container(
     decoration: BoxDecoration(
-      color: CustomColorsAPP.redDot,
+      color: AppColors.redDot,
     ),
     child: Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -115,7 +115,7 @@ Widget headerWithSearch(
                           child: Text(
                             totalProducts,
                             style: TextStyle(
-                                fontSize: 8, color: CustomColorsAPP.redTour),
+                                fontSize: 8, color: AppColors.redTour),
                           ),
                         ),
                       ),
@@ -149,7 +149,7 @@ Widget headerWithSearchFilter(
     Function callFilter) {
   return Container(
     decoration: BoxDecoration(
-      color: CustomColorsAPP.redDot,
+      color: AppColors.redDot,
     ),
     child: Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -195,7 +195,7 @@ Widget headerWithSearchFilter(
                           child: Text(
                             totalProducts,
                             style: TextStyle(
-                                fontSize: 8, color: CustomColorsAPP.redTour),
+                                fontSize: 8, color: AppColors.redTour),
                           ),
                         ),
                       ),
@@ -238,7 +238,7 @@ Widget headerWithActions(
 ) {
   return Container(
     decoration: BoxDecoration(
-      color: CustomColorsAPP.redDot,
+      color: AppColors.redDot,
     ),
     child: Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -476,7 +476,7 @@ Widget itemProductGeneric(Product product, Function openDetail) {
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                         ),
                       ),
                       Text(
@@ -485,14 +485,14 @@ Widget itemProductGeneric(Product product, Function openDetail) {
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                         ),
                       ),
                       Text(
                         formatMoney(product.references[position].price ?? '0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.orange,
+                          color: AppColors.orange,
                         ),
                       )
                     ],
@@ -521,8 +521,8 @@ Widget customTextFieldIcon(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
         border:
-            Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
-        color: CustomColorsAPP.white),
+            Border.all(color: AppColors.gray.withOpacity(.3), width: 1),
+        color: AppColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -536,7 +536,7 @@ Widget customTextFieldIcon(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 20,
-          color: CustomColorsAPP.gray7.withOpacity(.3),
+          color: AppColors.gray7.withOpacity(.3),
         ),
         SizedBox(
           width: 5,
@@ -550,12 +550,12 @@ Widget customTextFieldIcon(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColorsAPP.gray7.withOpacity(.4),
+                  color: AppColors.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -581,8 +581,8 @@ Widget textFieldIconSelector(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
         border:
-            Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
-        color: CustomColorsAPP.white),
+            Border.all(color: AppColors.gray.withOpacity(.3), width: 1),
+        color: AppColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -599,7 +599,7 @@ Widget textFieldIconSelector(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColorsAPP.gray7.withOpacity(.4),
+          color: AppColors.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -611,12 +611,12 @@ Widget textFieldIconSelector(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColorsAPP.gray7.withOpacity(.4),
+                  color: AppColors.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -626,7 +626,7 @@ Widget textFieldIconSelector(
         ),
         Icon(
           Icons.arrow_forward_ios_rounded,
-          color: CustomColorsAPP.gray6,
+          color: AppColors.gray6,
           size: 20,
         ),
         SizedBox(
@@ -650,8 +650,8 @@ Widget textFieldIconPhone(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(26)),
         border:
-            Border.all(color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
-        color: CustomColorsAPP.white),
+            Border.all(color: AppColors.gray.withOpacity(.3), width: 1),
+        color: AppColors.white),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -677,7 +677,7 @@ Widget textFieldIconPhone(
           margin: EdgeInsets.symmetric(horizontal: 5),
           width: 1,
           height: 25,
-          color: CustomColorsAPP.gray7.withOpacity(.4),
+          color: AppColors.gray7.withOpacity(.4),
         ),
         SizedBox(
           width: 5,
@@ -693,12 +693,12 @@ Widget textFieldIconPhone(
               controller: controller,
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
-                  color: CustomColorsAPP.gray7.withOpacity(.4),
+                  color: AppColors.gray7.withOpacity(.4),
                   fontFamily: Strings.fontRegular,
                 ),
                 hintText: hintText,
@@ -742,7 +742,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColorsAPP.gray8),
+                    color: AppColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -751,7 +751,7 @@ Widget emptyData(
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.gray8),
+                    color: AppColors.gray8),
               ),
             ],
           ),
@@ -784,7 +784,7 @@ Widget emptyDataWithAction(String image, String title, String text,
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColorsAPP.gray8),
+                    color: AppColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -793,10 +793,10 @@ Widget emptyDataWithAction(String image, String title, String text,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.gray8),
+                    color: AppColors.gray8),
               ),
               SizedBox(height: 23),
-              btnCustom(null, titleButton, CustomColorsAPP.blueSplash,
+              btnCustom(null, titleButton, AppColors.blueSplash,
                   Colors.white, action),
               SizedBox(height: 25),
             ],
@@ -842,7 +842,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                           fontSize: 18),
                     ),
                   ),
@@ -854,7 +854,7 @@ Widget alertMessageWithActions(String titleAlert, String image,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                           fontSize: 15),
                     ),
                   ),
@@ -869,8 +869,8 @@ Widget alertMessageWithActions(String titleAlert, String image,
                           child: btnCustomSize(
                               35,
                               Strings.btnNot,
-                              CustomColorsAPP.gray2,
-                              CustomColorsAPP.blackLetter,
+                              AppColors.gray2,
+                              AppColors.blackLetter,
                               actionNegative),
                           width: 100,
                         ),
@@ -878,8 +878,8 @@ Widget alertMessageWithActions(String titleAlert, String image,
                           child: btnCustomSize(
                               35,
                               Strings.btnYes,
-                              CustomColorsAPP.blueSplash,
-                              CustomColorsAPP.white,
+                              AppColors.blueSplash,
+                              AppColors.white,
                               action),
                           width: 100,
                         ),
@@ -918,7 +918,7 @@ Widget emptyView(String image, String title, String text) {
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 22,
-                    color: CustomColorsAPP.gray8),
+                    color: AppColors.gray8),
               ),
               SizedBox(height: 5),
               Text(
@@ -927,7 +927,7 @@ Widget emptyView(String image, String title, String text) {
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.gray8),
+                    color: AppColors.gray8),
               ),
               SizedBox(height: 23),
             ],
@@ -998,7 +998,7 @@ Future<bool?> showDialogDoubleAction(BuildContext context, String title,
 
 Widget headerRefresh() {
   return WaterDropHeader(
-      waterDropColor: CustomColorsAPP.blueSplash,
+      waterDropColor: AppColors.blueSplash,
       complete: Container(),
       failed: Container(),
       refresh: SizedBox(
@@ -1035,7 +1035,7 @@ Widget btnSheet(String btnTextAction, Function action) {
       child: Text(
         btnTextAction,
         style: TextStyle(
-            fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
+            fontFamily: Strings.fontRegular, color: AppColors.gray7),
       ),
     ),
   );
@@ -1057,7 +1057,7 @@ Widget notConnectionInternet() {
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: CustomColorsAPP.gray7,
+                color: AppColors.gray7,
                 fontFamily: Strings.fontBold,
                 fontSize: 20),
           ),
@@ -1072,7 +1072,7 @@ Widget notConnectionInternet() {
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: CustomColorsAPP.gray7,
+                color: AppColors.gray7,
                 fontFamily: Strings.fontRegular,
                 fontSize: 15),
           ),

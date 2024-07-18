@@ -6,7 +6,7 @@ import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -52,7 +52,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   padding: EdgeInsets.all(30),
                   child: Column(
                     children: [
-                      Text(Strings.patternPass, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.black1),),
+                      Text(Strings.patternPass, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: AppColors.black1),),
                       const SizedBox(height: 24),
                       customBoxPassword(passwordController),
                       SizedBox(height: 31),
@@ -67,7 +67,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           bottom: 30,
           left: 30,
           right: 30,
-          child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.save, callServiceUpdatePassword, context),),
+          child: btnCustomRounded(AppColors.blueSplash, AppColors.white, Strings.save, callServiceUpdatePassword, context),),
         Visibility(
           visible: providerOnBoarding.isLoading,
             child: LoadingProgress())
@@ -86,10 +86,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validPass!
-                      ? CustomColorsAPP.blueSplash
-                      : CustomColorsAPP.gray.withOpacity(.3),
+                      ? AppColors.blueSplash
+                      : AppColors.gray.withOpacity(.3),
                   width: 1),
-              color: CustomColorsAPP.white),
+              color: AppColors.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
@@ -107,7 +107,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 20,
-                    color: CustomColorsAPP.gray7.withOpacity(.2),
+                    color: AppColors.gray7.withOpacity(.2),
                   ),
                   Expanded(
                     child: Container(
@@ -116,12 +116,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.blackLetter),
+                            color: AppColors.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColorsAPP.gray7.withOpacity(.5),
+                            color: AppColors.gray7.withOpacity(.5),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.password,
@@ -174,10 +174,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               borderRadius: BorderRadius.all(Radius.circular(26)),
               border: Border.all(
                   color: notifyVariables.intUpdatePass.validConfirmPass!
-                      ? CustomColorsAPP.blueSplash
-                      : CustomColorsAPP.gray.withOpacity(.3),
+                      ? AppColors.blueSplash
+                      : AppColors.gray.withOpacity(.3),
                   width: 1),
-              color: CustomColorsAPP.white),
+              color: AppColors.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
@@ -195,7 +195,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColorsAPP.gray7.withOpacity(.2),
+                    color: AppColors.gray7.withOpacity(.2),
                   ),
                   Expanded(
                     child: Container(
@@ -205,12 +205,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.blackLetter),
+                            color: AppColors.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColorsAPP.gray7.withOpacity(.5),
+                            color: AppColors.gray7.withOpacity(.5),
                             fontFamily: Strings.fontRegular,
                           ),
                           hintText: Strings.confirmPassword,

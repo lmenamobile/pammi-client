@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'image_picker_handler.dart';
 
 class ImagePickerDialog extends StatelessWidget {
@@ -93,7 +93,7 @@ class ImagePickerDialog extends StatelessWidget {
                               margin: EdgeInsets.only(top: 30),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                                color: CustomColorsAPP.white,
+                                color: AppColors.white,
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 25),
@@ -108,12 +108,12 @@ class ImagePickerDialog extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontFamily: Strings.fontBold,
-                                          color: CustomColorsAPP.blackLetter,
+                                          color: AppColors.blackLetter,
                                         ),
                                       ),
                                     ),
                                     SizedBox(height: 15),
-                                    Container(height: 1, color: CustomColorsAPP.gray.withOpacity(.2),),
+                                    Container(height: 1, color: AppColors.gray.withOpacity(.2),),
                                     SizedBox(height: 15),
                                     _btnCustom(Strings.btnGallery, null,
                                         "ic_gallery.png", () {
@@ -141,7 +141,7 @@ class ImagePickerDialog extends StatelessWidget {
                                     width: 51,
                                     height: 51,
                                     decoration: BoxDecoration(
-                                        color: CustomColorsAPP.blueActiveDots,
+                                        color: AppColors.blueActiveDots,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(100))),
                                     child: Center(
@@ -209,7 +209,7 @@ class ImagePickerDialog extends StatelessWidget {
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 15,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             ),
           ],
         ),

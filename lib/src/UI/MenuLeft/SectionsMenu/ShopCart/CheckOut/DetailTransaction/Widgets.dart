@@ -4,14 +4,14 @@ import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductShopCart.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 
 Widget containerText(String text) {
   return Container(
     decoration: BoxDecoration(
-        color: CustomColorsAPP.whiteBackGround,
+        color: AppColors.whiteBackGround,
         borderRadius: BorderRadius.all(Radius.circular(5))),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -20,7 +20,7 @@ Widget containerText(String text) {
         style: TextStyle(
             fontFamily: Strings.fontBold,
             fontSize: 22,
-            color: CustomColorsAPP.blackLetter),
+            color: AppColors.blackLetter),
       ),
     ),
   );
@@ -51,7 +51,7 @@ Widget cardItems(PackagesProvider provider) {
         Text(
           provider.provider?.businessName ?? '',
           style: TextStyle(
-              fontFamily: Strings.fontBold, color: CustomColorsAPP.gray7),
+              fontFamily: Strings.fontBold, color: AppColors.gray7),
         ),
         SizedBox(
           height: 8,
@@ -71,12 +71,12 @@ Widget itemProduct(Reference? reference) {
         Text(
           reference?.reference ?? '',
           style: TextStyle(
-              fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
+              fontFamily: Strings.fontRegular, color: AppColors.gray7),
         ),
         Text(
           formatMoney(reference?.price ?? '0'),
           style: TextStyle(
-              fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
+              fontFamily: Strings.fontRegular, color: AppColors.gray7),
         ),
       ],
     ),
@@ -122,22 +122,22 @@ Widget containerExpansion(List<PackagesProvider>? packagesProvider) {
       padding: const EdgeInsets.all(10),
       child: ExpansionWidget(
         initiallyExpanded: true,
-        iconColor: CustomColorsAPP.gray7,
+        iconColor: AppColors.gray7,
         title: Container(
           decoration: BoxDecoration(
-              color: CustomColorsAPP.whiteBackGround,
+              color: AppColors.whiteBackGround,
               borderRadius: BorderRadius.all(Radius.circular(5))),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Icon(Icons.assignment,color: CustomColorsAPP.gray7),
+                Icon(Icons.assignment,color: AppColors.gray7),
                 SizedBox(width: 8,),
                 Text(
                   Strings.buys,
                   style: TextStyle(
-                      fontFamily: Strings.fontBold, color: CustomColorsAPP.gray7),
+                      fontFamily: Strings.fontBold, color: AppColors.gray7),
                 ),
               ],
             ),

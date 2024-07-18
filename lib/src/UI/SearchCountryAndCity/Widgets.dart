@@ -5,7 +5,7 @@ import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Models/StatesCountry.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 Widget boxSearchCountries(TextEditingController controllerSearch,Function search) {
   return Container(
@@ -13,7 +13,7 @@ Widget boxSearchCountries(TextEditingController controllerSearch,Function search
     padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
     width: double.infinity,
     decoration: BoxDecoration(
-        border: Border.all(color: CustomColorsAPP.gray4.withOpacity(.3),width: 1),
+        border: Border.all(color: AppColors.gray4.withOpacity(.3),width: 1),
         borderRadius: BorderRadius.all(Radius.circular(26)),
         color: Colors.transparent),
     child: Center(
@@ -22,7 +22,7 @@ Widget boxSearchCountries(TextEditingController controllerSearch,Function search
           Image(
             width: 20,
             height: 20,
-            color: CustomColorsAPP.blue,
+            color: AppColors.blue,
             image: AssetImage("Assets/images/ic_seeker.png"),
           ),
           SizedBox(width: 10,),
@@ -36,7 +36,7 @@ Widget boxSearchCountries(TextEditingController controllerSearch,Function search
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 15,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
               decoration: InputDecoration(
                   hintText: Strings.search,
                   isDense: true,
@@ -44,7 +44,7 @@ Widget boxSearchCountries(TextEditingController controllerSearch,Function search
                   hintStyle: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColorsAPP.gray7)),
+                      color: AppColors.gray7)),
             ),
           )
         ],
@@ -72,7 +72,7 @@ Widget itemCountrySelect(CountryUser country, Function action) {
                         height: 30,
                         margin: EdgeInsets.only(left: 20),
                         decoration: BoxDecoration(
-                            color: CustomColorsAPP.grayBackground,
+                            color: AppColors.grayBackground,
                             borderRadius: BorderRadius.all(Radius.circular(100))),
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -89,7 +89,7 @@ Widget itemCountrySelect(CountryUser country, Function action) {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 15,
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                           fontFamily: Strings.fontRegular),
                     ),
                   ]),
@@ -109,7 +109,7 @@ Widget itemCountry(CountryUser country, Function action) {
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color:  CustomColorsAPP.gray.withOpacity(.3), width: .8),
+          bottom: BorderSide(color:  AppColors.gray.withOpacity(.3), width: .8),
         ),
       ),
       child: Container(
@@ -120,7 +120,7 @@ Widget itemCountry(CountryUser country, Function action) {
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
-                      color: CustomColorsAPP.grayBackground,
+                      color: AppColors.grayBackground,
                       borderRadius: BorderRadius.all(Radius.circular(100))),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -137,7 +137,7 @@ Widget itemCountry(CountryUser country, Function action) {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 18,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                     fontFamily: Strings.fontBold),
               ),
             ]),
@@ -153,7 +153,7 @@ Widget itemStateCountry(StatesCountry state, Function action) {
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color:  CustomColorsAPP.gray.withOpacity(.3), width: .8),
+          bottom: BorderSide(color:  AppColors.gray.withOpacity(.3), width: .8),
         ),
       ),
       child: Container(
@@ -170,7 +170,7 @@ Widget itemStateCountry(StatesCountry state, Function action) {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 16,
-                        color: CustomColorsAPP.gray15,
+                        color: AppColors.gray15,
                         fontFamily: Strings.fontBold),
                   ),
                 ),
@@ -188,7 +188,7 @@ Widget cityItem(City city, Function action) {
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color:  CustomColorsAPP.gray.withOpacity(.3), width: .8),
+          bottom: BorderSide(color:  AppColors.gray.withOpacity(.3), width: .8),
         ),
       ),
       child: Container(
@@ -204,7 +204,7 @@ Widget cityItem(City city, Function action) {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: 16,
-                      color: CustomColorsAPP.gray15,
+                      color: AppColors.gray15,
                       fontFamily: Strings.fontRegular),
                 ),
               ]),

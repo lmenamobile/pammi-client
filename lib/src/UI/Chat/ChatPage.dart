@@ -9,7 +9,7 @@ import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -56,10 +56,10 @@ class _ChatPageState extends State<ChatPage> {
     socketService = Provider.of<SocketService>(context);
     providerChat = Provider.of<ProviderChat>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child: Column(
             children: [
 

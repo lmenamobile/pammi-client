@@ -21,7 +21,6 @@ class Constants {
   static const String profileAdmin = 'https://pamii-preproduction.s3.amazonaws.com/pamii/chats/ic_pami.png';*/
 
 
-  static const String iconCategories = 'https://pamii-preproduction.s3.amazonaws.com/pamii/categories/ic_categories.svg';
   static const String key_encrypt = 'ebfe48f81df787193c75c1ffacd88a07';
   static const String googleApyKey = "AIzaSyD7A_ZNm_XLyEuB3b3euemKAdTwOtoFeHQ";
   static const String pwdSocialNetwork = 'Kubo123*';
@@ -39,8 +38,7 @@ class Constants {
   static const int isViewLogin = 2;
   static const int isRegisterRS = 0;
 
-  static const String bannerGeneral = 'ex';
-  static const String bannerOffer = 'in';
+
 
   static const int qualificationProvider = 0;
   static const int qualificationProduct = 1;

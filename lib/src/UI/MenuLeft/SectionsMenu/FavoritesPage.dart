@@ -14,7 +14,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Widgets.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -52,7 +52,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuFavorites,
@@ -63,12 +63,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColorsAPP.whiteBackGround,
+            color: AppColors.whiteBackGround,
             child: Stack(
               children: [
                 Column(
                   children: [
-                    headerDoubleTapMenu(context, Strings.favorites, "", "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                    headerDoubleTapMenu(context, Strings.favorites, "", "ic_menu_w.png", AppColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                     Expanded(
                       child: SmartRefresher(
                         controller: _refreshFavorites,
@@ -116,7 +116,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                             Strings.productsRelations,
                                             style:TextStyle(
                                               fontFamily: Strings.fontBold,
-                                              color: CustomColorsAPP.blackLetter
+                                              color: AppColors.blackLetter
                                             ) ,
                                           ),
                                         ),

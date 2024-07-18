@@ -8,7 +8,7 @@ import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -63,7 +63,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin, 
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: CustomColorsAPP.redTour,
+        color: AppColors.redTour,
         child: _body(),
       ),
     );

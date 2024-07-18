@@ -8,7 +8,7 @@ import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -52,7 +52,7 @@ class ContactPage extends StatelessWidget {
                     child: Text(
                       Strings.communicateOperator,
                       style: TextStyle(
-                        color: CustomColorsAPP.black2,
+                        color: AppColors.black2,
                         fontFamily: Strings.fontMedium,
                         fontSize: 16,
                       ),
@@ -132,7 +132,7 @@ class ContactPage extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontFamily: Strings.fontRegular,
-              color: CustomColorsAPP.white,
+              color: AppColors.white,
             ),
           ),
         ),
@@ -179,7 +179,7 @@ class ItemContact extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
-          color: CustomColorsAPP.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -194,7 +194,7 @@ class ItemContact extends StatelessWidget {
               child: VerticalDivider(
                 indent: 10,
                 endIndent: 10,
-                color: CustomColorsAPP.gray2,
+                color: AppColors.gray2,
                 thickness: 1,
               ),
             ),
@@ -208,7 +208,7 @@ class ItemContact extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 ),
               ),

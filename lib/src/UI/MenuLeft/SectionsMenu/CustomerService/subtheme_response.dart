@@ -3,7 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Themes/subtheme_response.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -52,7 +52,7 @@ class _SubThemeResponseState extends State<SubThemeResponse> {
                 style: TextStyle(
                     fontSize: 15,
                     fontFamily: Strings.fontMedium,
-                    color: CustomColorsAPP.blackLetter
+                    color: AppColors.blackLetter
                 ),
               ),
             )

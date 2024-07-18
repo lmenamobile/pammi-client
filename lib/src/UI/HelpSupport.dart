@@ -11,7 +11,7 @@ import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/UI/Chat/ChatPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
@@ -68,7 +68,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
             child: Column(
               children: [
                 headerDoubleTapMenu(context, Strings.supportAndService, "",
-                    "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
+                    "ic_menu_w.png", AppColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), (){}),
                 SizedBox(
                   height: 20,
                 ),
@@ -83,7 +83,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: Strings.fontBold,
-                      color: CustomColorsAPP.blackLetter),
+                      color: AppColors.blackLetter),
                 ),
                 SizedBox(height: 20),
                 btnChatSupport(),
@@ -97,7 +97,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         border: Border.all(
-                            color: CustomColorsAPP.greyBorder, width: .5)),
+                            color: AppColors.greyBorder, width: .5)),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -108,11 +108,11 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
                           style: TextStyle(
                               fontFamily: Strings.fontBold,
                               fontSize: 15,
-                              color: CustomColorsAPP.blackLetter),
+                              color: AppColors.blackLetter),
                         ),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                           size: 15,
                         ),
                       ],
@@ -146,7 +146,7 @@ class _SupportHelpPageState extends State<SupportHelpPage> {
       child: Container(
         width: 270,
         decoration: BoxDecoration(
-            color: CustomColorsAPP.blue,
+            color: AppColors.blue,
             borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),

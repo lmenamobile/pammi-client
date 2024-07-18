@@ -4,7 +4,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
@@ -26,7 +26,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Container(
           color: Colors.white,
@@ -48,7 +48,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 24,
-                                color: CustomColorsAPP.blueSplash)),
+                                color: AppColors.blueSplash)),
                         SizedBox(
                           height: 20,
                         ),
@@ -59,7 +59,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                               style: TextStyle(
                                   fontFamily: Strings.fontRegular,
                                   fontSize: 15,
-                                  color: CustomColorsAPP.gray7)),
+                                  color: AppColors.gray7)),
                         ),
                         Image.asset(
                           "Assets/images/order.gif",
@@ -72,7 +72,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
                                 fontSize: 15,
-                                color: CustomColorsAPP.gray7)),
+                                color: AppColors.gray7)),
                         SizedBox(
                           height: 10,
                         ),
@@ -80,18 +80,18 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,
-                                color: CustomColorsAPP.blueSplash)),
+                                color: AppColors.blueSplash)),
                         SizedBox(height: 10,),
                         Text(providerCheckOut?.addressSelected?.address??'',
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 18,
-                                color: CustomColorsAPP.blueSplash),
+                                color: AppColors.blueSplash),
                         textAlign: TextAlign.center,),
                         SizedBox(
                           height: 20,
                         ),
-                        btnCustom(230, Strings.myOrders, CustomColorsAPP.blueSplash,
+                        btnCustom(230, Strings.myOrders, AppColors.blueSplash,
                             Colors.white, openOrders),
                         SizedBox(
                           height: 20,
@@ -107,7 +107,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                                 offset: Offset(2, 2))
                           ]),
                           child: btnCustom(230, Strings.start, Colors.white,
-                              CustomColorsAPP.blackLetter, openStart),
+                              AppColors.blackLetter, openStart),
                         ),
                         SizedBox(height: 20,),
                       ],

@@ -7,7 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -75,7 +75,7 @@ class _GooglePlacesAutocompleteOverlayState
               child: Container(
                 width: double.infinity,
                 height: 9,
-                color: CustomColorsAPP.blueSplash,
+                color: AppColors.blueSplash,
               ),
             ),
             Positioned(
@@ -105,7 +105,7 @@ class _GooglePlacesAutocompleteOverlayState
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 17,
-                    color: CustomColorsAPP.white
+                    color: AppColors.white
 
                 ),
               ),
@@ -150,16 +150,16 @@ class _GooglePlacesAutocompleteOverlayState
     });
 
     final header2 = Scaffold(
-        backgroundColor: CustomColorsAPP.white,
+        backgroundColor: AppColors.white,
         body: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
-          color: CustomColorsAPP.white,
+          color: AppColors.white,
           child:  new Column(children: <Widget>[
 
             headerView(Strings.selectYouAddress,  () => Navigator.pop(context)),
             new Material(
-              color: CustomColorsAPP.whiteBackGround,
+              color: AppColors.whiteBackGround,
               child: Container(
                   height: 41,
 
@@ -167,8 +167,8 @@ class _GooglePlacesAutocompleteOverlayState
 
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(7)),
-                    color: CustomColorsAPP.grayBackground.withOpacity(.7),
-                    border: Border.all(color:CustomColorsAPP.greyBorder,width: 1),
+                    color: AppColors.grayBackground.withOpacity(.7),
+                    border: Border.all(color:AppColors.greyBorder,width: 1),
 
                   ),
                   padding: EdgeInsets.only(left: 10,right: 5),
@@ -213,7 +213,7 @@ class _GooglePlacesAutocompleteOverlayState
                             height: 30,
                             width: 30,
                             child:  SpinKitThreeBounce(
-                              color: CustomColorsAPP.red,
+                              color: AppColors.red,
                               size: 20.0,
                             ),
                           ),
@@ -248,7 +248,7 @@ class _GooglePlacesAutocompleteOverlayState
 
       body = !singleton.bandLoadingAutocomplete?Container(
         margin: EdgeInsets.only(top: 110),
-        color: CustomColorsAPP.green,
+        color: AppColors.green,
         child: new SingleChildScrollView(
             child:  Container(
               //margin: EdgeInsets.only(top: 110),
@@ -314,7 +314,7 @@ class _GooglePlacesAutocompleteOverlayState
     style: TextStyle(
         fontFamily: Strings.fontRegular,
         fontSize: 16,
-        color: CustomColorsAPP.darkLetter
+        color: AppColors.darkLetter
     ),
     controller: query,
     // onTap: (){FocusScope.of(context).requestFocus(focusNode);},
@@ -325,7 +325,7 @@ class _GooglePlacesAutocompleteOverlayState
       hintStyle: new TextStyle(
         fontFamily: Strings.fontRegular,
         fontSize: 16,
-        color: CustomColorsAPP.darkLetter.withOpacity(.3),
+        color: AppColors.darkLetter.withOpacity(.3),
       ),
 
       //fillColor: CustomColors.darkBlue,
@@ -425,7 +425,7 @@ class PredictionTile extends StatelessWidget {
                       child: new Text(
                         addressTitle,
                         style: TextStyle(
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                           fontFamily: Strings.fontRegular,
                           fontSize: 16.0,
                         ),
@@ -436,7 +436,7 @@ class PredictionTile extends StatelessWidget {
                       child: new Text(
                         addressSubtitle,
                         style: TextStyle(
-                          color: CustomColorsAPP.gray,
+                          color: AppColors.gray,
                           fontFamily: Strings.fontRegular,
                           fontSize: 14.0,
                         ),
@@ -455,7 +455,7 @@ class PredictionTile extends StatelessWidget {
             ),
           ],
         ),
-        Container(height: 1,color: CustomColorsAPP.gray.withOpacity(.3),margin: EdgeInsets.only(left: 20,right: 20),)
+        Container(height: 1,color: AppColors.gray.withOpacity(.3),margin: EdgeInsets.only(left: 20,right: 20),)
 
       ],
     ):Container();

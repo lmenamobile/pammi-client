@@ -7,7 +7,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
@@ -50,7 +50,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                 margin: EdgeInsets.symmetric(vertical: 5),
                 width: 1,
                 height:120,
-                color: CustomColorsAPP.grayBackground,
+                color: AppColors.grayBackground,
               ),
               Stack(
                 children: [
@@ -80,7 +80,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: Strings.fontBold,
-              color: CustomColorsAPP.blackLetter
+              color: AppColors.blackLetter
             ),
           ),
           SizedBox(height: 2,),
@@ -103,7 +103,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                 child: btnCustomIconLeft(
                     "ic_pay_add.png",
                     Strings.addCartShop,
-                    CustomColorsAPP.blue,
+                    AppColors.blue,
                     Colors.white,
                     (){
                       addOffer(offer.id.toString());
@@ -116,7 +116,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                       fontFamily: Strings.fontBold,
-                      color: CustomColorsAPP.blue
+                      color: AppColors.blue
                   ),
                 ),
               ),
@@ -154,7 +154,7 @@ Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts,Of
         description,
         style: TextStyle(
             fontFamily: Strings.fontBold,
-            color: CustomColorsAPP.gray7
+            color: AppColors.gray7
         ),
       ),
       SizedBox(height: 2,),
@@ -180,7 +180,7 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontBold,
-            color: CustomColorsAPP.blackLetter
+            color: AppColors.blackLetter
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
@@ -191,7 +191,7 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
           decoration: TextDecoration.lineThrough,
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColorsAPP.gray
+            color: AppColors.gray
         ),
       ),
       Text(
@@ -199,7 +199,7 @@ Widget charactersProductsOffers(Reference reference,Offer offer){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColorsAPP.orange
+            color: AppColors.orange
         ),
       ),
     ],
@@ -216,7 +216,7 @@ Widget charactersOffers(Reference reference){
         style: TextStyle(
           fontSize: 13,
             fontFamily: Strings.fontBold,
-            color: CustomColorsAPP.blackLetter
+            color: AppColors.blackLetter
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
@@ -226,7 +226,7 @@ Widget charactersOffers(Reference reference){
         style: TextStyle(
             fontSize: 13,
             fontFamily: Strings.fontMedium,
-            color: CustomColorsAPP.orange
+            color: AppColors.orange
         ),
       ),
     ],

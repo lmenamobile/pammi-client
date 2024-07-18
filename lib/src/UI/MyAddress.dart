@@ -6,7 +6,7 @@ import 'package:wawamko/src/Models/Address/GetAddress.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -32,10 +32,10 @@ class _MyAddressPageState extends State<MyAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child: _body(context),
         ),
       ),
@@ -135,8 +135,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                       padding: const EdgeInsets.only(
                                           left: 70, right: 60),
                                       child: btnCustomRounded(
-                                          CustomColorsAPP.blueSplash,
-                                          CustomColorsAPP.white,
+                                          AppColors.blueSplash,
+                                          AppColors.white,
                                           Strings.addAddres, () {
                                         pushToAddAddress();
                                       }, context),

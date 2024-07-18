@@ -6,7 +6,7 @@ import 'package:wawamko/src/Models/CountryUser.dart';
 import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -100,7 +100,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       padding: EdgeInsets.symmetric(horizontal: 26,vertical: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(26)),
-          border: Border.all(color: CustomColorsAPP.gray4.withOpacity(.3),width: 1),
+          border: Border.all(color: AppColors.gray4.withOpacity(.3),width: 1),
           color: Colors.transparent),
       child: Center(
         child: Row(
@@ -108,7 +108,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             Image(
               width: 20,
               height: 20,
-              color: CustomColorsAPP.blue,
+              color: AppColors.blue,
               image: AssetImage("Assets/images/ic_seeker.png"),
             ),
             const SizedBox(width: 10,),
@@ -124,7 +124,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
                 decoration: InputDecoration(
                     hintText: "${Strings.search}..",
                     isDense: true,
@@ -132,7 +132,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColorsAPP.gray4)),
+                        color: AppColors.gray4)),
               ),
             )
           ],

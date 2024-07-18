@@ -11,7 +11,7 @@ import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.da
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -193,7 +193,7 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
               height: 145,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: CustomColorsAPP.grayOne),
+                  border: Border.all(color: AppColors.grayOne),
                   borderRadius: BorderRadius.circular(10),
                  ),
               child: Padding(
@@ -208,13 +208,13 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                   inputFormatters: [],
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.gray7),
+                      color: AppColors.gray7),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: Strings.hintComment,
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColorsAPP.gray5),
+                        color: AppColors.gray5),
                   ),
                 ),
               ),
@@ -230,7 +230,7 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                   height: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: CustomColorsAPP.blue)
+                    border: Border.all(color: AppColors.blue)
                   ),
                     child: Center(child: providerClaimOrder.imageFile?.path==""?Image.asset("Assets/images/ic_add_file.png",width: 50,):
                     Image.file(providerClaimOrder.imageFile!,width: 100,height: 100,fit: BoxFit.fill,))),
@@ -244,13 +244,13 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                         Text(
                           Strings.optional,
                           style: TextStyle(
-                              fontFamily: Strings.fontMedium, color: CustomColorsAPP.gray7),
+                              fontFamily: Strings.fontMedium, color: AppColors.gray7),
                         ),
                         Text(
                           Strings.messageLoadFile,
                           textAlign: TextAlign.justify,
                           style: TextStyle(
-                              fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
+                              fontFamily: Strings.fontRegular, color: AppColors.gray7),
                         ),
                         SizedBox(height: 20,),
                         providerClaimOrder.imageFile?.path==""?InkWell(
@@ -258,11 +258,11 @@ class _ClaimPageState extends State<ClaimPage> with TickerProviderStateMixin, Im
                           child: Text(
                             Strings.loadFile,
                             style: TextStyle(
-                                fontFamily: Strings.fontMedium, color: CustomColorsAPP.blue),
+                                fontFamily: Strings.fontMedium, color: AppColors.blue),
                           ),
                         ):Container(
                             decoration: BoxDecoration(
-                              color: CustomColorsAPP.red,
+                              color: AppColors.red,
                               borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                             child: IconButton(onPressed: ()=>providerClaimOrder.setImageFile = File(''), icon: Icon(Icons.delete,color: Colors.white,))),

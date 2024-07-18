@@ -19,7 +19,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart'
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -59,10 +59,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
 
     return Scaffold(
-      backgroundColor: CustomColorsAPP.whiteBackGround,
+      backgroundColor: AppColors.whiteBackGround,
       body: SafeArea(
         child: Container(
-            color: CustomColorsAPP.whiteBackGround,
+            color: AppColors.whiteBackGround,
           child: Column(
             children: [
               headerWithActions(Strings.productDetail,()=>Navigator.pop(context), openShopCart),
@@ -101,7 +101,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColorsAPP.gray7),
+                                    color: AppColors.gray7),
                               ),
                               SizedBox(
                                 height: 5,
@@ -111,7 +111,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColorsAPP.blueSplash),
+                                    color: AppColors.blueSplash),
                               ),
                               SizedBox(
                                 height: 5,
@@ -121,7 +121,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                   style:TextStyle(
                                       fontSize: 15,
                                       fontFamily: Strings.fontBold,
-                                      color: CustomColorsAPP.blackLetter)
+                                      color: AppColors.blackLetter)
                               ),
                               rowStars(double.parse(providerProducts?.referenceProductSelected?.qualification ?? '0')),
                               Visibility(
@@ -134,7 +134,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                       decoration: TextDecoration.lineThrough,
                                       fontSize: 18,
                                       fontFamily: Strings.fontMedium,
-                                      color: CustomColorsAPP.gray4),
+                                      color: AppColors.gray4),
                                 ),
                               ),
                               Text(
@@ -145,7 +145,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 style: TextStyle(
                                     fontSize: 22,
                                     fontFamily: Strings.fontMedium,
-                                    color: CustomColorsAPP.orange),
+                                    color: AppColors.orange),
                               ),
                               SizedBox(height: 10,),
                               //SECTIONS BUTTONS AN CONDITIONS DELIVERY
@@ -161,7 +161,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         style: TextStyle(
                                           fontSize: 16,
                                             fontFamily: Strings.fontMedium,
-                                            color: CustomColorsAPP.black),
+                                            color: AppColors.black),
                                       ),
                                       rowButtonsMoreAndLess(providerProducts!.unitsProduct.toString(), addProduct, removeProduct),
                                     ],
@@ -185,12 +185,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                               Strings.deliveryDomicile,
                                               style: TextStyle(
                                                   fontFamily: Strings.fontRegular,
-                                                  color: CustomColorsAPP.gray),
+                                                  color: AppColors.gray),
                                             )
                                           ],
                                         ),
                                         Text("${Strings.quantityAvailable} ${providerProducts?.referenceProductSelected?.qty}",
-                                          style: TextStyle( fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray),
+                                          style: TextStyle( fontFamily: Strings.fontRegular, color: AppColors.gray),
                                         ),
                                       ],
                                     ),
@@ -203,7 +203,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           "${Strings.youCanOnlyCarry} ${providerProducts?.referenceProductSelected?.qty} unidades",
-                                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueDarkSplash,),
+                                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: AppColors.blueDarkSplash,),
                                         ),
                                       ),
                                     ),
@@ -230,7 +230,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                               fontFamily: Strings.fontRegular, color: Colors.white),
                                         )
                                       ],
-                                    ), CustomColorsAPP.blueSplash,CustomColorsAPP.blueSplash, () => addProductCart()),
+                                    ), AppColors.blueSplash,AppColors.blueSplash, () => addProductCart()),
                                     const SizedBox(height: 16,),
                                     btnCustomContent(
                                         Text(
@@ -238,8 +238,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                           style: TextStyle(
                                               fontFamily: Strings.fontRegular,
                                               color: Colors.white),
-                                        ), CustomColorsAPP.redDot,
-                                        CustomColorsAPP.redDot,  () => paymentNow()),
+                                        ), AppColors.redDot,
+                                        AppColors.redDot,  () => paymentNow()),
                                   ],
                                 ),
                               ),
@@ -262,7 +262,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   Widget sectionDescriptionProduct() {
     return Container(
       decoration: BoxDecoration(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
@@ -273,12 +273,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
           children: [
             ExpansionWidget(
               initiallyExpanded: true,
-              iconColor: CustomColorsAPP.gray7,
+              iconColor: AppColors.gray7,
               title: Row(
                 children: [
                   Icon(
                     Icons.info_rounded,
-                    color: CustomColorsAPP.blue,
+                    color: AppColors.blue,
                   ),
                   SizedBox(
                     width: 12,
@@ -287,7 +287,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     Strings.productInformation,
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColorsAPP.blue),
+                        color: AppColors.blue),
                   ),
                 ],
               ),
@@ -300,7 +300,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Strings.description,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.black1),
+                          color: AppColors.black1),
                     ),
                     Html(
                       data: providerProducts?.productDetail?.characteristics,
@@ -310,7 +310,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Strings.conditions,
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.black1),
+                          color: AppColors.black1),
                     ),
                     Html(
                       data: providerProducts?.productDetail?.conditions,
@@ -322,12 +322,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
             customDivider(),
             ExpansionWidget(
               initiallyExpanded: true,
-              iconColor: CustomColorsAPP.gray7,
+              iconColor: AppColors.gray7,
               title: Row(
                 children: [
                   Icon(
                     Icons.comment,
-                    color: CustomColorsAPP.blue,
+                    color: AppColors.blue,
                   ),
                   SizedBox(
                     width: 12,
@@ -336,7 +336,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     Strings.comments,
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColorsAPP.blackLetter),
+                        color: AppColors.blackLetter),
                   ),
                 ],
               ),

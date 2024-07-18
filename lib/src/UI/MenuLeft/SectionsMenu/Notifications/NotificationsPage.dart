@@ -12,7 +12,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -58,7 +58,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               children: [
                 Column(
                   children: [
-                    headerDoubleTapMenu(context, Strings.notifications, "ic_remove_white.png", "ic_menu_w.png", CustomColorsAPP.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), () => validateActionDelete()),
+                    headerDoubleTapMenu(context, Strings.notifications, "ic_remove_white.png", "ic_menu_w.png", AppColors.redDot, "0", () => keyMenuLeft.currentState!.openDrawer(), () => validateActionDelete()),
                     SizedBox(height: 10,),
                     Expanded(child: SmartRefresher(
                         controller: _refreshNotifications,
@@ -86,7 +86,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget itemNotification
       (Notifications notification,Function select) {
     return Container(
-      color: notification.isSelected!?CustomColorsAPP.gray9:Colors.transparent,
+      color: notification.isSelected!?AppColors.gray9:Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -117,7 +117,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         notification.title??'',
                         style: TextStyle(
                             fontFamily: Strings.fontBold,
-                            color: CustomColorsAPP.blackLetter
+                            color: AppColors.blackLetter
                         ),
                       ),
                       SizedBox(height: 8,),
@@ -125,7 +125,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         formatDate(notification.createdAt??DateTime.now(), "dd-MM-yyyy", Constants.localeES),
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.gray8
+                            color: AppColors.gray8
                         ),
                       ),
                       SizedBox(height: 5,),
@@ -134,7 +134,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         maxLines: 4,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.gray8
+                            color: AppColors.gray8
                         ),
                       )
                     ],
@@ -146,7 +146,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     margin: EdgeInsets.only(right: 10),
                     child: CircleAvatar(
                       radius: 7,
-                      backgroundColor: notification.isSelected!?CustomColorsAPP.orange:CustomColorsAPP.gray5,
+                      backgroundColor: notification.isSelected!?AppColors.orange:AppColors.gray5,
                     ),
                   ),
                 )

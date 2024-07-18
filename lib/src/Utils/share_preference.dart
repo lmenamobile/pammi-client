@@ -67,7 +67,7 @@ class SharePreference {
   }
 
   String get countryIdUser {
-    return _prefs.getString('countryIdUser') ?? "0";
+    return _prefs.getString('countryIdUser') ?? "";
   }
 
   set countryIdUser(String value) {

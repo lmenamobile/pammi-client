@@ -12,7 +12,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 Widget itemCategoryRow(Category category, Function openSubcategory){
   return InkWell(
@@ -22,7 +22,7 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(9)),
-        border: Border.all(color: CustomColorsAPP.grayBackground,width: 1),
+        border: Border.all(color: AppColors.grayBackground,width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -63,14 +63,14 @@ Widget itemCategoryRow(Category category, Function openSubcategory){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 )
               ],
             ),
             Icon(
               Icons.keyboard_arrow_right,
-              color: CustomColorsAPP.gray4,
+              color: AppColors.gray4,
             )
           ],
         ),
@@ -87,7 +87,7 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(4)),
-        border: Border.all(color: CustomColorsAPP.grayBackground,width: 1),
+        border: Border.all(color: AppColors.grayBackground,width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 15, 15,18),
@@ -107,7 +107,7 @@ Widget itemSubCategoryRow(SubCategory subCategory, Function openProductsSubcateg
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 16,
-                      color: CustomColorsAPP.blueSplash,
+                      color: AppColors.blueSplash,
                     ),
                   ),
                 ),
@@ -131,7 +131,7 @@ Widget itemBrandRow(Brand brand, Function openProducts){
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(9)),
-        border: Border.all(color: CustomColorsAPP.grayBackground,width: 1),
+        border: Border.all(color: AppColors.grayBackground,width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -147,13 +147,13 @@ Widget itemBrandRow(Brand brand, Function openProducts){
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 13,
-                  color: CustomColorsAPP.blackLetter,
+                  color: AppColors.blackLetter,
                 ),
               ),
             ),
             Icon(
               Icons.keyboard_arrow_right,
-              color: CustomColorsAPP.gray4,
+              color: AppColors.gray4,
             )
           ],
         ),
@@ -208,7 +208,7 @@ Widget itemProductRelations(Product product, Function openDetail){
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
-                      color: CustomColorsAPP.gray7,
+                      color: AppColors.gray7,
                     ),
                   ),
                   Text(
@@ -217,14 +217,14 @@ Widget itemProductRelations(Product product, Function openDetail){
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 13,
-                      color: CustomColorsAPP.blackLetter,
+                      color: AppColors.blackLetter,
                     ),
                   ),
                   Text(
                     formatMoney( product.references[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
-                      color: CustomColorsAPP.orange,
+                      color: AppColors.orange,
                     ),
                   )
                 ],
@@ -286,7 +286,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                           height: 1,
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                         ),
                       ),
                       Text(
@@ -295,7 +295,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                         style: TextStyle(
                           fontFamily: Strings.fontMedium,
                           fontSize: 16,
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                         ),
                       ),
 
@@ -304,7 +304,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 18,
-                          color: CustomColorsAPP.orange,
+                          color: AppColors.orange,
                         ),
                       )
                     ],
@@ -331,7 +331,7 @@ Widget itemProductCategory(Product product, Function openDetail,Function callFav
                 visible: product.references[0].totalProductOffer!.status??false,
                 child: CircleAvatar(
                   radius: 11,
-                  backgroundColor: CustomColorsAPP.redTour,
+                  backgroundColor: AppColors.redTour,
                   child: Center(
                     child: Text(
                       product.references[0].totalProductOffer!.discountValue!+"%",
@@ -356,10 +356,10 @@ Widget favorite(bool isFavorite){
     decoration: BoxDecoration(
       color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(6)),
-        border: Border.all(color: isFavorite?Colors.transparent:CustomColorsAPP.gray5),
+        border: Border.all(color: isFavorite?Colors.transparent:AppColors.gray5),
         boxShadow: [
           BoxShadow(
-            color: isFavorite?CustomColorsAPP.redTour.withOpacity(0.2):CustomColorsAPP.gray5.withOpacity(0.2),
+            color: isFavorite?AppColors.redTour.withOpacity(0.2):AppColors.gray5.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 1,
             offset: Offset(0, 1), // changes position of shadow
@@ -370,7 +370,7 @@ Widget favorite(bool isFavorite){
       child: Icon(
         Icons.favorite,
         size: 20,
-        color: isFavorite?CustomColorsAPP.redTour:CustomColorsAPP.gray5,
+        color: isFavorite?AppColors.redTour:AppColors.gray5,
       ),
     ),
   );
@@ -389,7 +389,7 @@ Widget rowButtonsMoreAndLess(String units, Function add, Function remove){
             style: TextStyle(
                 fontSize: 25,
                 fontFamily: Strings.fontBold,
-                color: CustomColorsAPP.blueSplash),
+                color: AppColors.blueSplash),
           ),
         ),
         buttonMoreOrLess("btn_plus.svg", add),

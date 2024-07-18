@@ -13,7 +13,7 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
@@ -133,7 +133,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                             ),
                             child: ExpansionWidget(
                               initiallyExpanded: true,
-                              iconColor: CustomColorsAPP.gray7,
+                              iconColor: AppColors.gray7,
                               title: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -157,7 +157,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColorsAPP.blackLetter),
+                                            color: AppColors.blackLetter),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(right: 50),
@@ -197,7 +197,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         child: Center(
                                           child: Container(
                                               margin: EdgeInsets.symmetric(vertical: 30),
-                                              child: btnCustom(200, Strings.closeClaim,CustomColorsAPP.green,
+                                              child: btnCustom(200, Strings.closeClaim,AppColors.green,
                                                   Colors.white,(){
                                                     openCloseClaim(providerClaimOrder.detailClaim?.id ?? '');
                                                   })),
@@ -215,13 +215,13 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         Strings.comment,
                                         style: TextStyle(
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColorsAPP.blueTitle),
+                                            color: AppColors.blueTitle),
                                       ),
                                       Text(
                                         providerClaimOrder.detailClaim?.message ?? '',
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
-                                            color: CustomColorsAPP.grayTwo),
+                                            color: AppColors.grayTwo),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -230,12 +230,12 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         Strings.image,
                                         style: TextStyle(
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColorsAPP.blueTitle),
+                                            color: AppColors.blueTitle),
                                       ),
                                       Container(
                                         margin: EdgeInsets.symmetric(vertical: 8),
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: CustomColorsAPP.blue),
+                                          border: Border.all(color: AppColors.blue),
                                           borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
                                         child: Padding(
@@ -244,16 +244,16 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                             onTap: ()=>launch(providerClaimOrder.detailClaim?.image??''),
                                             child: Row(
                                               children: [
-                                                Icon(Icons.image_rounded, color: CustomColorsAPP.blue,),
+                                                Icon(Icons.image_rounded, color: AppColors.blue,),
                                                 Expanded(
                                                   child : Text(
                                                     "File.jpg",
                                                     style: TextStyle(
                                                         fontFamily: Strings.fontBold,
-                                                        color: CustomColorsAPP.blue),
+                                                        color: AppColors.blue),
                                                   ),
                                                 ),
-                                                Icon(Icons.arrow_circle_down, color: CustomColorsAPP.blue,),
+                                                Icon(Icons.arrow_circle_down, color: AppColors.blue,),
 
                                               ],
                                             ),
@@ -267,14 +267,14 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                                         Strings.devolutionClaim,
                                         style: TextStyle(
                                             fontFamily: Strings.fontBold,
-                                            color: CustomColorsAPP.blueTitle),
+                                            color: AppColors.blueTitle),
                                       ),
                                       Text(
                                         utils.getLtsMethodDevolution.firstWhere((element) =>
                                                     element.valueMethodDevolution! == providerClaimOrder.detailClaim?.methodDevolution!).methodDevolution ?? '',
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
-                                            color: CustomColorsAPP.grayTwo),
+                                            color: AppColors.grayTwo),
                                       ),
                                       getCardByStatusClaim(providerClaimOrder.detailClaim?.state ?? '',providerClaimOrder.detailClaim?.reasonClose??'',openChatAdmin),
                                       Visibility(
@@ -322,7 +322,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
       ),
       child: ExpansionWidget(
         initiallyExpanded: true,
-        iconColor: CustomColorsAPP.gray7,
+        iconColor: AppColors.gray7,
         title: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -342,7 +342,7 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
               style: TextStyle(
                   fontSize: 15,
                   fontFamily: Strings.fontBold,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             ),
           ),
         ),

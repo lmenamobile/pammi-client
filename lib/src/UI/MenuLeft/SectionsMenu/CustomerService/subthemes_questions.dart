@@ -11,7 +11,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/UI/User/MyDates.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -88,7 +88,7 @@ class _SubthemesQuestionsPageState extends State<SubthemesQuestionsPage> {
                     child: Text(
                       Strings.frecuensQuestion,
                       style: TextStyle(
-                        color: CustomColorsAPP.blackLetter,
+                        color: AppColors.blackLetter,
                         fontFamily: Strings.fontMedium,
                         fontSize: 16,
                       ),
@@ -242,7 +242,7 @@ class ItemQuestion extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          border: Border.all(color: CustomColorsAPP.gray8),
+          border: Border.all(color: AppColors.gray8),
         ),
         child: Row(
           children: [
@@ -254,7 +254,7 @@ class ItemQuestion extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.blackLetter,
+                  color: AppColors.blackLetter,
                 ),
               ),
             ),
@@ -262,7 +262,7 @@ class ItemQuestion extends StatelessWidget {
               child: Image(
                 width: 30,
                 height: 30,
-                color: CustomColorsAPP.gray2,
+                color: AppColors.gray2,
                 image: AssetImage("Assets/images/ic_arrow_black.png"),
               ),
             ),

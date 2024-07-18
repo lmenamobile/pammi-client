@@ -8,7 +8,7 @@ import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 /*Widget titleBarWithDoubleAction(String title, String icon, String iconTwo,
@@ -117,7 +117,7 @@ Widget itemImageReference(Size size, String asset,String assetSelected) {
     height: size.height,
     decoration: BoxDecoration(
       border: Border.all(
-          color: asset==assetSelected?CustomColorsAPP.gray7:CustomColorsAPP.gray4,
+          color: asset==assetSelected?AppColors.gray7:AppColors.gray4,
           width: asset==assetSelected?1.5:1
       ),
     ),
@@ -152,7 +152,7 @@ Widget imageReference(Size size, String asset){
 Widget itemReference(String asset,String nameReference, bool isSelected){
   return Container(
     decoration: BoxDecoration(
-        color: isSelected?CustomColorsAPP.grayBackground:Colors.transparent,
+        color: isSelected?AppColors.grayBackground:Colors.transparent,
         borderRadius:
         BorderRadius.all(Radius.circular(5))),
     child: Padding(
@@ -181,7 +181,7 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
               style: TextStyle(
                 overflow: TextOverflow.ellipsis,
                   fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.gray7),
+                  color: AppColors.gray7),
             ),
           )
         ],
@@ -229,7 +229,7 @@ Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> ima
         dotsCount: images.length,
         position: indexSlider,
         decorator: DotsDecorator(
-          activeColor: CustomColorsAPP.orange,
+          activeColor: AppColors.orange,
           size: const Size.square(9),
           spacing: const EdgeInsets.symmetric(horizontal: 2,vertical: 4),
           activeSize: const Size(30, 9),
@@ -248,7 +248,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
       isDismissible: true,
       isScrollControlled: true,
       enableDrag: true,
-      barrierColor: CustomColorsAPP.blueSplash.withOpacity(.6),
+      barrierColor: AppColors.blueSplash.withOpacity(.6),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -256,7 +256,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
         return Container(
           height: MediaQuery.of(context).size.height*.65,
           decoration: BoxDecoration(
-            color: CustomColorsAPP.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
@@ -271,7 +271,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                    overflow: TextOverflow.ellipsis,
                    fontFamily: Strings.fontBold,
                    fontSize: 18,
-                   color:CustomColorsAPP.black1
+                   color:AppColors.black1
                  ),
                ),
                 SizedBox(height: 15,),
@@ -302,7 +302,7 @@ openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<
                   child: btnCustom(
                       190,
                       Strings.next,
-                      CustomColorsAPP.blueSplash,
+                      AppColors.blueSplash,
                       Colors.white,
                       null),
                 ),
@@ -317,7 +317,7 @@ itemComment(CommentProduct commentProduct){
   return Container(
     decoration: BoxDecoration(
       border: Border.all(
-        color: CustomColorsAPP.gray15.withOpacity(.7),
+        color: AppColors.gray15.withOpacity(.7),
       ),
       borderRadius: BorderRadius.all(Radius.circular(10)),
       color: Colors.white,
@@ -346,7 +346,7 @@ itemComment(CommentProduct commentProduct){
                 Text(
                   commentProduct.user?.fullName??'',
                   style: TextStyle(
-                    color: CustomColorsAPP.blue,
+                    color: AppColors.blue,
                     fontFamily: Strings.fontMedium
                   ),
                 ),
@@ -354,14 +354,14 @@ itemComment(CommentProduct commentProduct){
                   commentProduct.comment??'',
                   maxLines: 2,
                   style: TextStyle(
-                      color: CustomColorsAPP.gray7,
+                      color: AppColors.gray7,
                       fontFamily: Strings.fontRegular
                   ),
                 ),
                 Text(
                   formatDate(commentProduct.date??DateTime.now(), "dd/MM/yyyy", "es_CO"),
                   style: TextStyle(
-                      color: CustomColorsAPP.gray7,
+                      color: AppColors.gray7,
                       fontSize: 12,
                       fontFamily: Strings.fontRegular
                   ),

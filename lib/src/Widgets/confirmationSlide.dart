@@ -4,7 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -40,7 +40,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
-            color: CustomColorsAPP.blackLetter.withOpacity(.3),
+            color: AppColors.blackLetter.withOpacity(.3),
           ),
           onTap: (){Navigator.pop(context);},
         ),
@@ -53,7 +53,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
             child: Container(
 
               decoration: BoxDecoration(
-                color: CustomColorsAPP.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight:Radius.circular(30)),
               ),
               child: Padding(
@@ -65,7 +65,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                     Image(
                       width: 60,
                       height: 60,
-                      color: CustomColorsAPP.blueSplash,
+                      color: AppColors.blueSplash,
                       image: AssetImage("Assets/images/ic_accep_big.png"),
                     ),
                     SizedBox(height: 11),
@@ -74,7 +74,7 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                         fontSize: 22,
                         fontFamily: Strings.fontRegular,
-                        color: CustomColorsAPP.blackLetter
+                        color: AppColors.blackLetter
                       ),
                     ),
                     Text(
@@ -82,13 +82,13 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                           fontSize: 25,
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.blackLetter
+                          color: AppColors.blackLetter
                       ),
                     ),
                     SizedBox(height: 15),
                     Container(
                      // margin: EdgeInsets.only(left: 10,right: 10),
-                      color: CustomColorsAPP.grayBackground,
+                      color: AppColors.grayBackground,
                       height: 1,
                       width: double.infinity,
                     ),
@@ -99,13 +99,13 @@ class _ConfirmationSlidePageState extends State<ConfirmationSlidePage> {
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 17,
-                        color: CustomColorsAPP.gray7
+                        color: AppColors.gray7
                       ),
                     ),
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50,right: 50),
-                      child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.verifyCode, (){
+                      child: btnCustomRounded(AppColors.blueSplash, AppColors.white, Strings.verifyCode, (){
                         Navigator.pop(context);
                         Navigator.pushAndRemoveUntil(context,customPageTransition(VerificationCodePage(email: widget.email!,typeView: Constants.isViewRegister,),PageTransitionType.fade) , (route) => false);
 

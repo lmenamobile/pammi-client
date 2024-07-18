@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -54,7 +54,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 19,
-                      color: CustomColorsAPP.black1,
+                      color: AppColors.black1,
                       fontFamily: Strings.fontBold
                     ),
                   ),
@@ -69,7 +69,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
                 SizedBox(height: 60),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: btnCustom(double.infinity,Strings.continue1, CustomColorsAPP.blueSplash, Colors.white, _continueSelectTypeSupport)
+                  child: btnCustom(double.infinity,Strings.continue1, AppColors.blueSplash, Colors.white, _continueSelectTypeSupport)
                 ),
                 SizedBox(height: 40),
 
@@ -99,7 +99,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
         padding: EdgeInsets.symmetric(horizontal: 29,vertical: 26),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(color:typeSupport.selected ? CustomColorsAPP.red2 : CustomColorsAPP.gray5,width: 1)
+          border: Border.all(color:typeSupport.selected ? AppColors.red2 : AppColors.gray5,width: 1)
         ),
         child: Text(
           typeSupport.typeSupport ?? "",
@@ -107,7 +107,7 @@ class _ListTypeSupportPageState extends State<ListTypeSupportPage> {
           style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 14,
-            color: typeSupport.selected ? CustomColorsAPP.red2 : CustomColorsAPP.gray
+            color: typeSupport.selected ? AppColors.red2 : AppColors.gray
           ),
         ),
       ),

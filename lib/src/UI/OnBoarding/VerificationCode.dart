@@ -7,7 +7,7 @@ import 'package:wawamko/src/UI/InterestCategoriesUser.dart';
 import 'package:wawamko/src/UI/Onboarding/UpdatePassword.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -55,14 +55,14 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                 padding: EdgeInsets.all(30),
                 child: Column(
                   children: <Widget>[
-                    Text(Strings.verificationMsg, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.blackLetter),),
+                    Text(Strings.verificationMsg, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: AppColors.blackLetter),),
                     SizedBox(height: 125,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: PinCodeTextField(
                         appContext: context,
                         backgroundColor: Colors.transparent,
-                        cursorColor: CustomColorsAPP.blueSplash,
+                        cursorColor: AppColors.blueSplash,
                         animationType: AnimationType.slide,
                         enableActiveFill: true,
                         keyboardType: TextInputType.number,
@@ -71,19 +71,19 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                           code = text;
                         },
                         obscureText: false,
-                        textStyle: TextStyle(color: CustomColorsAPP.blackLetter, fontFamily: Strings.fontBold, fontSize: 22),
+                        textStyle: TextStyle(color: AppColors.blackLetter, fontFamily: Strings.fontBold, fontSize: 22),
                         //enablePinAutofill: false,
                         pinTheme: PinTheme(
                             shape: PinCodeFieldShape.box,
                             borderRadius: BorderRadius.circular(5),
                             fieldHeight: 63,
                             fieldWidth: 59,
-                            selectedColor: CustomColorsAPP.grayOne,
+                            selectedColor: AppColors.grayOne,
                             disabledColor: Colors.white,
                             activeFillColor: Colors.white,
                             activeColor: Colors.white,
-                            inactiveFillColor: CustomColorsAPP.gray13.withOpacity(.2),
-                            inactiveColor: CustomColorsAPP.gray13.withOpacity(.9),
+                            inactiveFillColor: AppColors.gray13.withOpacity(.2),
+                            inactiveColor: AppColors.gray13.withOpacity(.9),
                             selectedFillColor: Colors.white),
                       ),
                     ),
@@ -92,7 +92,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                       child: Container(
                         child: Text(
                           Strings.sendAgain,
-                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle,),
+                          style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: AppColors.blueTitle,),
                         ),
                       ),
                       onTap: () => _serviceSendAgainCode(),
@@ -107,7 +107,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
           bottom: 30,
             left: 30,
             right: 30,
-            child: btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.sender, callServiceCode, context)),
+            child: btnCustomRounded(AppColors.blueSplash, AppColors.white, Strings.sender, callServiceCode, context)),
         Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
       ],
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimsCloseTab.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/ClaimsOpenTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../../../../Widgets/WidgetsGeneric.dart';
@@ -33,7 +33,7 @@ class _MyClaimPageState extends State<MyClaimPage>
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child: Column(
             children: [
               headerView( Strings.myClaims,  () => Navigator.pop(context)),
@@ -44,16 +44,16 @@ class _MyClaimPageState extends State<MyClaimPage>
                 indicatorColor: Colors.red,
                 indicatorPadding: EdgeInsets.only(right: 20, left: 20),
                 indicatorWeight: 2,
-                labelColor: CustomColorsAPP.blackLetter,
-                unselectedLabelColor: CustomColorsAPP.blackLetter.withOpacity(.6),
+                labelColor: AppColors.blackLetter,
+                unselectedLabelColor: AppColors.blackLetter.withOpacity(.6),
                 labelStyle: TextStyle(
                     fontFamily: Strings.fontMedium,
                     fontSize: 16,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
                 unselectedLabelStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 16,
-                    color: CustomColorsAPP.blackLetter.withOpacity(.6)),
+                    color: AppColors.blackLetter.withOpacity(.6)),
                 tabs: [
                   Tab(text: Strings.claimOpen,),
                   Tab(text: Strings.claimClose,),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 class MessageChat extends StatelessWidget {
   final String? message, date, photo, urlFile;
@@ -82,7 +82,7 @@ Widget messageLocal(String message, String? photo) {
               ),
             ),
             decoration: BoxDecoration(
-                color: CustomColorsAPP.blue3,
+                color: AppColors.blue3,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
@@ -167,7 +167,7 @@ Widget messageFile(String? data, String? photo, bool isLocal, int type) {
                           radius: 15,
                           child: Icon(
                             Icons.description,
-                            color: CustomColorsAPP.blue3,
+                            color: AppColors.blue3,
                             size: 16,
                           ),
                         ),
@@ -188,7 +188,7 @@ Widget messageFile(String? data, String? photo, bool isLocal, int type) {
                     ),
                   ),
                   decoration: BoxDecoration(
-                      color: isLocal?CustomColorsAPP.blue3:Colors.black38.withOpacity(0.2),
+                      color: isLocal?AppColors.blue3:Colors.black38.withOpacity(0.2),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
@@ -264,7 +264,7 @@ Widget hourMessage(String message) {
         style: TextStyle(
             fontFamily: Strings.fontRegular,
             fontSize: 12,
-            color: CustomColorsAPP.gray7),
+            color: AppColors.gray7),
       ),
     )),
   );

@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/UI/OnBoarding/Login.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -166,36 +166,36 @@ String getStatusPqrs(String type) {
 Color getStatusColorClaim(String type) {
   switch (type) {
     case Strings.statusOpen:
-      return CustomColorsAPP.blue4;
+      return AppColors.blue4;
     case Strings.statusClose:
-      return CustomColorsAPP.orangeOne;
+      return AppColors.orangeOne;
     case Strings.statusApproved:
-      return CustomColorsAPP.greenOne;
+      return AppColors.greenOne;
     case Strings.statusReject:
-      return CustomColorsAPP.redTwo;
+      return AppColors.redTwo;
     default:
-      return CustomColorsAPP.blue4;
+      return AppColors.blue4;
   }
 }
 
 Color getStatusColorOrder(String type) {
   switch (type) {
     case Strings.statusCreate:
-      return CustomColorsAPP.blue4;
+      return AppColors.blue4;
     case Strings.statusProcessing:
-      return CustomColorsAPP.orangeOne;
+      return AppColors.orangeOne;
     case Strings.statusCancel:
-      return CustomColorsAPP.redTwo;
+      return AppColors.redTwo;
     case Strings.statusCompleted:
-      return CustomColorsAPP.greenOne;
+      return AppColors.greenOne;
     case Strings.statusRestored:
-      return CustomColorsAPP.yellowTwo;
+      return AppColors.yellowTwo;
     case Strings.statusSend:
-      return CustomColorsAPP.blue5;
+      return AppColors.blue5;
     case Strings.statusFinish:
-      return CustomColorsAPP.greenOne;
+      return AppColors.greenOne;
     default:
-      return CustomColorsAPP.blue4;
+      return AppColors.blue4;
   }
 }
 

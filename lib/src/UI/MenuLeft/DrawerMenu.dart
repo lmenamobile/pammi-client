@@ -19,7 +19,7 @@ import 'package:wawamko/src/UI/User/ProfilePage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -47,7 +47,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     profileProvider = Provider.of<ProfileProvider>(context);
     providerOnBoarding = Provider.of<OnboardingProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.white.withOpacity(.6),
+      backgroundColor: AppColors.white.withOpacity(.6),
       body: _body(context),
     );
   }
@@ -70,7 +70,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                 width: 286,
                 padding: EdgeInsets.only(top: 12, bottom: 12),
                 decoration: BoxDecoration(
-                    color: CustomColorsAPP.grayMenu,
+                    color: AppColors.grayMenu,
                     borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(30),
                         topRight: Radius.circular(30))),
@@ -122,8 +122,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                         opacity: userIsLogged()?1:0,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 39, right: 39),
-                          child: btnCustomRounded(CustomColorsAPP.orange,
-                              CustomColorsAPP.white, Strings.closeSesion, () {
+                          child: btnCustomRounded(AppColors.orange,
+                              AppColors.white, Strings.closeSesion, () {
                             utils.startCustomAlertMessage(
                                 context,
                                 Strings.closeSesion,
@@ -146,7 +146,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                         style: TextStyle(
                             fontSize: 12,
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.gray7),
+                            color: AppColors.gray7),
                       ),
                       SizedBox(height: 16),
                     ],
@@ -178,7 +178,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
-            color: CustomColorsAPP.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.all(Radius.circular(20))),
 
         margin: EdgeInsets.only(left: 6, right: 6, top: 6),
@@ -194,7 +194,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                 margin: EdgeInsets.only(top: _prefs.authToken == "0" ? 0 : 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: CustomColorsAPP.grayBackground,
+                  color: AppColors.grayBackground,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(
@@ -222,7 +222,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                     decoration: TextDecoration.underline,
                     fontFamily: Strings.fontBold,
                     fontSize: 12,
-                    color: CustomColorsAPP.yellow),
+                    color: AppColors.yellow),
               ): Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,14 +234,14 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 12,
-                          color: CustomColorsAPP.letterDarkBlue),
+                          color: AppColors.letterDarkBlue),
                     ),
                     Container(
                       height: 25,
                       width: double.infinity,
                       margin: EdgeInsets.only(left: 5,top: 10,bottom: 10),
                       decoration: BoxDecoration(
-                        color: CustomColorsAPP.whiteBackGround,
+                        color: AppColors.whiteBackGround,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Stack(
@@ -251,7 +251,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                             child: Text(
                               Strings.linkUp,
                               style: TextStyle(
-                                color: CustomColorsAPP.gray7,
+                                color: AppColors.gray7,
                                 fontSize: 12,
                                 fontFamily: Strings.fontRegular,
                               ),
@@ -263,7 +263,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                               height: 25,
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
-                                color: CustomColorsAPP.orange.withOpacity(0.2),
+                                color: AppColors.orange.withOpacity(0.2),
                                 borderRadius: BorderRadius.only(bottomRight: Radius.circular(4), topRight: Radius.circular(4))
                               ),
                               child: Center(
@@ -271,7 +271,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                                   _prefs.referredCode,
                                   style: TextStyle(
                                     fontSize: 17,
-                                    color: CustomColorsAPP.orange,
+                                    color: AppColors.orange,
                                     fontFamily: Strings.fontRegular,
                                   ),
                                 ),
@@ -287,7 +287,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
                           decoration: TextDecoration.underline,
                           fontFamily: Strings.fontBold,
                           fontSize: 12,
-                          color: CustomColorsAPP.yellow),
+                          color: AppColors.yellow),
                     ),
                   ],
                 ),
@@ -316,8 +316,8 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
-                color: CustomColorsAPP.grayMenu,
-                border: Border.all(color: CustomColorsAPP.grayThree, width: 1),
+                color: AppColors.grayMenu,
+                border: Border.all(color: AppColors.grayThree, width: 1),
               ),
               child: Center(
                 child: Image(
@@ -334,7 +334,7 @@ class _DrawerMenuPageState extends State<DrawerMenuPage> {
               style: TextStyle(
                   fontSize: 12,
                   fontFamily: Strings.fontBold,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             )
           ],
         ),

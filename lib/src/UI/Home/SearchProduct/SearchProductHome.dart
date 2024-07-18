@@ -7,7 +7,7 @@ import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/CommentProductNotFound.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';

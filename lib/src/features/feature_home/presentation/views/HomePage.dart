@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wawamko/src/Models/Brand.dart';
-import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ConectionStatus.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
@@ -14,24 +11,25 @@ import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Brands/BrandsPage.dart';
-import 'package:wawamko/src/UI/Home/Categories/CategoriesPage.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
-import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
-import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Highlights/HighlightsPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/features/feature_home/presentation/widgets/section_banners_slider.dart';
+import 'package:wawamko/src/features/feature_home/presentation/widgets/section_departments_widget.dart';
 import '../../../../Providers/ProviderChat.dart';
 import '../../../../Providers/SocketService.dart';
 import '../../../../UI/Chat/ChatPage.dart';
 import '../../../../UI/Home/Products/DetailProductPage.dart';
 import '../../../../UI/Home/Widgets.dart';
+import '../../../feature_views_shared/domain/domain.dart';
+import '../../../feature_views_shared/presentation/presentation.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -41,50 +39,64 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final searchController = TextEditingController();
   RefreshController _refreshHome = RefreshController(initialRefresh: false);
-  RefreshController _refreshCategories = RefreshController(initialRefresh: false);
+  RefreshController _refreshCategories =
+      RefreshController(initialRefresh: false);
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   late ProviderSettings providerSettings;
   late ProviderHome providerHome;
   late ProfileProvider profileProvider;
   late ProviderProducts providerProducts;
-  late ProviderShopCart  providerShopCart;
+  late ProviderShopCart providerShopCart;
+  late DepartmentProvider departmentProvider;
+  late BannersProvider bannersProvider;
   SharePreference prefs = SharePreference();
   ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
   late ProviderChat providerChat;
   late SocketService socketService;
 
-
   @override
-  void initState()  {
-    Future.microtask(() async {
-      try {
-        prefs.versionApp = await utils.getVersion();
-        providerHome.version = "v" + prefs.versionApp;
-      } catch (e) {
-        print('Error obteniendo la versión: $e');
-      }
-    });
+  void initState() {
+    super.initState();
+
+    _initializeProviders();
+    connectionStatus.initialize('www.google.com');
+    _initializeCountry();
+    profileProvider.user?.photoUrl = prefs.photoUser;
+    _initializeVersion();
+  }
+
+  /*
+    getBrands(); ------ getProductsMoreSelled();
+   */
+
+  void _initializeProviders() {
+    departmentProvider  = Provider.of<DepartmentProvider>(context, listen: false);
+    bannersProvider     = Provider.of<BannersProvider>(context, listen: false);
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    providerHome.ltsBrands.clear();
-    providerHome.ltsBanners.clear();
-    providerHome.ltsBannersOffer.clear();
-    providerSettings.ltsCategories.clear();
-    providerHome.ltsMostSelledProducts.clear();
-    connectionStatus.initialize('www.google.com');
-    if (prefs.countryIdUser != "0") {
-      serviceGetCategories();
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        selectCountryUserNotLogin();
-      });
-    }
-    profileProvider.user?.photoUrl = prefs.photoUser;
-    super.initState();
+    providerHome.clearProviderHome();
   }
 
+  Future<void> _initializeVersion() async {
+    try {
+      prefs.versionApp = await utils.getVersion();
+      providerHome.version = "v${prefs.versionApp}";
+    } catch (e) {
+      print('Error obteniendo la versión: $e');
+    }
+  }
 
+  void _initializeCountry() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (prefs.countryIdUser != "") {
+        departmentProvider.loadDepartments();
+
+      } else {
+        selectCountryUserNotLogin();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
     providerProducts = Provider.of<ProviderProducts>(context);
     providerChat = Provider.of<ProviderChat>(context);
     socketService = Provider.of<SocketService>(context);
-    connectionStatus.connectionListen.listen((value){
+    departmentProvider = Provider.of<DepartmentProvider>(context);
+    connectionStatus.connectionListen.listen((value) {
       providerSettings.hasConnection = value;
     });
     return Scaffold(
@@ -102,16 +115,26 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuHome,
       ),
-      backgroundColor: CustomColorsAPP.white,
-      body: WillPopScope(
-        onWillPop:(()=> utils.startCustomAlertMessage(context, Strings.sessionClose,
-            "Assets/images/ic_sign_off.png", Strings.closeAppText, ()=>
-              Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
+      backgroundColor: AppColors.white,
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+          final result = await utils.startCustomAlertMessage(
+              context,
+              Strings.sessionClose,
+              "Assets/images/ic_sign_off.png",
+              Strings.closeAppText,
+              () => Navigator.pop(context, true),
+              () => Navigator.pop(context, false));
+          if (result == true) {
+            Navigator.pop(context);
+          }
+        },
         child: SafeArea(
           child: Stack(
             children: [
-              Container(
-                  color: Colors.white, child: _body(context)),
+              Container(color: Colors.white, child: _body(context)),
               // Botón flotante 1
               Positioned(
                 bottom: 16.0,
@@ -120,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               // Botón flotante 2
               Visibility(
-                visible:prefs.dataUser != "0",
+                visible: prefs.dataUser != "0",
                 child: Positioned(
                   bottom: 76.0,
                   right: 16.0,
@@ -138,10 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 37),
-          decoration: BoxDecoration(
-            color: CustomColorsAPP.redDot
-          ),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 37),
+          decoration: BoxDecoration(color: AppColors.redDot),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -181,16 +202,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           right: 0,
                           top: 0,
                           child: Visibility(
-                            visible: providerShopCart.totalProductsCart!="0"?true:false,
+                            visible: providerShopCart.totalProductsCart != "0"
+                                ? true
+                                : false,
                             child: CircleAvatar(
                               radius: 6,
                               backgroundColor: Colors.white,
                               child: Text(
                                 providerShopCart.totalProductsCart,
                                 style: TextStyle(
-                                    fontSize: 8,
-                                    color: CustomColorsAPP.redTour
-                                ),
+                                    fontSize: 8, color: AppColors.redTour),
                               ),
                             ),
                           ),
@@ -198,7 +219,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     onTap: () => Navigator.push(
-                        context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade)),
+                        context,
+                        customPageTransition(ShopCartPage(),
+                            PageTransitionType.rightToLeftWithFade)),
                   ),
                 ],
               ),
@@ -216,96 +239,28 @@ class _MyHomePageState extends State<MyHomePage> {
             header: headerRefresh(),
             footer: footerRefreshCustom(),
             onRefresh: _pullToRefresh,
-            child: providerSettings.hasConnection?SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Visibility(
-                    visible: providerHome.ltsBanners.isNotEmpty,
-                    child: Container(
-                      width: double.infinity,
-                      color: Colors.transparent,
-                      child: sliderBanner(providerHome.indexBannerHeader, updateIndexBannerHeader, providerHome.ltsBanners),
+            child: providerSettings.hasConnection
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                       SectionBannersSlider(
+                           indexBanner: bannersProvider.indexBanner,
+                           banners: bannersProvider.banners,
+                           updateBannerIndex: bannersProvider.updateBannerIndex),
+                        const SizedBox(height: 30),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: SectionDepartmentsWidget(
+                              departments: departmentProvider.homeDepartments,
+                              openCategories: () => openDepartmentCategory,
+                            )),
+                        const SizedBox(height: 55),
+                        sectionsBrands(),
+                        const SizedBox(height: 55),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child:  sectionCategories(),
-                  ),
-                  const SizedBox(height: 55),
-                  sectionsBrands(),
-                  const SizedBox(height: 55),
-                  //comment for update design
-                /*  providerHome!.ltsBannersOffer.isEmpty ? Container() : sectionHighlight(),
-                  const SizedBox(height: 55),
-                  sectionBestSellers(),*/
-                ],
-              ),
-            ):notConnectionInternet(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget sectionCategories() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              Strings.categories,
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontSize: 24,
-                  color: CustomColorsAPP.blueTitle,
-                  fontFamily: Strings.fontBold
-              ),
-            ),
-            /*     Comment for update design
-       Expanded(
-              child:GestureDetector(
-                onTap: ()=> Navigator.push(context, customPageTransition(CategoriesPage())),
-                child: Text(
-                  Strings.seeAll,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: CustomColors.blueTitle,
-                      fontFamily: Strings.fontRegular
-                  ),
-                ),
-              ) ,
-            )*/
-          ],
-        ),
-        SizedBox(height: 8,),
-        AnimationLimiter(
-          child: GridView.builder(
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 30,
-              childAspectRatio: 0.9,
-              crossAxisSpacing: 0,
-            ),
-            padding: EdgeInsets.only(top: 20),
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: providerSettings.ltsCategoriesHome.length,
-            shrinkWrap: true,
-            itemBuilder: (_, int index) {
-              return AnimationConfiguration.staggeredGrid(
-                position: index,
-                duration: const Duration(milliseconds: 375),
-                columnCount: 4,
-                child: ScaleAnimation(
-                  child: FadeInAnimation(
-                    child: InkWell(
-                        onTap: () => openSubCategory(providerSettings.ltsCategoriesHome[index]),
-                        child: itemCategory(providerSettings.ltsCategoriesHome[index])),
-                  ),
-                ),
-              );
-            },
+                  )
+                : notConnectionInternet(),
           ),
         ),
       ],
@@ -313,133 +268,53 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget sectionsBrands() {
-    return providerHome.ltsBrands.isEmpty?Container():Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //Comment for update design
-/*          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              Strings.enjoy,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: Strings.fontRegular,
-                  color: CustomColors.gray15),
-            ),
-          ),
-          SizedBox(
-            height: 6,
-          ),*/
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-             crossAxisAlignment: CrossAxisAlignment.center,
+    return providerHome.ltsBrands.isEmpty
+        ? Container()
+        : Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    Strings.ourOfficialBrands,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontFamily: Strings.fontBold,
-                        color: CustomColorsAPP.blueSplash),
-                  ),
-                ),
-                const SizedBox(width: 5,),
-                InkWell(
-                  onTap: ()=>openAllBrands(),
-                  child:  Text(
-                    Strings.moreAll,
-                    style: TextStyle(
-                        color: CustomColorsAPP.blue,
-                        fontSize: 15,
-                        fontFamily: Strings.fontMedium),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 22),
-          Container(
-              height: 110,
-              padding: EdgeInsets.only(left: 30),
-              child: listItemsBrands()),
-
-        ],
-      ),
-    );
-  }
-
-  Widget sectionHighlight() {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            child: Text(
-              Strings.findHere,
-              style: TextStyle(
-                  fontSize: 13,
-                  fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.blueOne),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  Strings.highlightedOffers,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: Strings.fontBold,
-                      color: CustomColorsAPP.blueSplash),
-                ),
-                InkWell(
-                  onTap: () => Navigator.pushReplacement(context, customPageTransition( HighlightsPage(),PageTransitionType.rightToLeftWithFade)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: CustomColorsAPP.blue.withOpacity(.1),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                      child: Text(
-                        Strings.moreAll,
-                        style: TextStyle(
-                            color: CustomColorsAPP.blueOne,
-                            fontSize: 12,
-                            fontFamily: Strings.fontBold),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          Strings.ourOfficialBrands,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: Strings.fontBold,
+                              color: AppColors.blueSplash),
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      InkWell(
+                        onTap: () => openAllBrands(),
+                        child: Text(
+                          Strings.moreAll,
+                          style: TextStyle(
+                              color: AppColors.blue,
+                              fontSize: 15,
+                              fontFamily: Strings.fontMedium),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                SizedBox(height: 22),
+                Container(
+                    height: 110,
+                    padding: EdgeInsets.only(left: 30),
+                    child: listItemsBrands()),
               ],
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-              height: 200,
-              width: double.infinity,
-              child: providerHome!.ltsBannersOffer.isEmpty
-                  ? Center(child: loadingWidgets(70),)
-                  : sliderBanner(providerHome!.indexBannerFooter,
-                      updateIndexBannerFooter, providerHome!.ltsBannersOffer)),
-          SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
-    );
+          );
   }
+
+
 
   Widget sectionBestSellers() {
     return Column(
@@ -452,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(
                 fontSize: 16,
                 fontFamily: Strings.fontRegular,
-                color: CustomColorsAPP.gray15),
+                color: AppColors.gray15),
           ),
         ),
         SizedBox(
@@ -469,7 +344,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     fontSize: 22,
                     fontFamily: Strings.fontBold,
-                    color: CustomColorsAPP.blueSplash),
+                    color: AppColors.blueSplash),
               ),
             ],
           ),
@@ -487,13 +362,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget listItemsBrands() {
     return ListView.builder(
-      itemCount: providerHome!.ltsBrands.length > 6 ? 6 : providerHome!.ltsBrands.length,
+      itemCount: providerHome!.ltsBrands.length > 6
+          ? 6
+          : providerHome!.ltsBrands.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (_, int index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 10 ),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: InkWell(
-            onTap: ()=>openProductsByBrand(providerHome!.ltsBrands[index]),
+              onTap: () => openProductsByBrand(providerHome!.ltsBrands[index]),
               child: itemBrand(providerHome!.ltsBrands[index])),
         );
       },
@@ -502,44 +379,57 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget listBestSellers() {
     return ListView.builder(
-      itemCount: providerHome?.ltsMostSelledProducts.length??0,
+      itemCount: providerHome?.ltsMostSelledProducts.length ?? 0,
       scrollDirection: Axis.horizontal,
       itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
-            onTap: ()=>openDetailProduct(providerHome!.ltsMostSelledProducts[index]),
+              onTap: () =>
+                  openDetailProduct(providerHome!.ltsMostSelledProducts[index]),
               child: itemProduct(providerHome!.ltsMostSelledProducts[index])),
         );
       },
     );
   }
 
-  openProductsByBrand(Brand brand){
-    Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString()),PageTransitionType.rightToLeftWithFade));
+  openProductsByBrand(Brand brand) {
+    Navigator.push(
+        context,
+        customPageTransition(ProductCategoryPage(idBrand: brand.id.toString()),
+            PageTransitionType.rightToLeftWithFade));
   }
 
-  openAllBrands(){
-    Navigator.push(context, customPageTransition(BrandsPage(),PageTransitionType.rightToLeftWithFade));
+  openAllBrands() {
+    Navigator.push(
+        context,
+        customPageTransition(
+            BrandsPage(), PageTransitionType.rightToLeftWithFade));
   }
 
-  openDetailProduct(Product product){
+  openDetailProduct(Product product) {
     String? color = product.references[0].color;
-    if(product.references[0].images?.length != 0)
-    {
-      if (color != null  && color.startsWith('#') && color.length >= 6) {
-        providerProducts?.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
+    if (product.references[0].images?.length != 0) {
+      if (color != null && color.startsWith('#') && color.length >= 6) {
+        providerProducts?.imageReferenceProductSelected =
+            product.references[0].images?[0].url ?? "";
         providerProducts?.limitedQuantityError = false;
-        Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeftWithFade));
+        Navigator.push(
+            context,
+            customPageTransition(DetailProductPage(product: product),
+                PageTransitionType.rightToLeftWithFade));
       }
     }
   }
 
-  openSubCategory(Category category) {
-    if(category.id == 0){
-      Navigator.push(context, customPageTransition(CategoriesPage(),PageTransitionType.rightToLeftWithFade));
-    }else{
-      Navigator.push(context,customPageTransition(SubCategoryPage(category: category,),PageTransitionType.rightToLeftWithFade));
+  openDepartmentCategory(Department department) {
+    if (department.id == 0) {
+      Navigator.push(
+          context,
+          customPageTransition(DepartmentCategoriesPage(),
+              PageTransitionType.rightToLeftWithFade));
+    } else {
+      //Navigator.push(context,customPageTransition(SubCategoryPage(category: category,),PageTransitionType.rightToLeftWithFade));
     }
   }
 
@@ -548,50 +438,29 @@ class _MyHomePageState extends State<MyHomePage> {
     if (searchController.text.isNotEmpty) {
       Navigator.push(
           context,
-          customPageTransition(SearchProductHome(
-            textSearch: searchController.text,
-          ),PageTransitionType.rightToLeftWithFade));
+          customPageTransition(
+              SearchProductHome(
+                textSearch: searchController.text,
+              ),
+              PageTransitionType.rightToLeftWithFade));
     }
   }
 
-  updateIndexBannerFooter(int index) {
-    providerHome!.indexBannerFooter = index;
-  }
 
-  updateIndexBannerHeader(int index) {
-    providerHome!.indexBannerHeader = index;
-  }
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     providerHome.ltsBrands.clear();
     providerHome.ltsBanners.clear();
     providerHome.ltsBannersOffer.clear();
-    providerSettings.ltsCategories.clear();
-    providerSettings.ltsCategoriesHome.clear();
     providerHome.ltsMostSelledProducts.clear();
-    serviceGetCategories();
+    departmentProvider.loadDepartments();
     getProductsMoreSelled();
     _refreshHome.refreshCompleted();
   }
 
-  serviceGetCategories() async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callSettings = providerSettings.getCategoriesInterest("", 0, prefs.countryIdUser);
-        await callSettings.then((list) {
-          getBrands();
-          getProductsMoreSelled();
-        }, onError: (error) {
-
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
-  }
-
-  getBrands() async {
+/* TODO for refactor code
+ getBrands() async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callHome = providerHome!.getBrands("0");
@@ -605,9 +474,10 @@ class _MyHomePageState extends State<MyHomePage> {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
-  }
+  }*/
 
-  getBanners() async {
+/* TODO for refactor code
+ getBanners() async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callHome = providerHome!.getBannersGeneral("0");
@@ -620,9 +490,10 @@ class _MyHomePageState extends State<MyHomePage> {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
-  }
+  }*/
 
-  getBannersOffer() async {
+/*  TODO for refactor code
+getBannersOffer() async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callHome = providerHome!.getBannersOffer("0");
@@ -633,15 +504,13 @@ class _MyHomePageState extends State<MyHomePage> {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
-  }
+  }*/
 
   getProductsMoreSelled() async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callHome = providerHome!.getProductsMostSelled();
-        await callHome.then((list) {}, onError: (error) {
-
-        });
+        await callHome.then((list) {}, onError: (error) {});
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
@@ -650,14 +519,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   selectCountryUserNotLogin() async {
     bool state = await openSelectCountry(context);
-    if (state) serviceGetCategories();
+    if (state) {
+      departmentProvider.loadDepartments();
+    } else {
+      utils.showSnackBar(context, Strings.selectCountry);
+    }
   }
 
-  void openWhatsapp(){
-    utils.openWhatsapp(context: context, text: Strings.helloHelp, number: Constants.numberWhatsapp);
+  void openWhatsapp() {
+    utils.openWhatsapp(
+        context: context,
+        text: Strings.helloHelp,
+        number: Constants.numberWhatsapp);
   }
 
-  void openChatAdmin(){
+  void openChatAdmin() {
     getRoomSupport(context);
   }
 
@@ -666,10 +542,18 @@ class _MyHomePageState extends State<MyHomePage> {
       if (value) {
         Future callChat = providerChat.getRomAdmin();
         await callChat.then((id) async {
-          if(socketService.serverStatus!=ServerStatus.Online){
-            socketService.connectSocket(Constants.typeAdmin, id,"");
+          if (socketService.serverStatus != ServerStatus.Online) {
+            socketService.connectSocket(Constants.typeAdmin, id, "");
           }
-          Navigator.push(context, customPageTransition(ChatPage(roomId: id, typeChat: Constants.typeAdmin,imageProfile: Constants.profileAdmin,fromPush: false),PageTransitionType.rightToLeftWithFade));
+          Navigator.push(
+              context,
+              customPageTransition(
+                  ChatPage(
+                      roomId: id,
+                      typeChat: Constants.typeAdmin,
+                      imageProfile: Constants.profileAdmin,
+                      fromPush: false),
+                  PageTransitionType.rightToLeftWithFade));
         }, onError: (error) {
           utils.showSnackBar(context, error.toString());
         });

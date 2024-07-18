@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../Models/SubCategory.dart';
 import '../../../Providers/ProviderFilter.dart';
 import '../../../Utils/Strings.dart';
-import '../../../Utils/colors.dart';
+import '../../../config/theme/colors.dart';
 
 class FilterSubcategoryWidget extends StatelessWidget {
   late ProviderFilter providerFilter;
@@ -13,16 +13,16 @@ class FilterSubcategoryWidget extends StatelessWidget {
     providerFilter = Provider.of<ProviderFilter>(context);
     return Theme(
       data: Theme.of(context).copyWith(
-        dividerColor: CustomColorsAPP.gray2,
+        dividerColor: AppColors.gray2,
       ),
       child: ExpansionTile(
         initiallyExpanded: true,
-        iconColor: CustomColorsAPP.blue,
-        collapsedIconColor: CustomColorsAPP.blue,
+        iconColor: AppColors.blue,
+        collapsedIconColor: AppColors.blue,
         title: Text(
           Strings.subcategories,
           style: TextStyle(
-              color: CustomColorsAPP.blueSplash,
+              color: AppColors.blueSplash,
               fontSize: 16,
               fontFamily: Strings.fontBold),
         ),
@@ -38,7 +38,7 @@ class FilterSubcategoryWidget extends StatelessWidget {
                 title: Text(
                   subCategory.subcategory ?? '',
                   style: TextStyle(
-                      color: CustomColorsAPP.blueSplash,
+                      color: AppColors.blueSplash,
                       fontFamily: Strings.fontRegular),
                 ),
                 value: false,

@@ -11,7 +11,7 @@ import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utilsPhoto/image_picker_handler.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -67,12 +67,12 @@ class _MyDatesPageState extends State<MyDatesPage>
     providerSettings = Provider.of<ProviderSettings>(context);
     profileProvider = Provider.of<ProfileProvider>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Stack(
           children: [
             Container(
-              color: CustomColorsAPP.redTour,
+              color: AppColors.redTour,
               child: _body(context),
             ),
             Visibility(
@@ -119,7 +119,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 24,
-                                color: CustomColorsAPP.white),
+                                color: AppColors.white),
                           ),
                         )),
                       ],
@@ -139,7 +139,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(100)),
                                 border: Border.all(
-                                    color: CustomColorsAPP.white, width: 1),
+                                    color: AppColors.white, width: 1),
                               ),
                               child: Center(
                                 child: Stack(
@@ -151,9 +151,9 @@ class _MyDatesPageState extends State<MyDatesPage>
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(100)),
                                         border: Border.all(
-                                            color: CustomColorsAPP.white,
+                                            color: AppColors.white,
                                             width: 1),
-                                        color: CustomColorsAPP.grayBackground,
+                                        color: AppColors.grayBackground,
                                       ),
                                       child: InkWell(
                                         onTap: () =>
@@ -192,7 +192,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                     Strings.changePhoto,
                                     style: TextStyle(
                                         fontFamily: Strings.fontRegular,
-                                        color: CustomColorsAPP.white,
+                                        color: AppColors.white,
                                         decoration: TextDecoration.underline),
                                   ),
                                 ),
@@ -205,8 +205,8 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       width: 130,
                                       child: btnRoundedCustom(
                                           30,
-                                          CustomColorsAPP.yellowOne,
-                                          CustomColorsAPP.blackLetter,
+                                          AppColors.yellowOne,
+                                          AppColors.blackLetter,
                                           Strings.saveDates, () {
                                         callServiceUpdate();
                                       })),
@@ -217,8 +217,8 @@ class _MyDatesPageState extends State<MyDatesPage>
                                       width: 100,
                                       child: btnRoundedCustom(
                                           30,
-                                          CustomColorsAPP.white,
-                                          CustomColorsAPP.gray7,
+                                          AppColors.white,
+                                          AppColors.gray7,
                                           Strings.edit, () {
                                         profileProvider!.isEditProfile = true;
                                       })),
@@ -239,7 +239,7 @@ class _MyDatesPageState extends State<MyDatesPage>
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    color: CustomColorsAPP.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
@@ -258,7 +258,7 @@ class _MyDatesPageState extends State<MyDatesPage>
                                   Strings.personalInfo,
                                   style: TextStyle(
                                       fontSize: 15,
-                                      color: CustomColorsAPP.blackLetter,
+                                      color: AppColors.blackLetter,
                                       fontFamily: Strings.fontBold),
                                 ),
                                 SizedBox(height: 20),
@@ -297,8 +297,8 @@ class _MyDatesPageState extends State<MyDatesPage>
                       Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 30),
-                          child: btnCustomRounded(CustomColorsAPP.blueSplash,
-                              CustomColorsAPP.white, Strings.changePass, () {
+                          child: btnCustomRounded(AppColors.blueSplash,
+                              AppColors.white, Strings.changePass, () {
                             Navigator.of(context).push(
                                 customPageTransition(ChangePasswordPage(),PageTransitionType.fade));
                           }, context))

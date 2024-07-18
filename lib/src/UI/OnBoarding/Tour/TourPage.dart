@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import '../Widgets.dart';
 import 'WelcomePage.dart';
@@ -22,7 +22,7 @@ class _FirstPageTourState extends State<TourPage> {
   Widget build(BuildContext context) {
     heightView = MediaQuery.of(context).size.height * 0.83;
     return Scaffold(
-      body: Container(color: CustomColorsAPP.white, child: _body(context)),
+      body: Container(color: AppColors.white, child: _body(context)),
     );
   }
 
@@ -59,7 +59,7 @@ class _FirstPageTourState extends State<TourPage> {
                   dotsIndicator(position),
                   const SizedBox(height: 40),
                   GestureDetector(
-                  child: Text(position == 2 ? Strings.nextBtn : Strings.skip, style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle, fontSize: 18,),),
+                  child: Text(position == 2 ? Strings.nextBtn : Strings.skip, style: TextStyle(fontFamily: Strings.fontRegular, color: AppColors.blueTitle, fontSize: 18,),),
                   onTap: () {
                     prefs.enableTour = false;
                     Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.leftToRight, child: WelcomePage(), duration: Duration(milliseconds: 700)));

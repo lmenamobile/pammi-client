@@ -13,7 +13,7 @@ import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
@@ -67,10 +67,10 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuProfile,
       ),
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child: _body(context),
         ),
       ),
@@ -122,7 +122,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 24,
-                          color: CustomColorsAPP.white),
+                          color: AppColors.white),
                     ),
                   ),
                   SizedBox(
@@ -135,7 +135,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 14,
-                          color: CustomColorsAPP.white),
+                          color: AppColors.white),
                     ),
                   ),
                   SizedBox(
@@ -157,7 +157,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
-                            color: CustomColorsAPP.blackLetter.withOpacity(0.1),
+                            color: AppColors.blackLetter.withOpacity(0.1),
                             spreadRadius: 5,
                             blurRadius: 7,
                             offset: Offset(0, 3), // changes position of shadow
@@ -226,7 +226,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                                     style: TextStyle(
                                         fontFamily: Strings.fontRegular,
                                         fontSize: 12,
-                                        color: CustomColorsAPP.blackLetter),
+                                        color: AppColors.blackLetter),
                                   ),
                                 )
                               ],
@@ -281,7 +281,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                                       style: TextStyle(
                                         height: 1.5,
                                         fontSize: 12,
-                                        color: CustomColorsAPP.blackLetter,
+                                        color: AppColors.blackLetter,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -293,7 +293,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                                           text: "Terminos y condiciones",
                                           style: TextStyle(
                                               fontFamily: Strings.fontRegular,
-                                              color: CustomColorsAPP.blueActiveDots,
+                                              color: AppColors.blueActiveDots,
                                               decoration: TextDecoration.underline),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () => launch(
@@ -308,7 +308,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                                           text: " Política de privacidad",
                                           style: TextStyle(
                                               fontFamily: Strings.fontRegular,
-                                              color: CustomColorsAPP.blueActiveDots,
+                                              color: AppColors.blueActiveDots,
                                               decoration: TextDecoration.underline),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () => launch(
@@ -331,7 +331,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(left: 50, right: 50 ,top: 25, bottom: 20),
                         decoration: BoxDecoration(
-                          color: bandAllFields ? CustomColorsAPP.yellowOne : CustomColorsAPP.greyBorder,
+                          color: bandAllFields ? AppColors.yellowOne : AppColors.greyBorder,
                           borderRadius: BorderRadius.all(Radius.circular(22)),
                         ),
                         child:  Text(
@@ -339,7 +339,7 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                           style: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 14,
-                              color: CustomColorsAPP.blueSplash),
+                              color: AppColors.blueSplash),
                         ),
 
                       ),
@@ -363,8 +363,8 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
       padding: EdgeInsets.only(left: 10),
       height: 50,
       decoration: BoxDecoration(
-          border: Border.all(color: CustomColorsAPP.gray2, width: 1),
-          color: CustomColorsAPP.grayMenu),
+          border: Border.all(color: AppColors.gray2, width: 1),
+          color: AppColors.grayMenu),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -380,12 +380,12 @@ class _PreRegisterPageState extends State<PreRegisterPage> {
                 },
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
                 decoration: InputDecoration(
                   isDense: true,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                    color: CustomColorsAPP.gray.withOpacity(.4),
+                    color: AppColors.gray.withOpacity(.4),
                     fontFamily: Strings.fontRegular,
                   ),
                   hintText: hintText,

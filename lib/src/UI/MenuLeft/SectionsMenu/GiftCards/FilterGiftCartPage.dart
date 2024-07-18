@@ -6,7 +6,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/GiftCards/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -26,10 +26,10 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child: Column(
             children: [
-              headerDoubleTapMenu(context, Strings.filter, "ic_remove_white.png", "ic_back.png", CustomColorsAPP.redDot, "0", () => Navigator.pop(context), ()=>clearFilter()),
+              headerDoubleTapMenu(context, Strings.filter, "ic_remove_white.png", "ic_back.png", AppColors.redDot, "0", () => Navigator.pop(context), ()=>clearFilter()),
               Expanded(
                 child: providerSettings.hasConnection?SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
@@ -76,7 +76,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                         SizedBox(
                           height: 20,
                         ),
-                        btnCustom(200, Strings.apply, CustomColorsAPP.blueSplash,
+                        btnCustom(200, Strings.apply, AppColors.blueSplash,
                             Colors.white, returnDataFilter)
                       ],
                     ),
@@ -92,7 +92,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
 
   Widget listItemsCategory() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+     /* margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -101,11 +101,10 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
             : providerSettings.ltsCategories.length,
         itemBuilder: (_, int index) {
           return InkWell(
-              onTap: () =>
-                  selectCategory(providerSettings.ltsCategories[index]),
+              onTap: () => selectCategory(providerSettings.ltsCategories[index]),
               child: categoryItem(providerSettings.ltsCategories[index]));
         },
-      ),
+      ),*/
     );
   }
 
@@ -133,14 +132,14 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
               style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 17,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             ),
             Text(
               formatMoney(values.end.round().toString()),
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 15,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             ),
             customDivider(),
             Column(
@@ -149,8 +148,8 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
                     values: values,
                     min: 0,
                     max: 100,
-                    activeColor: CustomColorsAPP.orange,
-                    inactiveColor: CustomColorsAPP.gray6,
+                    activeColor: AppColors.orange,
+                    inactiveColor: AppColors.gray6,
                     labels: RangeLabels(values.start.round().toString(),
                         values.end.round().toString()),
                     onChanged: (values) => setState(() {
@@ -175,7 +174,7 @@ class _FilterGiftCartPageState extends State<FilterGiftCartPage> {
     return Text(
       value.round().toString(),
       style: TextStyle(
-          color: CustomColorsAPP.blackLetter,
+          color: AppColors.blackLetter,
           fontSize: 13,
           fontFamily: Strings.fontRegular),
     );

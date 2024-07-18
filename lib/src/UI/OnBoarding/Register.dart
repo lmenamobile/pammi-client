@@ -13,7 +13,7 @@ import 'package:wawamko/src/UI/SearchCountryAndCity/SelectStates.dart';
 import 'package:wawamko/src/UI/SearchCountryAndCity/selectCountry.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          color: CustomColorsAPP.white,
+          color: AppColors.white,
           child: _body(context),
         ),
       ),
@@ -91,13 +91,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(height: 6,),
                     Text(
                       "¡${Strings.createAccount}!",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: CustomColorsAPP.blueTitle),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: AppColors.blueTitle),
                     ),
                     SizedBox(height: 17,),
                     Text(
                       Strings.registerMsg,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.black1),
+                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: AppColors.black1),
                     ),
                     SizedBox(height: 52),
                     Column(
@@ -128,16 +128,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           children: [
                             Checkbox(
                               value: providerSettings?.checkPolicies,
-                              activeColor: CustomColorsAPP.blue,
+                              activeColor: AppColors.blue,
                               checkColor: Colors.white,
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               visualDensity: VisualDensity.compact,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3),),
                               fillColor: WidgetStateProperty.resolveWith<Color?>((states) {
                                 if (states.contains(WidgetState.selected)) {
-                                  return CustomColorsAPP.blue;
+                                  return AppColors.blue;
                                 }
-                                return CustomColorsAPP.gray;
+                                return AppColors.gray;
                               }),
                               onChanged: (value) {
                                 providerSettings?.checkPolicies = value!;
@@ -150,15 +150,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                   children: [
                                     TextSpan(
                                       text: Strings.btnAccept,
-                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColorsAPP.gray,),
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: AppColors.gray,),
                                     ),
                                     TextSpan(
                                       text: ' ',
-                                      style: TextStyle(fontSize: 15, color: CustomColorsAPP.gray,),
+                                      style: TextStyle(fontSize: 15, color: AppColors.gray,),
                                     ),
                                     TextSpan(
                                       text: Strings.acceptPoliciesTitle,
-                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: CustomColorsAPP.blue,),
+                                      style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 15, color: AppColors.blue,),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
                                           Navigator.push(context, customPageTransition(TermsAndConditionsView(),PageTransitionType.rightToLeftWithFade));
@@ -173,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             SizedBox(height: 30,),
                           ],
                         )),
-                    btnCustomRounded(CustomColorsAPP.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
+                    btnCustomRounded(AppColors.blueSplash, Colors.white, Strings.next, callStepTwoRegister, context) //btnCustomIcon("ic_next.png", , , , ))
                   ],
                 ),
                 SizedBox(height: 15,),

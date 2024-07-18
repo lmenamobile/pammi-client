@@ -7,7 +7,7 @@ import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/pqrs/createPqrs.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/CustomerService/pqrs/detailPqrs.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/DialogLoading.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -91,7 +91,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 18,
-                  color: CustomColorsAPP.blackLetter
+                  color: AppColors.blackLetter
                 ),
               ),
               Expanded(
@@ -103,7 +103,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
                   padding: EdgeInsets.symmetric(horizontal: 32,vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
-                    color: CustomColorsAPP.blueSplash
+                    color: AppColors.blueSplash
                   ),
                   child: Text(
                     Strings.create,
@@ -121,9 +121,9 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
         SizedBox(height: 20),
         TabBar(
           controller: _tabController,
-          indicatorColor: CustomColorsAPP.redTour,
-          unselectedLabelColor: CustomColorsAPP.blackLetter.withOpacity(.56),
-          labelColor: CustomColorsAPP.yellow,
+          indicatorColor: AppColors.redTour,
+          unselectedLabelColor: AppColors.blackLetter.withOpacity(.56),
+          labelColor: AppColors.yellow,
           onTap: (index){
             _changeTab(index);
           },
@@ -227,7 +227,7 @@ class _PqrsPageState extends State<PqrsPage> with TickerProviderStateMixin {
             style: TextStyle(
               fontSize: 16,
               fontFamily: Strings.fontRegular,
-              color: CustomColorsAPP.white,
+              color: AppColors.white,
             ),
           ),
         ),

@@ -20,7 +20,7 @@ import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: CustomColorsAPP.white,
+        backgroundColor: AppColors.white,
         body: SafeArea(
           child:  _body(context),
         ),
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     SizedBox(height: 54,),
 
-                    Text(Strings.welcome, style: TextStyle(fontFamily: Strings.fontBold, fontSize: 36, color: CustomColorsAPP.blueTitle),),
+                    Text(Strings.welcome, style: TextStyle(fontFamily: Strings.fontBold, fontSize: 36, color: AppColors.blueTitle),),
                     SizedBox(height: 17),
                     Text(Strings.titleLogin, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: Colors.black),),
                     FadeInUp(
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                             Padding(
                               padding: const EdgeInsets.only(top:20,bottom:13),
                               child: customBoxPassword(
-                                  notifyVariables.intLogin.validatePassword??false ? CustomColorsAPP.blueSplash : CustomColorsAPP.gray.withOpacity(.3),
+                                  notifyVariables.intLogin.validatePassword??false ? AppColors.blueSplash : AppColors.gray.withOpacity(.3),
                                   Strings.password,
                                   notifyVariables.intLogin.validatePassword??false,
                                   "Assets/images/ic_padlock_blue.png",
@@ -121,26 +121,26 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Container(
                                       alignment: Alignment.topRight,
                                       padding: EdgeInsets.only(right: 10, top: 5),
-                                      child: Text(Strings.forgotPass, style: TextStyle(fontFamily: Strings.fontMedium, color: CustomColorsAPP.blueTitle),),
+                                      child: Text(Strings.forgotPass, style: TextStyle(fontFamily: Strings.fontMedium, color: AppColors.blueTitle),),
                                     ),
                                     onTap: () => Navigator.of(context).push(customPageTransition(ForgotPasswordEmailPage(),
                                     PageTransitionType.rightToLeftWithFade)))
                               ],
                             ),
                             SizedBox(height: 30),
-                            btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.login, () => callServiceLogin(), context),
+                            btnCustomRounded(AppColors.blueSplash, AppColors.white, Strings.login, () => callServiceLogin(), context),
                             SizedBox(height: 20),
-                            btnCustomRounded(CustomColorsAPP.redTour, CustomColorsAPP.white, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage(),
+                            btnCustomRounded(AppColors.redTour, AppColors.white, Strings.createAccount, () => Navigator.of(context).push(customPageTransition(RegisterPage(),
                             PageTransitionType.fade)), context),
                             SizedBox(height: 55),
                             Row(
                               children: [
                                 Expanded(
-                                  child: Container(width: double.infinity, height: 1, color: CustomColorsAPP.grayDot,),
+                                  child: Container(width: double.infinity, height: 1, color: AppColors.grayDot,),
                                 ),
-                                Text(Strings.optionInput, style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle),),
+                                Text(Strings.optionInput, style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: AppColors.blueTitle),),
                                 Expanded(
-                                  child: Container(width: double.infinity, height: 1, color: CustomColorsAPP.grayDot,),
+                                  child: Container(width: double.infinity, height: 1, color: AppColors.grayDot,),
                                 )
                               ],
                             ),

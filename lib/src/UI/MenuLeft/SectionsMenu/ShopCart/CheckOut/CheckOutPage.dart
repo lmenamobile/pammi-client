@@ -23,7 +23,7 @@ import 'package:wawamko/src/Widgets/widgets.dart';
 import '../../../../../Utils/FunctionsUtils.dart';
 import '../CheckOut/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import 'OrderConfirmationPage.dart';
@@ -75,10 +75,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
 
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.grayBackground,
+          color: AppColors.grayBackground,
           child: Stack(
             children: [
               Column(

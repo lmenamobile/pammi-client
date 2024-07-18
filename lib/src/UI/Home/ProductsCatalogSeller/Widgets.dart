@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../Widgets.dart';
 
@@ -48,7 +48,7 @@ Widget itemProductCatalog(Product product){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColorsAPP.gray7,
+                    color: AppColors.gray7,
                   ),
                 ),
                 Text(
@@ -57,7 +57,7 @@ Widget itemProductCatalog(Product product){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 ),
                 Text(
@@ -66,14 +66,14 @@ Widget itemProductCatalog(Product product){
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 13,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 ),
                 Text(
                   formatMoney( product.references[0].price??'0'),
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
-                    color: CustomColorsAPP.orange,
+                    color: AppColors.orange,
                   ),
                 )
               ],

@@ -4,7 +4,7 @@ import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Function removeFavorite){
   return InkWell(
@@ -53,7 +53,7 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                         ),
                       ),
                       Text(
@@ -62,14 +62,14 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                         ),
                       ),
                       Text(
                         formatMoney( product.reference?.price??'0'),
                         style: TextStyle(
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.orange,
+                          color: AppColors.orange,
                         ),
                       )
                     ],
@@ -97,10 +97,10 @@ Widget favorite(bool isFavorite,String idReference,Function callFavorite){
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(6)),
-          border: Border.all(color: isFavorite?Colors.transparent:CustomColorsAPP.gray5),
+          border: Border.all(color: isFavorite?Colors.transparent:AppColors.gray5),
           boxShadow: [
             BoxShadow(
-              color: isFavorite?CustomColorsAPP.redTour.withOpacity(0.2):CustomColorsAPP.gray5.withOpacity(0.2),
+              color: isFavorite?AppColors.redTour.withOpacity(0.2):AppColors.gray5.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 1,
               offset: Offset(0, 1), // changes position of shadow
@@ -111,7 +111,7 @@ Widget favorite(bool isFavorite,String idReference,Function callFavorite){
         child: Icon(
           Icons.favorite,
           size: 20,
-          color: isFavorite?CustomColorsAPP.redTour:CustomColorsAPP.gray5,
+          color: isFavorite?AppColors.redTour:AppColors.gray5,
         ),
       ),
     ),

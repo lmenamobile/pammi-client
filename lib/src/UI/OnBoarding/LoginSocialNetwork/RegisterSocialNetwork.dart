@@ -12,7 +12,7 @@ import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import '../../../Providers/SupportProvider.dart';
-import '../../../Utils/colors.dart';
+import '../../../config/theme/colors.dart';
 import '../../InterestCategoriesUser.dart';
 import '../../SearchCountryAndCity/selectCity.dart';
 import '../Widgets.dart';
@@ -63,11 +63,11 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
 
 
     return Scaffold(
-      backgroundColor: CustomColorsAPP.blueSplash,
+      backgroundColor: AppColors.blueSplash,
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          color: CustomColorsAPP.white,
+          color: AppColors.white,
           child: _body(context),
         ),
       ),
@@ -103,7 +103,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                 margin: EdgeInsets.only(top: 30),
                 child: Text(
                   Strings.registration,
-                  style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.white),
+                  style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: AppColors.white),
                 ),
               ),
             ],
@@ -123,12 +123,12 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                         SizedBox(height: 6,),
                         Text(
                           Strings.registrationFinish,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 24, color: CustomColorsAPP.blackLetter),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 24, color: AppColors.blackLetter),
                         ),
                         SizedBox(height: 6,),
                         Text(
                           Strings.registerMsg,
-                          style: TextStyle(fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
+                          style: TextStyle(fontFamily: Strings.fontRegular, color: AppColors.gray7),
                         ),
                         SizedBox(height: 13),
                         Column(
@@ -147,7 +147,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                               itemCheck(
                                       () => providerOnBoarding.stateDates = !providerOnBoarding.stateDates,
                                   providerOnBoarding.stateDates,
-                                  Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),)
+                                  Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: AppColors.blackLetter),)
                               ),
                               SizedBox(height: 10),
                               itemCheck(
@@ -155,7 +155,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                                   providerOnBoarding.stateCentrals,
                                   Text(
                                     Strings.authorizedCredit,
-                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),
+                                    style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: AppColors.blackLetter),
                                   )),
                               SizedBox(height: 10),
                               itemCheck(
@@ -163,7 +163,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                                   providerOnBoarding.stateContactCommercial,
                                   Text(
                                 Strings.contactCommercial,
-                                style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),
+                                style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: AppColors.blackLetter),
                               )),
                               SizedBox(height: 10),
                               itemCheck(
@@ -176,7 +176,7 @@ class _RegisterSocialNetworkPageState extends State<RegisterSocialNetworkPage> {
                         SizedBox(height: 20),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 30),
-                            child: btnCustomIcon("ic_next.png", Strings.next, CustomColorsAPP.blueSplash, Colors.white, callStepTwoRegister))
+                            child: btnCustomIcon("ic_next.png", Strings.next, AppColors.blueSplash, Colors.white, callStepTwoRegister))
                       ],
                     ),
                   SizedBox(height: 15,),

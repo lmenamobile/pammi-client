@@ -11,7 +11,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart'
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -45,7 +45,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
     providerHome = Provider.of<ProviderHome>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
         rollOverActive: Constants.menuGiftCard,
@@ -56,13 +56,13 @@ class _GiftCartPageState extends State<GiftCartPage> {
                 Navigator.pop(context,true), ()=>Navigator.pop(context,false)).then((value) => value!)),
         child: SafeArea(
           child: Container(
-            color: CustomColorsAPP.whiteBackGround,
+            color: AppColors.whiteBackGround,
             child: Stack(
               children: [
                 Column(
                   children: [
                     headerDoubleTapMenu(context, Strings.giftCards, "ic_car.png", "ic_menu_w.png",
-                        CustomColorsAPP.redDot, providerShopCart.totalProductsCart,() => keyMenuLeft.currentState!.openDrawer(),
+                        AppColors.redDot, providerShopCart.totalProductsCart,() => keyMenuLeft.currentState!.openDrawer(),
                             ()=>Navigator.push(context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade))),
                     const SizedBox(height: 10),
                     Text(
@@ -70,14 +70,14 @@ class _GiftCartPageState extends State<GiftCartPage> {
                       style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 17,
-                        color: CustomColorsAPP.blackLetter,
+                        color: AppColors.blackLetter,
                       ),
                     ),
                     Text(
                       Strings.textGiftCard,
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColorsAPP.blackLetter,
+                        color: AppColors.blackLetter,
                       ),
                     ),
                     SizedBox(height: 13,),
@@ -85,7 +85,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                       onTap: ()=>updateDataFilter(),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: CustomColorsAPP.blueSplash,
+                          color: AppColors.blueSplash,
                           borderRadius: BorderRadius.all(
                             Radius.circular(5)
                           )
@@ -119,7 +119,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: CustomColorsAPP.whiteBackGround,
+                            color: AppColors.whiteBackGround,
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
@@ -195,7 +195,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: CustomColorsAPP.gray4,
+              color: AppColors.gray4,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(12),
                   topLeft: Radius.circular(12)),
@@ -237,7 +237,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColorsAPP.gray7,
+                    color: AppColors.gray7,
                   ),
                 ),
                 SizedBox(
@@ -248,7 +248,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColorsAPP.orange,
+                    color: AppColors.orange,
                   ),
                 ),
                 SizedBox(
@@ -260,7 +260,7 @@ class _GiftCartPageState extends State<GiftCartPage> {
                     onTap: ()=>addGiftCard(gift.id.toString()),
                     child: Container(
                         decoration: BoxDecoration(
-                            color: CustomColorsAPP.blue,
+                            color: AppColors.blue,
                             borderRadius: BorderRadius.all(Radius.circular(10))),
                         child: Padding(
                           padding: const EdgeInsets.all(5),

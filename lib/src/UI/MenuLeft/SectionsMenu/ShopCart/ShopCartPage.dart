@@ -18,7 +18,7 @@ import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ProductsSavePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -70,7 +70,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           color: Colors.white,
           child: Column(
             children: [
-              headerDoubleTap2(context, Strings.shopCart,"save_products.png", "ic_remove_white.png", CustomColorsAPP.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>openProductsSave()),
+              headerDoubleTap2(context, Strings.shopCart,"save_products.png", "ic_remove_white.png", AppColors.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>openProductsSave()),
               SizedBox(
                 height: 10,
               ),
@@ -97,7 +97,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                       Navigator.pop(context);
                       providerProducts.unitsError.clear();
                     },
-                    color: CustomColorsAPP.blue,
+                    color: AppColors.blue,
                     width: double.infinity,
                     body: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +145,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                     onTap: ()=>openProductsSave(),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: CustomColorsAPP.orange,
+                          color: AppColors.orange,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       child: Padding(
@@ -204,7 +204,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                     style: TextStyle(
                         fontFamily: Strings.fontBold,
                         color:
-                        CustomColorsAPP.blackLetter),
+                        AppColors.blackLetter),
                   ),
                 ),
                 Container(

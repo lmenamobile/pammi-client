@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 import '../Login.dart';
@@ -16,7 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColorsAPP.white,
+      backgroundColor: AppColors.white,
       body: WillPopScope(
         onWillPop: (() async => showAlertActions(
             context, Strings.closeApp, Strings.textCloseApp,"ic_sign_off.png",()=>Navigator.pop(context,true), ()=>Navigator.pop(context)) as Future<bool>),
@@ -44,19 +44,19 @@ class _WelcomePageState extends State<WelcomePage> {
                         style: TextStyle(
                           fontSize: 48,
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.blueTitle,
+                          color: AppColors.blueTitle,
                         ),
                       ),
                       SizedBox(height: 10,),
                       Text(
                         Strings.textWelcome,
-                        style: TextStyle(height: 1.5, fontSize: 15, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueTitle,),
+                        style: TextStyle(height: 1.5, fontSize: 15, fontFamily: Strings.fontRegular, color: AppColors.blueTitle,),
                       ),
                       SizedBox(height: 34),
-                      btnCustomRoundedBorder(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.login, () {Navigator.of(context).push(customPageTransition(LoginPage(),
-                      PageTransitionType.fade));}, context, CustomColorsAPP.white),
+                      btnCustomRoundedBorder(AppColors.blueSplash, AppColors.white, Strings.login, () {Navigator.of(context).push(customPageTransition(LoginPage(),
+                      PageTransitionType.fade));}, context, AppColors.white),
                       SizedBox(height: 20),
-                      btnCustomRounded(CustomColorsAPP.redTour, CustomColorsAPP.white, Strings.begin, () {Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);}, context),
+                      btnCustomRounded(AppColors.redTour, AppColors.white, Strings.begin, () {Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);}, context),
                       SizedBox(height: 20),
                     ],
                   ),

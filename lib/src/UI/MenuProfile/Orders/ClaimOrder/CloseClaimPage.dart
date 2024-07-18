@@ -8,7 +8,7 @@ import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.da
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -43,7 +43,7 @@ class _CloseClaimPageState extends State<CloseClaimPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child: Stack(
             children: [
               Column(
@@ -55,13 +55,13 @@ class _CloseClaimPageState extends State<CloseClaimPage> {
                     child: Text(
                       Strings.becauseReasonClose,
                       style: TextStyle(
-                          color: CustomColorsAPP.blue, fontFamily: Strings.fontMedium,fontSize: 16),
+                          color: AppColors.blue, fontFamily: Strings.fontMedium,fontSize: 16),
                     ),
                   ),
                   Expanded(child: SingleChildScrollView(child: listReasonClose())),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 30),
-                    child: btnCustom(200, Strings.closeClaim,CustomColorsAPP.blue,
+                    child: btnCustom(200, Strings.closeClaim,AppColors.blue,
                         Colors.white,(){
                           providerClaimOrder.reasonCloseSelected==null?
                           utils.showSnackBar(context, Strings.errorReasonClaim)

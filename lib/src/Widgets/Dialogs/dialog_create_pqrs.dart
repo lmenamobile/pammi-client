@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 
 class DialogCreatePqrs extends StatefulWidget {
@@ -23,7 +23,7 @@ class _DialogCreatePqrsState extends State<DialogCreatePqrs> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: CustomColorsAPP.black2.withOpacity(.1),
+        backgroundColor: AppColors.black2.withOpacity(.1),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
@@ -45,7 +45,7 @@ class _DialogCreatePqrsState extends State<DialogCreatePqrs> {
                   padding: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
                   margin: EdgeInsets.symmetric(horizontal: 30),
                   decoration: BoxDecoration(
-                      color: CustomColorsAPP.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.all(Radius.circular(19))
                   ),
                   child: Column(
@@ -56,7 +56,7 @@ class _DialogCreatePqrsState extends State<DialogCreatePqrs> {
                         "${Strings.ticket} ${widget.idTicket} creado.",
                         style: TextStyle(
                             fontSize: 18,
-                            color: CustomColorsAPP.black2,
+                            color: AppColors.black2,
                             fontFamily: Strings.fontBold
                         ),
                       ),
@@ -69,7 +69,7 @@ class _DialogCreatePqrsState extends State<DialogCreatePqrs> {
                           padding: EdgeInsets.symmetric(horizontal: 23,vertical: 10),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: CustomColorsAPP.blue
+                              color: AppColors.blue
                           ),
                           child: Text(
                             Strings.understood,

@@ -5,7 +5,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 
 class DialogSelectDocument extends StatefulWidget{
@@ -47,7 +47,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                     height: 260,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: CustomColorsAPP.white,
+                      color: AppColors.white,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 40),
@@ -60,7 +60,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                               style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: Strings.fontBold,
-                                color: CustomColorsAPP.blackLetter,
+                                color: AppColors.blackLetter,
 
 
                               ),
@@ -70,7 +70,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                           Container(
                             margin: EdgeInsets.only(left: 20,right: 20),
                             height: 1,
-                            color: CustomColorsAPP.gray.withOpacity(.2),
+                            color: AppColors.gray.withOpacity(.2),
                           ),
                           SizedBox(height: 30),
                           GestureDetector(
@@ -83,7 +83,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                                 style: TextStyle(
                                   fontFamily: Strings.fontRegular,
                                   fontSize: 15,
-                                  color: CustomColorsAPP.blackLetter
+                                  color: AppColors.blackLetter
                                 ),
 
 
@@ -98,7 +98,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                           Container(
                             margin: EdgeInsets.only(left: 20,right: 20),
                             height: 1,
-                            color: CustomColorsAPP.gray.withOpacity(.1),
+                            color: AppColors.gray.withOpacity(.1),
                           ),
                           SizedBox(height: 20),
                           GestureDetector(
@@ -111,7 +111,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                                 style: TextStyle(
                                     fontFamily: Strings.fontRegular,
                                     fontSize: 15,
-                                    color: CustomColorsAPP.blackLetter
+                                    color: AppColors.blackLetter
                                 ),
 
 
@@ -126,7 +126,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                           Container(
                             margin: EdgeInsets.only(left: 20,right: 20),
                             height: 1,
-                            color: CustomColorsAPP.gray.withOpacity(.1),
+                            color: AppColors.gray.withOpacity(.1),
                           ),
                           SizedBox(height: 20),
                           GestureDetector(
@@ -139,7 +139,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                                 style: TextStyle(
                                     fontFamily: Strings.fontRegular,
                                     fontSize: 15,
-                                    color: CustomColorsAPP.blackLetter
+                                    color: AppColors.blackLetter
                                 ),
 
 
@@ -168,7 +168,7 @@ GlobalVariables globalVariables  = GlobalVariables();
                           width: 51,
                           height: 51,
                           decoration: BoxDecoration(
-                              color: CustomColorsAPP.blueActiveDots,
+                              color: AppColors.blueActiveDots,
                               borderRadius: BorderRadius.all(Radius.circular(100))
                           ),
                           child: Center(

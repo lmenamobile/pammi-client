@@ -5,7 +5,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
@@ -35,7 +35,7 @@ class _TermsAndConditionsViewState extends State<TermsAndConditionsView> {
 
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-        backgroundColor: CustomColorsAPP.redTour,
+        backgroundColor: AppColors.redTour,
         body: SafeArea(
           child: Container(
             color: Colors.white,

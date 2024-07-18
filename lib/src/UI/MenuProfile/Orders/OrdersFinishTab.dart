@@ -6,7 +6,7 @@ import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/DetailOrderPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -34,7 +34,7 @@ class _OrdersFinishTabState extends State<OrdersFinishTab> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child:Column(
             children: [
               Expanded(child: SmartRefresher(

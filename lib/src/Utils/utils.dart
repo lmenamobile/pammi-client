@@ -13,7 +13,7 @@ import 'package:wawamko/src/Models/Claim/TypeReason.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/confirmationSlide.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -81,7 +81,7 @@ class _Utils {
       animationDuration: Duration(milliseconds: 500),
       margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      backgroundColor: CustomColorsAPP.splashColor,
+      backgroundColor: AppColors.splashColor,
       icon: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Image(
@@ -210,7 +210,7 @@ class _Utils {
           title: Text(Strings.accountClosedSuccessfullyDescription, style: TextStyle(fontFamily: "bold", fontSize: 16, color: Colors.black), textAlign: TextAlign.start),
           content: Icon(
             Icons.check_circle,
-            color: CustomColorsAPP.green,
+            color: AppColors.green,
             size: 60,
           ),
         );
@@ -283,7 +283,7 @@ class _Utils {
       animationDuration: Duration(milliseconds: 500),
       margin: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      backgroundColor: CustomColorsAPP.greenValid,
+      backgroundColor: AppColors.greenValid,
       icon: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Image(
@@ -313,7 +313,7 @@ class _Utils {
         animationDuration: Duration(milliseconds: 500),
         margin: EdgeInsets.only(left: 60, right: 60,bottom: 40),
           borderRadius: BorderRadius.all(Radius.circular(15)),
-        backgroundColor: CustomColorsAPP.red,
+        backgroundColor: AppColors.red,
         icon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Image(
@@ -394,7 +394,7 @@ class _Utils {
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(19)),
-                  color: CustomColorsAPP.white,
+                  color: AppColors.white,
                 ),
                 child: Stack(
                   children:[
@@ -417,7 +417,7 @@ class _Utils {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
-                                color: CustomColorsAPP.blackLetter,
+                                color: AppColors.blackLetter,
                                 fontSize: 18),
                           ),
                         ),
@@ -429,7 +429,7 @@ class _Utils {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: Strings.fontRegular,
-                                color: CustomColorsAPP.gray7,
+                                color: AppColors.gray7,
                                 fontSize: 15),
                           ),
                         ),
@@ -444,8 +444,8 @@ class _Utils {
                                 child: btnCustomSize(
                                     35,
                                     Strings.btnNot,
-                                    CustomColorsAPP.gray2,
-                                    CustomColorsAPP.blackLetter,
+                                    AppColors.gray2,
+                                    AppColors.blackLetter,
                                     actionNegative),
                                 width: 100,
                               ),
@@ -453,8 +453,8 @@ class _Utils {
                                 child: btnCustomSize(
                                     35,
                                     Strings.btnYes,
-                                    CustomColorsAPP.blueSplash,
-                                    CustomColorsAPP.white,
+                                    AppColors.blueSplash,
+                                    AppColors.white,
                                     action),
                                 width: 100,
                               ),
@@ -471,7 +471,7 @@ class _Utils {
                           padding: EdgeInsets.all(0),
                           icon: Icon(
                             Icons.close,
-                            color: CustomColorsAPP.gray,
+                            color: AppColors.gray,
                           ),
                           onPressed: () => Navigator.pop(context))
                     )

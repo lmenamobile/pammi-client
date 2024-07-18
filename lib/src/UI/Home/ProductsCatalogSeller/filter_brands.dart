@@ -6,7 +6,7 @@ import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../../../Utils/utils.dart';
 import '../../../Widgets/LoadingProgress.dart';
@@ -128,7 +128,7 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
           bottom: 25,
           left: 20,
           right: 20,
-          child: btnCustom(double.infinity, Strings.clearFilter, CustomColorsAPP.blue3, Colors.white, _clearFilter),
+          child: btnCustom(double.infinity, Strings.clearFilter, AppColors.blue3, Colors.white, _clearFilter),
         )
       ],
     );

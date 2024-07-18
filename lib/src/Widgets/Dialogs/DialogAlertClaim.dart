@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../WidgetsGeneric.dart';
 
@@ -32,7 +32,7 @@ class DialogAlertClaim extends StatelessWidget {
                           padding: EdgeInsets.all(0),
                           icon: Icon(
                             Icons.close,
-                            color: CustomColorsAPP.gray,
+                            color: AppColors.gray,
                           ),
                           onPressed: () => Navigator.pop(context, false)))
                 ],
@@ -49,7 +49,7 @@ class DialogAlertClaim extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     height: 1.2,
-                    color: CustomColorsAPP.grayTwo,
+                    color: AppColors.grayTwo,
                     fontSize: 13,
                     fontFamily: Strings.fontRegular),
               ),
@@ -59,7 +59,7 @@ class DialogAlertClaim extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              child: btnCustom(null,Strings.terms, CustomColorsAPP.blueSplash,
+              child: btnCustom(null,Strings.terms, AppColors.blueSplash,
                   Colors.white, () => Navigator.pop(context, false)),
             ),
             SizedBox(

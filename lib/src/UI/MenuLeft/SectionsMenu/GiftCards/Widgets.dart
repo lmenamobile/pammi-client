@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 Widget categoryItem(Category category){
   return Container(
     margin: EdgeInsets.only(bottom: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      color: CustomColorsAPP.grayBackground
+      color: AppColors.grayBackground
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 15),
@@ -48,7 +48,7 @@ Widget categoryItem(Category category){
                 category.category??'',
                 style: TextStyle(
                   fontFamily: Strings.fontRegular,
-                  color: CustomColorsAPP.blackLetter
+                  color: AppColors.blackLetter
                 ),
               ),
             ],
@@ -57,9 +57,9 @@ Widget categoryItem(Category category){
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-              color: category.isSelected?CustomColorsAPP.orange:Colors.transparent,
+              color: category.isSelected?AppColors.orange:Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              border: Border.all(color: category.isSelected?CustomColorsAPP.orange:CustomColorsAPP.gray7)
+              border: Border.all(color: category.isSelected?AppColors.orange:AppColors.gray7)
             ),
           )
         ],

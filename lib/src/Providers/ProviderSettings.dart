@@ -3,7 +3,6 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wawamko/src/Models/Bank.dart';
-import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Campaign.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/City.dart';
@@ -16,6 +15,9 @@ import 'package:wawamko/src/Models/Training.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/features/feature_views_shared/infrastructure/infrastructure.dart';
+
+import '../features/feature_views_shared/domain/domain.dart';
 
 class ProviderSettings with ChangeNotifier{
   final prefs = SharePreference();
@@ -86,29 +88,16 @@ class ProviderSettings with ChangeNotifier{
  Category? _selectCategory;
   Category? get selectCategory => this._selectCategory;
   set selectCategory(Category? value) {
-    this._selectCategory = value;
+   /* this._selectCategory = value;
     _ltsCategories.firstWhereOrNull((element) => element==value?element.isSelected=true:element.isSelected=false);
      ltsCategories.forEach((category) {
        if(category!=value)
          category.isSelected = false;
-     });
+     });*/
     notifyListeners();
   }
 
-  List<Category> _ltsCategories = [];
-  List<Category> get ltsCategories => this._ltsCategories;
-  set ltsCategories(List<Category> value) {
-    this._ltsCategories.addAll(value);
-    notifyListeners();
-  }
 
-  /*list categoriesHome*/
-  List<Category> _ltsCategoriesHome = [];
-  List<Category> get ltsCategoriesHome => this._ltsCategoriesHome;
-  set ltsCategoriesHome(List<Category> value) {
-    this._ltsCategoriesHome.addAll(value);
-    notifyListeners();
-  }
 
   List<SubCategory> _ltsSubCategories = [];
   List<SubCategory> get ltsSubCategories => this._ltsSubCategories;
@@ -300,7 +289,7 @@ class ProviderSettings with ChangeNotifier{
     }
   }
 
-  Future<dynamic> getCategoriesInterest(String filter,int page,String countryCode) async {
+  Future<dynamic> getCategoriesInterest1(String filter,int page,String countryCode) async {
     final header = {
       "Content-Type": "application/json",
       "X-WA-Access-Token":prefs.accessToken.toString(),
@@ -332,8 +321,6 @@ class ProviderSettings with ChangeNotifier{
           listCategories.add(category);
         }
         this.isLoadingSettings = false;
-        this.ltsCategories= listCategories;
-        ltsCategoriesHome = addCategoryAll(ltsCategories);
         return listCategories;
       } else {
         this.isLoadingSettings = false;
@@ -345,27 +332,7 @@ class ProviderSettings with ChangeNotifier{
     }
   }
 
-  List<Category>  addCategoryAll(List<Category> listCategories){
-    ltsCategoriesHome = [];
-    Category categoryAll = Category(
-      id: 0,
-      category: "Otras Categorias",
-      color: "FFFFFF",
-      image: Constants.iconCategories,
-    );
 
-    List<Category> newListCategories = [];
-
-    if (listCategories.length > 7) {
-      newListCategories = listCategories.sublist(0, 7);
-    } else {
-      newListCategories = List.from(listCategories);
-    }
-
-    newListCategories.add(categoryAll);
-
-    return newListCategories;
-  }
 
   Future<dynamic> getSubCategories(int page,String idCategory) async {
     this.isLoadingSettings = true;
@@ -475,49 +442,7 @@ class ProviderSettings with ChangeNotifier{
     }
   }
 
-  Future<dynamic> getBannersHighlights(String offset) async {
-    this.isLoadingSettings = true;
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token": prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
-    };
-    Map jsonData = {
-      'filter': "",
-      'offset': offset,
-      'limit': 20,
-      "countryId":prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser,
-      "type": Constants.bannerOffer
-    };
-    var body = jsonEncode(jsonData);
-    final response = await http.post(Uri.parse(Constants.baseURL + "home/get-banners"),
-        headers: header, body: body)
-        .timeout(Duration(seconds: 25))
-        .catchError((value) {
-      this.isLoadingSettings = false;
-      throw Strings.errorServeTimeOut;
-    });
-    final List<Banners> listBanner = [];
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
-        for (var item in decodeJson['data']['items']) {
-          final banner = Banners.fromJson(item);
-          listBanner.add(banner);
-        }
-        this.isLoadingSettings = false;
-        this.ltsBannersHighlights = listBanner;
-        return listBanner;
-      } else {
-        this.isLoadingSettings = false;
-        throw decodeJson['message'];
-      }
-    } else {
-      this.isLoadingSettings = false;
-      throw decodeJson!['message'];
-    }
 
-  }
 
   Future<dynamic> getBannersCampaign(String offset) async {
     this.isLoadingSettings = true;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 
@@ -46,7 +46,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
 
-                      color: CustomColorsAPP.white
+                      color: AppColors.white
                   ),
                   child: SingleChildScrollView(
                     child: !notifyVariables.showMarcaFilter ? FadeInRight(
@@ -63,7 +63,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   Strings.filter,
                                   style: TextStyle(
                                     fontSize: 18,
-                                    color: CustomColorsAPP.blueTitle,
+                                    color: AppColors.blueTitle,
                                     fontFamily: Strings.fontBold
                                   ),
                                 ),
@@ -91,7 +91,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                 height: 34,
                                 padding: EdgeInsets.only(left: 23,right: 8),
                                 decoration: BoxDecoration(
-                                  color: CustomColorsAPP.grayBackground,
+                                  color: AppColors.grayBackground,
                                   borderRadius: BorderRadius.all(Radius.circular(6))
                                 ),
                                 child: Row(
@@ -102,7 +102,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       style: TextStyle(
                                         fontFamily: Strings.fontBold,
                                         fontSize: 11,
-                                        color: CustomColorsAPP.blackLetter
+                                        color: AppColors.blackLetter
                                       ),
                                     ),
 
@@ -128,7 +128,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                               Strings.price,
                               style: TextStyle(
                                 fontSize: 12,
-                                color: CustomColorsAPP.blackLetter,
+                                color: AppColors.blackLetter,
                                 fontFamily: Strings.fontBold
                               ),
                             ),
@@ -150,7 +150,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                       r"$100.000 a $300.000",
                                       style: TextStyle(
                                         fontFamily: Strings.fontRegular,
-                                        color: CustomColorsAPP.gray7,
+                                        color: AppColors.gray7,
                                         fontSize:10
                                       ),
 
@@ -171,14 +171,14 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   width: 43,
                                   decoration:BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                                    border: Border.all(color:CustomColorsAPP.blue ,width: 1),
+                                    border: Border.all(color:AppColors.blue ,width: 1),
                                   ),
                                   child: Center(
                                     child: Text(
                                       Strings.min,
                                       style: TextStyle(
                                         fontSize: 10,
-                                        color: CustomColorsAPP.gray7,
+                                        color: AppColors.gray7,
                                         fontFamily: Strings.fontRegular
                                       ),
                                     ),
@@ -189,7 +189,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   "-",
                                   style: TextStyle(
                                     fontFamily: Strings.fontRegular,
-                                    color: CustomColorsAPP.gray,
+                                    color: AppColors.gray,
                                     fontSize: 14
                                   ),
                                 ),
@@ -199,14 +199,14 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   width: 43,
                                   decoration:BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                                    border: Border.all(color:CustomColorsAPP.blue ,width: 1),
+                                    border: Border.all(color:AppColors.blue ,width: 1),
                                   ),
                                   child: Center(
                                     child: Text(
                                       Strings.max,
                                       style: TextStyle(
                                           fontSize: 10,
-                                          color: CustomColorsAPP.gray7,
+                                          color: AppColors.gray7,
                                           fontFamily: Strings.fontRegular
                                       ),
                                     ),
@@ -227,7 +227,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColorsAPP.blackLetter,
+                                    color: AppColors.blackLetter,
                                   ),
                                 ),
                                 SizedBox(height: 20),
@@ -249,7 +249,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                         style: TextStyle(
                                           fontFamily: Strings.fontRegular,
                                           fontSize: 12,
-                                          color: CustomColorsAPP.gray7
+                                          color: AppColors.gray7
                                         ),
                                       )
                                     ],
@@ -278,7 +278,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                         style: TextStyle(
                                             fontFamily: Strings.fontRegular,
                                             fontSize: 12,
-                                            color: CustomColorsAPP.gray7
+                                            color: AppColors.gray7
                                         ),
                                       )
                                     ],
@@ -294,7 +294,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                             ),
                           ),
                           SizedBox(height: 48),
-                          Padding(padding: EdgeInsets.only(left: 43,right: 43),  child: btnCustomSemiRounded(CustomColorsAPP.blue, CustomColorsAPP.white, Strings.apply, (){}, context))
+                          Padding(padding: EdgeInsets.only(left: 43,right: 43),  child: btnCustomSemiRounded(AppColors.blue, AppColors.white, Strings.apply, (){}, context))
                         ],
                       ),
                     ) : FadeInRight(
@@ -323,7 +323,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                     Strings.filter,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: CustomColorsAPP.blueTitle,
+                                        color: AppColors.blueTitle,
                                         fontFamily: Strings.fontBold
                                     ),
                                   ),
@@ -349,7 +349,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontFamily: Strings.fontRegular,
-                                  color: CustomColorsAPP.blackLetter
+                                  color: AppColors.blackLetter
                                 ),
                               ),
                             ),
@@ -369,7 +369,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
                             SizedBox(height: 50),
                             Padding(
                               padding: const EdgeInsets.only(left: 25,right: 25),
-                              child: btnCustomSemiRounded(CustomColorsAPP.blue,CustomColorsAPP.white, Strings.apply, (){}, context),
+                              child: btnCustomSemiRounded(AppColors.blue,AppColors.white, Strings.apply, (){}, context),
                             )
 
 
@@ -446,7 +446,7 @@ class _DrawerFilterPageState extends State<DrawerFilterPage> {
     style: TextStyle(
     fontFamily: Strings.fontRegular,
     fontSize: 14,
-    color: CustomColorsAPP.gray7
+    color: AppColors.gray7
     ),
     )
     ],

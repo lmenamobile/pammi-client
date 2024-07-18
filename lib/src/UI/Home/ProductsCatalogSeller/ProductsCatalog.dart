@@ -9,7 +9,7 @@ import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/Widgets.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/filter_brands.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
@@ -66,7 +66,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         IconButton(onPressed: _selectFilterBrands, icon: Icon(
                           Icons.filter_alt_rounded,
                           size: 30,
-                          color: CustomColorsAPP.blue6,
+                          color: AppColors.blue6,
                         )),
                         const SizedBox(width: 20),
                         Expanded(child: boxSearch(searchController, _searchProducts)),
@@ -135,7 +135,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   void clearForRefresh() {
     pageOffset = 0;
     providerProducts.brandSelectedCatalog = null;
-    providerSettings.ltsCategories.clear();
     getProducts(pageOffset);
   }
 

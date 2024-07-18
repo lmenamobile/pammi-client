@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../Widgets.dart';
 
@@ -12,7 +12,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
     height: 40,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: CustomColorsAPP.greyBorder),
+        color: AppColors.greyBorder),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
@@ -22,7 +22,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Image(
             height: 20,
-            color: CustomColorsAPP.gray7,
+            color: AppColors.gray7,
             image: AssetImage("Assets/images/ic_seeker.png"),
           ),
         ),
@@ -41,7 +41,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColorsAPP.gray7),
+                color: AppColors.gray7),
             decoration: InputDecoration(
                 hintText: Strings.search,
                 isDense: true,
@@ -49,7 +49,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
                 hintStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.gray7)),
+                    color: AppColors.gray7)),
           ),
         )
       ],
@@ -101,7 +101,7 @@ Widget itemProductSearch(Product product, Function openDetail){
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 12,
-                      color: CustomColorsAPP.gray7,
+                      color: AppColors.gray7,
                     ),
                   ),
                   Text(
@@ -110,14 +110,14 @@ Widget itemProductSearch(Product product, Function openDetail){
                     style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 13,
-                      color: CustomColorsAPP.blackLetter,
+                      color: AppColors.blackLetter,
                     ),
                   ),
                   Text(
                     formatMoney( product.references[0].price??'0'),
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
-                      color: CustomColorsAPP.orange,
+                      color: AppColors.orange,
                     ),
                   )
                 ],

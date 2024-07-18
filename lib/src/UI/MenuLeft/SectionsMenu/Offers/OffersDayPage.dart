@@ -13,7 +13,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/Widgets.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -72,7 +72,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
             color: Colors.white,
             child: Column(
               children: [
-                headerDoubleTapMenu(context, Strings.offersDay, "ic_car.png","ic_menu_w.png", CustomColorsAPP.redDot, providerShopCart.totalProductsCart,  () =>keyMenuLeft.currentState!.openDrawer(), ()=>Navigator.push(context,
+                headerDoubleTapMenu(context, Strings.offersDay, "ic_car.png","ic_menu_w.png", AppColors.redDot, providerShopCart.totalProductsCart,  () =>keyMenuLeft.currentState!.openDrawer(), ()=>Navigator.push(context,
                     customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade))),
 
                 Visibility(
@@ -111,7 +111,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                                       Strings.offersForUnits,
                                       style: TextStyle(
                                           fontFamily: Strings.fontBold,
-                                          color: CustomColorsAPP.blackLetter),
+                                          color: AppColors.blackLetter),
                                     ),
                                   ),
                                 ),
@@ -140,7 +140,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                                       Strings.offersForMix,
                                       style: TextStyle(
                                           fontFamily: Strings.fontBold,
-                                          color: CustomColorsAPP.blackLetter),
+                                          color: AppColors.blackLetter),
                                     ),
                                   ),
                                 ),
@@ -174,7 +174,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: <Color>[CustomColorsAPP.redTour, CustomColorsAPP.redOne],
+          colors: <Color>[AppColors.redTour, AppColors.redOne],
         ),
       ),
       child: Container(
@@ -231,7 +231,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                   IconButton(
                       icon: Icon(
                         Icons.menu,
-                        color: CustomColorsAPP.graySearch.withOpacity(.3),
+                        color: AppColors.graySearch.withOpacity(.3),
                       ),
                       onPressed: null)
                 ],

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/UI/Home/MenuFilter/FilterBrandWidget.dart';
 import 'package:wawamko/src/UI/Home/MenuFilter/FilterSubcategoryWidget.dart';
 
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../../../Providers/ProviderHome.dart';
 import '../../../Providers/ProviderFilter.dart';
@@ -51,7 +51,7 @@ class _MenuFilterViewState extends State<MenuFilterView> {
                   Text(
                     Strings.filterBy,
                     style: TextStyle(
-                        color: CustomColorsAPP.blueSplash,
+                        color: AppColors.blueSplash,
                         fontSize: 16,
                         fontFamily: Strings.fontBold),
                   ),
@@ -59,14 +59,14 @@ class _MenuFilterViewState extends State<MenuFilterView> {
                       onPressed: () => Navigator.pop(context),
                       icon: Icon(
                         Icons.close,
-                        color: CustomColorsAPP.blue,
+                        color: AppColors.blue,
                       ))
                 ],
               ),
               Text(
                 Strings.clearFilter,
                 style: TextStyle(
-                  color: CustomColorsAPP.blue,
+                  color: AppColors.blue,
                   fontFamily: Strings.fontRegular,
                 ),
               ),

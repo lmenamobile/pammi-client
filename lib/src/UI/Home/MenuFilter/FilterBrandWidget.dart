@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../Providers/ProviderFilter.dart';
 import '../../../Utils/Strings.dart';
-import '../../../Utils/colors.dart';
+import '../../../config/theme/colors.dart';
 
 class FilterBrandWidget extends StatelessWidget {
 
@@ -14,17 +14,17 @@ class FilterBrandWidget extends StatelessWidget {
     providerFilter = Provider.of<ProviderFilter>(context);
     return Theme(
       data: Theme.of(context).copyWith(
-        dividerColor: CustomColorsAPP.gray2,
+        dividerColor: AppColors.gray2,
       ),
       child: ExpansionTile(
         initiallyExpanded: true,
-        iconColor: CustomColorsAPP.blue,
-        collapsedIconColor: CustomColorsAPP.blue,
+        iconColor: AppColors.blue,
+        collapsedIconColor: AppColors.blue,
         title: Text(
           Strings.brands,
           style: TextStyle(
             fontSize: 16,
-            color: CustomColorsAPP.blueSplash,
+            color: AppColors.blueSplash,
             fontFamily: Strings.fontBold,
           ),
         ),
@@ -33,29 +33,29 @@ class FilterBrandWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
               style: TextStyle(
-                color: CustomColorsAPP.blue,
+                color: AppColors.blue,
                 fontFamily: Strings.fontRegular,
               ),
               decoration: InputDecoration(
                 hintText: 'Buscar...',
                 hintStyle: TextStyle(
-                  color: CustomColorsAPP.gray,
+                  color: AppColors.gray,
                   fontFamily: Strings.fontRegular,
                   fontStyle: FontStyle.italic,
                 ),
-                prefixIcon: Icon(Icons.search, color: CustomColorsAPP.blue),
+                prefixIcon: Icon(Icons.search, color: AppColors.blue),
                 isDense: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(26.0)),
-                  borderSide: BorderSide(color: CustomColorsAPP.greyBorder),
+                  borderSide: BorderSide(color: AppColors.greyBorder),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(26.0)),
-                  borderSide: BorderSide(color: CustomColorsAPP.greyBorder),
+                  borderSide: BorderSide(color: AppColors.greyBorder),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(26.0)),
-                  borderSide: BorderSide(color: CustomColorsAPP.greyBorder),
+                  borderSide: BorderSide(color: AppColors.greyBorder),
                 ),
               ),
               onChanged: (query) {
@@ -71,7 +71,7 @@ class FilterBrandWidget extends StatelessWidget {
               ),
               title: Text(brand.brand ?? '',
                   style: TextStyle(
-                    color: CustomColorsAPP.blue,
+                    color: AppColors.blue,
                     fontFamily: Strings.fontRegular,
                   )),
             );

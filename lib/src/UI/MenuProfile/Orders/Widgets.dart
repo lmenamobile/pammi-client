@@ -12,7 +12,7 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/Dialogs/DialogAlertClaim.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -22,7 +22,7 @@ Widget itemOrder(Order order) {
   return Container(
     margin: EdgeInsets.only(bottom: 10),
     decoration: BoxDecoration(
-      color: CustomColorsAPP.blueTwo,
+      color: AppColors.blueTwo,
       borderRadius: BorderRadius.all(Radius.circular(12)),
       boxShadow: [
         BoxShadow(
@@ -52,7 +52,7 @@ Widget itemOrder(Order order) {
                     Text(
                       Strings.orderId + " ${order.id}",
                       style: TextStyle(
-                          color: CustomColorsAPP.blue,
+                          color: AppColors.blue,
                           fontFamily: Strings.fontBold),
                     ),
                     Container(
@@ -96,7 +96,7 @@ Widget itemOrder(Order order) {
               Text(
                 Strings.paymentMethod,
                 style: TextStyle(
-                    fontFamily: Strings.fontBold, color: CustomColorsAPP.blue),
+                    fontFamily: Strings.fontBold, color: AppColors.blue),
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -109,7 +109,7 @@ Widget itemOrder(Order order) {
                   ),
                   Container(
                       decoration: BoxDecoration(
-                          color: CustomColorsAPP.orange,
+                          color: AppColors.orange,
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -139,7 +139,7 @@ Widget itemDescription(IconData icon, String text, String price) {
         children: [
           Icon(
             icon,
-            color: CustomColorsAPP.blue,
+            color: AppColors.blue,
             size: 20,
           ),
           SizedBox(
@@ -147,14 +147,14 @@ Widget itemDescription(IconData icon, String text, String price) {
           ),
           Text(text,
               style: TextStyle(
-                  color: CustomColorsAPP.blackLetter,
+                  color: AppColors.blackLetter,
                   fontFamily: Strings.fontRegular)),
         ],
       ),
       Text(
         price,
         style: TextStyle(
-            fontFamily: Strings.fontBold, color: CustomColorsAPP.blackLetter),
+            fontFamily: Strings.fontBold, color: AppColors.blackLetter),
       )
     ],
   );
@@ -239,7 +239,7 @@ Widget itemProductsProvider(
               Text(
                 Strings.subOrder + " ${providerPackage.id.toString()}",
                 style: TextStyle(
-                    color: CustomColorsAPP.blue, fontFamily: Strings.fontBold),
+                    color: AppColors.blue, fontFamily: Strings.fontBold),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -274,14 +274,14 @@ Widget itemProductsProvider(
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 15,
-                          color: CustomColorsAPP.blackLetter),
+                          color: AppColors.blackLetter),
                     ),
                     Text(
                       Strings.provider,
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColorsAPP.gray7),
+                          color: AppColors.gray7),
                     ),
                     /*  Row(
                       children: [
@@ -322,14 +322,14 @@ Widget itemProductsProvider(
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
                             fontSize: 13,
-                            color: CustomColorsAPP.blue),
+                            color: AppColors.blue),
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: CustomColorsAPP.blue,
+                        color: AppColors.blue,
                         size: 15,
                       )
                     ],
@@ -378,14 +378,14 @@ Widget itemProductsProvider(
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColorsAPP.grayTwo),
+                    color: AppColors.grayTwo),
               ),
               Text(
                 formatMoney((deliverCost.toInt()).toString()),
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: Strings.fontRegular,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
               ),
             ],
           ),
@@ -398,14 +398,14 @@ Widget itemProductsProvider(
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontBold,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
               ),
               Text(
                 formatMoney(providerPackage.total ?? '0'),
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: Strings.fontBold,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
               ),
             ],
           ),
@@ -425,7 +425,7 @@ Widget itemProductsProvider(
                   Container(
                     width: 150,
                     child: btnCustomIconLeft("ic_chat.png", Strings.chat,
-                        CustomColorsAPP.blue, Colors.white, () {
+                        AppColors.blue, Colors.white, () {
                       openChat(providerPackage.providerProduct?.id.toString(),
                           providerPackage.id.toString());
                     }),
@@ -438,7 +438,7 @@ Widget itemProductsProvider(
           Align(
               alignment: Alignment.center,
               child: btnCustom(
-                  140, Strings.tracking, CustomColorsAPP.orange, Colors.white, () {
+                  140, Strings.tracking, AppColors.orange, Colors.white, () {
                 actionTracking(providerPackage.guide);
               }))
         ],
@@ -492,7 +492,7 @@ Widget itemProduct(
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColorsAPP.gray7,
+                    color: AppColors.gray7,
                   ),
                 ),
                 Text(
@@ -501,7 +501,7 @@ Widget itemProduct(
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 ),
                 Text(
@@ -510,7 +510,7 @@ Widget itemProduct(
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColorsAPP.orange,
+                    color: AppColors.orange,
                   ),
                 ),
                 Visibility(
@@ -572,7 +572,7 @@ Widget itemProduct(
               dataRowHeight: 25,
               headingRowHeight: 25,
               headingRowColor: WidgetStateProperty.resolveWith(
-                  (states) => CustomColorsAPP.greyBackground),
+                  (states) => AppColors.greyBackground),
               columns: <DataColumn>[
                 DataColumn(
                   label: Center(
@@ -582,7 +582,7 @@ Widget itemProduct(
                       style: TextStyle(
                         fontFamily: Strings.fontBold,
                         fontSize: 13,
-                        color: CustomColorsAPP.blueTitle,
+                        color: AppColors.blueTitle,
                       ),
                     ),
                   ),
@@ -594,7 +594,7 @@ Widget itemProduct(
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 13,
-                      color: CustomColorsAPP.blueTitle,
+                      color: AppColors.blueTitle,
                     ),
                   ),
                 ),
@@ -604,17 +604,17 @@ Widget itemProduct(
                     style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 13,
-                      color: CustomColorsAPP.blueTitle,
+                      color: AppColors.blueTitle,
                     ),
                   ),
                 ),
               ],
               rows: [
                 DataRow(cells: <DataCell>[
-                  cellTableText(product.qty ?? '0', CustomColorsAPP.blackLetter),
-                  cellTableText("2", CustomColorsAPP.blackLetter),
+                  cellTableText(product.qty ?? '0', AppColors.blackLetter),
+                  cellTableText("2", AppColors.blackLetter),
                   cellTableText(
-                      formatMoney(product.total ?? '0'), CustomColorsAPP.orange),
+                      formatMoney(product.total ?? '0'), AppColors.orange),
                 ])
               ],
             ),
@@ -688,7 +688,7 @@ Widget itemProductOffer(PackageProvider providerPackage,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
-                    color: CustomColorsAPP.gray7,
+                    color: AppColors.gray7,
                   ),
                 ),
                 Text(
@@ -698,7 +698,7 @@ Widget itemProductOffer(PackageProvider providerPackage,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 ),
                 Text(
@@ -707,7 +707,7 @@ Widget itemProductOffer(PackageProvider providerPackage,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 13,
-                    color: CustomColorsAPP.orange,
+                    color: AppColors.orange,
                   ),
                 )
               ],
@@ -806,7 +806,7 @@ Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
                   style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 15,
-                    color: CustomColorsAPP.blackLetter,
+                    color: AppColors.blackLetter,
                   ),
                 ),
                 Text(
@@ -814,7 +814,7 @@ Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.gray7,
+                    color: AppColors.gray7,
                   ),
                 ),
                 Visibility(
@@ -833,7 +833,7 @@ Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
                           style: TextStyle(
                             fontFamily: Strings.fontRegular,
                             fontSize: 15,
-                            color: CustomColorsAPP.blue,
+                            color: AppColors.blue,
                           ),
                         ),
                         SizedBox(
@@ -841,7 +841,7 @@ Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
                         ),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: CustomColorsAPP.blue,
+                          color: AppColors.blue,
                           size: 20,
                         )
                       ],
@@ -856,7 +856,7 @@ Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
                 seller.photoUrl ?? ''),
             child: CircleAvatar(
               radius: 20,
-              backgroundColor: CustomColorsAPP.orange,
+              backgroundColor: AppColors.orange,
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Image.asset("Assets/images/ic_chat.png"),
@@ -894,7 +894,7 @@ Widget sectionAddressOrder(String address) {
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 15,
-              color: CustomColorsAPP.blackLetter,
+              color: AppColors.blackLetter,
             ),
           ),
           customDivider(),
@@ -903,7 +903,7 @@ Widget sectionAddressOrder(String address) {
             style: TextStyle(
               fontFamily: Strings.fontRegular,
               fontSize: 15,
-              color: CustomColorsAPP.gray7,
+              color: AppColors.gray7,
             ),
           ),
         ],
@@ -937,7 +937,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
             style: TextStyle(
               fontFamily: Strings.fontBold,
               fontSize: 15,
-              color: CustomColorsAPP.blackLetter,
+              color: AppColors.blackLetter,
             ),
           ),
           customDivider(),
@@ -957,7 +957,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 15,
-                  color: CustomColorsAPP.blackLetter,
+                  color: AppColors.blackLetter,
                 ),
               ),
               Text(
@@ -965,7 +965,7 @@ Widget sectionTotalOrder(OrderDetail? order) {
                 style: TextStyle(
                   fontFamily: Strings.fontBold,
                   fontSize: 15,
-                  color: CustomColorsAPP.orange,
+                  color: AppColors.orange,
                 ),
               ),
             ],
@@ -986,7 +986,7 @@ Widget rowTotal(String textLabel, String textData) {
         style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColorsAPP.gray7,
+          color: AppColors.gray7,
         ),
       ),
       Text(
@@ -994,7 +994,7 @@ Widget rowTotal(String textLabel, String textData) {
         style: TextStyle(
           fontFamily: Strings.fontRegular,
           fontSize: 15,
-          color: CustomColorsAPP.gray7,
+          color: AppColors.gray7,
         ),
       ),
     ],

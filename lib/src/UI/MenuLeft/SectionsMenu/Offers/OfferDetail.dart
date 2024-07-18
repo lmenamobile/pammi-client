@@ -18,7 +18,7 @@ import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart'
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -65,7 +65,7 @@ class _OfferDetailState extends State<OfferDetail> {
           child: Column(
             children: [
              
-              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", CustomColorsAPP.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), (){Navigator.push(context,
+              headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", AppColors.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), (){Navigator.push(context,
                   customPageTransition(ShopCartPage(),PageTransitionType.fade));providerProducts.limitedQuantityError = false;}),
               Expanded(
                 child: providerSettings.hasConnection
@@ -88,7 +88,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                 visible:providerProducts.limitedQuantityError == true ? false :true,
                                 //provider.products?[0].offer?.promotionProducts?[0].reference?.qty
                                 child: Text("${Strings.quantityAvailable} ${providerOffer!.detailOffer.promotionProducts?[0].reference?.qty}",
-                                  style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray),
+                                  style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: AppColors.gray),
                                 ),
                               ),
                               Visibility(
@@ -99,7 +99,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       "${Strings.youCanOnlyCarry} ${providerOffer!.detailOffer.promotionProducts?[0].reference?.qty} unidades",
-                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: CustomColorsAPP.blueDarkSplash,),
+                                      style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: AppColors.blueDarkSplash,),
                                     ),
                                   ),
                                 ),
@@ -129,7 +129,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColorsAPP.gray7),
+                                    color: AppColors.gray7),
                               ),
                             ),
                             SizedBox(
@@ -150,7 +150,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                   btnCustom(
                                       120,
                                       Strings.paymentNow,
-                                      CustomColorsAPP.orange,
+                                      AppColors.orange,
                                       Colors.white,() => paymentNow()),
                                   SizedBox(
                                     width: 10,
@@ -161,7 +161,7 @@ class _OfferDetailState extends State<OfferDetail> {
                                       child: btnCustomIconLeft(
                                           "ic_pay_add.png",
                                           Strings.addCartShop,
-                                          CustomColorsAPP.blue,
+                                          AppColors.blue,
                                           Colors.white, (){addOfferCart(providerOffer!.detailOffer.id.toString());}),
                                     ),
                                   )
@@ -221,7 +221,7 @@ class _OfferDetailState extends State<OfferDetail> {
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: Strings.fontBold,
-                        color: CustomColorsAPP.blackLetter),
+                        color: AppColors.blackLetter),
                   ),
                   SizedBox(
                     height: 10,
@@ -231,14 +231,14 @@ class _OfferDetailState extends State<OfferDetail> {
                     style: TextStyle(
                         fontSize: 19,
                         fontFamily: Strings.fontMedium,
-                        color: CustomColorsAPP.blackLetter),
+                        color: AppColors.blackLetter),
                   ),
                   Text(
                     formatMoney(reference?.price ?? '0'),
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: Strings.fontMedium,
-                        color: CustomColorsAPP.orange),
+                        color: AppColors.orange),
                   ),
                 ]),
           ),
@@ -308,7 +308,7 @@ class _OfferDetailState extends State<OfferDetail> {
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                         ),
                       ),
                       Text(
@@ -317,7 +317,7 @@ class _OfferDetailState extends State<OfferDetail> {
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 13,
-                          color: CustomColorsAPP.blackLetter,
+                          color: AppColors.blackLetter,
                         ),
                       ),
                       Text(
@@ -326,7 +326,7 @@ class _OfferDetailState extends State<OfferDetail> {
                             decoration: TextDecoration.lineThrough,
                             fontSize: 13,
                             fontFamily: Strings.fontMedium,
-                            color: CustomColorsAPP.gray
+                            color: AppColors.gray
                         ),
                       ),
                       Text(
@@ -334,7 +334,7 @@ class _OfferDetailState extends State<OfferDetail> {
                         style: TextStyle(
                             fontSize: 13,
                             fontFamily: Strings.fontMedium,
-                            color: CustomColorsAPP.orange
+                            color: AppColors.orange
                         ),
                       )
                     ],

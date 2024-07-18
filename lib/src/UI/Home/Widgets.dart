@@ -3,14 +3,15 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wawamko/src/Models/Banner.dart';
 import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
+
+import '../../features/feature_views_shared/domain/domain.dart';
 
 Widget btnFloating(Function action,String asset){
   return FloatingActionButton(
@@ -20,57 +21,6 @@ Widget btnFloating(Function action,String asset){
   );
 }
 
-
-Widget itemCategory(Category category) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      Container(
-        width: 62,
-        height: 62,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: CustomColorsAPP.grayDot,
-        ),
-        child: Center(
-          child: category.image != null
-              ? category.image!.contains(".svg") == true
-              ? SvgPicture.network(category.image ?? '',
-              placeholderBuilder: (_) => Container(
-              padding: const EdgeInsets.all(30.0),
-              child: const CircularProgressIndicator(),
-            ),
-          ) : FadeInImage(
-            height: 30,
-            width: 30,
-            fit: BoxFit.contain,
-            image: NetworkImage(category.image ?? ''),
-            placeholder: AssetImage("Assets/images/spinner.gif"),
-            imageErrorBuilder: (_, __, ___) {
-              return Container();
-            },
-          ) : Container(
-            height: 30,
-            width: 30,
-            child: Image.asset("Assets/images/spinner.gif"),
-          ),
-        ),
-      ),
-      SizedBox(height: 10),
-      Flexible(
-        child: Text(
-          category.category ?? '',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: Strings.fontRegular,
-            fontSize: 10,
-            color: CustomColorsAPP.black1,
-          ),
-        ),
-      ),
-    ],
-  );
-}
 
 Widget boxSearchNextPage( TextEditingController searchController,Function searchElements) {
   return Container(
@@ -86,7 +36,7 @@ Widget boxSearchNextPage( TextEditingController searchController,Function search
           padding: const EdgeInsets.only(left: 10,right: 10),
           child: Image(
             height: 20,
-            color: CustomColorsAPP.blue,
+            color: AppColors.blue,
             image: AssetImage("Assets/images/ic_seeker.png"),
           ),
         ),
@@ -99,7 +49,7 @@ Widget boxSearchNextPage( TextEditingController searchController,Function search
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColorsAPP.black1),
+                color: AppColors.black1),
             decoration: InputDecoration(
                 hintText: "${Strings.search}...",
                 isDense: true,
@@ -107,7 +57,7 @@ Widget boxSearchNextPage( TextEditingController searchController,Function search
                 hintStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color:CustomColorsAPP.gray15.withOpacity(.5))),
+                    color:AppColors.gray15.withOpacity(.5))),
           ),
         )
       ],
@@ -132,7 +82,7 @@ Widget boxSearchHome( TextEditingController searchController,Function? searchEle
           padding: const EdgeInsets.only(left: 10,right: 10),
           child: Image(
             height: 20,
-            color: CustomColorsAPP.blue,
+            color: AppColors.blue,
             image: AssetImage("Assets/images/ic_seeker.png"),
           ),
         ),
@@ -146,7 +96,7 @@ Widget boxSearchHome( TextEditingController searchController,Function? searchEle
             style: TextStyle(
                 fontFamily: Strings.fontRegular,
                 fontSize: 15,
-                color: CustomColorsAPP.black1),
+                color: AppColors.black1),
             decoration: InputDecoration(
                 hintText: "${Strings.search}..",
                 isDense: true,
@@ -154,7 +104,7 @@ Widget boxSearchHome( TextEditingController searchController,Function? searchEle
                 hintStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 15,
-                    color: CustomColorsAPP.gray15.withOpacity(.5))),
+                    color: AppColors.gray15.withOpacity(.5))),
           ),
         )
       ],
@@ -167,7 +117,7 @@ Widget customDivider(){
     margin: EdgeInsets.symmetric(vertical: 10),
     height: 1,
     width: double.infinity,
-    color: CustomColorsAPP.grayBackground,
+    color: AppColors.grayBackground,
   );
 }
 
@@ -203,7 +153,7 @@ Widget itemSelectBrand(Brand brand,Function selectBrand,bool selected){
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(12)),
-        border: Border.all(color: selected ? CustomColorsAPP.greenValid : CustomColorsAPP.gray4, width: 1),
+        border: Border.all(color: selected ? AppColors.greenValid : AppColors.gray4, width: 1),
       ),
       child: Center(
         child: Row(
@@ -236,52 +186,6 @@ Widget itemSelectBrand(Brand brand,Function selectBrand,bool selected){
   );
 }
 
-Widget sliderBanner(int? indexSlider,Function updateIndex, List<Banners> banners){
-  return Column(
-    children: [
-      CarouselSlider.builder(
-        itemCount: banners.isEmpty?0:banners.length,
-        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-            FadeInImage(
-              fit: BoxFit.fill,
-              image: NetworkImage(banners[itemIndex].image??''),
-              placeholder: AssetImage("Assets/images/preloader.gif"),
-              imageErrorBuilder: (_,__,___){
-                return Container();
-              },
-            ), options: CarouselOptions(
-              height: 208,
-              viewportFraction: 1,
-              autoPlay: true,
-              autoPlayAnimationDuration: Duration(seconds: 4),
-              onPageChanged: (index,changeType){
-                updateIndex(index);
-              }
-        ),
-      ),
-
-      banners.isEmpty?Container():Column(
-        children: [
-          const SizedBox(height: 17),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: DotsIndicator(
-              dotsCount: banners.length,
-              position: indexSlider!,
-              decorator: DotsDecorator(
-                activeColor: CustomColorsAPP.blue5,
-                size: const Size.square(9),
-                spacing: const EdgeInsets.symmetric(horizontal: 5,vertical: 4),
-                activeSize: const Size(9, 9),
-                activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-              ),
-            ),
-          ),
-        ],
-      )
-    ],
-  );
-}
 
 Widget itemProduct(Product product){
   return Container(
@@ -365,14 +269,14 @@ Widget itemProduct(Product product){
                         overflow: TextOverflow.ellipsis,
                           fontSize: 13,
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.blackLetter),
+                          color: AppColors.blackLetter),
                     ),
                     Text(
                       product.brandProvider?.brand?.brand??'',
                       style: TextStyle(
                           fontSize: 11,
                           fontFamily: Strings.fontRegular,
-                          color: CustomColorsAPP.gray7),
+                          color: AppColors.gray7),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
@@ -397,7 +301,7 @@ Widget itemProduct(Product product){
                       style: TextStyle(
                           fontSize: 13,
                           fontFamily: Strings.fontBold,
-                          color: CustomColorsAPP.blueSplash,
+                          color: AppColors.blueSplash,
                     ),
                     )
                   ],
@@ -413,7 +317,7 @@ Widget itemProduct(Product product){
               visible: product.references[0].totalProductOffer!.status??false,
               child: CircleAvatar(
                 radius: 11,
-                backgroundColor: CustomColorsAPP.redTour,
+                backgroundColor: AppColors.redTour,
                 child: Center(
                   child: Text(
                     product.references[0].totalProductOffer!.discountValue!+"%",

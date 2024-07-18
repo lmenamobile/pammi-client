@@ -10,7 +10,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/UI/addAddress.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -94,8 +94,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 70, right: 60),
-                                child: btnCustomRounded(CustomColorsAPP.blueSplash,
-                                    CustomColorsAPP.white, Strings.addAddres, () {
+                                child: btnCustomRounded(AppColors.blueSplash,
+                                    AppColors.white, Strings.addAddres, () {
                                   pushToAddAddress();
                                 }, context),
                               ),

@@ -7,7 +7,7 @@ import 'package:wawamko/src/UI/Onboarding/VerificationCode.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -45,7 +45,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                       children: <Widget>[
                         Text(
                           Strings.textRecoverPass,
-                          style: TextStyle(fontSize: 18, color: CustomColorsAPP.black1, fontFamily: Strings.fontRegular),
+                          style: TextStyle(fontSize: 18, color: AppColors.black1, fontFamily: Strings.fontRegular),
                         ),
                         const SizedBox(height: 42),
                         customBoxEmailForgotPass(emailController, notifyVariables, () {setState(() {});}),
@@ -59,7 +59,7 @@ class _ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
               bottom: 30,
               left: 30,
               right: 30,
-              child:btnCustomRounded(CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.sender, callServicePassword, context),
+              child:btnCustomRounded(AppColors.blueSplash, AppColors.white, Strings.sender, callServicePassword, context),
             ),
             Visibility(visible: providerOnboarding.isLoading, child: LoadingProgress())
           ],

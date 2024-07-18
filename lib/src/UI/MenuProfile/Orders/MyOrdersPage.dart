@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/OrdersActiveTab.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
 import '../../../Widgets/WidgetsGeneric.dart';
@@ -44,16 +44,16 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                 indicatorColor: Colors.red,
                 indicatorPadding: EdgeInsets.only(right: 20, left: 20),
                 indicatorWeight: 2,
-                labelColor: CustomColorsAPP.blackLetter,
-                unselectedLabelColor: CustomColorsAPP.blackLetter.withOpacity(.6),
+                labelColor: AppColors.blackLetter,
+                unselectedLabelColor: AppColors.blackLetter.withOpacity(.6),
                 labelStyle: TextStyle(
                     fontFamily: Strings.fontMedium,
                     fontSize: 16,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
                 unselectedLabelStyle: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 16,
-                    color: CustomColorsAPP.blackLetter.withOpacity(.6)),
+                    color: AppColors.blackLetter.withOpacity(.6)),
                 tabs: [
                   Tab(text: Strings.actives,),
                   Tab(text: Strings.ordersPrevious,),

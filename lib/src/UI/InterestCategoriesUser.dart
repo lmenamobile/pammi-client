@@ -6,7 +6,7 @@ import 'package:wawamko/src/Models/Category.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -30,7 +30,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   @override
   void initState() {
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
-    providerSettings!.ltsCategories.clear();
+
     serviceGetCategories();
     super.initState();
   }
@@ -39,7 +39,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     return Scaffold(
-      backgroundColor: CustomColorsAPP.red,
+      backgroundColor: AppColors.red,
       body: WillPopScope(
         onWillPop: () async => false,
         child: SafeArea(
@@ -96,7 +96,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                                 style: TextStyle(
                                     fontSize: 35,
                                     fontFamily: Strings.fontBold,
-                                    color: CustomColorsAPP.white),
+                                    color: AppColors.white),
                               ),
                             ),
                             SizedBox(height: 11),
@@ -104,7 +104,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                               Strings.selectCategory,
                               style: TextStyle(
                                   fontFamily: Strings.fontRegular,
-                                  color: CustomColorsAPP.white),
+                                  color: AppColors.white),
                             ),
                             Container(
                               width: double.infinity,
@@ -114,11 +114,9 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                                 padding: EdgeInsets.only(bottom: 0),
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
-                                itemCount: providerSettings?.ltsCategories.length ?? 0,
+                                itemCount:  0,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return itemCategoryInteresting(
-                                      providerSettings!.ltsCategories[index],
-                                      selectCategory);
+                                  return Container();
                                 },
                                 mainAxisSpacing: 0,
                                 crossAxisSpacing: 0,
@@ -128,8 +126,8 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
                               padding:
                                   EdgeInsets.only(left: 50, right: 50, bottom: 20),
                               child: btnCustomRounded(
-                                  CustomColorsAPP.white,
-                                  CustomColorsAPP.gray7,
+                                  AppColors.white,
+                                  AppColors.gray7,
                                   Strings.next,
                                   validateCategoriesSelected,
                                   context),
@@ -154,7 +152,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
 
   void clearForRefresh() {
     pageOffset = 0;
-    providerSettings!.ltsCategories.clear();
+   // providerSettings!.ltsCategories.clear();
     categoriesSelected.clear();
     serviceGetCategories();
   }
@@ -167,7 +165,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
   }
 
   serviceGetCategories() async {
-    utils.checkInternet().then((value) async {
+/*    utils.checkInternet().then((value) async {
       if (value) {
         Future callSettings = providerSettings!.getCategoriesInterest("", pageOffset, prefs.countryIdUser);
         await callSettings.then((list) {}, onError: (error) {
@@ -176,7 +174,7 @@ class _InterestCategoriesUserState extends State<InterestCategoriesUser> {
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
-    });
+    });*/
   }
 
   selectCategory(Category category) {

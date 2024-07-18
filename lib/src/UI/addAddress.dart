@@ -17,7 +17,7 @@ import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/UserProvider.dart';
 import 'package:wawamko/src/Utils/GlobalVariables.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/google_place_util.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -164,8 +164,8 @@ class _AddAddressPageState extends State<AddAddressPage>
       padding: EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(2)),
-          color: CustomColorsAPP.grayBackground,
-          border: Border.all(color: CustomColorsAPP.greyBorder, width: 1)),
+          color: AppColors.grayBackground,
+          border: Border.all(color: AppColors.greyBorder, width: 1)),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -187,7 +187,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 15,
-                      color: CustomColorsAPP.blackLetter),
+                      color: AppColors.blackLetter),
                   onTap: () {
                   openSuggestAddress();
                   },
@@ -196,11 +196,11 @@ class _AddAddressPageState extends State<AddAddressPage>
                     hintStyle: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 15,
-                        color: CustomColorsAPP.grayLetter2),
+                        color: AppColors.grayLetter2),
                     hintText: Strings.address,
                     border: InputBorder.none,
                   ),
-                  cursorColor: CustomColorsAPP.blueSplash,
+                  cursorColor: AppColors.blueSplash,
                 ),
               ),
             ),
@@ -214,7 +214,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                   Strings.change,
                   style: TextStyle(
                       fontSize: 13,
-                      color: CustomColorsAPP.blackLetter.withOpacity(.6),
+                      color: AppColors.blackLetter.withOpacity(.6),
                       fontFamily: Strings.fontRegular),
                 ),
               ),
@@ -303,7 +303,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                   width: double.infinity,
                   padding: EdgeInsets.only(left: 21, right: 21, top: 24, bottom: 24),
                   decoration: BoxDecoration(
-                      color: CustomColorsAPP.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20))),
@@ -332,8 +332,8 @@ class _AddAddressPageState extends State<AddAddressPage>
                       Padding(
                         padding: EdgeInsets.only(left: 70, right: 70),
                         child: btnCustomRounded(
-                            CustomColorsAPP.blueSplash,
-                            CustomColorsAPP.white,
+                            AppColors.blueSplash,
+                            AppColors.white,
                             widget.flagAddress == "update"
                                 ? Strings.updateAddressButton
                                 : Strings.addAddres, () {
@@ -366,7 +366,7 @@ class _AddAddressPageState extends State<AddAddressPage>
             style: TextStyle(
                 fontSize: 15,
                 fontFamily: Strings.fontRegular,
-                color: CustomColorsAPP.gray7),
+                color: AppColors.gray7),
           ),
           Row(
             children: <Widget>[
@@ -385,18 +385,18 @@ class _AddAddressPageState extends State<AddAddressPage>
                       style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 17,
-                          color: CustomColorsAPP.blackLetter),
+                          color: AppColors.blackLetter),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: hintText,
                           hintStyle: TextStyle(
                               fontFamily: Strings.fontRegular,
                               fontSize: 17,
-                              color: CustomColorsAPP.gray7.withOpacity(.4))),
+                              color: AppColors.gray7.withOpacity(.4))),
                     ),
                     Container(
                       height: 2,
-                      color: CustomColorsAPP.blueActiveDots,
+                      color: AppColors.blueActiveDots,
                     )
                   ],
                 ),
@@ -412,9 +412,9 @@ class _AddAddressPageState extends State<AddAddressPage>
     return Container(
       height: 64,
       decoration: BoxDecoration(
-          border: Border.all(color: CustomColorsAPP.orange, width: 1),
+          border: Border.all(color: AppColors.orange, width: 1),
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: CustomColorsAPP.redBackground),
+          color: AppColors.redBackground),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -454,7 +454,7 @@ class _AddAddressPageState extends State<AddAddressPage>
                       style: TextStyle(
                           fontSize: 11,
                           fontFamily: Strings.fontRegular,
-                          color: CustomColorsAPP.orange),
+                          color: AppColors.orange),
                     ),
                   )
                 ],

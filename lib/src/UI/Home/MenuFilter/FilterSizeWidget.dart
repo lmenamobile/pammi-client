@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 import '../../../Utils/Strings.dart';
-import '../../../Utils/colors.dart';
+import '../../../config/theme/colors.dart';
 
 class FilterSizeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = CustomColorsAPP.blue;
-    Color unselectedColor = CustomColorsAPP.gray6;
+    Color selectedColor = AppColors.blue;
+    Color unselectedColor = AppColors.gray6;
     return Theme(
       data: Theme.of(context).copyWith(
-        dividerColor: CustomColorsAPP.gray2,
+        dividerColor: AppColors.gray2,
       ),child:ExpansionTile(
         initiallyExpanded: true,
-        iconColor: CustomColorsAPP.blue,
-        collapsedIconColor: CustomColorsAPP.blue,
+        iconColor: AppColors.blue,
+        collapsedIconColor: AppColors.blue,
         title: Text(
             Strings.size,
             style: TextStyle(
-                color: CustomColorsAPP.blueSplash,
+                color: AppColors.blueSplash,
                 fontSize: 16,
                 fontFamily: Strings.fontBold)
         ),
@@ -27,7 +27,7 @@ class FilterSizeWidget extends StatelessWidget {
             spacing: 8.0,
             children: ['XS', 'S', 'M', 'L', 'XL'].map((size) {
               return ChoiceChip(
-                checkmarkColor: CustomColorsAPP.blue,
+                checkmarkColor: AppColors.blue,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                     side: BorderSide(color:"S" == size ? selectedColor : unselectedColor,)

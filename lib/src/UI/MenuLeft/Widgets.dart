@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 Widget itemBtnReferred(Function action) {
   return InkWell(
@@ -12,7 +12,7 @@ Widget itemBtnReferred(Function action) {
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            colors: <Color>[CustomColorsAPP.redTour, CustomColorsAPP.grayGradient],
+            colors: <Color>[AppColors.redTour, AppColors.grayGradient],
           ),
           borderRadius: BorderRadius.all(Radius.circular(18))),
       child: Row(
@@ -70,14 +70,14 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
       isDismissible: true,
       isScrollControlled: true,
       enableDrag: true,
-      barrierColor: CustomColorsAPP.blueSplash.withOpacity(.6),
+      barrierColor: AppColors.blueSplash.withOpacity(.6),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: CustomColorsAPP.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
@@ -91,8 +91,8 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: <Color>[
-                      CustomColorsAPP.redTour,
-                      CustomColorsAPP.grayGradient
+                      AppColors.redTour,
+                      AppColors.grayGradient
                     ],
                   ),
                   borderRadius: BorderRadius.only(
@@ -146,14 +146,14 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                     Text(
                       Strings.shareCode,
                       style: TextStyle(
-                          color: CustomColorsAPP.gray7,
+                          color: AppColors.gray7,
                           fontFamily: Strings.fontBold,),
                     ),
                     SizedBox(height: 8,),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: CustomColorsAPP.greyBorder,
+                        color: AppColors.greyBorder,
                         borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
 
@@ -166,14 +166,14 @@ openBottomSheet(BuildContext context,Function actionShare,String code) {
                             Text(
                               code,
                               style: TextStyle(
-                                color: CustomColorsAPP.blueSplash,
+                                color: AppColors.blueSplash,
                                 fontFamily: Strings.fontBold,),
                             ),
                             InkWell(
                               onTap: ()=>actionShare(),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: CustomColorsAPP.redTour,
+                                  color: AppColors.redTour,
                                   borderRadius: BorderRadius.all(Radius.circular(15))
                                 ),
                                 child: Padding(

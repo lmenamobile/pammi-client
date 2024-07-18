@@ -7,7 +7,7 @@ import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/UI/PaymentMethods/addTarjet.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -69,7 +69,7 @@ class _MyCreditCardsState extends State<MyCreditCards> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50,vertical: 30),
             child: btnCustomRounded(
-                CustomColorsAPP.blueSplash, CustomColorsAPP.white, Strings.addTarjet,
+                AppColors.blueSplash, AppColors.white, Strings.addTarjet,
                     ()=>
                     Navigator.of(context).push(customPageTransition( AddTargetPage(),PageTransitionType.rightToLeftWithFade))
                 , context)),
@@ -90,8 +90,8 @@ class _MyCreditCardsState extends State<MyCreditCards> {
       height: 70,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.all(color: CustomColorsAPP.gray.withOpacity(.1), width: 1),
-          color: CustomColorsAPP.white),
+          border: Border.all(color: AppColors.gray.withOpacity(.1), width: 1),
+          color: AppColors.white),
       child: Center(
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
@@ -116,13 +116,13 @@ class _MyCreditCardsState extends State<MyCreditCards> {
                       style: TextStyle(
                           fontFamily: Strings.fontBold,
                           fontSize: 17,
-                          color: CustomColorsAPP.blackLetter),
+                          color: AppColors.blackLetter),
                     ),
                     Text(
                       creditCard.franchise!,
                       style: TextStyle(
                           fontSize: 13,
-                          color: CustomColorsAPP.purpleOpacity,
+                          color: AppColors.purpleOpacity,
                           fontFamily: Strings.fontRegular),
                     ),
                   ],

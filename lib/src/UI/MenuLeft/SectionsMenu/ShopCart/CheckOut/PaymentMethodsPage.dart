@@ -6,7 +6,7 @@ import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -62,7 +62,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
         margin: EdgeInsets.symmetric(horizontal: 15,vertical: 4),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            border: Border.all(color: CustomColorsAPP.gray10)
+            border: Border.all(color: AppColors.gray10)
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 4),
@@ -81,19 +81,19 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                   style: TextStyle(
                       fontFamily: Strings.fontRegular,
                       fontSize: 16,
-                      color: CustomColorsAPP.blackLetter
+                      color: AppColors.blackLetter
                   ),
                 ),
               ),
               SizedBox(width: 15,),
               Container(
                 decoration: BoxDecoration(
-                  color: CustomColorsAPP.greyBorder,
+                  color: AppColors.greyBorder,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.arrow_forward,color: CustomColorsAPP.gray7,size: 15,),
+                  child: Icon(Icons.arrow_forward,color: AppColors.gray7,size: 15,),
                 ),
               )
             ],

@@ -7,7 +7,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/CloseClaimPage.dart
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/DetailClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/WidgetsClaim.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
@@ -35,7 +35,7 @@ class _ClaimsOpenTabState extends State<ClaimsOpenTab> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.whiteBackGround,
+          color: AppColors.whiteBackGround,
           child:Column(
             children: [
               Expanded(child: SmartRefresher(

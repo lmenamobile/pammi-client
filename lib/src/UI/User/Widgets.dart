@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 
 Widget itemLabelReferred(){
   return Container(
       decoration: BoxDecoration(
-        color: CustomColorsAPP.blueSplash,
+        color: AppColors.blueSplash,
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
     child: Column(

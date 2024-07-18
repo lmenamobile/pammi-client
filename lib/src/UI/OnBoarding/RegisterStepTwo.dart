@@ -9,7 +9,7 @@ import 'package:wawamko/src/Providers/Onboarding.dart';
 import 'package:wawamko/src/UI/OnBoarding/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
@@ -72,13 +72,13 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                       SizedBox(height: 55,),
                       Text(
                         "¡${Strings.createAccount}!",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: CustomColorsAPP.blueTitle),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontFamily: Strings.fontBold, fontSize: 36, color: AppColors.blueTitle),
                       ),
                       SizedBox(height: 17),
                       Text(
                         Strings.registerMsg,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: CustomColorsAPP.black1),
+                        style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 18, color: AppColors.black1),
                       ),
                       SizedBox(height: 52),
                       Column(
@@ -97,14 +97,14 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    customBoxPassword(CustomColorsAPP.gray.withOpacity(.3),Strings.password,notifyVariables!.intRegister.
+                                    customBoxPassword(AppColors.gray.withOpacity(.3),Strings.password,notifyVariables!.intRegister.
                                     validPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",
                                         passwordController,providerOnBoarding.obscureTextPass,validatePassLogin,showPassword),
                                     Visibility(
                                       visible: notifyVariables!.intRegister.validPass == false ? true : false,
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 8, top: 2),
-                                        child: Text(Strings.passwordChallenge, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 13, color: CustomColorsAPP.red),),
+                                        child: Text(Strings.passwordChallenge, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 13, color: AppColors.red),),
                                       ),
                                     )
                                   ]),
@@ -113,12 +113,12 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    customBoxPassword(CustomColorsAPP.gray.withOpacity(.3),Strings.confirmPassword,notifyVariables!.intRegister.validConfirmPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",confirmPassController,providerOnBoarding.obscureTextConfirmPass,validateConfirmPassLogin,showConfirmPassword),
+                                    customBoxPassword(AppColors.gray.withOpacity(.3),Strings.confirmPassword,notifyVariables!.intRegister.validConfirmPass!,"Assets/images/ic_padlock_blue.png","Assets/images/ic_padlock_blue.png",confirmPassController,providerOnBoarding.obscureTextConfirmPass,validateConfirmPassLogin,showConfirmPassword),
                                     Visibility(
                                         visible: notifyVariables!.intRegister.validConfirmPass == false ? true : false,
                                         child: Padding(
                                           padding: const EdgeInsets.only(left: 8, top: 2),
-                                          child: Text(Strings.passwordChallenge, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 13, color: CustomColorsAPP.red),),
+                                          child: Text(Strings.passwordChallenge, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 13, color: AppColors.red),),
                                         )
                                     )
                                   ]),
@@ -130,17 +130,17 @@ class _RegisterStepTwoPageState extends State<RegisterStepTwoPage> {
                         padding: EdgeInsets.only(left: 6, right: 6),
                         child: Text(
                           Strings.challengePassword,
-                          style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.grayLetter2),),
+                          style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: AppColors.grayLetter2),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: itemCheck(() => providerOnBoarding.stateDates = !providerOnBoarding.stateDates, providerOnBoarding.stateDates,
-                            Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: CustomColorsAPP.blackLetter),)),
+                            Text(Strings.AuthorizeDates, style: TextStyle(fontFamily: Strings.fontRegular, fontSize: 12, color: AppColors.blackLetter),)),
                       ),
                       const SizedBox(height: 20),
                       itemCheck(() => providerOnBoarding.stateTerms = !providerOnBoarding.stateTerms, providerOnBoarding.stateTerms, termsAndConditions(supportProvider.lstTermsAndConditions[0].url.toString())),
                       const SizedBox(height: 20),
-                      btnCustomRounded(CustomColorsAPP.blueSplash, Colors.white, Strings.next, callRegisterUser, context)
+                      btnCustomRounded(AppColors.blueSplash, Colors.white, Strings.next, callRegisterUser, context)
                     ],
                   ),
                 )),

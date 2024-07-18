@@ -12,7 +12,7 @@ import 'package:wawamko/src/UI/MenuProfile/Orders/ClaimOrder/MyClaimPage.dart';
 import 'package:wawamko/src/UI/MenuProfile/Orders/MyOrdersPage.dart';
 import 'package:wawamko/src/UI/OnBoarding/Login.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
@@ -43,10 +43,10 @@ class _ProfilePageState extends State<ProfilePage> {
       drawer: DrawerMenuPage(
         rollOverActive: "profile",
       ),
-      backgroundColor: CustomColorsAPP.redTour,
+      backgroundColor: AppColors.redTour,
       body: SafeArea(
         child: Container(
-          color: CustomColorsAPP.redTour,
+          color: AppColors.redTour,
           child: _body(context),
         ),
       ),
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: TextStyle(
                                 fontFamily: Strings.fontBold,
                                 fontSize: 24,
-                                color: CustomColorsAPP.white),
+                                color: AppColors.white),
                           ),
                         )),
                       ],
@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100)),
                             border: Border.all(
-                                color: CustomColorsAPP.white, width: 1),
+                                color: AppColors.white, width: 1),
                           ),
                           child: Center(
                             child: Stack(
@@ -119,9 +119,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(100)),
                                     border: Border.all(
-                                        color: CustomColorsAPP.white,
+                                        color: AppColors.white,
                                         width: 1),
-                                    color: CustomColorsAPP.grayBackground,
+                                    color: AppColors.grayBackground,
                                   ),
                                   child:  Container(
                                     child: ClipRRect(
@@ -160,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: TextStyle(
                                     fontFamily: Strings.fontBold,
                                     fontSize: 18,
-                                    color: CustomColorsAPP.white),
+                                    color: AppColors.white),
                               ),
                               SizedBox(height: 5,),
                               GestureDetector(
@@ -175,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: TextStyle(
                                       fontFamily: Strings.fontRegular,
                                       fontSize: 15,
-                                      color: CustomColorsAPP.white),
+                                      color: AppColors.white),
                                 ),
                               ),
                             ],
@@ -191,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    color: CustomColorsAPP.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
@@ -263,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
           margin: EdgeInsets.symmetric(horizontal: 30),
           width: double.infinity,
           decoration: BoxDecoration(
-              color: CustomColorsAPP.blueSplash,
+              color: AppColors.blueSplash,
               borderRadius: BorderRadius.all(Radius.circular(10))
           ),
           child: Padding(
@@ -296,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child:Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(profileProvider!.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: CustomColorsAPP.blueSplash,),
+                      child: Icon(profileProvider!.isOpenLink?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down_sharp,color: AppColors.blueSplash,),
                     ),
                   ),
                 )
@@ -311,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: EdgeInsets.only(left: 30,right: 30,top: 10),
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: CustomColorsAPP.blueSplash,
+                  color: AppColors.blueSplash,
                   borderRadius: BorderRadius.all(Radius.circular(10))
               ),
               child: Padding(
@@ -347,13 +347,13 @@ class _ProfilePageState extends State<ProfilePage> {
             left: BorderSide(
                 width: 1,
                 color: borderLeft
-                    ? CustomColorsAPP.grayBackground.withOpacity(.1)
-                    : CustomColorsAPP.grayBackground.withOpacity(.8)),
+                    ? AppColors.grayBackground.withOpacity(.1)
+                    : AppColors.grayBackground.withOpacity(.8)),
             bottom: BorderSide(
                 width: 1,
                 color: border
-                    ? CustomColorsAPP.grayBackground.withOpacity(.1)
-                    : CustomColorsAPP.grayBackground.withOpacity(.8)),
+                    ? AppColors.grayBackground.withOpacity(.1)
+                    : AppColors.grayBackground.withOpacity(.8)),
           ),
         ),
         child: Column(
@@ -377,7 +377,7 @@ class _ProfilePageState extends State<ProfilePage> {
               style: TextStyle(
                   fontFamily: Strings.fontRegular,
                   fontSize: 13,
-                  color: CustomColorsAPP.blackLetter),
+                  color: AppColors.blackLetter),
             )
           ],
         ),

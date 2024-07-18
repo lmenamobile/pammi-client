@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/Validators.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -110,14 +110,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           style: TextStyle(
                               fontSize: 18,
                               fontFamily: Strings.fontBold,
-                              color: CustomColorsAPP.blackLetter),
+                              color: AppColors.blackLetter),
                         ),
                         Text(
                           Strings.inputPass,
                           style: TextStyle(
                               fontSize: 15,
                               fontFamily: Strings.fontRegular,
-                              color: CustomColorsAPP.gray8),
+                              color: AppColors.gray8),
                         ),
                         SizedBox(height: 28),
                         txtCurrentPassword(
@@ -131,8 +131,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         Padding(
                           padding: EdgeInsets.only(left: 20, right: 30),
                           child: btnCustomRounded(
-                              CustomColorsAPP.blueSplash,
-                              CustomColorsAPP.white,
+                              AppColors.blueSplash,
+                              AppColors.white,
                               Strings.saveDates,
                               callUpdatePWD,
                               context),
@@ -158,8 +158,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
-              color: CustomColorsAPP.white),
+                  color: AppColors.gray.withOpacity(.3), width: 1),
+              color: AppColors.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
@@ -175,7 +175,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColorsAPP.gray7.withOpacity(.4),
+                    color: AppColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -188,12 +188,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.blackLetter),
+                            color: AppColors.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColorsAPP.gray7.withOpacity(.4),
+                            color: AppColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
@@ -237,8 +237,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
-              color: CustomColorsAPP.white),
+                  color: AppColors.gray.withOpacity(.3), width: 1),
+              color: AppColors.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
@@ -254,7 +254,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColorsAPP.gray7.withOpacity(.4),
+                    color: AppColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -267,12 +267,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.blackLetter),
+                            color: AppColors.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColorsAPP.gray7.withOpacity(.4),
+                            color: AppColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),
@@ -316,8 +316,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               border: Border.all(
-                  color: CustomColorsAPP.gray.withOpacity(.3), width: 1),
-              color: CustomColorsAPP.white),
+                  color: AppColors.gray.withOpacity(.3), width: 1),
+              color: AppColors.white),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
@@ -333,7 +333,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: 1,
                     height: 25,
-                    color: CustomColorsAPP.gray7.withOpacity(.4),
+                    color: AppColors.gray7.withOpacity(.4),
                   ),
                   SizedBox(
                     width: 5,
@@ -346,12 +346,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: passwordController,
                         style: TextStyle(
                             fontFamily: Strings.fontRegular,
-                            color: CustomColorsAPP.blackLetter),
+                            color: AppColors.blackLetter),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: CustomColorsAPP.gray7.withOpacity(.4),
+                            color: AppColors.gray7.withOpacity(.4),
                             fontSize: 16,
                             fontFamily: Strings.fontRegular,
                           ),

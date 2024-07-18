@@ -5,7 +5,7 @@ import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
@@ -80,7 +80,7 @@ class _QualificationPageState extends State<QualificationPage> {
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 17,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
               ),
             ),
             SizedBox(
@@ -90,7 +90,7 @@ class _QualificationPageState extends State<QualificationPage> {
               Strings.brandsAssociate,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontFamily: Strings.fontRegular, color: CustomColorsAPP.gray7),
+                  fontFamily: Strings.fontRegular, color: AppColors.gray7),
             ),
             listImagesBrands(),
             SizedBox(
@@ -128,8 +128,8 @@ class _QualificationPageState extends State<QualificationPage> {
                       child: btnCustom(
                           double.infinity,
                           Strings.skip,
-                          CustomColorsAPP.gray5,
-                          CustomColorsAPP.blackLetter,
+                          AppColors.gray5,
+                          AppColors.blackLetter,
                           () => Navigator.pop(context))),
                   SizedBox(
                     width: 20,
@@ -138,7 +138,7 @@ class _QualificationPageState extends State<QualificationPage> {
                       child: btnCustom(
                           double.infinity,
                           Strings.send,
-                          CustomColorsAPP.blue,
+                          AppColors.blue,
                           Colors.white,
                           () => {qualificationUserProvider()})),
                 ],
@@ -179,7 +179,7 @@ class _QualificationPageState extends State<QualificationPage> {
                   style: TextStyle(
                       fontFamily: Strings.fontBold,
                       fontSize: 17,
-                      color: CustomColorsAPP.blackLetter),
+                      color: AppColors.blackLetter),
                 ),
               ),
               customDivider(),
@@ -214,7 +214,7 @@ class _QualificationPageState extends State<QualificationPage> {
                 Strings.commentProduct,
                 style: TextStyle(
                     fontFamily: Strings.fontRegular,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
@@ -225,7 +225,7 @@ class _QualificationPageState extends State<QualificationPage> {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: CustomColorsAPP.gray.withOpacity(.2),
+                        color: AppColors.gray.withOpacity(.2),
                         spreadRadius: 3,
                         blurRadius: 10,
                         offset: Offset(0, .5),
@@ -243,13 +243,13 @@ class _QualificationPageState extends State<QualificationPage> {
                     inputFormatters: [],
                     style: TextStyle(
                         fontFamily: Strings.fontRegular,
-                        color: CustomColorsAPP.gray7),
+                        color: AppColors.gray7),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: Strings.hintComment,
                       hintStyle: TextStyle(
                           fontFamily: Strings.fontRegular,
-                          color: CustomColorsAPP.gray5),
+                          color: AppColors.gray5),
                     ),
                   ),
                 ),
@@ -265,8 +265,8 @@ class _QualificationPageState extends State<QualificationPage> {
                         child: btnCustom(
                             double.infinity,
                             Strings.skip,
-                            CustomColorsAPP.gray5,
-                            CustomColorsAPP.blackLetter,
+                            AppColors.gray5,
+                            AppColors.blackLetter,
                             () => Navigator.pop(context))),
                     SizedBox(
                       width: 20,
@@ -275,7 +275,7 @@ class _QualificationPageState extends State<QualificationPage> {
                         child: btnCustom(
                             double.infinity,
                             Strings.send,
-                            CustomColorsAPP.blue,
+                            AppColors.blue,
                             Colors.white,
                             () => {qualificationProduct()})),
                   ],
@@ -319,7 +319,7 @@ class _QualificationPageState extends State<QualificationPage> {
                 style: TextStyle(
                     fontFamily: Strings.fontBold,
                     fontSize: 17,
-                    color: CustomColorsAPP.blackLetter),
+                    color: AppColors.blackLetter),
               ),
             ),
             customDivider(),
@@ -358,8 +358,8 @@ class _QualificationPageState extends State<QualificationPage> {
                       child: btnCustom(
                           double.infinity,
                           Strings.skip,
-                          CustomColorsAPP.gray5,
-                          CustomColorsAPP.blackLetter,
+                          AppColors.gray5,
+                          AppColors.blackLetter,
                           () => Navigator.pop(context))),
                   SizedBox(
                     width: 20,
@@ -368,7 +368,7 @@ class _QualificationPageState extends State<QualificationPage> {
                       child: btnCustom(
                           double.infinity,
                           Strings.send,
-                          CustomColorsAPP.blue,
+                          AppColors.blue,
                           Colors.white,
                           () => {qualificationSeller()})),
                 ],

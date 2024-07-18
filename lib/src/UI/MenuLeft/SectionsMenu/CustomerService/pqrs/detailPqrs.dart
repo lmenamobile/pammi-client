@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Pqrs/response_pqrs.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/Utils/colors.dart';
+import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
@@ -36,14 +36,14 @@ class _DetailPqrsState extends State<DetailPqrs> {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
           decoration: BoxDecoration(
-            color: CustomColorsAPP.gray5.withOpacity(.1),
+            color: AppColors.gray5.withOpacity(.1),
           ),
           child: Text(
             "${Strings.ticket} ${widget.itemPqrs.id}",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 18,
-              color: CustomColorsAPP.blackLetter,
+              color: AppColors.blackLetter,
               fontFamily: Strings.fontBold
             ),
           ),
@@ -59,7 +59,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColorsAPP.blue
+                      color: AppColors.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -68,7 +68,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.blackLetter
+                      color: AppColors.blackLetter
                   ),
                 ),
                 SizedBox(height: 37),
@@ -77,7 +77,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColorsAPP.blue
+                      color: AppColors.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -86,7 +86,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.blackLetter
+                      color: AppColors.blackLetter
                   ),
                 ),
                 SizedBox(height: 37),
@@ -95,7 +95,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColorsAPP.blue
+                      color: AppColors.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -104,7 +104,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.blackLetter
+                      color: AppColors.blackLetter
                   ),
                 ),
                 SizedBox(height: 37),
@@ -113,7 +113,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontFamily: Strings.fontMedium,
                       fontSize: 15,
-                      color: CustomColorsAPP.blue
+                      color: AppColors.blue
                   ),
                 ),
                 SizedBox(height: 11),
@@ -122,7 +122,7 @@ class _DetailPqrsState extends State<DetailPqrs> {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: Strings.fontRegular,
-                      color: CustomColorsAPP.blackLetter
+                      color: AppColors.blackLetter
                   ),
                 ),
                 SizedBox(height: 20),
