@@ -55,7 +55,7 @@ class ItemCategoryDepartment extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: Strings.fontRegular,
-              fontSize: 10,
+              fontSize: 13,
               color: AppColors.black1,
             ),
           ),

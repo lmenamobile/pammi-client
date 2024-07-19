@@ -375,7 +375,7 @@ class _OfferDetailState extends State<OfferDetail> {
   }
 
   Widget listProductsGiftOffer() {
-    return ListView.builder(
+    return Container();/*ListView.builder(
       itemCount: providerOffer?.detailOffer.promotionProducts == null
           ? 0
           : providerOffer?.detailOffer.promotionProducts?.length,
@@ -387,7 +387,7 @@ class _OfferDetailState extends State<OfferDetail> {
                 providerOffer!.detailOffer.promotionProducts![index].reference!,
                 providerOffer?.detailOffer.brandProvider?.brand?.brand,providerOffer!.detailOffer));
       },
-    );
+    );*/
   }
 
   setImageReference(String? asset) {

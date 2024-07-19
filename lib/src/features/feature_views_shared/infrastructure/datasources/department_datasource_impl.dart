@@ -8,7 +8,6 @@ import '../../domain/domain.dart';
 import '../infrastructure.dart';
 
 class DepartmentDatasourceImpl implements DepartmentDatasource {
-
   @override
   Future<List<Department>> getDepartments( String filter, int page) async {
     Map jsonData = {

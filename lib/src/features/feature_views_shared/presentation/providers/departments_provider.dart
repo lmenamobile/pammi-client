@@ -25,9 +25,7 @@ class DepartmentProvider extends ChangeNotifier {
 
   Future<void> loadDepartments({String filter = '', bool refresh = false}) async {
     if (refresh) {
-      _currentPage = 0;
-      _departments.clear();
-      _hasMorePages = true;
+      resetPagination();
     }
 
     if (_isLoading || !_hasMorePages) return;
@@ -39,7 +37,6 @@ class DepartmentProvider extends ChangeNotifier {
 
     try {
       final newDepartments = await _repository.getDepartments(_currentFilter, _currentPage);
-
       if (newDepartments.isEmpty) {
         _hasMorePages = false;
       } else {

@@ -11,13 +11,12 @@ import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 
-import '../Models/Brand.dart';
+
 
 class ProviderProducts with ChangeNotifier{
   final prefs = SharePreference();
 
-  Brand? _brandSelectedCatalog;
-  List<Brand> _ltsBrands = [];
+
   bool _loading = false;
 
 
@@ -28,20 +27,7 @@ class ProviderProducts with ChangeNotifier{
     notifyListeners();
   }
 
-  List<Brand> get ltsBrands => _ltsBrands;
 
-  set ltsBrands(List<Brand> value) {
-    _ltsBrands = value;
-    notifyListeners();
-  }
-
-
-  Brand? get brandSelectedCatalog => _brandSelectedCatalog;
-
-  set brandSelectedCatalog(Brand? value) {
-    _brandSelectedCatalog = value;
-    notifyListeners();
-  }
 
   bool _limitedQuantityError = false;
   bool get limitedQuantityError => this._limitedQuantityError;
@@ -270,8 +256,7 @@ class ProviderProducts with ChangeNotifier{
       'sellerId': idSeller,
       'offset': page,
       'limit': 20,
-      'filter': filter,
-      'brandId': brandSelectedCatalog == null ? "" : brandSelectedCatalog!.id
+      'filter': filter, //'brandId': brandSelectedCatalog == null ? "" : brandSelectedCatalog!.id
     };
 
     print("JSON DATA CATALOG $jsonData");
@@ -504,50 +489,6 @@ class ProviderProducts with ChangeNotifier{
 
   }
 
-  Future<dynamic> getBrands(int offset) async {
 
-    loading = true;
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token": prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
-    };
-    Map jsonData = {
-      'filter': "",
-      'offset':offset,
-      'limit': 20,
-    };
-    var body = jsonEncode(jsonData);
-    final response = await http.post(Uri.parse(Constants.baseURL + "home/get-brands"),
-        headers: header, body: body)
-        .timeout(Duration(seconds: 25))
-        .catchError((value) {
-      loading = false;
-      throw Strings.errorServeTimeOut;
-    });
-
-    final List<Brand> listBrand = [];
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
-
-        for (var item in decodeJson['data']['items']) {
-          final brand = Brand.fromJson(item);
-          listBrand.add(brand);
-        }
-
-        this.ltsBrands = listBrand;
-        loading = false;
-        return listBrand;
-      } else {
-        loading = false;
-        throw decodeJson['message'];
-      }
-    } else {
-      loading = false;
-      throw decodeJson!['message'];
-    }
-
-  }
 
 }

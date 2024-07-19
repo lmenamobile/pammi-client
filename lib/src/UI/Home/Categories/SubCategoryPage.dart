@@ -86,7 +86,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: providerSettings.ltsSubCategories.isEmpty?0:providerSettings.ltsSubCategories.length,
         itemBuilder: (BuildContext context, int index) {
-          return itemSubCategoryRow(providerSettings.ltsSubCategories[index], openProductsBySubCategory);
+          return Container();
         },
       ),
     );

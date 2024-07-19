@@ -49,7 +49,7 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                        "Revisar codigo",//product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,

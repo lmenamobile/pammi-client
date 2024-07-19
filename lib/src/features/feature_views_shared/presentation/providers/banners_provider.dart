@@ -12,7 +12,7 @@ class BannersProvider extends ChangeNotifier {
   String _error = '';
   int _currentPage = 0;
   bool _hasMorePages = true;
-
+  String _currentBanner = "";
   int indexBanner = 0;
 
 
@@ -35,6 +35,7 @@ class BannersProvider extends ChangeNotifier {
 
     if (_isLoading || !_hasMorePages) return;
     _isLoading = true;
+    _currentBanner = typeBanner;
     _error = '';
     notifyListeners();
     try {
@@ -51,6 +52,25 @@ class BannersProvider extends ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  void resetPagination(){
+    _currentPage = 0;
+    _currentBanner = "";
+    _banners.clear();
+    _hasMorePages = true;
+    notifyListeners();
+  }
+
+  Future<void> refreshBanners({String typeBanner = ""}) async {
+    resetPagination();
+    await loadBanners(typeBanner: typeBanner);
+  }
+
+  Future<void> loadMoreBanners() async {
+    if (!_isLoading && _hasMorePages) {
+      await loadBanners(typeBanner: _currentBanner);
     }
   }
 

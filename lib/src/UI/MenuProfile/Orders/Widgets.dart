@@ -486,9 +486,7 @@ Widget itemProduct(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.reference?.brandAndProduct?.brandProvider?.brand
-                          ?.brand ??
-                      '',
+                  "Revisar codigo",//product.reference?.brandAndProduct?.brandProvider?.brand?.brand ?? '',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -682,9 +680,9 @@ Widget itemProductOffer(PackageProvider providerPackage,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.offerOrder?.baseProducts?[0].reference
+                  "Revisar codigo",/*product.offerOrder?.baseProducts?[0].reference
                           ?.brandAndProduct?.brandProvider?.brand?.brand ??
-                      '',
+                      ''*/
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,

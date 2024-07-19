@@ -1,6 +1,6 @@
 import 'package:wawamko/src/Models/Product/ProductOffer.dart';
 
-import 'Product/BrandProvider.dart';
+
 
 class Offer {
   Offer({
@@ -9,7 +9,7 @@ class Offer {
     this.offerType,
     this.discountValue,
     this.imageBanner,
-    this.brandProvider,
+    //this.brandProvider,
     this.baseProducts,
     this.promotionProducts
   });
@@ -19,7 +19,7 @@ class Offer {
   String? offerType;
   String? discountValue;
   String? imageBanner;
-  BrandProvider? brandProvider;
+  //BrandProvider? brandProvider;
   List<ProductOffer>? baseProducts;
   List<ProductOffer>? promotionProducts;
 
@@ -29,7 +29,7 @@ class Offer {
     offerType: json["offerType"],
     discountValue: json["discountValue"].toString(),
     imageBanner: json["imageBanner"],
-    brandProvider: json["brandProvider"]==null?null:BrandProvider.fromJson(json["brandProvider"]),
+    //brandProvider: json["brandProvider"]==null?null:BrandProvider.fromJson(json["brandProvider"]),
     baseProducts: List<ProductOffer>.from(json["baseProducts"].map((x) => ProductOffer.fromJson(x))),
     promotionProducts:  List<ProductOffer>.from(json["promotionProducts"].map((x) => ProductOffer.fromJson(x))),
   );

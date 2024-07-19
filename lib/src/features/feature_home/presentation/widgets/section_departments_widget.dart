@@ -7,11 +7,13 @@ import '../../../feature_views_shared/domain/domain.dart';
 import 'item_category_department.dart';
 
 class SectionDepartmentsWidget extends StatelessWidget {
+  final bool isAvailableHeader;
  final List<Department> departments;
- final VoidCallback openCategories;
+ final Function openCategories;
 
   const SectionDepartmentsWidget({
     Key? key,
+    this.isAvailableHeader = true,
     required this.departments,
     required this.openCategories,
   }) : super(key: key);
@@ -21,15 +23,18 @@ class SectionDepartmentsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            Strings.categories,
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                fontSize: 24,
-                color: AppColors.blueTitle,
-                fontFamily: Strings.fontBold
+        Visibility(
+          visible: isAvailableHeader,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              Strings.categories,
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontSize: 24,
+                  color: AppColors.blueTitle,
+                  fontFamily: Strings.fontBold
+              ),
             ),
           ),
         ),
@@ -55,7 +60,7 @@ class SectionDepartmentsWidget extends StatelessWidget {
                 child: ScaleAnimation(
                   child: FadeInAnimation(
                     child: InkWell(
-                        onTap: openCategories,
+                        onTap: ()=>openCategories(department),
                         child: ItemCategoryDepartment(department: department)),
                   ),
                 ),

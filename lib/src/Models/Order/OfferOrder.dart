@@ -1,4 +1,4 @@
-import 'package:wawamko/src/Models/Product/BrandProvider.dart';
+
 import 'package:wawamko/src/Models/ShopCart/ProductOfferCart.dart';
 
 class OfferOrder {
@@ -7,21 +7,21 @@ class OfferOrder {
     this.name,
     this.offerType,
     this.baseProducts,
-    this.brandProvider,
+   /// this.brandProvider,
   });
 
   int? id;
   String? name;
   String? offerType;
   List<ProductOfferCart>? baseProducts;
-  BrandProvider? brandProvider;
+ // BrandProvider? brandProvider;
 
   factory OfferOrder.fromJson(Map<String, dynamic> json) => OfferOrder(
     id: json["id"],
     name: json["name"],
     offerType: json["offerType"],
     baseProducts: List<ProductOfferCart>.from(json["baseProducts"].map((x) => ProductOfferCart.fromJson(x))),
-    brandProvider: json["brandProvider"]==null?null: BrandProvider.fromJson(json["brandProvider"]),
+   // brandProvider: json["brandProvider"]==null?null: BrandProvider.fromJson(json["brandProvider"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -29,6 +29,6 @@ class OfferOrder {
     "name": name,
     "offerType": offerType,
     "baseProducts": List<dynamic>.from(baseProducts!.map((x) => x.toJson())),
-    "brandProvider": brandProvider!.toJson(),
+
   };
 }

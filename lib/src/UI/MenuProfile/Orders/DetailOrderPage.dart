@@ -140,7 +140,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
   saveImagesBrands(PackageProvider providerPackage){
     providerOrder!.lstImagesBrands.clear();
     providerPackage.productsProvider!.forEach((element) {
-      providerOrder!.setImageBrand = element.reference!.brandAndProduct!.brandProvider!.brand!.image;
+      //providerOrder!.setImageBrand = element.reference!.brandAndProduct!.brandProvider!.brand!.image;
     });
 
   }

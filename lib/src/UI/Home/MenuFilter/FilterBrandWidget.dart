@@ -59,11 +59,11 @@ class FilterBrandWidget extends StatelessWidget {
                 ),
               ),
               onChanged: (query) {
-                providerFilter.filterBrands(query);
+               // providerFilter.filterBrands(query);
               },
             ),
           ),
-          ...providerFilter.filteredBrands.map((brand) {
+  /*        ...providerFilter.filteredBrands.map((brand) {
             return ListTile(
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(brand.image ?? ''),
@@ -75,7 +75,7 @@ class FilterBrandWidget extends StatelessWidget {
                     fontFamily: Strings.fontRegular,
                   )),
             );
-          }).toList(),
+          }).toList(),*/
         ],
       ),
     );

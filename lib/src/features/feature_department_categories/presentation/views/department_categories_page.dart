@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Category.dart';
-import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
+
 import '../../../feature_home/presentation/widgets/section_departments_widget.dart';
+import '../../../feature_views_shared/domain/domain.dart';
 import '../../../feature_views_shared/presentation/presentation.dart';
 
 
@@ -24,22 +23,18 @@ class DepartmentCategoriesPage extends StatefulWidget {
 class _DepartmentCategoriesPageState extends State<DepartmentCategoriesPage> {
   final searchController = TextEditingController();
   late DepartmentProvider departmentProvider;
-  late ProviderSettings providerSettings;
   SharePreference prefs = SharePreference();
-  RefreshController _refreshCategories =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshCategories = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
   @override
   void initState() {
-    providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     departmentProvider = Provider.of<DepartmentProvider>(context, listen: false);
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    providerSettings = Provider.of<ProviderSettings>(context);
+  Widget build(BuildContext context) {;
     return Scaffold(
       backgroundColor: AppColors.gray12,
       body: SafeArea(
@@ -62,8 +57,9 @@ class _DepartmentCategoriesPageState extends State<DepartmentCategoriesPage> {
                               child: emptyData("ic_empty_notification.png", Strings.sorry, Strings.emptyCategories)),)
                       : SingleChildScrollView(child:
                   SectionDepartmentsWidget(
+                    isAvailableHeader: false,
                     departments: departmentProvider.departments,
-                    openCategories: ()=>openCategory,
+                    openCategories: openCategory,
                   )
                   ),
                 ),
@@ -96,11 +92,8 @@ class _DepartmentCategoriesPageState extends State<DepartmentCategoriesPage> {
 
 
 
-  openCategory(Category category) {
-    Navigator.push(context,
-        customPageTransition(SubCategoryPage(
-          category: category,
-        ), PageTransitionType.rightToLeftWithFade));
+  openCategory(Department department) {
+    //Navigator.push(context, customPageTransition(SubCategoryPage(category: category), PageTransitionType.rightToLeftWithFade));
   }
 
   searchElements(String value) {

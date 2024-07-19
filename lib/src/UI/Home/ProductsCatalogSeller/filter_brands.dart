@@ -2,11 +2,12 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Brand.dart';
+
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
+import 'package:wawamko/src/features/feature_views_shared/feature_views_shared.dart';
 
 import '../../../Utils/utils.dart';
 import '../../../Widgets/LoadingProgress.dart';
@@ -24,16 +25,13 @@ class FilterBrandsCatalog extends StatefulWidget {
 
 class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
 
-  late ProviderProducts providerProducts;
+  late BrandsProvider brandsProvider;
   RefreshController _refreshBrands = RefreshController(initialRefresh: false);
   int pageOffset = 0;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(providerProducts.ltsBrands.isEmpty){
-        getBrands();
-      }
 
     });
     super.initState();
@@ -41,7 +39,7 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
 
   @override
   Widget build(BuildContext context) {
-    providerProducts = Provider.of<ProviderProducts>(context);
+    brandsProvider = Provider.of<BrandsProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(.2),
       body: SafeArea(
@@ -75,7 +73,7 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
               ),
             ],
           ),
-          Visibility(visible: providerProducts.loading, child: LoadingProgress())
+         /// Visibility(visible: providerProducts.loading, child: LoadingProgress())
         ],
       );
     }
@@ -110,11 +108,11 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
                     ),
                     const SizedBox(height: 25),
                     ListView.builder(
-                      itemCount: providerProducts.ltsBrands.length,
+                      itemCount: brandsProvider.brands.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context,index){
-                        return itemSelectBrand(providerProducts.ltsBrands[index], _selectBrand,providerProducts.brandSelectedCatalog?.id == providerProducts.ltsBrands[index].id);
+                        return Container();//itemSelectBrand(providerProducts.ltsBrands[index], _selectBrand,providerProducts.brandSelectedCatalog?.id == providerProducts.ltsBrands[index].id);
                       }),
                     const SizedBox(height: 100)
 
@@ -136,13 +134,13 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
 
   _clearFilter(){
     Navigator.pop(context);
-    providerProducts.brandSelectedCatalog = null;
+    //providerProducts.brandSelectedCatalog = null;
     widget.actionFilter();
   }
 
   _selectBrand(Brand? brand){
     Navigator.pop(context);
-    providerProducts.brandSelectedCatalog = brand;
+    //providerProducts.brandSelectedCatalog = brand;
     widget.actionFilter();
   }
 
@@ -154,29 +152,17 @@ class _FilterBrandsCatalogState extends State<FilterBrandsCatalog> {
 
   void _clearForRefreshBrands() {
     pageOffset = 0;
-    providerProducts.ltsBrands.clear();
-    getBrands();
+    //providerProducts.ltsBrands.clear();
+
   }
 
   void _onLoadingToRefreshBrands() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getBrands();
     _refreshBrands.loadComplete();
   }
 
-  getBrands() async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callProducts = providerProducts.getBrands(pageOffset);
-        await callProducts.then((list) {}, onError: (error) {
-          providerProducts.isLoadingProducts = false;
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
-  }
+
 
   }
 

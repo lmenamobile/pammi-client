@@ -14,10 +14,10 @@ class BannerDatasourceImpl implements BannerDatasource {
   @override
   Future<List<Banners>> getBanners( String typeBanner, int page) async {
     Map jsonData = {
+      "filter":"",
       "type": typeBanner,
       "offset": page,
-      "limit": 30,
-      "countryId": prefs.countryIdUser
+      "limit": 30
     };
     final response = await http.post(Uri.parse(ApiRoutes.getBanners),
         headers: ApiHeaders().getHeaderAccessToken(), body: jsonEncode(jsonData))
@@ -25,7 +25,6 @@ class BannerDatasourceImpl implements BannerDatasource {
         .catchError((value) {
       throw Strings.errorServeTimeOut;
     });
-
     Map<String, dynamic> decodeJson = json.decode(response.body);
     if (response.statusCode == 200) {
       List<Banners> banners = [];

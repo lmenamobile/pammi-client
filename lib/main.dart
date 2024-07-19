@@ -24,10 +24,10 @@ import 'package:wawamko/src/Providers/PushNotificationService.dart';
 import 'package:wawamko/src/Providers/SocketService.dart';
 import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
-import 'package:wawamko/src/features/feature_home/presentation/views/HomePage.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
-import 'package:wawamko/src/features/feature_views_shared/infrastructure/infrastructure.dart';
+
+
 
 import 'src/Providers/ProfileProvider.dart';
 import 'src/Providers/Onboarding.dart';
@@ -36,8 +36,8 @@ import 'src/Utils/Strings.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'src/config/config.dart';
-import 'src/features/feature_views_shared/domain/domain.dart';
-import 'src/features/feature_views_shared/presentation/presentation.dart';
+import 'src/features/feature_department_categories/feature_department_categories.dart';
+import 'src/features/feature_views_shared/feature_views_shared.dart';
 
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -67,8 +67,21 @@ void main() async{
   final departmentDatasource = DepartmentDatasourceImpl();
   final departmentRepository = DepartmentRepositoryImpl(remoteDataSource: departmentDatasource);
 
+  final bannerDatasource = BannerDatasourceImpl();
+  final bannerRepository = BannerRepositoryImpl(remoteDataSource: bannerDatasource);
+
+  final brandDatasource = BrandDatasourceImpl();
+  final brandRepository = BrandRepositoryImpl(remoteDataSource: brandDatasource);
+
+  final categoryDatasource = CategoryDatasourceImpl();
+  final categoryRepository = CategoryRepositoryImpl(remoteDatasource: categoryDatasource);
+
+
   runApp(MyApp(
     departmentRepository: departmentRepository,
+    bannerRepository: bannerRepository,
+    brandRepository: brandRepository,
+    categoryRepository: categoryRepository
   ));
 }
 
@@ -79,8 +92,15 @@ launchLocalNotification(String payloadData){
 
 class MyApp extends StatefulWidget {
     final DepartmentRepository departmentRepository;
+    final BannerRepository bannerRepository;
+    final BrandRepository brandRepository;
+    final CategoryRepository categoryRepository;
 
-  const MyApp({super.key, required this.departmentRepository});
+  const MyApp({super.key,
+    required this.departmentRepository,
+    required this.bannerRepository,
+    required this.brandRepository,
+    required this.categoryRepository});
     @override
   _MyAppState createState() => _MyAppState();
 }
@@ -123,6 +143,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => DepartmentProvider(repository: widget.departmentRepository)),
+        ChangeNotifierProvider(create: (_) => BannersProvider(repository: widget.bannerRepository)),
+        ChangeNotifierProvider(create: (_) => BrandsProvider(repository: widget.brandRepository)),
+        ChangeNotifierProvider(create: (_) => CategoriesProvider(repository: widget.categoryRepository)),
         ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),

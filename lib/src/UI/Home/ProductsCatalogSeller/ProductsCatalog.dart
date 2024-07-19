@@ -134,7 +134,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   void clearForRefresh() {
     pageOffset = 0;
-    providerProducts.brandSelectedCatalog = null;
+   // providerProducts.brandSelectedCatalog = null;
     getProducts(pageOffset);
   }
 

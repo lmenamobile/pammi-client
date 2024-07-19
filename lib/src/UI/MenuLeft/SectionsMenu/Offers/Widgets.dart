@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Offer.dart';
 import 'package:wawamko/src/Models/Product/ProductOffer.dart';
 import 'package:wawamko/src/Models/Product/Reference.dart';
@@ -9,6 +8,8 @@ import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+
+import '../../../../features/feature_views_shared/domain/domain.dart';
 
 Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
   return Container(

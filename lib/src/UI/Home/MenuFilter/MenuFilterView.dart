@@ -28,7 +28,7 @@ class _MenuFilterViewState extends State<MenuFilterView> {
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     providerFilter = Provider.of<ProviderFilter>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      providerFilter.setBrands(providerHome.ltsBrands);
+     // providerFilter.setBrands(providerHome.ltsBrands);
     });
     super.initState();
   }

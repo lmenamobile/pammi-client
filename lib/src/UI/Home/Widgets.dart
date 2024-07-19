@@ -1,10 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wawamko/src/Models/Brand.dart';
-import 'package:wawamko/src/Models/Category.dart';
+
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
@@ -121,27 +118,7 @@ Widget customDivider(){
   );
 }
 
-Widget itemBrand(Brand brand){
-  double size = 60;
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(60),
-    child: Image.network(
-      brand.image ?? "",
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          width: size,
-          height: size,
-          color: Colors.grey,
-          child: Icon(
-            Icons.error,
-            color: Colors.white,
-          ),
-        );
-      },
-    ),
-  );
-}
+
 
 
 Widget itemSelectBrand(Brand brand,Function selectBrand,bool selected){

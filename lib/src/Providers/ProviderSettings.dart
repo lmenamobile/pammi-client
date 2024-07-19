@@ -289,48 +289,7 @@ class ProviderSettings with ChangeNotifier{
     }
   }
 
-  Future<dynamic> getCategoriesInterest1(String filter,int page,String countryCode) async {
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token":prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
-    };
-    Map jsonData = {
-      "filter": filter,
-      "offset" : page,
-      "limit" : 20,
-      "status": "active",
-      "countryId": countryCode
-    };
-    var body = jsonEncode(jsonData);
-    print("body: ${body}");
-    print("url: ${Constants.baseURL+"category/get-categories"}");
-    final response = await http.post(Uri.parse(Constants.baseURL+"category/get-categories"), headers: header, body: body)
-        .timeout(Duration(seconds: 15))
-        .catchError((value) {
-      this.isLoadingSettings = false;
-      throw Strings.errorServeTimeOut;
-    });
-    final List<Category> listCategories = [];
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
-    print("get categories ${decodeJson}");
-    if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
-        for (var item in decodeJson['data']['items']) {
-          final category = Category.fromJson(item);
-          listCategories.add(category);
-        }
-        this.isLoadingSettings = false;
-        return listCategories;
-      } else {
-        this.isLoadingSettings = false;
-        throw decodeJson['message'];
-      }
-    } else {
-      this.isLoadingSettings = false;
-      throw decodeJson!['message'];
-    }
-  }
+
 
 
 

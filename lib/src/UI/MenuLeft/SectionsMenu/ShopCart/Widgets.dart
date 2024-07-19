@@ -52,7 +52,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  "revisar codigo",//product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -179,7 +179,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  offer.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                  "revisar codigo",//offer.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -413,7 +413,7 @@ Widget itemOfferProductGift(Reference? reference){
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        reference.brandAndProduct?.brandProvider?.brand?.brand??'',
+                        "Revisar codigo",//reference.brandAndProduct?.brandProvider?.brand?.brand??'',
                         style: TextStyle(
                           fontFamily: Strings.fontRegular,
                           fontSize: 12,
@@ -535,7 +535,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
+                      "Reviar codigo",//product.reference?.brandAndProduct?.brandProvider?.brand?.brand??'',
                       style: TextStyle(
                         fontFamily: Strings.fontRegular,
                         fontSize: 12,

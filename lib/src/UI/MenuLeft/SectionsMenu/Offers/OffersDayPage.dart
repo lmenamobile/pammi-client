@@ -76,7 +76,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
                     customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade))),
 
                 Visibility(
-                  visible: providerHome.ltsBrands.isNotEmpty,
+                  visible: true,
                   child: Container(
                     height: 100,
                       child: listBrands()),
@@ -257,7 +257,8 @@ class _OffersDayPageState extends State<OffersDayPage> {
   }
 
   Widget listBrands() {
-    return ListView.builder(
+    return Container();
+    /*return ListView.builder(
       itemCount: providerHome.ltsBrands.isEmpty ? 0 : providerHome.ltsBrands.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
@@ -268,7 +269,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
           },
             child: itemBrandOffer(providerHome.selectedBrand,providerHome.ltsBrands[index]));
       },
-    );
+    );*/
   }
 
   Widget listOffersMix() {

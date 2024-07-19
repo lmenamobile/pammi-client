@@ -43,24 +43,19 @@ class SectionBannersSlider extends StatelessWidget {
           ),
           ),
 
-          banners.isEmpty?Container():Column(
-            children: [
-              const SizedBox(height: 17),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: DotsIndicator(
-                  dotsCount: banners.length,
-                  position: indexBanner,
-                  decorator: DotsDecorator(
-                    activeColor: AppColors.blue5,
-                    size: const Size.square(9),
-                    spacing: const EdgeInsets.symmetric(horizontal: 5,vertical: 4),
-                    activeSize: const Size(9, 9),
-                    activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                  ),
-                ),
+          banners.isEmpty?Container():Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+            child: DotsIndicator(
+              dotsCount: banners.length,
+              position: indexBanner,
+              decorator: DotsDecorator(
+                activeColor: AppColors.blue5,
+                size: const Size.square(9),
+                spacing: const EdgeInsets.symmetric(horizontal: 5,vertical: 4),
+                activeSize: const Size(9, 9),
+                activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
               ),
-            ],
+            ),
           )
         ],
       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
@@ -14,6 +13,8 @@ import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
+
+import '../../../features/feature_views_shared/domain/domain.dart';
 
 class BrandsPage extends StatefulWidget{
   @override
@@ -51,10 +52,10 @@ class _BrandsPageState extends State<BrandsPage> {
                           footer: footerRefreshCustom(),
                           header: headerRefresh(),
                           onRefresh: _pullToRefresh,
-                          child: providerSettings.hasConnection?providerHome.ltsBrands.isEmpty
+                          child: Container()/*providerSettings.hasConnection?[]
                               ? emptyData("ic_empty_notification.png",
                               Strings.sorry, Strings.emptyBrands)
-                              :SingleChildScrollView(child: listBrands()):notConnectionInternet()))
+                              :SingleChildScrollView(child: listBrands()):notConnectionInternet()*/))
                 ],
               ),
               Visibility(
@@ -68,7 +69,7 @@ class _BrandsPageState extends State<BrandsPage> {
 
   Widget listBrands() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+      /*margin: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
       child: ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -76,7 +77,7 @@ class _BrandsPageState extends State<BrandsPage> {
         itemBuilder: (BuildContext context, int index) {
           return itemBrandRow(providerHome.ltsBrands[index],openProductsByBrand);
         },
-      ),
+      ),*/
     );
   }
 
@@ -88,14 +89,11 @@ class _BrandsPageState extends State<BrandsPage> {
 
   void clearForRefresh() {
     pageOffset = 0;
-    providerHome.ltsBrands.clear();
-    getBrands(pageOffset.toString());
   }
 
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getBrands(pageOffset.toString());
     _refreshBrands.loadComplete();
   }
 
@@ -103,15 +101,5 @@ class _BrandsPageState extends State<BrandsPage> {
     Navigator.push(context, customPageTransition(ProductCategoryPage( idBrand:brand.id.toString()),PageTransitionType.rightToLeftWithFade));
   }
 
-  getBrands(String page) async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callHome = providerHome.getBrands(page);
-        await callHome.then((list) {}, onError: (error) {
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
-  }
+
 }

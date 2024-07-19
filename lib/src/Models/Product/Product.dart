@@ -1,6 +1,7 @@
 import 'package:wawamko/src/Models/Product/ImageProduct.dart';
 
-import 'BrandProvider.dart';
+
+import '../../features/feature_products/domain/domain.dart';
 import 'Reference.dart';
 import 'Warranty.dart';
 
@@ -16,7 +17,7 @@ class Product {
     this.weight,
     this.volume,
     this.brandProvider,
-    this.warranty,
+    //this.warranty,
     this.references = const [],
     this.service,
     this.images
@@ -32,7 +33,7 @@ class Product {
   String? weight;
   String? volume;
   BrandProvider? brandProvider;
-  Warranty? warranty;
+  //Warranty? warranty;
   bool? service;
   List<Reference> references = [];
   List<ImageProduct>? images;
@@ -48,8 +49,8 @@ class Product {
     service: json["service"],
     weight: json["weight"].toString(),
     volume: json["volume"].toString(),
-    brandProvider: BrandProvider.fromJson(json["brandProvider"]),
-    warranty: Warranty.fromJson(json["warranty"]),
+    //brandProvider: BrandProvider.fromJson(json["brandProvider"]),
+    //warranty: Warranty.fromJson(json["warranty"]),
     images:json["images"]==null?[]:List<ImageProduct>.from(json["images"].map((x) => x==null?null:ImageProduct.fromJson(x))),
     references:json["references"]==null?[]: List<Reference>.from(json["references"].map((x) => x==null?null:Reference.fromJson(x))),
   );
@@ -64,8 +65,8 @@ class Product {
     "featured": featured,
     "weight": weight,
     "volume": volume,
-    "brandProvider": brandProvider!.toJson(),
-    "warranty": warranty!.toJson(),
+
+    //"warranty": warranty!.toJson(),
     "references": List<dynamic>.from(references.map((x) => x.toJson())),
     "images": List<dynamic>.from(images!.map((x) => x.toJson())),
     "service": service

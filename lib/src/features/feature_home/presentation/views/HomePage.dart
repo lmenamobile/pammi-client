@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Brand.dart';
 import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Providers/ConectionStatus.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
@@ -16,18 +15,22 @@ import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
+import 'package:wawamko/src/config/constants/banner_types.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/UI/MenuLeft/DrawerMenu.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/features/feature_department_categories/presentation/views/categories_page.dart';
 import 'package:wawamko/src/features/feature_home/presentation/widgets/section_banners_slider.dart';
+import 'package:wawamko/src/features/feature_home/presentation/widgets/section_brands_widget.dart';
 import 'package:wawamko/src/features/feature_home/presentation/widgets/section_departments_widget.dart';
 import '../../../../Providers/ProviderChat.dart';
 import '../../../../Providers/SocketService.dart';
 import '../../../../UI/Chat/ChatPage.dart';
 import '../../../../UI/Home/Products/DetailProductPage.dart';
 import '../../../../UI/Home/Widgets.dart';
+import '../../../feature_department_categories/presentation/views/department_categories_page.dart';
 import '../../../feature_views_shared/domain/domain.dart';
 import '../../../feature_views_shared/presentation/presentation.dart';
 
@@ -47,8 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
   late ProfileProvider profileProvider;
   late ProviderProducts providerProducts;
   late ProviderShopCart providerShopCart;
+
   late DepartmentProvider departmentProvider;
   late BannersProvider bannersProvider;
+  late BrandsProvider brandsProvider;
+
   SharePreference prefs = SharePreference();
   ConnectionAdmin connectionStatus = ConnectionAdmin.getInstance();
   late ProviderChat providerChat;
@@ -72,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _initializeProviders() {
     departmentProvider  = Provider.of<DepartmentProvider>(context, listen: false);
     bannersProvider     = Provider.of<BannersProvider>(context, listen: false);
+    brandsProvider      = Provider.of<BrandsProvider>(context, listen: false);
     providerSettings = Provider.of<ProviderSettings>(context, listen: false);
     providerHome = Provider.of<ProviderHome>(context, listen: false);
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
@@ -91,7 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (prefs.countryIdUser != "") {
         departmentProvider.loadDepartments();
-
+        bannersProvider.loadBanners(typeBanner: BannerTypes.general);
+        brandsProvider.loadBrands();
       } else {
         selectCountryUserNotLogin();
       }
@@ -107,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
     providerChat = Provider.of<ProviderChat>(context);
     socketService = Provider.of<SocketService>(context);
     departmentProvider = Provider.of<DepartmentProvider>(context);
+    bannersProvider = Provider.of<BannersProvider>(context);
     connectionStatus.connectionListen.listen((value) {
       providerSettings.hasConnection = value;
     });
@@ -252,10 +261,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: SectionDepartmentsWidget(
                               departments: departmentProvider.homeDepartments,
-                              openCategories: () => openDepartmentCategory,
+                              openCategories: openDepartmentCategory,
                             )),
                         const SizedBox(height: 55),
-                        sectionsBrands(),
+                        SectionBrandsWidget(
+                            brands:brandsProvider.brands,
+                            openProductsByBrand:openProductsByBrand,
+                            openAllBrands: openAllBrands),
                         const SizedBox(height: 55),
                       ],
                     ),
@@ -267,169 +279,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget sectionsBrands() {
-    return providerHome.ltsBrands.isEmpty
-        ? Container()
-        : Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          Strings.ourOfficialBrands,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: Strings.fontBold,
-                              color: AppColors.blueSplash),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      InkWell(
-                        onTap: () => openAllBrands(),
-                        child: Text(
-                          Strings.moreAll,
-                          style: TextStyle(
-                              color: AppColors.blue,
-                              fontSize: 15,
-                              fontFamily: Strings.fontMedium),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 22),
-                Container(
-                    height: 110,
-                    padding: EdgeInsets.only(left: 30),
-                    child: listItemsBrands()),
-              ],
-            ),
-          );
-  }
-
-
-
-  Widget sectionBestSellers() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child: Text(
-            Strings.discoverThe,
-            style: TextStyle(
-                fontSize: 16,
-                fontFamily: Strings.fontRegular,
-                color: AppColors.gray15),
-          ),
-        ),
-        SizedBox(
-          height: 6,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                Strings.mostSelledProducts,
-                style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: Strings.fontBold,
-                    color: AppColors.blueSplash),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-            padding: EdgeInsets.only(left: 30),
-            height: 260,
-            child: listBestSellers()),
-      ],
-    );
-  }
-
-  Widget listItemsBrands() {
-    return ListView.builder(
-      itemCount: providerHome!.ltsBrands.length > 6
-          ? 6
-          : providerHome!.ltsBrands.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (_, int index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: InkWell(
-              onTap: () => openProductsByBrand(providerHome!.ltsBrands[index]),
-              child: itemBrand(providerHome!.ltsBrands[index])),
-        );
-      },
-    );
-  }
-
-  Widget listBestSellers() {
-    return ListView.builder(
-      itemCount: providerHome?.ltsMostSelledProducts.length ?? 0,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (_, int index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-              onTap: () =>
-                  openDetailProduct(providerHome!.ltsMostSelledProducts[index]),
-              child: itemProduct(providerHome!.ltsMostSelledProducts[index])),
-        );
-      },
-    );
-  }
 
   openProductsByBrand(Brand brand) {
     Navigator.push(
         context,
-        customPageTransition(ProductCategoryPage(idBrand: brand.id.toString()),
-            PageTransitionType.rightToLeftWithFade));
+        customPageTransition(ProductCategoryPage(idBrand: brand.id.toString()), PageTransitionType.rightToLeftWithFade));
   }
 
-  openAllBrands() {
-    Navigator.push(
-        context,
-        customPageTransition(
-            BrandsPage(), PageTransitionType.rightToLeftWithFade));
-  }
-
-  openDetailProduct(Product product) {
-    String? color = product.references[0].color;
-    if (product.references[0].images?.length != 0) {
-      if (color != null && color.startsWith('#') && color.length >= 6) {
-        providerProducts?.imageReferenceProductSelected =
-            product.references[0].images?[0].url ?? "";
-        providerProducts?.limitedQuantityError = false;
-        Navigator.push(
-            context,
-            customPageTransition(DetailProductPage(product: product),
-                PageTransitionType.rightToLeftWithFade));
-      }
-    }
+ void openAllBrands() {
+    Navigator.push(context, customPageTransition(BrandsPage(), PageTransitionType.rightToLeftWithFade));
   }
 
   openDepartmentCategory(Department department) {
+    print("department.id: ${department.id}  department.name: ${department.department}");
     if (department.id == 0) {
-      Navigator.push(
-          context,
-          customPageTransition(DepartmentCategoriesPage(),
-              PageTransitionType.rightToLeftWithFade));
+      Navigator.push(context, customPageTransition(DepartmentCategoriesPage(), PageTransitionType.rightToLeftWithFade));
     } else {
-      //Navigator.push(context,customPageTransition(SubCategoryPage(category: category,),PageTransitionType.rightToLeftWithFade));
+      Navigator.push(context,customPageTransition(CategoriesPage(department: department,),PageTransitionType.rightToLeftWithFade));
     }
   }
 
@@ -450,12 +316,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _pullToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
-    providerHome.ltsBrands.clear();
-    providerHome.ltsBanners.clear();
-    providerHome.ltsBannersOffer.clear();
-    providerHome.ltsMostSelledProducts.clear();
     departmentProvider.loadDepartments();
-    getProductsMoreSelled();
+    bannersProvider.loadBanners(typeBanner: BannerTypes.general);
+    brandsProvider.loadBrands();
     _refreshHome.refreshCompleted();
   }
 
@@ -506,16 +369,6 @@ getBannersOffer() async {
     });
   }*/
 
-  getProductsMoreSelled() async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callHome = providerHome!.getProductsMostSelled();
-        await callHome.then((list) {}, onError: (error) {});
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
-  }
 
   selectCountryUserNotLogin() async {
     bool state = await openSelectCountry(context);

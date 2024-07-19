@@ -6,7 +6,7 @@ class ApiHeaders{
   Map<String,String> getHeaderAuthToken() {
     return {"Content-Type": "application/json",
       'X-WA-Auth-Token': _preferences.authToken,
-    'country': _preferences.countryIdUser};
+      'country': _preferences.countryIdUser};
   }
 
   Map<String,String> getHeaderAccessToken() {
