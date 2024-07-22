@@ -33,6 +33,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      categoriesProvider.resetPagination();
       categoriesProvider.loadCategories(departmentId: widget.department.id);
     });
     super.initState();
