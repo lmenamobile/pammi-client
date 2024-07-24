@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../Providers/ProviderFilter.dart';
-import '../../../Utils/Strings.dart';
-import '../../../config/theme/colors.dart';
+import '../../../../Utils/Strings.dart';
+import '../../../../config/config.dart';
+import '../../../providers.dart';
+import '../presentation.dart';
 
 class FilterBrandWidget extends StatelessWidget {
 
-  late ProviderFilter providerFilter;
+  late FilterRightProvider filterRightProvider;
+  late BrandsProvider brandsProvider;
 
   @override
   Widget build(BuildContext context) {
-    providerFilter = Provider.of<ProviderFilter>(context);
+    brandsProvider = Provider.of<BrandsProvider>(context);
+    filterRightProvider = Provider.of<FilterRightProvider>(context);
     return Theme(
       data: Theme.of(context).copyWith(
         dividerColor: AppColors.gray2,
@@ -59,11 +62,11 @@ class FilterBrandWidget extends StatelessWidget {
                 ),
               ),
               onChanged: (query) {
-               // providerFilter.filterBrands(query);
+               brandsProvider.filterBrands(query);
               },
             ),
           ),
-  /*        ...providerFilter.filteredBrands.map((brand) {
+       ...brandsProvider.brands.map((brand) {
             return ListTile(
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(brand.image ?? ''),
@@ -75,7 +78,7 @@ class FilterBrandWidget extends StatelessWidget {
                     fontFamily: Strings.fontRegular,
                   )),
             );
-          }).toList(),*/
+          }).toList(),
         ],
       ),
     );

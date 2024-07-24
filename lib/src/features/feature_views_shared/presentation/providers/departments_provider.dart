@@ -17,6 +17,30 @@ class DepartmentProvider extends ChangeNotifier {
 
   DepartmentProvider({required DepartmentRepository repository}) : _repository = repository;
 
+
+  String? selectedDepartment;
+  String? selectedCategory;
+  String? selectedSubcategory;
+
+
+  void selectDepartment(String departmentName) {
+    selectedDepartment = departmentName;
+    selectedCategory = null;
+    selectedSubcategory = null;
+    notifyListeners();
+  }
+
+  void selectCategory(String categoryName) {
+    selectedCategory = categoryName;
+    selectedSubcategory = null;
+    notifyListeners();
+  }
+
+  void selectSubcategory(String subcategoryName) {
+    selectedSubcategory = subcategoryName;
+    notifyListeners();
+  }
+
   List<Department> get departments => _departments;
   List<Department> get homeDepartments => _homeDepartments;
   bool get isLoading => _isLoading;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../Utils/Strings.dart';
-import '../../../config/theme/colors.dart';
+import '../../../../Utils/Strings.dart';
+import '../../../../config/theme/colors.dart';
 
 class FilterColorWidget extends StatelessWidget {
   final List<Color> colores = [

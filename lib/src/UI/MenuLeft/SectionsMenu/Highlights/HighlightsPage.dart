@@ -6,7 +6,7 @@ import 'package:wawamko/src/Providers/ProviderHome.dart';
 
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
+import 'package:wawamko/src/features/feature_products/presentation/views/products_by_sub_category_page.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/Utils/Constants.dart';

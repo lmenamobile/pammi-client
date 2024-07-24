@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wawamko/src/Models/User.dart';
-import 'package:wawamko/src/Providers/ProviderFilter.dart';
+
 
 import 'package:wawamko/src/Providers/VariablesNotifyProvider.dart';
 import 'package:wawamko/src/Providers/ProviderChat.dart';
@@ -26,6 +26,7 @@ import 'package:wawamko/src/Providers/SupportProvider.dart';
 import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
+import 'package:wawamko/src/features/feature_filter_right/presentation/presentation.dart';
 
 
 
@@ -76,12 +77,16 @@ void main() async{
   final categoryDatasource = CategoryDatasourceImpl();
   final categoryRepository = CategoryRepositoryImpl(remoteDatasource: categoryDatasource);
 
+  final subCategoryDatasource = SubCategoryDatasourceImpl();
+  final subCategoryRepository = SubCategoryRepositoryImpl(remoteDatasource: subCategoryDatasource);
+
 
   runApp(MyApp(
     departmentRepository: departmentRepository,
     bannerRepository: bannerRepository,
     brandRepository: brandRepository,
-    categoryRepository: categoryRepository
+    categoryRepository: categoryRepository,
+    subCategoryRepository: subCategoryRepository,
   ));
 }
 
@@ -95,12 +100,14 @@ class MyApp extends StatefulWidget {
     final BannerRepository bannerRepository;
     final BrandRepository brandRepository;
     final CategoryRepository categoryRepository;
+    final SubCategoryRepository subCategoryRepository;
 
   const MyApp({super.key,
     required this.departmentRepository,
     required this.bannerRepository,
     required this.brandRepository,
-    required this.categoryRepository});
+    required this.categoryRepository,
+    required this.subCategoryRepository});
     @override
   _MyAppState createState() => _MyAppState();
 }
@@ -146,11 +153,12 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => BannersProvider(repository: widget.bannerRepository)),
         ChangeNotifierProvider(create: (_) => BrandsProvider(repository: widget.brandRepository)),
         ChangeNotifierProvider(create: (_) => CategoriesProvider(repository: widget.categoryRepository)),
+        ChangeNotifierProvider(create: (_) => SubCategoriesProvider(subCategoryRepository: widget.subCategoryRepository)),
+        ChangeNotifierProvider(create: (_) => FilterRightProvider()),
         ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ProviderSettings()),
         ChangeNotifierProvider(create: (_) => ProviderHome()),
-        ChangeNotifierProvider(create: (_) => ProviderProducts()),
         ChangeNotifierProvider(create: (_) => ProviderUser()),
         ChangeNotifierProvider(create: (_) => ProviderShopCart()),
         ChangeNotifierProvider(create: (_) => ProviderCheckOut()),
@@ -162,7 +170,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProviderClaimOrder()),
         ChangeNotifierProvider(create: (_) => ProviderCustomerService()),
         ChangeNotifierProvider(create: (_) => PQRSProvider()),
-        ChangeNotifierProvider(create: (_) => ProviderFilter()),
+
       ],
       child: MaterialApp(
         onGenerateRoute: (RouteSettings settings) {
@@ -193,6 +201,7 @@ class _MyAppState extends State<MyApp> {
         },
         theme: ThemeData(
           primarySwatch: Colors.red,
+          primaryColor: AppColors.redTour,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
       ),

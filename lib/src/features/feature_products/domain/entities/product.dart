@@ -3,44 +3,36 @@ import '../domain.dart';
 
 class Product {
 
-  final int id;
+  final int productId;
   final String sku;
   final String nameProduct;
   final String characteristics;
   final String linkVideo;
   final String conditions;
   final bool featured;
-  final String weight;
-  final String volume;
-  final BrandProvider brandProvider;
-
   final bool service;
+  final bool applyDevolution;
+  final BrandProvider brandProvider;
   final Warranty warranty;
 
 
   Product({
-    required this.id,
+    required this.productId,
     required this.sku,
     required this.nameProduct,
     required this.characteristics,
     required this.linkVideo,
     required this.conditions,
     required this.featured,
-    required this.weight,
-    required this.volume,
+    required this.service,
+    required this.applyDevolution,
     required this.brandProvider,
     required this.warranty,
-    required this.service,
   });
 
-
-
   @override
-  toString() {
-    return 'Product(id: $id, sku: $sku, nameProduct: $nameProduct, characteristics: $characteristics, linkVideo: $linkVideo, conditions: $conditions, featured: $featured, weight: $weight, volume: $volume, brandProvider: $brandProvider, warranty: $warranty, service: $service)';
+  String toString () {
+    return 'Product(id: $productId, sku: $sku, nameProduct: $nameProduct, characteristics: $characteristics, linkVideo: $linkVideo, conditions: $conditions, featured: $featured, service: $service, applyDevolution: $applyDevolution, brandProvider: $brandProvider, warranty: $warranty)';
   }
-
-
-
 
 }

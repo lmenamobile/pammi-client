@@ -292,49 +292,6 @@ class ProviderSettings with ChangeNotifier{
 
 
 
-
-  Future<dynamic> getSubCategories(int page,String idCategory) async {
-    this.isLoadingSettings = true;
-    final header = {
-      "Content-Type": "application/json",
-      "X-WA-Access-Token":prefs.accessToken.toString(),
-      "country": prefs.countryIdUser.toString().isEmpty?"CO":prefs.countryIdUser.toString(),
-    };
-    Map jsonData = {
-      "filter": "",
-      "offset" : page,
-      "limit" : 20,
-      "status": "active",
-      "categoryId":idCategory
-    };
-    var body = jsonEncode(jsonData);
-    final response = await http.post(Uri.parse(Constants.baseURL+"category/get-subcategories"), headers: header, body: body)
-        .timeout(Duration(seconds: 15))
-        .catchError((value) {
-      this.isLoadingSettings = false;
-      throw Strings.errorServeTimeOut;
-    });
-    final List<SubCategory> listSubCategories = [];
-    Map<String, dynamic>? decodeJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      if (decodeJson!['code'] == 100) {
-        for (var item in decodeJson['data']['items']) {
-          final subcategory = SubCategory.fromJson(item);
-          listSubCategories.add(subcategory);
-        }
-        this.isLoadingSettings = false;
-        this.ltsSubCategories = listSubCategories;
-        return listSubCategories;
-      } else {
-        this.isLoadingSettings = false;
-        throw decodeJson['message'];
-      }
-    } else {
-      this.isLoadingSettings = false;
-      throw decodeJson!['message'];
-    }
-  }
-
   Future<dynamic> saveCategories(List<Category> myCategories) async {
     List<int?> idCats = [];
     myCategories.forEach((element) {

@@ -1,5 +1,6 @@
 
 import '../../domain/domain.dart';
+import '../infrastructure.dart';
 
 class CategoryMapper {
 
@@ -9,6 +10,7 @@ class CategoryMapper {
       category: json['category'],
       color: json['color'],
       image: json['image'],
+      subCategories: json['subcategories'] != null ? json['subcategories'].map<SubCategory>((subCategory) => SubCategoryMapper.subCategoryFromJsonToEntity(subCategory)).toList() : [],
     );
   }
 }

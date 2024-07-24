@@ -3,39 +3,35 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
-import 'package:wawamko/src/Providers/ProviderProducts.dart';
+;
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
 import 'package:wawamko/src/UI/Home/Categories/Widgets.dart';
-import 'package:wawamko/src/UI/Home/MenuFilter/MenuFilterView.dart';
+import 'package:wawamko/src/features/feature_department_categories/domain/domain.dart';
+import 'package:wawamko/src/features/feature_filter_right/presentation/views/menu_filter_view.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
-import 'package:wawamko/src/UI/Home/Widgets.dart';
-import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
-import 'package:wawamko/src/config/theme/colors.dart';
-import 'package:wawamko/src/Utils/utils.dart';
+
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/features/feature_products/presentation/presentation.dart';
 
-class ProductCategoryPage extends StatefulWidget {
-  final String? idCategory, idSubcategory, idBrand;
+import '../../domain/domain.dart';
 
-  const ProductCategoryPage(
-      { this.idCategory,
-       this.idSubcategory,
-      this.idBrand});
+class ProductsByCategoryPage extends StatefulWidget {
+  final SubCategory subCategory;
+
+  const ProductsByCategoryPage({super.key, required this.subCategory});
 
   @override
-  _ProductCategoryPageState createState() => _ProductCategoryPageState();
+  _ProductsByCategoryPageState createState() => _ProductsByCategoryPageState();
 }
 
-class _ProductCategoryPageState extends State<ProductCategoryPage> {
+class _ProductsByCategoryPageState extends State<ProductsByCategoryPage> {
   final GlobalKey<ScaffoldState> _scaffoldKeyMenu = GlobalKey<ScaffoldState>();
   final searchController = TextEditingController();
-  late ProviderProducts providerProducts;
+  late ProductsProvider productsProvider;
   late ProviderUser providerUser;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
@@ -44,15 +40,13 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
 
   @override
   void initState() {
-    providerProducts = Provider.of<ProviderProducts>(context, listen: false);
-    providerProducts.ltsProductsByCategory.clear();
-    getProducts("");
+    productsProvider = Provider.of<ProductsProvider>(context, listen: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    providerProducts = Provider.of<ProviderProducts>(context);
+    productsProvider = Provider.of<ProductsProvider>(context);
     providerUser = Provider.of<ProviderUser>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
@@ -123,14 +117,8 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   }
 
   openDetailProduct(Product product) {
-    String? color = product.references[0].color;
-    if(product.references[0].images?.length != 0) {
-        if (color != null  && color.startsWith('#') && color.length >= 6) {
-          providerProducts.imageReferenceProductSelected = product.references[0].images?[0].url ?? "";
-          providerProducts.limitedQuantityError = false;
-          Navigator.push(context, customPageTransition(DetailProductPage(product: product), PageTransitionType.rightToLeftWithFade));
-        }
-      }
+    Navigator.push(context, customPageTransition(DetailProductPage(product: product), PageTransitionType.rightToLeftWithFade));
+
   }
 
 
@@ -143,39 +131,17 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   void clearForRefresh() {
     pageOffset = 0;
     providerProducts.ltsProductsByCategory.clear();
-    getProducts("");
   }
 
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
     pageOffset++;
-    getProducts(searchController.text);
+
     _refreshProducts.loadComplete();
   }
 
-  getProducts(String searchProduct) async {
-    utils.checkInternet().then((value) async {
-      if (value) {
-        Future callProducts = providerProducts.getProductsByCategory(
-            searchProduct,
-            pageOffset,
-            widget.idBrand==null ? null : widget.idBrand,
-           null,
-            widget.idCategory==null ? null : widget.idCategory,
-            widget.idSubcategory,
-            null,
-            null);
-        await callProducts.then((list) {}, onError: (error) {
-          providerProducts.isLoadingProducts = false;
-         // utils.showSnackBar(context, error.toString());
-        });
-      } else {
-        utils.showSnackBarError(context, Strings.loseInternet);
-      }
-    });
-  }
 
-  callIsFavorite(Reference reference) {
+  /*allIsFavorite(Reference reference) {
     if (reference.isFavorite!) {
       reference.isFavorite = false;
       removeFavoriteProduct(reference);
@@ -216,12 +182,6 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
   }
 
   callSearchProducts(String value) {
-    FocusScope.of(context).unfocus();
-    providerProducts.ltsProductsByCategory.clear();
-    if (value.isNotEmpty) {
-      getProducts(value);
-    } else {
-      getProducts("");
-    }
-  }
+
+  }*/
 }

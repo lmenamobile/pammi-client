@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:wawamko/src/UI/Home/MenuFilter/FilterBrandWidget.dart';
-import 'package:wawamko/src/UI/Home/MenuFilter/FilterSubcategoryWidget.dart';
+import '../../../../Providers/ProviderHome.dart';
+import '../../../../Utils/Strings.dart';
+import '../../../../config/config.dart';
+import '../../../providers.dart';
+import '../presentation.dart';
+import '../widgets/widgets.dart';
 
-import 'package:wawamko/src/config/theme/colors.dart';
-
-import '../../../Providers/ProviderHome.dart';
-import '../../../Providers/ProviderFilter.dart';
-import '../../../Utils/Strings.dart';
-import 'FilterColorWidget.dart';
-import 'FilterMaterialWidget.dart';
-import 'FilterPriceWidget.dart';
-import 'FilterSizeWidget.dart';
 
 class MenuFilterView extends StatefulWidget {
   @override
@@ -21,12 +16,13 @@ class MenuFilterView extends StatefulWidget {
 
 class _MenuFilterViewState extends State<MenuFilterView> {
   late ProviderHome providerHome;
-  late ProviderFilter providerFilter;
+  late FilterRightProvider filterRightProvider;
+
 
   @override
   void initState() {
     providerHome = Provider.of<ProviderHome>(context, listen: false);
-    providerFilter = Provider.of<ProviderFilter>(context, listen: false);
+    filterRightProvider = Provider.of<FilterRightProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
      // providerFilter.setBrands(providerHome.ltsBrands);
     });
@@ -75,7 +71,7 @@ class _MenuFilterViewState extends State<MenuFilterView> {
               FilterBrandWidget(),
               SizedBox(height: 10,),
               //CATEGORIES AND SUBCATEGORIES
-              FilterSubcategoryWidget(),
+              FilterCategoryWidget(),
               SizedBox(height: 10,),
               //SIZES
               FilterSizeWidget(),

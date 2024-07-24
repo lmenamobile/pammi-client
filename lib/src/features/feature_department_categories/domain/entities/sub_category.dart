@@ -1,15 +1,15 @@
 class SubCategory {
-  final String id;
-  final String name;
+  final int id;
+  final String subCategory;
 
 
   SubCategory({
     required this.id,
-    required this.name
+    required this.subCategory
   });
 
   toString() {
-    return 'SubCategory(id: $id, name: $name)';
+    return 'SubCategory(id: $id, name: $subCategory)';
   }
 
 

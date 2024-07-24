@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/UI/Home/Categories/SubCategoryPage.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/features/feature_department_categories/presentation/views/categories_page.dart';
 
 
 import '../../../feature_home/presentation/widgets/section_departments_widget.dart';
@@ -93,7 +93,7 @@ class _DepartmentCategoriesPageState extends State<DepartmentCategoriesPage> {
 
 
   openCategory(Department department) {
-    //Navigator.push(context, customPageTransition(SubCategoryPage(category: category), PageTransitionType.rightToLeftWithFade));
+    Navigator.push(context, customPageTransition(CategoriesPage(department: department), PageTransitionType.rightToLeftWithFade));
   }
 
   searchElements(String value) {

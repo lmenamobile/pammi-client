@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -8,6 +9,7 @@ import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/features/feature_department_categories/presentation/views/sub_categories_page.dart';
 
 
 
@@ -97,7 +99,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
   }
 
 
-
   void _onLoadingToRefresh() async {
     await Future.delayed(Duration(milliseconds: 800));
       categoriesProvider.loadMoreCategories();
@@ -105,8 +106,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   }
 
   openSubCategory(Category category) {
-     /* Navigator.push(context, customPageTransition(ProductCategoryPage(idCategory: widget.category.id.toString(),idSubcategory: subCategory.id.toString(),),
-      PageTransitionType.rightToLeftWithFade));*/
+      Navigator.push(context, customPageTransition(SubCategoriesPage(category: category), PageTransitionType.rightToLeftWithFade));
   }
 
 

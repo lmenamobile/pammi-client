@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/domain.dart';
@@ -7,17 +9,21 @@ class BrandsProvider extends ChangeNotifier {
 
   List<Brand> _brands = [];
   List<Brand> _homeBrands = [];
+  List<Brand> _brandsFiltered = [];
   bool _isLoading = false;
   String _error = '';
   int _currentPage = 0;
   bool _hasMorePages = true;
   bool _isHomeListCreated = false;
   String _currentFilter = '';
+  Timer? _debounce;
+
 
   BrandsProvider({required BrandRepository repository}) : _repository = repository;
 
-  List<Brand> get brands => _brands;
+  List<Brand> get brands => _brandsFiltered.isNotEmpty ? _brandsFiltered : _brands;
   List<Brand> get homeBrands => _homeBrands;
+  List<Brand> get brandsFiltered => _brandsFiltered;
   bool get isLoading => _isLoading;
   String get error => _error;
   bool get hasMorePages => _hasMorePages;
@@ -26,14 +32,11 @@ class BrandsProvider extends ChangeNotifier {
     if (refresh) {
       resetPagination();
     }
-
     if (_isLoading || !_hasMorePages) return;
-
     _isLoading = true;
     _error = '';
     _currentFilter = filter;
     notifyListeners();
-
     try {
       final newBrands = await _repository.getBrands(_currentFilter, _currentPage);
       if (newBrands.isEmpty) {
@@ -65,6 +68,23 @@ class BrandsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void filterBrands(String query) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (query.isEmpty) {
+        _brandsFiltered = [];
+      } else {
+        _brandsFiltered = _repository.searchBrands(query);
+      }
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
   void resetPagination() {
     _currentPage = 0;
     _hasMorePages = true;

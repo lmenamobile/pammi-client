@@ -1,10 +1,13 @@
 
+import '../../../feature_department_categories/domain/domain.dart';
+
 class Department {
   final int id;
   final String department;
   final String image;
   final String status;
   final String createdAt;
+  final List<Category> categories;
 
   Department({
     required this.id,
@@ -12,6 +15,7 @@ class Department {
     required this.image,
     required this.status,
     required this.createdAt,
+    this.categories = const [],
   });
 
   Department copyWith({
@@ -20,6 +24,7 @@ class Department {
     String? image,
     String? status,
     String? createdAt,
+    List<Category>? categories,
   }) {
     return Department(
       id: id ?? this.id,
@@ -27,12 +32,14 @@ class Department {
       image: image ?? this.image,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
+      categories: categories ?? this.categories,
     );
   }
 
   @override
   String toString() {
-    return 'Department(id: $id, department: $department, image: $image, status: $status, createdAt: $createdAt)';
+    return 'Department(id: $id, department: $department, image: $image, status: $status, createdAt: $createdAt,'
+        ' categories: $categories)';
   }
 
   @override

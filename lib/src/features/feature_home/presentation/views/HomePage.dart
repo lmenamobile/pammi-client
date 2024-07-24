@@ -10,7 +10,7 @@ import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Brands/BrandsPage.dart';
-import 'package:wawamko/src/UI/Home/Categories/ProductCategoryPage.dart';
+import 'package:wawamko/src/features/feature_products/presentation/views/products_by_sub_category_page.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -281,9 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   openProductsByBrand(Brand brand) {
-    Navigator.push(
-        context,
-        customPageTransition(ProductCategoryPage(idBrand: brand.id.toString()), PageTransitionType.rightToLeftWithFade));
+    //Navigator.push(context, customPageTransition(ProductsByCategoryPage(idBrand: brand.id.toString()), PageTransitionType.rightToLeftWithFade));
   }
 
  void openAllBrands() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../Utils/Strings.dart';
-import '../../../config/theme/colors.dart';
+import '../../../../Utils/Strings.dart';
+import '../../../../config/theme/colors.dart';
 
 class FilterSizeWidget extends StatelessWidget {
   @override

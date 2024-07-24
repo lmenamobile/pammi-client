@@ -15,5 +15,10 @@ class BrandRepositoryImpl extends BrandRepository {
     return remoteDataSource.getBrands(filter, page);
   }
 
+  @override
+  List<Brand> searchBrands(String filter) {
+    return remoteDataSource.searchBrands(filter);
+  }
+
 
 }

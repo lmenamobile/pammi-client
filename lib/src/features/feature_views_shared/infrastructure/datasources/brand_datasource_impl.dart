@@ -10,6 +10,9 @@ import '../infrastructure.dart';
 class BrandDatasourceImpl implements BrandDatasource {
 
   final prefs = SharePreference();
+
+  List<Brand> _brands = [];
+
   @override
   Future<List<Brand>> getBrands(String filter, int page) async {
     Map jsonData = {
@@ -30,11 +33,17 @@ class BrandDatasourceImpl implements BrandDatasource {
       for (var item in decodeJson['data']['items']) {
         brands.add(BrandMapper.brandJsonToEntity(item));
       }
+      _brands = brands;
       return brands;
     } else {
       throw decodeJson['message'];
     }
 
+  }
+
+  @override
+  List<Brand> searchBrands(String query) {
+    return _brands.where((brand) => brand.brand.toLowerCase().contains(query.toLowerCase())).toList();
   }
 
 
