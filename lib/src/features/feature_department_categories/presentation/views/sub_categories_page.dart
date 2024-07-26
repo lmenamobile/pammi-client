@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/features/feature_products/presentation/views/products_by_sub_category_page.dart';
+
 
 import '../../../../Utils/Strings.dart';
 import '../../../../Widgets/LoadingProgress.dart';
 import '../../../../Widgets/WidgetsGeneric.dart';
 import '../../../../config/config.dart';
+import '../../../feature_products/presentation/views/products_page.dart';
 import '../../domain/domain.dart';
 import '../presentation.dart';
 
@@ -94,6 +95,6 @@ class _SubCategoriesPageState extends State<SubCategoriesPage> {
     }
 
     void openProductsSubCategories(SubCategory subCategory){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductsByCategoryPage(subCategory: subCategory)));
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductsPage(title: subCategory.subCategory,)));
     }
 }

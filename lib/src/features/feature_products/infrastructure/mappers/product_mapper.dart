@@ -13,9 +13,12 @@ class ProductMapper {
       conditions: json["conditions"],
       featured: json["featured"],
       service: json["service"],
-      applyDevolution: json["applyDevolution"],
+      applyDevolution: json["applyDevolution"] == "apply" ? true : false,
       brandProvider: BrandProviderMapper.brandProviderToJsonEntity(json["brandProvider"]),
       warranty: WarrantyMapper.warrantyToJsonEntity(json["warranty"]),
+      references:List<Reference>.from(json["references"].map((x) => ReferenceMapper.referenceToJsonEntity(x))),
     );
   }
+
+
 }

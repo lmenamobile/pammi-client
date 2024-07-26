@@ -26,7 +26,6 @@ class ProductsCatalog extends StatefulWidget{
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
   late ProviderSettings providerSettings;
-  late ProviderProducts providerProducts;
   SharePreference prefs = SharePreference();
   RefreshController _refreshSubCategories = RefreshController(initialRefresh: false);
 
@@ -35,19 +34,19 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   @override
   void initState() {
-    providerProducts = Provider.of<ProviderProducts>(context,listen: false);
+   // providerProducts = Provider.of<ProviderProducts>(context,listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    getProducts(pageOffset);
+
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    providerProducts = Provider.of<ProviderProducts>(context);
+
     providerSettings = Provider.of<ProviderSettings>(context);
-    return Scaffold(
+    return Container();/*Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -110,9 +109,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           ),
         ),
       ),
-    );
+    );*/
   }
-
+/*
   _searchProducts(String value){
       providerProducts.ltsProductsByCatalog = [];
       getProducts(0);
@@ -156,7 +155,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
-  }
+  }*/
 
 
 

@@ -6,10 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Address/GetAddress.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
-import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
@@ -24,6 +21,7 @@ import 'package:wawamko/src/Widgets/LoadingProgress.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import 'package:wawamko/src/Widgets/widgets.dart';
 
+import '../../../../features/feature_products/domain/domain.dart';
 import 'CheckOut/CheckOutPage.dart';
 import 'Widgets.dart';
 
@@ -34,7 +32,7 @@ class ShopCartPage extends StatefulWidget {
 
 class _ShopCartPageState extends State<ShopCartPage> {
   late ProviderShopCart providerShopCart;
-  late ProviderProducts providerProducts;
+  //late ProviderProducts providerProducts;
   late ProviderUser providerUser;
   late ProviderSettings providerSettings;
   late ProviderCheckOut providerCheckOut;
@@ -43,10 +41,10 @@ class _ShopCartPageState extends State<ShopCartPage> {
   @override
   void initState() {
     providerShopCart = Provider.of<ProviderShopCart>(context, listen: false);
-    providerProducts = Provider.of<ProviderProducts>(context, listen: false);
+    //providerProducts = Provider.of<ProviderProducts>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      providerProducts.ltsProductsRelationsByReference.clear();
+     // providerProducts.ltsProductsRelationsByReference.clear();
       providerShopCart.shopCart = null;
       providerShopCart.totalProductsCart = "0";
       providerShopCart.getLtsReferencesSave(0);
@@ -60,7 +58,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
-    providerProducts = Provider.of<ProviderProducts>(context);
+   /* providerProducts = Provider.of<ProviderProducts>(context);*/
     providerUser = Provider.of<ProviderUser>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
     return Scaffold(
@@ -70,7 +68,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           color: Colors.white,
           child: Column(
             children: [
-              headerDoubleTap2(context, Strings.shopCart,"save_products.png", "ic_remove_white.png", AppColors.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>openProductsSave()),
+              //headerDoubleTap2(context, Strings.shopCart,"save_products.png", "ic_remove_white.png", AppColors.redDot, "0", (){Navigator.pop(context);providerProducts.unitsError.clear();}, ()=>openProductsSave()),
               SizedBox(
                 height: 10,
               ),
@@ -95,7 +93,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                   child: AnimateButton(
                     pressEvent: (){
                       Navigator.pop(context);
-                      providerProducts.unitsError.clear();
+                      //providerProducts.unitsError.clear();
                     },
                     color: AppColors.blue,
                     width: double.infinity,
@@ -127,7 +125,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
 
 
   Widget _showBody(){
-    if( providerSettings.hasConnection && providerShopCart.shopCart == null && !providerShopCart.isLoadingCart && !providerProducts.isLoadingProducts && !providerShopCart.loading){
+  /*  if( providerSettings.hasConnection && providerShopCart.shopCart == null && !providerShopCart.isLoadingCart && !providerProducts.isLoadingProducts && !providerShopCart.loading){
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -169,7 +167,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
           ],
         ),
       );
-    }else if(!providerSettings.hasConnection){
+    }else*/ if(!providerSettings.hasConnection){
       return notConnectionInternet();
     }else if(providerShopCart.isLoadingCart || providerShopCart.loading){
       return LoadingProgress();
@@ -190,7 +188,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
                       customPageTransition(CheckOutPage(),PageTransitionType.fade)).then((value) {
 
                   });
-                providerProducts.unitsError.clear();} ,
+               /* providerProducts.unitsError.clear();*/} ,
             ),
             Column(
               crossAxisAlignment:
@@ -233,13 +231,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
             : providerShopCart.shopCart?.packagesProvider?.length,
         itemBuilder: (BuildContext context, int index) {
 
-          return cardListProductsByProvider(
+          return Container();/*cardListProductsByProvider(
               providerShopCart.shopCart!.packagesProvider![index],
               updateOfferOrProduct,
               callDeleteProduct,
               providerShopCart.hasPrincipalAddress,
               saveProduct,
-              providerProducts);
+              providerProducts);*/
         },
       ),
     );
@@ -256,18 +254,18 @@ class _ShopCartPageState extends State<ShopCartPage> {
 
   Widget listItemsProductsRelations() {
     return ListView.builder(
-      itemCount: providerProducts.ltsProductsRelationsByReference.isEmpty
+      itemCount: 0/*providerProducts.ltsProductsRelationsByReference.isEmpty
           ? 0
           : providerProducts.ltsProductsRelationsByReference.length >= 5
               ? 5
-              : providerProducts.ltsProductsRelationsByReference.length,
+              : providerProducts.ltsProductsRelationsByReference.length*/,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: itemProductRelations(
+            child: Container()/*itemProductRelations(
                 providerProducts.ltsProductsRelationsByReference[index],
-                openDetailProduct));
+                openDetailProduct)*/);
       },
     );
   }
@@ -282,7 +280,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   openDetailProduct(Product product){
-    String? color = product.references[0].color;
+   /* String? color = product.references[0].color;
 
     print("producto y color shopcartpage $color ${product.references[0].images?.length}");
     if(product.references[0].images?.length != 0)
@@ -292,15 +290,15 @@ class _ShopCartPageState extends State<ShopCartPage> {
         providerProducts.limitedQuantityError = false;
         Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.leftToRight));
       }
-    }
+    }*/
   }
 
   callIsFavorite(Reference reference) {
-    if (reference.isFavorite!) {
+   /* if (reference.isFavorite!) {
       removeFavoriteProduct(reference);
     } else {
       saveFavoriteProduct(reference);
-    }
+    }*/
   }
 
   getShopCart() async {
@@ -344,13 +342,13 @@ class _ShopCartPageState extends State<ShopCartPage> {
         Future callCart = providerShopCart.updateQuantityProductCart(idReference, quantity.toString());
         await callCart.then((msg) {
           getShopCart();
-          providerProducts.unitsError.remove(int.parse(idReference) ??  0);
+          /*providerProducts.unitsError.remove(int.parse(idReference) ??  0);
           providerProducts.limitedQuantityError = false;
-          providerProducts.idReference = 0;
+          providerProducts.idReference = 0;*/
           utils.showSnackBarGood(context, msg.toString());
         }, onError: (error) {
-          providerProducts.unitsError.add(int.parse(idReference) ?? 0);
-          providerProducts.limitedQuantityError = true;
+          /*providerProducts.unitsError.add(int.parse(idReference) ?? 0);
+          providerProducts.limitedQuantityError = true;*/
           // utils.showSnackBar(context, error.toString());
         });
       } else {
@@ -510,7 +508,7 @@ class _ShopCartPageState extends State<ShopCartPage> {
   }
 
   getProductsRelations() async {
-    utils.checkInternet().then((value) async {
+   /* utils.checkInternet().then((value) async {
       if (value) {
         //providerShopCart.isLoadingCart = true;
         Future callProducts = providerProducts.getProductsRelationByReference(
@@ -530,11 +528,11 @@ class _ShopCartPageState extends State<ShopCartPage> {
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
-    });
+    });*/
   }
 
   saveFavoriteProduct(Reference reference) async {
-    utils.checkInternet().then((value) async {
+/*    utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerUser.saveAsFavorite(reference.id.toString());
         await callUser.then((msg) {
@@ -544,11 +542,11 @@ class _ShopCartPageState extends State<ShopCartPage> {
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
-    });
+    });*/
   }
 
   removeFavoriteProduct(Reference reference) async {
-    utils.checkInternet().then((value) async {
+/*    utils.checkInternet().then((value) async {
       if (value) {
         Future callUser = providerUser.deleteFavorite(reference.id.toString());
         await callUser.then((msg) {
@@ -558,6 +556,6 @@ class _ShopCartPageState extends State<ShopCartPage> {
       } else {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
-    });
+    });*/
   }
 }

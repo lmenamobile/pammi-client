@@ -1,6 +1,6 @@
 
 import 'package:wawamko/src/Models/GiftCard.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 
 import 'OfferOrder.dart';
 
@@ -11,7 +11,7 @@ class ProductProvider {
     this.qty,
     this.price,
     this.total,
-    this.reference,
+    //this.reference,
     this.offerOrder,
     this.giftCard,
     this.validateTimeClaim
@@ -22,7 +22,7 @@ class ProductProvider {
   String? qty;
   String? price;
   String? total;
-  Reference? reference;
+  //Reference? reference;
   OfferOrder? offerOrder;
   GiftCard? giftCard;
   bool? validateTimeClaim;
@@ -33,7 +33,7 @@ class ProductProvider {
     qty: json["qty"].toString(),
     price: json["price"].toString(),
     total: json["total"].toString(),
-    reference: json["reference"] == null ? null : Reference.fromJson(json["reference"]),
+   // reference: json["reference"] == null ? null : Reference.fromJson(json["reference"]),
     offerOrder: json["offer"] == null ? null : OfferOrder.fromJson(json["offer"]),
     giftCard: json["giftcard"] == null ? null : GiftCard.fromJson(json["giftcard"]),
       validateTimeClaim:json["withdrawalTime"]

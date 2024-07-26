@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
@@ -57,7 +56,7 @@ Widget boxSearch(TextEditingController searchController, Function searchElements
   );
 }
 
-Widget itemProductSearch(Product product, Function openDetail){
+/*Widget itemProductSearch(Product product, Function openDetail){
   return InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
@@ -128,4 +127,4 @@ Widget itemProductSearch(Product product, Function openDetail){
       ),
     ),
   );
-}
+}*/

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/Offer.dart';
-import 'package:wawamko/src/Models/Product/ProductOffer.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
@@ -12,7 +10,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 import '../../../../features/feature_views_shared/domain/domain.dart';
 
 Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
-  return Container(
+  return Container(); /*Container(
     width: 310,
     decoration: BoxDecoration(
       color: Colors.white,
@@ -36,9 +34,9 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              /*itemImageOffer(offer.baseProducts!.isNotEmpty?
-                  offer.baseProducts![getRandomPosition(offer.baseProducts?.length??0)].reference!.images![0].url!:""),*/
-              itemImageOffer((offer.baseProducts != null && offer.baseProducts!.isNotEmpty)
+              *//*itemImageOffer(offer.baseProducts!.isNotEmpty?
+                  offer.baseProducts![getRandomPosition(offer.baseProducts?.length??0)].reference!.images![0].url!:""),*//*
+       *//*       itemImageOffer((offer.baseProducts != null && offer.baseProducts!.isNotEmpty)
                   ? (offer.baseProducts!.length > 0
                   ? (offer.baseProducts![getRandomPosition(offer.baseProducts!.length)].reference?.images != null
                   ? (offer.baseProducts![getRandomPosition(offer.baseProducts!.length)].reference!.images!.isNotEmpty
@@ -46,7 +44,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
                   : "")
                   : "")
                   : "")
-                  : ""),
+                  : ""),*//*
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 width: 1,
@@ -55,7 +53,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
               ),
               Stack(
                 children: [
-                  itemImageOffer(offer.promotionProducts![getRandomPosition(offer.promotionProducts?.length??0)].reference!.images![0].url!),
+                  //itemImageOffer(offer.promotionProducts![getRandomPosition(offer.promotionProducts?.length??0)].reference!.images![0].url!),
                   Positioned(
                     right: 0,
                     top: 0,
@@ -127,7 +125,7 @@ Widget itemOfferUnits(Offer offer, Function addOffer,Function openDetail) {
         ],
       ),
     ),
-  );
+  );*/
 }
 
 Widget itemImageOffer(String url) {
@@ -145,7 +143,7 @@ Widget itemImageOffer(String url) {
   );
 }
 
-Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts,Offer offer,bool isBaseProducts){
+/*Widget itemDescriptionOffer(String description,List<ProductOffer> ltsProducts,Offer offer,bool isBaseProducts){
   return Column(
     mainAxisSize: MainAxisSize.min,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -232,7 +230,7 @@ Widget charactersOffers(Reference reference){
       ),
     ],
   );
-}
+}*/
 
 Widget itemBrandOffer(Brand brandSelected, Brand brand){
   return  Padding(

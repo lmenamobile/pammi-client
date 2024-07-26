@@ -3,9 +3,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/Product/ImageProduct.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -23,6 +20,10 @@ import 'package:wawamko/src/config/theme/colors.dart';
 import 'package:wawamko/src/Utils/utils.dart';
 import 'package:wawamko/src/Widgets/ExpansionWidget.dart';
 import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
+import 'package:wawamko/src/features/feature_products/presentation/presentation.dart';
+import 'package:wawamko/src/features/feature_products/presentation/views/products_page.dart';
+
+import '../../../features/feature_products/domain/domain.dart';
 
 class DetailProductPage extends StatefulWidget {
   final Product? product;
@@ -34,29 +35,28 @@ class DetailProductPage extends StatefulWidget {
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
-  ProviderProducts? providerProducts;
+  late  ProductsProvider providerProducts;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
   late ProviderCheckOut providerCheckOut;
 
   @override
   void initState() {
-    providerProducts = Provider.of<ProviderProducts>(context, listen: false);
+    providerProducts = Provider.of<ProductsProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      providerProducts!.productDetail = widget.product;
-      providerProducts!.referenceProductSelected = widget.product?.references[0];
-      providerProducts?.imageReferenceProductSelected = widget.product?.references[0].images?[0].url ?? "";
-      providerProducts!.unitsProduct = 1;
+
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    providerProducts = Provider.of<ProviderProducts>(context);
+    providerProducts = Provider.of(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
+
+    final product = widget.product;
 
     return Scaffold(
       backgroundColor: AppColors.whiteBackGround,
@@ -75,10 +75,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Container(
                         width: double.infinity,
                         height: 428,
-                        child: isImageYoutubeAction(providerProducts?.imageReferenceProductSelected ?? '',
+                        child: isImageYoutubeAction(product?.getPrincipalReference?.mediaResourcesReference.first.url?? '',
                             InkWell(
                               onTap: () => openZoomImages(),
-                              child: imageReference(Size(double.infinity, 428), providerProducts?.imageReferenceProductSelected ?? ''),
+                              child: imageReference(Size(double.infinity, 428), product?.getPrincipalReference?.mediaResourcesReference.first.url?? ''),
                             )),
                       ),
 
@@ -86,7 +86,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
                         height: 90,
-                        child: listItemsImagesReferences(providerProducts?.referenceProductSelected?.images),
+                        child: listItemsImagesReferences(product?.getPrincipalReference?.mediaResourcesReference),
                       ),
 
                       Align(
@@ -97,7 +97,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                providerProducts?.productDetail?.brandProvider?.brand?.brand ?? '',
+                                product?.brandProvider.brand.brand ?? '',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: Strings.fontBold,
@@ -107,7 +107,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 height: 5,
                               ),
                               Text(
-                                providerProducts?.referenceProductSelected?.reference ?? '',
+                                product?.getPrincipalReference?.referenceName ?? '',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontFamily: Strings.fontBold,
@@ -123,7 +123,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                       fontFamily: Strings.fontBold,
                                       color: AppColors.blackLetter)
                               ),
-                              rowStars(double.parse(providerProducts?.referenceProductSelected?.qualification ?? '0')),
+                              rowStars(product?.getPrincipalReference?.rating?? 0),
                               Visibility(
                                 visible: providerProducts
                                     ?.referenceProductSelected
@@ -259,7 +259,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     );
   }
 
-  Widget sectionDescriptionProduct() {
+/*  Widget sectionDescriptionProduct() {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.whiteBackGround,
@@ -510,6 +510,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   void openShopCart() {
     Navigator.push(context, customPageTransition(ShopCartPage(),PageTransitionType.rightToLeftWithFade));
-  }
+  }*/
 
 }

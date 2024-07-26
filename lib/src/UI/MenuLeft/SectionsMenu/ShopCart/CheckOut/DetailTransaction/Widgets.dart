@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductShopCart.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
@@ -56,13 +56,13 @@ Widget cardItems(PackagesProvider provider) {
         SizedBox(
           height: 8,
         ),
-        listProducts(provider.products)
+        //listProducts(provider.products)
       ],
     ),
   );
 }
 
-Widget itemProduct(Reference? reference) {
+/*Widget itemProduct(Reference? reference) {
   return Container(
     margin: EdgeInsets.only(bottom: 6),
     child: Column(
@@ -81,9 +81,9 @@ Widget itemProduct(Reference? reference) {
       ],
     ),
   );
-}
+}*/
 
-Widget listProducts(List<ProductShopCart>? ltsProducts) {
+/*Widget listProducts(List<ProductShopCart>? ltsProducts) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -99,7 +99,7 @@ Widget listProducts(List<ProductShopCart>? ltsProducts) {
       },
     ),
   );
-}
+}*/
 
 Widget listProductsOrder(List<PackagesProvider>? packagesProvider) {
   return Container(

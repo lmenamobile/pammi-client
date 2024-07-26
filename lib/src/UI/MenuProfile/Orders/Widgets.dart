@@ -339,14 +339,14 @@ Widget itemProductsProvider(
             ],
           ),
           customDivider(),
-          listProducts(
+    /*      listProducts(
               context,
               providerPackage,
               providerPackage.productsProvider,
               isActive,
               isOrderFinish,
               qualification,
-              actionClaim),
+              actionClaim),*/
           /*Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -447,7 +447,7 @@ Widget itemProductsProvider(
   );
 }
 
-Widget itemProduct(
+/*Widget itemProduct(
     BuildContext context,
     PackageProvider providerPackage,
     ProductProvider product,
@@ -622,7 +622,7 @@ Widget itemProduct(
       customDivider()
     ],
   );
-}
+}*/
 
 DataCell cellTableText(String text, Color color) {
   return DataCell(Center(
@@ -639,6 +639,7 @@ DataCell cellTableText(String text, Color color) {
   ));
 }
 
+/*
 Widget itemProductOffer(PackageProvider providerPackage,
     ProductProvider product, bool isActive, Function qualification) {
   return Column(
@@ -680,9 +681,11 @@ Widget itemProductOffer(PackageProvider providerPackage,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Revisar codigo",/*product.offerOrder?.baseProducts?[0].reference
+                  "Revisar codigo",*/
+/*product.offerOrder?.baseProducts?[0].reference
                           ?.brandAndProduct?.brandProvider?.brand?.brand ??
-                      ''*/
+                      ''*//*
+
                   style: TextStyle(
                     fontFamily: Strings.fontRegular,
                     fontSize: 12,
@@ -717,7 +720,9 @@ Widget itemProductOffer(PackageProvider providerPackage,
     ],
   );
 }
+*/
 
+/*
 Widget listProducts(
     BuildContext context,
     PackageProvider providerPackage,
@@ -743,6 +748,7 @@ Widget listProducts(
     ),
   );
 }
+*/
 
 Widget sectionSeller(PackageProvider providerPackage, OrderDetail? order,
     Seller? seller, Function qualification, bool isActive, Function openChat) {

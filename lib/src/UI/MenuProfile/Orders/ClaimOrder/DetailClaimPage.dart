@@ -114,10 +114,10 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
-                          Padding(
+                         /* Padding(
                             padding: const EdgeInsets.all(15),
                             child: sectionProvider(providerClaimOrder.detailClaim ?? d.DetailClaim(),openChatProvider),
-                          ),
+                          ),*/
                           Container(
                             margin: EdgeInsets.only(bottom: 15),
                             decoration: BoxDecoration(
@@ -347,10 +347,10 @@ class _DetailClaimPageState extends State<DetailClaimPage> {
           ),
         ),
         children: [
-          Padding(
+        /*  Padding(
             padding: const EdgeInsets.all(15),
             child: itemProductClaim(providerClaimOrder.detailClaim!.orderPackageDetail!),
-          )
+          )*/
         ],
       ),
     );

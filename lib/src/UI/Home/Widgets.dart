@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:wawamko/src/Models/Product/Product.dart';
+
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -164,6 +164,7 @@ Widget itemSelectBrand(Brand brand,Function selectBrand,bool selected){
 }
 
 
+/*
 Widget itemProduct(Product product){
   return Container(
     width: 150,
@@ -309,4 +310,4 @@ Widget itemProduct(Product product){
       ],
     ),
   );
-}
+}*/

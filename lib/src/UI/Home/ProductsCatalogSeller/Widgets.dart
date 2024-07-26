@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 
 import '../Widgets.dart';
 
+/*
 Widget itemProductCatalog(Product product){
   return Container(
     width: 160,
@@ -83,4 +83,4 @@ Widget itemProductCatalog(Product product){
       ),
     ),
   );
-}
+}*/

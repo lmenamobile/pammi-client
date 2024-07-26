@@ -5,7 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wawamko/src/Animations/animate_button.dart';
 import 'package:wawamko/src/Models/Category.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
+
 import 'package:wawamko/src/Models/SubCategory.dart';
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
@@ -13,6 +13,7 @@ import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 
+import '../../../features/feature_products/domain/domain.dart';
 import '../../../features/feature_views_shared/domain/domain.dart';
 
 Widget itemCategoryRow(Category category, Function openSubcategory){
@@ -122,7 +123,7 @@ Widget itemBrandRow(Brand brand, Function openProducts){
 }
 
 Widget itemProductRelations(Product product, Function openDetail){
-  return InkWell(
+  return Container();/*InkWell(
     onTap: ()=>openDetail(product),
     child: Container(
       width: 160,
@@ -193,120 +194,9 @@ Widget itemProductRelations(Product product, Function openDetail){
         ),
       ),
     ),
-  );
+  );*/
 }
 
-Widget itemProductCategory(Product product, Function openDetail,Function callFavorite){
-  return InkWell(
-    onTap: ()=>openDetail(product),
-    child: Container(
-        width: 180.0,
-        height: 318.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 3,
-            offset: Offset(0, 2), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                width: 180,
-                height: 180,
-                child: product.references[0].images!.isEmpty?Image.asset("Assets/images/spinner.gif"):
-                    isImageYoutube(product.references[0].images?[0].url??'',
-                FadeInImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(product.references[0].images?[0].url??''),
-                  placeholder: AssetImage("Assets/images/spinner.gif"),
-                  imageErrorBuilder: (_,__,___){
-                    return Container();
-                  },
-                )),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.brandProvider?.brand?.brand??'',
-                        maxLines: 2,
-                        style: TextStyle(
-                          height: 1,
-                          fontFamily: Strings.fontRegular,
-                          fontSize: 13,
-                          color: AppColors.gray7,
-                        ),
-                      ),
-                      Text(
-                        product.references[0].reference??'',
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontFamily: Strings.fontMedium,
-                          fontSize: 16,
-                          color: AppColors.blackLetter,
-                        ),
-                      ),
-
-                      Text(
-                        formatMoney( product.references[0].price??'0'),
-                        style: TextStyle(
-                          fontFamily: Strings.fontRegular,
-                          fontSize: 18,
-                          color: AppColors.orange,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-
-          Positioned(
-            top: 3,
-              right: 3,
-              child: Visibility(
-                visible: userIsLogged()?true:false,
-                child: InkWell(
-                  onTap: ()=>callFavorite(product.references[0]),
-                    child: favorite(product.references[0].isFavorite??false)),
-              )),
-
-          Positioned(
-              top: 3,
-              left: 3,
-              child: Visibility(
-                visible: product.references[0].totalProductOffer!.status??false,
-                child: CircleAvatar(
-                  radius: 11,
-                  backgroundColor: AppColors.redTour,
-                  child: Center(
-                    child: Text(
-                      product.references[0].totalProductOffer!.discountValue!+"%",
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white
-                      ),
-                    ),
-                  ),
-                ),
-              )),
-        ],
-      ),
-    ),
-  );
-}
 
 Widget favorite(bool isFavorite){
   return Container(

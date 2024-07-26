@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
+
 import 'package:wawamko/src/Providers/ConectionStatus.dart';
 import 'package:wawamko/src/Providers/ProfileProvider.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
@@ -10,7 +10,7 @@ import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/UI/Home/Brands/BrandsPage.dart';
-import 'package:wawamko/src/features/feature_products/presentation/views/products_by_sub_category_page.dart';
+
 import 'package:wawamko/src/UI/Home/SearchProduct/SearchProductHome.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/ShopCart/ShopCartPage.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late ProviderSettings providerSettings;
   late ProviderHome providerHome;
   late ProfileProvider profileProvider;
-  late ProviderProducts providerProducts;
+ // late ProviderProducts providerProducts;
   late ProviderShopCart providerShopCart;
 
   late DepartmentProvider departmentProvider;
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
-    providerProducts = Provider.of<ProviderProducts>(context);
+   // providerProducts = Provider.of<ProviderProducts>(context);
     providerChat = Provider.of<ProviderChat>(context);
     socketService = Provider.of<SocketService>(context);
     departmentProvider = Provider.of<DepartmentProvider>(context);

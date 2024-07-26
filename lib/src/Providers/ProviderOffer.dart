@@ -28,7 +28,7 @@ class ProviderOffer with ChangeNotifier {
   Offer get detailOffer => this._detailOffer;
   set detailOffer(Offer value) {
     this._detailOffer = value;
-    this.imageSelected = value.baseProducts![0].reference!.images![0].url;
+    //this.imageSelected = value.baseProducts![0].reference!.images![0].url;
     notifyListeners();
   }
 

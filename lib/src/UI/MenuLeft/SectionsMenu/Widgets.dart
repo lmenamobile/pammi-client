@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:wawamko/src/Models/Product/ProductFavorite.dart';
+
 import 'package:wawamko/src/UI/Home/Widgets.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/config/theme/colors.dart';
 
-Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Function removeFavorite){
+/*Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Function removeFavorite){
   return InkWell(
     onTap: ()=>openDetail(product.reference?.brandAndProduct?.id.toString()),
     child: Container(
@@ -86,7 +86,7 @@ Widget itemProductFavorite(ProductFavorite  product, Function openDetail,Functio
       ),
     ),
   );
-}
+}*/
 
 Widget favorite(bool isFavorite,String idReference,Function callFavorite){
   return InkWell(

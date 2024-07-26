@@ -1,5 +1,5 @@
 
-import 'Product/Reference.dart';
+
 import 'SubCategory.dart';
 
 class OfferHighlights {
@@ -10,7 +10,7 @@ class OfferHighlights {
     this.discountValue,
     this.imageBanner,
     this.brandProvider,
-    this.reference,
+    //this.reference,
     this.subcategory,
   });
 
@@ -20,7 +20,7 @@ class OfferHighlights {
   String? discountValue;
   String? imageBanner;
   String? brandProvider;
-  Reference? reference;
+ // Reference? reference;
   SubCategory? subcategory;
 
   factory OfferHighlights.fromJson(Map<String, dynamic> json) => OfferHighlights(
@@ -30,7 +30,7 @@ class OfferHighlights {
     discountValue: json["discountValue"].toString(),
     imageBanner: json["imageBanner"],
     brandProvider:json["brandProvider"]==null?null: json["brandProvider"]["id"].toString(),
-    reference: json["reference"]==null?null:Reference.fromJson(json["reference"]),
+    //reference: json["reference"]==null?null:Reference.fromJson(json["reference"]),
     subcategory: json["subcategory"]==null?null:SubCategory.fromJson(json["subcategory"]),
   );
 
@@ -40,7 +40,7 @@ class OfferHighlights {
     "offerType": offerType,
     "discountValue": discountValue,
     "imageBanner": imageBanner,
-    "reference": reference!.toJson(),
+    //"reference": reference!.toJson(),
     "subcategory": subcategory!.toJson(),
   };
 }

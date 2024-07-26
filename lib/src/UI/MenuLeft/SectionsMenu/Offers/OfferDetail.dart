@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wawamko/src/Models/Offer.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 import 'package:wawamko/src/Providers/ProviderCheckOut.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
@@ -33,7 +33,12 @@ class OfferDetail extends StatefulWidget {
 }
 
 class _OfferDetailState extends State<OfferDetail> {
-  ProviderOffer? providerOffer;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+  /*ProviderOffer? providerOffer;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
   late ProviderProducts providerProducts;
@@ -64,7 +69,7 @@ class _OfferDetailState extends State<OfferDetail> {
           color:  Colors.white,
           child: Column(
             children: [
-             
+
               headerDoubleTapMenu(context, widget.nameOffer ?? '', "ic_car.png", "", AppColors.redDot, providerShopCart.totalProductsCart, () => Navigator.pop(context), (){Navigator.push(context,
                   customPageTransition(ShopCartPage(),PageTransitionType.fade));providerProducts.limitedQuantityError = false;}),
               Expanded(
@@ -375,7 +380,7 @@ class _OfferDetailState extends State<OfferDetail> {
   }
 
   Widget listProductsGiftOffer() {
-    return Container();/*ListView.builder(
+    return Container();*//*ListView.builder(
       itemCount: providerOffer?.detailOffer.promotionProducts == null
           ? 0
           : providerOffer?.detailOffer.promotionProducts?.length,
@@ -387,7 +392,7 @@ class _OfferDetailState extends State<OfferDetail> {
                 providerOffer!.detailOffer.promotionProducts![index].reference!,
                 providerOffer?.detailOffer.brandProvider?.brand?.brand,providerOffer!.detailOffer));
       },
-    );*/
+    );*//*
   }
 
   setImageReference(String? asset) {
@@ -483,7 +488,7 @@ class _OfferDetailState extends State<OfferDetail> {
         utils.showSnackBar(context, Strings.internetError);
       }
     });
-  }
+  }*/
 
 
 }

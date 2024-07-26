@@ -14,6 +14,7 @@ class Product {
   final bool applyDevolution;
   final BrandProvider brandProvider;
   final Warranty warranty;
+  final List<Reference> references;
 
 
   Product({
@@ -28,11 +29,25 @@ class Product {
     required this.applyDevolution,
     required this.brandProvider,
     required this.warranty,
+    required this.references,
   });
+
+  Reference? get getPrincipalReference {
+    if (references.isEmpty) {
+      return null;
+    }
+    try {
+      return references.firstWhere((element) => element.isPrincipal);
+    } catch (e) {
+      return references.first;
+    }
+  }
 
   @override
   String toString () {
     return 'Product(id: $productId, sku: $sku, nameProduct: $nameProduct, characteristics: $characteristics, linkVideo: $linkVideo, conditions: $conditions, featured: $featured, service: $service, applyDevolution: $applyDevolution, brandProvider: $brandProvider, warranty: $warranty)';
   }
+
+
 
 }

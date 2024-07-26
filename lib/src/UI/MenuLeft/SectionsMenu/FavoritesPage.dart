@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
@@ -31,7 +30,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   RefreshController _refreshFavorites = RefreshController(initialRefresh: false);
   late ProviderUser providerUser;
-  late ProviderProducts providerProducts;
+
   late ProviderHome providerHome;
   late ProviderSettings providerSettings;
   int pageOffset = 0;
@@ -40,18 +39,17 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   void initState() {
     providerUser = Provider.of<ProviderUser>(context, listen: false);
-    providerUser.ltsProductsFavorite.clear();
-    getProductsFavorites();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     providerUser = Provider.of<ProviderUser>(context);
-    providerProducts = Provider.of<ProviderProducts>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerHome = Provider.of<ProviderHome>(context);
-    return Scaffold(
+    return Container();
+   /* return Scaffold(
       backgroundColor: AppColors.redTour,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
@@ -139,9 +137,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
           ),
         ),
       ),
-    );
+    );*/
   }
-
+/*
   Widget listItemsProductsRelations() {
     return ListView.builder(
       itemCount: providerProducts.ltsProductsRelationsByReference.isEmpty?0:providerProducts.ltsProductsRelationsByReference.length,
@@ -279,5 +277,5 @@ class _FavoritesPageState extends State<FavoritesPage> {
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
-  }
+  }*/
 }

@@ -9,6 +9,8 @@ class Reference {
   final String price;
   final String iva;
   final int stock;
+  final bool isPrincipal;
+  final double rating;
   final List<MediaResourceReference> mediaResourcesReference;
   final List<CommentReference> commentsReference;
 
@@ -20,6 +22,8 @@ class Reference {
     required this.price,
     required this.iva,
     required this.stock,
+    required this.isPrincipal,
+    required this.rating,
     required this.mediaResourcesReference,
     required this.commentsReference,
   });

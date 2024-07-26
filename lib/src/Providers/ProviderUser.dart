@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:wawamko/src/Models/Product/ProductFavorite.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
@@ -15,6 +14,7 @@ class ProviderUser with ChangeNotifier {
     this._isLoadingUser = value;
     notifyListeners();
   }
+/*
 
   List<ProductFavorite> _ltsProductsFavorite= [];
   List<ProductFavorite> get ltsProductsFavorite => this._ltsProductsFavorite;
@@ -22,7 +22,8 @@ class ProviderUser with ChangeNotifier {
     this._ltsProductsFavorite.addAll(value);
     notifyListeners();
   }
-
+*/
+/*
   Future<dynamic> getProductsFavorites(int offset,) async {
     this.isLoadingUser = true;
     final header = {
@@ -61,7 +62,7 @@ class ProviderUser with ChangeNotifier {
       throw decodeJson!['message'];
     }
 
-  }
+  }*/
 
   Future<dynamic> saveAsFavorite(String idReferenceProduct) async {
     this.isLoadingUser = true;

@@ -93,7 +93,7 @@ class _ProductsSavePageState extends State<ProductsSavePage> {
       itemCount: providerShopCart.ltsProductsSave.isEmpty ? 0 : providerShopCart.ltsProductsSave.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (_, int index) {
-        return itemProductSave(providerShopCart.ltsProductsSave[index],addProductCart,deleteReference);
+        return Container();/*itemProductSave(providerShopCart.ltsProductsSave[index],addProductCart,deleteReference);*/
       },
     );
   }

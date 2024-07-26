@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:wawamko/src/Models/GiftCard.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductOfferCart.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductShopCart.dart';
@@ -16,7 +15,7 @@ import 'package:wawamko/src/Widgets/WidgetsGeneric.dart';
 
 import '../../../../Providers/ProviderProducts.dart';
 
-Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
+/*Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product, Function updateQuantity, Function deleteProduct, Function saveProduct) {
   return Column(
     children: [
       Container(
@@ -130,7 +129,7 @@ Widget itemProductCart(ProviderProducts providerProducts,ProductShopCart product
       )
     ],
   );
-}
+}*/
 
 Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function updateQuantity,Function deleteProduct,Function saveProduct) {
   return Column(
@@ -155,7 +154,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
       SizedBox(
         height: 2,
       ),
-      Row(
+/*      Row(
         children: [
           Container(
             width: 130,
@@ -186,7 +185,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                     color: AppColors.gray7,
                   ),
                 ),
-                Text(
+            *//*    Text(
                   offer.reference?.reference ?? '',
                   maxLines: 2,
                   style: TextStyle(
@@ -194,8 +193,8 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
                     fontSize: 13,
                     color: AppColors.blackLetter,
                   ),
-                ),
-                viewPriceOffer(offer),
+                ),*//*
+                ///viewPriceOffer(offer),
                 //update Quantity
                 Row(
                   children: [
@@ -230,7 +229,7 @@ Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer,Function up
             ),
           )
         ],
-      ),
+      ),*/
       Container(
         height: 1,
         width: double.infinity,
@@ -363,7 +362,7 @@ Widget itemGiftCart(ProductShopCart product,GiftCard? giftCard,Function updateQu
   );
 }
 
-Widget itemOfferProductGift(Reference? reference){
+/*Widget itemOfferProductGift(Reference? reference){
   return Container(
 
     child: Column(
@@ -439,9 +438,9 @@ Widget itemOfferProductGift(Reference? reference){
       ],
     ),
   );
-}
+}*/
 
-Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
+/*Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
   return Container(
     width: 230,
     height: 110,
@@ -455,9 +454,9 @@ Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
       ),
     ),
   );
-}
+}*/
 
-Widget itemCardGiftProduct(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct){
+/*Widget itemCardGiftProduct(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct){
   return Column(
     children: [
       sliderCardOffer(product, updateQuantity, deleteProduct, saveProduct),
@@ -466,7 +465,7 @@ Widget itemCardGiftProduct(ProductShopCart product,Function updateQuantity,Funct
           child: sliderProductGift(product.offer!.promotionProducts))
     ],
   );
-}
+}*/
 
 Widget sliderCardOffer(ProductShopCart product,Function updateQuantity,Function deleteProduct,Function saveProduct){
   return Container(
@@ -486,7 +485,7 @@ Widget sliderCardOffer(ProductShopCart product,Function updateQuantity,Function 
   );
 }
 
-Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteProduct) {
+/*Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteProduct) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -542,7 +541,7 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                         color: AppColors.gray7,
                       ),
                     ),
-                    Text(
+                 *//*   Text(
                       product.reference?.reference ?? '',
                       maxLines: 2,
                       style: TextStyle(
@@ -550,8 +549,8 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
                         fontSize: 13,
                         color: AppColors.blackLetter,
                       ),
-                    ),
-                    viewPrice(product),
+                    ),*//*
+                    //viewPrice(product),
                   ],
                 ),
               )
@@ -566,26 +565,26 @@ Widget itemProductSave(ProductShopCart product,Function addCart,Function deleteP
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(
+            *//*  Expanded(
                   child: customButton("ic_shopping_white.png", Strings.addCartShop,
-                      AppColors.gray7, (){addCart(int.parse(product.qty!),product.reference?.id.toString());})),
+                      AppColors.gray7, (){addCart(int.parse(product.qty!),product.reference?.id.toString());})),*//*
               Container(
                 height: 40,
                 width: 1,
                 color: AppColors.grayBackground,
               ),
-              Expanded(
+              *//*Expanded(
                   child: customButton("ic_remove.png", Strings.delete,
-                      AppColors.redTour, (){deleteProduct(product.reference?.id.toString());})),
+                      AppColors.redTour, (){deleteProduct(product.reference?.id.toString());})),*//*
             ],
           )
         ],
       ),
     ),
   );
-}
+}*/
 
-Widget viewPrice(ProductShopCart product) {
+/*Widget viewPrice(ProductShopCart product) {
   return product.reference?.totalProductOffer != null
       ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -618,21 +617,21 @@ Widget viewPrice(ProductShopCart product) {
             color: AppColors.orange,
           ),
         );
-}
+}*/
 
-Widget viewPriceOffer(ProductOfferCart offer) {
+/*Widget viewPriceOffer(ProductOfferCart offer) {
   return offer.reference != null
       ? Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(
+   *//*   Text(
         formatMoney(offer.reference?.price ??
             '0'),
         style: TextStyle(
           fontFamily: Strings.fontBold,
           color: AppColors.orange,
         ),
-      )
+      )*//*
     ],
   )
       : Text(
@@ -642,7 +641,7 @@ Widget viewPriceOffer(ProductOfferCart offer) {
       color: AppColors.orange,
     ),
   );
-}
+}*/
 
 Widget containerCustom(Widget item) {
   return Container(
@@ -694,7 +693,8 @@ Widget customButton(String icon, String text, Color colorText, Function action) 
   );
 }
 
-Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save,ProviderProducts providerProducts) {
+/*Widget cardListProductsByProvider(PackagesProvider provider,
+    Function updateQuantity,Function delete,bool hasPrincipalAddress, Function save,ProviderProducts providerProducts) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
@@ -860,14 +860,14 @@ Widget cardListProductsByProvider(PackagesProvider provider,Function updateQuant
                 ),
               ),
               SizedBox(height: 8,),
-              listProducts(providerProducts,provider,provider.products, updateQuantity,delete,save)
+              //listProducts(providerProducts,provider,provider.products, updateQuantity,delete,save)
             ],
           )
         ],
       ),
     ),
   );
-}
+}*/
 
 Widget listGiftCard(List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete) {
   return Container(
@@ -882,35 +882,36 @@ Widget listGiftCard(List<ProductShopCart>? ltsProducts, Function updateQuantity,
   );
 }
 
-Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
+/*Widget listProducts(ProviderProducts providerProducts,PackagesProvider provider,
+    List<ProductShopCart>? ltsProducts, Function updateQuantity, Function delete, Function save) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: ltsProducts == null ? 0 : ltsProducts.length,
       itemBuilder: (BuildContext context, int index) {
-        if(ltsProducts![index].reference!=null){
-          return Column(
+     *//*   if(ltsProducts![index].reference!=null){
+          return Container();*//**//*Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               unitsContainer(providerProducts,provider,ltsProducts[index]),
               itemProductCart(providerProducts,ltsProducts[index], updateQuantity,delete,save),
             ],
-          );
+          );*//**//*
         }else{
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              unitsContainer(providerProducts,provider,ltsProducts[index]),
+              //unitsContainer(providerProducts,provider,ltsProducts[index]),
               itemCardGiftProduct(ltsProducts[index], updateQuantity, delete, save),
             ],
           );
-        }
+        }*//*
 
       },
     ),
   );
-}
+}*/
 
 Widget itemSubtotalCart(TotalCart? total,String shippingValue, Function openProductsSave, Function openCheckOut){
   return Column(
@@ -992,24 +993,24 @@ Widget itemValueShopCar(String label, String? value,bool isStyleBold){
   );
 }
 
-Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provider,ProductShopCart ltsProducts){
+/*Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provider,ProductShopCart ltsProducts){
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(
+   *//*   Text(
         Strings.quantityAvailable + " ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty}",
         style: TextStyle(fontSize: 13, color: AppColors.blue5, fontFamily: Strings.fontMedium,),
-      ),
+      ),*//*
 
       Visibility(
-        visible: providerProducts.unitsError.contains(ltsProducts.reference?.id) ? true :false,
+        visible: *//*providerProducts.unitsError.contains(ltsProducts.reference?.id) ? true *//*false,
         child: Container(
           margin: EdgeInsets.only(top:5),
           decoration: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(15),),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "${Strings.youCanOnlyCarry} ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty} unidades",
+             "",*//* "${Strings.youCanOnlyCarry} ${ltsProducts.reference?.qty != null ? ltsProducts.reference?.qty : ltsProducts.offer?.promotionProducts?[0].reference?.qty} unidades",*//*
               style: TextStyle(fontSize: 14, fontFamily: Strings.fontRegular, color: AppColors.blueDarkSplash,),
             ),
           ),
@@ -1017,5 +1018,5 @@ Widget unitsContainer(ProviderProducts providerProducts,PackagesProvider provide
       ),
     ],
   );
-}
+}*/
 

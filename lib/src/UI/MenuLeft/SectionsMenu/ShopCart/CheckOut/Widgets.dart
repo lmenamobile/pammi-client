@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wawamko/src/Models/Address.dart';
 import 'package:wawamko/src/Models/PaymentMethod.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Models/ShopCart/PackageProvider.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductOfferCart.dart';
 import 'package:wawamko/src/Models/ShopCart/ProductShopCart.dart';
@@ -668,7 +667,7 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
               SizedBox(
                 height: 10,
               ),
-              listProducts(provider.products)
+              //listProducts(provider.products)
             ],
           )
         ],
@@ -677,7 +676,7 @@ Widget cardListProductsCheckOut(PackagesProvider provider) {
   );
 }
 
-Widget listProducts(List<ProductShopCart>? ltsProducts) {
+/*Widget listProducts(List<ProductShopCart>? ltsProducts) {
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -693,9 +692,9 @@ Widget listProducts(List<ProductShopCart>? ltsProducts) {
       },
     ),
   );
-}
+}*/
 
-Widget itemProductCart(ProductShopCart product) {
+/*Widget itemProductCart(ProductShopCart product) {
   return Column(
     children: [
       Container(
@@ -759,9 +758,9 @@ Widget itemProductCart(ProductShopCart product) {
       ),
     ],
   );
-}
+}*/
 
-Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
+/*Widget itemOfferCart(ProductShopCart product, ProductOfferCart offer) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -907,9 +906,9 @@ Widget itemOfferProductGift(Reference? reference){
       ],
     ),
   );
-}
+}*/
 
-Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
+/*Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
   return Container(
     width: 230,
     height: 110,
@@ -922,20 +921,20 @@ Widget sliderProductGift(List<ProductOfferCart>? promotionProducts){
       ),
     ),
   );
-}
+}*/
 
 Widget itemCardGiftProduct(ProductShopCart product){
   return Column(
     children: [
-      sliderCardOffer(product,),
-      Align(
+      //sliderCardOffer(product,),
+     /* Align(
           alignment: Alignment.centerRight,
-          child: sliderProductGift(product.offer!.promotionProducts))
+          child: sliderProductGift(product.offer!.promotionProducts))*/
     ],
   );
 }
 
-Widget sliderCardOffer(ProductShopCart product){
+/*Widget sliderCardOffer(ProductShopCart product){
   return Container(
     height: 160,
     child: CarouselSlider.builder(
@@ -949,7 +948,7 @@ Widget sliderCardOffer(ProductShopCart product){
       ),
     ),
   );
-}
+}*/
 
 Widget listProductsCheckOut(List<PackagesProvider>? packagesProvider) {
   return Container(

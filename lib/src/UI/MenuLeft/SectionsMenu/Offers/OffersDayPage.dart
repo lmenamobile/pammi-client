@@ -29,7 +29,6 @@ class _OffersDayPageState extends State<OffersDayPage> {
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   final searchController = TextEditingController();
   RefreshController _refreshView = RefreshController(initialRefresh: false);
-  late ProviderProducts providerProducts;
   late ProviderHome providerHome;
   late ProviderShopCart providerShopCart;
   late ProviderSettings providerSettings;
@@ -39,25 +38,25 @@ class _OffersDayPageState extends State<OffersDayPage> {
 
   @override
   void initState() {
-    providerHome = Provider.of<ProviderHome>(context, listen: false);
+   /* providerHome = Provider.of<ProviderHome>(context, listen: false);
     providerProducts = Provider.of<ProviderProducts>(context, listen: false);
 
     providerProducts.ltsOfferUnits.clear();
     providerProducts.ltsOfferMix.clear();
     getOffersUnits(Constants.offersUnits, "", pageOffsetUnits);
-    getOffersMix(Constants.offersMix, "", pageOffsetMix);
+    getOffersMix(Constants.offersMix, "", pageOffsetMix);*/
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    providerProducts = Provider.of<ProviderProducts>(context);
+  /*  providerProducts = Provider.of<ProviderProducts>(context);*/
     providerHome = Provider.of<ProviderHome>(context);
     providerShopCart = Provider.of<ProviderShopCart>(context);
     providerSettings = Provider.of<ProviderSettings>(context);
     providerCheckOut = Provider.of<ProviderCheckOut>(context);
 
-    return Scaffold(
+    return Container(); /*Scaffold(
       backgroundColor: Colors.white,
       key: keyMenuLeft,
       drawer: DrawerMenuPage(
@@ -161,7 +160,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
           ),
         ),
       ),
-    );
+    );*/
   }
 
   Widget header() {
@@ -243,7 +242,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
     );
   }
 
-  Widget listOffersUnits() {
+ /* Widget listOffersUnits() {
     return ListView.builder(
       itemCount: providerProducts.ltsOfferUnits.isEmpty ? 0 : providerProducts.ltsOfferUnits.length,
       scrollDirection: Axis.horizontal,
@@ -258,7 +257,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
 
   Widget listBrands() {
     return Container();
-    /*return ListView.builder(
+    *//*return ListView.builder(
       itemCount: providerHome.ltsBrands.isEmpty ? 0 : providerHome.ltsBrands.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
@@ -269,7 +268,7 @@ class _OffersDayPageState extends State<OffersDayPage> {
           },
             child: itemBrandOffer(providerHome.selectedBrand,providerHome.ltsBrands[index]));
       },
-    );*/
+    );*//*
   }
 
   Widget listOffersMix() {
@@ -354,5 +353,5 @@ class _OffersDayPageState extends State<OffersDayPage> {
     providerProducts.ltsOfferMix.clear();
     getOffersUnits(Constants.offersUnits, brandId, pageOffsetUnits);
     getOffersMix(Constants.offersMix, brandId, pageOffsetMix);
-  }
+  }*/
 }

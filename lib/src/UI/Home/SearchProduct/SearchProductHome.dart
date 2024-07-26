@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:wawamko/src/Models/Product/Product.dart';
+
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/Home/SearchProduct/CommentProductNotFound.dart';
@@ -25,23 +25,23 @@ class SearchProductHome extends StatefulWidget {
 
 class _SearchProductHomeState extends State<SearchProductHome> {
   final searchController = TextEditingController();
-  late ProviderProducts providerProducts;
+
   int pageOffset = 0;
 
   @override
   void initState() {
     searchController.text = widget.textSearch;
-    providerProducts = Provider.of<ProviderProducts>(context,listen: false);
-    providerProducts.ltsProductsSearch.clear();
+   /* providerProducts = Provider.of<ProviderProducts>(context,listen: false);
+    providerProducts.ltsProductsSearch.clear();*/
     if(widget.textSearch.isNotEmpty) {
-      getProducts(widget.textSearch);
+
     }
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    providerProducts = Provider.of<ProviderProducts>(context);
-    return Scaffold(
+    //providerProducts = Provider.of<ProviderProducts>(context);
+    return Container();/*Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -94,10 +94,10 @@ class _SearchProductHomeState extends State<SearchProductHome> {
           ),
         ),
       ),
-    );
+    );*/
   }
 
-  callSearchProducts(String value){
+ /* callSearchProducts(String value){
     FocusScope.of(context).unfocus();
     providerProducts.ltsProductsSearch.clear();
     if(value.isNotEmpty) {
@@ -136,5 +136,5 @@ class _SearchProductHomeState extends State<SearchProductHome> {
         Navigator.push(context, customPageTransition(DetailProductPage(product: product),PageTransitionType.rightToLeftWithFade));
       }
     }
-  }
+  }*/
 }

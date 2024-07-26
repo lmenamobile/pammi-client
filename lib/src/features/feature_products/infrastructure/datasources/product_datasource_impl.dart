@@ -7,19 +7,23 @@ import '../../domain/domain.dart';
 import '../infrastructure.dart';
 
 class ProductDatasourceImpl implements ProductDatasource {
+
   @override
-  Future<List<Product>> getProducts(int brandProvider, int categoryId,
-      int subCategoryId, int page,List<int> filterIds) async {
+  Future<List<Product>> getProducts(int? brandProvider, int? categoryId,
+      int? subCategoryId, int page,List<int>? filterIds) async {
     Map jsonData = {
       "filter": "",
-      "limit": 30,
       "offset": page,
-      "brandProviderId": brandProvider,
-      "categoryId": categoryId,
-      "subCategoryId": subCategoryId,
-      "filterIds": filterIds
+      "limit": 30,
+      "brandProviderId": brandProvider??"",
+      "subcategoryId": subCategoryId??"",
+      "categoryId": categoryId??"",
+      "price": "",
+      "orderBy": "",
+      "userId": "",
+      "brandId": "",
+      "filterIds": filterIds??[]
     };
-
     final response = await http.post(Uri.parse(ApiRoutes.getProducts),
         headers: ApiHeaders().getHeaderAccessToken(), body: jsonEncode(jsonData))
         .timeout(ApiHeaders().timeOut)

@@ -1,5 +1,5 @@
 
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 
 class DetailClaim {
   DetailClaim({
@@ -80,7 +80,7 @@ class OrderPackageDetail {
     this.qty,
     this.price,
     this.total,
-    this.reference,
+    //this.reference,
     this.orderPackage
   });
 
@@ -88,7 +88,7 @@ class OrderPackageDetail {
   String? qty;
   String? price;
   String? total;
-  Reference? reference;
+//  Reference? reference;
   OrderPackage? orderPackage;
 
   factory OrderPackageDetail.fromJson(Map<String, dynamic> json) => OrderPackageDetail(
@@ -96,7 +96,7 @@ class OrderPackageDetail {
     qty: json["qty"].toString(),
     price: json["price"].toString(),
     total: json["total"].toString(),
-    reference: Reference.fromJson(json["reference"]),
+    ///reference: Reference.fromJson(json["reference"]),
     orderPackage: OrderPackage.fromJson(json["orderPackage"])
   );
 

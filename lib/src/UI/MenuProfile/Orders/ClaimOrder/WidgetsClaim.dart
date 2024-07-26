@@ -346,7 +346,7 @@ Widget itemDescriptionDetailClaim(String text, String value) {
   );
 }
 
-Widget itemProductClaim(data.OrderPackageDetail detail){
+/*Widget itemProductClaim(data.OrderPackageDetail detail){
   return Column(
     children: [
       Row(
@@ -438,7 +438,7 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
               ],
               rows: [DataRow(cells: <DataCell>[
                 cellTableText(detail.qty??'0',AppColors.blackLetter),
-                cellTableText(detail.reference?.brandAndProduct?.warranty?.warrantyProduct??'',AppColors.blackLetter),
+               // cellTableText(detail.reference?.brandAndProduct?.warranty?.warrantyProduct??'',AppColors.blackLetter),
                 cellTableText( formatMoney(detail.total??'0'),AppColors.orange),
               ])],
             ),
@@ -448,7 +448,7 @@ Widget itemProductClaim(data.OrderPackageDetail detail){
 
     ],
   );
-}
+}*/
 
 DataCell cellTableText(String text,Color color) {
   return DataCell(
@@ -506,7 +506,7 @@ Widget sectionDataGuide(){
     );
 }
 
-Widget sectionProvider(data.DetailClaim claim,Function openChat){
+/*Widget sectionProvider(data.DetailClaim claim,Function openChat){
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -554,7 +554,7 @@ Widget sectionProvider(data.DetailClaim claim,Function openChat){
       ),
     ),
   );
-}
+}*/
 
 Widget btnMakeClaim(){
   return Container(

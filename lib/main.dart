@@ -16,7 +16,6 @@ import 'package:wawamko/src/Providers/ProviderCustomerService.dart';
 import 'package:wawamko/src/Providers/ProviderHome.dart';
 import 'package:wawamko/src/Providers/ProviderOder.dart';
 import 'package:wawamko/src/Providers/ProviderOffer.dart';
-import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
 import 'package:wawamko/src/Providers/ProviderShopCart.dart';
 import 'package:wawamko/src/Providers/ProviderUser.dart';
@@ -27,6 +26,7 @@ import 'package:wawamko/src/Providers/pqrs_provider.dart';
 import 'package:wawamko/src/UI/Home/ProductsCatalogSeller/ProductsCatalog.dart';
 import 'package:wawamko/src/Utils/share_preference.dart';
 import 'package:wawamko/src/features/feature_filter_right/presentation/presentation.dart';
+import 'package:wawamko/src/features/feature_products/feature_products.dart';
 
 
 
@@ -80,6 +80,9 @@ void main() async{
   final subCategoryDatasource = SubCategoryDatasourceImpl();
   final subCategoryRepository = SubCategoryRepositoryImpl(remoteDatasource: subCategoryDatasource);
 
+  final productsDatasource = ProductDatasourceImpl();
+  final productsRepository = ProductRepositoryImpl(remoteDataSource: productsDatasource);
+
 
   runApp(MyApp(
     departmentRepository: departmentRepository,
@@ -87,6 +90,7 @@ void main() async{
     brandRepository: brandRepository,
     categoryRepository: categoryRepository,
     subCategoryRepository: subCategoryRepository,
+    productRepository: productsRepository,
   ));
 }
 
@@ -101,13 +105,15 @@ class MyApp extends StatefulWidget {
     final BrandRepository brandRepository;
     final CategoryRepository categoryRepository;
     final SubCategoryRepository subCategoryRepository;
+    final ProductRepository productRepository;
 
   const MyApp({super.key,
     required this.departmentRepository,
     required this.bannerRepository,
     required this.brandRepository,
     required this.categoryRepository,
-    required this.subCategoryRepository});
+    required this.subCategoryRepository,
+    required this.productRepository});
     @override
   _MyAppState createState() => _MyAppState();
 }
@@ -154,6 +160,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => BrandsProvider(repository: widget.brandRepository)),
         ChangeNotifierProvider(create: (_) => CategoriesProvider(repository: widget.categoryRepository)),
         ChangeNotifierProvider(create: (_) => SubCategoriesProvider(subCategoryRepository: widget.subCategoryRepository)),
+        ChangeNotifierProvider(create: (_) => ProductsProvider(repository: widget.productRepository)),
         ChangeNotifierProvider(create: (_) => FilterRightProvider()),
         ChangeNotifierProvider(create: (_)=> VariablesNotifyProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),

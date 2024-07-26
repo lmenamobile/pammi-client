@@ -6,7 +6,7 @@ import 'package:wawamko/src/Providers/ProviderHome.dart';
 
 import 'package:wawamko/src/Providers/ProviderProducts.dart';
 import 'package:wawamko/src/Providers/ProviderSettings.dart';
-import 'package:wawamko/src/features/feature_products/presentation/views/products_by_sub_category_page.dart';
+
 import 'package:wawamko/src/UI/Home/Products/DetailProductPage.dart';
 import 'package:wawamko/src/UI/MenuLeft/SectionsMenu/Offers/OfferDetail.dart';
 import 'package:wawamko/src/Utils/Constants.dart';
@@ -28,7 +28,7 @@ class HighlightsPage extends StatefulWidget {
 class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProviderStateMixin{
   GlobalKey<ScaffoldState> keyMenuLeft = GlobalKey();
   late ProviderSettings providerSettings;
-  late ProviderProducts providerProducts;
+
   late ProviderHome providerHome;
   RefreshController _refreshHighlights = RefreshController(initialRefresh: false);
   int pageOffset = 0;
@@ -47,7 +47,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     providerSettings = Provider.of<ProviderSettings>(context);
-    providerProducts = Provider.of<ProviderProducts>(context);
+
     providerHome = Provider.of<ProviderHome>(context);
     return Scaffold(
       backgroundColor: AppColors.redTour,
@@ -136,7 +136,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
     });*/
   }
 
-  getProduct(String idProduct) async {
+ /* getProduct(String idProduct) async {
     utils.checkInternet().then((value) async {
       if (value) {
         Future callProducts = providerProducts.getProduct(idProduct);
@@ -153,7 +153,7 @@ class _HighlightsPageState extends State<HighlightsPage> with SingleTickerProvid
         utils.showSnackBarError(context, Strings.loseInternet);
       }
     });
-  }
+  }*/
 
   openPageByTypeHighlights(Banners bannerHighlight){
 /*    if(bannerHighlight.offerHighlights!.offerType=="percent"&&bannerHighlight.offerHighlights!.reference!=null){

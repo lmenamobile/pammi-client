@@ -1,21 +1,21 @@
-import 'package:wawamko/src/Models/Product/Reference.dart';
+
 
 class ProductOfferCart {
   ProductOfferCart({
     this.id,
-    this.reference,
+    //this.reference,
   });
 
   int? id;
-  Reference? reference;
+  //Reference? reference;
 
   factory ProductOfferCart.fromJson(Map<String, dynamic> json) => ProductOfferCart(
     id: json["id"],
-    reference: Reference.fromJson(json["reference"]),
+    //reference: Reference.fromJson(json["reference"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "reference": reference!.toJson(),
+    //"reference": reference!.toJson(),
   };
 }

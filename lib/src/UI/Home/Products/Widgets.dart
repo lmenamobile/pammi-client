@@ -2,9 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:wawamko/src/Models/Product/CommentProduct.dart';
-import 'package:wawamko/src/Models/Product/ImageProduct.dart';
-import 'package:wawamko/src/Models/Product/Reference.dart';
 import 'package:wawamko/src/Utils/FunctionsFormat.dart';
 import 'package:wawamko/src/Utils/FunctionsUtils.dart';
 import 'package:wawamko/src/Utils/Strings.dart';
@@ -134,13 +131,13 @@ Widget itemImageReference(Size size, String asset,String assetSelected) {
   );
 }
 
-Widget imageReference(Size size, String asset){
+Widget imageReference(Size size, String url){
   return Container(
     width: size.width,
     height: size.height,
     child: FadeInImage(
       fit: BoxFit.fill,
-      image: NetworkImage(asset),
+      image: NetworkImage(url),
       placeholder: AssetImage("Assets/images/spinner.gif"),
       imageErrorBuilder: (_,__,___){
         return Container();
@@ -204,7 +201,7 @@ Widget itemReference(String asset,String nameReference, bool isSelected){
   );
 }
 
-Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> images){
+/*Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> images){
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -238,9 +235,9 @@ Widget sliderImages(int indexSlider,Function updateIndex, List<ImageProduct> ima
       )
     ],
   );
-}
+}*/
 
-openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<Reference>? ltsReferences) {
+/*openBottomSheetLtsReferences(BuildContext context,Function selectReference,List<Reference>? ltsReferences) {
   return showModalBottomSheet(
       context: context,
       elevation: 0,
@@ -373,5 +370,5 @@ itemComment(CommentProduct commentProduct){
       ),
     ),
   );
-}
+}*/
 
